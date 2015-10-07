@@ -17,7 +17,7 @@
 'use strict';
 /* global _, angular */
 
-angular.module('ui.generictree', ['ui-sortable'])
+angular.module('eGenericTree', [])
 .directive('genericTreeNode', function($compile, $templateCache) {
     return {
         restrict: 'E',
