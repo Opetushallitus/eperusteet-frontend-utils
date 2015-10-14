@@ -56,7 +56,9 @@ angular.module('eGenericTree', [])
                     var template = '';
                     template += getTemplate(node);
                     if (children) {
-                        template += '<div ui-sortable="uiSortableConfig" class="recursivetree" ng-model="children">';
+                        template += '<div ui-sortable="uiSortableConfig" class="' +
+                            scope.treeProvider.sortableClass(node) +
+                            ' recursivetree" ng-model="children">';
                         scope.children = children;
                         scope.parentNode = node;
                         if (!_.isEmpty(children)) {
@@ -74,7 +76,7 @@ angular.module('eGenericTree', [])
         }
     };
 })
-.directive('genericTree', function($compile, $log, $templateCache) {
+.directive('genericTree', function($compile, $log) {
     return {
         restrict: 'E',
         replace: true,
@@ -85,9 +87,16 @@ angular.module('eGenericTree', [])
         },
         controller: function($scope) {
             function run(provider) {
+                // Sane defaults
+                provider.sortableClass = provider.sortableClass || _.constant('');
+                provider.acceptDrop = provider.acceptDrop || _.constant(true);
+
                 $scope.tprovider = provider;
                 provider.root()
-                    .then(provider.children)
+                    .then(function(root) {
+                        $scope.root = root;
+                        return provider.children(root);
+                    })
                     .then(function(children) {
                         $scope.children = children;
                     })
@@ -120,11 +129,26 @@ angular.module('eGenericTree', [])
                         delay: 100,
                         disabled: scope.tprovider.useUiSortable(),
                         tolerance: 'pointer',
+                        update: function(e, ui) {
+                            if (scope.tprovider.acceptDrop) {
+                                var dropTarget = ui.item.sortable.droptarget;
+                                if (dropTarget) {
+                                    var listItem = dropTarget.closest('.recursivetree');
+                                    var parentScope = listItem ? listItem.scope() : null;
+                                    var parentNode = parentScope && parentScope.node ? parentScope.node : scope.treeRoot;
+                                    if (!parentNode || !scope.tprovider.acceptDrop(ui.item.sortable.model, parentNode, e, ui)) {
+                                        ui.item.sortable.cancel();
+                                    }
+                                }
+                            }
+                        },
+                        // cancel: '.ui-state-disabled'
                     }, scope.uiSortableConfig || {});
+
 
                     element.empty();
                     element.append('' +
-                            '<div ui-sortable="sortableConfig" class="recursivetree" ng-model="children">' +
+                            '<div ui-sortable="sortableConfig" class="' + scope.tprovider.sortableClass(scope.root) + ' recursivetree" ng-model="children">' +
                             '    <div ng-repeat="node in children">' +
                             '       <generic-tree-node node="node" ui-sortable-config="sortableConfig" tree-provider="tprovider"></generic-tree-node>' +
                             '    </div>' +
