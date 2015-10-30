@@ -80,15 +80,16 @@ angular.module('eGenericTree', [])
     return {
         restrict: 'E',
         replace: true,
-        template: '',
+        template: '<div ng-style="genericTreeStyle"></div>',
         scope: {
             treeProvider: '=', // FIXME: Add interface
             uiSortableConfig: '=?'
         },
         controller: function($scope) {
+            $scope.genericTreeStyle = { height: '900px' };
             function run(provider) {
                 // Sane defaults
-                provider.sortableClass = provider.sortableClass || _.constant('');
+                provider.sortableClass = provider.sortableClass || _.constant('is-draggable-into');
                 provider.acceptDrop = provider.acceptDrop || _.constant(true);
 
                 $scope.tprovider = provider;
@@ -135,8 +136,8 @@ angular.module('eGenericTree', [])
                                 if (dropTarget) {
                                     var listItem = dropTarget.closest('.recursivetree');
                                     var parentScope = listItem ? listItem.scope() : null;
-                                    var parentNode = parentScope && parentScope.node ? parentScope.node : scope.treeRoot;
-                                    if (!parentNode || !scope.tprovider.acceptDrop(ui.item.sortable.model, parentNode, e, ui)) {
+                                    var parentNode = parentScope && parentScope.node ? parentScope.node : scope.root;
+                                    if (!parentNode || !scope.tprovider.acceptDrop(ui.item.sortable.model, parentNode, parentScope, e, ui)) {
                                         ui.item.sortable.cancel();
                                     }
                                 }
@@ -145,7 +146,6 @@ angular.module('eGenericTree', [])
                         // cancel: '.ui-state-disabled'
                     }, scope.uiSortableConfig || {});
 
-
                     element.empty();
                     element.append('' +
                             '<div ui-sortable="sortableConfig" class="' + scope.tprovider.sortableClass(scope.root) + ' recursivetree" ng-model="children">' +
@@ -153,6 +153,7 @@ angular.module('eGenericTree', [])
                             '       <generic-tree-node node="node" ui-sortable-config="sortableConfig" tree-provider="tprovider"></generic-tree-node>' +
                             '    </div>' +
                             '</div>');
+
                     $compile(element.contents())(scope);
                 }
             }
