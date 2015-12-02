@@ -2,7 +2,7 @@
 # Inkscape täytyy olla ympäristömuuttujissa
 # Kuvat skaalataan leveyden mukaan
 
-IKONIT="ikoni-eperusteet ikoni-eperusteet-valkoinen ikoni-haku ikoni-nuoli-alas ikoni-nuoli-oikealle ikoni-paikallinen"
+IKONIT="ikoni-eperusteet ikoni-eperusteet-valkoinen ikoni-haku ikoni-nuoli-alas ikoni-nuoli-oikealle ikoni-paikallinen ikoni-peruste"
 
 function render {
         inkscape --file="$1.svg" --export-png="../png/$2/$1.png" --export-area-page --export-width=$3
