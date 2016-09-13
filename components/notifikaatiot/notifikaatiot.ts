@@ -63,7 +63,7 @@ namespace NotifikaatioService {
             luotu: new Date()
         });
 
-        _$rootScope.$broadcast("update:notifikaatiot");
+        _$timeout(() => _$rootScope.$broadcast("update:notifikaatiot"));
         refresh();
     };
 
