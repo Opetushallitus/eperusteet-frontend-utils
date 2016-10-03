@@ -128,13 +128,15 @@ namespace EditointikontrollitService {
         field: string,
         resolvedObj: restangular.IElement,
         callbacks: IEditointikontrollitCallbacks = {}) => {
-        scope[field] = resolvedObj.clone();
+        scope[field] = _.cloneDeep(resolvedObj);
+        let backup = _.cloneDeep(resolvedObj);
 
         return EditointikontrollitService.create(_.merge({
             start: () => _$q((resolve, reject) => scope[field].get()
                 .then(res => {
-                    _.merge(resolvedObj, res);
-                    scope[field] = resolvedObj.clone();
+                    _.assign(resolvedObj, res);
+                    backup = _.cloneDeep(resolvedObj);
+                    scope[field] = _.clone(resolvedObj);
                     resolve();
                 })
                 .catch(reject)),
@@ -144,15 +146,16 @@ namespace EditointikontrollitService {
                 return scope[field].put()
                     .then((res) => {
                         NotifikaatioService.onnistui("tallennus-onnistui");
+                        backup = _.cloneDeep(res);
                         return resolve(res);
                     })
                     .catch(reject);
             }),
             cancel: (res) => _$q((resolve, reject) => {
-                scope[field] = resolvedObj.clone();
+                scope[field] = _.assign(scope[field], _.cloneDeep(backup));
                 resolve();
             }),
-            after: (res) => _.merge(resolvedObj, res),
+            after: (res) => _.assign(resolvedObj, res),
         }, callbacks));
     };
 
