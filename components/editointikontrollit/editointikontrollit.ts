@@ -9,13 +9,14 @@ interface IEditointikontrollitCallbacks {
 }
 
 namespace EditointikontrollitService {
-    let _$rootScope, _$q, _$log, _$timeout;
+    let _$rootScope, _$q, _$log, _$timeout, _Restangular;
 
-    export const init = ($rootScope, $q, $log, $timeout) => {
+    export const init = ($rootScope, $q, $log, $timeout, Restangular) => {
         _$rootScope = $rootScope;
         _$timeout = $timeout;
         _$log = $log;
         _$q = $q;
+        _Restangular = Restangular;
     };
 
     let _activeCallbacks: IEditointikontrollitCallbacks;
@@ -143,7 +144,7 @@ namespace EditointikontrollitService {
             save: (kommentti) => _$q((resolve, reject) => {
                 _$rootScope.$broadcast("notifyCKEditor");
                 scope[field].kommentti = kommentti;
-                return scope[field].put()
+                return scope[field].customPUT(_.cloneDeep(scope[field]))
                     .then((res) => {
                         NotifikaatioService.onnistui("tallennus-onnistui");
                         backup = _.cloneDeep(res);
