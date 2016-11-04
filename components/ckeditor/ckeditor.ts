@@ -246,6 +246,17 @@ angular.module("app")
 
             });
 
+            const onChange = () => {
+                if (editor.checkDirty()) {
+                    dataSavedOnNotification = true;
+                    editor.getSelection().unlock();
+                    let data = element.hasClass("has-placeholder") ? "" : editor.getData();
+                    ctrl.$setViewValue(trim(data));
+                }
+            }
+
+            editor.on("change", _.debounce(onChange, 300));
+
             editor.on("focus", () => {
                 if (editingEnabled) {
                     element.removeClass("has-placeholder");
@@ -268,12 +279,7 @@ angular.module("app")
 
             let dataSavedOnNotification = false;
             scope.$on("notifyCKEditor", () => {
-                if (editor.checkDirty()) {
-                    dataSavedOnNotification = true;
-                    editor.getSelection().unlock();
-                    let data = element.hasClass("has-placeholder") ? "" : editor.getData();
-                    ctrl.$setViewValue(trim(data));
-                }
+                onChange();
                 $("#toolbar").hide();
             });
 

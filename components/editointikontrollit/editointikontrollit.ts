@@ -9,14 +9,16 @@ interface IEditointikontrollitCallbacks {
 }
 
 namespace EditointikontrollitService {
-    let _$rootScope, _$q, _$log, _$timeout, _Restangular;
+    let _$state, _$rootScope, _$q, _$log, _$timeout, _Restangular, _Varmistusdialogi;
 
-    export const init = ($rootScope, $q, $log, $timeout, Restangular) => {
+    export const init = ($state, $rootScope, $q, $log, $timeout, Restangular, Varmistusdialogi) => {
+        _$state = $state;
         _$rootScope = $rootScope;
         _$timeout = $timeout;
         _$log = $log;
         _$q = $q;
         _Restangular = Restangular;
+        _Varmistusdialogi = Varmistusdialogi;
     };
 
     let _activeCallbacks: IEditointikontrollitCallbacks;
@@ -133,14 +135,42 @@ namespace EditointikontrollitService {
         let backup = _.cloneDeep(resolvedObj);
 
         return EditointikontrollitService.create(_.merge({
-            start: () => _$q((resolve, reject) => scope[field].get()
-                .then(res => {
-                    _.assign(resolvedObj, res);
+            start: () => _$q((resolve, reject) => {
+                const editoi = (osa) => {
+                    _.assign(resolvedObj, osa);
                     backup = _.cloneDeep(resolvedObj);
                     scope[field] = _.clone(resolvedObj);
                     resolve();
-                })
-                .catch(reject)),
+                };
+
+                const lataaJaEditoi = () => scope[field].get()
+                    .then(editoi)
+                    .catch(reject);
+
+                const vanha = LocalStorage.getVanhaOsa();
+
+                if (vanha) {
+                    return LocalStoragePalautus.dialogi({ aikaleima: vanha.aikaleima })
+                        .then((style) => {
+                            switch (style) {
+                                case LocalStoragePalautus.EDITOI_UUTTA:
+                                    lataaJaEditoi();
+                                    break;
+                                case LocalStoragePalautus.POISTA_JA_EDITOI:
+                                    LocalStorage.clearVanhaOsa();
+                                    lataaJaEditoi();
+                                    break;
+                                case LocalStoragePalautus.EDITOI_VANHAA:
+                                    editoi(vanha.value)
+                                    break;
+                            };
+                        })
+                        .catch(reject);
+                }
+                else {
+                    return lataaJaEditoi();
+                }
+            }),
             save: (kommentti) => _$q((resolve, reject) => {
                 _$rootScope.$broadcast("notifyCKEditor");
                 scope[field].kommentti = kommentti;
@@ -153,8 +183,13 @@ namespace EditointikontrollitService {
                     .catch(reject);
             }),
             cancel: (res) => _$q((resolve, reject) => {
-                scope[field] = _.assign(scope[field], _.cloneDeep(backup));
-                resolve();
+                const re = resolve();
+                if (_.isObject(re) && re.then) {
+                    re.then(() => _$state.reload());
+                }
+                else {
+                    _$timeout(() => _$state.reload());
+                }
             }),
             after: (res) => _.assign(resolvedObj, res),
         }, callbacks));
