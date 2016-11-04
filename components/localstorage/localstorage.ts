@@ -1,9 +1,4 @@
 namespace LocalStorage {
-    let i;
-    export const init = ($injector) => {
-        i = inject($injector, ["$stateParams", "$state"]);
-    };
-
     let supported = false;
 
     try {
@@ -39,7 +34,7 @@ namespace LocalStorage {
             return JSON.parse(item);
         }
 
-        return undefined;
+        return {};
     };
 
     export const removeItem = (key: string) => {
@@ -58,6 +53,24 @@ namespace LocalStorage {
     export const addVanhaOsa = (osa) => setItem(vanhaOsaKey(), osa);
     export const getVanhaOsa = () => getItem(vanhaOsaKey());
     export const clearVanhaOsa = () => removeItem(vanhaOsaKey());
+
+    export const setDefault = (key: string, value: any) => {
+        const item = getItem(key);
+        if (!item || _.isUndefined(item.value) || _.isNull(item.value)) {
+            setItem(key, value);
+        }
+    };
+
+    let i;
+    export const init = ($injector) => {
+        i = inject($injector, ["$stateParams", "$state"]);
+        { // Defaults
+            setDefault("$$showOhjeteksti", true);
+            setDefault("$$showPerusteteksti", true);
+            setDefault("$$showKaikkiOpetussuunnitelmat", false);
+            setDefault("$$showArkistoidutOpetussuunnitelmat", false);
+        }
+    };
 };
 
 

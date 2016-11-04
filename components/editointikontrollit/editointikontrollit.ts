@@ -149,7 +149,7 @@ namespace EditointikontrollitService {
 
                 const vanha = LocalStorage.getVanhaOsa();
 
-                if (vanha) {
+                if (vanha && vanha.value) {
                     return LocalStoragePalautus.dialogi({ aikaleima: vanha.aikaleima })
                         .then((style) => {
                             switch (style) {
