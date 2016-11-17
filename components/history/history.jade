@@ -1,7 +1,62 @@
-div.modal-header
-  h2(ng-bind="'historia' | kaanna")
+floating-window(ng-show="$$show")
+  .window-header
+    h2
+      span(ng-bind="'osan-historia' | kaanna")
+      .pull-right
+        +gicon("move")
 
-div.modal-body
-    div moro
+  .window-body(ng-if="!data")
+    .alert.alert-info(ng-if="eiVanhaaVersiota === true")
+      h3(ng-bind="'aktiivista-tekstia-ei-ole' | kaanna")
 
-div.modal-footer
+  .window-body(ng-if="data")
+    rzslider(rz-slider-model="historySlider.value" rz-slider-options="historySlider.options")
+
+    h4(ng-if="currentHistoryMeta")
+      span(ng-bind="currentHistoryMeta.kommentti")
+
+    div(ng-if="currentHistoryMeta")
+      span(ng-bind="currentHistoryMeta.date | aikaleima")
+
+    button.btn.btn-primary.btn-sm(type="button" ng-model="naytaDiffi" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0")
+      span(ng-show="naytaDiffi" ng-bind="'nayta-muutokset' | kaanna")
+      span(ng-hide="naytaDiffi" ng-bind="'nayta-kokonaan' | kaanna")
+
+    .pull-right
+      button.btn.btn-primary(ng-click="nextLang()")
+        +gicon("flag")
+        span(href="" ng-bind="selectedLang | kaanna")
+
+    // pre(ng-bind="currentHistoryMeta | json")
+    // pre(ng-bind="currentHistory | json")
+
+    // label.btn.btn-primary(
+    //   ng-model="observationStyle"
+    //   uib-btn-radio="'kokonaan'"
+    //   ng-bind="'kokonaan' | kaanna")
+    // label.btn.btn-primary(
+    //   ng-model="observationStyle"
+    //   uib-btn-radio="'kokonaan'"
+    //   ng-bind="'kokonaan' | kaanna")
+
+    // label.btn.btn-primary(
+    //   ng-repeat="lang in langs"
+    //   ng-model="lang"
+    //   uib-btn-radio="st.suoritustapakoodi"
+    //   ng-bind="lang | kaanna")
+
+    div(style="margin-top: 5px")
+
+    .alert.alert-warning(ng-if="eiVanhaaVersiota === true")
+      h3(ng-bind="'vanhaa-versiota-ei-loytynyt' | kaanna")
+      p(ng-bind="'vanhaa-versiota-ei-loytynyt-selite' | kaanna")
+
+    div(ng-if="eiVanhaaVersiota === false")
+      div(ng-show="naytaDiffi")
+        p.diff-text
+          span(ng-repeat="change in diff"
+            ng-bind-html="change.value"
+            ng-class="{ 'added': change.added, 'removed': change.removed }")
+
+      div(ng-hide="naytaDiffi")
+        p(ng-bind="vanhaTeksti")

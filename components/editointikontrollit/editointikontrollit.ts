@@ -206,6 +206,16 @@ namespace EditointikontrollitService {
 
 module EditointikontrollitImpl {
     export const controller = ($scope, $rootScope, $timeout) => {
+        $scope.toggleHistoryModal = () => {
+            if ($scope.$$showingHistoryModal) {
+                HistoryModal.hide();
+            }
+            else {
+                HistoryModal.show();
+            }
+            $scope.$$showingHistoryModal = !$scope.$$showingHistoryModal;
+        };
+
         $scope.kommentti = "";
         $scope.disableButtons = false;
         $scope.$$disableSave = false;
@@ -238,8 +248,14 @@ module EditointikontrollitImpl {
         $rootScope.$on("editointikontrollit:disableSave", () => $scope.$$disableSave = true);
         $rootScope.$on("editointikontrollit:enableSave", () => $scope.$$disableSave = false);
 
-        $scope.save = () => progress(EditointikontrollitService.save($scope.kommentti));
-        $scope.cancel = () => progress(EditointikontrollitService.cancel());
+        $scope.save = () => {
+            HistoryModal.hide();
+            return progress(EditointikontrollitService.save($scope.kommentti));
+        };
+        $scope.cancel = () => {
+            HistoryModal.hide();
+            progress(EditointikontrollitService.cancel());
+        };
     };
 
     export const directive = ($window) => {

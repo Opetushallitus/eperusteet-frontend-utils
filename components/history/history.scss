@@ -1,0 +1,35 @@
+.floating-window {
+    width: 360px;
+    height: 540px;
+    position: absolute;
+    float: right;
+    z-index: 999999;
+    background-color: white;
+    border: 1px solid #eee;
+    box-shadow: 5px 5px 3px #888899;
+    position: fixed !important;
+
+    .window-header {
+        cursor: pointer;
+        user-select: none;
+        background-color: white;
+        padding: 0px 8px 0px 8px;
+    }
+
+    .window-body {
+        background-color: white;
+        padding: 8px;
+        max-height: 480px;
+        overflow-y: scroll;
+    }
+}
+
+.diff-text {
+    .added {
+        background: #99ffbc;
+    }
+
+    .removed {
+        background: #ffbaba;
+    }
+}

@@ -252,6 +252,7 @@ angular.module("app")
                     editor.getSelection().unlock();
                     let data = element.hasClass("has-placeholder") ? "" : editor.getData();
                     ctrl.$setViewValue(trim(data));
+                    HistoryModal.setObj(ctrl.$modelValue);
                 }
             }
 
@@ -264,6 +265,7 @@ angular.module("app")
                     if (_.isEmpty(ctrl.$viewValue)) {
                         editor.setData("");
                     }
+                    HistoryModal.setObj(ctrl.$modelValue);
                 }
             });
 
@@ -306,6 +308,7 @@ angular.module("app")
                 }
                 updateModel();
                 $("#toolbar").hide();
+                HistoryModal.clearObj();
             });
 
             editor.on("loaded", () => {

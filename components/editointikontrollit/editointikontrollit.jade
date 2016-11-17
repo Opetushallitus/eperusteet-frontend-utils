@@ -2,7 +2,11 @@ div.edit-controls(ng-cloak ng-hide="hideControls || !editStarted")
   div.edit-control-content
     div.edit-control-header
       span.glyphicon.glyphicon-pencil
+    .pull-left
+      button.btn.btn-primary.muokkaa(style="margin-left: 40px" ng-click="toggleHistoryModal()")
+        +itext("history", 'nayta-historia')
     div.edit-control-buttons
+      span=" "
       button.btn.btn-default(ng-disabled="disableButtons" ng-click="cancel()" kaanna="'peruuta'")
       span=" "
       button.btn.btn-primary(ng-disabled="disableButtons || $$disableSave" ng-click="save()" kaanna="'tallenna'")
