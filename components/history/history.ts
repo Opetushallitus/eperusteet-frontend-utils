@@ -128,27 +128,37 @@ angular.module("app")
                 return result;
             };
 
-            const getVersion = (modelValue?) => {
-                if (!$scope.data || !$scope.data._tunniste) {
-                    return;
-                }
+            const getVersion = (modelValue?): Promise<any> => new Promise((resolve, reject) => {
                 if (!_.isNumber(modelValue)) {
                     modelValue = $scope.historySlider.value;
                 }
-                const meta = $scope.versions[$scope.versions.length - modelValue];
-                return $scope.endpoint.all("versiot").get(meta.id)
-                    .then(res => {
-                        // TODO: Cache history result
-                        $scope.currentHistoryMeta = meta;
-                        $scope.currentHistory = res;
-                        $scope.currentHistoryItem = HistoryModal.findByTunniste(res.plain(), $scope.data._tunniste);
-                        return res;
-                    });
-            };
+
+                if (!$scope.$$show || !$scope.data || !$scope.data._tunniste) {
+                    return reject();
+                }
+
+                if ($scope.currentHistory && $scope.currentHistoryIdx === modelValue) {
+                    $scope.currentHistoryItem = HistoryModal.findByTunniste($scope.currentHistory.plain(), $scope.data._tunniste);
+                    return resolve();
+                }
+                else {
+                    const meta = $scope.versions[$scope.versions.length - modelValue];
+                    return $scope.endpoint.all("versiot").get(meta.id)
+                        .then(res => {
+                            // TODO: Cache history result
+                            $scope.currentHistoryMeta = meta;
+                            $scope.currentHistory = res;
+                            $scope.currentHistoryItem = HistoryModal.findByTunniste(res.plain(), $scope.data._tunniste);
+                            $scope.currentHistoryIdx = modelValue;
+                            return resolve();
+                        });
+                }
+            });
 
             const doDiff = (oldVersion?, newVersion?) => {
                 oldVersion = oldVersion || $scope.currentHistoryItem;
                 newVersion = newVersion || $scope.data;
+                console.log("Doing diff", oldVersion, newVersion);
 
                 if (!oldVersion || !oldVersion[$scope.selectedLang]) {
                     $scope.eiVanhaaVersiota = true;
@@ -167,7 +177,7 @@ angular.module("app")
 
                 while (idx < sentenceDiff.length) {
                     if (sentenceDiff[idx].removed && idx < sentenceDiff.length - 1 && sentenceDiff[idx + 1].added) {
-                       const oldValue = sentenceDiff[idx].value;
+                        const oldValue = sentenceDiff[idx].value;
                         const newValue = sentenceDiff[idx + 1].value;
                         const wDiff = JsDiff.diffWords(oldValue, newValue);
                         _.each(wDiff, (value) => {
@@ -202,13 +212,16 @@ angular.module("app")
                     floor: 1,
                     ceil: $scope.versions.length,
                     onEnd: _.debounce((sliderId, modelValue) => {
-                        getVersion(modelValue).then(() => doDiff());
+                        getVersion(modelValue)
+                            .then(() => $timeout(() => doDiff()))
+                            .catch(_.noop);
                     }, 300)
                 }
             };
 
             $scope.$on(Actions.HistoryShow, () => {
                 $scope.$$show = true;
+                $timeout(() => $scope.$broadcast("rzSliderForceRender"));
             });
 
             $scope.$on(Actions.HistoryHide, () => {
@@ -230,18 +243,14 @@ angular.module("app")
                 $timeout(() => {
                     if (data._tunniste) {
                         $scope.data = data;
-                        getVersion().then(() => doDiff());
+                        getVersion()
+                            .then(() => $timeout(doDiff()))
+                            .catch(_.noop);
                     }
                 });
             });
         },
         link: (scope, el) => {
-            // el.draggable({
-            //     containment: "window",
-            //     handle: "h2",
-            //     opacity: 0.65,
-            //     zindex: 99999
-            // });
         }
     };
 });
