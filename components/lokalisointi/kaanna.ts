@@ -91,9 +91,6 @@ angular.module("app")
 
             if (_.isObject(original)) {
                 el.text(KaannaService.kaannaSisalto(original));
-                // if (attrs.iconRole) {
-                //     IconMapping.addIcon(attrs.iconRole, el);
-                // }
                 scope.$watch(() => {
                     return getAttr(attrs["kaanna"], scope);
                 }, (value) => {

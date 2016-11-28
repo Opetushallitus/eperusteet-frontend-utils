@@ -11,9 +11,7 @@ module KieliService {
     export let SISALTOKIELET = [
         "fi",
         "sv",
-        "se",
-        // "ru",
-        // "en"
+        "se"
     ];
 
     let
@@ -77,53 +75,7 @@ module KieliService {
         }
         return errors;
     };
-
-    // _$rootScope.$on("$stateChangeSuccess", (self, toParams) => {
-    //     stateInited = true;
-    //     if (isValidKielikoodi(toParams.lang)) {
-    //         uikieli = toParams.lang;
-    //     }
-    // });
 }
 
 angular.module("app")
-
-// .directive("kielenvaihto", () => {
-//     return {
-//         restrict: "AE",
-//         scope: {
-//             modal: "@modal"
-//         },
-//         controller: "KieliController",
-//         templateUrl: "views/common/directives/kielenvaihto.html"
-//     };
-// })
-// .controller("KieliController", ($scope, $q, Profiili) => {
-//     $scope.isModal = $scope.modal === "true";
-//     $scope.sisaltokielet = KieliService.getSisaltokielet();
-//     $scope.sisaltokieli = KieliService.getUiKieli();
-//     $scope.uikielet = KieliService.UIKIELET;
-//     $scope.uikieli = KieliService.getUiKieli();
-//     $scope.uiLangChangeAllowed = true;
-//
-//     $scope.setSisaltokieli = (kieli) => KieliService.setSisaltokieli(kieli);
-//     $scope.setUiKieli = (kielikoodi) => KieliService.setUiKieli(kielikoodi);
-//
-//     const stateInit = $q.defer();
-//     const info = Profiili.profiili();
-//
-//     $q.all([stateInit.promise, info.fetchPromise]).then(() => {
-//         const lang = Profiili.lang();
-//         // Disable ui language change if language preference found in CAS
-//         if (KieliService.isValidKielikoodi(lang)) {
-//             $scope.uiLangChangeAllowed = false;
-//             KieliService.setUiKieli(lang);
-//         }
-//     });
-//
-//     $scope.$on("$stateChangeSuccess", stateInit.resolve);
-//     $scope.$on("update:sisaltokielet", () => $scope.sisaltokielet = KieliService.getSisaltokielet());
-//     $scope.$on("changed:sisaltokieli", (event, value) => $scope.sisaltokieli = value);
-//     $scope.$on("changed:uikieli", (event, value) => $scope.uikieli = value);
-// })
 .run(($injector) => $injector.invoke(KieliService.init));

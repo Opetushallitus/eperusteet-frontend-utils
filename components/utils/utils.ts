@@ -2,7 +2,7 @@ namespace UtilService {
     let i;
     export const init = ($injector) => {
         i = inject($injector, ["$window"]);
-    }
+    };
 
     export const scrollTo = (selector, offset) => {
         const element = angular.element(selector);

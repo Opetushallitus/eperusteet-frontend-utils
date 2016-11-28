@@ -254,14 +254,15 @@ angular.module("app")
                     ctrl.$setViewValue(trim(data));
                     HistoryModal.setObj(ctrl.$modelValue);
                 }
-            }
+            };
 
             editor.on("change", _.debounce(onChange, 300));
 
             editor.on("focus", () => {
                 if (editingEnabled) {
                     element.removeClass("has-placeholder");
-                    $("#toolbar").show();
+
+                    angular.element("#toolbar").show();
                     if (_.isEmpty(ctrl.$viewValue)) {
                         editor.setData("");
                     }
@@ -282,7 +283,7 @@ angular.module("app")
             let dataSavedOnNotification = false;
             scope.$on("notifyCKEditor", () => {
                 onChange();
-                $("#toolbar").hide();
+                angular.element("#toolbar").hide();
             });
 
             function updateModel() {
@@ -307,7 +308,7 @@ angular.module("app")
                     return;
                 }
                 updateModel();
-                $("#toolbar").hide();
+                angular.element("#toolbar").hide();
                 HistoryModal.clearObj();
             });
 

@@ -21,7 +21,7 @@ namespace Actions {
     export const HistorySetLang = "historymodal:setLang";
     export const HistorySetObj = "historymodal:setSetObj";
     export const HistoryClearObj = "historymodal:setClearObj";
-};
+}
 
 
 namespace HistoryModal {
@@ -90,7 +90,7 @@ namespace HistoryModal {
 };
 
 namespace FloatingWindow {
-};
+}
 
 angular.module("app")
 .run(HistoryModal.init)
@@ -158,7 +158,6 @@ angular.module("app")
             const doDiff = (oldVersion?, newVersion?) => {
                 oldVersion = oldVersion || $scope.currentHistoryItem;
                 newVersion = newVersion || $scope.data;
-                console.log("Doing diff", oldVersion, newVersion);
 
                 if (!oldVersion || !oldVersion[$scope.selectedLang]) {
                     $scope.eiVanhaaVersiota = true;
@@ -229,19 +228,14 @@ angular.module("app")
             });
 
             $scope.$on(Actions.HistorySetLang, (ev, lang) => {
-                // $scope.lang = lang;
             });
 
             $scope.$on(Actions.HistoryClearObj, (ev, data) => {
-                // FIXME: Toimii oikeastaan huonommin
-                // $timeout(() => {
-                //     $scope.data = undefined;
-                // });
             });
 
             $scope.$on(Actions.HistorySetObj, (ev, data) => {
                 $timeout(() => {
-                    if (data._tunniste) {
+                    if (data && data._tunniste) {
                         $scope.data = data;
                         getVersion()
                             .then(() => $timeout(doDiff()))
