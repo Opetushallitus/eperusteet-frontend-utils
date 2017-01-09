@@ -29,7 +29,7 @@ angular.module("app")
         });
 
         ngModelCtrl.$parsers.push((viewValue) => {
-            let localizedModelValue = ngModelCtrl.$modelValue || {};
+            let localizedModelValue = ngModelCtrl.$modelValue || {};
             localizedModelValue[KieliService.getSisaltokieli()] = viewValue;
             return localizedModelValue;
         });

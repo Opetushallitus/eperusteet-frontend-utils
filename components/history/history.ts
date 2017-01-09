@@ -55,7 +55,7 @@ namespace HistoryModal {
         i.$rootScope.$broadcast(Actions.HistorySetObj, data);
     };
 
-    export const findByTunniste = (obj: Object, tunniste: string) => {
+    export const iterateTunnisteelliset = (obj: Object, cb: (tunniste: string, obj) => boolean | void) => {
         const cache = {}; // Cycle detection
         const stack = [obj]; // Recursion elimination
 
@@ -66,8 +66,8 @@ namespace HistoryModal {
                 continue;
             }
 
-            if (head._tunniste === tunniste) {
-                return head;
+            if (_.isString(head._tunniste)) {
+                cb(head._tunniste, head);
             }
             else {
                 for (const key in head) {
@@ -85,6 +85,23 @@ namespace HistoryModal {
                 }
             }
         }
+    };
+
+    export const mapTunnisteelliset = (root: Object) => {
+        let result = {};
+        iterateTunnisteelliset(root, (tunniste, obj) => result[tunniste] = obj);
+        return result;
+    };
+
+    export const findByTunniste = (obj: Object, tunniste: string) => {
+        let result = undefined;
+        iterateTunnisteelliset(obj, (t, obj) => {
+            if (t === tunniste) {
+                result = obj;
+                return true;
+            }
+        });
+        return result;
     };
 
 };
@@ -116,12 +133,13 @@ angular.module("app")
 .directive("historyModal", ($timeout) => {
     return {
         scope: {
-            versions: "=",
             endpoint: "="
         },
         restrict: "E",
         templateUrl: "components/history/history.jade",
         controller: ($scope, $timeout) => {
+            $scope.versions = [];
+
             const cleanTeksti = (richText: string): string => {
                 let result = richText;
                 result = S(result).stripTags().s.replace(/\n/g, " ").replace(/  /g, " ");
@@ -150,6 +168,11 @@ angular.module("app")
                             $scope.currentHistory = res;
                             $scope.currentHistoryItem = HistoryModal.findByTunniste(res.plain(), $scope.data._tunniste);
                             $scope.currentHistoryIdx = modelValue;
+
+                            const tunnisteMap = HistoryModal.mapTunnisteelliset($scope.currentHistory.plain());
+                            HistoryModal.iterateTunnisteelliset($scope.endpoint.plain(), (tunniste, osa) => {
+                                osa.$$changed = !_.isEqual(osa, tunnisteMap[tunniste]);
+                            });
                             return resolve();
                         });
                 }
@@ -206,21 +229,33 @@ angular.module("app")
             };
 
             $scope.historySlider = {
-                value: $scope.versions.length - 1,
+                value: 0,
+                options: {
+                }
+            };
+
+            const createHistorySlider = (versions) => ({
+                value: versions.length - 1,
                 options: {
                     floor: 1,
-                    ceil: $scope.versions.length,
+                    ceil: versions.length,
                     onEnd: _.debounce((sliderId, modelValue) => {
                         getVersion(modelValue)
                             .then(() => $timeout(() => doDiff()))
                             .catch(_.noop);
                     }, 300)
                 }
-            };
+            });
 
             $scope.$on(Actions.HistoryShow, () => {
-                $scope.$$show = true;
-                $timeout(() => $scope.$broadcast("rzSliderForceRender"));
+                $scope.endpoint.getList("versiot")
+                    .then(versions => {
+                        let [uusin, historia] = Revisions.parseAll(versions);
+                        $scope.versions = historia;
+                        $scope.historySlider = createHistorySlider(historia);
+                        $scope.$$show = true;
+                        $timeout(() => $scope.$broadcast("rzSliderForceRender"));
+                    });
             });
 
             $scope.$on(Actions.HistoryHide, () => {
