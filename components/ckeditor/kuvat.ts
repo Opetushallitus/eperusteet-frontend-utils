@@ -15,7 +15,7 @@
  */
 
 angular.module("app")
-.controller("EpImagePluginController", function ($scope, Api, $timeout, $stateParams, FileUploader, $q) {
+.controller("EpImagePluginController", function ($scope, Api, $timeout, $stateParams, FileUploader, $q, $cookies) {
     $scope.filtered = [];
     $scope.images = [];
     $scope.showPreview = true;
@@ -32,6 +32,9 @@ angular.module("app")
     // Uploader kuvan lisäämistä varten
     $scope.uploader = new FileUploader({
         url: $scope.liitteet.getRestangularUrl() + "/opetussuunnitelmat/" + $stateParams.opsId + "/kuvat",
+        headers: {
+            CSRF: $cookies.get("CSRF")
+        },
         queueLimit: '1'
     });
 
