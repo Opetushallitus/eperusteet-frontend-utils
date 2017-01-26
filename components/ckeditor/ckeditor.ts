@@ -178,24 +178,45 @@ angular.module("app")
             let ready = false;
             let deferredcall = null;
 
-            let opts = {
-                toolbar: toolbarLayout,
-                removePlugins: "resize,elementspath,scayt,wsc,image",
-                extraPlugins: "quicktable,epimage,termi",
-                disallowedContent: "br; tr td{width,height}",
-                extraAllowedContent: "img[!data-uid,src,width,height,alt]; abbr[data-viite]",
-                disableObjectResizing: true, // doesn"t seem to work with inline editor
-                language: "fi",
-                entities_latin: false,
-                sharedSpaces: {
-                    top: "ck-toolbar-top"
-                },
-                readOnly: !editingEnabled,
-                title: false,
-                customData: {
-                    kaanna: KaannaService.kaanna
-                }
-            };
+            let uiKieli = KieliService.getUiKieli();
+
+            let opts = {};
+            if (inlineEditor) {
+                opts = {
+                    toolbar: toolbarLayout,
+                    removePlugins: "resize,elementspath,scayt,wsc,image",
+                    extraPlugins: "sharedspace,quicktable,epimage,termi",
+                    disallowedContent: "br; tr td{width,height}",
+                    extraAllowedContent: "img[!data-uid,src,width,height,alt]; abbr[data-viite]",
+                    disableObjectResizing: true,
+                    language: uiKieli,
+                    entities_latin: false,
+                    sharedSpaces: {
+                        top: "ck-toolbar-top"
+                    },
+                    readOnly: !editingEnabled,
+                    title: false,
+                    customData: {
+                        kaanna: KaannaService.kaanna
+                    }
+                };
+            } else {
+                opts = {
+                    toolbar: toolbarLayout,
+                    removePlugins: "resize,elementspath,scayt,wsc,image",
+                    extraPlugins: "quicktable,epimage,termi",
+                    disallowedContent: "br; tr td{width,height}",
+                    extraAllowedContent: "img[!data-uid,src,width,height,alt]; abbr[data-viite]",
+                    disableObjectResizing: true,
+                    language: uiKieli,
+                    entities_latin: false,
+                    readOnly: !editingEnabled,
+                    title: false,
+                    customData: {
+                        kaanna: KaannaService.kaanna
+                    }
+                };
+            }
 
             if (inlineEditor) {
                 editor = CKEDITOR.inline(element[0], opts);
@@ -229,6 +250,10 @@ angular.module("app")
                     deferredcall = _.partial(setReadOnly, !editingEnabled);
                 }
                 element.addClass("edit-mode");
+
+                if (inlineEditor) {
+                    angular.element("#ck-toolbar-top").hide();
+                }
             });
 
             scope.$on("disableEditing", () => {
@@ -262,12 +287,30 @@ angular.module("app")
                 if (editingEnabled) {
                     element.removeClass("has-placeholder");
 
-                    angular.element("#toolbar").show();
+                    if (inlineEditor) {
+                        angular.element("#ck-toolbar-top").show();
+                    }
+
+
                     if (_.isEmpty(ctrl.$viewValue)) {
                         editor.setData("");
                     }
                     HistoryModal.setObj(ctrl.$modelValue);
                 }
+            });
+
+            editor.on("blur", () => {
+                if (dataSavedOnNotification) {
+                    dataSavedOnNotification = false;
+                    return;
+                }
+
+                if (inlineEditor) {
+                    angular.element("#ck-toolbar-top").hide();
+                }
+
+                updateModel();
+                HistoryModal.clearObj();
             });
 
             let UUID = "[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}";
@@ -283,7 +326,6 @@ angular.module("app")
             let dataSavedOnNotification = false;
             scope.$on("notifyCKEditor", () => {
                 onChange();
-                angular.element("#toolbar").hide();
             });
 
             function updateModel() {
@@ -301,16 +343,6 @@ angular.module("app")
                 }
 
             }
-
-            editor.on("blur", () => {
-                if (dataSavedOnNotification) {
-                    dataSavedOnNotification = false;
-                    return;
-                }
-                updateModel();
-                angular.element("#toolbar").hide();
-                HistoryModal.clearObj();
-            });
 
             editor.on("loaded", () => {
                 editor.filter.disallow("br");
@@ -330,6 +362,9 @@ angular.module("app")
                 if (deferredcall) {
                     deferredcall();
                     deferredcall = null;
+                }
+                if (inlineEditor) {
+                    angular.element("#ck-toolbar-top").hide();
                 }
                 $rootScope.$broadcast("ckEditorInstanceReady");
             });
