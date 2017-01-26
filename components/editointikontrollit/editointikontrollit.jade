@@ -4,7 +4,9 @@ div.edit-controls(ng-cloak ng-hide="hideControls || !editStarted")
       span.glyphicon.glyphicon-pencil
     .pull-left
       button.btn.btn-primary.muokkaa(style="margin-left: 40px" ng-click="toggleHistoryModal()")
-        +itext("history", 'nayta-historia')
+        span
+          i(class="fa fa-history")
+          span(style="margin-left: 8px" kaanna="'nayta-historia'")
     div.edit-control-buttons
       span=" "
       button.btn.btn-default(ng-disabled="disableButtons" ng-click="cancel()" kaanna="'peruuta'")

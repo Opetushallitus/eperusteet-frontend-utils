@@ -122,10 +122,14 @@ angular.module("app")
             + "</div>",
         link: (scope, el) => {
             el.draggable({
-                containment: "window",
-                handle: "h2",
+                handle: ".window-header",
                 opacity: 0.65,
-                zindex: 99999
+                zindex: 1030
+            });
+            el.resizable({
+                minWidth: 276,
+                minHeight: 300,
+                handles: "n, e, s, w, se"
             });
         }
     };
@@ -137,7 +141,7 @@ angular.module("app")
         },
         restrict: "E",
         templateUrl: "components/history/history.jade",
-        controller: ($scope, $timeout) => {
+        controller: ($scope, $timeout, $rootScope) => {
             $scope.versions = [];
 
             const cleanTeksti = (richText: string): string => {
@@ -173,6 +177,7 @@ angular.module("app")
                             HistoryModal.iterateTunnisteelliset($scope.endpoint.plain(), (tunniste, osa) => {
                                 osa.$$changed = !_.isEqual(osa, tunnisteMap[tunniste]);
                             });
+                            $rootScope.$broadcast("notifyCKEditor");
                             return resolve();
                         });
                 }

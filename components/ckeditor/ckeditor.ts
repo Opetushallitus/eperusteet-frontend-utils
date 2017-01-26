@@ -279,6 +279,10 @@ angular.module("app")
                     ctrl.$setViewValue(trim(data));
                     HistoryModal.setObj(ctrl.$modelValue);
                 }
+
+                if (ctrl.$modelValue && ctrl.$modelValue.$$changed) {
+                    element.parent().addClass("cke-has-changed");
+                }
             };
 
             editor.on("change", _.debounce(onChange, 300));
@@ -324,7 +328,7 @@ angular.module("app")
             }
 
             let dataSavedOnNotification = false;
-            scope.$on("notifyCKEditor", () => {
+            $rootScope.$on("notifyCKEditor", () => {
                 onChange();
             });
 
@@ -334,7 +338,6 @@ angular.module("app")
                     let data = editor.getData();
                     scope.$apply(() => {
                         ctrl.$setViewValue(trim(data));
-                        // scope.$broadcast("edited");
                     });
                     if (_.isEmpty(data)) {
                         element.addClass("has-placeholder");
