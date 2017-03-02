@@ -1,5 +1,7 @@
 namespace Oikeudet {
     let ktOikeudet, opsOikeudet;
+    let viimeisinOpetussuunnitelma;
+
     export const init = _.once((oikeudet, orgoikeudet) => {
         opsOikeudet = _.indexBy(oikeudet, "_opetussuunnitelma");
         ktOikeudet = {};
@@ -12,6 +14,10 @@ namespace Oikeudet {
         mapClass("ADMIN",       "hallinta");
     });
 
+    export const asetaOpetussuunnitelma = (ops) => {
+        viimeisinOpetussuunnitelma = ops;
+    };
+
     export const ktOikeus = (kt) => ktOikeudet[_.isObject(kt) ? kt.id : kt];
 
     export const opsOikeus = (ops) => {
@@ -21,6 +27,7 @@ namespace Oikeudet {
 
     export const onVahintaan = (vaadittu, annettu): boolean => {
         const korkeus = (oikeus) => ({
+            estetty: 0,
             luku: 1,
             muokkaus: 2,
             lisays: 3,
@@ -28,6 +35,24 @@ namespace Oikeudet {
             hallinta: 5,
         }[oikeus] || 0);
         return korkeus(annettu) >= korkeus(vaadittu);
+    };
+
+    const getId = (obj) => _.isObject(obj) ? obj.id : obj;
+
+    export const hasOikeus = (kt, ops, vaadittu) => {
+        const omaKtId = getId(kt);
+        const opsId = getId(ops);
+
+        if (opsId) {
+            const opsKtId = viimeisinOpetussuunnitelma.koulutustoimija.id + "";
+            const oikeusOpetussuunnitelmaan = opsId && onVahintaan(vaadittu, opsOikeus(opsId));
+            const oikeusOpetussuunnitelmanKoulutustoimijaan = opsKtId && onVahintaan(vaadittu, ktOikeus(opsKtId));
+            return oikeusOpetussuunnitelmanKoulutustoimijaan || oikeusOpetussuunnitelmaan;
+        }
+        else {
+            return omaKtId && onVahintaan(vaadittu, ktOikeus(omaKtId));
+        }
+        return false;
     };
 }
 
@@ -42,14 +67,13 @@ namespace OikeustarkasteluImpl {
                 oikeustarkastelu: "@?"
             },
             link: (scope, element, attrs) => {
+                console.log(scope)
                 const
                     vaadittu = scope.oikeustarkastelu || "muokkaus",
                     ktId = $stateParams.ktId,
-                    opsId = $stateParams.opsId,
-                    opsOikeus = Oikeudet.onVahintaan(vaadittu, Oikeudet.opsOikeus(opsId)),
-                    ktOikeus = Oikeudet.onVahintaan(vaadittu, Oikeudet.ktOikeus(ktId));
+                    opsId = $stateParams.opsId;
 
-                if (!opsOikeus && !ktOikeus) {
+                if (!Oikeudet.hasOikeus(ktId, opsId, vaadittu)) {
                     if (element.is("button") || element.hasClass("btn")) {
                         element.attr("disabled", true);
                         element.attr("title", KaannaService.kaanna("toiminto-vaatii-oikeuden") + ": " + KaannaService.kaanna("oikeus-" + vaadittu));
