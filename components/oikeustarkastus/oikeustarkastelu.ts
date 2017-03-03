@@ -67,7 +67,6 @@ namespace OikeustarkasteluImpl {
                 oikeustarkastelu: "@?"
             },
             link: (scope, element, attrs) => {
-                console.log(scope)
                 const
                     vaadittu = scope.oikeustarkastelu || "muokkaus",
                     ktId = $stateParams.ktId,
