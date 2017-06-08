@@ -44,13 +44,14 @@ angular.module("app")
         reader.onload = () => {
             let img = new Image();
             img.src = reader.result;
-
-            // Tiedot backendiä varten
-            item.formData.push({
-                nimi: item.file.name,
-                width: img.width,
-                height: img.height,
-            });
+            img.onload = function () {
+                // Tiedot backendiä varten
+                item.formData.push({
+                    nimi: item.file.name,
+                    width: img.width,
+                    height: img.height,
+                });
+            };
         };
         
         reader.readAsDataURL(item._file);
