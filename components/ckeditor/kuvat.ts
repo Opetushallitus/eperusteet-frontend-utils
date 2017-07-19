@@ -15,7 +15,7 @@
  */
 
 angular.module("app")
-.controller("EpImagePluginController", function ($scope, Api, $timeout, $stateParams, FileUploader, $q, $cookies) {
+.controller("EpImagePluginController", function ($scope, Api, $timeout, $stateParams, FileUploader, $q, $cookies, Palvelu) {
     $scope.filtered = [];
     $scope.images = [];
     $scope.showPreview = true;
@@ -25,17 +25,17 @@ angular.module("app")
         chosen: null
     };
     $scope.scaleError = false;
-    $scope.liitteet = Api.one("koulutustoimijat", $stateParams.ktId);
+    $scope.liitteet = Api.one("koulutustoimijat", $stateParams.ktId).one("opetussuunnitelmat", $stateParams.opsId);
     let setDeferred = null;
     let callback = angular.noop;
 
     // Uploader kuvan lisäämistä varten
     $scope.uploader = new FileUploader({
-        url: $scope.liitteet.getRestangularUrl() + "/opetussuunnitelmat/" + $stateParams.opsId + "/kuvat",
+        url: $scope.liitteet.getRestangularUrl() + "/kuvat",
         headers: {
             CSRF: $cookies.get("CSRF")
         },
-        queueLimit: '1'
+        queueLimit: "1"
     });
 
     // Lisätään esikatselussa olevaan kuvaan nimi, leveys ja korkeus
@@ -53,16 +53,16 @@ angular.module("app")
                 });
             };
         };
-        
+
         reader.readAsDataURL(item._file);
     };
 
     // Lisätään uploaderiin kuva suodatin
     $scope.uploader.filters.push({
-        name: 'imageFilter',
+        name: "imageFilter",
         fn: (item) => {
-            const type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-            return '|jpg|jpeg|png|'.indexOf(type) !== -1;
+            const type = "|" + item.type.slice(item.type.lastIndexOf("/") + 1) + "|";
+            return "|jpg|jpeg|png|".indexOf(type) !== -1;
         }
     });
 
@@ -82,26 +82,24 @@ angular.module("app")
 
     const getMeta = (url, obj) => {
         let img = new Image();
-        img.onload = function(){
+        img.src = url;
+        img.onload = function() {
             obj.width = this.width;
             obj.height = this.height;
             obj.originalWidth = this.width;
             obj.originalHeight = this.height;
             obj.src = url;
         };
-        img.src = url;
     };
 
-    const getKuvat = () => $q((resolve, reject) => $scope.liitteet.getList("kuvat")
-        .then((images) => {
-            _.each(images, (img) => {
-                getMeta($scope.liitteet.getRestangularUrl() + "/kuvat/" + img.id, img);
-            });
-            $scope.images = images;
-            $scope.filtered = Algoritmit.doSortByNimi(images);
-
-            resolve();
-        }));
+    const getKuvat = async () => {
+        const images = await $scope.liitteet.getList("kuvat");
+        _.each(images, (img) => {
+            getMeta($scope.liitteet.getRestangularUrl() + "/kuvat/" + img.id, img);
+        });
+        $scope.images = images;
+        $scope.filtered = Algoritmit.doSortByNimi(images);
+    };
 
     const setChosenValue = (element) => {
         // Etsitään muokattava kuva kaikista kuvista
@@ -131,7 +129,7 @@ angular.module("app")
     };
 
     // Jos valittu kuva muuttuu lähetetään ckeditor pluginille tieto
-    $scope.$watch('model.chosen', (value) => {
+    $scope.$watch("model.chosen", (value) => {
         callback(value);
     });
 
@@ -146,13 +144,13 @@ angular.module("app")
 
     $scope.widthChange = (img) => {
         $scope.scaleError = false;
-        var tmp = img.width / img.originalWidth;
+        const tmp = img.width / img.originalWidth;
         img.height = Math.round(tmp * img.originalHeight);
     };
 
     $scope.heightChange = (img) => {
         $scope.scaleError = false;
-        var tmp = img.height / img.originalHeight;
+        const tmp = img.height / img.originalHeight;
         img.width = Math.round(tmp * img.originalWidth);
     };
 
@@ -164,63 +162,66 @@ angular.module("app")
 
 
 })
-.directive('ngThumb', ['$window', function($window) {
-    var helper = {
+.directive("ngThumb", ["$window", function($window) {
+    const helper = {
         support: !!($window.FileReader && $window.CanvasRenderingContext2D),
         isFile: function(item) {
             return angular.isObject(item) && item instanceof $window.File;
         },
         isImage: function(file) {
-            var type =  '|' + file.type.slice(file.type.lastIndexOf('/') + 1) + '|';
-            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+            const ftype =  "|" + file.type.slice(file.type.lastIndexOf("/") + 1) + "|";
+            return "|jpg|png|jpeg|bmp|gif|".indexOf(ftype) !== -1;
         }
     };
 
     return {
-        restrict: 'A',
-        template: '<canvas/>',
+        restrict: "A",
+        template: "<canvas/>",
         link: function(scope, element, attributes) {
             if (!helper.support) return;
 
-            var params = scope.$eval(attributes.ngThumb);
+            const params = scope.$eval(attributes.ngThumb);
 
             if (!helper.isFile(params.file)) return;
             if (!helper.isImage(params.file)) return;
 
-            var canvas = element.find('canvas');
-            var reader = new FileReader();
+            const canvas = element.find("canvas");
+            const reader = new FileReader();
 
             reader.onload = onLoadFile;
             reader.readAsDataURL(params.file);
 
             function onLoadFile(event) {
-                var img = new Image();
+                const img = new Image();
                 img.onload = onLoadImage;
                 img.src = event.target.result;
             }
 
             function onLoadImage() {
-                var width = params.width || this.width / this.height * params.height;
-                var height = params.height || this.height / this.width * params.width;
-                canvas.attr({ width: width, height: height });
-                canvas[0].getContext('2d').drawImage(this, 0, 0, width, height);
+                const width = params.width || this.width / this.height * params.height;
+                const height = params.height || this.height / this.width * params.width;
+                canvas.attr({ width, height });
+                canvas[0].getContext("2d").drawImage(this, 0, 0, width, height);
             }
         }
     };
 }])
 .filter("kuvalinkit", (Api, $stateParams) => {
     return (text) => {
+        const koulutustoimija = Api.one("koulutustoimijat", $stateParams.ktId);
+        const ops = koulutustoimija.one("opetussuunnitelmat", $stateParams.opsId);
         let modified = false;
         let tmp = angular.element("<div>" + text + "</div>");
         tmp.find("img[data-uid]").each(function () {
             let el = angular.element(this);
             el.wrap("<figure></figure>");
-            if(el.attr("alt") !== "undefined") {
+            if (el.attr("alt") !== "undefined") {
                 el.parent().append("<figcaption>" + el.attr("alt") + "</figcaption>");
                 el.parent().wrap("<div style=\"text-align: center;\"></div>");
             }
 
-            let url = Api.one("koulutustoimijat", $stateParams.ktId).getRestangularUrl() + "/kuvat/" + el.attr("data-uid");
+            let url = ops.getRestangularUrl() + "/kuvat/" + el.attr("data-uid");
+
             if (el.attr("src") !== url) {
                 modified = true;
                 el.attr("src", url);

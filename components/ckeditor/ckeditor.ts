@@ -348,12 +348,13 @@ angular.module("app")
             }
 
             editor.on("loaded", () => {
+                const kuvaEp = Api.one("koulutustoimijat", $stateParams.ktId).one("opetussuunnitelmat", $stateParams.opsId);
                 editor.filter.disallow("br");
                 editor.filter.addTransformations([[
                     {
                         element: "img",
                         right: (el) => {
-                            el.attributes.src = Api.one("koulutustoimijat", $stateParams.ktId).getRestangularUrl()
+                            el.attributes.src = kuvaEp.getRestangularUrl()
                                 + "/kuvat/" + el.attributes['data-uid'];
                         }
                     }
