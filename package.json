@@ -1,7 +1,6 @@
 {
   "name": "eperusteet-frontend-utils",
-  "version": "0.0.1",
-  "description": "ePerusteet-frontend-utils =========================",
+  "version": "0.1.0",
   "repository": {
     "type": "git",
     "url": "https://github.com:Opetushallitus/eperusteet-frontend-utils"
