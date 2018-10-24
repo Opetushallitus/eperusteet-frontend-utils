@@ -48,7 +48,7 @@ module Footer {
     export const footer = (FooterData) => {
         return {
             restrict: "AE",
-            templateUrl: "components/footer/footer.html",
+            templateUrl: "components/footer/footer.jade",
             scope: {},
             controller: function($scope) {
                 $scope.active = true;
