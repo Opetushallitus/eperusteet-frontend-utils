@@ -3,10 +3,13 @@ namespace Sticky {
         return {
             restrict: "A",
             link: (scope, element, attrs) => {
-                $(element).sticky({
-                    topSpacing: attrs.topSpacing || 0,
-                    className: attrs.classname
-                });
+                const el = $(element);
+                if (el && _.isFunction(el.sticky)) {
+                    el.sticky({
+                        topSpacing: attrs.topSpacing || 0,
+                        className: attrs.classname
+                    });
+                }
             }
         }
     };
