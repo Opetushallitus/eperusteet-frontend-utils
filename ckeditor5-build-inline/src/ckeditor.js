@@ -20,6 +20,8 @@ import PasteFromOffice from '@ckeditor/ckeditor5-paste-from-office/src/pastefrom
 import Table from '@ckeditor/ckeditor5-table/src/table';
 import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar';
 
+import Math from '../../ckeditor5-math';
+
 export default class InlineEditor extends InlineEditorBase {}
 
 // Plugins to include in the build.
@@ -42,7 +44,8 @@ InlineEditor.builtinPlugins = [
     Paragraph,
     PasteFromOffice,
     Table,
-    TableToolbar
+    TableToolbar,
+    Math
 ];
 
 // Editor configuration.
@@ -57,17 +60,11 @@ InlineEditor.defaultConfig = {
             'link',
             'bulletedList',
             'numberedList',
-            'imageUpload',
             'blockQuote',
             'insertTable',
             'mediaEmbed',
             'undo',
             'redo'
-        ]
-    },
-    image: {
-        toolbar: [
-            'imageTextAlternative'
         ]
     },
     table: {

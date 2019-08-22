@@ -54,7 +54,7 @@ module.exports = {
                 use: [ 'raw-loader' ]
             },
             {
-                test: /\.css$/,
+                test: [/\.css$/, /\.pcss$/],
                 use: [
                     {
                         loader: 'style-loader',
