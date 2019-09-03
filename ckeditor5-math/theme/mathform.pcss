@@ -1,0 +1,36 @@
+@import "@ckeditor/ckeditor5-ui/theme/mixins/_rwd.css";
+
+.ck.ck-math-form {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+    & .ck-math-view {
+        margin: 10px;
+    }
+
+    & .ck-math-preview {
+        text-align: center;
+    }
+
+    @mixin ck-media-phone {
+        flex-wrap: wrap;
+
+        & .ck-math-view {
+            flex-basis: 100%;
+
+            & .ck-labeled-input {
+                flex-basis: 100%;
+            }
+
+            & .ck-label {
+                flex-basis: 100%;
+            }
+        }
+
+        & .ck-button {
+            flex-basis: 50%;
+        }
+    }
+}

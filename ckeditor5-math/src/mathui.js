@@ -55,7 +55,10 @@ export default class MathUI extends Plugin {
     }
 
     _createFormView(editor) {
-        const formView = new MainFormView(editor.locale);
+        const engine = 'katex';
+        // Todo: use config
+
+        const formView = new MainFormView( engine, editor.locale);
 
         // Listen to 'submit' button click
         this.listenTo(formView, 'submit', () => {
