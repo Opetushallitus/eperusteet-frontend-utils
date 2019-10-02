@@ -1,19 +1,3 @@
-/*
- * Copyright (c) 2013 The Finnish Board of Education - Opetushallitus
- *
- * This program is free software: Licensed under the EUPL, Version 1.1 or - as
- * soon as they will be approved by the European Commission - subsequent versions
- * of the EUPL (the "Licence");
- *
- * You may not use this work except in compliance with the Licence.
- * You may obtain a copy of the Licence at: http://ec.europa.eu/idabc/eupl
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * European Union Public Licence for more details.
- */
-
 angular.module("app")
 .controller("EpImagePluginController", function ($scope, Api, $timeout, $stateParams, FileUploader, $q, $cookies, Palvelu) {
     $scope.filtered = [];
@@ -42,7 +26,7 @@ angular.module("app")
     $scope.uploader.onAfterAddingFile = (item) => {
         let reader = new FileReader();
         reader.onload = () => {
-            let img = new Image();
+            let img: any = new Image();
             img.src = reader.result;
             img.onload = function () {
                 // Tiedot backendiä varten
@@ -81,7 +65,7 @@ angular.module("app")
     };
 
     const getMeta = (url, obj) => {
-        let img = new Image();
+        let img: any = new Image();
         img.src = url;
         img.onload = function() {
             obj.width = this.width;
@@ -185,7 +169,7 @@ angular.module("app")
             if (!helper.isFile(params.file)) return;
             if (!helper.isImage(params.file)) return;
 
-            const canvas = element.find("canvas");
+            const canvas: any = element.find("canvas");
             const reader = new FileReader();
 
             reader.onload = onLoadFile;

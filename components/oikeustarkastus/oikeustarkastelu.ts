@@ -52,7 +52,6 @@ namespace Oikeudet {
         else {
             return omaKtId && onVahintaan(vaadittu, ktOikeus(omaKtId));
         }
-        return false;
     };
 }
 

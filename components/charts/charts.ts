@@ -1,3 +1,5 @@
+declare const Chart: any;
+
 namespace Charts {
     export const directive = ($compile): angular.IDirective => {
         return {

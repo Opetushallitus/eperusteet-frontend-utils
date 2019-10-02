@@ -60,7 +60,7 @@ namespace HistoryModal {
         const stack = [obj]; // Recursion elimination
 
         while (stack.length > 0) {
-            const head = stack.shift();
+            const head: any = stack.shift();
 
             if (!_.isObject(head)) {
                 continue;
@@ -100,14 +100,17 @@ namespace HistoryModal {
                 result = obj;
                 return true;
             }
+            return false;
         });
         return result;
     };
 
-};
+}
 
 namespace FloatingWindow {
 }
+
+declare var S: any;
 
 angular.module("app")
 .run(HistoryModal.init)
@@ -120,7 +123,7 @@ angular.module("app")
             + "<div class='floating-window'>"
             + "  <div ng-transclude></div>"
             + "</div>",
-        link: (scope, el) => {
+        link: (scope, el: any) => {
             el.draggable({
                 handle: ".window-header",
                 opacity: 0.65,

@@ -3,7 +3,7 @@ namespace Sticky {
         return {
             restrict: "A",
             link: (scope, element, attrs) => {
-                const el = $(element);
+                const el: any = $(element);
                 if (el && _.isFunction(el.sticky)) {
                     el.sticky({
                         topSpacing: attrs.topSpacing || 0,

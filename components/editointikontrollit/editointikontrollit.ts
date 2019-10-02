@@ -94,7 +94,7 @@ namespace EditointikontrollitService {
     export const createListRestangular = (
         scope,
         field: string,
-        resolvedObj: restangular.IElement) => {
+        resolvedObj: Restangular.IElement) => {
         scope[field] = resolvedObj.clone();
         return (idx: number) => {
             scope.$$ekEditingIndex = idx;
@@ -129,7 +129,7 @@ namespace EditointikontrollitService {
     export const createRestangular = (
         scope,
         field: string,
-        resolvedObj: restangular.IElement,
+        resolvedObj: Restangular.IElement,
         callbacks: IEditointikontrollitCallbacks = {}) => {
         scope[field] = _.cloneDeep(resolvedObj);
         let backup = _.cloneDeep(resolvedObj);
