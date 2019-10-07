@@ -1,3 +1,5 @@
 *.iml
 .idea/
 npm-debug.log
+*.js.map
+*.js
