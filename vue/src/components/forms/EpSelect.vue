@@ -38,7 +38,7 @@
 import _ from 'lodash';
 import { Component, Prop, Mixins } from 'vue-property-decorator';
 
-import EpSpinner from '@/components/EpSpinner/EpSpinner.vue';
+import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import EpValidation from '../../mixins/EpValidation';
 
 @Component({
