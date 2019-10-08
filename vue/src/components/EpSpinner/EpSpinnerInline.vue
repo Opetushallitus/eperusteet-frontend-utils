@@ -1,8 +1,9 @@
-<template lang="pug">
-.oph-spinner.oph-spinner-in-button
-  .oph-bounce.oph-bounce1
-  .oph-bounce.oph-bounce2
-  .oph-bounce.oph-bounce3
+<template>
+<div class="oph-spinner oph-spinner-in-button">
+    <div class="oph-bounce.oph-bounce1"></div>
+    <div class="oph-bounce.oph-bounce2"></div>
+    <div class="oph-bounce.oph-bounce3"></div>
+</div>
 </template>
 
 <style scoped lang="scss">
