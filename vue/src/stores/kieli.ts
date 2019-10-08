@@ -1,17 +1,18 @@
-import { Aikaleima } from '../plugins/aikaleima';
-import { Kaannos } from '../plugins/kaannos';
-import { createLogger } from '../utils/logger';
-import { Kieli } from '../tyypit';
 import * as _ from 'lodash';
+import Vue from 'vue';
+import VueI18n from 'vue-i18n';
 import * as moment from 'moment';
 import 'moment/locale/en-gb';
 import 'moment/locale/fi';
 import 'moment/locale/ru';
 import 'moment/locale/se';
 import 'moment/locale/sv';
-import Vue from 'vue';
-import VueI18n from 'vue-i18n';
 import { Getter, Mutation, State, Store } from './store';
+import { Aikaleima } from '../plugins/aikaleima';
+import { Kaannos } from '../plugins/kaannos';
+import { createLogger } from '../utils/logger';
+import { Kieli } from '../tyypit';
+//import { Ulkopuoliset } from '../api/ylops';
 
 Vue.use(VueI18n);
 Vue.use(new Aikaleima());
