@@ -71,20 +71,20 @@ function vuexBaseConfig(config: any) {
 
 export function Store<T extends StoreConstructor>(constructor: T) {
   return class StoreBase extends constructor {
-    public static store: any;
+    public store: any;
 
     constructor(...args: any[]) {
-      super();
+      super(...args);
       const ClassName = Object.getPrototypeOf(this.constructor.prototype).constructor.name;
       const config = (this as any)._storeconfig;
 
-      if (!StoreBase.store) {
-        StoreBase.store = new Vuex.Store(_.cloneDeep(vuexBaseConfig(config)));
+      if (!this.store) {
+        this.store = new Vuex.Store(_.cloneDeep(vuexBaseConfig(config)));
       }
 
-      overrideStates(StoreBase.store, config, this);
-      overrideGetters(StoreBase.store, config, this);
-      overrideMutations(StoreBase.store, config, this);
+      overrideStates(this.store, config, this);
+      overrideGetters(this.store, config, this);
+      overrideMutations(this.store, config, this);
     }
   };
 }
