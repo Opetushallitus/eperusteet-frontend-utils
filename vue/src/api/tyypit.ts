@@ -2,6 +2,13 @@ import * as EperusteetApi from '../generated/eperusteet/api';
 import * as YlopsApi from '../generated/ylops/api';
 
 
+export interface LokalisoituTekstiDto {
+  // id?: number;
+  // tunniste?: string;
+  [key: string]: string;
+}
+
+
 export type PerusteDto = EperusteetApi.PerusteDto;
 export type PerusteHakuDto = EperusteetApi.PerusteHakuDto;
 export type TiedoteDto = EperusteetApi.TiedoteDto;
