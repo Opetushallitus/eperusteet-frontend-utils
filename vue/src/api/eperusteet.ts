@@ -4,6 +4,9 @@ import _ from 'lodash';
 import {
   PerusteetApi,
   TiedotteetApi,
+  LiitetiedostotApi,
+  LiitetiedostotApiAxiosParamCreator,
+  DokumentitApi,
 } from '../generated/eperusteet';
 
 const basePath = '';
@@ -32,7 +35,7 @@ ax.interceptors.response.use(successfulResponseHandler(), axiosHandler('Response
 // https://github.com/Microsoft/TypeScript/issues/20719
 type BaseAPIConstructor<T> = new(configuration?: Configuration, basePath?: string, axios?: AxiosInstance) => T;
 
-const configuration = { basePath };
+const configuration: Configuration = { basePath };
 
 function initApi<T>(X: BaseAPIConstructor<T>): T {
   return new X(configuration, basePath, ax);
@@ -41,3 +44,7 @@ function initApi<T>(X: BaseAPIConstructor<T>): T {
 export const Api = ax;
 export const Perusteet = initApi(PerusteetApi);
 export const Tiedotteet = initApi(TiedotteetApi);
+export const Liitetiedostot = initApi(LiitetiedostotApi);
+export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
+export const Dokumentit = initApi(DokumentitApi);
+

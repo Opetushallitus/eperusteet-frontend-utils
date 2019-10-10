@@ -10,6 +10,7 @@
 
 <style scoped lang="scss">
 @import "../../styles/_variables.scss";
+@import "../../../node_modules/oph-virkailija-style-guide/oph-styles";
 
 .spinner {
   margin-top: 5px;

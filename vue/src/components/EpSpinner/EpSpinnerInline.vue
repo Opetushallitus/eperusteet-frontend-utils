@@ -7,7 +7,13 @@
 </template>
 
 <style scoped lang="scss">
+@import "../../styles/_variables.scss";
+@import "../../../node_modules/oph-virkailija-style-guide/oph-styles";
+
 .oph-spinner-in-button {
   margin-left: 15px;
+  .oph-bounce {
+    background-color: $light-blue !important;
+  }
 }
 </style>
