@@ -1,0 +1,54 @@
+sudo: false
+
+language: java
+
+jdk:
+  - openjdk8
+
+env:
+  global:
+    - YLOPS_SERVICE_DIR=$PWD/eperusteet-ylops/eperusteet-ylops-service
+    - EPERUSTEET_SERVICE_DIR=$PWD/eperusteet/eperusteet-service
+
+install:
+  - git clone --depth=1 --branch uusi_lukio https://github.com/Opetushallitus/eperusteet-ylops
+  - git clone --depth=1 https://github.com/Opetushallitus/eperusteet
+
+  - echo 'Getting eperusteet dependencies'
+  - cd eperusteet && mvn dependency:resolve --quiet && cd ..
+
+  - echo 'Getting eperusteet-ylops dependencies'
+  - cd eperusteet-ylops && mvn dependency:resolve --quiet && cd ..
+  - nvm install 10.16.3
+  - yarn install
+
+before_script:
+  - echo $JAVA_HOME
+  - java -version
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+
+script:
+  - nvm use 10.16.3
+
+  - echo 'Generate API code' && echo -en 'travis_fold:start:script.1\\r'
+  - yarn run gen:api
+  - echo -en 'travis_fold:end:script.1\\r'
+
+  - yarn run lint
+  - yarn run build
+  - yarn run test:unit
+
+after_script:
+  - ./cc-test-reporter format-coverage -t lcov ./coverage/lcov.info
+  - ./cc-test-reporter upload-coverage
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+
+cache:
+  yarn: true
+  directories:
+    - node_modules
+    - $HOME/.npm
+    - $HOME/.m2
+    - $HOME/.cache
