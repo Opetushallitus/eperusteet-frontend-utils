@@ -71,7 +71,7 @@ function vuexBaseConfig(config: any) {
 
 export function Store<T extends StoreConstructor>(constructor: T) {
   return class StoreBase extends constructor {
-    public store: any;
+    private store: any;
 
     constructor(...args: any[]) {
       super(...args);
