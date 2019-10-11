@@ -28,10 +28,14 @@ ylopsgen="${rootdir}/src/generated/ylops"
 mkdir -p "${ylopsgen}"
 cd "${ylopsgen}" || exit 1
 
+
 specfile="$YLOPS_SERVICE_DIR/target/openapi/ylops.spec.json"
 cd "$YLOPS_SERVICE_DIR" \
   && mvn clean compile -Pgenerate-openapi \
   && cd "${ylopsgen}" \
+  && echo "Building ylops api" \
+  && pwd \
+  && ls \
   && npx openapi-generator generate -c "${genconfig}" -i "$specfile" -g typescript-axios
 
 mkdir -p ${eperusteetgen}
@@ -41,5 +45,8 @@ specfile="$EPERUSTEET_SERVICE_DIR/target/openapi/eperusteet.spec.json"
 cd "$EPERUSTEET_SERVICE_DIR" \
   && mvn clean compile -Pgenerate-openapi \
   && cd "${eperusteetgen}" \
+  && echo "Building eperusteet api" \
+  && pwd \
+  && ls \
   && npx openapi-generator generate -c "${genconfig}" -i "$specfile" -g typescript-axios
 

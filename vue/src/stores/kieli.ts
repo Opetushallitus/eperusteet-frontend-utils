@@ -12,11 +12,21 @@ import 'moment/locale/ru';
 import 'moment/locale/se';
 import 'moment/locale/sv';
 import { Getter, Mutation, State, Store } from './store';
-//import { Ulkopuoliset } from '../api/ylops';
 
 
 export const UiKielet = Object.freeze(_.values(Kieli as object));
 const logger = createLogger('Kieli');
+
+
+export interface Kaannos {
+  key: string;
+  value: string;
+};
+
+
+export interface Kaannokset {
+  [locale: string]: Kaannos[];
+};
 
 
 @Store
@@ -27,7 +37,8 @@ export class KieliStore {
     return KieliStore.vi18n;
   }
 
-  public static setup(v: VueConstructor, config: Partial<VueI18n.I18nOptions> = {}) {
+  public static setup(v: VueConstructor,
+    config: Partial<VueI18n.I18nOptions> = {}) {
     v.use(VueI18n);
     v.use(Aikaleima);
     v.use(Kaannos);
@@ -36,6 +47,14 @@ export class KieliStore {
       fallbackLocale: Kieli.fi,
       locale: Kieli.fi,
       ...config,
+    });
+  }
+
+  public static async load(loader: () => Promise<Kaannokset>) {
+    logger.info('Initing locales');
+    const results = await this.fetchLocaleMap(loader);
+    _.forEach(results, (locales, lang) => {
+      KieliStore.i18n.mergeLocaleMessage(lang, locales);
     });
   }
 
@@ -105,17 +124,12 @@ export class KieliStore {
   }
 
   public async init() {
-    logger.info('Initing locales');
-    _.forEach(await this.fetchLocaleMap(), (locales, lang) => {
-      KieliStore.i18n.mergeLocaleMessage(lang, locales);
-    });
   }
 
-  private async fetchLocaleMap() {
+  private static async fetchLocaleMap(fn: () => Promise<Kaannokset>) {
     try {
       const result: any = {};
-      /*
-      const localeObj = (await Ulkopuoliset.getLokalisoinnit()).data;
+      const localeObj = await fn();
       _.forEach(localeObj, (locales, lang) => {
         result[lang] = {};
         for (const locale of locales) {
@@ -124,7 +138,6 @@ export class KieliStore {
           }
         }
       });
-      */
       return result;
     }
     catch (err) {
