@@ -18,6 +18,7 @@ install:
   - nvm install 10.16.3
   - cd vue
   - yarn install
+  - cd ..
 
 before_script:
   - echo $JAVA_HOME
@@ -34,7 +35,6 @@ script:
   - yarn run gen:api
   - echo -en 'travis_fold:end:script.1\\r'
   - yarn run lint
-  - yarn run build
   - yarn run test:unit
 
 after_script:
