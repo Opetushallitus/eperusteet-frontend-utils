@@ -1,4 +1,4 @@
-import { Store, Getter, Mutation, Action, State } from '@shared/stores/store';
+import { Store, Getter, Mutation, Action, State } from '../store';
 
 interface SomeData {
   foo: string;
@@ -55,26 +55,24 @@ describe('Store annotations', () => {
     });
   });
 
-  test('Multiple instances share same vuex', async () => {
+  test('Support multiple instances with own state', async () => {
     const a = new SomeDataStore();
     const b = new SomeDataStore();
-    const c = new SomeDataStore();
 
     expect(a.data).toEqual({ foo: 'bar' });
 
-    store.data = {
+    a.data = {
       foo: 'foo',
     };
 
-    expect(store.data).toEqual({ foo: 'foo' });
     expect(a.data).toEqual({ foo: 'foo' });
-    expect(b.data).toEqual({ foo: 'foo' });
-    expect(c.data).toEqual({ foo: 'foo' });
+    expect(b.data).toEqual({ foo: 'bar' });
   });
 
   test('has automatic setter mutation support', async () => {
-    (SomeDataStore as any).store.commit('SOME_DATA_STORE_SET_DATA', { foo: 'x' });
-    expect(store.data).toEqual({ foo: 'x' });
+    const s = new SomeDataStore();
+    (s as any).store.commit('SOME_DATA_STORE_SET_DATA', { foo: 'x' });
+    expect(s.data).toEqual({ foo: 'x' });
   });
 
   test('has automatic setter mutation support as setters', async () => {
@@ -83,16 +81,16 @@ describe('Store annotations', () => {
   });
 
   test('has mutation support with custom functions', async () => {
-    (SomeDataStore as any).store.commit('CustomMutation', ['zxc']);
+    (store as any).store.commit('CustomMutation', ['zxc']);
     expect(store.name).toEqual('zxc');
     store.customMutation('1');
     expect(store.name).toEqual('1');
   });
 
   test('has mutation support', async () => {
-    (SomeDataStore as any).store.commit('SOME_DATA_STORE_DOSTUFF', [43, 'z']);
+    (store as any).store.commit('SOME_DATA_STORE_DOSTUFF', [43, 'z']);
     expect(store.data).toEqual({ bar: 43, foo: 'z' });
-    (SomeDataStore as any).store.commit('CustomSetterMutationName', 'qwe');
+    (store as any).store.commit('CustomSetterMutationName', 'qwe');
     expect(store.name).toEqual('qwe');
   });
 

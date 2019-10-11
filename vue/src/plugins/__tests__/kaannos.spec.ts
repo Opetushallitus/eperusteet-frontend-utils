@@ -1,8 +1,12 @@
 import { createLocalVue, mount } from '@vue/test-utils';
-import { i18n, Kielet } from '../../stores/kieli';
+import { Kielet, KieliStore } from '../../stores/kieli';
 import { Kieli } from '../../tyypit';
 
 describe('Plugin kaannos', () => {
+  const localVue = createLocalVue();
+  KieliStore.setup(localVue);
+  const i18n = KieliStore.i18n;
+
   beforeEach(() => {
     Kielet.setSisaltoKieli(Kieli.fi);
   });
@@ -17,6 +21,7 @@ describe('Plugin kaannos', () => {
       },
     }, {
       i18n,
+      localVue,
     });
   }
 
