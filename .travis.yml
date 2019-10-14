@@ -11,7 +11,7 @@ env:
     - EPERUSTEET_SERVICE_DIR=$PWD/eperusteet/eperusteet/eperusteet-service
 
 install:
-  - git clone --depth=1 --branch uusi_lukio https://github.com/Opetushallitus/eperusteet-ylops
+  - git clone --depth=1 https://github.com/Opetushallitus/eperusteet-ylops
   - git clone --depth=1 https://github.com/Opetushallitus/eperusteet
   - cd eperusteet/eperusteet && mvn dependency:resolve --quiet && cd ../..
   - cd eperusteet-ylops && mvn dependency:resolve --quiet && cd ..
