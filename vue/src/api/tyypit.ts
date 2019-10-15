@@ -17,6 +17,7 @@ export type PerusteKoosteDto = EperusteetApi.PerusteKoosteDto;
 export type Lops2019SisaltoDto = EperusteetApi.Lops2019SisaltoDto;
 export type PerusteenOsaViiteDtoObject = EperusteetApi.PerusteenOsaViiteDtoObject;
 export type Matala = EperusteetApi.Matala;
+export type Laaja = EperusteetApi.Laaja;
 
 export type OpetussuunnitelmaDto = YlopsApi.OpetussuunnitelmaDto
 export type OpetussuunnitelmaInfoDto = YlopsApi.OpetussuunnitelmaInfoDto;

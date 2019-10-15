@@ -9,6 +9,7 @@ import {
   DokumentitApi,
   DokumentitApiAxiosParamCreator,
   SisallotApi,
+  PerusteenosatApi,
 } from '../generated/eperusteet';
 
 const basePath = '';
@@ -51,4 +52,5 @@ export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configurat
 export const Dokumentit = initApi(DokumentitApi);
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
 export const Sisallot = initApi(SisallotApi);
+export const Perusteenosat = initApi(PerusteenosatApi);
 

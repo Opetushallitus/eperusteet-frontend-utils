@@ -32,7 +32,8 @@ export default class EpSidebar extends Vue {
 
     .bar {
       &.bar-open {
-        min-width: $sidebar-width;
+        width: $sidebar-width;
+        overflow-x: auto;
       }
     }
 
