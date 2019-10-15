@@ -39,7 +39,7 @@ describe('EpList component', () => {
       },
       localVue,
       i18n,
-    })
+    });
   };
 
   test('Renders list with content', async () => {
@@ -58,7 +58,8 @@ describe('EpList component', () => {
 
     expect(wrapper.vm.value).toHaveLength(2);
 
-    wrapper.findAll('button.btn-link').at(0).trigger('click');  
+    wrapper.findAll('button.btn-link').at(0)
+      .trigger('click');  
     expect(wrapper.vm.value).toHaveLength(1);
 
   });
