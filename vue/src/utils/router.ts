@@ -9,38 +9,26 @@ import _ from 'lodash';
 export const attachRouterMetaProps = _.once((router: VueRouter) => {
   router.beforeEach(async (to, from, next) => {
     let props = {};
+
     for (const record of to.matched) {
-      if (_.isArray(record.meta.cacheBy)) {
-        const key = _.pick(to.params, record.meta.cacheBy);
-        if (record.meta._cache && _.isEqual(key, record.meta._cache)) {
-          const defaultProps = _.get(record as any, 'props.default', {});
-          props = {
-            ...props,
-            ...defaultProps,
-          };
-          continue;
+      if (_.isObject(record.meta.resolve)) {
+        if (_.isArray(record.meta.resolve.cacheBy)) {
+          const key = _.pick(to.params, record.meta.resolve.cacheBy);
+          if (record.meta.resolve._cache && _.isEqual(key, record.meta.resolve._cache)) {
+            props = _.merge(props, record.props);
+            continue;
+          }
+          else {
+            record.meta.resolve._cache = key;
+          }
         }
-        else {
-          record.meta._cache = key;
+
+        if (_.isFunction(record.meta.resolve.props)) {
+          props = _.merge(await record.meta.resolve.props(to, props), props);
         }
       }
 
-      if (_.isFunction(record.meta.props)) {
-        const recordParams = await record.meta.props(to);
-        props = {
-          ...recordParams,
-          ...props,
-        };
-      }
-
-      const defaultProps = _.get(record as any, 'props.default', {});
-      record.props = {
-        ..._.get(record as any, 'props', {}),
-        default: {
-          ...defaultProps,
-          ...props,
-        },
-      };
+      record.props = _.merge(record.props, props);
     }
     next();
   });
