@@ -46,29 +46,32 @@ export default class EpSearch extends Vue {
 </script>
 
 <style scoped lang="scss">
+.filter {
+  position: relative;
 
-.filter .form-control {
-  padding-left: 2.375rem;
-  border-radius: 15px;
-  background: #F3F3F3;
-  border-width: 0;
+  .form-control {
+    padding-left: 2.375rem;
+    border-radius: 15px;
+    background: #F3F3F3;
+    border-width: 0;
 
-  &::placeholder {
-    color: #aaa;
+    &::placeholder {
+      color: #aaa;
+    }
+
   }
 
-}
-
-.filter .form-control-feedback {
-  position: absolute;
-  z-index: 2;
-  display: block;
-  width: 2.375rem;
-  height: 2.375rem;
-  line-height: 2.375rem;
-  text-align: center;
-  pointer-events: none;
-  color: #aaa;
+  .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
+  }
 }
 
 </style>
