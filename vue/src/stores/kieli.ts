@@ -18,17 +18,6 @@ export const UiKielet = Object.freeze(_.values(Kieli as object));
 const logger = createLogger('Kieli');
 
 
-export interface Kaannos {
-  key: string;
-  value: string;
-};
-
-
-export interface Kaannokset {
-  [locale: string]: Kaannos[];
-};
-
-
 @Store
 export class KieliStore {
   private static vi18n: VueI18n;
@@ -37,6 +26,10 @@ export class KieliStore {
     return KieliStore.vi18n;
   }
 
+  /**
+   * Add language support to root vue instance.
+   *
+   */
   public static setup(v: VueConstructor,
     config: Partial<VueI18n.I18nOptions> = {}) {
     v.use(VueI18n);
@@ -50,6 +43,10 @@ export class KieliStore {
     });
   }
 
+  /**
+   * Load translation from other source
+   *
+   */
   public static async load(loader: () => Promise<Kaannokset>) {
     logger.info('Initing locales');
     const results = await this.fetchLocaleMap(loader);
@@ -109,7 +106,11 @@ export class KieliStore {
     return result;
   }
 
-  public search(query: string, text: any) {
+  /**
+   * Check if text query matches object
+   *
+   */
+  public search(query: string, text: string | object, config = {}): boolean {
     if (text && query) {
       const target = _.isString(text) ? text : text[this.sisaltoKieli];
       return _.includes(_.toLower(target), _.toLower(query));
@@ -123,11 +124,37 @@ export class KieliStore {
     return (text: any) => this.search(query, text);
   }
 
-  public t(value: string) {
-    return KieliStore.i18n.t(value);
+  /**
+   * i18n locale convert
+   *
+   */
+  public t(value: string): string {
+    return KieliStore.i18n.t(value) as string || '<' + value + '>';
   };
 
-  public kaanna(value: object) {
+  /**
+   * Convert field into sortable value
+   *
+   * @returns {string}
+   */
+  public sortValue(value: any): string {
+    if (!value) {
+      return '';
+    }
+    else if (_.isObject(value)) {
+      const locale = Kielet.getSisaltoKieli();
+      return (value as any)[locale];
+    }
+    else {
+      return value;
+    }
+  };
+
+  /**
+   * Translate content localisation objects to strings.
+   *
+   */
+  public kaanna(value: object): string {
     if (!value) {
       return '';
     }
@@ -163,3 +190,13 @@ export class KieliStore {
 }
 
 export const Kielet = new KieliStore();
+
+
+export interface Kaannos {
+  key: string;
+  value: string;
+};
+
+export interface Kaannokset {
+  [locale: string]: Kaannos[];
+};
