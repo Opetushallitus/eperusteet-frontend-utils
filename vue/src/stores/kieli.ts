@@ -123,8 +123,23 @@ export class KieliStore {
     return (text: any) => this.search(query, text);
   }
 
-  public async init() {
-  }
+  public t(value: string) {
+    return KieliStore.i18n.t(value);
+  };
+
+  public kaanna(value: object) {
+    if (!value) {
+      return '';
+    }
+    else if (_.isObject(value)) {
+      const locale = Kielet.getSisaltoKieli();
+      return (value as any)[locale];
+    }
+    else {
+      logger.warn('"$kaanna" on tekstiolioiden kääntämiseen. Käytä vue-i18n vastaavaa funktiota. Esimerkiksi "$t()".', 'Käännös:', '"' + value + '"');
+      return value;
+    }
+  };
 
   private static async fetchLocaleMap(fn: () => Promise<Kaannokset>) {
     try {

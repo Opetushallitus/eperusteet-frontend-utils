@@ -24,7 +24,14 @@ export const attachRouterMetaProps = _.once((router: VueRouter) => {
         }
 
         if (_.isFunction(record.meta.resolve.props)) {
-          props = _.merge(await record.meta.resolve.props(to, props), props);
+          const resolvedProps = await record.meta.resolve.props(to, props);
+          if (!resolvedProps.default) {
+            throw new Error('Default component props are missing: ' + record.name);
+          }
+          props = _.merge(resolvedProps, props);
+        }
+        else {
+          throw new Error('Resolve is missing props: ' + record.name);
         }
       }
 

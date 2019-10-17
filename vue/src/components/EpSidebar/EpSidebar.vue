@@ -1,16 +1,16 @@
 <template>
 <div class="sidenav">
-    <div class="bar" :class="{ 'bar-open': toggled}">
-      <button class="btn btn-link"
-              @click="toggled = !toggled">
-        <fas icon="bars"></fas>
-      </button>
-      <slot v-if="toggled"
-            name="bar"></slot>
-    </div>
-    <div class="view">
-      <slot name="view"></slot>
-    </div>
+  <div class="bar" :class="{ 'bar-open': toggled}">
+    <button class="btn btn-link d-block d-md-none"
+            @click="toggled = !toggled">
+      <fas icon="bars"></fas>
+    </button>
+    <slot v-if="toggled"
+          name="bar"></slot>
+  </div>
+  <div class="view">
+    <slot name="view"></slot>
+  </div>
 </div>
 </template>
 
@@ -27,19 +27,22 @@ export default class EpSidebar extends Vue {
 @import "../../styles/_variables.scss";
 
 .sidenav {
+
   @media (min-width: 768px) {
     display: flex;
 
     .bar {
       &.bar-open {
+        width: $sidebar-width;
         min-width: $sidebar-width;
-        overflow-x: auto;
+        max-width: $sidebar-width;
       }
     }
 
     .view {
+      flex: 1;
       border-left: 1px solid #eee;
-      width: 100%; // ep-spinner vaatii, jotta on keskellä
+      // max-width: 664px;
     }
   }
 
