@@ -110,7 +110,7 @@ export class KieliStore {
    * Check if text query matches object
    *
    */
-  public search(query: string, text: string | object, config = {}): boolean {
+  public search(query: string, text: any, config = {}): boolean {
     if (text && query) {
       const target = _.isString(text) ? text : text[this.sisaltoKieli];
       return _.includes(_.toLower(target), _.toLower(query));
