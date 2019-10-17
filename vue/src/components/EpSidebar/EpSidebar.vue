@@ -1,7 +1,7 @@
 <template>
 <div class="sidenav">
   <div class="bar" :class="{ 'bar-open': toggled}">
-    <button class="btn btn-link d-block d-md-none"
+    <button class="btn btn-link d-block"
             @click="toggled = !toggled">
       <fas icon="bars"></fas>
     </button>
@@ -27,22 +27,18 @@ export default class EpSidebar extends Vue {
 @import "../../styles/_variables.scss";
 
 .sidenav {
-
   @media (min-width: 768px) {
     display: flex;
 
     .bar {
       &.bar-open {
         width: $sidebar-width;
-        min-width: $sidebar-width;
-        max-width: $sidebar-width;
       }
     }
 
     .view {
       flex: 1;
       border-left: 1px solid #eee;
-      // max-width: 664px;
     }
   }
 
