@@ -2,6 +2,7 @@
 <div class="sidenav">
   <div class="bar" :class="{ 'bar-open': toggled}">
     <button class="btn btn-link d-block"
+            :aria-label="$t('avaa-rakenteen-navigaatio')"
             @click="toggled = !toggled">
       <fas icon="bars"></fas>
     </button>
