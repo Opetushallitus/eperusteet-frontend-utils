@@ -1,3 +1,4 @@
+import './common';
 import { Configuration } from '../generated/ylops';
 import axios, { AxiosInstance } from 'axios';
 import _ from 'lodash';

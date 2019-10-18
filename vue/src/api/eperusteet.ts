@@ -1,3 +1,4 @@
+import './common';
 import { Configuration } from '../generated/eperusteet';
 import axios, { AxiosInstance } from 'axios';
 import _ from 'lodash';
