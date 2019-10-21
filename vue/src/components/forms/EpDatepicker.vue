@@ -99,7 +99,7 @@ export default class EpDatepicker extends Mixins(EpValidation) {
   }
 
   get lang() {
-    return Kielet.getAikakaannokset();
+    return Kielet.getAikakaannokset;
   }
 
   private onInput(event: any) {

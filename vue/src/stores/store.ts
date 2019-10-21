@@ -26,7 +26,9 @@ function overrideGetters(store: any, config: any, target: any) {
   _.forEach(config.getters, (fn, k) => {
     Object.defineProperty(target, k, {
       enumerable: true,
-      value: () => store.getters[k],
+      get() {
+        return store.getters[k];
+      },
     });
   });
 }
@@ -35,7 +37,6 @@ function overrideStates(store: any, config: any, target: any) {
   _.forEach(config.state, (v, k) => {
     const ClassName = Object.getPrototypeOf(target.constructor.prototype).constructor.name;
     const mutationName = vuexCase(ClassName) + '_SET_' + vuexCase(k);
-
     Object.defineProperty(target, k, {
       enumerable: true,
       configurable: false,
@@ -63,8 +64,10 @@ function vuexBaseConfig(config: any) {
           value.apply(state, payload)),
     },
     getters: {
-      ..._.mapValues(config.getters, (fn) =>
-        (state: any) => fn.call(state)),
+      ..._.mapValues(config.getters,
+        (fn, key) =>
+          (state: any, getters: any) =>
+            fn(state, getters)),
     },
   };
 }
@@ -80,11 +83,10 @@ export function Store<T extends StoreConstructor>(constructor: T) {
 
       if (!this.store) {
         this.store = new Vuex.Store(_.cloneDeep(vuexBaseConfig(config)));
+        overrideGetters(this.store, config, this);
+        overrideStates(this.store, config, this);
+        overrideMutations(this.store, config, this);
       }
-
-      overrideStates(this.store, config, this);
-      overrideGetters(this.store, config, this);
-      overrideMutations(this.store, config, this);
     }
   };
 }
@@ -161,21 +163,15 @@ export function Mutation(config?: MutationConfig) {
   };
 }
 
-export function Getter() {
-  return (target: any, key: string, descriptor: any) => {
-    const fn = descriptor.value;
-
+export function Getter(fn: (state: any, getters: any) => any) {
+  return (target: object, key: string) => {
     if (!_.isFunction(fn)) {
       throw new Error(`Getter should be a function: ${key}`);
     }
-
-    if (fn.length > 0) {
-      throw new Error(`Getter should have no parameters: ${key}`);
-    }
-
-    targetStoreConfig(target).getters[key] = fn;
+    targetStoreConfig(target as any).getters[key] = fn;
   };
 }
+
 
 export function Action() {
   return (target: any, key: string, descriptor: any) => {

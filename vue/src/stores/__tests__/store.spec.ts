@@ -5,44 +5,42 @@ interface SomeData {
   bar?: number;
 }
 
-@Store
-class SomeDataStore {
-  @State({
-    mutationName: 'CustomSetterMutationName',
-  })
-  public name = 'abc';
-
-  @State()
-  public data: SomeData = {
-    foo: 'bar',
-  };
-
-  public getStore() {
-    return (SomeDataStore as any).store;
-  }
-
-  @Getter()
-  public foobar() {
-    return this.data.foo + this.data.bar || 42;
-  }
-
-  @Mutation({
-    name: 'CustomMutation',
-  })
-  public customMutation(name: string) {
-    this.name = name;
-  }
-
-  @Mutation()
-  public dostuff(a: number, value: string) {
-    this.data.bar = a;
-    this.data.foo = value;
-  }
-}
-
-const store = new SomeDataStore();
-
 describe('Store annotations', () => {
+  @Store
+  class SomeDataStore {
+    @State({
+      mutationName: 'CustomSetterMutationName',
+    })
+    public name = 'abc';
+
+    @State()
+    public data: SomeData = {
+      foo: 'bar',
+    };
+
+    public getStore() {
+      return (SomeDataStore as any).store;
+    }
+
+    @Getter((state) => state.data.foo + state.data.bar || 42)
+    public readonly foobar!: any;
+
+    @Mutation({
+      name: 'CustomMutation',
+    })
+    public customMutation(name: string) {
+      this.name = name;
+    }
+
+    @Mutation()
+    public dostuff(a: number, value: string) {
+      this.data.bar = a;
+      this.data.foo = value;
+    }
+  }
+
+  const store = new SomeDataStore();
+
   beforeEach(() => {
     store.data = {
       foo: 'bar',
@@ -100,7 +98,7 @@ describe('Store annotations', () => {
       bar: 10,
     };
 
-    expect(store.foobar()).toEqual('a10');
+    expect(store.foobar).toEqual('a10');
   });
 
   test('mutations should be functions', () => {
@@ -121,15 +119,53 @@ describe('Store annotations', () => {
     })).not.toThrow();
   });
 
-  test('getters should be functions', () => {
-    expect(() => Getter()({}, 'value', {
-      value: 'some string',
-    })).toThrowError(/should be a function/);
-  });
+});
 
-  test('getters should have no parameters', () => {
-    expect(() => Getter()({}, 'value', {
-      value: (x: any) => 5,
-    })).toThrowError(/should have no parameters/);
+describe('Store', () => {
+  test('multiple getters', () => {
+    let foos = 0;
+    let seconds = 0;
+    let thirds = 0;
+
+    @Store
+    class MultipleGetters {
+      @State() public data = 0;
+
+      @Getter(() => {
+        ++foos;
+        return 42;
+      })
+      public readonly foo!: number;
+
+      @Getter((state, getters) => {
+        ++seconds;
+        return getters.foo * 2;
+      })
+      public readonly second!: number;
+
+      @Getter((state, getters) => {
+        ++thirds;
+        return getters.second * (state.data || 0);
+      })
+      public readonly third!: number;
+    }
+
+    const mg = new MultipleGetters();
+
+    expect(mg.foo).toEqual(42);
+    expect(mg.second).toEqual(84);
+    expect(mg.data).toEqual(0);
+
+    expect(foos).toEqual(1);
+    expect(seconds).toEqual(1);
+    expect(thirds).toEqual(0);
+
+    mg.data = 1;
+    expect(mg.third).toEqual(84);
+
+    expect(foos).toEqual(1);
+    expect(seconds).toEqual(1);
+    expect(thirds).toEqual(1);
+
   });
 });
