@@ -57,7 +57,7 @@ generate_eperusteet() {
 
   specfile="$EPERUSTEET_SERVICE_DIR/target/openapi/eperusteet.spec.json"
   cd "$EPERUSTEET_SERVICE_DIR" \
-    && mvn clean compile -Pgenerate-openapi \
+    && mvn clean compile -B -Pgenerate-openapi \
     && cd "${eperusteetgen}" \
     && echo "Building eperusteet api" \
     && pwd \
@@ -75,7 +75,7 @@ generate_ylops() {
 
   specfile="$YLOPS_SERVICE_DIR/target/openapi/ylops.spec.json"
   cd "$YLOPS_SERVICE_DIR" \
-    && mvn clean compile -Pgenerate-openapi \
+    && mvn clean compile -B -Pgenerate-openapi \
     && cd "${ylopsgen}" \
     && echo "Building ylops api" \
     && pwd \
