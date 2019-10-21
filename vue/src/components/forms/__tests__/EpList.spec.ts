@@ -21,7 +21,7 @@ describe('EpList component', () => {
 
   const i18n = KieliStore.i18n;
 
-  function mountWrapper() { 
+  function mountWrapper() {
     return mount(localVue.extend({
       components: {
         EpList,
@@ -60,7 +60,7 @@ describe('EpList component', () => {
     expect(wrapper.vm.value).toHaveLength(2);
 
     wrapper.findAll('button.btn-link').at(0)
-      .trigger('click');  
+      .trigger('click');
 
     expect(wrapper.vm.value).toHaveLength(1);
     expect(wrapper.findAll('div.arvo')).toHaveLength(1);
@@ -76,7 +76,7 @@ describe('EpList component', () => {
     expect(wrapper.vm.value).toHaveLength(2);
     expect(wrapper.findAll('div.arvo')).toHaveLength(2);
 
-    wrapper.find('.ep-button button').trigger('click'); 
+    wrapper.find('.ep-button button').trigger('click');
 
     expect(wrapper.vm.value).toHaveLength(3);
     expect(wrapper.findAll('div.arvo')).toHaveLength(3);

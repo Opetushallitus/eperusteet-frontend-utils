@@ -33,7 +33,7 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import EpButton from '../EpButton/EpButton.vue';
-import EpInput from '@/components/forms/EpInput.vue';
+import EpInput from './EpInput.vue';
 import _ from 'lodash';
 
 

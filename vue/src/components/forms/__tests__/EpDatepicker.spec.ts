@@ -1,5 +1,5 @@
 import { createLocalVue, mount } from '@vue/test-utils';
-import EpDatepicker from '@/components/forms/EpDatepicker.vue';
+import EpDatepicker from '../EpDatepicker.vue';
 import { KieliStore } from '../../../stores/kieli';
 
 describe('EpDatepicker component', () => {
