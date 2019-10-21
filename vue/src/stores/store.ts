@@ -45,7 +45,6 @@ function overrideStates(store: any, config: any, target: any) {
         return store.state[k];
       },
       set(newValue) {
-        // console.log('Setting', mutationName, 'to', newValue);
         store.commit(mutationName, newValue);
       },
     });

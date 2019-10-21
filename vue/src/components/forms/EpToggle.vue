@@ -17,10 +17,10 @@ import EpFormContent from './EpFormContent.vue';
   },
 })
 export default class EpToggle extends Vue {
-  @Prop({ default: false })
+  @Prop({ default: false, type: Boolean })
   private isEditing!: boolean;
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: Boolean })
   private value!: boolean;
 }
 </script>

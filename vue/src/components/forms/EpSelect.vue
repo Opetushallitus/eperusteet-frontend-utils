@@ -47,7 +47,7 @@ import EpValidation from '../../mixins/EpValidation';
   },
 })
 export default class EpSelect extends Mixins(EpValidation) {
-  @Prop({ default: false })
+  @Prop({ default: false, type: Boolean })
   private isEditing!: boolean;
 
   @Prop({ required: true })
@@ -56,13 +56,13 @@ export default class EpSelect extends Mixins(EpValidation) {
   @Prop({ required: true })
   private value!: any | any[];
 
-  @Prop({ default: true })
+  @Prop({ default: true, type: Boolean })
   private useCheckboxes!: boolean;
 
-  @Prop({ default: false })
+  @Prop({ default: false, type: Boolean })
   private multiple!: boolean;
 
-  @Prop({ default: '' })
+  @Prop({ default: '', type: String })
   private help!: string;
 
   private innerModel: any | any[] | null = null;

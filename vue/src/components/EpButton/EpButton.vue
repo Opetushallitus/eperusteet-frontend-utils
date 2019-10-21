@@ -29,7 +29,7 @@ import EpSpinnerInline from '../EpSpinner/EpSpinnerInline.vue';
   },
 })
 export default class EpButton extends Vue {
-  @Prop({ default: '' })
+  @Prop({ default: '', type: String })
   private icon!: string;
 
   get isOutline() {
@@ -44,16 +44,16 @@ export default class EpButton extends Vue {
     return result;
   }
 
-  @Prop({ default: false })
+  @Prop({ default: false, type: Boolean })
   private disabled!: boolean;
 
-  @Prop({ default: false })
+  @Prop({ default: false, type: Boolean })
   private showSpinner!: boolean;
 
-  @Prop({ default: 'primary' })
+  @Prop({ default: 'primary', type: String })
   private variant!: string;
 
-  @Prop({ default: '' })
+  @Prop({ default: '', , type: String })
   private help!: string;
 }
 </script>

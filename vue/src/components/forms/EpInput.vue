@@ -35,19 +35,19 @@ const logger = createLogger('EpInput');
   name: 'EpInput',
 })
 export default class EpInput extends Mixins(EpValidation) {
-  @Prop({ default: 'localized' })
+  @Prop({ default: 'localized', type: String })
   private type!: 'localized' | 'string' | 'number';
 
   @Prop({ required: true })
   private value!: string | object;
 
-  @Prop({ default: false })
+  @Prop({ default: false, type: Boolean })
   private isHeader!: boolean;
 
-  @Prop({ default: false })
+  @Prop({ default: false, type: Boolean })
   private isEditing!: boolean;
 
-  @Prop({ default: '' })
+  @Prop({ default: '', type: String })
   private help!: string;
 
   get hasLeftSlot() {

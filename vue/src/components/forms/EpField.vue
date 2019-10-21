@@ -27,16 +27,16 @@ export default class EpField extends Mixins(EpValidation) {
   @Prop({ required: true })
   private value!: string | object;
 
-  @Prop({ default: false })
+  @Prop({ default: false, type: Boolean })
   private isHeader!: boolean;
 
-  @Prop({ default: false })
+  @Prop({ default: false, type: Boolean })
   private isEditing!: boolean;
 
-  @Prop({ default: 'localized' })
+  @Prop({ default: 'localized', type: String })
   private type!: 'localized' | 'string' | 'number';
 
-  @Prop({ default: '' })
+  @Prop({ default: '', type: String })
   private help!: string;
 }
 </script>

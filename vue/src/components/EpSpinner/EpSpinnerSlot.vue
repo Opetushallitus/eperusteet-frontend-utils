@@ -15,7 +15,7 @@ import EpSpinner from './EpSpinner.vue';
   },
 })
 export default class EpSpinnerSlot extends Vue {
-  @Prop({ required: true })
+  @Prop({ required: true, type: Boolean })
   private isLoading!: boolean;
 }
 </script>

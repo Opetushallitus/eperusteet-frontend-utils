@@ -12,19 +12,21 @@ import { Prop, Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class EpLinkki extends Vue {
-  @Prop()
+  @Prop({ type: String })
   private url!: string;
 
   @Prop({
     required: false,
+    type: String
   })
   private label!: string;
 
-  @Prop({ default: '' })
+  @Prop({ default: '', type: String })
   private icon!: string;
 
   @Prop({
     default: true,
+    type: Boolean
   })
   private onlyTopLevel!: boolean;
 

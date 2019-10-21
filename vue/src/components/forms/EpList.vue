@@ -53,10 +53,10 @@ export default class EpList extends Vue {
   @Prop({ required: true })
   private value!: any;
 
-  @Prop({ default: 'lisaa-sisalto' })
+  @Prop({ default: 'lisaa-sisalto', type: String })
   private lisays!: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: String })
   private kentta!: string;
 
   get sanitized() {

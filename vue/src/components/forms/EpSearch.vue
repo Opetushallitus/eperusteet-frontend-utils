@@ -20,10 +20,10 @@ import { Kielet } from '../../stores/kieli';
   name: 'EpSearch',
 })
 export default class EpSearch extends Vue {
-  @Prop()
+  @Prop({ type: String })
   private value!: string;
 
-  @Prop()
+  @Prop({ type: String })
   private placeholder!: string;
 
   get placeholderText() {

@@ -13,10 +13,10 @@ import { validationMixin } from 'vuelidate';
   },
 } as any)
 export default class EpValidation extends Mixins(validationMixin) {
-  @Prop({ default: '' })
+  @Prop({ default: '', type: String })
   private validMessage!: string;
 
-  @Prop({ default: '' })
+  @Prop({ default: '', type: String })
   private invalidMessage!: string;
 
   @Prop({ default: null })

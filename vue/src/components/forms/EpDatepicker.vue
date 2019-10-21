@@ -59,10 +59,10 @@ export default class EpDatepicker extends Mixins(EpValidation) {
   })
   private type!: string;
 
-  @Prop({ default: false })
+  @Prop({ default: false, type: Boolean })
   private isEditing!: boolean;
 
-  @Prop({ default: '' })
+  @Prop({ default: '', type: String })
   private help!: string;
 
   get inputClass() {
