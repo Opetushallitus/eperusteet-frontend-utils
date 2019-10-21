@@ -20,12 +20,14 @@ import {
   TermistoApi,
   UlkopuolisetApi,
 } from '../generated/ylops';
+import Qs from 'qs';
 
 const basePath = '';
 export const baseURL = '/eperusteet-ylops-service/api';
 
 const ax = axios.create({
   baseURL,
+  paramsSerializer: params => Qs.stringify(params, {arrayFormat: 'repeat'})
 });
 
 function axiosHandler(msg: string) {
