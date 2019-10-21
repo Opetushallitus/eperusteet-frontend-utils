@@ -58,14 +58,11 @@ export class KieliStore {
   @State()
   private sisaltoKieli: Kieli = Kieli.fi;
 
-  @Getter()
-  public getUiKieli() {
-    return KieliStore.i18n.locale;
-  }
+  @Getter(() => KieliStore.i18n.locale)
+  public readonly getUiKieli!: string;
 
-  @Getter()
-  public getAikakaannokset() {
-    const kieli = this.sisaltoKieli;
+  @Getter((state) => {
+    const kieli = state.sisaltoKieli;
     return {
       days: _.map(moment.weekdays(), (day: string) => _.toUpper(_.first(day))),
       months: moment.monthsShort(),
@@ -74,12 +71,13 @@ export class KieliStore {
         dateRange: KieliStore.i18n.t('valitse-pvm-jana'),
       },
     };
-  }
+  })
+  public readonly getAikakaannokset!: any;
 
-  @Getter()
-  public getSisaltoKieli() {
-    return this.sisaltoKieli;
-  }
+  @Getter((state) => {
+    return state.sisaltoKieli;
+  })
+  public readonly getSisaltoKieli!: Kieli;
 
   @Mutation()
   public setUiKieli(kieli: Kieli) {
@@ -147,7 +145,7 @@ export class KieliStore {
       return '';
     }
     else if (_.isObject(value)) {
-      const locale = Kielet.getSisaltoKieli();
+      const locale = Kielet.getSisaltoKieli;
       return (value as any)[locale];
     }
     else {
@@ -164,7 +162,7 @@ export class KieliStore {
       return '';
     }
     else if (_.isObject(value)) {
-      const locale = Kielet.getSisaltoKieli();
+      const locale = Kielet.getSisaltoKieli;
       return (value as any)[locale];
     }
     else {

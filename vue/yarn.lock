@@ -7957,10 +7957,6 @@ opener@^1.5.1:
   resolved "https://registry.yarnpkg.com/opener/-/opener-1.5.1.tgz#6d2f0e77f1a0af0032aca716c2c1fbb8e7e8abed"
   integrity sha512-goYSy5c2UXE4Ra1xixabeVh1guIX/ZV/YokJksb6q2lubWu6UbvPQ20p542/sFIll1nl8JnCyK9oBaOcCWXwvA==
 
-"oph-virkailija-style-guide@github:Opetushallitus/virkailija-styles":
-  version "1.0.0"
-  resolved "https://codeload.github.com/Opetushallitus/virkailija-styles/tar.gz/5e1b19044a21580b4cd2d6c89e550b5c0f0c22a1"
-
 opn@^5.5.0:
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/opn/-/opn-5.5.0.tgz#fc7164fab56d235904c51c3b27da6758ca3b9bfc"

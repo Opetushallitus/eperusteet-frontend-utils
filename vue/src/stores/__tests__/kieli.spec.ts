@@ -1,6 +1,6 @@
 import { createLocalVue } from '@vue/test-utils';
 import { Kieli } from '../../tyypit';
-import { UiKielet, KieliStore, Kielet } from '../kieli';
+import { KieliStore, Kielet } from '../kieli';
 import _ from 'lodash';
 
 
@@ -16,16 +16,16 @@ describe('Kielet', () => {
   });
 
   test('UI-kieli', async () => {
-    expect(Kielet.getUiKieli()).toEqual(i18n.locale);
+    expect(Kielet.getUiKieli).toEqual(i18n.locale);
     i18n.locale = Kieli.sv;
-    expect(Kielet.getUiKieli()).toEqual(i18n.locale);
+    expect(Kielet.getUiKieli).toEqual(i18n.locale);
   });
 
   test('Sisältökieli', async () => {
-    expect(Kielet.getSisaltoKieli()).toEqual(Kieli.fi);
+    expect(Kielet.getSisaltoKieli).toEqual(Kieli.fi);
 
     Kielet.setSisaltoKieli(Kieli.sv);
-    expect(Kielet.getSisaltoKieli()).toEqual(Kieli.sv);
+    expect(Kielet.getSisaltoKieli).toEqual(Kieli.sv);
   });
 
   test('Ui käännökset', async () => {
