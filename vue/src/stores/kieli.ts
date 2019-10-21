@@ -99,9 +99,9 @@ export class KieliStore {
 
   public haeLokalisoituOlio(avain: string) {
     const result = {
-      fi: KieliStore.i18n.t(avain, 'fi'),
-      sv: KieliStore.i18n.t(avain, 'sv'),
-      en: KieliStore.i18n.t(avain, 'en'),
+      fi: KieliStore.vi18n.t(avain, 'fi'),
+      sv: KieliStore.vi18n.t(avain, 'sv'),
+      en: KieliStore.vi18n.t(avain, 'en'),
     };
     return result;
   }
@@ -129,7 +129,12 @@ export class KieliStore {
    *
    */
   public t(value: string): string {
-    return KieliStore.i18n.t(value) as string || '<' + value + '>';
+    if (KieliStore.vi18n) {
+      return KieliStore.vi18n.t(value) as string || '<' + value + '>';
+    }
+    else {
+      return value;
+    }
   };
 
   /**
