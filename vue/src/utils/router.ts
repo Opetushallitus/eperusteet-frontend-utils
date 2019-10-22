@@ -17,7 +17,8 @@ export async function resolveRouterMetaProps(to) {
         if (record.meta.resolve._cache && _.isEqual(key, record.meta.resolve._cache)) {
           props = _.merge(props, record.props);
           continue;
-        } else {
+        }
+        else {
           record.meta.resolve._cache = key;
         }
       }
@@ -28,7 +29,8 @@ export async function resolveRouterMetaProps(to) {
           throw new Error('Default component props are missing: ' + record.name);
         }
         props = _.merge(resolvedProps, props);
-      } else {
+      }
+      else {
         throw new Error('Resolve is missing props: ' + record.name);
       }
     }
