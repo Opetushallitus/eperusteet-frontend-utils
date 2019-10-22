@@ -18,6 +18,10 @@ export type Lops2019SisaltoDto = EperusteetApi.Lops2019SisaltoDto;
 export type PerusteenOsaViiteDtoObject = EperusteetApi.PerusteenOsaViiteDtoObject;
 export type Matala = EperusteetApi.Matala;
 export type Laaja = EperusteetApi.Laaja;
+export type Lops2019OppiaineDto = EperusteetApi.Lops2019OppiaineDto;
+export type Lops2019OppiaineKaikkiDto = EperusteetApi.Lops2019OppiaineKaikkiDto;
+export type Lops2019ModuuliDto = EperusteetApi.Lops2019ModuuliDto;
+export type Lops2019LaajaAlainenOsaaminenKokonaisuusDto = EperusteetApi.Lops2019LaajaAlainenOsaaminenKokonaisuusDto;
 
 export type OpetussuunnitelmaDto = YlopsApi.OpetussuunnitelmaDto
 export type OpetussuunnitelmaInfoDto = YlopsApi.OpetussuunnitelmaInfoDto;
