@@ -11,6 +11,7 @@ import {
   DokumentitApiAxiosParamCreator,
   SisallotApi,
   PerusteenosatApi,
+  Lops2019Api,
 } from '../generated/eperusteet';
 import Qs from 'qs';
 
@@ -56,4 +57,5 @@ export const Dokumentit = initApi(DokumentitApi);
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
 export const Sisallot = initApi(SisallotApi);
 export const Perusteenosat = initApi(PerusteenosatApi);
+export const Lops2019 = initApi(Lops2019Api);
 
