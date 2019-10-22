@@ -53,7 +53,7 @@ export default class EpButton extends Vue {
   @Prop({ default: 'primary', type: String })
   private variant!: string;
 
-  @Prop({ default: '', , type: String })
+  @Prop({ default: '', type: String })
   private help!: string;
 }
 </script>
