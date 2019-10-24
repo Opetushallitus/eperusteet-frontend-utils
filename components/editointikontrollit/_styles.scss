@@ -19,7 +19,7 @@ $fluid-container-width: 960px;;
 
   &.floating {
     position: fixed;
-    bottom: 0px;
+    bottom: 0;
     &.ng-hide-add {
       transition: bottom 0.2s;
     }
@@ -30,7 +30,7 @@ $fluid-container-width: 960px;;
       bottom: -$edit-control-height;
     }
     &.ng-hide-add, &.ng-hide-remove.ng-hide-remove-active {
-      bottom: 0px;
+      bottom: 0;
     }
   }
   &.static {
@@ -75,7 +75,7 @@ $fluid-container-width: 960px;;
       float: right;
       width: 300px;
       margin-right: 5px;
-      border-radius: none !important;
+      // border-radius: none !important; ei validi sääntö
     }
   }
   @media (max-width: 850px) {
