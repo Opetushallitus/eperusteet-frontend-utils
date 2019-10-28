@@ -26,3 +26,4 @@ export type Lops2019LaajaAlainenOsaaminenKokonaisuusDto = EperusteetApi.Lops2019
 export type OpetussuunnitelmaDto = YlopsApi.OpetussuunnitelmaDto
 export type OpetussuunnitelmaInfoDto = YlopsApi.OpetussuunnitelmaInfoDto;
 export type OpetussuunnitelmaJulkinenDto = YlopsApi.OpetussuunnitelmaJulkinenDto;
+export type OpetussuunnitelmaKevytDto = YlopsApi.OpetussuunnitelmaKevytDto;

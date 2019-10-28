@@ -57,6 +57,7 @@ function initApi<T>(X: BaseAPIConstructor<T>): T {
 
 export const Api = ax;
 export const Dokumentit = initApi(DokumentitApi);
+export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
 export const Kayttajat = initApi(KayttajatApi);
 export const Kommentit = initApi(KommentitApi);
 export const Kysymykset = initApi(KysymyksetApi);
@@ -72,4 +73,3 @@ export const Oppiaineet = initApi(Lops2019OppiaineetApi);
 export const Termisto = initApi(TermistoApi);
 export const Ulkopuoliset = initApi(UlkopuolisetApi);
 
-export const DokumentitParams = DokumentitApiAxiosParamCreator(configuration);
