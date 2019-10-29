@@ -6,6 +6,13 @@
 </div>
 </template>
 
+<script lang="ts">
+import { Vue, Component } from 'vue-property-decorator';
+
+@Component
+export default class EpSpinnerInline extends Vue {}
+</script>
+
 <style scoped lang="scss">
 @import "../../styles/_variables.scss";
 @import "./style.scss";
