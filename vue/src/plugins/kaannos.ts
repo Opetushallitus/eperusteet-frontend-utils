@@ -1,5 +1,4 @@
 import Vue from 'vue';
-import _ from 'lodash';
 import { createLogger } from '../utils/logger';
 import { Kielet } from '../stores/kieli';
 
@@ -10,6 +9,10 @@ export class Kaannos {
     // Sisällön kääntäminen
     vue.prototype.$kaanna = (value: object) => {
       return Kielet.kaanna(value);
+    };
+
+    vue.prototype.$kaannaOlioTaiTeksti = (value: object) => {
+      return Kielet.kaannaOlioTaiTeksti(value);
     };
   }
 }

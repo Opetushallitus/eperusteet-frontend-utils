@@ -153,7 +153,7 @@ export class KieliStore {
     }
   };
 
-  public kaannaLokalisoituTeksti(value: object): string {
+  public kaanna(value: object): string {
     if (!value) {
       return '';
     }
@@ -167,9 +167,9 @@ export class KieliStore {
     }
   };
 
-  public kaanna(value: object | string): string {
+  public kaannaOlioTaiTeksti(value: object | string): string {
     if (_.isObject(value)) {
-      return Kielet.kaannaLokalisoituTeksti(value);
+      return Kielet.kaanna(value);
     }
     else if (_.isString(value)) {
       return Kielet.t(value);
