@@ -22,6 +22,7 @@ export type Lops2019OppiaineDto = EperusteetApi.Lops2019OppiaineDto;
 export type Lops2019OppiaineKaikkiDto = EperusteetApi.Lops2019OppiaineKaikkiDto;
 export type Lops2019ModuuliDto = EperusteetApi.Lops2019ModuuliDto;
 export type Lops2019LaajaAlainenOsaaminenKokonaisuusDto = EperusteetApi.Lops2019LaajaAlainenOsaaminenKokonaisuusDto;
+export type NavigationNodeDto = EperusteetApi.NavigationNodeDto;
 
 export type OpetussuunnitelmaDto = YlopsApi.OpetussuunnitelmaDto
 export type OpetussuunnitelmaInfoDto = YlopsApi.OpetussuunnitelmaInfoDto;
