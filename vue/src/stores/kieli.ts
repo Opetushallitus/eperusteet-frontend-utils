@@ -153,11 +153,7 @@ export class KieliStore {
     }
   };
 
-  /**
-   * Translate content localisation objects to strings.
-   *
-   */
-  public kaanna(value: object): string {
+  public kaannaLokalisoituTeksti(value: object): string {
     if (!value) {
       return '';
     }
@@ -170,6 +166,18 @@ export class KieliStore {
       return value;
     }
   };
+
+  public kaanna(value: object | string): string {
+    if (_.isObject(value)) {
+      return Kielet.kaannaLokalisoituTeksti(value);
+    }
+    else if (_.isString(value)) {
+      return Kielet.t(value);
+    }
+    else {
+      return value;
+    }
+  }
 
   private static async fetchLocaleMap(fn: () => Promise<Kaannokset>) {
     try {
@@ -198,8 +206,8 @@ export const Kielet = new KieliStore();
 export interface Kaannos {
   key: string;
   value: string;
-};
+}
 
 export interface Kaannokset {
   [locale: string]: Kaannos[];
-};
+}
