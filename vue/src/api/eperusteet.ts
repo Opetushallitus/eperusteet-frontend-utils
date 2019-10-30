@@ -14,7 +14,9 @@ import {
   Lops2019Api,
 } from '../generated/eperusteet';
 import Qs from 'qs';
+import { createLogger } from '../stores/logger';
 
+const logger = createLogger('EperusteetAxios');
 const basePath = '';
 export const baseURL = '/eperusteet-service/api';
 
@@ -25,7 +27,7 @@ const ax = axios.create({
 
 function axiosHandler(msg: string) {
   return async (err: any) => {
-    console.error(msg as any, err);
+    logger.error(msg as any, err);
     throw err;
   };
 }

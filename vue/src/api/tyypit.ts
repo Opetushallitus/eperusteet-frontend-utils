@@ -8,6 +8,10 @@ export interface LokalisoituTekstiDto {
   [key: string]: string;
 }
 
+export interface ViiteLaaja extends EperusteetApi.PerusteenOsaViiteDto {
+  lapset?: Array<object>;
+}
+
 
 export type PerusteDto = EperusteetApi.PerusteDto;
 export type PerusteHakuDto = EperusteetApi.PerusteHakuDto;
