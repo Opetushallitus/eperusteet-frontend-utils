@@ -21,7 +21,9 @@ import {
   UlkopuolisetApi,
 } from '../generated/ylops';
 import Qs from 'qs';
+import { createLogger } from '../stores/logger';
 
+const logger = createLogger('YlopsAxios');
 const basePath = '';
 export const baseURL = '/eperusteet-ylops-service/api';
 
@@ -32,7 +34,7 @@ const ax = axios.create({
 
 function axiosHandler(msg: string) {
   return async (err: any) => {
-    console.error(msg as any, err);
+    logger.error(msg as any, err);
     throw err;
   };
 }

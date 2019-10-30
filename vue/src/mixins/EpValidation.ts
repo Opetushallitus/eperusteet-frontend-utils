@@ -1,12 +1,15 @@
-import { Component, Prop, Mixins } from 'vue-property-decorator';
 import _ from 'lodash';
+import { Component, Prop, Mixins } from 'vue-property-decorator';
 import { validationMixin } from 'vuelidate';
+import { createLogger } from '../stores/logger';
+
+const logger = createLogger('EpValidation');
 
 @Component({
   validations() {
     const vc = (this as any).validationConfig;
     if (vc === undefined) {
-      console.error('Validation configuration missing:', this);
+      logger.error('Validation configuration missing:', this);
       return {};
     }
     return vc;
