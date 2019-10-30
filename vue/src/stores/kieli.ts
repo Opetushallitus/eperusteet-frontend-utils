@@ -32,9 +32,6 @@ export class KieliStore {
    */
   public static setup(v: VueConstructor,
     config: Partial<VueI18n.I18nOptions> = {}) {
-    if (KieliStore.vi18n) {
-      throw new Error('Localization store already initialized');
-    }
     v.use(VueI18n);
     v.use(Aikaleima);
     v.use(Kaannos);

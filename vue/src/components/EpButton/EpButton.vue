@@ -1,10 +1,10 @@
 <template>
 <div class="ep-button" ref="button-container">
-  <button class="btn"
-          :class="variantClass"
+  <b-button :variant="variant"
           v-bind="$attrs"
           :disabled="disabled || showSpinner"
-          @click="$emit('click')">
+          @click="$emit('click')"
+          :size="size">
     <span v-if="icon"
          class="float-left mr-2"
          :class="isOutline && 'icon'">
@@ -12,7 +12,7 @@
     </span>
     <slot />
     <ep-spinner-inline v-if="showSpinner" />
-  </button>
+  </b-button>
   <b-tooltip v-if="help" :target="() => $refs['button-container']">{{ $t(help) }}</b-tooltip>
 </div>
 </template>
@@ -52,6 +52,9 @@ export default class EpButton extends Vue {
 
   @Prop({ default: 'primary', type: String })
   private variant!: string;
+
+  @Prop({ default: 'md', type: String })
+  private size!: string;
 
   @Prop({ default: '', type: String })
   private help!: string;
