@@ -12,10 +12,10 @@
                  :clearable="!validation"
                  :append-to-body="true"
                  :first-day-of-week="1">
-        <fas class="fa-fw"
+        <fas fixed-width
              slot="calendar-icon"
              icon="calendar-day"></fas>
-        <fas class="fa-fw"
+        <fas fixed-width
              slot="mx-clear-icon"
              icon="times"></fas>
     </date-picker>

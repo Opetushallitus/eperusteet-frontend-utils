@@ -8,7 +8,7 @@
     <span v-if="icon"
          class="float-left mr-2"
          :class="isOutline && 'icon'">
-      <fas :icon="icon" fixed-width></fas>
+      <fas fixed-width :icon="icon"></fas>
     </span>
     <slot />
     <ep-spinner-inline v-if="showSpinner" />
