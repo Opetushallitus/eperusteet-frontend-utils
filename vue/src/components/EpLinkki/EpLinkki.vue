@@ -1,7 +1,7 @@
 <template>
 <div class="linkki">
   <a :href="url">
-    <fas :icon="icon" fixed-width class="mr-1" v-if="icon"></fas>
+    <fas fixed-width :icon="icon" fixed-width class="mr-1" v-if="icon"></fas>
     <span>{{ cleanUrl }}</span>
   </a>
 </div>

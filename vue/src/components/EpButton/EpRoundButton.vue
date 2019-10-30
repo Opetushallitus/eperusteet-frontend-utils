@@ -4,7 +4,7 @@
   v-bind="$attrs"
   :disabled="disabled"
   @click="$emit('click')">
-  <fas :icon="icon"></fas>
+  <fas fixed-width :icon="icon"></fas>
 </button>
 </template>
 

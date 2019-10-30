@@ -7,7 +7,7 @@
       </div>
       <div slot="right">
         <b-button variant="link" @click="poista(idx)">
-          <fas icon="times"></fas>
+          <fas fixed-width icon="times"></fas>
         </b-button>
       </div>
     </ep-input>
