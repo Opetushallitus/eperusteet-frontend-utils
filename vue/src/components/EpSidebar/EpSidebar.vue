@@ -16,7 +16,7 @@
 
         <b-popover target="popover-button-event" triggers="click blur">
           <template v-slot:title>{{ $t('lisaasetukset') }}</template>
-          <ep-toggle v-model="autoScroll" :is-editing="false">{{ $t('automaattinen-nayton-vieritys')}}</ep-toggle>
+          <ep-toggle v-model="autoScroll">{{ $t('automaattinen-nayton-vieritys')}}</ep-toggle>
           <ep-toggle v-model="showSubchapter" :is-editing="false">{{ $t('avaa-paalukujen-aliluvut-automaattisesti')}}</ep-toggle>
         </b-popover>
       </div>
@@ -24,7 +24,7 @@
     <slot v-if="toggled"
           name="bar"></slot>
   </div>
-  <div class="view">
+  <div class="view" :id="scrollId">
     <slot name="view"></slot>
   </div>
 </div>
@@ -43,6 +43,10 @@ export default class EpSidebar extends Vue {
   private toggled = true;
   private autoScroll = true;
   private showSubchapter = true;
+
+  get scrollId() {
+    return this.autoScroll ? 'scroll-anchor' : 'scroll-anchor-disabled';
+  }
 }
 
 </script>
