@@ -33,7 +33,7 @@ export default class EpExternalLink extends Vue {
   private onlyTopLevel!: boolean;
 
   get urlWithQueryParam(){
-    return this.url + "?paluu-url="+location.href;
+    return this.url + '?paluu-url='+location.href;
   }
 
 }
