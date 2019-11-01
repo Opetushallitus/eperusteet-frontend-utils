@@ -6,7 +6,7 @@ describe('EpInput component', () => {
 
   const localVue = createLocalVue();
 
-  KieliStore.setup(localVue,{
+  KieliStore.setup(localVue, {
     messages: {
       fi: {
         'apua': 'aputarve',
