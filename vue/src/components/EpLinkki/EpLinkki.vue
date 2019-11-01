@@ -2,7 +2,8 @@
 <div class="linkki">
   <a :href="url">
     <fas fixed-width :icon="icon" class="mr-1" v-if="icon"></fas>
-    <span>{{ cleanUrl }}</span>
+    <slot v-if="hasSlot()"></slot>  
+    <span v-else>{{ cleanUrl }}</span>
   </a>
 </div>
 </template>
@@ -29,6 +30,10 @@ export default class EpLinkki extends Vue {
     type: Boolean
   })
   private onlyTopLevel!: boolean;
+
+  hasSlot() {
+    return !!this.$slots.default;
+  }
 
   get cleanUrl() {
     let result = this.url
@@ -57,6 +62,10 @@ export default class EpLinkki extends Vue {
     white-space: nowrap;
 
   }
+ 
 }
+.linkki.medium {
+  font-size: medium;
+} 
 </style>
 
