@@ -88,7 +88,8 @@ describe('EpSelect component', () => {
 
     expect(wrapper.vm.value).toHaveLength(1);
 
-    wrapper.findAll('option').at(3).setSelected();
+    wrapper.findAll('option').at(3)
+      .setSelected();
 
     expect(wrapper.vm.value).toHaveLength(2);
     expect(wrapper.vm.value[1]).toBe('arvo3');
@@ -108,7 +109,8 @@ describe('EpSelect component', () => {
     });
 
     expect(wrapper.vm.value).toHaveLength(1);
-    wrapper.findAll('option').at(3).setSelected();
+    wrapper.findAll('option').at(3)
+      .setSelected();
     expect(wrapper.vm.value).toBe('arvo3');
 
     expect(wrapper.vm.validation.$touch).toBeCalled();

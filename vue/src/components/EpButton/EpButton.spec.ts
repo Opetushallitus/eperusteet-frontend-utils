@@ -1,8 +1,7 @@
 import { mount, createLocalVue } from '@vue/test-utils';
 import EpButton from './EpButton.vue';
-import BootstrapVue from 'bootstrap-vue';
 import Vue from 'vue';
-
+import BootstrapVue from 'bootstrap-vue';
 Vue.use(BootstrapVue);
 
 describe('EpButton component', () => {
