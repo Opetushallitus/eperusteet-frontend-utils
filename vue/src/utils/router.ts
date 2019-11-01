@@ -40,12 +40,10 @@ export async function resolveRouterMetaProps(to) {
 }
 
 /**
- * Change page title and HTML lang if language changes
+ * Change page language
  */
-export function changeTitleAndLang(to) {
+export function changeLang(to) {
   let kieli = to.params.lang || Kieli.fi;
   Kielet.setUiKieli(kieli);
   Kielet.setSisaltoKieli(kieli);
-  document.title = Kielet.t('eperusteet') as string;
-  document.documentElement.setAttribute('lang', kieli);
 }
