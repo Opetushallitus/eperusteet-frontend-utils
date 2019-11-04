@@ -49,3 +49,10 @@ export function changeTitleAndLang(to) {
   document.title = Kielet.t('eperusteet') as string;
   document.documentElement.setAttribute('lang', kieli);
 }
+
+export function removeQueryParam(to, router, queryParam) {
+  if (_.has(to.query, queryParam)) {
+    const toquery = _.omit(to.query, queryParam);
+    router.push({query: toquery });
+  }
+}
