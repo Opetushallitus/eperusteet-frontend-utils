@@ -46,6 +46,4 @@ export function changeTitleAndLang(to) {
   let kieli = to.params.lang || Kieli.fi;
   Kielet.setUiKieli(kieli);
   Kielet.setSisaltoKieli(kieli);
-  document.title = Kielet.t('eperusteet') as string;
-  document.documentElement.setAttribute('lang', kieli);
 }
