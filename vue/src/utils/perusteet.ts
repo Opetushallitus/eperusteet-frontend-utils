@@ -50,7 +50,7 @@ const ktToUrlShortParam = {
   'koulutustyyppi_16': 'perusopetus',
   'koulutustyyppi_2': 'lukiokoulutus',
   'koulutustyyppi_999907': 'tpo',
-}
+};
 
 const stateToKt = _.zipObject(
   _.values(ktToState),
