@@ -36,11 +36,14 @@ export class KieliStore {
     v.use(Aikaleima);
     v.use(Kaannos);
     moment.locale(Kieli.fi);
-    KieliStore.vi18n = new VueI18n({
+    KieliStore.vi18n = new VueI18n(_.merge({
       fallbackLocale: Kieli.fi,
       locale: Kieli.fi,
-      ...config,
-    });
+      messages: {
+        fi: require('@/translations/locale-fi.json'),
+        sv: require('@/translations/locale-sv.json'),
+      },
+    }, _.cloneDeep(config)));
   }
 
   /**
