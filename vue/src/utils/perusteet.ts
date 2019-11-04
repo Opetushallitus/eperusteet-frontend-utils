@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { Koulutustyyppi } from '@shared/tyypit';
 
 const themes = {
   'koulutustyyppi_1': 'ammatillinen',
@@ -45,6 +46,12 @@ const ktToState = {
   'koulutustyyppi_999907': 'taiteenperusopetus',
 };
 
+const ktToUrlShortParam = {
+  'koulutustyyppi_16': 'perusopetus',
+  'koulutustyyppi_2': 'lukiokoulutus',
+  'koulutustyyppi_999907': 'tpo',
+}
+
 const stateToKt = _.zipObject(
   _.values(ktToState),
   _.keys(ktToState),
@@ -56,6 +63,10 @@ export function koulutustyyppiStateName(koulutustyyppi: string) {
 
 export function stateToKoulutustyyppi(statename: string) {
   return stateToKt[statename];
+}
+
+export function koulutustyyppiUrlShortParamName(koulutustyyppi: string) {
+  return ktToUrlShortParam[koulutustyyppi] || koulutustyyppi;
 }
 
 // Koulutustyyppi on oltava myös alityyppinä

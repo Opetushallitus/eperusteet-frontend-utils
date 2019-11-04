@@ -47,3 +47,10 @@ export function changeLang(to) {
   Kielet.setUiKieli(kieli);
   Kielet.setSisaltoKieli(kieli);
 }
+
+export function removeQueryParam(to, router, queryParam) {
+  if (_.has(to.query, queryParam)) {
+    const toquery = _.omit(to.query, queryParam);
+    router.push({query: toquery });
+  }
+}
