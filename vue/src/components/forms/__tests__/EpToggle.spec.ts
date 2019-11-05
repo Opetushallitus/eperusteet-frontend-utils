@@ -6,7 +6,7 @@ import BootstrapVue from 'bootstrap-vue';
 
 Vue.use(BootstrapVue);
 
-xdescribe('EpToggle component', () => {
+describe('EpToggle component', () => {
 
   const localVue = createLocalVue();
 
@@ -17,7 +17,7 @@ xdescribe('EpToggle component', () => {
       },
       data(){
         return {
-          arvo : ''
+          arvo : false
         };
       },
       template: '<ep-toggle v-model="arvo" />'
@@ -30,11 +30,11 @@ xdescribe('EpToggle component', () => {
     const wrapper = mountWrapper();
     expect(wrapper.vm.arvo).toBe(false);
 
-    wrapper.find('input[type=checkbox]').setChecked();
+    wrapper.find('input[type=checkbox]').trigger('click');
+    expect(wrapper.vm.arvo).toBe(true);
+
     wrapper.find('input[type=checkbox]').trigger('click');
 
-
-    // Test fails, arvo goes never to true???
-    expect(wrapper.vm.arvo).toBe(true);
+    expect(wrapper.vm.arvo).toBe(false);
   });
 });
