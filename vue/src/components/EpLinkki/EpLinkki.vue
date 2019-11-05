@@ -66,6 +66,10 @@ export default class EpLinkki extends Vue {
 }
 .linkki.medium {
   font-size: medium;
+
+  a {
+    white-space: normal;
+  }
 } 
 </style>
 

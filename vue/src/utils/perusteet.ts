@@ -52,6 +52,12 @@ const ktToUrlShortParam = {
   'koulutustyyppi_999907': 'tpo',
 };
 
+const perusteToUrlShortParam = {
+  'koulutustyyppi_16': 'perusopetus',
+  'koulutustyyppi_2': 'lukio',
+  'koulutustyyppi_999907': 'tpo',
+};
+
 const stateToKt = _.zipObject(
   _.values(ktToState),
   _.keys(ktToState),
@@ -66,7 +72,11 @@ export function stateToKoulutustyyppi(statename: string) {
 }
 
 export function koulutustyyppiUrlShortParamName(koulutustyyppi: string) {
-  return ktToUrlShortParam[koulutustyyppi] || koulutustyyppi;
+  return ktToUrlShortParam[koulutustyyppi] || koulutustyyppiStateName(koulutustyyppi);
+}
+
+export function perusteKoulutustyyppiUrlShortParamName(koulutustyyppi: string) {
+  return perusteToUrlShortParam[koulutustyyppi] || koulutustyyppiStateName(koulutustyyppi);
 }
 
 // Koulutustyyppi on oltava myös alityyppinä
