@@ -137,3 +137,27 @@ export function calculateVisibleColor(bgRGBColor = [0, 0, 0], limit = 125): stri
     return 'white';
   }
 }
+
+export function ammatilliset() {
+  return [{
+    name: 'ammatillinen-koulutus',
+    route: {
+      name: 'ammatillinenSelaus',
+    },
+  }];
+}
+
+export function yleissivistavat() {
+  return _.map(koulutustyyppiRelaatiot(), kt => {
+    return {
+      ...kt,
+      name: koulutustyyppiStateName(kt.koulutustyyppi),
+      route: {
+        name: 'kooste',
+        params: {
+          koulutustyyppi: koulutustyyppiStateName(kt.koulutustyyppi),
+        },
+      },
+    };
+  });
+}
