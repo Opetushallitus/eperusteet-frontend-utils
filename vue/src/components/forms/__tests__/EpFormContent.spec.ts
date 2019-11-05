@@ -16,7 +16,7 @@ describe('EpFormContent component', () => {
 
   const i18n = KieliStore.i18n;
 
-  function mountWrapper() { 
+  function mountWrapper() {
     return mount(localVue.extend({
       components: {
         EpFormContent,
@@ -26,7 +26,7 @@ describe('EpFormContent component', () => {
       localVue,
       i18n,
     });
-  };
+  }
 
   test('Renders content with content', async () => {
     const wrapper = mountWrapper();
