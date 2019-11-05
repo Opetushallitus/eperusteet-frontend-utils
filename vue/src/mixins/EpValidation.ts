@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { Component, Prop, Mixins } from 'vue-property-decorator';
 import { validationMixin } from 'vuelidate';
-import { createLogger } from '../stores/logger';
+import { createLogger } from '../utils/logger';
 
 const logger = createLogger('EpValidation');
 

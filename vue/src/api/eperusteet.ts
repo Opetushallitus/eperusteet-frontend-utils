@@ -1,4 +1,4 @@
-import './common';
+import { axiosHandler } from './common';
 import { Configuration } from '../generated/eperusteet';
 import axios, { AxiosInstance } from 'axios';
 import _ from 'lodash';
@@ -14,7 +14,7 @@ import {
   Lops2019Api,
 } from '../generated/eperusteet';
 import Qs from 'qs';
-import { createLogger } from '../stores/logger';
+import { createLogger } from '../utils/logger';
 
 const logger = createLogger('EperusteetAxios');
 const basePath = '';
@@ -24,13 +24,6 @@ const ax = axios.create({
   baseURL,
   paramsSerializer: params => Qs.stringify(params, {arrayFormat: 'repeat'})
 });
-
-function axiosHandler(msg: string) {
-  return async (err: any) => {
-    logger.error(msg as any, err);
-    throw err;
-  };
-}
 
 function successfulResponseHandler() {
   return async (res: any) => {

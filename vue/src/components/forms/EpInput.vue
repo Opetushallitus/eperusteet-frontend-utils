@@ -26,7 +26,7 @@
 import { Component, Prop, Mixins } from 'vue-property-decorator';
 import _ from 'lodash';
 import { Kielet } from '../../stores/kieli';
-import { createLogger } from '../../stores/logger';
+import { createLogger } from '../../utils/logger';
 import EpValidation from '../../mixins/EpValidation';
 
 const logger = createLogger('EpInput');

@@ -1,4 +1,4 @@
-import './common';
+import { axiosHandler } from './common';
 import { Configuration } from '../generated/ylops';
 import axios, { AxiosInstance } from 'axios';
 import _ from 'lodash';
@@ -21,7 +21,7 @@ import {
   UlkopuolisetApi,
 } from '../generated/ylops';
 import Qs from 'qs';
-import { createLogger } from '../stores/logger';
+import { createLogger } from '../utils/logger';
 
 const logger = createLogger('YlopsAxios');
 const basePath = '';
@@ -31,13 +31,6 @@ const ax = axios.create({
   baseURL,
   paramsSerializer: params => Qs.stringify(params, {arrayFormat: 'repeat'})
 });
-
-function axiosHandler(msg: string) {
-  return async (err: any) => {
-    logger.error(msg as any, err);
-    throw err;
-  };
-}
 
 function successfulResponseHandler() {
   return async (res: any) => {

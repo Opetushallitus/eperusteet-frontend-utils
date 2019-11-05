@@ -17,6 +17,20 @@ import { Getter, Mutation, State, Store } from './store';
 export const UiKielet = Object.freeze(_.values(Kieli as object));
 const logger = createLogger('Kieli');
 
+function getMessages() {
+  const result: any = {};
+  try {
+    result.fi = require('@/translations/locale-fi.json');
+  }
+  catch (e) {}
+
+  try {
+    result.sv = require('@/translations/locale-sv.json');
+  }
+  catch (e) {}
+  return result;
+}
+
 
 @Store
 export class KieliStore {
@@ -39,10 +53,7 @@ export class KieliStore {
     KieliStore.vi18n = new VueI18n(_.merge({
       fallbackLocale: Kieli.fi,
       locale: Kieli.fi,
-      messages: {
-        fi: require('@/translations/locale-fi.json'),
-        sv: require('@/translations/locale-sv.json'),
-      },
+      messages: getMessages(),
     }, _.cloneDeep(config)));
   }
 

@@ -25,6 +25,11 @@
       "scripthost"
     ]
   },
+  "paths": {
+    "@shared/*": ["./src/*"],
+    "@/*": ["./src/*"],
+    "&/*": ["./tests/*"]
+  },
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
