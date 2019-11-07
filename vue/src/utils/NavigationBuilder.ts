@@ -56,7 +56,7 @@ function traverseNavigation(rawNode: NavigationNodeDto): NavigationNode {
     };
     break;
   case 'laajaalaiset':
-    node.label = 'laaja-alaiset-osaamiset';
+    node.label = 'laaja-alaisen-osaamisen-osa-alueet';
     node.location = {
       name: 'lops2019laajaalaiset',
     };
