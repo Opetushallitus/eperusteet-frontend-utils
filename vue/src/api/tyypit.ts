@@ -12,6 +12,15 @@ export interface ViiteLaaja extends EperusteetApi.PerusteenOsaViiteDto {
   lapset?: Array<object>;
 }
 
+export type LiiteDtoWrapper = {
+  id: string,
+  kuva: LiiteDto,
+  src: string,
+}
+
+export type ServiceType =
+    'eperusteet-service' | 'eperusteet-ylops-service' | 'eperusteet-amosaa-service';
+
 
 export type PerusteDto = EperusteetApi.PerusteDto;
 export type PerusteHakuDto = EperusteetApi.PerusteHakuDto;
@@ -28,6 +37,7 @@ export type Lops2019ModuuliDto = EperusteetApi.Lops2019ModuuliDto;
 export type Lops2019LaajaAlainenOsaaminenKokonaisuusDto = EperusteetApi.Lops2019LaajaAlainenOsaaminenKokonaisuusDto;
 export type NavigationNodeDto = EperusteetApi.NavigationNodeDto;
 export type TermiDto = EperusteetApi.TermiDto;
+export type LiiteDto = EperusteetApi.LiiteDto;
 
 export type OpetussuunnitelmaDto = YlopsApi.OpetussuunnitelmaDto
 export type OpetussuunnitelmaInfoDto = YlopsApi.OpetussuunnitelmaInfoDto;
