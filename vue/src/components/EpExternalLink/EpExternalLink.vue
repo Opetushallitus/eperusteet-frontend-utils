@@ -1,5 +1,5 @@
 <template>
-  <ep-linkki :class="styleclass" :url="urlWithQueryParam" :label="label" icon="external-link-alt" :onlyTopLebel="onlyTopLevel">
+  <ep-linkki :class="styleclass" :url="urlWithQueryParam" :label="label" :icon="icon" :onlyTopLebel="onlyTopLevel">
     <slot></slot>
   </ep-linkki>
 </template>
@@ -17,14 +17,17 @@ export default class EpExternalLink extends Vue {
   @Prop({ type: String })
   private url!: string;
 
+  @Prop({ default: true, type: Boolean })
+  private showIcon!: Boolean;
+
   @Prop({
     required: false,
     type: String
   })
   private label!: string;
 
-  @Prop({ default: '', type: String })
-  private icon!: string;
+  // @Prop({ default: '', type: String })
+  // private icon!: string;
 
   @Prop({ default: 'medium', type: String })
   private styleclass!: string;
@@ -34,6 +37,14 @@ export default class EpExternalLink extends Vue {
     type: Boolean
   })
   private onlyTopLevel!: boolean;
+
+  get icon() {
+    if (this.showIcon) {
+      return 'external-link-alt';
+    }
+    
+    return '';
+  }
 
   get urlWithQueryParam(){
     return this.url + '?paluuosoite='+encodeURIComponent(location.href);
