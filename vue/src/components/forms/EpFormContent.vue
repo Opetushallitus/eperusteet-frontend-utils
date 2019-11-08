@@ -1,7 +1,8 @@
 <template>
 <div class="form-group form-content">
     <div>
-        <label>{{ $t(name) }}</label>
+        <h3 :class="headerClass" v-if="headerType === 'h3'">{{ $t(name) }}</h3>
+        <label v-else>{{ $t(name) }}</label>
     </div>
     <slot></slot>
 </div>
@@ -17,6 +18,12 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 export default class EpFormContent extends Vue {
   @Prop({ required: true, type: String })
   private name!: string;
+
+  @Prop({ type: String })
+  private headerType!: string;
+
+  @Prop({ type: String })
+  private headerClass!: string;
 }
 </script>
 
@@ -26,6 +33,11 @@ export default class EpFormContent extends Vue {
 
   label {
     font-weight: 600;
+  }
+
+  .h6 {
+    font-weight: 600;
+    font-size: 16px;
   }
 }
 </style>
