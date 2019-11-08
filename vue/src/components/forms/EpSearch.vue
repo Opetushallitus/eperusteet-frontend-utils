@@ -1,11 +1,12 @@
 <template>
-<div class="filter">
+<div class="filter" role="search">
     <span class="form-control-feedback">
         <fas fixed-width icon="search"></fas>
     </span>
     <input class="form-control"
            type="search"
            :placeholder="placeholderText"
+           :aria-label="ariaPlaceholderText"
            @input="onInput($event.target.value)"
            :value="val">
 </div>
@@ -28,6 +29,10 @@ export default class EpSearch extends Vue {
 
   get placeholderText() {
     return this.placeholder || this.$t('etsi');
+  }
+
+  get ariaPlaceholderText() {
+    return this.placeholder || this.$t('etsi-tietoja-sivulta');
   }
 
   public onInput(input: any) {

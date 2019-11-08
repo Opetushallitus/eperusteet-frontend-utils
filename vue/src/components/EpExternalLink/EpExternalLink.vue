@@ -26,9 +26,6 @@ export default class EpExternalLink extends Vue {
   })
   private label!: string;
 
-  // @Prop({ default: '', type: String })
-  // private icon!: string;
-
   @Prop({ default: 'medium', type: String })
   private styleclass!: string;
 
