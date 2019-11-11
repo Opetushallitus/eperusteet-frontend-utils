@@ -3,16 +3,17 @@ import { Configuration } from '../generated/eperusteet';
 import axios, { AxiosInstance } from 'axios';
 import _ from 'lodash';
 import {
-  PerusteetApi,
-  TiedotteetApi,
-  LiitetiedostotApi,
-  LiitetiedostotApiAxiosParamCreator,
   DokumentitApi,
   DokumentitApiAxiosParamCreator,
-  SisallotApi,
-  PerusteenosatApi,
+  LiitetiedostotApi,
+  LiitetiedostotApiAxiosParamCreator,
+  LokalisointiApi,
   Lops2019Api,
+  PerusteenosatApi,
+  PerusteetApi,
+  SisallotApi,
   TermitApi,
+  TiedotteetApi,
 } from '../generated/eperusteet';
 import Qs from 'qs';
 import { createLogger } from '../utils/logger';
@@ -55,3 +56,4 @@ export const Sisallot = initApi(SisallotApi);
 export const Perusteenosat = initApi(PerusteenosatApi);
 export const Lops2019 = initApi(Lops2019Api);
 export const Termit = initApi(TermitApi);
+export const Lokalisointi = initApi(LokalisointiApi);
