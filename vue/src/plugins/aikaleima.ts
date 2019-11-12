@@ -7,6 +7,9 @@ export class Aikaleima {
       // eslint-disable-next-line only-arrow-functions
       return function(this: void, value: number) {
         (this as any).$i18n.locale; // eslint-disable-line
+        if (!value) {
+          console.error('Virheellinen aikaformaatti:', value); // eslint-disable-line
+        }
         return moment(value).format(format);
       };
     }

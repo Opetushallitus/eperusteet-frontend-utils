@@ -1,5 +1,10 @@
 <template>
-  <ep-linkki :class="styleclass" :url="urlWithQueryParam" :label="label" :icon="icon" :onlyTopLebel="onlyTopLevel">
+  <ep-linkki
+      :class="styleclass"
+      :url="urlWithQueryParam"
+      :label="label"
+      :icon="icon"
+      :only-top-level="onlyTopLevel">
     <slot></slot>
   </ep-linkki>
 </template>
