@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { PerusteDto, NavigationNodeDto, LokalisoituTekstiDto } from '@shared/api/tyypit';
+import { NavigationNodeDto, LokalisoituTekstiDto } from '@shared/api/tyypit';
 import { Kielet } from '@shared/stores/kieli';
 import { Location } from 'vue-router';
 
@@ -23,97 +23,112 @@ export interface NavigationFilter {
   isEnabled: boolean;
 }
 
-export function buildNavigation({id}, rawNavigation: NavigationNodeDto): NavigationNode {
-  const navigation = traverseNavigation(rawNavigation);
+export function buildNavigation(
+    rawNavigation: NavigationNodeDto,
+    tiedot: NavigationNode,
+    isOps = false,
+) {
+  const navigation = traverseNavigation(rawNavigation, isOps);
   const rakenne = buildRoot([
-    buildTiedot({perusteId: _.toString(id)}),
+    tiedot,
     ...navigation!.children,
   ]);
   setParents(rakenne, [rakenne]);
   return rakenne;
 }
 
-function traverseNavigation(rawNode: NavigationNodeDto): NavigationNode {
-
+function traverseNavigation(rawNode: NavigationNodeDto, isOps: boolean): NavigationNode {
   const node: NavigationNode = {
     label: rawNode.label as LokalisoituTekstiDto,
     type: rawNode.type as NavigationType,
-    children: _.map(rawNode.children, traverseNavigation),
+    children: _.map(rawNode.children, child => traverseNavigation(child, isOps)),
     path: [], // setParents asettaa polun
     meta: rawNode.meta,
   };
 
-  // Lisätään tiettyihin node tyyppeihin liittyiä asioita
+  if (isOps) {
+    setOpetussuunnitelmaData(node, rawNode);
+  }
+  else {
+    setPerusteData(node, rawNode);
+  }
+  return node;
+}
+
+export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto) {
   switch (rawNode.type as string) {
-  case 'viite':
-  case 'liite':
-    // Route linkki
-    node.location = {
-      name: 'tekstikappale',
-      params: {
-        viiteId: _.toString(rawNode.id),
-      }
-    };
-    break;
-  case 'laajaalaiset':
-    node.label = 'laaja-alaisen-osaamisen-osa-alueet';
-    node.location = {
-      name: 'lops2019laajaalaiset',
-    };
-    break;
-  case 'laajaalainen':
-    if (rawNode.id) {
+    case 'viite':
+    case 'liite':
+      // Route linkki
+      node.location = {
+        name: 'perusteTekstikappale',
+        params: {
+          viiteId: _.toString(rawNode.id),
+        }
+      };
+      break;
+    case 'laajaalaiset':
+      node.label = 'laaja-alaisen-osaamisen-osa-alueet';
       node.location = {
         name: 'lops2019laajaalaiset',
-        hash: '#' + getLaajaAlainenId(rawNode),
       };
-    }
-    break;
-  case 'oppiaineet':
-    node.label = 'oppiaineet';
-    node.location = {
-      name: 'lops2019oppiaineet',
-    };
-    break;
-  case 'oppimaarat':
-    node.label = 'oppimaarat';
-    /*
-    node.location = {
-      name: 'lops2019oppiaine',
-      hash: '#oppimaarat',
-    };
-    */
-    break;
-  case 'oppiaine':
-    node.location = {
-      name: 'lops2019oppiaine',
-      params: {
-        oppiaineId: _.toString(rawNode.id),
+      break;
+    case 'laajaalainen':
+      if (rawNode.id) {
+        node.location = {
+          name: 'lops2019laajaalaiset',
+          hash: '#' + getLaajaAlainenId(rawNode),
+        };
       }
-    };
-    break;
-  case 'moduulit':
-    node.label = 'moduulit';
-    /*
-    node.location = {
-      name: 'lops2019oppiaine',
-      hash: '#moduulit',
-    };
-    */
-    break;
-  case 'moduuli':
-    node.location = {
-      name: 'lops2019moduuli',
-      params: {
-        moduuliId: _.toString(rawNode.id),
-      }
-    };
-    break;
-  default:
-    break;
+      break;
+    case 'oppiaineet':
+      node.label = 'oppiaineet';
+      node.location = {
+        name: 'lops2019oppiaineet',
+      };
+      break;
+    case 'oppimaarat':
+      node.label = 'oppimaarat';
+      break;
+    case 'oppiaine':
+      node.location = {
+        name: 'lops2019oppiaine',
+        params: {
+          oppiaineId: _.toString(rawNode.id),
+        }
+      };
+      break;
+    case 'moduulit':
+      node.label = 'moduulit';
+      break;
+    case 'moduuli':
+      node.location = {
+        name: 'lops2019moduuli',
+        params: {
+          moduuliId: _.toString(rawNode.id),
+        }
+      };
+      break;
+    default:
+      break;
   }
+}
 
-  return node;
+export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: NavigationNodeDto) {
+  switch (rawNode.type as string) {
+    case 'viite':
+    case 'liite':
+      // Route linkki
+      node.location = {
+        name: 'opetussuunnitelmaTekstikappale',
+        params: {
+          viiteId: _.toString(rawNode.id),
+        }
+      };
+      break;
+    default:
+      break;
+  }
 }
 
 export function filterNavigation(node: NavigationNode, navfilter: NavigationFilter): NavigationNode {
@@ -157,13 +172,13 @@ function buildRoot(children: NavigationNode[]): NavigationNode {
   };
 }
 
-function buildTiedot(params: object): NavigationNode {
+export function buildTiedot(routeName: string, params: object): NavigationNode {
   return {
     type: 'tiedot',
     label: 'tiedot',
     path: [],
     location: {
-      name: 'perusteTiedot',
+      name: routeName,
       params: {
         ...params,
       }

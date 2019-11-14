@@ -8,12 +8,14 @@
             @click="toggle()">
     <fas fixed-width icon="bars"></fas>
   </b-button>
+  <!--
   <b-button variant="link"
             :aria-label="$t('lisaa-suosikkeihin')"
             v-b-tooltip.hover
             :title="$t('lisaa-suosikkeihin')">
     <fas fixed-width icon="star"></fas>
   </b-button>
+  -->
   <b-button variant="link"
             :aria-label="$t('jaa-sosiaalisessa-mediassa')"
             v-b-tooltip.hover
@@ -50,6 +52,7 @@
       </ul>
     </social-sharing>
   </b-popover>
+  <!--
   <b-button variant="link"
             :aria-label="$t('avaa-asetukset')"
             v-b-tooltip.hover
@@ -62,12 +65,15 @@
     <ep-toggle v-model="innerValue.autoScroll">{{ $t('automaattinen-nayton-vieritys')}}</ep-toggle>
     <ep-toggle v-model="innerValue.showSubchapter" :is-editing="false">{{ $t('avaa-paalukujen-aliluvut-automaattisesti')}}</ep-toggle>
   </b-popover>
+  -->
+  <!--
   <b-button variant="link"
             :aria-label="$t('avaa-ohjeet')"
             v-b-tooltip.hover
             :title="$t('avaa-ohjeet')">
     <fas fixed-width icon="question"></fas>
   </b-button>
+  -->
 </div>
 </template>
 
