@@ -132,7 +132,7 @@ export function koulutustyyppiTheme(koulutustyyppi: string) {
 }
 
 export function koulutustyyppiThemeColor(koulutustyyppi: string) {
-  return themeColors[themes[koulutustyyppi]] || [255, 255, 255];
+  return themeColors[themes[koulutustyyppi]] || [47, 95, 209];
 }
 
 export function rgb2string(color: number[]) {

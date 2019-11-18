@@ -1,6 +1,6 @@
 <template>
-<div v-if="value">
-  <div class="teksti" v-html="value" />
+<div v-if="valueFormatted">
+  <div class="teksti" v-html="valueFormatted" />
   <div v-for="(viite, idx) in termitWrapped"
        :key="idx">
     <b-popover v-if="viite && viite.el && viite.termi"
@@ -42,6 +42,21 @@ export default class EpContentViewer extends Vue {
 
   private termiElements: Element[] = [];
 
+  get valueFormatted() {
+    if (this.value) {
+      const template = document.createElement('template');
+      template.innerHTML = this.value;
+
+      // Muokataan taulukoiden esitystä
+      const tables = template.content.querySelectorAll('table');
+      _.each(tables, table => {
+        table.setAttribute('class', 'table table-striped table-bordered');
+      });
+
+      return template.innerHTML;
+    }
+  }
+
   get termitWrapped() {
     return _.map(this.termiElements, el => {
       const termi: any = _.find(this.termit, {'avain': el.getAttribute('data-viite') });
@@ -73,10 +88,22 @@ export default class EpContentViewer extends Vue {
       _.each(imgs, img => {
         const kuva = _.find(this.kuvat, {'id': img.getAttribute('data-uid') }) as LiiteDtoWrapper;
         if (kuva) {
-          img.setAttribute('src', kuva.src);
-          if (kuva.kuva.nimi) {
-            img.setAttribute('alt', kuva.kuva.nimi);
+          if (img.parentNode) {
+            // Kääritään kuva figuren sisälle
+            const wrapper = document.createElement('figure');
+            img.parentNode.insertBefore(wrapper, img);
+            wrapper.appendChild(img);
+
+            // Liästään kuvateksti jos olemassa
+            if (kuva.kuva.nimi) {
+              img.setAttribute('alt', kuva.kuva.nimi);
+              const figcaption = document.createElement('figcaption');
+              figcaption.textContent = kuva.kuva.nimi;
+              img.parentNode.appendChild(figcaption);
+            }
           }
+          // Asetetaan kuvan osoite
+          img.setAttribute('src', kuva.src);
         }
       });
     }
