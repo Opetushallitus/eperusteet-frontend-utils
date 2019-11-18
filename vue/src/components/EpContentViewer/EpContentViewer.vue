@@ -1,6 +1,6 @@
 <template>
-<div v-if="valueFormatted">
-  <div class="teksti" v-html="valueFormatted" />
+<div v-if="value">
+  <div class="teksti" v-html="value" />
   <div v-for="(viite, idx) in termitWrapped"
        :key="idx">
     <b-popover v-if="viite && viite.el && viite.termi"
@@ -41,20 +41,6 @@ export default class EpContentViewer extends Vue {
   // Todo: toteuta ylops ja amosaa
 
   private termiElements: Element[] = [];
-
-  get valueFormatted() {
-    if (this.value) {
-      const template = document.createElement('template');
-      template.innerHTML = this.value;
-
-      const tables = template.content.querySelectorAll('table');
-      _.each(tables, table => {
-        table.setAttribute('class', 'table table-striped table-bordered');
-      });
-
-      return template.innerHTML;
-    }
-  }
 
   get termitWrapped() {
     return _.map(this.termiElements, el => {
