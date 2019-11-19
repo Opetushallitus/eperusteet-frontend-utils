@@ -46,7 +46,7 @@ export default class EpContentViewer extends Vue {
       // Taulukot
       const tables = template.content.querySelectorAll('table');
       _.each(tables, table => {
-        table.setAttribute('class', 'table table-striped table-bordered');
+        table.setAttribute('class', 'table table-bordered');
       });
 
       // Kuvat
@@ -54,10 +54,12 @@ export default class EpContentViewer extends Vue {
       _.each(images, img => {
         // Kääritään figureen
         const wrapper = document.createElement('figure');
-        img.parentNode.insertBefore(wrapper, img);
-        wrapper.appendChild(img);
+        if (img.parentNode) {
+          img.parentNode.insertBefore(wrapper, img);
+          wrapper.appendChild(img);
+        }
 
-        const kuva = _.find(this.kuvat, {'id': img.getAttribute('data-uid') }) as LiiteDtoWrapper;
+        const kuva = _.find(this.kuvat, { id: img.getAttribute('data-uid') }) as LiiteDtoWrapper;
         if (kuva) {
           img.setAttribute('src', kuva.src);
           if (kuva.kuva.nimi) {

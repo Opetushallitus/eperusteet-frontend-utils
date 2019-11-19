@@ -21,7 +21,6 @@ export type LiiteDtoWrapper = {
 export type ServiceType =
     'eperusteet-service' | 'eperusteet-ylops-service' | 'eperusteet-amosaa-service';
 
-
 export type PerusteDto = EperusteetApi.PerusteDto;
 export type PerusteHakuDto = EperusteetApi.PerusteHakuDto;
 export type TiedoteDto = EperusteetApi.TiedoteDto;
@@ -46,4 +45,4 @@ export type OpetussuunnitelmaKevytDto = YlopsApi.OpetussuunnitelmaKevytDto;
 export type TekstiKappaleViiteKevytDto = YlopsApi.TekstiKappaleViiteKevytDto;
 export type TekstiKappaleKevytDto = YlopsApi.TekstiKappaleKevytDto;
 export type Puu = YlopsApi.Puu;
-export type PerusteTekstiKappaleViiteMatalaDto = YlopsApi.PerusteTekstiKappaleViiteMatalaDto;
+export type PerusteTekstiKappaleViiteDto = YlopsApi.PerusteTekstiKappaleViiteDto;
