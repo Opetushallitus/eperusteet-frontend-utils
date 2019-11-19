@@ -19,7 +19,12 @@
     text-align: justify;
   }
 
+  & /deep/ figure {
+    text-align: center;
+  }
+
   & /deep/ img {
+    display: block;
     max-width: 100%;
     width: auto !important;
     height: auto !important;

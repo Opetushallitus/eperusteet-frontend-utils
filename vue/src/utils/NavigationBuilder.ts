@@ -24,9 +24,9 @@ export interface NavigationFilter {
 }
 
 export function buildNavigation(
-    rawNavigation: NavigationNodeDto,
-    tiedot: NavigationNode,
-    isOps = false,
+  rawNavigation: NavigationNodeDto,
+  tiedot: NavigationNode,
+  isOps = false,
 ) {
   const navigation = traverseNavigation(rawNavigation, isOps);
   const rakenne = buildRoot([
@@ -57,77 +57,77 @@ function traverseNavigation(rawNode: NavigationNodeDto, isOps: boolean): Navigat
 
 export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto) {
   switch (rawNode.type as string) {
-    case 'viite':
-    case 'liite':
-      // Route linkki
-      node.location = {
-        name: 'perusteTekstikappale',
-        params: {
-          viiteId: _.toString(rawNode.id),
-        }
-      };
-      break;
-    case 'laajaalaiset':
-      node.label = 'laaja-alaisen-osaamisen-osa-alueet';
+  case 'viite':
+  case 'liite':
+    // Route linkki
+    node.location = {
+      name: 'perusteTekstikappale',
+      params: {
+        viiteId: _.toString(rawNode.id),
+      }
+    };
+    break;
+  case 'laajaalaiset':
+    node.label = 'laaja-alaisen-osaamisen-osa-alueet';
+    node.location = {
+      name: 'lops2019laajaalaiset',
+    };
+    break;
+  case 'laajaalainen':
+    if (rawNode.id) {
       node.location = {
         name: 'lops2019laajaalaiset',
+        hash: '#' + getLaajaAlainenId(rawNode),
       };
-      break;
-    case 'laajaalainen':
-      if (rawNode.id) {
-        node.location = {
-          name: 'lops2019laajaalaiset',
-          hash: '#' + getLaajaAlainenId(rawNode),
-        };
+    }
+    break;
+  case 'oppiaineet':
+    node.label = 'oppiaineet';
+    node.location = {
+      name: 'lops2019oppiaineet',
+    };
+    break;
+  case 'oppimaarat':
+    node.label = 'oppimaarat';
+    break;
+  case 'oppiaine':
+    node.location = {
+      name: 'lops2019oppiaine',
+      params: {
+        oppiaineId: _.toString(rawNode.id),
       }
-      break;
-    case 'oppiaineet':
-      node.label = 'oppiaineet';
-      node.location = {
-        name: 'lops2019oppiaineet',
-      };
-      break;
-    case 'oppimaarat':
-      node.label = 'oppimaarat';
-      break;
-    case 'oppiaine':
-      node.location = {
-        name: 'lops2019oppiaine',
-        params: {
-          oppiaineId: _.toString(rawNode.id),
-        }
-      };
-      break;
-    case 'moduulit':
-      node.label = 'moduulit';
-      break;
-    case 'moduuli':
-      node.location = {
-        name: 'lops2019moduuli',
-        params: {
-          moduuliId: _.toString(rawNode.id),
-        }
-      };
-      break;
-    default:
-      break;
+    };
+    break;
+  case 'moduulit':
+    node.label = 'moduulit';
+    break;
+  case 'moduuli':
+    node.location = {
+      name: 'lops2019moduuli',
+      params: {
+        moduuliId: _.toString(rawNode.id),
+      }
+    };
+    break;
+  default:
+    break;
   }
 }
 
 export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: NavigationNodeDto) {
   switch (rawNode.type as string) {
-    case 'viite':
-    case 'liite':
-      // Route linkki
-      node.location = {
-        name: 'opetussuunnitelmaTekstikappale',
-        params: {
-          viiteId: _.toString(rawNode.id),
-        }
-      };
-      break;
-    default:
-      break;
+  case 'viite':
+  case 'liite':
+    // Route linkki
+    node.location = {
+      name: 'opetussuunnitelmaTekstikappale',
+      params: {
+        viiteId: _.toString(rawNode.id),
+      }
+    };
+    break;
+  default:
+    break;
   }
 }
 

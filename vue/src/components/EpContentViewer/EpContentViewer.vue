@@ -21,7 +21,7 @@
 <script lang="ts">
 import _ from 'lodash';
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
-import { TermiDto, LiiteDtoWrapper, ServiceType } from '../../api/tyypit';
+import { TermiDto, LiiteDtoWrapper } from '../../api/tyypit';
 import { Kielet } from '../../stores/kieli';
 
 @Component
@@ -36,10 +36,6 @@ export default class EpContentViewer extends Vue {
   @Prop({ required: false, type: Array })
   private kuvat!: LiiteDtoWrapper[];
 
-  @Prop({ default: 'eperusteet-service', type: String })
-  private service!: ServiceType;
-  // Todo: toteuta ylops ja amosaa
-
   private termiElements: Element[] = [];
 
   get valueFormatted() {
@@ -47,9 +43,31 @@ export default class EpContentViewer extends Vue {
       const template = document.createElement('template');
       template.innerHTML = this.value;
 
+      // Taulukot
       const tables = template.content.querySelectorAll('table');
       _.each(tables, table => {
         table.setAttribute('class', 'table table-striped table-bordered');
+      });
+
+      // Kuvat
+      const images = template.content.querySelectorAll('img');
+      _.each(images, img => {
+        // Kääritään figureen
+        const wrapper = document.createElement('figure');
+        img.parentNode.insertBefore(wrapper, img);
+        wrapper.appendChild(img);
+
+        const kuva = _.find(this.kuvat, {'id': img.getAttribute('data-uid') }) as LiiteDtoWrapper;
+        if (kuva) {
+          img.setAttribute('src', kuva.src);
+          if (kuva.kuva.nimi) {
+            img.setAttribute('alt', kuva.kuva.nimi);
+
+            const figcaption = document.createElement('figcaption');
+            figcaption.textContent = kuva.kuva.nimi;
+            wrapper.append(figcaption);
+          }
+        }
       });
 
       return template.innerHTML;
@@ -58,7 +76,7 @@ export default class EpContentViewer extends Vue {
 
   get termitWrapped() {
     return _.map(this.termiElements, el => {
-      const termi: any = _.find(this.termit, {'avain': el.getAttribute('data-viite') });
+      const termi: any = _.find(this.termit, { 'avain': el.getAttribute('data-viite') });
       if (termi) {
         el.setAttribute('tabindex', '0');
         el.setAttribute('role', 'button');
@@ -71,27 +89,16 @@ export default class EpContentViewer extends Vue {
     });
   }
 
-  @Watch('value', { immediate: true })
+  @Watch('valueFormatted', { immediate: true })
   async onValueChanged(newVal) {
     await this.$nextTick(); // Odotetaan DOM-elementtien rendausta
     if (newVal) {
 
       // Termit
+      this.termiElements = [];
       const abbrs = this.$el.querySelectorAll('abbr');
       _.each(abbrs, abbr => {
         this.termiElements.push(abbr);
-      });
-
-      // kuvat
-      const imgs = this.$el.querySelectorAll('img');
-      _.each(imgs, img => {
-        const kuva = _.find(this.kuvat, {'id': img.getAttribute('data-uid') }) as LiiteDtoWrapper;
-        if (kuva) {
-          img.setAttribute('src', kuva.src);
-          if (kuva.kuva.nimi) {
-            img.setAttribute('alt', kuva.kuva.nimi);
-          }
-        }
       });
     }
   }
