@@ -126,6 +126,23 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
       }
     };
     break;
+  case 'oppiaineet':
+    node.label = 'oppiaineet';
+    node.location = {
+      name: 'lops2019OpetussuunnitelmaOppiaineet',
+    };
+    break;
+  case 'oppimaarat':
+    node.label = 'oppimaarat';
+    break;
+  case 'oppiaine':
+    node.location = {
+      name: 'lops2019OpetussuunnitelmaOppiaine',
+      params: {
+        oppiaineId: _.toString(rawNode.id),
+      }
+    };
+    break;
   default:
     break;
   }

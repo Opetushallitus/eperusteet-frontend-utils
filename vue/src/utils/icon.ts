@@ -1,13 +1,13 @@
 import * as _ from 'lodash';
 import { createLogger } from "./logger";
 
-const logger = createLogger('Main');
+const logger = createLogger('Icon');
 
 
 function changeIcons(isModeDark: boolean) {
   const links = document.getElementsByTagName('link');
   if (isModeDark) {
-    logger.info('Change dark mode');
+    logger.info('Set dark mode');
     _.each(links, link => {
       if (link.hasAttribute('href') && _.includes(link.getAttribute('href'), 'favicon')) {
         const href = _.replace(link.getAttribute('href')!, 'favicon','favicon-inverted');
@@ -16,7 +16,7 @@ function changeIcons(isModeDark: boolean) {
     });
   }
   else {
-    logger.info('Change light mode');
+    logger.info('Set light mode');
     _.each(links, link => {
       if (link.hasAttribute('href') && _.includes(link.getAttribute('href'), 'favicon')) {
         const href = _.replace(link.getAttribute('href')!, 'favicon-inverted','favicon');
