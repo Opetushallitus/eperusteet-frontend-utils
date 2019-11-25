@@ -1,10 +1,13 @@
 import _ from 'lodash';
-import { NavigationNodeDto, LokalisoituTekstiDto } from '@shared/api/tyypit';
-import { Kielet } from '@shared/stores/kieli';
+import { NavigationNodeDto, LokalisoituTekstiDto } from '../api/tyypit';
+import { Kielet } from '../stores/kieli';
 import { Location } from 'vue-router';
 
 export type NavigationType =
-    'root' | 'viite' | 'tiedot' | 'laajaalaiset' | 'oppiaineet' | 'oppiaine' | 'oppimaarat' | 'moduulit' | 'moduuli';
+    'root' | 'viite' | 'tiedot' | 'laajaalaiset'
+    | 'oppiaineet' | 'oppiaine' | 'oppimaarat'
+    | 'moduulit' | 'moduuli' |
+    'opintojaksot' | 'opintojakso';
 
 export interface NavigationNode {
   key?: number; // Unique identifier
@@ -140,6 +143,28 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
       name: 'lops2019OpetussuunnitelmaOppiaine',
       params: {
         oppiaineId: _.toString(rawNode.id),
+      }
+    };
+    break;
+  case 'moduulit':
+    node.label = 'moduulit';
+    break;
+  case 'moduuli':
+    node.location = {
+      name: 'lops2019OpetussuunnitelmaModuuli',
+      params: {
+        moduuliId: _.toString(rawNode.id),
+      }
+    };
+    break;
+  case 'opintojaksot':
+    node.label = 'opintojaksot';
+    break;
+  case 'opintojakso':
+    node.location = {
+      name: 'lops2019OpetussuunnitelmaOpintojakso',
+      params: {
+        opintojaksoId: _.toString(rawNode.id),
       }
     };
     break;
