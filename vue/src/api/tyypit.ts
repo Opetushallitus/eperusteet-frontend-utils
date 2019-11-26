@@ -47,3 +47,4 @@ export type TekstiKappaleViiteKevytDto = YlopsApi.TekstiKappaleViiteKevytDto;
 export type TekstiKappaleKevytDto = YlopsApi.TekstiKappaleKevytDto;
 export type Puu = YlopsApi.Puu;
 export type PerusteTekstiKappaleViiteDto = YlopsApi.PerusteTekstiKappaleViiteDto;
+export type Lops2019OpintojaksonModuuliDto = YlopsApi.Lops2019OpintojaksonModuuliDto;
