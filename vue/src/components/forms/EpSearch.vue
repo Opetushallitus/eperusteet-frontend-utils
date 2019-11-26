@@ -53,6 +53,7 @@ export default class EpSearch extends Vue {
 <style scoped lang="scss">
 .filter {
   position: relative;
+  max-width: 400px;
 
   .form-control {
     padding-left: 2.375rem;
