@@ -50,12 +50,14 @@ const ktToUrlShortParam = {
   'koulutustyyppi_16': 'perusopetus',
   'koulutustyyppi_2': 'lukiokoulutus',
   'koulutustyyppi_999907': 'tpo',
+  'koulutustyyppi_17': 'aipe',
 };
 
 const perusteToUrlShortParam = {
   'koulutustyyppi_16': 'perusopetus',
   'koulutustyyppi_2': 'lukio',
   'koulutustyyppi_999907': 'tpo',
+  'koulutustyyppi_17': 'aipe',
 };
 
 const stateToKt = _.zipObject(
