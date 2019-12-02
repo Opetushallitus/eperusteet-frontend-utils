@@ -21,6 +21,12 @@
 
   & /deep/ figure {
     text-align: center;
+    font-size: smaller;
+    text-indent: 0;
+  }
+
+  & /deep/ figure {
+    text-align: center;
   }
 
   & /deep/ img {
@@ -38,6 +44,7 @@
     margin: 0 auto;
 
     td {
+      padding: $content-table-padding;
 
       p:last-of-type {
         margin-bottom: 0;
