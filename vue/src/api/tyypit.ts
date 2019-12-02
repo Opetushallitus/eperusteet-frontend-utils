@@ -50,3 +50,4 @@ export type Puu = YlopsApi.Puu;
 export type PerusteTekstiKappaleViiteDto = YlopsApi.PerusteTekstiKappaleViiteDto;
 export type PerusteTekstiKappaleViiteMatalaDto = YlopsApi.PerusteTekstiKappaleViiteMatalaDto;
 export type Lops2019OpintojaksonModuuliDto = YlopsApi.Lops2019OpintojaksonModuuliDto;
+export type YlopsNavigationNodeDto = YlopsApi.NavigationNodeDto;
