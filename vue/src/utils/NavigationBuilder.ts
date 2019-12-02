@@ -153,6 +153,7 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
     node.location = {
       name: 'lops2019OpetussuunnitelmaModuuli',
       params: {
+        oppiaineId: _.toString(rawNode.meta!.oppiaine),
         moduuliId: _.toString(rawNode.id),
       }
     };
@@ -195,9 +196,6 @@ let nextKey = 0;
 function setParents(node: NavigationNode, path: NavigationNode[] = []) {
   node.path = path;
   node.key = ++nextKey;
-  if (node.location && node.location.params) {
-    node.location.params = _.mapValues(node.location.params, param => _.toString(param));
-  }
   for (const child of node.children) {
     setParents(child, [...path, child]);
   }
