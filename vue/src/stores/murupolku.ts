@@ -1,19 +1,14 @@
 import { Getter, State, Store } from './store';
-import Vue from 'vue';
-import _ from 'lodash';
-// import { Opetussuunnitelma } from './opetussuunnitelma';
 
 @Store
 class MurupolkuStore {
   @State()
   public polku: { [avain: string]: any } = {};
 
-  @Getter()
+  @Getter((state, getters) => {})
   murut() {
-    // const nimi = _.get(Opetussuunnitelma(), 'opetussuunnitelma.nimi');
     return {
       ...this.polku,
-      // opetussuunnitelma: nimi,
     };
   }
 

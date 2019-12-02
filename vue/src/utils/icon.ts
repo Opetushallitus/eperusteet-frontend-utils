@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { createLogger } from "./logger";
+import { createLogger } from './logger';
 
 const logger = createLogger('Icon');
 
