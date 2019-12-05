@@ -29,12 +29,12 @@ const PillInfo = pillRight('#def2ff');
 abstract class Logger<T> {
   // eslint-disable-next-line
   public constructor(protected readonly name: string) { }
-  public abstract error(...args: any): void;
-  public abstract info(...args: any): void;
-  public abstract warn(...args: any): void;
-  public abstract debug(...args: any): void;
-  public abstract success(...args: any): void;
-  public abstract log(...args: any): void;
+  public abstract error(...args): void;
+  public abstract info(...args): void;
+  public abstract warn(...args): void;
+  public abstract debug(...args): void;
+  public abstract success(...args): void;
+  public abstract log(...args): void;
 
   protected impl(method: string, style: string, ...args: any[]) {
     // eslint-disable-next-line no-console
@@ -48,12 +48,12 @@ class DevLogger<T> extends Logger<T> {
   public constructor(readonly name: string) {
     super(name);
   }
-  public error = (...args: any) => this.impl('error', PillError, ...args);
-  public info = (...args: any) => this.impl('info', PillInfo, ...args);
-  public warn = (...args: any) => this.impl('warn', PillWarning, ...args);
-  public debug = (...args: any) => this.impl('debug', PillDebug, ...args);
-  public success = (...args: any) => this.impl('log', PillSuccess, ...args);
-  public log = (...args: any) => this.impl('log', PillDebug, ...args);
+  public error = (...args) => this.impl('error', PillError, ...args);
+  public info = (...args) => this.impl('info', PillInfo, ...args);
+  public warn = (...args) => this.impl('warn', PillWarning, ...args);
+  public debug = (...args) => this.impl('debug', PillDebug, ...args);
+  public success = (...args) => this.impl('log', PillSuccess, ...args);
+  public log = (...args) => this.impl('log', PillDebug, ...args);
 }
 
 // tslint:disable-next-line:max-classes-per-file
@@ -68,10 +68,10 @@ class ProdLogger<T> extends Logger<T> {
   }
 
   // eslint-disable-next-line no-console
-  public error = (...args: any) => console.error(...args);
+  public error = (...args) => console.error(...args);
 
   // eslint-disable-next-line no-console
-  public warn = (...args: any) => console.warn(...args);
+  public warn = (...args) => console.warn(...args);
 }
 
 type Loggable<T> = new(...args: any[]) => T;
