@@ -1,6 +1,6 @@
 <template>
 <div class="spinner">
-  <div class="oph-spinner" aria-label="Ladataan">
+  <div class="oph-spinner">
     <div class="oph-bounce oph-bounce1"></div>
     <div class="oph-bounce oph-bounce2"></div>
     <div class="oph-bounce oph-bounce3"></div>
