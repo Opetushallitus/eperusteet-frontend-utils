@@ -1,5 +1,5 @@
 <template>
-<div class=" oph-spinner oph-spinner-in-button">
+<div class="oph-spinner oph-spinner-in-button">
   <div class="oph-bounce oph-bounce1"></div>
   <div class="oph-bounce oph-bounce2"></div>
   <div class="oph-bounce oph-bounce3"></div>
@@ -16,7 +16,7 @@ export default class EpSpinnerInline extends Vue {}
 <style scoped lang="scss">
 @import "./style.scss";
 
-.oph-spinner-in-button {
+.spinner {
   margin-left: 15px;
 }
 </style>
