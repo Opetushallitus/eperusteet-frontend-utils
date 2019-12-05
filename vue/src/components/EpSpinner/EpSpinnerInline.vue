@@ -16,7 +16,7 @@ export default class EpSpinnerInline extends Vue {}
 <style scoped lang="scss">
 @import "./style.scss";
 
-.spinner {
+.oph-spinner-in-button {
   margin-left: 15px;
 }
 </style>
