@@ -62,8 +62,8 @@ export default class EpCollapse extends Vue {
 
   mounted() {
     this.toggled = this.tyyppi
-        ? this.isToggled()
-        : this.expandedByDefault;
+      ? this.isToggled()
+      : this.expandedByDefault;
   }
 
   toggle() {
