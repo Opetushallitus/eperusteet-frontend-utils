@@ -1,7 +1,8 @@
 import { createLocalVue, mount } from '@vue/test-utils';
 import EpCollapse from './EpCollapse.vue';
-import '@/config/bootstrap';
-import '@/config/fontawesome';
+import '../../config/bootstrap';
+import '../../config/fontawesome';
+
 
 describe('EpCollapse component', () => {
   const localVue = createLocalVue();
