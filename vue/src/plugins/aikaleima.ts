@@ -1,5 +1,8 @@
 import Vue from 'vue';
 import moment from 'moment';
+import { createLogger } from '../utils/logger';
+
+const logger = createLogger('Aikaleima');
 
 export class Aikaleima {
   public install(vue: typeof Vue) {
@@ -8,7 +11,8 @@ export class Aikaleima {
       return function(this: void, value: number) {
         (this as any).$i18n.locale; // eslint-disable-line
         if (!value) {
-          console.error('Virheellinen aikaformaatti:', value); // eslint-disable-line
+          logger.warn('Virheellinen aikaformaatti:', value);
+          return value;
         }
         return moment(value).format(format);
       };

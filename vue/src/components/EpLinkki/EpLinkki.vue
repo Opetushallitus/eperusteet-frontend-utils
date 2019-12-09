@@ -1,8 +1,10 @@
 <template>
 <div class="linkki">
-  <a :href="url">
+  <a :href="url"
+     rel="noopener noreferrer"
+     target="_blank">
     <fas fixed-width :icon="icon" class="mr-1" v-if="icon"></fas>
-    <slot v-if="hasSlot()"></slot>  
+    <slot v-if="hasSlot()"></slot>
     <span v-else>{{ cleanUrl }}</span>
   </a>
 </div>
@@ -62,7 +64,7 @@ export default class EpLinkki extends Vue {
     white-space: nowrap;
 
   }
- 
+
 }
 .linkki.medium {
   font-size: medium;
@@ -70,6 +72,6 @@ export default class EpLinkki extends Vue {
   a {
     white-space: normal;
   }
-} 
+}
 </style>
 

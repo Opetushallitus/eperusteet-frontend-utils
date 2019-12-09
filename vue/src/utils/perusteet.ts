@@ -132,7 +132,7 @@ export function koulutustyyppiTheme(koulutustyyppi: string) {
 }
 
 export function koulutustyyppiThemeColor(koulutustyyppi: string) {
-  return themeColors[themes[koulutustyyppi]] || [255, 255, 255];
+  return themeColors[themes[koulutustyyppi]] || [47, 95, 209];
 }
 
 export function rgb2string(color: number[]) {
@@ -173,3 +173,38 @@ export function yleissivistavat() {
     };
   });
 }
+
+export function getLaajaAlaisetKoodit() {
+  return [{
+    koodi: 'lops2019laajaalainenosaaminen_1',
+    nimi: {
+      fi: 'Globaali- ja kulttuuriosaaminen',
+    },
+  }, {
+    koodi: 'lops2019laajaalainenosaaminen_2',
+    nimi: {
+      fi: 'Hyvinvointiosaaminen',
+    },
+  }, {
+    koodi: 'lops2019laajaalainenosaaminen_3',
+    nimi: {
+      fi: 'Vuorovaikutusosaaminen',
+    },
+  }, {
+    koodi: 'lops2019laajaalainenosaaminen_4',
+    nimi: {
+      fi: 'Eettisyys ja ympäristöosaaminen',
+    },
+  }, {
+    koodi: 'lops2019laajaalainenosaaminen_5',
+    nimi: {
+      fi: 'Yhteiskunnallinen osaaminen',
+    },
+  }, {
+    koodi: 'lops2019laajaalainenosaaminen_6',
+    nimi: {
+      fi: 'Monitieteinen ja luova osaaminen',
+    },
+  }];
+}
+
