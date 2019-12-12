@@ -12,6 +12,7 @@ library.add(solid.faBell);
 library.add(solid.faBookmark);
 library.add(solid.faCalendarDay);
 library.add(solid.faCheck);
+library.add(solid.faCheckCircle);
 library.add(solid.faChevronDown);
 library.add(solid.faChevronLeft);
 library.add(solid.faChevronRight);
