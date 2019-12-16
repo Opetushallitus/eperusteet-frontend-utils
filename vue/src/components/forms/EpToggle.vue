@@ -22,7 +22,7 @@ export default class EpToggle extends Vue {
   @Prop({ default: true, type: Boolean })
   private isEditing!: boolean;
 
-  @Prop({ required: true, type: Boolean })
+  @Prop({ required: false, type: Boolean, default:false })
   private value!: boolean;
 
   @Prop({ default: true, type: Boolean })
