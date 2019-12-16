@@ -2,7 +2,7 @@
 <div v-if="isEditing">
   <div class="input-container">
     <input class="input-style form-control"
-           :class="inputClass"
+           :class="[inputClass, isHeader && 'headerfield']"
            @input="onInput($event.target.value)"
            :type="type === 'number' ? 'number' : 'text'"
            :attrs="$attrs"
@@ -19,7 +19,10 @@
   <div class="invalid-feedback" v-else-if="validationError && !invalidMessage">{{ $t('validation-error-' + validationError, validation.$params[validationError]) }}</div>
   <small class="form-text text-muted" v-if="help && isEditing">{{ $t(help) }}</small>
 </div>
-<div :class="isHeader && 'headerfield'" v-else :attrs="$attrs">{{ val }}</div>
+<div v-else :attrs="$attrs">
+  <h2 v-if="isHeader">{{val}}</h2>
+  <span v-else>{{val}}</span>
+</div>
 </template>
 
 <script lang="ts">
@@ -148,6 +151,10 @@ input.input-style {
     outline: none !important;
     box-shadow: none !important;
   }
+
+  &.headerfield {
+    font-size: 1.3rem;
+  }
 }
 
 // Oletuksena vaihtaa värin siniseksi focus tilassa
@@ -157,11 +164,6 @@ input.is-invalid:focus {
 
 input.is-valid:focus {
   border-color: #28a745;
-}
-
-.headerfield {
-  font-size: 150%;
-  font-weight: 600;
 }
 
 // Piilotettu Bootstrapissa oletuksena
