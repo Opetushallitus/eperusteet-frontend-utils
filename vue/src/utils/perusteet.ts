@@ -1,5 +1,6 @@
 import _ from 'lodash';
-import { Koulutustyyppi } from '@shared/tyypit';
+
+export const KoodistoLops2019LaajaAlaiset = 'laajaalainenosaaminenlops2021';
 
 const themes = {
   'koulutustyyppi_1': 'ammatillinen',

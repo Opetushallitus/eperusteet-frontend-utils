@@ -5,7 +5,7 @@ import { Location } from 'vue-router';
 
 export type NavigationType =
     'root' | 'viite' | 'tiedot' | 'laajaalaiset'
-    | 'oppiaineet' | 'oppiaine' | 'oppimaarat'
+    | 'oppiaineet' | 'oppiaine' | 'oppimaarat' | 'poppiaine'
     | 'moduulit' | 'moduuli' |
     'opintojaksot' | 'opintojakso';
 
@@ -141,6 +141,14 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
   case 'oppiaine':
     node.location = {
       name: 'lops2019OpetussuunnitelmaOppiaine',
+      params: {
+        oppiaineId: _.toString(rawNode.id),
+      }
+    };
+    break;
+  case 'poppiaine':
+    node.location = {
+      name: 'lops2019OpetussuunnitelmaPoppiaine',
       params: {
         oppiaineId: _.toString(rawNode.id),
       }
