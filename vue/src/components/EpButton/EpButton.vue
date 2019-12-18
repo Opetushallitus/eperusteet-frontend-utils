@@ -4,7 +4,8 @@
           v-bind="$attrs"
           :disabled="disabled || showSpinner"
           @click="$emit('click')"
-          :size="size">
+          :size="size"
+          :class="buttonClass">
     <span v-if="icon"
          class="float-left mr-2"
          :class="isOutline && 'icon'">
@@ -31,6 +32,9 @@ import EpSpinnerInline from '../EpSpinner/EpSpinnerInline.vue';
 export default class EpButton extends Vue {
   @Prop({ default: '', type: String })
   private icon!: string;
+
+  @Prop()
+  private buttonClass!: string;
 
   get isOutline() {
     return _.startsWith(this.variant, 'outline');
