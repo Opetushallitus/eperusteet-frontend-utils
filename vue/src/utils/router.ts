@@ -42,10 +42,14 @@ export async function resolveRouterMetaProps(to) {
 /**
  * Change language changes
  */
-export function changeLang(to) {
-  let kieli = to.params.lang || Kieli.fi;
-  Kielet.setUiKieli(kieli);
-  Kielet.setSisaltoKieli(kieli);
+export function changeLang(to, from) {
+  let fromKieli = from.params.lang || Kieli.fi;
+  let toKieli = to.params.lang || Kieli.fi;
+
+  if(fromKieli !== toKieli) {
+    Kielet.setUiKieli(toKieli);
+    Kielet.setSisaltoKieli(toKieli);
+  }
 }
 
 export function removeQueryParam(to, router, queryParam) {
