@@ -105,10 +105,10 @@ export default class EpSelect extends Mixins(EpValidation) {
 }
 
 select {
-  border-top: 0;
-  border-left: 0;
-  border-right: 0;
-  border-radius: 0;
+  border-top: 1;
+  border-left: 1;
+  border-right: 1;
+  border-radius: 6;
   appearance: none;
   font-size: 1rem;
   line-height: 1.5;

@@ -109,6 +109,8 @@ export default class EpInput extends Mixins(EpValidation) {
 </script>
 
 <style scoped lang="scss">
+@import '@shared/styles/_variables.scss';
+
 .input-container {
   position: relative;
 
@@ -137,17 +139,16 @@ export default class EpInput extends Mixins(EpValidation) {
 }
 
 input.input-style {
-  border-top: 0;
-  border-left: 0;
-  border-right: 0;
-  border-radius: 0;
+  border-top: 1;
+  border-left: 1;
+  border-right: 1;
+  border-radius: 6;
   appearance: none;
   font-size: 1rem;
   line-height: 1.5;
   font-weight: 500;
 
   &:focus {
-    border-color: #47a4f5;
     outline: none !important;
     box-shadow: none !important;
   }
@@ -162,8 +163,15 @@ input.is-invalid:focus {
   border-color: #dc3545;
 }
 
-input.is-valid:focus {
-  border-color: #28a745;
+input {
+
+  &.is-valid {
+    border-color: $gray-lighten-1;
+  }
+
+  &.is-valid:focus {
+    border-color: $valid;
+  }
 }
 
 // Piilotettu Bootstrapissa oletuksena
