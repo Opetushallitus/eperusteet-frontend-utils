@@ -38,8 +38,8 @@ export default class EpConfirmDialog extends Vue {
     this.visible = true;
   }
 
-  cancelSave() {
-    this.ctrls.cancel();
+  async cancelSave() {
+    await this.ctrls.cancel();
     this.redirect();
   }
 
