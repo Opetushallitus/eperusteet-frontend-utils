@@ -22,7 +22,7 @@ describe('EpSelect component', () => {
 
   const i18n = KieliStore.i18n;
 
-  function mountWrapper(props : any) { 
+  function mountWrapper(props : any) {
     return mount(localVue.extend({
       components: {
         EpSelect,
@@ -30,7 +30,7 @@ describe('EpSelect component', () => {
       data(){
         return props;
       },
-      template: '<ep-select :items="items" v-model="value" :is-editing="isEditing" :multiple="multiple" :help="help" :validation="validation"/>'
+      template: '<ep-select :items="items" v-model="value" :is-editing="isEditing" :multiple="multiple" :help="help" :validation="validation" :useCheckboxes="useCheckboxes"/>'
     }), {
       stubs: {
         fas: true
@@ -48,6 +48,7 @@ describe('EpSelect component', () => {
       multiple: false,
       help:'apu-teksti',
       validation:'',
+      useCheckboxes: false,
     });
 
     expect(wrapper.html()).toContain('arvo1');
@@ -66,6 +67,7 @@ describe('EpSelect component', () => {
       multiple: false,
       help:'apu-teksti',
       validation:'',
+      useCheckboxes: false,
     });
 
     expect(wrapper.html()).toContain('arvo1');
@@ -84,6 +86,7 @@ describe('EpSelect component', () => {
       multiple: true,
       help:'',
       validation:'',
+      useCheckboxes: false,
     });
 
     expect(wrapper.vm.value).toHaveLength(1);
@@ -103,6 +106,7 @@ describe('EpSelect component', () => {
       value: valueMock,
       multiple: false,
       help:'',
+      useCheckboxes: false,
       validation: {
         $touch:jest.fn()
       }
@@ -112,6 +116,39 @@ describe('EpSelect component', () => {
     wrapper.findAll('option').at(3)
       .setSelected();
     expect(wrapper.vm.value).toBe('arvo3');
+
+    expect(wrapper.vm.validation.$touch).toBeCalled();
+
+  });
+
+  test('Value change on list clicks - with checkboxes', async () => {
+    const wrapper = mountWrapper({
+      isEditing: true,
+      items: itemMock,
+      value: valueMock,
+      multiple: false,
+      help:'',
+      useCheckboxes: true,
+      validation: {
+        $touch:jest.fn()
+      }
+    });
+
+    expect(wrapper.findAll('input[type="checkbox"]')).toHaveLength(3);
+    expect(wrapper.vm.value).toEqual(['arvo1']);
+
+    wrapper.findAll('input[type="checkbox"]').at(2)
+      .setChecked();
+    expect(wrapper.vm.value).toEqual(['arvo1', 'arvo3']);
+
+    expect(wrapper.vm.value).toHaveLength(2);
+    expect(wrapper.vm.value[0]).toBe('arvo1');
+    expect(wrapper.vm.value[1]).toBe('arvo3');
+
+    wrapper.findAll('input[type="checkbox"]').at(0)
+      .setChecked(false);
+    expect(wrapper.vm.value).toHaveLength(1);
+    expect(wrapper.vm.value[0]).toBe('arvo3');
 
     expect(wrapper.vm.validation.$touch).toBeCalled();
 
