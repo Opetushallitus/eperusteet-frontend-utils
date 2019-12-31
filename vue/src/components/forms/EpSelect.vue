@@ -34,7 +34,7 @@
     </div>
     <div v-else>
         <ul>
-            <li v-for="(item, idx) in value" :key="idx">
+            <li v-for="(item, idx) in displayValue" :key="idx">
                 <slot name="default"
                       :item="item">
                     <span>{{ item }}</span>
@@ -76,6 +76,10 @@ export default class EpSelect extends Mixins(EpValidation) {
   private help!: string;
 
   private innerModel: any | any[] | null = null;
+
+  get displayValue() {
+    return _.filter(this.items, (item) => _.includes(this.value, item));
+  }
 
   private updateValue() {
     if (_.isArray(this.innerModel)) {
