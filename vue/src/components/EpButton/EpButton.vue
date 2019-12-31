@@ -5,7 +5,7 @@
           :disabled="disabled || showSpinner"
           @click="$emit('click')"
           :size="size"
-          :class="buttonClass">
+          :class="variantClass">
     <span v-if="icon"
          class="float-left mr-2"
          :class="isOutline && 'icon'">
@@ -44,6 +44,9 @@ export default class EpButton extends Vue {
     let result = 'btn-' + this.variant;
     if (this.isOutline) {
       result = 'no-outline ' + result;
+    }
+    if (this.buttonClass) {
+      result = this.buttonClass + ' ' + result;
     }
     return result;
   }
