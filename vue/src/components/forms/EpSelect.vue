@@ -1,7 +1,8 @@
 <template>
     <div v-if="isEditing">
         <div v-if="items && (!multiple || innerModel)">
-            <select class="form-control"
+            <select v-if="!useCheckboxes"
+                    class="form-control"
                     v-model="innerModel"
                     :multiple="multiple"
                     @change="updateValue()"
@@ -11,6 +12,15 @@
                     <slot name="default" :item="item">{{ item }}</slot>
                 </option>
             </select>
+            <b-form-group v-else>
+              <b-form-checkbox-group
+                v-model="innerModel"
+                :options="items"
+                name="kielivalinta"
+                @input="updateValue()"
+                stacked>
+              </b-form-checkbox-group>
+            </b-form-group>
             <div class="valid-feedback"
                  v-if="!validationError && validMessage">{{ $t(validMessage) }}</div>
             <div class="invalid-feedback"
@@ -56,7 +66,7 @@ export default class EpSelect extends Mixins(EpValidation) {
   @Prop({ required: true })
   private value!: any | any[];
 
-  @Prop({ default: true, type: Boolean })
+  @Prop({ default: false, type: Boolean })
   private useCheckboxes!: boolean;
 
   @Prop({ default: false, type: Boolean })
