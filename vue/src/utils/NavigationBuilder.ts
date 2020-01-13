@@ -108,6 +108,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
     node.location = {
       name: 'lops2019moduuli',
       params: {
+        oppiaineId: _.toString(rawNode.meta!.oppiaine),
         moduuliId: _.toString(rawNode.id),
       }
     };
