@@ -7,7 +7,7 @@
                     :multiple="multiple"
                     @change="updateValue()"
                     :class="{ 'is-invalid': isInvalid, 'is-valid': isValid }">
-                <option disabled :value="null"></option>
+                <option disabled :value="null" v-if="enableEmptyOption">{{ $t(placeholder) }}</option>
                 <option v-for="(item, idx) in items" :value="item" :key="idx">
                     <slot name="default" :item="item">{{ item }}</slot>
                 </option>
@@ -72,8 +72,14 @@ export default class EpSelect extends Mixins(EpValidation) {
   @Prop({ default: false, type: Boolean })
   private multiple!: boolean;
 
+  @Prop({ default: true, type: Boolean })
+  private enableEmptyOption!: boolean;
+
   @Prop({ default: '', type: String })
   private help!: string;
+
+  @Prop({ default: '', type: String })
+  private placeholder!: string;
 
   private innerModel: any | any[] | null = null;
 
@@ -95,7 +101,19 @@ export default class EpSelect extends Mixins(EpValidation) {
   }
 
   mounted() {
-    this.innerModel = this.value;
+    if (_.isEmpty(this.value)) {
+      if (!_.isEmpty(this.items) && !this.enableEmptyOption) {
+        // Valitaan ensimmäinen arvo
+        this.innerModel = this.items[0];
+        this.updateValue();
+      }
+      else {
+        this.innerModel = null;
+      }
+    }
+    else {
+      this.innerModel = this.value;
+    }
   }
 }
 </script>
