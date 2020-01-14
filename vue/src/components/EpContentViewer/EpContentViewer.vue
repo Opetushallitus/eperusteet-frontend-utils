@@ -62,6 +62,7 @@ export default class EpContentViewer extends Vue {
         const kuva = _.find(this.kuvat, { id: img.getAttribute('data-uid') }) as LiiteDtoWrapper;
         if (kuva) {
           img.setAttribute('src', kuva.src);
+          /* TODO: Nimeksi asetetaan perusteissa tiedostonnimi eikä kuvatekstiä. Piilotetaan toistaiseksi.
           if (kuva.kuva.nimi) {
             img.setAttribute('alt', kuva.kuva.nimi);
 
@@ -69,6 +70,7 @@ export default class EpContentViewer extends Vue {
             figcaption.textContent = kuva.kuva.nimi;
             wrapper.append(figcaption);
           }
+          */
         }
       });
 
