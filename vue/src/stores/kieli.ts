@@ -173,7 +173,17 @@ export class KieliStore {
     }
     else if (_.isObject(value)) {
       const locale = Kielet.getSisaltoKieli;
-      return (value as any)[locale];
+      const kielet = [locale, ..._.pull(['fi', 'sv', 'en', 'se', 'ru'], locale)];
+      let teksti = '';
+
+      _.forEach(kielet, kieli => {
+        if (!_.isEmpty(value[kieli])) {
+          teksti = value[kieli];
+          return false;
+        }
+      });
+
+      return teksti;
     }
     else {
       logger.warn('"$kaanna" on tekstiolioiden kääntämiseen. Käytä vue-i18n vastaavaa funktiota. Esimerkiksi "$t()".', 'Käännös:', '"' + value + '"');
