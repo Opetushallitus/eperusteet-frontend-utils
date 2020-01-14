@@ -57,20 +57,18 @@ export default class EpLinkki extends Vue {
 
 <style scoped lang="scss">
 .linkki {
-  font-size: small;
-
+  font-size: 0.875rem;
   a {
     display: inline;
     white-space: nowrap;
-
   }
-
 }
-.linkki.medium {
-  font-size: medium;
 
+// Käytetään external linkin kanssa
+.linkki.medium {
+  font-size: 1rem;
   a {
-    white-space: normal;
+    white-space: normal; // Saattaa olla liian pitkä
   }
 }
 </style>
