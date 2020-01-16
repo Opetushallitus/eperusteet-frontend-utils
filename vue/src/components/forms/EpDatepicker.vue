@@ -17,7 +17,7 @@
              icon="calendar-day"></fas>
         <fas fixed-width
              slot="mx-clear-icon"
-             icon="times"></fas>
+             icon="sulje"></fas>
     </date-picker>
     <div class="valid-feedback"
          v-if="!validationError && validMessage">{{ $t(validMessage) }}</div>

@@ -1,7 +1,7 @@
 <template>
 <div class="filter" role="search">
     <span class="form-control-feedback">
-        <fas fixed-width icon="search"></fas>
+        <fas fixed-width icon="etsi"></fas>
     </span>
     <input class="form-control"
            type="search"
