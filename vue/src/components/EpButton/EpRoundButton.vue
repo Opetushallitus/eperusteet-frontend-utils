@@ -9,9 +9,9 @@
 </template>
 
 <script lang="ts">
-  import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 
-  import EpSpinnerInline from '@shared/components/EpSpinner/EpSpinnerInline.vue';
+import EpSpinnerInline from '@shared/components/EpSpinner/EpSpinnerInline.vue';
 
 
   @Component({
@@ -19,7 +19,7 @@
       EpSpinnerInline,
     },
   })
-  export default class EpButton extends Vue {
+export default class EpButton extends Vue {
     @Prop({
       required: true,
       type: String,
@@ -34,7 +34,7 @@
 
     @Prop({ default: 'primary' })
     private variant!: string;
-  }
+}
 </script>
 
 <style lang="scss" scoped>
