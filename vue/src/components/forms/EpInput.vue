@@ -53,6 +53,9 @@ export default class EpInput extends Mixins(EpValidation) {
   @Prop({ default: '', type: String })
   private help!: string;
 
+  @Prop( {default: true, required: false})
+  private showValidValidation!: boolean;
+
   get hasLeftSlot() {
     return !!this.$slots.left;
   }
@@ -66,7 +69,7 @@ export default class EpInput extends Mixins(EpValidation) {
       'left-padded': this.hasLeftSlot,
       'right-padded': this.hasRightSlot,
       'is-invalid': this.isInvalid,
-      'is-valid': this.isValid,
+      'is-valid': this.isValid && this.showValidValidation,
     };
   }
 

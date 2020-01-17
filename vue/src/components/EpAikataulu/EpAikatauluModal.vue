@@ -1,39 +1,28 @@
 <template>
   <div>
-
     <ep-button v-if="aikataulut && aikataulut.length > 0"
-      v-b-modal.aikataulumodal
+      @click="openModal"
       buttonClass="pr-1"
-      variant="outline-primary"
-      icon="plussa">
-      {{ $t('lisaa-tavoite') }}
+      variant="link"
+      icon="kyna">
+      {{ $t('muokkaa') }}
     </ep-button>
 
-    <b-modal ref="aikataulumodal" id="aikataulumodal" size="lg" :hide-header-close="true">
+    <b-modal ref="aikataulumodal" id="aikataulumodal" size="lg" :hide-header-close="true" @ok="tallenna" :ok-disabled="invalid">
 
       <template v-slot:modal-title>
-        {{ $t('ota-aikataulu-kayttoon') }}
+        {{ aikataulut && aikataulut.length > 0 ? $t('muokkaa-aikataulua') : $t('ota-aikataulu-kayttoon') }}
       </template>
 
-      <p>{{ $t('aikataulu-modal-selite')}}</p>
+      <slot name="selite"></slot>
 
-      <ep-aikataulu :aikataulut ="aikataulut" />
-
-      <ep-form-content name="tavoitteen-kuvaus">
-        <ep-field :is-editing="true">
-        </ep-field>
-      </ep-form-content>
-
-      <ep-form-content name='tavoitteen-paivamaara'>
-        <ep-datepicker :is-editing="true" :hide-header="true" :validation="$v.aikataulu.tapahtumapaiva">
-        </ep-datepicker>
-      </ep-form-content>
+      <ep-aikataulu-listaus ref="epAikatauluListaus" :aikataulutProp="aikataulutClone" :rootModel="rootModel" @setInvalid="setInvalid"/>
 
       <template v-slot:modal-cancel>
         {{ $t('peruuta')}}
       </template>
-      <template v-slot:modal-ok>
-        {{ $t('valmis')}}
+      <template v-slot:modal-ok >
+        {{ $t('tallenna')}}
       </template>
 
     </b-modal>
@@ -42,16 +31,19 @@
 
 <script lang="ts">
 
-import { Vue, Component, Prop, Mixins } from 'vue-property-decorator';
+import { Vue, Component, Prop, Mixins, Watch } from 'vue-property-decorator';
 import _ from 'lodash';
 import { aikataulutapahtuma } from '../../utils/aikataulu';
 import EpAikataulu from './EpAikataulu.vue';
+import EpAikatauluListaus from './EpAikatauluListaus.vue';
 import { minLength, required } from 'vuelidate/lib/validators';
 import EpValidation from '@/mixins/EpValidation';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpDatepicker from '@shared/components/forms/EpDatepicker.vue';
 import EpFormContent from'@shared/components/forms/EpFormContent.vue';
 import EpField from'@shared/components/forms/EpField.vue';
+import { Kielet } from '@shared/stores/kieli';
+import { validationMixin } from 'vuelidate';
 
 @Component({
   components: {
@@ -60,30 +52,57 @@ import EpField from'@shared/components/forms/EpField.vue';
     EpDatepicker,
     EpFormContent,
     EpField,
-  }
+    EpAikatauluListaus,
+  },
 })
-export default class EpAikatauluModal extends Mixins(EpValidation) {
+export default class EpAikatauluModal extends Vue {
 
-  @Prop( {required: true})
+  @Prop({ required: true})
+  private rootModel!: any;
+
+  @Prop({ required: true})
   private aikataulut!: any[];
 
+  private invalid: boolean = true;
+  private aikataulutClone: any[]= [];
+
   openModal() {
-    (this as any).$refs['aikataulumodal'].show();
-  }
-
-  get modalTopic() {
-    return 'lorem';
-  }
-
-  get validationConfig() {
-    return {
-      aikataulu: {
-        tapahtumapaiva: {
-          required,
+    if (_.size(this.aikataulut) === 0){
+      this.aikataulutClone = [
+        {
+          tapahtuma: aikataulutapahtuma.luominen,
+          opetussuunnitelmaId: this.rootModel.id,
+          tapahtumapaiva: this.rootModel.luotu,
+          tavoite: {
+            [Kielet.getSisaltoKieli]: this.$t('projektin-luomispaiva')
+          },
+        },
+        {
+          tapahtuma: aikataulutapahtuma.julkaisu,
+          opetussuunnitelmaId: this.rootModel.id,
+          tapahtumapaiva: null,
+          tavoite: {
+            [Kielet.getSisaltoKieli]: this.$t('projektin-suunniteltu-julkaisupaiva')
+          },
         }
-      },
-    };
+      ];
+    }
+    else {
+      this.aikataulutClone = _.cloneDeep(this.aikataulut);
+    }
+
+    (this as any).$refs['aikataulumodal'].show();
+
   }
+
+  tallenna() {
+    this.$emit('tallenna', (this as any).$refs['epAikatauluListaus'].getAikataulu());
+  }
+
+  setInvalid(invalid) {
+    this.invalid = invalid;
+  }
+
 }
 </script>
 

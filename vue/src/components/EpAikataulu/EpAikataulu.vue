@@ -3,12 +3,12 @@
     <div class="pohja">
       <div class="kulunut-aika" :style="'width:'+kulunutAikaWidth +'%'">&nbsp;</div>
       <div class="aikataulu d-inline-block"
-          v-for="aikataulu in aikatauluTavoitteet"
-          :key="aikataulu.id"
+          v-for="(aikataulu, i) in aikatauluTavoitteet"
+          :key="i"
           :style="'right:' + aikataulu.rightPosition +'%'"
-          :id="'aikataulu-popover-'+aikataulu.id"
+          :id="'aikataulu-popover-'+i"
           :class="aikataulu.tapahtuma">
-        <b-popover :target="'aikataulu-popover-'+aikataulu.id" triggers="hover" placement="topleft">
+        <b-popover :target="'aikataulu-popover-'+i" triggers="hover click" placement="topleft" v-if="showPopover">
           <template v-slot:title>
             {{$sd(aikataulu.tapahtumapaiva)}}
           </template>
@@ -22,8 +22,11 @@
 
     <div class="alainfo">
       <div class="d-inline-block">
-        <div class="luomispaiva">{{ $sd(luomisPaiva) }} </div>
-        <div class="paiva-alatieto">{{ $t('aikataulu-projektin-luomispaiva') }}</div>
+        <div v-if="julkaisuAikaPosition < luomisaikaPalloPoint">
+          <div class="luomispaiva">{{ $sd(luomisPaiva) }} </div>
+          <div class="paiva-alatieto" v-html="$t('projektin-luomispaiva-br')"></div>
+        </div>
+        <div v-else>&nbsp;</div>
       </div>
 
       <div class="d-inline-block text-right julkaisu" :style="'right:'+julkaisuAikaPosition +'%'">
@@ -31,7 +34,7 @@
           <span v-if="julkaisuPaiva">{{ $sd(julkaisuPaiva) }}</span>
           <span v-else>&nbsp;</span>
         </div>
-        <div class="paiva-alatieto">{{ $t('aikataulu-projektin-suunniteltu-julkaisupaiva') }}</div>
+        <div class="paiva-alatieto" v-html="$t('projektin-suunniteltu-julkaisupaiva-br')"></div>
       </div>
     </div>
   </div>
@@ -48,6 +51,11 @@ export default class EpAikataulu extends Vue {
 
   @Prop( {required: true})
   private aikataulut!: any[];
+
+  @Prop({ required: false, default: true})
+  private showPopover!: boolean;
+
+  private luomisaikaPalloPoint = 75;
 
   get luomisAikataulu() {
     return _.head(_.filter(this.aikataulut, (aikataulu) => aikataulu.tapahtuma === aikataulutapahtuma.luominen));
@@ -77,6 +85,7 @@ export default class EpAikataulu extends Vue {
 
   get viimeinenTapahtuma() {
     return _.chain(this.aikataulutSorted)
+      .filter((aikataulu) => aikataulu.tapahtumapaiva)
       .reverse()
       .head()
       .value();
@@ -90,12 +99,13 @@ export default class EpAikataulu extends Vue {
 
   get aikatauluTavoitteet() {
     return _.chain(this.aikataulut)
-      .filter(aikataulu => aikataulu.tapahtuma !== aikataulutapahtuma.luominen)
+      .filter(aikataulu => !(aikataulu.tapahtuma == aikataulutapahtuma.luominen && this.julkaisuAikaPosition < this.luomisaikaPalloPoint))
       .filter(aikataulu => aikataulu.tapahtuma !== aikataulutapahtuma.julkaisu)
+      .filter(aikataulu => !_.isNil(aikataulu.tapahtumapaiva))
       .map(aikataulu => {
         return {
           ...aikataulu,
-          rightPosition: this.aikatauluPosition(aikataulu.tapahtumapaiva),
+          rightPosition: this.aikatauluPosition(aikataulu),
         };
       })
       .value();
@@ -109,13 +119,17 @@ export default class EpAikataulu extends Vue {
     return 1;
   }
 
-  aikatauluPosition(time) {
-    return Math.max(100 - this.timelinePosition(time), 0);
+  aikatauluPosition(aikataulu) {
+    if (aikataulu.tapahtuma === aikataulutapahtuma.luominen) {
+      return 99;
+    }
+
+    return Math.max(100 - this.timelinePosition(aikataulu.tapahtumapaiva), 0);
   }
 
   get julkaisuAikaPosition() {
     if (this.julkaisuPaiva) {
-      return Math.max(100 - this.timelinePosition(this.julkaisuPaiva), 0);
+      return Math.min(100 - this.timelinePosition(this.julkaisuPaiva), 88);
     }
 
     return 0;
@@ -152,7 +166,7 @@ export default class EpAikataulu extends Vue {
       position: absolute;
       top: -2px;
 
-      &.tavoite {
+      &.tavoite, &.luominen {
         background-color: $blue-lighten-5;
       }
 
@@ -165,6 +179,7 @@ export default class EpAikataulu extends Vue {
 
   .alainfo {
     position: relative;
+    height: 75px;
 
     .julkaisu {
       position: absolute;
