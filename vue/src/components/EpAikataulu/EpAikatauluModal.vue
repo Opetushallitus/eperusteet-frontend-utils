@@ -63,11 +63,13 @@ export default class EpAikatauluModal extends Vue {
   @Prop({ required: true})
   private aikataulut!: any[];
 
-  private invalid: boolean = true;
+  private invalid: boolean = false;
   private aikataulutClone: any[]= [];
 
   openModal() {
     if (_.size(this.aikataulut) === 0){
+      this.setInvalid(true);
+
       this.aikataulutClone = [
         {
           tapahtuma: aikataulutapahtuma.luominen,
@@ -91,12 +93,12 @@ export default class EpAikatauluModal extends Vue {
       this.aikataulutClone = _.cloneDeep(this.aikataulut);
     }
 
-    (this as any).$refs['aikataulumodal'].show();
+    (this as any).$refs.aikataulumodal.show();
 
   }
 
   tallenna() {
-    this.$emit('tallenna', (this as any).$refs['epAikatauluListaus'].getAikataulu());
+    this.$emit('tallenna', (this as any).$refs.epAikatauluListaus.getAikataulu());
   }
 
   setInvalid(invalid) {

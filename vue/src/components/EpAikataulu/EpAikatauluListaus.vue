@@ -88,7 +88,6 @@ export default class EpAikatauluListaus extends Mixins(validationMixin) {
   private aikataulutProp!: any[];
 
   private aikataulut: any[] = [];
-  private invalid: boolean = false;
 
   mounted() {
     this.aikataulut = _.chain(this.aikataulutProp)
@@ -116,10 +115,6 @@ export default class EpAikatauluListaus extends Mixins(validationMixin) {
     return _.chain(this.aikataulut)
       .filter((aikataulu) => aikataulu.tapahtuma !== aikataulutapahtuma.luominen)
       .value();
-  }
-
-  get isInvalid() {
-    return this.$v.$invalid;
   }
 
   @Watch('$v.$invalid')
