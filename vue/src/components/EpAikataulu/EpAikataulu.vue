@@ -85,7 +85,7 @@ export default class EpAikataulu extends Vue {
 
   get viimeinenTapahtuma() {
     return _.chain(this.aikataulutSorted)
-      .filter((aikataulu) => aikataulu.tapahtumapaiva)
+      .filter('tapahtumapaiva')
       .reverse()
       .head()
       .value();
@@ -101,7 +101,7 @@ export default class EpAikataulu extends Vue {
     return _.chain(this.aikataulut)
       .filter(aikataulu => !(aikataulu.tapahtuma == aikataulutapahtuma.luominen && this.julkaisuAikaPosition < this.luomisaikaPalloPoint))
       .filter(aikataulu => aikataulu.tapahtuma !== aikataulutapahtuma.julkaisu)
-      .filter(aikataulu => !_.isNil(aikataulu.tapahtumapaiva))
+      .filter('tapahtumapaiva')
       .map(aikataulu => {
         return {
           ...aikataulu,
