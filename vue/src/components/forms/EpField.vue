@@ -6,7 +6,8 @@
           :is-header="isHeader"
           :type="type"
           :validation="validation"
-          :help="help">
+          :help="help"
+          :showValidValidation="showValidValidation">
 </ep-input>
 </template>
 
@@ -38,5 +39,8 @@ export default class EpField extends Mixins(EpValidation) {
 
   @Prop({ default: '', type: String })
   private help!: string;
+
+  @Prop( {default: true, required: false})
+  private showValidValidation!: boolean;
 }
 </script>

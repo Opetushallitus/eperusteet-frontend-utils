@@ -65,11 +65,14 @@ export default class EpDatepicker extends Mixins(EpValidation) {
   @Prop({ default: '', type: String })
   private help!: string;
 
+  @Prop( {default: true, required: false})
+  private showValidValidation!: boolean;
+
   get inputClass() {
     if (this.isInvalid) {
       return 'form-control ep-datepicker-validation is-invalid';
     }
-    else if (this.isValid) {
+    else if (this.isValid && this.showValidValidation) {
       return 'form-control ep-datepicker-validation is-valid';
     }
     else {
