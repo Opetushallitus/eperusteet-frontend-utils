@@ -108,7 +108,12 @@ export default class EpSelect extends Mixins(EpValidation) {
         this.updateValue();
       }
       else {
-        this.innerModel = null;
+        if (this.multiple) {
+          this.innerModel = this.value;
+        }
+        else {
+          this.innerModel = null;
+        }
       }
     }
     else {
@@ -119,29 +124,17 @@ export default class EpSelect extends Mixins(EpValidation) {
 </script>
 
 <style scoped lang="scss">
-.form-content {
-  padding: 20px;
+/deep/ label.custom-control-label::before {
+  border: 2px solid #E0E0E1;
+  border-radius: 0.25rem;
 
-  label.content-label {
-    font-weight: 600;
-  }
+}
 
-  .form-data {
-    margin-top: -5px;
-    padding-left: 2px;
-  }
-
-  select {
-    overflow-y: auto;
-  }
+/deep/ input.custom-control-input {
+  appearance: none;
 }
 
 select {
-  border-top: 1;
-  border-left: 1;
-  border-right: 1;
-  border-radius: 6;
-  appearance: none;
   font-size: 1rem;
   line-height: 1.5;
   font-weight: 500;
