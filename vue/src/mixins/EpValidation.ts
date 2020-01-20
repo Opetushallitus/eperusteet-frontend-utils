@@ -16,11 +16,11 @@ const logger = createLogger('EpValidation');
   },
 } as any)
 export default class EpValidation extends Mixins(validationMixin) {
-  @Prop({ default: '', type: String })
-  private validMessage!: string;
+  @Prop({ type: String })
+  private validMessage!: string | undefined;
 
-  @Prop({ default: '', type: String })
-  private invalidMessage!: string;
+  @Prop({ type: String })
+  private invalidMessage!: string | undefined;
 
   @Prop({ default: null })
   public validation!: any;

@@ -18,7 +18,8 @@
                 :options="items"
                 name="kielivalinta"
                 @input="updateValue()"
-                stacked>
+                stacked
+                :class="{ 'is-invalid': isInvalid, 'is-valid': isValid }">
               </b-form-checkbox-group>
             </b-form-group>
             <div class="valid-feedback"
@@ -124,14 +125,21 @@ export default class EpSelect extends Mixins(EpValidation) {
 </script>
 
 <style scoped lang="scss">
+@import "@shared/styles/_variables.scss";
+
 /deep/ label.custom-control-label::before {
   border: 2px solid #E0E0E1;
-  border-radius: 0.25rem;
-
+  border-radius: 5px;
 }
 
 /deep/ input.custom-control-input {
   appearance: none;
+}
+
+// Piilotettu Bootstrapissa oletuksena
+/deep/ .invalid-feedback,
+/deep/ .valid-feedback {
+  display: block;
 }
 
 select {
