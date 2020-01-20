@@ -39,4 +39,8 @@ export default class EpToggle extends Vue {
 </script>
 
 <style scoped lang="scss">
+/deep/ label.custom-control-label::before {
+  border-radius: 10px;
+  border: 2px solid #E0E0E1;
+}
 </style>

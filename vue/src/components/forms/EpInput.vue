@@ -2,7 +2,7 @@
 <div v-if="isEditing">
   <div class="input-container">
     <input class="input-style form-control"
-           :class="[inputClass, isHeader && 'headerfield']"
+           :class="[ inputClass ]"
            @input="onInput($event.target.value)"
            :type="type === 'number' ? 'number' : 'text'"
            :attrs="$attrs"
@@ -142,34 +142,19 @@ export default class EpInput extends Mixins(EpValidation) {
 }
 
 input.input-style {
-  border-top: 1;
-  border-left: 1;
-  border-right: 1;
-  border-radius: 6;
-  appearance: none;
-  font-size: 1rem;
-  line-height: 1.5;
-  font-weight: 500;
-
   &:focus {
     outline: none !important;
     box-shadow: none !important;
   }
-
-  &.headerfield {
-    font-size: 1.3rem;
-  }
 }
 
-// Oletuksena vaihtaa värin siniseksi focus tilassa
 input.is-invalid:focus {
   border-color: #dc3545;
 }
 
 input {
-
   &.is-valid {
-    border-color: $gray-lighten-1;
+    border-color: #E0E0E1;
   }
 
   &.is-valid:focus {

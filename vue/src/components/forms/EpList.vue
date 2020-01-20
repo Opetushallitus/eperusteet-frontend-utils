@@ -1,7 +1,7 @@
 <template>
 <div v-if="isEditable">
   <div class="arvo" v-for="(value, idx) in internal" :key="idx">
-    <ep-input v-model="internal[idx][kentta]" :is-editing="true">
+    <ep-input v-model="internal[idx][kentta]" :is-editing="true" class="mb-2">
       <div slot="left" style="padding: 8px">
         <i>&#8226;</i>
       </div>

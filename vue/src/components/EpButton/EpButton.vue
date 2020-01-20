@@ -7,8 +7,8 @@
           :size="size"
           :class="variantClass">
     <span v-if="icon"
-         class="float-left mr-2"
-         :class="isOutline && 'icon'">
+         class="float-left"
+         :class="{ 'mr-2': $slots.default, 'icon': isOutline }">
       <fas fixed-width :icon="icon"></fas>
     </span>
     <slot />
@@ -71,6 +71,7 @@ export default class EpButton extends Vue {
 <style lang="scss" scoped>
 .ep-button {
   display: inline-block;
+  white-space: nowrap;
 
   button.no-outline {
     border: none;
