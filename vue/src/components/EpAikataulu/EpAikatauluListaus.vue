@@ -47,7 +47,7 @@ import { Vue, Component, Prop, Mixins, Watch } from 'vue-property-decorator';
 import _ from 'lodash';
 import EpAikataulu from './EpAikataulu.vue';
 import { minLength, required } from 'vuelidate/lib/validators';
-import EpValidation from '@/mixins/EpValidation';
+import EpValidation from '@shared/mixins/EpValidation';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpDatepicker from '@shared/components/forms/EpDatepicker.vue';
 import EpFormContent from'@shared/components/forms/EpFormContent.vue';
