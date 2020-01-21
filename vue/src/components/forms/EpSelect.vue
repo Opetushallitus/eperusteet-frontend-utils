@@ -127,6 +127,11 @@ export default class EpSelect extends Mixins(EpValidation) {
 <style scoped lang="scss">
 @import "@shared/styles/_variables.scss";
 
+select {
+  // Chrome pakottaa oman border-radiuksen ilman
+  appearance: none;
+}
+
 /deep/ label.custom-control-label::before {
   border: 2px solid #E0E0E1;
   border-radius: 5px;
