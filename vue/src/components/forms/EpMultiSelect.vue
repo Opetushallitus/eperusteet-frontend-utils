@@ -5,7 +5,7 @@
                :options="options"
                :close-on-select="true"
                :clear-on-select="true"
-               :placeholder="''"
+               :placeholder="placeholder"
                :internalSearch="false"
                select-label=""
                selected-label=""
@@ -13,7 +13,8 @@
                @search-change="$emit('search', $event)"
                @input="changed($event)"
                :multiple="multiple"
-               :class="inputClass">
+               :class="inputClass"
+               :label="label">
     <template slot="singleLabel"
               slot-scope="{ option }">
       <slot name="singleLabel" :option="option"></slot>
@@ -72,11 +73,17 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
   @Prop()
   private trackBy!: string;
 
+  @Prop()
+  private label!: string;
+
   @Prop({ required: true })
   private options!: any[];
 
   @Prop({ default: '' })
   private help!: string;
+
+  @Prop({ default: '' })
+  private placeholder!: string;
 
   get model() {
     return this.value;
@@ -106,8 +113,19 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
 /deep/ .multiselect__tags {
   border: 2px solid #E0E0E1;
   border-radius: 10px;
-  padding: 0.4375rem 0.625rem;
   font-size: 1rem;
+  background-color: $white;
+}
+
+/deep/ .multiselect__tag {
+  background-color: $white;
+  color: $black;
+  margin: 0px;
+}
+
+/deep/ .multiselect__placeholder {
+  margin-bottom: 0px;
+  padding-top: 0px;
 }
 
 /deep/ .multiselect--active {
