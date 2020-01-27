@@ -14,7 +14,7 @@ import 'moment/locale/sv';
 import { Getter, Mutation, State, Store } from './store';
 
 
-export const UiKielet = Object.freeze(_.values(Kieli as object));
+export const UiKielet = Object.freeze(['fi', 'sv', 'en']);
 const logger = createLogger('Kieli');
 
 function getMessages() {

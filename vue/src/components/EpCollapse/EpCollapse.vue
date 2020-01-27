@@ -14,10 +14,12 @@
           <slot name="header"></slot>
         </div>
       </div>
-      <div class="ml-auto align-self-start">
-        <fas icon="chevron-up" v-if="toggled"></fas>
-        <fas icon="chevron-down" v-else></fas>
-      </div>
+      <slot name="icon" :toggled="toggled">
+        <div class="ml-auto align-self-start">
+          <fas icon="chevron-up" v-if="toggled"></fas>
+          <fas icon="chevron-down" v-else></fas>
+        </div>
+      </slot>
     </div>
     <div v-if="toggled">
       <slot></slot>
@@ -28,9 +30,10 @@
 </template>
 
 <script lang="ts">
+import _ from 'lodash';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { setItem, getItem } from '../../utils/localstorage';
-import _ from 'lodash';
+
 
 @Component
 export default class EpCollapse extends Vue {
