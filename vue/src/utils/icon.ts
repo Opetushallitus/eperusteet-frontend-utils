@@ -49,7 +49,8 @@ export function registerIconColorSchemeChange() {
         changeIcons(false);
       }
     }
-  } catch (e) {
+  }
+  catch (e) {
     logger.error(e);
   }
 }
