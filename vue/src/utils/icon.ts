@@ -27,25 +27,29 @@ function changeIcons(isModeDark: boolean) {
 }
 
 export function registerIconColorSchemeChange() {
-  if (_.isFunction(window.matchMedia)) {
-    const matcher = window.matchMedia('(prefers-color-scheme: dark)');
+  try {
+    if (_.isFunction(window.matchMedia)) {
+      const matcher = window.matchMedia('(prefers-color-scheme: dark)');
 
-    // Register listener
-    matcher.addEventListener('change', () => {
+      // Register listener
+      matcher.addEventListener('change', () => {
+        if (matcher.matches) {
+          changeIcons(true);
+        }
+        else {
+          changeIcons(false);
+        }
+      });
+
+      // Init state
       if (matcher.matches) {
         changeIcons(true);
       }
       else {
         changeIcons(false);
       }
-    });
-
-    // Init state
-    if (matcher.matches) {
-      changeIcons(true);
     }
-    else {
-      changeIcons(false);
-    }
+  } catch (e) {
+    logger.error(e);
   }
 }
