@@ -59,6 +59,8 @@ const perusteToUrlShortParam = {
   'koulutustyyppi_2': 'lukio',
   'koulutustyyppi_999907': 'tpo',
   'koulutustyyppi_17': 'aipe',
+  'koulutustyyppi_14': 'lukio',
+  'koulutustyyppi_23': 'lukio',
 };
 
 const stateToKt = _.zipObject(
