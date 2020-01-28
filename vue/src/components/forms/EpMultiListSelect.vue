@@ -18,10 +18,10 @@
             @input="handleInput($event, i)" >
 
             <template slot="singleLabel" slot-scope="{ option }">
-              <div v-if="itemsContains(option)">
+              <!-- <div v-if="itemsContains(option)"> -->
                 {{option.text}}
-              </div>
-              <div v-else />
+              <!-- </div>
+              <div v-else /> -->
             </template>
 
             <template slot="option" slot-scope="{ option }">
@@ -66,6 +66,13 @@ import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpMultiSelect from '@shared/components/forms/EpMultiSelect.vue';
 import Multiselect from 'vue-multiselect';
 
+export interface MultiListSelectItem {
+  value: any,
+  text: string,
+  unselectable: boolean,
+  child: boolean,
+}
+
 @Component({
   components: {
     EpSpinner,
@@ -75,7 +82,7 @@ import Multiselect from 'vue-multiselect';
 })
 export default class EpMultiListSelect extends Mixins(EpValidation) {
   @Prop({ required: true })
-  private items!: any[];
+  private items!: MultiListSelectItem[];
 
   @Prop({ required: true })
   private value!: any[];
@@ -92,12 +99,17 @@ export default class EpMultiListSelect extends Mixins(EpValidation) {
     this.$emit('input', [...this.innerModelsValues]);
   }
 
-  async mounted() {
-    this.innerModels = _.map(this.value, (singleValue) => _.head(_.filter(this.items, (item) => item.value === singleValue)));
+  @Watch('items', { immediate: true })
+  onChange(val) {
+    this.innerModels = _.map(this.value, (singleValue) => _.head(_.filter(this.items, (item) => _.isEqual(item.value, singleValue))));
   }
 
   get lisaaTeksti() {
-    return 'lisaa' + (!_.isEmpty(this.tyyppi) ? '-' + this.tyyppi : '');
+    if(this.tyyppi) {
+      return 'lisaa-' + this.tyyppi;
+    }
+
+    return 'lisaa';
   }
 
   itemsContains(model) {
