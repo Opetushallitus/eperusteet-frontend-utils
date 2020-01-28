@@ -4,6 +4,7 @@
       <div v-for="(innerModel, i) in innerModels" :key="i" class="row mb-2">
         <div class="col-11">
           <multiselect
+            :disabled="isLoading"
             class="groupselect"
             v-model="innerModels[i]"
             :options="items"
@@ -16,13 +17,6 @@
             :placeholder="''"
             :class="{'is-invalid': isInvalid && i === 0 }"
             @input="handleInput($event, i)" >
-
-            <template slot="singleLabel" slot-scope="{ option }">
-              <!-- <div v-if="itemsContains(option)"> -->
-                {{option.text}}
-              <!-- </div>
-              <div v-else /> -->
-            </template>
 
             <template slot="option" slot-scope="{ option }">
               <div :class="{'child': option.child, 'unselectable': option.unselectable}">
@@ -41,13 +35,15 @@
 
         </div>
         <div class="col-1">
-          <ep-button v-if="i > 0" buttonClass="p-0 pt-2" variant="link" icon="roskalaatikko" @click="poistaValinta(i)" />
+          <ep-button v-if="i > 0 && !isLoading" buttonClass="p-0 pt-2" variant="link" icon="roskalaatikko" @click="poistaValinta(i)"/>
         </div>
       </div>
 
-      <ep-button buttonClass="pl-0" variant="outline-primary" icon="plussa" @click="lisaaValinta">
+      <ep-spinner v-if="isLoading"/>
+      <ep-button buttonClass="pl-0" variant="outline-primary" icon="plussa" @click="lisaaValinta" v-else >
         {{ $t(lisaaTeksti) }}
       </ep-button>
+
 
       <div class="valid-feedback" v-if="!validationError && validMessage">{{ $t(validMessage) }}</div>
       <div class="invalid-feedback" v-else-if="validationError && invalidMessage ">{{ $t(invalidMessage) }}</div>
@@ -95,13 +91,25 @@ export default class EpMultiListSelect extends Mixins(EpValidation) {
 
   private innerModels: any[] = [];
 
+  @Prop({default: false})
+  public isLoading!: boolean;
+
   private updateValue() {
     this.$emit('input', [...this.innerModelsValues]);
   }
 
   @Watch('items', { immediate: true })
-  onChange(val) {
-    this.innerModels = _.map(this.value, (singleValue) => _.head(_.filter(this.items, (item) => _.isEqual(item.value, singleValue))));
+  itemsChange(items) {
+    this.changeInnerModels(items, this.value);
+  }
+
+  @Watch('value', { immediate: true })
+  valueChange(value) {
+    this.changeInnerModels(this.items, value);
+  }
+
+  private changeInnerModels(items, value) {
+    this.innerModels = _.map(value, (singleValue) => _.head(_.filter(items, (item) => _.isEqual(item.value, singleValue))));
   }
 
   get lisaaTeksti() {
@@ -110,10 +118,6 @@ export default class EpMultiListSelect extends Mixins(EpValidation) {
     }
 
     return 'lisaa';
-  }
-
-  itemsContains(model) {
-    return _.includes(this.items, model);
   }
 
   lisaaValinta() {
