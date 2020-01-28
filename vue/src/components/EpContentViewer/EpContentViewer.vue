@@ -9,10 +9,12 @@
                placement="bottom">
       <template v-slot:title v-if="viite.termi.selitys">{{ $kaanna(viite.termi.termi) }}</template>
       <div v-if="!viite.termi.selitys">{{ $kaanna(viite.termi.termi) }}</div>
-      <ep-content-viewer v-if="viite.termi.selitys"
+      <div v-if="viite.termi.selitys" v-html="$kaanna(viite.termi.selitys)"></div>
+      <!-- Ei toimi production buildissa -->
+      <!--<ep-content-viewer v-if="viite.termi.selitys"
                          :value="$kaanna(viite.termi.selitys)"
                          :termit="termit"
-                         :kuvat="kuvat" />
+                         :kuvat="kuvat" />-->
     </b-popover>
   </div>
 </div>
