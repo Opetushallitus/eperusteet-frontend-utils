@@ -35,5 +35,7 @@ export enum KoulutustyyppiToteutus {
   yksinkertainen = 'yksinkertainen',
   perusopetus = 'perusopetus',
   lops = 'lops',
-  lops2019 = 'lops2019'
+  lops2019 = 'lops2019',
+  tpo = 'taiteenperusopetus',
+
 }
