@@ -35,7 +35,7 @@
 
         </div>
         <div class="col-1">
-          <ep-button v-if="i > 0 && !isLoading" buttonClass="p-0 pt-2" variant="link" icon="roskalaatikko" @click="poistaValinta(i)"/>
+          <ep-button v-if="!required || (i > 0 && !isLoading)" buttonClass="p-0 pt-2" variant="link" icon="roskalaatikko" @click="poistaValinta(i)"/>
         </div>
       </div>
 
@@ -89,6 +89,9 @@ export default class EpMultiListSelect extends Mixins(EpValidation) {
   @Prop({ default: null })
   public validation!: any;
 
+  @Prop({ required: false, default: false })
+  private required!: boolean;
+
   private innerModels: any[] = [];
 
   @Prop({default: false})
@@ -101,11 +104,12 @@ export default class EpMultiListSelect extends Mixins(EpValidation) {
   @Watch('items', { immediate: true })
   itemsChange(items) {
     this.changeInnerModels(items, this.value);
-  }
 
-  @Watch('value', { immediate: true })
-  valueChange(value) {
-    this.changeInnerModels(this.items, value);
+    if (this.required && _.isEmpty(this.innerModels)) {
+      this.innerModels = [
+        {},
+      ];
+    }
   }
 
   private changeInnerModels(items, value) {
@@ -143,8 +147,7 @@ export default class EpMultiListSelect extends Mixins(EpValidation) {
         this.updateValue();
       }
       else {
-        this.poistaValinta(index);
-        this.lisaaValinta();
+        this.innerModels[index] = {};
       }
     }
   }
