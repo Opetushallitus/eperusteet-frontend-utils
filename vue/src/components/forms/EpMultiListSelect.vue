@@ -54,7 +54,7 @@
 
 <script lang="ts">
 import _ from 'lodash';
-import { Component, Prop, Mixins, Watch } from 'vue-property-decorator';
+import { Component, Prop, Mixins, Watch, Vue } from 'vue-property-decorator';
 
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import EpValidation from '../../mixins/EpValidation';
@@ -147,7 +147,7 @@ export default class EpMultiListSelect extends Mixins(EpValidation) {
         this.updateValue();
       }
       else {
-        this.innerModels[index] = {};
+        Vue.set(this.innerModels, index, {});
       }
     }
   }
