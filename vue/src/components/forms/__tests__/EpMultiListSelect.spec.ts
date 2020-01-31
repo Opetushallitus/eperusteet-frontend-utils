@@ -1,0 +1,279 @@
+import { mount, createLocalVue, shallowMount } from '@vue/test-utils';
+import EpMultiListSelect from '../EpMultiListSelect.vue';
+import { KieliStore } from '../../../stores/kieli';
+import Vue from 'vue';
+import BootstrapVue from 'bootstrap-vue';
+
+Vue.use(BootstrapVue);
+
+describe('EpSelect component', () => {
+
+  const localVue = createLocalVue();
+  const itemMock = [
+    {
+      value: 'value1',
+      text: 'text1',
+    },
+    {
+      value: 'value2',
+      text: 'text2',
+    },{
+      value: 'value3',
+      text: 'text3',
+    }
+  ];
+  const valueMockEmpty = [];
+  const valueMock = ['value1', 'value2', 'value3'];
+
+  KieliStore.setup(localVue,{
+    messages: {
+      fi: {
+        'lisaa-tyyppi1': 'lisaa tyyppi',
+        'ei-hakutuloksia': 'ei hakutuloksia',
+        'ei-vaihtoehtoja': 'ei vaihtoehtoja',
+      }
+    },
+  });
+
+  const i18n = KieliStore.i18n;
+
+  function mountWrapper(props : any) {
+    return mount(localVue.extend({
+      components: {
+        EpMultiListSelect,
+      },
+      data(){
+        return props;
+      },
+      template: `<ep-multi-list-select
+                  :value="value"
+                  :tyyppi="tyyppi"
+                  :items="items"
+                  @input="update"
+                  :validation="validation"
+                  :required="required"/>`
+    }), {
+      stubs: {
+        fas: true
+      },
+      localVue,
+      i18n,
+      sync: false,
+    });
+  };
+
+  test('Renders one list with content', async () => {
+    const wrapper = mountWrapper({
+      items: itemMock,
+      value: valueMockEmpty,
+      tyyppi: 'tyyppi1',
+      validation:'',
+      required: true,
+      update: () => {},
+    });
+
+    expect(wrapper.html()).toContain('text1');
+    expect(wrapper.html()).toContain('text2');
+    expect(wrapper.html()).toContain('text3');
+
+    expect(wrapper.findAll('.multiselect__element')).toHaveLength(3);
+
+    expect(wrapper.html()).toContain('lisaa tyyppi');
+
+  });
+
+  test('No lists rendered when not required', async () => {
+    const wrapper = mountWrapper({
+      items: itemMock,
+      value: valueMockEmpty,
+      tyyppi: 'tyyppi1',
+      validation:'',
+      required: false,
+      update: () => {},
+    });
+
+    expect(wrapper.findAll('.multiselect__select')).toHaveLength(0);
+
+  });
+
+  test('Renders list when add button pressed', async () => {
+    const wrapper = mountWrapper({
+      items: itemMock,
+      value: valueMockEmpty,
+      tyyppi: 'tyyppi1',
+      validation:'',
+      required: true,
+      update: () => {},
+    });
+
+    expect(wrapper.findAll('.multiselect__select')).toHaveLength(1);
+
+    wrapper.find('.lisaa-valinta').trigger('click');
+    await localVue.nextTick();
+
+    wrapper.find('.lisaa-valinta').trigger('click');
+    await localVue.nextTick();
+
+    expect(wrapper.findAll('.multiselect__select')).toHaveLength(3);
+  });
+
+  test('Renders list when lists are removed', async () => {
+    const wrapper = mountWrapper({
+      items: itemMock,
+      value: valueMock,
+      tyyppi: 'tyyppi1',
+      validation:'',
+      required: true,
+      update: () => {},
+    });
+
+    expect(wrapper.findAll('.multiselect__select')).toHaveLength(3);
+
+    wrapper.find('.roskalaatikko').trigger('click');
+    await localVue.nextTick();
+    expect(wrapper.findAll('.multiselect__select')).toHaveLength(2);
+
+    wrapper.find('.roskalaatikko').trigger('click');
+    await localVue.nextTick();
+    expect(wrapper.findAll('.multiselect__select')).toHaveLength(1);
+  });
+
+  test('Value changed correctly with single select', async () => {
+    let values = [];
+    const wrapper = mountWrapper({
+      items: itemMock,
+      value: valueMockEmpty,
+      tyyppi: 'tyyppi1',
+      validation:'',
+      required: true,
+      update: (newValues) => {
+        values = newValues;
+      },
+    });
+
+    expect(values).toEqual([]);
+
+    wrapper.findAll('.multiselect__element').at(1)
+      .find('.multiselect__option')
+      .trigger('click');
+
+    expect(values).toEqual(['value2']);
+
+    wrapper.findAll('.multiselect__element').at(2)
+      .find('.multiselect__option')
+      .trigger('click');
+
+    expect(values).toEqual(['value3']);
+  });
+
+  test('Value changed correctly with multiple selects', async () => {
+    let values = [];
+    const wrapper = mountWrapper({
+      items: itemMock,
+      value: valueMockEmpty,
+      tyyppi: 'tyyppi1',
+      validation:'',
+      required: true,
+      update: (newValues) => {
+        values = newValues;
+      },
+    });
+
+    expect(values).toEqual([]);
+
+    wrapper.find('.lisaa-valinta').trigger('click');
+    await localVue.nextTick();
+
+    wrapper.findAll('.multiselect').at(0)
+      .findAll('.multiselect__element')
+      .at(1)
+      .find('.multiselect__option')
+      .trigger('click');
+
+    expect(values).toEqual(['value2']);
+
+    wrapper.findAll('.multiselect').at(1)
+      .findAll('.multiselect__element')
+      .at(1)
+      .find('.multiselect__option')
+      .trigger('click');
+
+    expect(values).toEqual(['value2']); // already selected
+
+    wrapper.findAll('.multiselect').at(1)
+      .findAll('.multiselect__element')
+      .at(2)
+      .find('.multiselect__option')
+      .trigger('click');
+
+    expect(values).toEqual(['value2', 'value3']);
+
+  });
+
+  test('Value changed correctly when removed', async () => {
+    let values = ['value1', 'value2'];
+    const wrapper = mountWrapper({
+      items: itemMock,
+      value: values,
+      tyyppi: 'tyyppi1',
+      validation:'',
+      required: true,
+      update: (newValues) => {
+        values = newValues;
+      },
+    });
+
+    expect(values).toEqual(['value1', 'value2']);
+    expect(wrapper.findAll('.multiselect__select')).toHaveLength(2);
+
+    wrapper.findAll('.roskalaatikko').at(0)
+      .trigger('click');
+    await localVue.nextTick();
+
+
+    expect(values).toEqual(['value1']);
+
+  });
+
+  test('Value changed correctly when items changed on fly', async () => {
+    let values = ['value1', 'value2'];
+    let itemMocks = [
+      {
+        value: 'value1',
+        text: 'text1',
+      },
+      {
+        value: 'value2',
+        text: 'text2',
+      },{
+        value: 'value3',
+        text: 'text3',
+      }
+    ];
+    const wrapper = mountWrapper({
+      items: itemMocks,
+      value: values,
+      tyyppi: 'tyyppi1',
+      validation:'',
+      required: true,
+      update: (newValues) => {
+        values = newValues;
+      },
+    });
+
+    expect(values).toEqual(['value1', 'value2']);
+    expect(wrapper.findAll('.multiselect__select')).toHaveLength(2);
+    await localVue.nextTick();
+
+    itemMocks = itemMocks.splice(0,1);
+
+    wrapper.setProps({items: itemMocks});
+
+    await localVue.nextTick();
+
+    expect(wrapper.findAll('.multiselect__select')).toHaveLength(1);
+    expect(values).toEqual(['value2']);
+
+  });
+
+});
