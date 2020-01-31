@@ -3,10 +3,8 @@ import EpMultiListSelect from '../EpMultiListSelect.vue';
 import { KieliStore } from '../../../stores/kieli';
 import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
-import Multiselect from 'vue-multiselect';
 
 Vue.use(BootstrapVue);
-Vue.component('multiselect', Multiselect);
 
 describe('EpMultiListSelect component', () => {
 
