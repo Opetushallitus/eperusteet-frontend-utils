@@ -35,12 +35,12 @@
 
         </div>
         <div class="col-1">
-          <ep-button v-if="!required || (i > 0 && !isLoading)" buttonClass="p-0 pt-2" variant="link" icon="roskalaatikko" @click="poistaValinta(i)"/>
+          <ep-button v-if="!required || (i > 0 && !isLoading)" buttonClass="p-0 pt-2 roskalaatikko" variant="link" icon="roskalaatikko" @click="poistaValinta(i)"/>
         </div>
       </div>
 
       <ep-spinner v-if="isLoading"/>
-      <ep-button buttonClass="pl-0" variant="outline-primary" icon="plussa" @click="lisaaValinta" v-else >
+      <ep-button buttonClass="pl-0 lisaa-valinta" variant="outline-primary" icon="plussa" @click="lisaaValinta" v-else >
         {{ $t(lisaaTeksti) }}
       </ep-button>
 
@@ -113,7 +113,11 @@ export default class EpMultiListSelect extends Mixins(EpValidation) {
   }
 
   private changeInnerModels(items, value) {
-    this.innerModels = _.map(value, (singleValue) => _.head(_.filter(items, (item) => _.isEqual(item.value, singleValue))));
+    this.innerModels = _.chain(value)
+      .map((singleValue) => _.head(_.filter(items, (item) => _.isEqual(item.value, singleValue))))
+      .filter(singleValue => _.isObject(singleValue))
+      .value();
+    this.updateValue();
   }
 
   get lisaaTeksti() {
