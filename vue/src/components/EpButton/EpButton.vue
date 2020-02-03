@@ -11,7 +11,9 @@
          :class="{ 'mr-2': $slots.default, 'icon': isOutline }">
       <fas fixed-width :icon="icon"></fas>
     </span>
-    <slot />
+    <div class="pl-3 pr-3">
+      <slot />
+    </div>
     <ep-spinner-inline v-if="showSpinner" />
   </b-button>
   <b-tooltip v-if="help" :target="() => $refs['button-container']">{{ $t(help) }}</b-tooltip>

@@ -4,7 +4,6 @@
 </div>
 </template>
 
-
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
@@ -32,7 +31,7 @@ export default class EpIcon extends Vue {
   private backgroundColor!: string;
 
   get actualBackground() {
-    return this.backgroundColor || (ColorMap as any)[this.icon] || '#3367E3';
+    return this.backgroundColor || ColorMap[this.icon] || '#3367E3';
   }
 }
 </script>

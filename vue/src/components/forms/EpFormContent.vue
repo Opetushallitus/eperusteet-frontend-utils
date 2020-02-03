@@ -1,6 +1,6 @@
 <template>
 <div class="form-group form-content">
-    <div>
+    <div v-if="showHeader">
         <h3 :class="headerClass" v-if="headerType === 'h3'">{{ $t(name) }}</h3>
         <label v-else>{{ $t(name) }}</label>
     </div>
@@ -24,6 +24,9 @@ export default class EpFormContent extends Vue {
 
   @Prop({ type: String })
   private headerClass!: string;
+
+  @Prop({ required: false, default: true})
+  private showHeader!:boolean;
 }
 </script>
 

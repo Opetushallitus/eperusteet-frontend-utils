@@ -44,7 +44,7 @@
 import { Component, Prop, Mixins } from 'vue-property-decorator';
 
 import Multiselect from 'vue-multiselect';
-import EpContent from '@/components/EpContent/EpContent.vue';
+import EpContent from '@shared/components/EpContent/EpContent.vue';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import EpValidation from '../../mixins/EpValidation';
