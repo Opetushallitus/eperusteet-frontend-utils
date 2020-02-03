@@ -34,7 +34,7 @@
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
-import { TutoriaaliStore } from '@/stores/tutoriaaliStore';
+import { TutoriaaliStore } from '@shared/stores/tutoriaali';
 import _ from 'lodash';
 
 @Component({
@@ -100,7 +100,7 @@ export default class EpTutorial extends Vue {
       const el = document.getElementById(val);
       if (el) {
         el.classList.add('tutorial-highlight');
-      }                
+      }
     }
   }
 }

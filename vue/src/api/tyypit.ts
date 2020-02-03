@@ -53,3 +53,4 @@ export type Lops2019OpintojaksonModuuliDto = YlopsApi.Lops2019OpintojaksonModuul
 export type YlopsNavigationNodeDto = YlopsApi.NavigationNodeDto;
 export type Lops2019PaikallinenOppiaineDto = YlopsApi.Lops2019PaikallinenOppiaineDto;
 export type KoodistoKoodiDto = YlopsApi.KoodistoKoodiDto;
+export type RevisionDto = YlopsApi.RevisionDto;
