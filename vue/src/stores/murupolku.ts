@@ -1,21 +1,27 @@
-import { Getter, State, Store } from './store';
+import { Getter, State, Store } from '@shared/stores/store';
+import _ from 'lodash';
+import { Location } from 'vue-router';
+
 
 @Store
 class MurupolkuStore {
   @State()
   public polku: { [avain: string]: any } = {};
 
-  @Getter((state, getters) => {})
-  murut() {
+  @Getter(state => {
     return {
-      ...this.polku,
+      ...state.polku,
     };
-  }
+  })
+  public readonly murut!: object;
 
-  aseta(key: string, value: any) {
+  aseta(key: string, value: any, location?: Location) {
     this.polku = {
       ...this.polku,
-      [key]: value,
+      [key]: {
+        name: value,
+        location,
+      },
     };
   }
 }

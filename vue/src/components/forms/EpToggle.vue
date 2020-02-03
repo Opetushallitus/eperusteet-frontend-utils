@@ -3,7 +3,8 @@
   <b-form-checkbox :disabled="!isEditing"
                    v-model="innerValue"
                    :inline="inline"
-                   switch>
+                   :switch="isSWitch"
+                   :class="{'switch': isSWitch}">
     <slot/>
   </b-form-checkbox>
 </div>
@@ -28,6 +29,9 @@ export default class EpToggle extends Vue {
   @Prop({ default: true, type: Boolean })
   private inline!: boolean;
 
+  @Prop({ default: true })
+  private isSWitch!: boolean;
+
   get innerValue() {
     return this.value;
   }
@@ -39,8 +43,14 @@ export default class EpToggle extends Vue {
 </script>
 
 <style scoped lang="scss">
+
 /deep/ label.custom-control-label::before {
+  border-radius: 0.2rem;
+}
+
+/deep/ .switch label.custom-control-label::before {
   border-radius: 10px;
   border: 2px solid #E0E0E1;
 }
+
 </style>

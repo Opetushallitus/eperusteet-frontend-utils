@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 export const KoodistoLops2019LaajaAlaiset = 'laajaalainenosaaminenlops2021';
 
-const themes = {
+export const themes = {
   'koulutustyyppi_1': 'ammatillinen',
   'koulutustyyppi_11': 'ammatillinen',
   'koulutustyyppi_12': 'ammatillinen',
@@ -29,7 +29,7 @@ const themeColors = {
   'taiteenperusopetus': [250, 204, 234],
 };
 
-const ktToState = {
+export const ktToState = {
   'koulutustyyppi_1': 'ammatillinenperustutkinto',
   'koulutustyyppi_11': 'ammattitutkinto',
   'koulutustyyppi_12': 'erikoisammattitutkinto',
