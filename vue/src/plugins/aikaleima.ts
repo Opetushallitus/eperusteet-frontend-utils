@@ -1,9 +1,20 @@
 import Vue from 'vue';
+import VueI18n from 'vue-i18n';
 import moment from 'moment';
 import { createLogger } from '../utils/logger';
 import { Kielet } from '../stores/kieli';
 
 const logger = createLogger('Aikaleima');
+
+declare module 'vue/types/vue' {
+  interface Vue {
+    $t: typeof VueI18n.prototype.t;
+    $tc: typeof VueI18n.prototype.tc;
+    $te: typeof VueI18n.prototype.te;
+    $d: typeof VueI18n.prototype.d;
+    $n: typeof VueI18n.prototype.n;
+  }
+}
 
 export class Aikaleima {
 
@@ -76,4 +87,5 @@ export class Aikaleima {
   }
 }
 
-export default new Aikaleima();
+const aikaleima = new Aikaleima();
+export default aikaleima;

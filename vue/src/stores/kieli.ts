@@ -1,17 +1,17 @@
-import Aikaleima from '../plugins/aikaleima';
-import Kaannos from '../plugins/kaannos';
 import { createLogger } from '../utils/logger';
 import { Kieli } from '../tyypit';
 import _ from 'lodash';
-import { VueConstructor } from 'vue';
 import VueI18n from 'vue-i18n';
+import Vue, { VueConstructor } from 'vue';
 import moment from 'moment';
 import 'moment/locale/en-gb';
 import 'moment/locale/fi';
 import 'moment/locale/ru';
 import 'moment/locale/se';
 import 'moment/locale/sv';
-import { Getter, Mutation, State, Store } from './store';
+import VueCompositionApi, {computed, reactive} from '@vue/composition-api';
+
+Vue.use(VueCompositionApi);
 
 
 export const UiKielet = Object.freeze(['fi', 'sv', 'en']);
@@ -32,25 +32,21 @@ function getMessages() {
 }
 
 
-@Store
-export class KieliStore {
+export class Kielet {
   private static vi18n: VueI18n;
 
   static get i18n() {
-    return KieliStore.vi18n;
+    return Kielet.vi18n;
   }
 
   /**
    * Add language support to root vue instance.
    *
    */
-  public static setup(v: VueConstructor,
+  public static install(v: VueConstructor,
     config: Partial<VueI18n.I18nOptions> = {}) {
-    v.use(VueI18n);
-    v.use(Aikaleima);
-    v.use(Kaannos);
     moment.locale(Kieli.fi);
-    KieliStore.vi18n = new VueI18n(_.merge({
+    Kielet.vi18n = new VueI18n(_.merge({
       fallbackLocale: Kieli.fi,
       locale: Kieli.fi,
       messages: getMessages(),
@@ -61,59 +57,52 @@ export class KieliStore {
    * Load translation from other source
    *
    */
-  public static async load(loader: () => Promise<Kaannokset>) {
+  public static async load(kaannokset: Kaannokset) {
     logger.info('Initing locales');
-    const results = await this.fetchLocaleMap(loader);
+    const results = await this.fetchLocaleMap(kaannokset);
     _.forEach(results, (locales, lang) => {
-      KieliStore.i18n.mergeLocaleMessage(lang, locales);
+      Kielet.i18n.mergeLocaleMessage(lang, locales);
     });
   }
 
-  @State()
-  private sisaltoKieli: Kieli = Kieli.fi;
+  private static readonly state = reactive({
+    sisaltoKieli: Kieli.fi,
+  });
 
-  @Getter(() => KieliStore.i18n.locale)
-  public readonly getUiKieli!: string;
+  public static readonly getUiKieli = computed(() => Kielet.i18n.locale);
+  public static readonly getSisaltoKieli = computed(() => Kielet.state.sisaltoKieli);
 
-  @Getter((state) => {
-    const kieli = state.sisaltoKieli;
+  public static readonly getAikakaannokset = computed(() => {
+    const kieli = Kielet.state.sisaltoKieli;
     return {
       days: _.map(moment.weekdays(), (day: string) => _.toUpper(_.first(day))),
       months: moment.monthsShort(),
       placeholder: {
-        date: KieliStore.i18n.t('valitse-pvm'),
-        dateRange: KieliStore.i18n.t('valitse-pvm-jana'),
+        date: Kielet.i18n.t('valitse-pvm'),
+        dateRange: Kielet.i18n.t('valitse-pvm-jana'),
       },
     };
   })
-  public readonly getAikakaannokset!: any;
 
-  @Getter((state) => {
-    return state.sisaltoKieli;
-  })
-  public readonly getSisaltoKieli!: Kieli;
-
-  @Mutation()
-  public setUiKieli(kieli: Kieli) {
-    if (KieliStore.i18n.locale !== kieli && _.includes(UiKielet, kieli)) {
+  public static setUiKieli(kieli: Kieli) {
+    if (this.i18n.locale !== kieli && _.includes(UiKielet, kieli)) {
       // this.logger.debug('Ui kieli ->', kieli);
       moment.locale(kieli);
-      KieliStore.i18n.locale = kieli;
+      this.i18n.locale = kieli;
     }
   }
 
-  @Mutation()
-  public setSisaltoKieli(kieli: Kieli) {
-    if (this.sisaltoKieli !== kieli && _.includes(UiKielet, kieli)) {
-      this.sisaltoKieli = kieli;
+  public static setSisaltoKieli(kieli: Kieli) {
+    if (this.state.sisaltoKieli !== kieli && _.includes(UiKielet, kieli)) {
+      this.state.sisaltoKieli = kieli;
     }
   }
 
-  public haeLokalisoituOlio(avain: string) {
+  public static haeLokalisoituOlio(avain: string) {
     const result = {
-      fi: KieliStore.vi18n.t(avain, 'fi'),
-      sv: KieliStore.vi18n.t(avain, 'sv'),
-      en: KieliStore.vi18n.t(avain, 'en'),
+      fi: this.vi18n.t(avain, 'fi'),
+      sv: this.vi18n.t(avain, 'sv'),
+      en: this.vi18n.t(avain, 'en'),
     };
     return result;
   }
@@ -122,9 +111,9 @@ export class KieliStore {
    * Check if text query matches object
    *
    */
-  public search(query: string, text: any, config = {}): boolean {
+  public static search(query: string, text: any, config = {}): boolean {
     if (text && query) {
-      const target = _.isString(text) ? text : text[this.sisaltoKieli];
+      const target = _.isString(text) ? text : text[this.getSisaltoKieli.value];
       return _.includes(_.toLower(target), _.toLower(query));
     }
     else {
@@ -132,7 +121,7 @@ export class KieliStore {
     }
   }
 
-  public searchFn(query: string) {
+  public static searchFn(query: string) {
     return (text: any) => this.search(query, text);
   }
 
@@ -140,9 +129,9 @@ export class KieliStore {
    * i18n locale convert
    *
    */
-  public t(value: string): string {
-    if (KieliStore.vi18n) {
-      return KieliStore.vi18n.t(value) as string || '<' + value + '>';
+  public static t(value: string): string {
+    if (this.vi18n) {
+      return this.vi18n.t(value) as string || '<' + value + '>';
     }
     else {
       return value;
@@ -154,12 +143,12 @@ export class KieliStore {
    *
    * @returns {string}
    */
-  public sortValue(value: any): string {
+  public static sortValue(value: any): string {
     if (!value) {
       return '';
     }
     else if (_.isObject(value)) {
-      const locale = Kielet.getSisaltoKieli;
+      const locale = this.getSisaltoKieli.value;
       return (value as any)[locale];
     }
     else {
@@ -167,18 +156,18 @@ export class KieliStore {
     }
   };
 
-  public kaanna(value: object): string {
+  public static kaanna(value: LokalisoituTeksti | string): string {
     if (!value) {
       return '';
     }
     else if (_.isObject(value)) {
-      const locale = Kielet.getSisaltoKieli;
+      const locale = this.getSisaltoKieli.value;
       const kielet = [locale, ..._.pull(['fi', 'sv', 'en', 'se', 'ru'], locale)];
       let teksti = '';
 
       _.forEach(kielet, kieli => {
         if (!_.isEmpty(value[kieli])) {
-          teksti = value[kieli];
+          teksti = value[kieli] as string;
           return false;
         }
       });
@@ -191,22 +180,22 @@ export class KieliStore {
     }
   };
 
-  public kaannaOlioTaiTeksti(value: object | string): string {
+  public static kaannaOlioTaiTeksti(value: LokalisoituTeksti | string): string {
     if (_.isObject(value)) {
-      return Kielet.kaanna(value);
+      return this.kaanna(value);
     }
     else if (_.isString(value)) {
-      return Kielet.t(value);
+      return this.t(value);
     }
     else {
       return value;
     }
   }
 
-  private static async fetchLocaleMap(fn: () => Promise<Kaannokset>) {
+  private static async fetchLocaleMap(kaannokset: Kaannokset) {
     try {
       const result: any = {};
-      const localeObj = await fn();
+      const localeObj = kaannokset;
       _.forEach(localeObj, (locales, lang) => {
         result[lang] = {};
         for (const locale of locales) {
@@ -224,9 +213,6 @@ export class KieliStore {
   }
 }
 
-export const Kielet = new KieliStore();
-
-
 export interface Kaannos {
   key: string;
   value: string;
@@ -234,4 +220,10 @@ export interface Kaannos {
 
 export interface Kaannokset {
   [locale: string]: Kaannos[];
+}
+
+export interface LokalisoituTeksti {
+  [locale: string]: string | null | undefined | number;
+  _id?: number;
+  _tunniste?: string;
 }
