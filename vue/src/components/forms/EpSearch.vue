@@ -41,7 +41,7 @@ export default class EpSearch extends Vue {
 
   get val() {
     if (_.isObject(this.value)) {
-      return (this.value as any)[Kielet.getSisaltoKieli];
+      return (this.value as any)[Kielet.getSisaltoKieli.value];
     }
     else {
       return this.value;
