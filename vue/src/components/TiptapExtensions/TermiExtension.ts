@@ -1,7 +1,7 @@
 import { Node, Mark } from 'tiptap';
 import Vue from 'vue';
 
-import { IKasiteHandler, } from '@shared/stores/kuvat';
+import { IKasiteHandler } from '@shared/stores/kuvat';
 import { domAttrsGetter } from './helpers';
 import { KieliStore } from '@shared/stores/kieli';
 import { TermiDto } from '@/tyypit';
