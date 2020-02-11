@@ -165,10 +165,10 @@ export default class EpNavigation extends Vue {
 
   .ep-navbar {
     height: 50px;
-    background-color: $etusivu-header-background;
-    background-image: url('../../../public/img/banners/header.svg');
-    background-position: 100% 0;
-    background-repeat: no-repeat;
+    // background-color: $etusivu-header-background;
+    // background-image: url('../../../public/img/banners/header.svg');
+    // background-position: 100% 0;
+    // background-repeat: no-repeat;
 
     .kysymysmerkki {
       color: white;
