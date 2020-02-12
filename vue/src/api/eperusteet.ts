@@ -3,14 +3,10 @@ import { Configuration } from '../generated/eperusteet';
 import axios, { AxiosInstance } from 'axios';
 import _ from 'lodash';
 import {
-  DokumentitApi,
   DokumentitApiAxiosParamCreator,
-  LiitetiedostotApi,
   LiitetiedostotApiAxiosParamCreator,
-  PerusteenosatApi,
-  PerusteetApi,
-  TiedotteetApi,
 } from '../generated/eperusteet';
+import * as EperusteetApi from '../generated/eperusteet';
 import Qs from 'qs';
 import { createLogger } from '../utils/logger';
 
@@ -20,7 +16,7 @@ export const baseURL = '/eperusteet-service/api';
 
 const ax = axios.create({
   baseURL,
-  paramsSerializer: params => Qs.stringify(params, {arrayFormat: 'repeat'})
+  paramsSerializer: (params: any) => Qs.stringify(params, {arrayFormat: 'repeat'})
 });
 
 function successfulResponseHandler() {
@@ -42,10 +38,28 @@ function initApi<T>(X: BaseAPIConstructor<T>): T {
 }
 
 export const Api = ax;
-export const Perusteet = initApi(PerusteetApi);
-export const Tiedotteet = initApi(TiedotteetApi);
-export const Liitetiedostot = initApi(LiitetiedostotApi);
+export const Perusteet = initApi(EperusteetApi.PerusteetApi);
+export const Tiedotteet = initApi(EperusteetApi.TiedotteetApi);
+export const Liitetiedostot = initApi(EperusteetApi.LiitetiedostotApi);
+export const Dokumentit = initApi(EperusteetApi.DokumentitApi);
+export const Perusteenosat = initApi(EperusteetApi.PerusteenosatApi);
+export const Kayttajat = initApi(EperusteetApi.KayttajatApi);
+
+export type PerusteDto = EperusteetApi.PerusteDto;
+export type PerusteHakuDto = EperusteetApi.PerusteHakuDto;
+export type PerusteKevytDto = EperusteetApi.PerusteKevytDto;
+export type TiedoteDto = EperusteetApi.TiedoteDto;
+export type PageTiedoteDto = EperusteetApi.PageTiedoteDto;
+export type PerusteKoosteDto = EperusteetApi.PerusteKoosteDto;
+export type Lops2019SisaltoDto = EperusteetApi.Lops2019SisaltoDto;
+export type Laaja = EperusteetApi.Laaja;
+export type Lops2019OppiaineKaikkiDto = EperusteetApi.Lops2019OppiaineKaikkiDto;
+export type Lops2019ModuuliDto = EperusteetApi.Lops2019ModuuliDto;
+export type Lops2019LaajaAlainenOsaaminenKokonaisuusDto = EperusteetApi.Lops2019LaajaAlainenOsaaminenKokonaisuusDto;
+export type LiiteDto = EperusteetApi.LiiteDto;
+export type KayttajanTietoDto = EperusteetApi.KayttajanTietoDto;
+export type RevisionDto = EperusteetApi.Revision;
+
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
-export const Dokumentit = initApi(DokumentitApi);
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
-export const Perusteenosat = initApi(PerusteenosatApi);
+
