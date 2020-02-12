@@ -40,7 +40,7 @@
       </div>
 
       <ep-spinner v-if="isLoading"/>
-      <ep-button buttonClass="pl-0 lisaa-valinta" variant="outline-primary" icon="plussa" @click="lisaaValinta" v-else >
+      <ep-button buttonClass="pl-0 lisaa-valinta" variant="outline-primary" icon="plussa" @click="lisaaValinta" v-else-if="multiple" >
         {{ $t(lisaaTeksti) }}
       </ep-button>
 
@@ -81,7 +81,7 @@ export default class EpMultiListSelect extends Mixins(EpValidation) {
   private items!: MultiListSelectItem[];
 
   @Prop({ required: true })
-  private value!: any[];
+  private value!: any[] | any;
 
   @Prop({ required: false })
   private tyyppi!: string;
@@ -97,13 +97,26 @@ export default class EpMultiListSelect extends Mixins(EpValidation) {
   @Prop({default: false})
   public isLoading!: boolean;
 
+  @Prop({ default: true })
+  private multiple!: boolean;
+
   private updateValue() {
-    this.$emit('input', [...this.innerModelsValues]);
+    if  (this.multiple) {
+      this.$emit('input', [...this.innerModelsValues]);
+    }
+    else {
+      this.$emit('input', this.innerModelsValues[0]);
+    }
   }
 
   @Watch('items', { immediate: true })
   itemsChange(items) {
-    this.changeInnerModels(items, this.value);
+    if (!_.isArray(this.value)) {
+      this.changeInnerModels(items, [this.value]);
+    }
+    else {
+      this.changeInnerModels(items, this.value);
+    }
 
     if (this.required && _.isEmpty(this.innerModels)) {
       this.innerModels = [
