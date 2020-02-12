@@ -7,12 +7,8 @@ import {
   DokumentitApiAxiosParamCreator,
   LiitetiedostotApi,
   LiitetiedostotApiAxiosParamCreator,
-  LokalisointiApi,
-  Lops2019Api,
   PerusteenosatApi,
   PerusteetApi,
-  SisallotApi,
-  TermitApi,
   TiedotteetApi,
 } from '../generated/eperusteet';
 import Qs from 'qs';
@@ -52,8 +48,4 @@ export const Liitetiedostot = initApi(LiitetiedostotApi);
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
 export const Dokumentit = initApi(DokumentitApi);
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
-export const Sisallot = initApi(SisallotApi);
 export const Perusteenosat = initApi(PerusteenosatApi);
-export const Lops2019 = initApi(Lops2019Api);
-export const Termit = initApi(TermitApi);
-export const Lokalisointi = initApi(LokalisointiApi);
