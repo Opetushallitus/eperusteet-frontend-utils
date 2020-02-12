@@ -22,8 +22,6 @@
 <script lang="ts">
 
 import * as _ from 'lodash';
-import ImageExtension from '@shared/components/TiptapExtensions/ImageExtension';
-import TermiExtension from '@shared/components/TiptapExtensions/TermiExtension';
 import { Component, Mixins, Prop, Watch } from 'vue-property-decorator';
 import { Editor, EditorContent } from 'tiptap';
 import { Kielet } from '@shared/stores/kieli';

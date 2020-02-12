@@ -8,10 +8,6 @@ export interface LokalisoituTekstiDto {
   [key: string]: string;
 }
 
-export interface ViiteLaaja extends EperusteetApi.PerusteenOsaViiteDto {
-  lapset?: Array<object>;
-}
-
 export type LiiteDtoWrapper = {
   id: string,
   kuva: LiiteDto,
@@ -27,15 +23,10 @@ export type TiedoteDto = EperusteetApi.TiedoteDto;
 export type PageTiedoteDto = EperusteetApi.PageTiedoteDto;
 export type PerusteKoosteDto = EperusteetApi.PerusteKoosteDto;
 export type Lops2019SisaltoDto = EperusteetApi.Lops2019SisaltoDto;
-export type PerusteenOsaViiteDtoObject = EperusteetApi.PerusteenOsaViiteDtoObject;
-export type Matala = EperusteetApi.Matala;
 export type Laaja = EperusteetApi.Laaja;
-export type Lops2019OppiaineDto = EperusteetApi.Lops2019OppiaineDto;
 export type Lops2019OppiaineKaikkiDto = EperusteetApi.Lops2019OppiaineKaikkiDto;
 export type Lops2019ModuuliDto = EperusteetApi.Lops2019ModuuliDto;
 export type Lops2019LaajaAlainenOsaaminenKokonaisuusDto = EperusteetApi.Lops2019LaajaAlainenOsaaminenKokonaisuusDto;
-export type NavigationNodeDto = EperusteetApi.NavigationNodeDto;
-export type TermiDto = EperusteetApi.TermiDto;
 export type LiiteDto = EperusteetApi.LiiteDto;
 
 export type OpetussuunnitelmaDto = YlopsApi.OpetussuunnitelmaDto
@@ -50,7 +41,6 @@ export type Puu = YlopsApi.Puu;
 export type PerusteTekstiKappaleViiteDto = YlopsApi.PerusteTekstiKappaleViiteDto;
 export type PerusteTekstiKappaleViiteMatalaDto = YlopsApi.PerusteTekstiKappaleViiteMatalaDto;
 export type Lops2019OpintojaksonModuuliDto = YlopsApi.Lops2019OpintojaksonModuuliDto;
-export type YlopsNavigationNodeDto = YlopsApi.NavigationNodeDto;
 export type Lops2019PaikallinenOppiaineDto = YlopsApi.Lops2019PaikallinenOppiaineDto;
 export type KoodistoKoodiDto = YlopsApi.KoodistoKoodiDto;
 export type RevisionDto = YlopsApi.RevisionDto;

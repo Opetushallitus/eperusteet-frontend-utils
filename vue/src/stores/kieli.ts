@@ -20,12 +20,12 @@ const logger = createLogger('Kieli');
 function getMessages() {
   const result: any = {};
   try {
-    result.fi = require('@/translations/locale-fi.json');
+    result.fi = require('@shared/translations/locale-fi.json');
   }
   catch (e) {}
 
   try {
-    result.sv = require('@/translations/locale-sv.json');
+    result.sv = require('@shared/translations/locale-sv.json');
   }
   catch (e) {}
   return result;
