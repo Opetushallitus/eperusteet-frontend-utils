@@ -37,5 +37,20 @@ export enum KoulutustyyppiToteutus {
   lops = 'lops',
   lops2019 = 'lops2019',
   tpo = 'taiteenperusopetus',
-
 }
+
+export type EditorLayout = 'minimal' | 'simplified' | 'normal';
+
+export interface LokalisoituTekstiDto {
+  // id?: number;
+  // tunniste?: string;
+  [key: string]: string;
+}
+
+export type LiiteDtoWrapper = {
+  id: string,
+  kuva: any,
+  src: string,
+}
+
+export type ServiceType = 'eperusteet-service' | 'eperusteet-ylops-service' | 'eperusteet-amosaa-service';

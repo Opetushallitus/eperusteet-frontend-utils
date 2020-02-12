@@ -21,6 +21,7 @@ import {
   TermistoApi,
   UlkopuolisetApi,
 } from '../generated/ylops';
+import * as YlopsApi from '../generated/ylops';
 import Qs from 'qs';
 import { createLogger } from '../utils/logger';
 
@@ -70,3 +71,18 @@ export const Oppiaineet = initApi(Lops2019OppiaineetApi);
 export const Termisto = initApi(TermistoApi);
 export const Ulkopuoliset = initApi(UlkopuolisetApi);
 
+export type OpetussuunnitelmaDto = YlopsApi.OpetussuunnitelmaDto
+export type OpetussuunnitelmaInfoDto = YlopsApi.OpetussuunnitelmaInfoDto;
+export type OpetussuunnitelmaJulkinenDto = YlopsApi.OpetussuunnitelmaJulkinenDto;
+export type OpetussuunnitelmaKevytDto = YlopsApi.OpetussuunnitelmaKevytDto;
+export type Lops2019OpintojaksoDto = YlopsApi.Lops2019OpintojaksoDto;
+export type TekstiKappaleViiteKevytDto = YlopsApi.TekstiKappaleViiteKevytDto;
+export type TekstiKappaleKevytDto = YlopsApi.TekstiKappaleKevytDto;
+export type TekstiKappaleDto = YlopsApi.TekstiKappaleDto;
+export type Puu = YlopsApi.Puu;
+export type PerusteTekstiKappaleViiteDto = YlopsApi.PerusteTekstiKappaleViiteDto;
+export type PerusteTekstiKappaleViiteMatalaDto = YlopsApi.PerusteTekstiKappaleViiteMatalaDto;
+export type Lops2019OpintojaksonModuuliDto = YlopsApi.Lops2019OpintojaksonModuuliDto;
+export type Lops2019PaikallinenOppiaineDto = YlopsApi.Lops2019PaikallinenOppiaineDto;
+export type KoodistoKoodiDto = YlopsApi.KoodistoKoodiDto;
+export type RevisionDto = YlopsApi.RevisionDto;

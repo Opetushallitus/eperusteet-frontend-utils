@@ -110,13 +110,8 @@ export default class EpMultiListSelect extends Mixins(EpValidation) {
   }
 
   @Watch('items', { immediate: true })
-  itemsChange(items) {
-    if (!_.isArray(this.value)) {
-      this.changeInnerModels(items, [this.value]);
-    }
-    else {
-      this.changeInnerModels(items, this.value);
-    }
+  itemsChange(items: any) {
+    this.changeInnerModels(items, this.value);
 
     if (this.required && _.isEmpty(this.innerModels)) {
       this.innerModels = [

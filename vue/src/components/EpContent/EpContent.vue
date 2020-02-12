@@ -45,7 +45,7 @@ import {
 
 import EpEditorMenuBar from './EpEditorMenuBar.vue';
 import Sticky from 'vue-sticky-directive';
-import { EditorLayout } from '@/tyypit';
+import { EditorLayout } from '@shared/tyypit';
 import EpValidation from '@shared/mixins/EpValidation';
 
 
@@ -88,7 +88,7 @@ export default class EpContent extends Mixins(EpValidation) {
   private focused = false;
 
   get lang() {
-    return this.locale || Kielet.getSisaltoKieli || 'fi';
+    return this.locale || Kielet.getSisaltoKieli.value || 'fi';
   }
 
   get localizedValue() {
@@ -99,7 +99,7 @@ export default class EpContent extends Mixins(EpValidation) {
       return this.value || '';
     }
     else if (_.isObject(this.value)) {
-      return this.value[this.lang] || '';
+      return (this.value as any)[this.lang] || '';
     }
     else {
       return this.value;
@@ -142,7 +142,7 @@ export default class EpContent extends Mixins(EpValidation) {
   }
 
   @Watch('isEditable', { immediate: true })
-  onChange(val, oldVal) {
+  onChange(val: boolean, oldVal: boolean) {
     if (val === oldVal) {
       return;
     }
@@ -186,7 +186,7 @@ export default class EpContent extends Mixins(EpValidation) {
   @Watch('localizedValue', {
     immediate: true,
   })
-  onValueUpdate(val, old) {
+  onValueUpdate(val: string) {
     if (this.editor && !this.focused) {
       this.editor.setContent(this.localizedValue);
     }
@@ -206,7 +206,7 @@ export default class EpContent extends Mixins(EpValidation) {
   }
 
   @Watch('lang')
-  onEditableChange(val) {
+  onEditableChange(val: boolean) {
     if (this.editor) {
       this.editor.setContent(this.localizedValue);
     }
