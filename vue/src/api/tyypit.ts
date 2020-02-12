@@ -1,7 +1,6 @@
 import * as EperusteetApi from '../generated/eperusteet/api';
 import * as YlopsApi from '../generated/ylops/api';
 
-
 export interface LokalisoituTekstiDto {
   // id?: number;
   // tunniste?: string;
@@ -19,6 +18,7 @@ export type ServiceType =
 
 export type PerusteDto = EperusteetApi.PerusteDto;
 export type PerusteHakuDto = EperusteetApi.PerusteHakuDto;
+export type PerusteKevytDto = EperusteetApi.PerusteKevytDto;
 export type TiedoteDto = EperusteetApi.TiedoteDto;
 export type PageTiedoteDto = EperusteetApi.PageTiedoteDto;
 export type PerusteKoosteDto = EperusteetApi.PerusteKoosteDto;
