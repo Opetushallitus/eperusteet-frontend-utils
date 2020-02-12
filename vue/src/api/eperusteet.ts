@@ -63,3 +63,48 @@ export type RevisionDto = EperusteetApi.Revision;
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
 
+export interface PerusteQuery {
+  sivu?: number;
+  sivukoko?: number;
+  tuleva?: boolean;
+  siirtyma?: boolean;
+  voimassaolo?: boolean;
+  poistunut?: boolean;
+  nimi?: string;
+  koulutusala?: Array<string>;
+  koulutustyyppi?: Array<string>;
+  kieli?: Array<string>;
+  opintoala?: Array<string>;
+  suoritustapa?: string;
+  koulutuskoodi?: string;
+  diaarinumero?: string;
+  muokattu?: number;
+  tutkintonimikkeet?: boolean;
+  tutkinnonosat?: boolean;
+  osaamisalat?: boolean;
+  koulutusvienti?: boolean;
+};
+
+export async function getAllPerusteet(query: PerusteQuery) {
+  return Perusteet.getAllPerusteet(
+    query.sivu,
+    query.sivukoko,
+    query.tuleva,
+    query.siirtyma,
+    query.voimassaolo,
+    query.poistunut,
+    query.nimi,
+    query.koulutusala,
+    query.koulutustyyppi,
+    query.kieli,
+    query.opintoala,
+    query.suoritustapa,
+    query.koulutuskoodi,
+    query.diaarinumero,
+    query.muokattu,
+    query.tutkintonimikkeet,
+    query.tutkinnonosat,
+    query.osaamisalat,
+    query.koulutusvienti,
+  );
+}
