@@ -92,7 +92,7 @@ export default class EpInput extends Mixins(EpValidation) {
     else {
       this.$emit('input', {
         ...(_.isObject(this.value) ? this.value as any : {}),
-        [Kielet.getSisaltoKieli]: input,
+        [Kielet.getSisaltoKieli.value]: input,
       });
     }
     if (this.validation) {
@@ -102,7 +102,7 @@ export default class EpInput extends Mixins(EpValidation) {
 
   get val() {
     if (_.isObject(this.value)) {
-      return (this.value as any)[Kielet.getSisaltoKieli];
+      return (this.value as any)[Kielet.getSisaltoKieli.value];
     }
     else {
       return this.value;
