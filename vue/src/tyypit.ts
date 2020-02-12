@@ -42,8 +42,6 @@ export enum KoulutustyyppiToteutus {
 export type EditorLayout = 'minimal' | 'simplified' | 'normal';
 
 export interface LokalisoituTekstiDto {
-  // id?: number;
-  // tunniste?: string;
   [key: string]: string;
 }
 
