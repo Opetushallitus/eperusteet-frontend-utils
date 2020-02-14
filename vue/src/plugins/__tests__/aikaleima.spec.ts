@@ -5,7 +5,30 @@ import { Kieli } from '../../tyypit';
 
 describe('Plugin aikaleima', () => {
   const localVue = createLocalVue();
-  KieliStore.setup(localVue);
+  KieliStore.setup(localVue, {
+    messages: {
+      fi: {
+        'muutama-sekunti': 'muutama sekunti',
+        'sitten': 'sitten',
+        'aikalyhenne-sekuntia': 's',
+        'aikalyhenne-minuutti': 'min',
+        'aikalyhenne-tunti': 't',
+        'aikalyhenne-paiva': 'pv',
+        'aikalyhenne-kuukausi': 'kk',
+        'aikalyhenne-vuosi': 'v',
+      },
+      sv: {
+        'muutama-sekunti': 'för några sekunder',
+        'sitten': 'sedan',
+        'aikalyhenne-sekuntia': 's',
+        'aikalyhenne-minuutti': 'min',
+        'aikalyhenne-tunti': 't',
+        'aikalyhenne-paiva': 'pv',
+        'aikalyhenne-kuukausi': 'kk',
+        'aikalyhenne-vuosi': 'v',
+      }
+    },
+  });
   const i18n = KieliStore.i18n;
 
   beforeEach(() => {
