@@ -14,14 +14,25 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 
+
+export type IndicatorKind = 'normaali'
+  | 'pakollinen'
+  | 'valinnainen'
+  | 'laadinta'
+  | 'julkaistu'
+  | 'valmis'
+  | 'poistettu'
+  | 'paikallinen'
+  | 'offline'
+  | 'online';
+
 @Component
 export default class EpColorIndicator extends Vue {
   @Prop({ default: 'normaali' })
-  private kind!: 'normaali' | 'pakollinen' | 'valinnainen' | 'paikallinen' | 'offline' | 'online';
+  private kind!: IndicatorKind;
 
-  @Prop({ default: true})
+  @Prop({ default: true })
   private tooltip!: boolean;
-
 
   private get spanClass() {
     return `ball ball-${this.kind}${this.tooltip ? ' ball-tooltip' : ''}`;

@@ -52,3 +52,11 @@ export type LiiteDtoWrapper = {
 }
 
 export type ServiceType = 'eperusteet-service' | 'eperusteet-ylops-service' | 'eperusteet-amosaa-service';
+
+export interface Page<T> {
+  data: T[];
+  sivu: number;
+  sivuja: number;
+  sivukoko: number;
+  kokonaismäärä: number;
+}

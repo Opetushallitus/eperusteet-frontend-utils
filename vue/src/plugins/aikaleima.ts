@@ -12,6 +12,14 @@ declare module 'vue/types/vue' {
     $te: typeof VueI18n.prototype.te;
     $d: typeof VueI18n.prototype.d;
     $n: typeof VueI18n.prototype.n;
+    $date: typeof VueI18n.prototype.d;
+    $ago: typeof VueI18n.prototype.d;
+    $ldt: typeof VueI18n.prototype.d;
+    $ld: typeof VueI18n.prototype.d;
+    $lt: typeof VueI18n.prototype.d;
+    $sdt: typeof VueI18n.prototype.d;
+    $sd: typeof VueI18n.prototype.d;
+    $st: typeof VueI18n.prototype.d;
   }
 }
 
@@ -19,8 +27,9 @@ export class Aikaleima {
   public install(vue: typeof Vue) {
     function aikaleimaFnFactory(this: void, format: string) {
       // eslint-disable-next-line only-arrow-functions
+      const self: any = this;
       return function(this: void, value: number) {
-        (this as any).$i18n.locale; // eslint-disable-line
+        self.$i18n.locale; // eslint-disable-line
         if (!value) {
           logger.warn('Virheellinen aikaformaatti:', value);
           return value;
@@ -49,14 +58,26 @@ export class Aikaleima {
 
     // Time until or ago an event counting from now
     vue.prototype.$ago = function(value: number) {
-      this.$i18n.locale; // eslint-disable-line
+      if (!this.$i18n) {
+        throw new Error('vue-i18n is required');
+      }
+      return moment(value).fromNow();
+    };
+
+    vue.prototype.$date = function(value: number) {
+      if (!this.$i18n) {
+        throw new Error('vue-i18n is required');
+      }
+
+      // TODO: Check date and use other types depending on the actual date
       return moment(value).fromNow();
     };
 
     // Custom datetime
     vue.prototype.$cdt = function(value: number, format: string) {
-      // Pakko olla, jotta localen vaihtuessa komponentti päivittyy
-      this.$i18n.locale; // eslint-disable-line
+      if (!this.$i18n) {
+        throw new Error('vue-i18n is required');
+      }
       return moment(value).format(format);
     };
   }
