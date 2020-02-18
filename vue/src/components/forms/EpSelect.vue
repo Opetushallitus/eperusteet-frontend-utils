@@ -7,7 +7,7 @@
                     :multiple="multiple"
                     @change="updateValue()"
                     :class="{ 'is-invalid': isInvalid, 'is-valid': isValid }">
-                <option disabled :value="null" v-if="enableEmptyOption">{{ $t(placeholder) }}</option>
+                <option :value="null" v-if="enableEmptyOption">{{ $t(placeholder) }}</option>
                 <option v-for="(item, idx) in items" :value="item" :key="idx">
                     <slot name="default" :item="item">{{ item }}</slot>
                 </option>

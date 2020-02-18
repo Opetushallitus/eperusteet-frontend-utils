@@ -32,21 +32,21 @@ function getMessages() {
 }
 
 
-export class Kielet {
-  private static vi18n: VueI18n;
+export class KieliStore {
+  private vi18n!: VueI18n;
 
-  static get i18n() {
-    return Kielet.vi18n;
+  public get i18n() {
+    return this.vi18n;
   }
 
   /**
    * Add language support to root vue instance.
    *
    */
-  public static install(v: VueConstructor,
+  public install(v: VueConstructor,
     config: Partial<VueI18n.I18nOptions> = {}) {
     moment.locale(Kieli.fi);
-    Kielet.vi18n = new VueI18n(_.merge({
+    this.vi18n = new VueI18n(_.merge({
       fallbackLocale: Kieli.fi,
       locale: Kieli.fi,
       messages: getMessages(),
@@ -57,52 +57,52 @@ export class Kielet {
    * Load translation from other source
    *
    */
-  public static async load(kaannokset: Kaannokset) {
+  public async load(kaannokset: Kaannokset) {
     logger.info('Initing locales');
     const results = await this.fetchLocaleMap(kaannokset);
     _.forEach(results, (locales, lang) => {
-      Kielet.i18n.mergeLocaleMessage(lang, locales);
+      this.i18n!.mergeLocaleMessage(lang, locales);
     });
   }
 
-  private static readonly state = reactive({
+  private readonly state = reactive({
     sisaltoKieli: Kieli.fi,
   });
 
-  public static readonly getUiKieli = computed(() => Kielet.i18n.locale);
-  public static readonly getSisaltoKieli = computed(() => Kielet.state.sisaltoKieli);
+  public readonly getUiKieli = computed(() => this.i18n!.locale);
+  public readonly getSisaltoKieli = computed(() => this.state.sisaltoKieli);
 
-  public static readonly getAikakaannokset = computed(() => {
-    const kieli = Kielet.state.sisaltoKieli;
+  public readonly getAikakaannokset = computed(() => {
+    const kieli = this.state.sisaltoKieli;
     return {
       days: _.map(moment.weekdays(), (day: string) => _.toUpper(_.first(day))),
       months: moment.monthsShort(),
       placeholder: {
-        date: Kielet.i18n.t('valitse-pvm'),
-        dateRange: Kielet.i18n.t('valitse-pvm-jana'),
+        date: this.i18n!.t('valitse-pvm'),
+        dateRange: this.i18n!.t('valitse-pvm-jana'),
       },
     };
   })
 
-  public static setUiKieli(kieli: Kieli) {
-    if (this.i18n.locale !== kieli && _.includes(UiKielet, kieli)) {
+  public setUiKieli(kieli: Kieli) {
+    if (this.i18n!.locale !== kieli && _.includes(UiKielet, kieli)) {
       // this.logger.debug('Ui kieli ->', kieli);
       moment.locale(kieli);
-      this.i18n.locale = kieli;
+      this.i18n!.locale = kieli;
     }
   }
 
-  public static setSisaltoKieli(kieli: Kieli) {
+  public setSisaltoKieli(kieli: Kieli) {
     if (this.state.sisaltoKieli !== kieli && _.includes(UiKielet, kieli)) {
       this.state.sisaltoKieli = kieli;
     }
   }
 
-  public static haeLokalisoituOlio(avain: string) {
+  public haeLokalisoituOlio(avain: string) {
     const result = {
-      fi: this.vi18n.t(avain, 'fi'),
-      sv: this.vi18n.t(avain, 'sv'),
-      en: this.vi18n.t(avain, 'en'),
+      fi: this.i18n!.t(avain, 'fi'),
+      sv: this.i18n!.t(avain, 'sv'),
+      en: this.i18n!.t(avain, 'en'),
     };
     return result;
   }
@@ -111,7 +111,7 @@ export class Kielet {
    * Check if text query matches object
    *
    */
-  public static search(query: string, text: any, config = {}): boolean {
+  public search(query: string, text: any, config = {}): boolean {
     if (text && query) {
       const target = _.isString(text) ? text : text[this.getSisaltoKieli.value];
       return _.includes(_.toLower(target), _.toLower(query));
@@ -121,7 +121,7 @@ export class Kielet {
     }
   }
 
-  public static searchFn(query: string) {
+  public searchFn(query: string) {
     return (text: any) => this.search(query, text);
   }
 
@@ -129,7 +129,7 @@ export class Kielet {
    * i18n locale convert
    *
    */
-  public static t(value: string): string {
+  public t(value: string): string {
     if (this.vi18n) {
       return this.vi18n.t(value) as string || '<' + value + '>';
     }
@@ -143,7 +143,7 @@ export class Kielet {
    *
    * @returns {string}
    */
-  public static sortValue(value: any): string {
+  public sortValue(value: any): string {
     if (!value) {
       return '';
     }
@@ -156,7 +156,7 @@ export class Kielet {
     }
   };
 
-  public static kaanna(value: LokalisoituTeksti | string): string {
+  public kaanna(value: LokalisoituTeksti | string): string {
     if (!value) {
       return '';
     }
@@ -180,7 +180,7 @@ export class Kielet {
     }
   };
 
-  public static kaannaOlioTaiTeksti(value: LokalisoituTeksti | string): string {
+  public kaannaOlioTaiTeksti(value: LokalisoituTeksti | string): string {
     if (_.isObject(value)) {
       return this.kaanna(value);
     }
@@ -192,7 +192,7 @@ export class Kielet {
     }
   }
 
-  private static async fetchLocaleMap(kaannokset: Kaannokset) {
+  private async fetchLocaleMap(kaannokset: Kaannokset) {
     try {
       const result: any = {};
       const localeObj = kaannokset;
@@ -212,6 +212,8 @@ export class Kielet {
     }
   }
 }
+
+export const Kielet = new KieliStore();
 
 export interface Kaannos {
   key: string;

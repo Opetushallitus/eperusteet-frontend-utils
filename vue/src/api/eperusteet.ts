@@ -38,51 +38,78 @@ function initApi<T>(X: BaseAPIConstructor<T>): T {
 }
 
 export const Api = ax;
-export const Perusteet = initApi(EperusteetApi.PerusteetApi);
-export const Tiedotteet = initApi(EperusteetApi.TiedotteetApi);
-export const Liitetiedostot = initApi(EperusteetApi.LiitetiedostotApi);
-export const Dokumentit = initApi(EperusteetApi.DokumentitApi);
-export const Perusteenosat = initApi(EperusteetApi.PerusteenosatApi);
-export const Kayttajat = initApi(EperusteetApi.KayttajatApi);
 
+export const Arviointiasteikot = initApi(EperusteetApi.ArviointiasteikotApi);
+export const Dokumentit = initApi(EperusteetApi.DokumentitApi);
+export const GeneerinenArviointiasteikko = initApi(EperusteetApi.GeneerinenArviointiasteikkoApi);
+export const Kayttajat = initApi(EperusteetApi.KayttajatApi);
+export const Liitetiedostot = initApi(EperusteetApi.LiitetiedostotApi);
+export const Perusteenosat = initApi(EperusteetApi.PerusteenosatApi);
+export const Perusteet = initApi(EperusteetApi.PerusteetApi);
+export const Perusteprojektit = initApi(EperusteetApi.PerusteprojektitApi);
+export const Tiedotteet = initApi(EperusteetApi.TiedotteetApi);
+
+export type ArviointiAsteikkoDto = EperusteetApi.ArviointiAsteikkoDto;
+export type GeneerinenArviointiasteikkoDto = EperusteetApi.GeneerinenArviointiasteikkoDto;
+export type KayttajanTietoDto = EperusteetApi.KayttajanTietoDto;
+export type Laaja = EperusteetApi.Laaja;
+export type LiiteDto = EperusteetApi.LiiteDto;
+export type Lops2019LaajaAlainenOsaaminenKokonaisuusDto = EperusteetApi.Lops2019LaajaAlainenOsaaminenKokonaisuusDto;
+export type Lops2019ModuuliDto = EperusteetApi.Lops2019ModuuliDto;
+export type Lops2019OppiaineKaikkiDto = EperusteetApi.Lops2019OppiaineKaikkiDto;
+export type Lops2019SisaltoDto = EperusteetApi.Lops2019SisaltoDto;
+export type PageTiedoteDto = EperusteetApi.PageTiedoteDto;
 export type PerusteDto = EperusteetApi.PerusteDto;
 export type PerusteHakuDto = EperusteetApi.PerusteHakuDto;
+export type PerusteHakuInternalDto = EperusteetApi.PerusteHakuInternalDto;
 export type PerusteKevytDto = EperusteetApi.PerusteKevytDto;
-export type TiedoteDto = EperusteetApi.TiedoteDto;
-export type PageTiedoteDto = EperusteetApi.PageTiedoteDto;
 export type PerusteKoosteDto = EperusteetApi.PerusteKoosteDto;
-export type Lops2019SisaltoDto = EperusteetApi.Lops2019SisaltoDto;
-export type Laaja = EperusteetApi.Laaja;
-export type Lops2019OppiaineKaikkiDto = EperusteetApi.Lops2019OppiaineKaikkiDto;
-export type Lops2019ModuuliDto = EperusteetApi.Lops2019ModuuliDto;
-export type Lops2019LaajaAlainenOsaaminenKokonaisuusDto = EperusteetApi.Lops2019LaajaAlainenOsaaminenKokonaisuusDto;
-export type LiiteDto = EperusteetApi.LiiteDto;
-export type KayttajanTietoDto = EperusteetApi.KayttajanTietoDto;
+export type PerusteprojektiKevytDto = EperusteetApi.PerusteprojektiKevytDto;
+export type PerusteprojektiListausDto = EperusteetApi.PerusteprojektiListausDto;
 export type RevisionDto = EperusteetApi.Revision;
+export type TiedoteDto = EperusteetApi.TiedoteDto;
+export type ValidationDto = EperusteetApi.ValidationDto;
 
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
 
+export interface PerusteprojektiQuery {
+  diaarinumero?: string;
+  nimi?: string;
+  tila?: string[];
+  koulutustyyppi?: string[];
+  tyyppi?: string;
+  jarjestysTapa?: string;
+  jarjestysOrder?: boolean;
+};
+
+export async function getPerusteprojektit(query: PerusteprojektiQuery) {
+  return await Perusteprojektit.getAllPerusteprojektitKevyt({
+    params: query
+  });
+}
+
 export interface PerusteQuery {
+  diaarinumero?: string;
+  kieli?: string[];
+  koulutusala?: string[];
+  koulutuskoodi?: string;
+  koulutustyyppi?: string[];
+  koulutusvienti?: boolean;
+  muokattu?: number;
+  nimi?: string;
+  opintoala?: string[];
+  osaamisalat?: boolean;
+  poistunut?: boolean;
+  siirtyma?: boolean;
   sivu?: number;
   sivukoko?: number;
-  tuleva?: boolean;
-  siirtyma?: boolean;
-  voimassaolo?: boolean;
-  poistunut?: boolean;
-  nimi?: string;
-  koulutusala?: Array<string>;
-  koulutustyyppi?: Array<string>;
-  kieli?: Array<string>;
-  opintoala?: Array<string>;
   suoritustapa?: string;
-  koulutuskoodi?: string;
-  diaarinumero?: string;
-  muokattu?: number;
-  tutkintonimikkeet?: boolean;
+  tila?: string[];
+  tuleva?: boolean;
   tutkinnonosat?: boolean;
-  osaamisalat?: boolean;
-  koulutusvienti?: boolean;
+  tutkintonimikkeet?: boolean;
+  voimassaolo?: boolean;
 };
 
 export async function getAllPerusteet(query: PerusteQuery) {
@@ -106,5 +133,30 @@ export async function getAllPerusteet(query: PerusteQuery) {
     query.tutkinnonosat,
     query.osaamisalat,
     query.koulutusvienti,
+  );
+}
+
+export async function getAllPerusteetInternal(query: PerusteQuery) {
+  return Perusteet.getAllPerusteetInternal(
+    query.sivu,
+    query.sivukoko,
+    query.tuleva,
+    query.siirtyma,
+    query.voimassaolo,
+    query.poistunut,
+    query.nimi,
+    query.koulutusala,
+    query.koulutustyyppi,
+    query.kieli,
+    query.opintoala,
+    query.suoritustapa,
+    query.koulutuskoodi,
+    query.diaarinumero,
+    query.muokattu,
+    query.tutkintonimikkeet,
+    query.tutkinnonosat,
+    query.osaamisalat,
+    query.koulutusvienti,
+    query.tila,
   );
 }

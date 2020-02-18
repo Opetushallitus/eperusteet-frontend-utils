@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "gen:api": "./scripts/buildapi.sh",
+    "gen:api:eperusteet": "./scripts/buildapi.sh -s eperusteet",
     "lint": "vue-cli-service lint --no-fix",
     "lint:fix": "vue-cli-service lint",
     "styleguide": "vue-cli-service styleguidist",

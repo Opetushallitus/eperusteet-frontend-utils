@@ -1,21 +1,13 @@
 <template>
 <div>
   <div class="content">
-    <div class="container">
-      <div class="row">
-        <div class="col">
-          <slot name="header"></slot>
-        </div>
-      </div>
-      <div class="view-content" v-if="$slots['default']">
-        <div class="row">
-          <div class="col">
-            <slot name="default"></slot>
-          </div>
-        </div>
-      </div>
-      <slot name="custom-content"></slot>
+    <div>
+      <slot name="header"></slot>
     </div>
+    <div class="view-content" v-if="$slots['default']">
+      <slot name="default"></slot>
+    </div>
+    <slot name="custom-content"></slot>
   </div>
   <slot name="after"></slot>
 </div>
