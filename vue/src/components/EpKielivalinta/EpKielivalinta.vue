@@ -16,11 +16,12 @@ import { Prop, Component, Vue } from 'vue-property-decorator';
 import { Kielet, UiKielet } from '@shared/stores/kieli';
 import { Kieli } from '@shared/tyypit';
 
+
 @Component
 export default class EpKielivalinta extends Vue {
 
   get sisaltoKieli() {
-    return Kielet.getSisaltoKieli;
+    return Kielet.getSisaltoKieli.value;
   }
 
   get sovelluksenKielet() {

@@ -53,7 +53,6 @@ export class Aikaleima {
       // eslint-disable-next-line only-arrow-functions
       const self: any = this;
       return function(this: void, value: number) {
-        self.$i18n.locale; // eslint-disable-line
         if (!value) {
           logger.warn('Virheellinen aikaformaatti:', value);
           return value;
