@@ -99,7 +99,43 @@ $border-radius: .625rem; // 5px
 
 }
 
+.b-pagination {
+  border: none;
+  user-select: none;
+
+  li.page-item {
+    border: none;
+    margin: 0 0.2em 0 0.2em;
+
+    a {
+      color: #585858;
+      font-weight: 600;
+
+    }
+
+    .page-link {
+      border: none;
+
+      &:hover {
+        border-radius: 100%;
+      }
+    }
+
+    &.active {
+      .page-link {
+        background: #3367e3;
+        border-radius: 100%;
+      }
+    }
+  }
+}
+
+.table.b-table > thead > tr {
+  border: none;
+}
+
 .table.b-table > thead > tr > [aria-sort]:not(.b-table-sort-icon-left) {
+  border: none;
   background-position: right calc(0.75rem / 2) bottom calc(1rem);
 }
 
