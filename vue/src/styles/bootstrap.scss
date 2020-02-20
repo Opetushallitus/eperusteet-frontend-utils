@@ -78,25 +78,36 @@ $border-radius: .625rem; // 5px
 
 .b-table {
   thead {
-    border-top: none !important;
-  }
+    border: none !important;
 
-  &.table-borderless {
-
-    thead {
-      th {
-        border-bottom-width: 2px;
-        border-bottom-color: $gray-lighten-3;
-        border-bottom-style: solid;
-      }
-
-      th[aria-sort="descending"], th[aria-sort="ascending"]{
-        border-bottom-width: 2px;
-        border-bottom-color: $black;
-      }
+    tbody {
+      border-top: none;
+      outline: none;
     }
-  }
 
+    th:active, th:focus, th:focus-within {
+      outline: none;
+      border-bottom: 2px solid $black !important;
+    }
+
+    tr {
+      border: none;
+      outline: none;
+    }
+
+    th {
+      outline: none;
+      border-bottom-width: 2px;
+      border-bottom-color: $gray-lighten-3;
+      border-bottom-style: solid;
+    }
+
+    th[aria-sort="descending"], th[aria-sort="ascending"] {
+      border-bottom-width: 2px !important;
+      border-bottom-color: $black !important;
+    }
+
+  }
 }
 
 .b-pagination {
