@@ -1,5 +1,6 @@
 <template>
 <span ref="ball"
+      :style="dynstyle"
       :title="$t(kind)"
       :class="spanClass">
   <b-tooltip v-if="tooltip"
@@ -13,6 +14,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
+import { colorize } from '@shared/utils/perusteet';
 
 
 export type IndicatorKind = 'normaali'
@@ -29,14 +31,27 @@ export type IndicatorKind = 'normaali'
 @Component
 export default class EpColorIndicator extends Vue {
   @Prop({ default: 'normaali' })
-  private kind!: IndicatorKind;
+  kind!: IndicatorKind;
 
   @Prop({ default: true })
-  private tooltip!: boolean;
+  tooltip!: boolean;
 
-  private get spanClass() {
+  @Prop({ default: 10 })
+  size!: number;
+
+  get spanClass() {
     return `ball ball-${this.kind}${this.tooltip ? ' ball-tooltip' : ''}`;
   }
+
+  get dynstyle() {
+    const background = colorize(this.kind) || 'black';
+    return {
+      'min-height': this.size + 'px',
+      'min-width': this.size + 'px',
+      background,
+    };
+  }
+
 }
 </script>
 
@@ -44,10 +59,9 @@ export default class EpColorIndicator extends Vue {
 @import '../../styles/_variables.scss';
 
 .ball {
+  background: black;
   border-radius: 100%;
   display: inline-block;
-  min-height: 10px;
-  min-width: 10px;
 }
 
 .ball-normaali {

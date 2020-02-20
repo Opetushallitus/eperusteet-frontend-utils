@@ -74,8 +74,7 @@ export default {
   },
   computed: {
     kieli: function() {
-      return 'fi';
-//      return Kielet.getSisaltoKieli();
+     return Kielet.getSisaltoKieli.value;
     }
   },
   methods: {

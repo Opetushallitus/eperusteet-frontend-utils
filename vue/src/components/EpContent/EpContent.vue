@@ -200,7 +200,7 @@ export default class EpContent extends Mixins(EpValidation) {
     else {
       this.$emit('input', {
         ...this.value,
-        [Kielet.getSisaltoKieli as unknown as string]: data,
+        [Kielet.getSisaltoKieli.value as unknown as string]: data,
       });
     }
   }

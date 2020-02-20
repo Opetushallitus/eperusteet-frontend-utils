@@ -71,7 +71,7 @@ import { aikataulutapahtuma, aikatauluTapahtumaSort, aikatauluTapahtumapaivaSort
           required,
         },
         tavoite: {
-          [Kielet.getSisaltoKieli]: {
+          [Kielet.getSisaltoKieli.value]: {
             required
           },
         },

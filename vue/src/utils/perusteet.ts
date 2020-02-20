@@ -178,6 +178,11 @@ export function yleissivistavat() {
   });
 }
 
+export function colorize(topic: string) {
+  const str = koulutustyyppiThemeColor(topic);
+  return rgb2string(str) || 'black';
+}
+
 export function getLaajaAlaisetKoodit() {
   return [{
     koodi: 'lops2019laajaalainenosaaminen_1',
