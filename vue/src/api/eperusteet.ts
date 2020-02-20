@@ -47,6 +47,7 @@ export const Liitetiedostot = initApi(EperusteetApi.LiitetiedostotApi);
 export const Perusteenosat = initApi(EperusteetApi.PerusteenosatApi);
 export const Perusteet = initApi(EperusteetApi.PerusteetApi);
 export const Perusteprojektit = initApi(EperusteetApi.PerusteprojektitApi);
+export const Oppaat = initApi(EperusteetApi.OppaatApi);
 export const Tiedotteet = initApi(EperusteetApi.TiedotteetApi);
 
 export type ArviointiAsteikkoDto = EperusteetApi.ArviointiAsteikkoDto;
@@ -84,9 +85,7 @@ export interface PerusteprojektiQuery {
 };
 
 export async function getPerusteprojektit(query: PerusteprojektiQuery) {
-  return await Perusteprojektit.getAllPerusteprojektitKevyt({
-    params: query
-  });
+  return await Perusteprojektit.getAllPerusteprojektitKevyt({ params: query });
 }
 
 export interface PerusteQuery {
@@ -137,26 +136,5 @@ export async function getAllPerusteet(query: PerusteQuery) {
 }
 
 export async function getAllPerusteetInternal(query: PerusteQuery) {
-  return Perusteet.getAllPerusteetInternal(
-    query.sivu,
-    query.sivukoko,
-    query.tuleva,
-    query.siirtyma,
-    query.voimassaolo,
-    query.poistunut,
-    query.nimi,
-    query.koulutusala,
-    query.koulutustyyppi,
-    query.kieli,
-    query.opintoala,
-    query.suoritustapa,
-    query.koulutuskoodi,
-    query.diaarinumero,
-    query.muokattu,
-    query.tutkintonimikkeet,
-    query.tutkinnonosat,
-    query.osaamisalat,
-    query.koulutusvienti,
-    query.tila,
-  );
+  return Perusteet.getAllPerusteetInternal({ params: query });
 }

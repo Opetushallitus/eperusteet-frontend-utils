@@ -54,4 +54,4 @@ export class TutoriaaliStore {
 
 }
 
-export const tutoriaalistore = new TutoriaaliStore();
+export const tutoriaaliStore = new TutoriaaliStore();
