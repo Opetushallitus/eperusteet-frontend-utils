@@ -3,6 +3,7 @@
   <div class="input-container">
     <input class="input-style form-control"
            :class="[ inputClass ]"
+           :placeholder="placeholder"
            @input="onInput($event.target.value)"
            :type="type === 'number' ? 'number' : 'text'"
            :attrs="$attrs"
@@ -52,6 +53,9 @@ export default class EpInput extends Mixins(EpValidation) {
 
   @Prop({ default: '', type: String })
   private help!: string;
+
+  @Prop({ default: '' })
+  private placeholder!: string;
 
   @Prop( {default: true, required: false})
   private showValidValidation!: boolean;

@@ -46,11 +46,17 @@ import { Vue, Component, Prop, Mixins } from 'vue-property-decorator';
 import _ from 'lodash';
 import { aikataulutapahtuma } from '../../utils/aikataulu';
 
+interface Tapahtuma {
+  tapahtuma: 'luominen' | 'julkaisu' | 'tavoite';
+  tapahtumapaiva: Date;
+  tavoite: string;
+}
+
 @Component
 export default class EpAikataulu extends Vue {
 
-  @Prop( {required: true})
-  private aikataulut!: any[];
+  @Prop({ required: true })
+  private aikataulut!: Tapahtuma[];
 
   @Prop({ required: false, default: true})
   private showPopover!: boolean;
@@ -79,7 +85,8 @@ export default class EpAikataulu extends Vue {
 
   get aikataulutSorted() {
     return _.chain(this.aikataulut)
-      .sortBy((aikataulu) => (aikataulu.tapahtumapaiva as any))
+      .filter('tapahtumapaiva')
+      .sortBy('tapahtumapaiva')
       .value();
   }
 
@@ -119,20 +126,18 @@ export default class EpAikataulu extends Vue {
     return 1;
   }
 
-  aikatauluPosition(aikataulu) {
-    if (aikataulu.tapahtuma === aikataulutapahtuma.luominen) {
-      return 99;
-    }
-
-    return Math.max(100 - this.timelinePosition(aikataulu.tapahtumapaiva), 0);
-  }
-
   get julkaisuAikaPosition() {
     if (this.julkaisuPaiva) {
       return Math.min(100 - this.timelinePosition(this.julkaisuPaiva), 88);
     }
-
     return 0;
+  }
+
+  aikatauluPosition(aikataulu) {
+    if (aikataulu.tapahtuma === aikataulutapahtuma.luominen) {
+      return 99;
+    }
+    return Math.max(100 - this.timelinePosition(aikataulu.tapahtumapaiva), 0);
   }
 
   timelinePosition(time) {
