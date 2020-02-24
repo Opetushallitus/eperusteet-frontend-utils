@@ -14,6 +14,12 @@ import VueCompositionApi, {computed, reactive} from '@vue/composition-api';
 Vue.use(VueCompositionApi);
 
 
+declare module 'vue/types/vue' {
+  interface Vue {
+    $kaanna: <T extends object>(obj: T) => string;
+  }
+}
+
 export const UiKielet = Object.freeze(['fi', 'sv', 'en']);
 const logger = createLogger('Kieli');
 
