@@ -38,21 +38,6 @@ export default class EpButton extends Vue {
   @Prop()
   private buttonClass!: string;
 
-  get isOutline() {
-    return _.startsWith(this.variant, 'outline');
-  }
-
-  get variantClass() {
-    let result = 'btn-' + this.variant;
-    if (this.isOutline) {
-      result = 'no-outline ' + result;
-    }
-    if (this.buttonClass) {
-      result = this.buttonClass + ' ' + result;
-    }
-    return result;
-  }
-
   @Prop({ default: false, type: Boolean })
   private disabled!: boolean;
 
@@ -67,6 +52,21 @@ export default class EpButton extends Vue {
 
   @Prop({ default: '', type: String })
   private help!: string;
+
+  get isOutline() {
+    return _.startsWith(this.variant, 'outline');
+  }
+
+  get variantClass() {
+    let result = 'btn-' + this.variant;
+    if (this.isOutline) {
+      result = 'no-outline ' + result;
+    }
+    if (this.buttonClass) {
+      result = this.buttonClass + ' ' + result;
+    }
+    return result;
+  }
 }
 </script>
 

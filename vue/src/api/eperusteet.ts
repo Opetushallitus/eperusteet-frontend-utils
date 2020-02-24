@@ -49,6 +49,7 @@ export const Perusteet = initApi(EperusteetApi.PerusteetApi);
 export const Perusteprojektit = initApi(EperusteetApi.PerusteprojektitApi);
 export const Oppaat = initApi(EperusteetApi.OppaatApi);
 export const Tiedotteet = initApi(EperusteetApi.TiedotteetApi);
+export const Ulkopuoliset = initApi(EperusteetApi.UlkopuolisetApi);
 
 export type ArviointiAsteikkoDto = EperusteetApi.ArviointiAsteikkoDto;
 export type GeneerinenArviointiasteikkoDto = EperusteetApi.GeneerinenArviointiasteikkoDto;
@@ -67,6 +68,7 @@ export type PerusteKevytDto = EperusteetApi.PerusteKevytDto;
 export type PerusteKoosteDto = EperusteetApi.PerusteKoosteDto;
 export type PerusteprojektiKevytDto = EperusteetApi.PerusteprojektiKevytDto;
 export type PerusteprojektiListausDto = EperusteetApi.PerusteprojektiListausDto;
+export type PerusteprojektiLuontiDto = EperusteetApi.PerusteprojektiLuontiDto;
 export type RevisionDto = EperusteetApi.Revision;
 export type TiedoteDto = EperusteetApi.TiedoteDto;
 export type ValidationDto = EperusteetApi.ValidationDto;

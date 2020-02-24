@@ -2,7 +2,7 @@
 <div>
   <multiselect :value="model"
                :track-by="track"
-               :options="options"
+               :options="filteredOptions"
                :close-on-select="true"
                :clear-on-select="true"
                :placeholder="placeholder"
@@ -10,7 +10,7 @@
                select-label=""
                selected-label=""
                deselect-label=""
-               @search-change="$emit('search', $event)"
+               @search-change="onSearchChange"
                @input="changed($event)"
                :multiple="multiple"
                :class="inputClass"
@@ -45,9 +45,11 @@ import { Component, Prop, Mixins } from 'vue-property-decorator';
 
 import Multiselect from 'vue-multiselect';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
+import { Debounced } from '@shared/utils/delay';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import EpValidation from '../../mixins/EpValidation';
+import _ from 'lodash';
 
 
 @Component({
@@ -85,6 +87,20 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
   @Prop({ default: '' })
   private placeholder!: string;
 
+  @Prop({ default: null })
+  private searchIdentity!: null | ((v: any) => string | null | undefined);
+
+  private search = '';
+
+  get filteredOptions() {
+    if (this.search && this.searchIdentity) {
+      return _.filter(this.options, x => _.includes(
+        _.toLower(this.searchIdentity!(x) || ''),
+        _.toLower(this.search || '')));
+    }
+    return this.options;
+  }
+
   get model() {
     return this.value;
   }
@@ -95,6 +111,16 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
 
   private changed(value: any) {
     this.$emit('input', value);
+  }
+
+  @Debounced(300)
+  onSearchChange(ev) {
+    if (this.searchIdentity) {
+      this.search = ev;
+    }
+    else {
+      this.$emit('search', ev);
+    }
   }
 
   get inputClass() {
