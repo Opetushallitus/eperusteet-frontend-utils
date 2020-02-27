@@ -11,6 +11,7 @@ $input-btn-padding-x: .625rem;
 $btn-border-radius: 1.25rem; // 20px
 
 $border-radius: .625rem; // 5px
+$tabcolor: #0041dc;
 
 // Include Bootstrap and BootstrapVue SCSS files
 @import '~bootstrap/scss/bootstrap.scss';
@@ -33,6 +34,31 @@ $border-radius: .625rem; // 5px
     }
   }
 }
+
+
+.nav.nav-tabs {
+  border-bottom: 2px solid transparent;
+
+  .nav-link {
+    color: $tabcolor;
+    padding: 4px 16px 4px 16px;
+    border: none;
+    border-bottom: 2px solid transparent;
+
+    &:hover, &:focus {
+      border: none;
+      padding: 4px 16px 4px 16px;
+      border-bottom: 2px solid transparent;
+    }
+
+    &.router-link-active {
+      font-weight: 600;
+      border-bottom: 2px solid $tabcolor;
+    }
+  }
+
+}
+
 
 .tabs {
 
@@ -82,7 +108,7 @@ $border-radius: .625rem; // 5px
 
     tbody {
       border-top: none;
-      outline: none;
+      outline: none !important;
     }
 
     th:active, th:focus, th:focus-within {
@@ -90,8 +116,12 @@ $border-radius: .625rem; // 5px
       border-bottom: 2px solid $black !important;
     }
 
+    th {
+      border-top: none;
+    }
+
     tr {
-      border: none;
+      border: none !important;
       outline: none;
     }
 
