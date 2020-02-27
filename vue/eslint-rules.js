@@ -26,7 +26,7 @@ module.exports = {
       "error",
       2
     ],
-    "comma-dangle": ["error", "only-multiline"],
+    "comma-dangle": ["error", "always-multiline"],
     "linebreak-style": [
       "error",
       "unix"
