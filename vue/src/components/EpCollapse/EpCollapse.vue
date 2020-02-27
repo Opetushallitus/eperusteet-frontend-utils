@@ -85,6 +85,11 @@ export default class EpCollapse extends Vue {
 @import '../../styles/_variables.scss';
 
 .ep-collapse {
+  border-bottom: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: #eeeeee;
+  margin-bottom: 5px;
+
   .collapse-button {
     cursor: pointer;
     outline: none;
@@ -92,6 +97,8 @@ export default class EpCollapse extends Vue {
 
   .header {
     user-select: none;
+    margin-bottom: 10px;
+    margin-top: 5px;
   }
 }
 
