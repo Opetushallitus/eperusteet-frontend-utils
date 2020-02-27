@@ -17,6 +17,9 @@ Vue.use(VueCompositionApi);
 declare module 'vue/types/vue' {
   interface Vue {
     $kaanna: <T extends object>(obj: T) => string;
+    $t: typeof VueI18n.prototype.t;
+    $tc: typeof VueI18n.prototype.tc;
+    $te: typeof VueI18n.prototype.te;
   }
 }
 
@@ -123,8 +126,12 @@ export class KieliStore {
       return _.includes(_.toLower(target), _.toLower(query));
     }
     else {
-      return true;
+      return false;
     }
+  }
+
+  public filterBy(field: string, query: string, config = {}) {
+    return (data: any) => this.search(query, data[field]);
   }
 
   public searchFn(query: string) {

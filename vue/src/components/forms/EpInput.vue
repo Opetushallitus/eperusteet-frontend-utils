@@ -43,7 +43,7 @@ export default class EpInput extends Mixins(EpValidation) {
   private type!: 'localized' | 'string' | 'number';
 
   @Prop({ required: true })
-  private value!: string | object;
+  private value!: number | string | object;
 
   @Prop({ default: false, type: Boolean })
   private isHeader!: boolean;
@@ -90,7 +90,10 @@ export default class EpInput extends Mixins(EpValidation) {
       logger.warn('Given value is not an object:', this.value);
     }
 
-    if (this.type !== 'localized' || _.isString(this.value) || _.isNumber(this.value)) {
+    if (this.type === 'number') {
+      this.$emit('input', Number(input));
+    }
+    else if (this.type !== 'localized' || _.isString(this.value)) {
       this.$emit('input', input);
     }
     else {
