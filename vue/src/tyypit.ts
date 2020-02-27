@@ -60,3 +60,21 @@ export interface Page<T> {
   sivukoko: number;
   kokonaismäärä: number;
 }
+
+export type NavigationNodeType =
+  | 'root'
+  | 'tiedot'
+  | 'viite'
+  | 'liitteet' | 'liite'
+  | 'laajaalaiset' | 'laajaalainen'
+  | 'oppiaineet' | 'oppimaarat' | 'oppiaine'
+  | 'moduulit' | 'moduuli'
+  | 'muodostuminen' | 'tutkinnonosat' | 'tutkinnonosa' | 'tutkinnonosaviite' | 'osaalue';
+
+export interface NavigationNodeDto {
+    id?: number;
+    label?: LokalisoituTekstiDto;
+    type?: NavigationNodeType;
+    meta?: { [key: string]: object; };
+    children?: NavigationNodeDto[];
+}
