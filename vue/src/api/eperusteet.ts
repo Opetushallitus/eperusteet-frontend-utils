@@ -51,6 +51,7 @@ export const Perusteprojektit = initApi(EperusteetApi.PerusteprojektitApi);
 export const Sisallot = initApi(EperusteetApi.SisallotApi);
 export const Tiedotteet = initApi(EperusteetApi.TiedotteetApi);
 export const Ulkopuoliset = initApi(EperusteetApi.UlkopuolisetApi);
+export const TutkinnonRakenne = initApi(EperusteetApi.TutkinnonRakenneApi);
 
 export type ArviointiAsteikkoDto = EperusteetApi.ArviointiAsteikkoDto;
 export type GeneerinenArviointiasteikkoDto = EperusteetApi.GeneerinenArviointiasteikkoDto;
@@ -73,10 +74,11 @@ export type PerusteprojektiDto = EperusteetApi.PerusteprojektiDto;
 export type PerusteprojektiKevytDto = EperusteetApi.PerusteprojektiKevytDto;
 export type PerusteprojektiListausDto = EperusteetApi.PerusteprojektiListausDto;
 export type PerusteprojektiLuontiDto = EperusteetApi.PerusteprojektiLuontiDto;
+export type TyoryhmaHenkiloDto = EperusteetApi.TyoryhmaHenkiloDto;
 export type RevisionDto = EperusteetApi.Revision;
 export type TiedoteDto = EperusteetApi.TiedoteDto;
-export type TyoryhmaHenkiloDto = EperusteetApi.TyoryhmaHenkiloDto;
 export type ValidationDto = EperusteetApi.ValidationDto;
+export type TutkinnonOsaViiteDto = EperusteetApi.TutkinnonOsaViiteDto;
 
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
