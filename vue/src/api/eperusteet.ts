@@ -1,11 +1,11 @@
 import { axiosHandler } from './common';
-import { Configuration } from '../generated/eperusteet';
-import axios, { AxiosInstance } from 'axios';
-import _ from 'lodash';
-import {
+import { Configuration,
   DokumentitApiAxiosParamCreator,
   LiitetiedostotApiAxiosParamCreator,
 } from '../generated/eperusteet';
+import axios, { AxiosInstance } from 'axios';
+import _ from 'lodash';
+
 import * as EperusteetApi from '../generated/eperusteet';
 import Qs from 'qs';
 import { createLogger } from '../utils/logger';
@@ -16,7 +16,7 @@ export const baseURL = '/eperusteet-service/api';
 
 const ax = axios.create({
   baseURL,
-  paramsSerializer: (params: any) => Qs.stringify(params, {arrayFormat: 'repeat'})
+  paramsSerializer: (params: any) => Qs.stringify(params, { arrayFormat: 'repeat' })
 });
 
 function successfulResponseHandler() {
@@ -71,6 +71,8 @@ export type PerusteprojektiDto = EperusteetApi.PerusteprojektiDto;
 export type PerusteprojektiKevytDto = EperusteetApi.PerusteprojektiKevytDto;
 export type PerusteprojektiListausDto = EperusteetApi.PerusteprojektiListausDto;
 export type PerusteprojektiLuontiDto = EperusteetApi.PerusteprojektiLuontiDto;
+export type PerusteprojektiDto = EperusteetApi.PerusteprojektiDto;
+export type TyoryhmaHenkiloDto = EperusteetApi.TyoryhmaHenkiloDto;
 export type RevisionDto = EperusteetApi.Revision;
 export type TiedoteDto = EperusteetApi.TiedoteDto;
 export type ValidationDto = EperusteetApi.ValidationDto;
