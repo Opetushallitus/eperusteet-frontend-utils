@@ -45,6 +45,14 @@ export interface LokalisoituTekstiDto {
   [key: string]: string;
 }
 
+export interface Revision {
+  numero: number;
+  pvm: Date;
+  muokkaajaOid: string;
+  nimi?: string;
+  kommentti?: string;
+}
+
 export type LiiteDtoWrapper = {
   id: string,
   kuva: any,
@@ -60,6 +68,9 @@ export interface Page<T> {
   sivukoko: number;
   kokonaismäärä: number;
 }
+
+export type Oikeus = 'luku' | 'kommentointi' | 'muokkaus' | 'luonti' | 'poisto' | 'tilanvaihto' | 'hallinta';
+export type OikeusKohde = 'opetussuunnitelma' | 'pohja';
 
 export type NavigationNodeType =
   | 'root'
