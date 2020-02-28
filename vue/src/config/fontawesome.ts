@@ -31,7 +31,7 @@ library.add(solid.faCog);
 library.add(solid.faColumns);
 library.add(solid.faCommentDots);
 library.add(solid.faComments);
-library.add(solid.faComments);
+library.add(solid.faComment);
 library.add(solid.faEllipsisH);
 library.add(solid.faExclamation);
 library.add(solid.faExternalLinkAlt);
