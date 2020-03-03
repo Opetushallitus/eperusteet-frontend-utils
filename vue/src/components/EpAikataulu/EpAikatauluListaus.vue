@@ -50,8 +50,8 @@ import { minLength, required } from 'vuelidate/lib/validators';
 import EpValidation from '@shared/mixins/EpValidation';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpDatepicker from '@shared/components/forms/EpDatepicker.vue';
-import EpFormContent from'@shared/components/forms/EpFormContent.vue';
-import EpField from'@shared/components/forms/EpField.vue';
+import EpFormContent from '@shared/components/forms/EpFormContent.vue';
+import EpField from '@shared/components/forms/EpField.vue';
 import { Kielet } from '@shared/stores/kieli';
 import { validationMixin } from 'vuelidate';
 import { aikataulutapahtuma, aikatauluTapahtumaSort, aikatauluTapahtumapaivaSort } from '@shared/utils/aikataulu';
@@ -80,11 +80,10 @@ import { aikataulutapahtuma, aikatauluTapahtumaSort, aikatauluTapahtumapaivaSort
   },
 })
 export default class EpAikatauluListaus extends Mixins(validationMixin) {
+  // @Prop({ required: false })
+  // private rootModel!: any;
 
-  @Prop({ required: true})
-  private rootModel!: any;
-
-  @Prop({ required: true})
+  @Prop({ required: true })
   private aikataulutProp!: any[];
 
   private aikataulut: any[] = [];
@@ -100,7 +99,7 @@ export default class EpAikatauluListaus extends Mixins(validationMixin) {
       ...this.aikataulut,
       {
         tapahtuma: aikataulutapahtuma.tavoite,
-        opetussuunnitelmaId: this.rootModel.id,
+        // opetussuunnitelmaId: this.rootModel?.id,
         tapahtumapaiva: null,
         tavoite: {},
       }
@@ -125,7 +124,6 @@ export default class EpAikatauluListaus extends Mixins(validationMixin) {
   getAikataulu() {
     return this.aikataulut;
   }
-
 }
 </script>
 

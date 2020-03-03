@@ -20,6 +20,20 @@ export const themes = {
   'koulutustyyppi_999907': 'taiteenperusopetus',
 };
 
+export interface KoulutustyyppiRyhma {
+  ryhma: string,
+  koulutustyypit: string[],
+}
+
+// export
+
+// export const koulutustyyppiRyhmittely: KoulutustyyppiRyhma[] = [
+//   {
+//     ryhma: 'ammatillinen',
+//     koulutustyypit: ['koulutustyyppi_1', 'koulutustyyppi_11', 'koulutustyyppi_12', '', '']
+//   }
+// ];
+
 const themeColors = {
   'ammatillinen': [0, 136, 0],
   'esiopetus': [132, 210, 255],
@@ -113,7 +127,6 @@ export function koulutustyyppiRelaatiot() {
     ],
   }];
 }
-
 
 export function ryhmat(koulutustyyppi: string) {
   const relaatiot = koulutustyyppiRelaatiot();
@@ -217,3 +230,7 @@ export function getLaajaAlaisetKoodit() {
   }];
 }
 
+export const perustetila = Object.freeze({
+  luonnos: 'luonnos',
+  valmis: 'valmis',
+});
