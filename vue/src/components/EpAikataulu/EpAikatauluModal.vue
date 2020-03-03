@@ -32,13 +32,13 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import _ from 'lodash';
-import { aikataulutapahtuma } from '../../utils/aikataulu';
+import { aikataulutapahtuma, AikatauluRootModel } from '../../utils/aikataulu';
 import EpAikataulu from './EpAikataulu.vue';
 import EpAikatauluListaus from './EpAikatauluListaus.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpDatepicker from '@shared/components/forms/EpDatepicker.vue';
-import EpFormContent from'@shared/components/forms/EpFormContent.vue';
-import EpField from'@shared/components/forms/EpField.vue';
+import EpFormContent from '@shared/components/forms/EpFormContent.vue';
+import EpField from '@shared/components/forms/EpField.vue';
 import { Kielet } from '@shared/stores/kieli';
 
 @Component({
@@ -52,24 +52,23 @@ import { Kielet } from '@shared/stores/kieli';
   },
 })
 export default class EpAikatauluModal extends Vue {
+  @Prop({ required: false })
+  private rootModel!: AikatauluRootModel;
 
-  @Prop({ required: true})
-  private rootModel!: any;
-
-  @Prop({ required: true})
+  @Prop({ required: true })
   private aikataulut!: any[];
 
   private invalid: boolean = false;
   private aikataulutClone: any[]= [];
 
   openModal() {
-    if (_.size(this.aikataulut) === 0){
+    if (_.size(this.aikataulut) === 0) {
       this.setInvalid(true);
 
       this.aikataulutClone = [
         {
           tapahtuma: aikataulutapahtuma.luominen,
-          opetussuunnitelmaId: this.rootModel.id,
+          // opetussuunnitelmaId: this.rootModel?.id,
           tapahtumapaiva: this.rootModel.luotu,
           tavoite: {
             [Kielet.getSisaltoKieli.value]: this.$t('projektin-luomispaiva')
@@ -77,7 +76,7 @@ export default class EpAikatauluModal extends Vue {
         },
         {
           tapahtuma: aikataulutapahtuma.julkaisu,
-          opetussuunnitelmaId: this.rootModel.id,
+          // opetussuunnitelmaId: this.rootModel?.id,
           tapahtumapaiva: null,
           tavoite: {
             [Kielet.getSisaltoKieli.value]: this.$t('projektin-suunniteltu-julkaisupaiva')
@@ -90,7 +89,6 @@ export default class EpAikatauluModal extends Vue {
     }
 
     (this as any).$refs.aikataulumodal.show();
-
   }
 
   tallenna() {
@@ -100,7 +98,6 @@ export default class EpAikatauluModal extends Vue {
   setInvalid(invalid) {
     this.invalid = invalid;
   }
-
 }
 </script>
 

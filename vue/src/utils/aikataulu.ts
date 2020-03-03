@@ -17,3 +17,13 @@ export function aikatauluTapahtumaSort(aikataulu: any) {
 export function aikatauluTapahtumapaivaSort(aikataulu: any) {
   return aikataulu.tapahtumapaiva;
 }
+
+export interface Tapahtuma {
+  tapahtuma: 'luominen' | 'julkaisu' | 'tavoite';
+  tapahtumapaiva: Date;
+  tavoite: string;
+}
+
+export interface AikatauluRootModel {
+  luotu: Date;
+}

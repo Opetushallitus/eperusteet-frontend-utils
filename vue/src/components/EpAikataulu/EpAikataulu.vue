@@ -44,21 +44,14 @@
 
 import { Vue, Component, Prop, Mixins } from 'vue-property-decorator';
 import _ from 'lodash';
-import { aikataulutapahtuma } from '../../utils/aikataulu';
-
-interface Tapahtuma {
-  tapahtuma: 'luominen' | 'julkaisu' | 'tavoite';
-  tapahtumapaiva: Date;
-  tavoite: string;
-}
+import { aikataulutapahtuma, Tapahtuma } from '@shared/utils/aikataulu';
 
 @Component
 export default class EpAikataulu extends Vue {
-
   @Prop({ required: true })
   private aikataulut!: Tapahtuma[];
 
-  @Prop({ required: false, default: true})
+  @Prop({ required: false, default: true })
   private showPopover!: boolean;
 
   private luomisaikaPalloPoint = 75;
