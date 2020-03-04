@@ -16,7 +16,6 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { colorize } from '@shared/utils/perusteet';
 
-
 export type IndicatorKind = 'normaali'
   | 'pakollinen'
   | 'valinnainen'
@@ -26,7 +25,13 @@ export type IndicatorKind = 'normaali'
   | 'poistettu'
   | 'paikallinen'
   | 'offline'
-  | 'online';
+  | 'online'
+  | 'ammatillinen'
+  | 'esiopetus'
+  | 'lukio'
+  | 'perusopetus'
+  | 'varhaiskasvatus'
+  | 'taiteenperusopetus';
 
 @Component
 export default class EpColorIndicator extends Vue {
@@ -51,12 +56,11 @@ export default class EpColorIndicator extends Vue {
       background,
     };
   }
-
 }
 </script>
 
 <style lang="scss" scoped>
-@import '../../styles/_variables.scss';
+@import '@shared/styles/_variables.scss';
 
 .ball {
   background: black;

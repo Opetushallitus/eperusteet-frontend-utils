@@ -9,10 +9,10 @@ import 'moment/locale/fi';
 import 'moment/locale/ru';
 import 'moment/locale/se';
 import 'moment/locale/sv';
-import VueCompositionApi, {computed, reactive} from '@vue/composition-api';
+import VueCompositionApi, { computed, reactive } from '@vue/composition-api';
+import { updateRelativeTime } from '@shared/plugins/aikaleima';
 
 Vue.use(VueCompositionApi);
-
 
 declare module 'vue/types/vue' {
   interface Vue {
@@ -40,7 +40,6 @@ function getMessages() {
   return result;
 }
 
-
 export class KieliStore {
   private vi18n!: VueI18n;
 
@@ -60,6 +59,7 @@ export class KieliStore {
       locale: Kieli.fi,
       messages: getMessages(),
     }, _.cloneDeep(config)));
+    moment.updateLocale(Kieli.fi, updateRelativeTime());
   }
 
   /**

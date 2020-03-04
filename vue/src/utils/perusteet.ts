@@ -25,14 +25,28 @@ export interface KoulutustyyppiRyhma {
   koulutustyypit: string[],
 }
 
-// export
+export function koulutustyyppiRyhmat(): KoulutustyyppiRyhma[] {
+  const koulutustyyppiRyhmat = _.invertBy(themes);
+  return _.chain(themes)
+    .invertBy()
+    .keys()
+    .map(koulutustyyppiryhma => {
+      return {
+        ryhma: koulutustyyppiryhma,
+        koulutustyypit: koulutustyyppiRyhmat[koulutustyyppiryhma],
+      } as KoulutustyyppiRyhma;
+    })
+    .value();
+}
 
-// export const koulutustyyppiRyhmittely: KoulutustyyppiRyhma[] = [
-//   {
-//     ryhma: 'ammatillinen',
-//     koulutustyypit: ['koulutustyyppi_1', 'koulutustyyppi_11', 'koulutustyyppi_12', '', '']
-//   }
-// ];
+export const koulutustyyppiRyhmaSort = {
+  'varhaiskasvatus': 1,
+  'esiopetus': 2,
+  'perusopetus': 3,
+  'taiteenperusopetus': 4,
+  'lukio': 5,
+  'ammatillinen': 6,
+};
 
 const themeColors = {
   'ammatillinen': [0, 136, 0],
@@ -149,7 +163,7 @@ export function koulutustyyppiTheme(koulutustyyppi: string) {
 }
 
 export function koulutustyyppiThemeColor(koulutustyyppi: string) {
-  return themeColors[themes[koulutustyyppi]] || [47, 95, 209];
+  return themeColors[themes[koulutustyyppi]] || themeColors[koulutustyyppi] || [47, 95, 209];
 }
 
 export function rgb2string(color: number[]) {
@@ -233,4 +247,13 @@ export function getLaajaAlaisetKoodit() {
 export const perustetila = Object.freeze({
   luonnos: 'luonnos',
   valmis: 'valmis',
+  poistettu: 'poistettu',
+});
+
+export const perusteprojektitila = Object.freeze({
+  poistettu: 'poistettu',
+  laadinta: 'laadinta',
+  kommentointi: 'kommentointi',
+  valmis: 'valmis',
+  julkaistu: 'julkaistu',
 });
