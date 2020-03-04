@@ -88,3 +88,24 @@ export class Aikaleima {
 
 const aikaleima = new Aikaleima();
 export default aikaleima;
+
+export function updateRelativeTime() {
+  return {
+    relativeTime: {
+      future: 'in %s',
+      past: '%s ' + Kielet.t('sitten'),
+      s: Kielet.t('muutama-sekunti'),
+      ss: '%d ' + Kielet.t('aikalyhenne-sekuntia'),
+      m: Kielet.t('aikalyhenne-minuutti'),
+      mm: '%d ' + Kielet.t('aikalyhenne-minuutti'),
+      h: Kielet.t('aikalyhenne-tunti'),
+      hh: '%d ' + Kielet.t('aikalyhenne-tunti'),
+      d: Kielet.t('aikalyhenne-paiva'),
+      dd: '%d ' + Kielet.t('aikalyhenne-paiva'),
+      M: Kielet.t('aikalyhenne-kuukausi'),
+      MM: '%d ' + Kielet.t('aikalyhenne-kuukausi'),
+      y: Kielet.t('aikalyhenne-vuosi'),
+      yy: '%d ' + Kielet.t('aikalyhenne-vuosi')
+    }
+  };
+}

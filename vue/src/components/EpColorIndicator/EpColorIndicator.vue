@@ -25,7 +25,13 @@ export type IndicatorKind = 'normaali'
   | 'poistettu'
   | 'paikallinen'
   | 'offline'
-  | 'online';
+  | 'online'
+  | 'ammatillinen'
+  | 'esiopetus'
+  | 'lukio'
+  | 'perusopetus'
+  | 'varhaiskasvatus'
+  | 'taiteenperusopetus';
 
 @Component
 export default class EpColorIndicator extends Vue {
@@ -54,7 +60,7 @@ export default class EpColorIndicator extends Vue {
 </script>
 
 <style lang="scss" scoped>
-@import '../../styles/_variables.scss';
+@import '@shared/styles/_variables.scss';
 
 .ball {
   background: black;
