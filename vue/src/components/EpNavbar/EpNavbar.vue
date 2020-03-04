@@ -1,5 +1,5 @@
 <template>
-<div class="topbar" v-sticky="sticky" sticky-z-index="600">
+<div class="topbar">
   <b-navbar id="navigation-bar"
             class="ep-navbar"
             type="dark"
