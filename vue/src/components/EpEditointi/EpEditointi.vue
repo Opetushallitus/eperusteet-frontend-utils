@@ -1,188 +1,204 @@
 <template>
-<div>
-  <ep-spinner v-if="!isInitialized"></ep-spinner>
-  <div class="editointikontrolli" v-else>
-    <!-- <div v-sticky sticky-offset="{ top: 50 }" sticky-z-index="500">                                                     -->
-    <!--   <div class="ylapaneeli">                                                                                          -->
-    <!--     <div class="d-flex align-items-center">                                                                         -->
-    <!--       <div class="flex-fill headerline">                                                                            -->
-    <!--         <slot name="header"                                                                                         -->
-    <!--               :isEditing="store.isEditing"                                                                          -->
-    <!--               :data="state.data"                                                                                    -->
-    <!--               :validation="$v && $v.state && $v.state.data"></slot>                                                 -->
-    <!--       </div>                                                                                                        -->
-    <!--       <div v-if="!store.isEditing">                                                                                 -->
-    <!--         <div class="muokattu" v-if="latest">                                                                        -->
-    <!--           {{ $t('muokattu') }}: {{ $sdt(latest.pvm) }}, {{ latest.muokkaajaOid }}                                   -->
-    <!--         </div>                                                                                                      -->
-    <!--       </div>                                                                                                        -->
-    <!--       <div>                                                                                                         -->
-    <!--         <div class="floating-editing-buttons">                                                                      -->
-    <!--           <ep-button class="ml-4"                                                                                   -->
-    <!--                      v-if="store.isEditing"                                                                         -->
-    <!--                      @click="store.cancel()"                                                                        -->
-    <!--                      :disabled="disabled"                                                                           -->
-    <!--                      variant="link">                                                                                -->
-    <!--             <slot name="peruuta">{{ $t('peruuta') }}</slot>                                                         -->
-    <!--           </ep-button>                                                                                              -->
-    <!--           <ep-button class="ml-4"                                                                                   -->
-    <!--                      @click="store.save()"                                                                          -->
-    <!--                      v-if="store.isEditing"                                                                         -->
-    <!--                      :disabled="disabled || ($v && $v.state && $v.state.data.$invalid)"                             -->
-    <!--                      variant="primary"                                                                              -->
-    <!--                      :show-spinner="state.isSaving"                                                                 -->
-    <!--                      :help="saveHelpText">                                                                          -->
-    <!--             <slot name="tallenna">{{ $t('tallenna') }}</slot>                                                       -->
-    <!--           </ep-button>                                                                                              -->
-    <!--           <b-dropdown class="mx-4"                                                                                  -->
-    <!--                       v-if="editointiDropDownValinnatVisible"                                                       -->
-    <!--                       size="md"                                                                                     -->
-    <!--                       variant="link"                                                                                -->
-    <!--                       :disabled="disabled"                                                                          -->
-    <!--                       toggle-class="text-decoration-none"                                                           -->
-    <!--                       no-caret="no-caret"                                                                           -->
-    <!--                       right>                                                                                        -->
-    <!--             <template slot="button-content"><fas icon="menu-vaaka"></fas></template>                                -->
-    <!--             <b-dropdown-item @click="store.remove()"                                                                -->
-    <!--                              key="poista"                                                                           -->
-    <!--                              :disabled="!hooks.remove || disabled">                                                 -->
-    <!--               <slot name="poista">{{ poistoteksti }}</slot>                                                         -->
-    <!--             </b-dropdown-item>                                                                                      -->
-    <!--           </b-dropdown>                                                                                             -->
-    <!--           <ep-button id="editointi-muokkaus"                                                                        -->
-    <!--                      v-tutorial                                                                                     -->
-    <!--                      variant="link"                                                                                 -->
-    <!--                      v-oikeustarkastelu="{ oikeus: 'muokkaus' }"                                                    -->
-    <!--                      @click="store.start()"                                                                         -->
-    <!--                      v-if="!store.isEditing && store.isEditable && !versiohistoriaVisible"                          -->
-    <!--                      icon="kyna"                                                                                    -->
-    <!--                      :show-spinner="state.isSaving"                                                                 -->
-    <!--                      :disabled="disabled">                                                                          -->
-    <!--             <slot name="muokkaa">{{ $t('muokkaa') }}</slot>                                                         -->
-    <!--           </ep-button>                                                                                              -->
-    <!--           <b-dropdown class="mx-4"                                                                                  -->
-    <!--                       v-if="katseluDropDownValinnatVisible"                                                         -->
-    <!--                       size="md"                                                                                     -->
-    <!--                       variant="link"                                                                                -->
-    <!--                       :disabled="disabled"                                                                          -->
-    <!--                       toggle-class="text-decoration-none"                                                           -->
-    <!--                       no-caret="no-caret"                                                                           -->
-    <!--                       right                                                                                         -->
-    <!--                       v-oikeustarkastelu="{ oikeus: 'luku' }">                                                      -->
-    <!--             <template slot="button-content">                                                                        -->
-    <!--               <fas icon="menu-vaaka"></fas>                                                                         -->
-    <!--             </template>                                                                                             -->
-    <!--             <b-dropdown-item :disabled="!hooks.preview || disabled">                                                -->
-    <!--               {{ $t('esikatsele-sivua') }}                                                                          -->
-    <!--             </b-dropdown-item>                                                                                      -->
-    <!--             <b-dropdown-item :disabled="!hooks.validate || disabled">                                               -->
-    <!--               {{ $t('validoi') }}                                                                                   -->
-    <!--             </b-dropdown-item>                                                                                      -->
-    <!--             <b-dropdown-item :disabled="!hooks.history || disabled">                                                -->
-    <!--               <ep-versio-modaali :value="current"                                                                   -->
-    <!--                                  :versions="historia"                                                               -->
-    <!--                                  :current="current"                                                                 -->
-    <!--                                  :per-page="10"                                                                     -->
-    <!--                                  @restore="store.restore($event)" />                                                -->
-    <!--             </b-dropdown-item>                                                                                      -->
-    <!--           </b-dropdown>                                                                                             -->
-    <!--           <ep-round-button class="ml-2"                                                                             -->
-    <!--                            :disabled="disabled"                                                                     -->
-    <!--                            id="editointi-muokkaus-comments"                                                         -->
-    <!--                            v-tutorial                                                                               -->
-    <!--                            v-if="hasKeskusteluSlot"                                                                 -->
-    <!--                            @click="toggleSidebarState(1)"                                                           -->
-    <!--                            icon="kommentit"                                                                         -->
-    <!--                            variant="lightblue fa-flip-horizontal"></ep-round-button>                                -->
-    <!--           <ep-round-button class="ml-2"                                                                             -->
-    <!--                            :disabled="disabled"                                                                     -->
-    <!--                            id="editointi-muokkaus-question"                                                         -->
-    <!--                            v-tutorial                                                                               -->
-    <!--                            v-if="hasOhjeSlot"                                                                       -->
-    <!--                            @click="toggleSidebarState(2)"                                                           -->
-    <!--                            icon="kysymysmerkki"                                                                     -->
-    <!--                            variant="green"></ep-round-button>                                                       -->
-    <!--           <ep-round-button class="ml-2"                                                                             -->
-    <!--                            :disabled="disabled"                                                                     -->
-    <!--                            v-if="hasPerusteSlot"                                                                    -->
-    <!--                            @click="toggleSidebarState(3)"                                                           -->
-    <!--                            icon="valtakunnalliset-perusteet"                                                        -->
-    <!--                            variant="pink"></ep-round-button>                                                        -->
-    <!--         </div>                                                                                                      -->
-    <!--       </div>                                                                                                        -->
-    <!--     </div>                                                                                                          -->
-    <!--   </div>                                                                                                            -->
-    <!--   <div class="d-flex align-items-center versiohistoria" v-if="versiohistoriaVisible">                               -->
-    <!--     <div class="headerline">                                                                                        -->
-    <!--       <span>{{ $t('muokkaushistoria') }}: {{ $t('versionumero') }} {{ versionumero }}</span>                        -->
-    <!--     </div>                                                                                                          -->
-    <!--     <div class="flex-fill">                                                                                         -->
-    <!--       <b-pagination :value="versionumero"                                                                           -->
-    <!--                     @input="updateVersionumero"                                                                     -->
-    <!--                     :total-rows="versions"                                                                          -->
-    <!--                     :per-page="1"                                                                                   -->
-    <!--                     :hide-goto-end-buttons="true"                                                                   -->
-    <!--                     size="sm"                                                                                       -->
-    <!--                     class="mb-0">                                                                                   -->
-    <!--         <template v-slot:prev-text>                                                                                 -->
-    <!--           <fas icon="vakanen-vasen" fixed-width />                                                                  -->
-    <!--         </template>                                                                                                 -->
-    <!--         <template v-slot:next-text>                                                                                 -->
-    <!--           <fas icon="vakanen-oikea" fixed-width />                                                                  -->
-    <!--         </template>                                                                                                 -->
-    <!--       </b-pagination>                                                                                               -->
-    <!--     </div>                                                                                                          -->
-    <!--     <div class="floating-editing-buttons">                                                                          -->
-    <!--       <ep-button variant="link" icon="lista">                                                                       -->
-    <!--         <ep-versio-modaali :value="current"                                                                         -->
-    <!--                            :versions="historia"                                                                     -->
-    <!--                            :current="current"                                                                       -->
-    <!--                            :per-page="10"                                                                           -->
-    <!--                            @restore="store.restore($event)">                                                        -->
-    <!--           {{ $t('palaa-listaan') }}                                                                                 -->
-    <!--         </ep-versio-modaali>                                                                                        -->
-    <!--       </ep-button>                                                                                                  -->
-    <!--       <ep-button variant="link"                                                                                     -->
-    <!--                  icon="peruuta"                                                                                     -->
-    <!--                  @click="store.restore({ numero: current.numero, routePushLatest: true })">                         -->
-    <!--         {{ $t('palauta-tama-versio') }}                                                                             -->
-    <!--       </ep-button>                                                                                                  -->
-    <!--       <router-link :to="{ query: {} }">                                                                             -->
-    <!--         <ep-button variant="link" icon="sulje" />                                                                   -->
-    <!--       </router-link>                                                                                                -->
-    <!--     </div>                                                                                                          -->
-    <!--   </div>                                                                                                            -->
-    <!-- </div>                                                                                                              -->
-    <!-- <div v-if="state.data">                                                                                             -->
-    <!--   <div class="threads">                                                                                             -->
-    <!--     <div class="actual-content">                                                                                    -->
-    <!--       <div class="sisalto">                                                                                         -->
-    <!--         <slot :isEditing="store.isEditing" :data="state.data" :validation="$v.state.data"></slot>                   -->
-    <!--       </div>                                                                                                        -->
-    <!--     </div>                                                                                                          -->
-    <!--     <div class="rightbar rb-keskustelu" v-if="hasKeskusteluSlot && sidebarState === 1">                             -->
-    <!--       <div class="rbheader"><b>{{ $t('keskustelu') }}</b></div>                                                     -->
-    <!--       <div class="rbcontent">                                                                                       -->
-    <!--         <slot name="keskustelu" :isEditing="store.isEditing" :data="state.data" :validation="$v.state.data"></slot> -->
-    <!--       </div>                                                                                                        -->
-    <!--     </div>                                                                                                          -->
-    <!--     <div class="rightbar rb-ohje" v-if="hasOhjeSlot && sidebarState === 2">                                         -->
-    <!--       <div class="rbheader"><b>{{ $t('ohje') }}</b></div>                                                           -->
-    <!--       <div class="rbcontent">                                                                                       -->
-    <!--         <slot name="ohje" :isEditing="store.isEditing" :validation="$v.state.data" :data="state.data"></slot>       -->
-    <!--       </div>                                                                                                        -->
-    <!--     </div>                                                                                                          -->
-    <!--     <div class="rightbar rb-peruste" v-if="hasPerusteSlot && sidebarState === 3">                                   -->
-    <!--       <div class="rbheader"><b>{{ $t('perusteen-teksti') }}</b></div>                                               -->
-    <!--       <div class="rbcontent">                                                                                       -->
-    <!--         <slot name="peruste" :isEditing="store.isEditing" :validation="$v.state.data" :data="state.data"></slot>    -->
-    <!--       </div>                                                                                                        -->
-    <!--     </div>                                                                                                          -->
-    <!--   </div>                                                                                                            -->
-    <!-- </div>                                                                                                              -->
+  <div class="editointi-container">
+    <ep-spinner v-if="!store || !inner"></ep-spinner>
+    <div class="editointikontrolli" v-else>
+      <div v-sticky sticky-offset="{ top: 0 }" sticky-z-index="500">
+        <div class="ylapaneeli">
+          <div class="d-flex align-items-center flex-md-row flex-column justify-content-between">
+            <div class="d-flex flex-wrap flex-xl-nowrap">
+              <div class="headerline">
+                <slot name="header"
+                :isEditing="isEditing"
+                      :data="inner"
+                      :validation="$v && $v.inner"></slot>
+              </div>
+              <span class="muokattu text-nowrap" v-if="!isEditing">
+                <span class="text-truncate">{{ $t('muokattu') }}: {{ $sdt(latest.pvm) }},</span>
+                <span class="ml-1">{{ nimi }}</span>
+              </span>
+            </div>
+            <div>
+              <div class="floating-editing-buttons">
+                <ep-button class="ml-4"
+                           v-if="isEditing"
+                           @click="store.cancel()"
+                           :disabled="disabled"
+                           variant="link">
+                  <slot name="peruuta">{{ $t('peruuta') }}</slot>
+                </ep-button>
+                <ep-button class="ml-4"
+                           @click="store.save()"
+                           v-if="isEditing"
+                           :disabled="disabled || ($v && $v.inner && $v.inner.$invalid)"
+                           variant="primary"
+                           :show-spinner="isSaving"
+                           :help="saveHelpText">
+                  <slot name="tallrnna">{{ $t('tallenna') }}</slot>
+                </ep-button>
+                <b-dropdown class="mx-4"
+                            v-if="editointiDropDownValinnatVisible"
+                            size="md"
+                            variant="link"
+                            :disabled="disabled"
+                            toggle-class="text-decoration-none"
+                            no-caret="no-caret"
+                            right>
+                  <template slot="button-content"><fas icon="menu-vaaka"></fas></template>
+                  <b-dropdown-item @click="store.remove()"
+                    key="poista"
+                    :disabled="!store.remove || disabled">
+                    <slot name="poista">{{ poistoteksti }}</slot>
+                  </b-dropdown-item>
+                </b-dropdown>
+                <div v-if="currentLock" class="d-flex align-items-center ml-2 mr-2">
+                  <div>
+                    <fas size="lg" icon="user-lock" :title="$t('sivu-lukittu')" />
+                  </div>
+                  <div class="flex-grow-1 ml-4">
+                    <div>
+                      {{ currentLock.haltijaNimi || currentLock.haltijaOid }}
+                    </div>
+                    <div class="text-muted">
+                      {{ $t('vapautuu') }}: {{ $ago(currentLock.vanhentuu) }}
+                    </div>
+                  </div>
+                </div>
+                <ep-button id="editointi-muokkaus"
+                           v-tutorial
+                           variant="link"
+                           v-oikeustarkastelu="{ oikeus: 'muokkaus' }"
+                           @click="store.start()"
+                           v-else-if="!isEditing && isEditable && !versiohistoriaVisible"
+                           icon="kyna"
+                           :show-spinner="isSaving"
+                           :disabled="disabled">
+                  <slot name="muokkaa">{{ $t('muokkaa') }}</slot>
+                </ep-button>
+                <b-dropdown class="mx-4"
+                            v-if="katseluDropDownValinnatVisible"
+                            size="md"
+                            variant="link"
+                            :disabled="disabled"
+                            toggle-class="text-decoration-none"
+                            no-caret="no-caret"
+                            right
+                            v-oikeustarkastelu="{ oikeus: 'luku' }">
+                  <template slot="button-content">
+                    <fas icon="menu-vaaka"></fas>
+                  </template>
+                  <b-dropdown-item :disabled="!hasPreview || disabled">
+                    {{ $t('esikatsele-sivua') }}
+                  </b-dropdown-item>
+                  <b-dropdown-item :disabled="!store.validate || disabled">
+                    {{ $t('validoi') }}
+                  </b-dropdown-item>
+                  <b-dropdown-item :disabled="!historia || disabled">
+                    <ep-versio-modaali :value="current"
+                      :versions="historia"
+                      :current="current"
+                      :per-page="10"
+                      @restore="store.restore($event)" />
+                  </b-dropdown-item>
+                </b-dropdown>
+                <ep-round-button class="ml-2"
+                                 :disabled="disabled"
+                                 id="editointi-muokkaus-comments"
+                                 v-tutorial
+                                 v-if="hasKeskusteluSlot"
+                                 @click="toggleSidebarState(1)"
+                                 icon="kommentit"
+                                 variant="lightblue fa-flip-horizontal" />
+                <ep-round-button class="ml-2"
+                                 :disabled="disabled"
+                                 id="editointi-muokkaus-question"
+                                 v-tutorial
+                                 v-if="hasOhjeSlot"
+                                 @click="toggleSidebarState(2)"
+                                 icon="kysymysmerkki"
+                                 variant="green" />
+                <ep-round-button class="ml-2"
+                                 :disabled="disabled"
+                                 v-if="hasPerusteSlot"
+                                 @click="toggleSidebarState(3)"
+                                 icon="valtakunnalliset-perusteet"
+                                 variant="pink" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex align-items-center versiohistoria" v-if="versiohistoriaVisible">
+          <div class="headerline">
+            <span>{{ $t('muokkaushistoria') }}: {{ $t('versionumero') }} {{ versionumero }}</span>
+          </div>
+          <div class="flex-fill">
+            <b-pagination :value="versionumero"
+              @input="updateVersionumero"
+              :total-rows="versions"
+              :per-page="1"
+              :hide-goto-end-buttons="true"
+              size="sm"
+              class="mb-0">
+              <template v-slot:prev-text>
+                <fas icon="vakanen-vasen" fixed-width />
+              </template>
+              <template v-slot:next-text>
+                <fas icon="vakanen-oikea" fixed-width />
+              </template>
+            </b-pagination>
+          </div>
+          <div class="floating-editing-buttons">
+            <ep-button variant="link" icon="lista">
+              <ep-versio-modaali :value="current"
+                :versions="historia"
+                :current="current"
+                :per-page="10"
+                @restore="store.restore($event)">
+                {{ $t('palaa-listaan') }}
+              </ep-versio-modaali>
+            </ep-button>
+            <ep-button variant="link"
+                       icon="peruuta"
+                       @click="store.restore({ numero: current.numero, routePushLatest: true })">
+              {{ $t('palauta-tama-versio') }}
+            </ep-button>
+            <router-link :to="{ query: {} }">
+              <ep-button variant="link" icon="sulje" />
+            </router-link>
+          </div>
+        </div>
+      </div>
+      <div v-if="inner">
+        <div class="threads">
+          <div class="actual-content">
+            <div class="sisalto">
+              <slot :isEditing="isEditing" :data="inner" :validation="$v.inner"></slot>
+            </div>
+          </div>
+          <div class="rightbar rb-keskustelu" v-if="hasKeskusteluSlot && sidebarState === 1">
+            <div class="rbheader"><b>{{ $t('keskustelu') }}</b></div>
+            <div class="rbcontent">
+              <slot name="keskustelu" :isEditing="isEditing" :data="inner" :validation="$v.inner"></slot>
+            </div>
+          </div>
+          <div class="rightbar rb-ohje" v-if="hasOhjeSlot && sidebarState === 2">
+            <div class="rbheader"><b>{{ $t('ohje') }}</b></div>
+            <div class="rbcontent">
+              <slot name="ohje" :isEditing="isEditing" :validation="$v.inner" :data="inner"></slot>
+            </div>
+          </div>
+          <div class="rightbar rb-peruste" v-if="hasPerusteSlot && sidebarState === 3">
+            <div class="rbheader"><b>{{ $t('perusteen-teksti') }}</b></div>
+            <div class="rbcontent">
+              <slot name="peruste" :isEditing="isEditing" :validation="$v.inner" :data="inner"></slot>
+            </div>
+          </div>
+        </div>
+      </div>
+      <EpSpinner v-else />
+    </div>
   </div>
-</div>
 </template>
+
 <script lang="ts">
 import _ from 'lodash';
 import { Watch, Component, Mixins, Prop } from 'vue-property-decorator';
@@ -191,6 +207,7 @@ import Sticky from 'vue-sticky-directive';
 
 import { EditointiStore } from './EditointiStore';
 import { setItem, getItem } from '../../utils/localstorage';
+import { Revision } from '@shared/tyypit';
 import EpVersioModaali from './EpVersioModaali.vue';
 import '@shared/stores/kieli';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
@@ -201,10 +218,8 @@ import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 @Component({
   validations() {
     return {
-      state: {
-        data: {
-          ...(this as any).validator,
-        },
+      inner: {
+        ...(this as any).validator,
       },
     };
   },
@@ -233,12 +248,12 @@ export default class EpEditointi extends Mixins(validationMixin) {
   private versionumero!: number | null;
 
   private sidebarState = 0;
-
+  
   private state: any = null;
   private isInitialized = false;
-
+  
   private currentPage = 1;
-
+  
   private updateVersionumero(versionumero) {
     this.$router.push({
       query: {
@@ -247,61 +262,89 @@ export default class EpEditointi extends Mixins(validationMixin) {
     });
   }
 
+  get nimi() {
+    if (this.latest?.nimi) {
+      return this.latest?.nimi;
+    }
+    else if (this.latest?.kutsumanimi && this.latest?.sukunimi) {
+      return this.latest?.kutsumanimi + ' ' + this.latest?.sukunimi;
+    }
+    return this.latest?.muokkaajaOid || '';
+  }
+  
+  get inner() {
+    if (this.store && this.store.data) {
+      return this.store.data.value;
+    }
+    return null;
+  }
+  
+  get hasPreview() {
+    return this.store.hasPreview;
+  }
+  
+  get currentLock() {
+    return this.store.currentLock.value;
+  }
+  
+  get isSaving() {
+    return this.store.isSaving.value;
+  }
+  
+  get isEditable() {
+    return this.store.isEditable;
+  }
+  
   get isEditing() {
     return this.store.isEditing.value;
   }
-
-  get data() {
-    return this.store.data.value;
-  }
-
+  
   get revisions() {
     return this.store.revisions.value;
   }
-
+  
   get disabled() {
     return this.store.disabled.value;
   }
-
+  
   get versions() {
     return this.historia.length - 1; // Ei näytetä nykyistä versiota
   }
-
+  
   get poistoteksti() {
-    if(!this.type) {
+    if (!this.type) {
       return this.$t('poista');
     }
-
     return this.$t('poista-' + this.type);
   }
-
+  
   get editointiDropDownValinnatVisible() {
-    return this.isEditing && !this.disabled && this.store.hooks.remove;
+    return this.isEditing && !this.disabled && this.store.remove;
   }
-
+  
   get katseluDropDownValinnatVisible() {
     return !this.store!.isEditing
       && !this.disabled
       && !this.versiohistoriaVisible
-      && (this.store.hooks.preview || this.store.hooks.validate || this.store.hooks.history);
+      && this.store.validate;
   }
-
+  
   get versiohistoriaVisible() {
     return this.current && this.current !== this.latest;
   }
-
+  
   get hasKeskusteluSlot() {
     return this.$scopedSlots.keskustelu;
   }
-
+  
   get hasPerusteSlot() {
     return this.$scopedSlots.peruste;
   }
-
+  
   get hasOhjeSlot() {
     return this.$scopedSlots.ohje;
   }
-
+  
   private toggleSidebarState(val: number) {
     if (val === this.sidebarState) {
       this.sidebarState = 0;
@@ -313,7 +356,7 @@ export default class EpEditointi extends Mixins(validationMixin) {
       value: this.sidebarState,
     });
   }
-
+  
   get saveHelpText() {
     const vuelidate = this.$v as any;
     if (this.disabled) {
@@ -322,29 +365,30 @@ export default class EpEditointi extends Mixins(validationMixin) {
     else if (this.disabled) {
       return 'tallenna-tila-virhe-ohje';
     }
-    else if (vuelidate.state.data.$invalid) {
+    else if (vuelidate.inner.$invalid) {
       return 'tallenna-validointi-virhe-ohje';
     }
     else {
       return '';
     }
   }
-
+  
   @Watch('data')
-  private changed(newValue: any, oldValue: any) {
+  private onDataChange(newValue: any, oldValue: any) {
     this.$emit('input', newValue);
   }
-
-  public async mounted() {
+  
+  @Watch('store', { immediate: true })
+  async onStoreChange(newValue: any, oldValue: any) {
     await this.store.init();
     this.isInitialized = true;
-
+  
     const sidebarState = await getItem('ep-editointi-sidebar-state') as any;
     if (sidebarState) {
       this.sidebarState = sidebarState!.value;
     }
   }
-
+  
   get current() {
     if (!_.isEmpty(this.historia)) {
       if (this.versionumero) {
@@ -364,17 +408,17 @@ export default class EpEditointi extends Mixins(validationMixin) {
       }
     }
   }
-
+  
   get latest() {
-    return _.first(this.historia);
+    return _.first(this.historia) || null;
   }
-
+  
   get historia() {
     const revs = this.revisions || [];
     return _.map(revs, (rev, index: number) => ({
       ...rev,
       index: revs.length - index,
-    }));
+    } as Revision & { index: number }));
   }
 
 }
@@ -402,6 +446,14 @@ export default class EpEditointi extends Mixins(validationMixin) {
     .muokattu, .muokkaaja {
       color: #555;
       margin-right: 20px;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 767.98px) {
+        .muokkaus-container {
+          width:100%;
+          border-top: 1px solid #E7E7E7;
+        }
     }
   }
 
@@ -444,6 +496,12 @@ export default class EpEditointi extends Mixins(validationMixin) {
     padding: 15px;
   }
 
+  .alapaneeli {
+
+    .lower-buttons {
+    }
+  }
+
   .threads {
     height: 100%;
     display: flex;
@@ -452,15 +510,17 @@ export default class EpEditointi extends Mixins(validationMixin) {
       border-left: 1px solid #eee;
       min-width: 460px;
       max-width: 460px;
-      min-height: calc(100%);
+      min-height: 100vh;
+      height: 100%;
 
       .rbheader {
         padding: 20px;
       }
 
       .rbcontent {
+        min-height: 100vh;
+        height: 100%;
         font-size: 80%;
-        min-height: calc(100% - 64px);
       }
     }
 

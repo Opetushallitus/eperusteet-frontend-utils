@@ -24,9 +24,6 @@ export class EpTreeNavibarStore {
   ) {
   }
 
-  private state = reactive({
-  });
-
   private readonly connected = computed(() => {
     return _.drop(flattenNodes(this.navigation.value), 2);
   });

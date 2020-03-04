@@ -50,6 +50,8 @@ export interface Revision {
   pvm: Date;
   muokkaajaOid: string;
   nimi?: string;
+  kutsumanimi?: string;
+  sukunimi?: string;
   kommentti?: string;
 }
 
@@ -83,9 +85,18 @@ export type NavigationNodeType =
   | 'muodostuminen' | 'tutkinnonosat' | 'tutkinnonosa' | 'tutkinnonosaviite' | 'osaalue';
 
 export interface NavigationNodeDto {
-    id?: number;
-    label?: LokalisoituTekstiDto;
-    type?: NavigationNodeType;
-    meta?: { [key: string]: object; };
-    children?: NavigationNodeDto[];
+  id?: number;
+  label?: LokalisoituTekstiDto;
+  type?: NavigationNodeType;
+  meta?: { [key: string]: object; };
+  children?: NavigationNodeDto[];
+}
+
+export interface ILukko {
+  haltijaOid?: string;
+  haltijaNimi?: string;
+  luotu?: Date;
+  vanhentuu?: Date;
+  oma?: boolean;
+  revisio?: number;
 }
