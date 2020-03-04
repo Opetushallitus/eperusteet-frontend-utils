@@ -9,7 +9,7 @@ const DisableTags = ['input', 'button'];
 
 
 export interface IOikeusProvider {
-  hasOikeus: (oikeus: Oikeus, kohde: OikeusKohde) => Promise<boolean>;
+  hasOikeus: (oikeus: Oikeus, kohde: any) => Promise<boolean>;
 }
 
 export interface OikeustarkasteluConfig {
@@ -18,7 +18,7 @@ export interface OikeustarkasteluConfig {
 
 export class Oikeustarkastelu {
   public static install(vue: typeof Vue, config: OikeustarkasteluConfig) {
-    vue.prototype.$hasOikeus = async function(oikeus: Oikeus, kohde: OikeusKohde) {
+    vue.prototype.$hasOikeus = async function(oikeus: Oikeus, kohde: any) {
       return await config.oikeusProvider.hasOikeus(oikeus, kohde);
     }
 
@@ -35,6 +35,7 @@ export class Oikeustarkastelu {
           value = (value as any).oikeus;
         }
 
+        console.log(value, kohde);
         if (await config.oikeusProvider.hasOikeus(value, kohde)) {
           el.style.display = old;
         }
