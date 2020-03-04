@@ -9,8 +9,15 @@ export interface KoulutustyyppiTaiTutkintoItem {
 }
 
 export const julkaisupaikkaSort = {
-  'opintopolku': 1,
+  'opintopolku_etusivu': 1,
   'ops': 2,
   'lops': 3,
   'amosaa': 4,
 };
+
+export const julkaisupaikka = Object.freeze({
+  opintopolku_etusivu: 'opintopolku_etusivu',
+  ops: 'ops',
+  lops: 'lops',
+  amosaa: 'amosaa',
+});

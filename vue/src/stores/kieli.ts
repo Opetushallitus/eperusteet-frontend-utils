@@ -10,6 +10,7 @@ import 'moment/locale/ru';
 import 'moment/locale/se';
 import 'moment/locale/sv';
 import VueCompositionApi, { computed, reactive } from '@vue/composition-api';
+import { updateRelativeTime } from '../plugins/aikaleima';
 
 Vue.use(VueCompositionApi);
 
@@ -58,6 +59,7 @@ export class KieliStore {
       messages: getMessages(),
       ..._.cloneDeep(config),
     });
+    moment.updateLocale(Kieli.fi, updateRelativeTime());
   }
 
   /**
