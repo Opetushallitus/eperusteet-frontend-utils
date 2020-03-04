@@ -20,7 +20,7 @@
 
             <template slot="option" slot-scope="{ option }">
               <div :class="{'child': option.child, 'unselectable': option.unselectable}">
-                {{option.text}}
+                <slot name="option" :option="option">{{option.text}}</slot>
               </div>
             </template>
 
