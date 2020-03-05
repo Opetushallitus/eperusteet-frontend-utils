@@ -1,12 +1,16 @@
 import { createLocalVue, mount } from '@vue/test-utils';
-import { KieliStore, Kielet } from '../../stores/kieli';
+import { Kielet } from '../../stores/kieli';
 import { Kieli } from '../../tyypit';
+import { Aikaleima } from '../aikaleima';
+import VueI18n from 'vue-i18n';
 
 
 describe('Plugin aikaleima', () => {
   const localVue = createLocalVue();
-  KieliStore.setup(localVue);
-  const i18n = KieliStore.i18n;
+  localVue.use(VueI18n);
+  localVue.use(Kielet);
+  localVue.use(new Aikaleima());
+  const i18n = Kielet.i18n;
 
   beforeEach(() => {
     // Asetetaan nykyinen aika staattiseksi

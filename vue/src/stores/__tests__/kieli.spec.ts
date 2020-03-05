@@ -1,14 +1,15 @@
 import { createLocalVue } from '@vue/test-utils';
 import { Kieli } from '../../tyypit';
-import { KieliStore, Kielet } from '../kieli';
+import VueI18n from 'vue-i18n';
+import { Kielet } from '../kieli';
 import _ from 'lodash';
 
 
 describe('Kielet', () => {
   const localVue = createLocalVue();
-
-  KieliStore.setup(localVue);
-  const i18n = KieliStore.i18n;
+  localVue.use(VueI18n);
+  Kielet.install(localVue);
+  const i18n = Kielet.i18n;
 
   beforeEach(() => {
     i18n.locale = Kieli.fi;
@@ -16,30 +17,30 @@ describe('Kielet', () => {
   });
 
   test('UI-kieli', async () => {
-    expect(Kielet.getUiKieli).toEqual(i18n.locale);
+    expect(Kielet.getUiKieli.value).toEqual(i18n.locale);
     i18n.locale = Kieli.sv;
-    expect(Kielet.getUiKieli).toEqual(i18n.locale);
+    expect(Kielet.getUiKieli.value).toEqual(i18n.locale);
   });
 
   test('Sisältökieli', async () => {
-    expect(Kielet.getSisaltoKieli).toEqual(Kieli.fi);
+    expect(Kielet.getSisaltoKieli.value).toEqual(Kieli.fi);
+    expect(Kielet.sisaltoKieli.value).toEqual(Kieli.fi);
 
     Kielet.setSisaltoKieli(Kieli.sv);
-    expect(Kielet.getSisaltoKieli).toEqual(Kieli.sv);
+    expect(Kielet.getSisaltoKieli.value).toEqual(Kieli.sv);
+    expect(Kielet.sisaltoKieli.value).toEqual(Kieli.sv);
   });
 
   test('Ui käännökset', async () => {
-    await KieliStore.load(async () => {
-      return {
-        fi: [{
-          key: 'kieli-sisalto',
-          value: 'suomeksi',
-        }],
-        sv: [{
-          key: 'kieli-sisalto',
-          value: 'ruotsiksi',
-        }],
-      };
+    await Kielet.load({
+      fi: [{
+        key: 'kieli-sisalto',
+        value: 'suomeksi',
+      }],
+      sv: [{
+        key: 'kieli-sisalto',
+        value: 'ruotsiksi',
+      }],
     });
 
     expect(i18n.t('kieli-sisalto')).toEqual('suomeksi');
@@ -48,45 +49,31 @@ describe('Kielet', () => {
   });
 
   test('Käännösten lataus', async () => {
-    await KieliStore.load(async () => {
-      return {
-        fi: [{
-          key: 'testiavain',
-          value: 'testiarvo',
-        }],
-        sv: [],
-      };
+    await Kielet.load({
+      fi: [{
+        key: 'testiavain',
+        value: 'testiarvo',
+      }],
+      sv: [],
     });
 
     expect(i18n.t('testiavain')).toEqual('testiarvo');
   });
 
   test('Käännösten lataus virheellisillä arvoilla', async () => {
-    await KieliStore.load(async () => {
-      return {
-        fi: [{
-          key: 'testiavain',
-          value: 'testiarvo',
-        }],
-        sv: [{
-          value: 'testiarvo',
-        }, {
-          key: 'testiavain',
-        }],
-        ru: [],
-      } as any;
+    await Kielet.load({
+      fi: [{
+        key: 'testiavain',
+        value: 'testiarvo',
+      }],
+      sv: [{
+        value: 'testiarvo',
+      }, {
+        key: 'testiavain',
+      }] as any[],
     });
 
     expect(i18n.t('testiavain')).toEqual('testiarvo');
   });
 
-  test('Käännösten lataus apin ollessa rikki', async () => {
-    const errorSpy = jest.spyOn(console, 'error');
-    errorSpy.mockImplementationOnce((...args: any) => undefined);
-    await KieliStore.load(async () => {
-      throw new Error('500');
-    });
-
-    expect(errorSpy).toBeCalled();
-  });
 });

@@ -1,10 +1,7 @@
 import Vue from 'vue';
-import * as _ from 'lodash';
-import { createLogger } from '../utils/logger';
-import { Kielet } from '@shared/stores/kieli';
-import { Oikeus, OikeusKohde } from '@shared/tyypit';
+import _ from 'lodash';
+import { Oikeus } from '../tyypit';
 
-const logger = createLogger('Oikeustarkastelu');
 const DisableTags = ['input', 'button'];
 
 
@@ -29,13 +26,12 @@ export class Oikeustarkastelu {
         const old = el.style.display;
         el.style.display = 'none';
         let value = binding.value || 'luku';
-        let kohde;
+        let kohde: any;
         if (_.isObject(value)) {
           kohde = (value as any).kohde;
           value = (value as any).oikeus;
         }
 
-        console.log(value, kohde);
         if (await config.oikeusProvider.hasOikeus(value, kohde)) {
           el.style.display = old;
         }

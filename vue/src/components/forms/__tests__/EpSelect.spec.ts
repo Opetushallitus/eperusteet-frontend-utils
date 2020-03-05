@@ -1,18 +1,18 @@
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils';
 import EpSelect from '../EpSelect.vue';
-import { KieliStore } from '../../../stores/kieli';
+import { Kielet } from '../../../stores/kieli';
 import Vue from 'vue';
+import VueI18n from 'vue-i18n';
 import BootstrapVue from 'bootstrap-vue';
 
 Vue.use(BootstrapVue);
 
+
 describe('EpSelect component', () => {
 
   const localVue = createLocalVue();
-  const itemMock = ['arvo1', 'arvo2', 'arvo3'];
-  const valueMock = ['arvo1'];
-
-  KieliStore.setup(localVue,{
+  localVue.use(VueI18n);
+  localVue.use(Kielet, {
     messages: {
       fi: {
         'apu-teksti': 'apu teksti',
@@ -20,7 +20,9 @@ describe('EpSelect component', () => {
     },
   });
 
-  const i18n = KieliStore.i18n;
+  const i18n = Kielet.i18n;
+  const itemMock = ['arvo1', 'arvo2', 'arvo3'];
+  const valueMock = ['arvo1'];
 
   function mountWrapper(props : any) {
     return mount(localVue.extend({

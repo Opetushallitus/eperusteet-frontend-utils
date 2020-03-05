@@ -1,12 +1,12 @@
 import * as _ from 'lodash';
 import Vue from 'vue';
 import VueScrollTo from 'vue-scrollto';
-import { reactive, computed } from '@vue/composition-api';
+import { watch, reactive, computed } from '@vue/composition-api';
 import { Computed } from '../../utils/interfaces';
-import { ILukko, Revision } from '@shared/tyypit';
+import { ILukko, Revision } from '../../tyypit';
 import VueRouter, { RawLocation } from 'vue-router';
 // import { fail } from '@/utils/notifications';
-import { createLogger } from '@shared/utils/logger';
+import { createLogger } from '../../utils/logger';
 
 export interface EditointiKontrolliValidation {
   valid: boolean;
@@ -23,9 +23,24 @@ export interface IEditoitava {
    */
   acquire?: () => Promise<ILukko | null>;
 
+  /**
+   * Called right after user cancels editing.
+   */
   cancel: () => Promise<void>;
+
+  /**
+   * Returns true if editing is started immediately after data fetch
+   */
   editAfterLoad: () => Promise<boolean>;
+
+  /**
+   * History
+   */
   history: () => Promise<void>;
+
+  /**
+   * Loads most recent version of the data to be edited
+   */
   load: () => Promise<unknown>;
 
   /**
@@ -43,11 +58,34 @@ export interface IEditoitava {
    */
   lock?: () => Promise<ILukko | null>;
 
+  /**
+   * Remove the resource
+   */
   remove: () => Promise<void>;
+
+  /**
+   * Replace current data with restored revision
+   */
   restore: (rev: number) => Promise<void>;
+
+  /**
+   * Get all revisions of the resource
+   */
   revisions: () => Promise<Revision[]>;
+
+  /**
+   * Save current resource
+   */
   save: (data: any) => Promise<any>;
+
+  /**
+   * Start editing of the resource
+   */
   start: () => Promise<void>;
+
+  /**
+   * Validates if resoruce can be saved.
+   */
   validate: (data: any) => Promise<EditointiKontrolliValidation>;
 }
 
@@ -76,6 +114,7 @@ export class EditointiStore {
   private static router: VueRouter;
   private static kayttajaProvider: KayttajaProvider;
   private logger = createLogger(EditointiStore);
+  private isFirstRun = true;
 
   public static install(
     vue: typeof Vue,
@@ -124,9 +163,12 @@ export class EditointiStore {
     return !!(this.config.save);
   }
 
+  public get hooks() {
+    return this.config;
+  }
+
   public readonly data = computed(() => this.state.data);
   public readonly revisions = computed(() => this.state.revisions);
-  public readonly backup = computed(() => this.state.backup);
   public readonly disabled = computed(() => this.state.disabled);
   public readonly isLoading = computed(() => !this.state.data);
   public readonly isSaving = computed(() => this.state.isSaving);
@@ -163,14 +205,13 @@ export class EditointiStore {
   public async init() {
     this.logger.debug('init');
     this.state.isNew = !!(this.config.editAfterLoad && await this.config.editAfterLoad());
-    const data = await this.fetch();
-    this.state.backup = JSON.stringify(data);
+    await this.fetch();
     await this.updateRevisions();
     await this.updateLockInfo();
-    this.state.data = data;
     this.state.disabled = false;
 
-    if (this.state.isNew) {
+    if (this.state.isNew && this.isFirstRun) {
+      this.isFirstRun = false;
       await this.start();
     }
   }
@@ -273,7 +314,7 @@ export class EditointiStore {
     await this.unlock();
 
     if (this.state.isNew && !skipRedirectBack) {
-      EditointiStore.router.go(-1);
+      EditointiStore.router?.go(-1);
     }
   }
 
@@ -335,13 +376,15 @@ export class EditointiStore {
         // fail('tallennus-epaonnistui', err.response.data.syy);
         this.state.isEditingState = true;
       }
+      finally {
+        this.unlock();
+      }
     }
     else {
       this.logger.debug('Tallentaminen ei mahdollista');
     }
     this.state.disabled = false;
     this.state.isSaving = false;
-    await this.unlock();
   }
 
   public async restore(event: EditointiKontrolliRestore) {
@@ -356,13 +399,11 @@ export class EditointiStore {
 
       // Päivitetään näkymä uusimpaan
       if (event.routePushLatest) {
-        await EditointiStore.router.push({ query: {} });
+        await EditointiStore.router?.push({ query: {} });
       }
 
-      const data = await this.fetch();
+      await this.fetch();
       await this.fetchRevisions();
-      this.state.backup = JSON.stringify(data);
-      this.state.data = data;
     }
     catch (err) {
       const syy = _.get(err, 'response.data.syy');
@@ -396,9 +437,14 @@ export class EditointiStore {
   }
 
   private async fetch() {
+    this.state.backup = null;
+    this.state.data = null;
     const data = await this.config.load();
     if (_.isObject(data) || _.isArray(data)) {
-      return JSON.parse(JSON.stringify(data));
+      const dataStr = JSON.stringify(data);
+      this.state.backup = dataStr;
+      this.state.data = JSON.parse(dataStr);
+      return this.state.data;
     }
     else {
       throw new Error('Source must be an object or an array');

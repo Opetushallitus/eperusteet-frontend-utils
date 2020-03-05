@@ -52,14 +52,14 @@ export class KieliStore {
    * Add language support to root vue instance.
    *
    */
-  public install(v: VueConstructor,
-    config: Partial<VueI18n.I18nOptions> = {}) {
+  public install(v: VueConstructor, config = {} as Partial<VueI18n.I18nOptions>) {
     moment.locale(Kieli.fi);
-    this.vi18n = new VueI18n(_.merge({
+    this.vi18n = new VueI18n({
       fallbackLocale: Kieli.fi,
       locale: Kieli.fi,
       messages: getMessages(),
-    }, _.cloneDeep(config)));
+      ..._.cloneDeep(config),
+    });
   }
 
   /**
@@ -78,8 +78,10 @@ export class KieliStore {
     sisaltoKieli: Kieli.fi,
   });
 
-  public readonly getUiKieli = computed(() => this.i18n!.locale);
+  public readonly getUiKieli = computed(() => this.i18n?.locale);
   public readonly getSisaltoKieli = computed(() => this.state.sisaltoKieli);
+  public readonly sisaltoKieli = computed(() => this.state.sisaltoKieli);
+  public readonly uiKieli = computed(() => this.i18n?.locale);
 
   public readonly getAikakaannokset = computed(() => {
     const kieli = this.state.sisaltoKieli;
@@ -95,7 +97,6 @@ export class KieliStore {
 
   public setUiKieli(kieli: Kieli) {
     if (this.i18n!.locale !== kieli && _.includes(UiKielet, kieli)) {
-      // this.logger.debug('Ui kieli ->', kieli);
       moment.locale(kieli);
       this.i18n!.locale = kieli;
     }
@@ -211,9 +212,11 @@ export class KieliStore {
       const localeObj = kaannokset;
       _.forEach(localeObj, (locales, lang) => {
         result[lang] = {};
-        for (const locale of locales) {
-          if (locale.key && locale.value) {
-            result[lang][locale.key] = locale.value;
+        if (locales) {
+          for (const locale of locales) {
+            if (locale.key && locale.value) {
+              result[lang][locale.key] = locale.value;
+            }
           }
         }
       });
@@ -234,7 +237,9 @@ export interface Kaannos {
 }
 
 export interface Kaannokset {
-  [locale: string]: Kaannos[];
+  fi?: Kaannos[];
+  sv?: Kaannos[];
+  en?: Kaannos[];
 }
 
 export interface LokalisoituTeksti {

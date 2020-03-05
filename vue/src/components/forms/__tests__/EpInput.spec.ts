@@ -1,12 +1,14 @@
 import { mount, createLocalVue } from '@vue/test-utils';
 import EpInput from '../EpInput.vue';
-import { KieliStore } from '../../../stores/kieli';
+import VueI18n from 'vue-i18n';
+import { Kielet } from '../../../stores/kieli';
 
 describe('EpInput component', () => {
 
   const localVue = createLocalVue();
+  localVue.use(VueI18n);
 
-  KieliStore.setup(localVue, {
+  Kielet.install(localVue, {
     messages: {
       fi: {
         'apua': 'aputarve',
@@ -14,7 +16,7 @@ describe('EpInput component', () => {
     },
   });
 
-  const i18n = KieliStore.i18n;
+  const i18n = Kielet.i18n;
 
   test('Renders input with content', async () => {
     const wrapper = mount(EpInput, {

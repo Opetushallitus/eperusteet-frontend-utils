@@ -1,4 +1,4 @@
-import { Getter, State, Store } from '@shared/stores/store';
+import { Getter, State, Store } from '../stores/store';
 import _ from 'lodash';
 
 @Store
