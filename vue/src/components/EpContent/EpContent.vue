@@ -48,7 +48,6 @@ import Sticky from 'vue-sticky-directive';
 import { EditorLayout } from '@shared/tyypit';
 import EpValidation from '@shared/mixins/EpValidation';
 
-
 @Component({
   components: {
     EditorContent,
@@ -211,7 +210,6 @@ export default class EpContent extends Mixins(EpValidation) {
       this.editor.setContent(this.localizedValue);
     }
   }
-
 }
 
 </script>

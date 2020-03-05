@@ -61,7 +61,6 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 import { EditorMenuBar } from 'tiptap';
 import Sticky from 'vue-sticky-directive';
 
-
 @Component({
   components: {
     EditorMenuBar,
@@ -71,7 +70,6 @@ import Sticky from 'vue-sticky-directive';
   },
 })
 export default class EpEditorMenuBar extends Vue {
-
   @Prop({ required: true })
   private editor!: any;
 

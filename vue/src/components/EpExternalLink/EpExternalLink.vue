@@ -48,12 +48,9 @@ export default class EpExternalLink extends Vue {
     return '';
   }
 
-  get urlWithQueryParam(){
-    return this.url + '?paluuosoite='+encodeURIComponent(location.href);
+  get urlWithQueryParam() {
+    return this.url + '?paluuosoite=' + encodeURIComponent(location.href);
   }
-
 }
 
 </script>
-
-

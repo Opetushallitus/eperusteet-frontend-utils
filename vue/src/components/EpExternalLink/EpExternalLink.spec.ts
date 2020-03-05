@@ -8,11 +8,10 @@ import BootstrapVue from 'bootstrap-vue';
 Vue.use(BootstrapVue);
 
 describe('EpExternalLink component', () => {
-
   const localVue = createLocalVue();
   localVue.use(VueI18n);
 
-  Kielet.install(localVue,{
+  Kielet.install(localVue, {
     messages: {
       fi: {
         'apu-teksti': 'apu teksti',
@@ -27,7 +26,7 @@ describe('EpExternalLink component', () => {
       components: {
         EpExternalLink,
       },
-      data(){
+      data() {
         return props;
       },
       template: '<ep-external-link v-if="teksti" :url="url">{{ teksti }}</ep-external-link> <ep-external-link v-else :url="url"></ep-external-link>'
@@ -47,7 +46,6 @@ describe('EpExternalLink component', () => {
     });
 
     expect(wrapper.html()).toContain('google</a>');
-
   });
 
   test('Renders external link ', async () => {
@@ -59,7 +57,5 @@ describe('EpExternalLink component', () => {
     expect(wrapper.html()).not.toContain('google</a>');
     expect(wrapper.html()).toContain('<span>www.google.com');
     expect(wrapper.html()).toContain('?paluuosoite');
-
   });
-
 });

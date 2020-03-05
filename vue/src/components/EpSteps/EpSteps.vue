@@ -38,7 +38,6 @@
 import { Watch, Component, Prop, Vue } from 'vue-property-decorator';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 
-
 interface Step {
   key: string;
   name: string;
@@ -52,7 +51,6 @@ interface Step {
   },
 })
 export default class EpSteps extends Vue {
-
   @Prop({ required: true })
   private steps!: Step[];
 
@@ -87,7 +85,6 @@ export default class EpSteps extends Vue {
     else {
     }
   }
-
 }
 </script>
 

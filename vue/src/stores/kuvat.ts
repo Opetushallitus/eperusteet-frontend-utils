@@ -1,7 +1,6 @@
 import { TermiDto, LiiteDto } from '@shared/api/tyypit';
 import _ from 'lodash';
 
-
 export interface LiiteWithSrc extends LiiteDto {
   src: string,
 };

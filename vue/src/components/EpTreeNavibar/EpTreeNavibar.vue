@@ -24,7 +24,6 @@ import EpMultiSelect from '@shared/components/forms/EpMultiSelect.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { EpTreeNavibarStore } from '@shared/components/EpTreeNavibar/EpTreeNavibarStore';
 
-
 export type ProjektiFilter = 'koulutustyyppi' | 'tila' | 'voimassaolo';
 
 @Component({

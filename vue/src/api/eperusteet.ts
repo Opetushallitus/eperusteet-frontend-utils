@@ -96,7 +96,7 @@ export interface PerusteprojektiQuery {
 };
 
 export async function getPerusteprojektit(query: PerusteprojektiQuery) {
-  return await Perusteprojektit.getAllPerusteprojektitKevyt({ params: query });
+  return Perusteprojektit.getAllPerusteprojektitKevyt({ params: query });
 }
 
 export interface PerusteQuery {

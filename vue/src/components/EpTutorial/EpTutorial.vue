@@ -43,7 +43,6 @@ import _ from 'lodash';
   },
 })
 export default class EpTutorial extends Vue {
-
   @Prop()
   private tutoriaalistore!: TutoriaaliStore;
 
@@ -88,10 +87,9 @@ export default class EpTutorial extends Vue {
 
   @Watch('current')
   muutaTyyli(val, oldVal) {
-
     if (oldVal) {
       const oldEl = document.getElementById(oldVal);
-      if(oldEl) {
+      if (oldEl) {
         oldEl.classList.remove('tutorial-highlight');
       }
     }

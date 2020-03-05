@@ -2,7 +2,6 @@ import { mount, createLocalVue } from '@vue/test-utils';
 import EpField from '../EpField.vue';
 
 describe('EpInput component', () => {
-
   const localVue = createLocalVue();
 
   test('Renders field with content', async () => {
@@ -17,5 +16,4 @@ describe('EpInput component', () => {
 
     expect(wrapper.html()).toContain('arvo');
   });
-
 });

@@ -4,7 +4,6 @@ import VueI18n from 'vue-i18n';
 import { Kielet } from '../kieli';
 import _ from 'lodash';
 
-
 describe('Kielet', () => {
   const localVue = createLocalVue();
   localVue.use(VueI18n);
@@ -75,5 +74,4 @@ describe('Kielet', () => {
 
     expect(i18n.t('testiavain')).toEqual('testiarvo');
   });
-
 });

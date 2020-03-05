@@ -53,7 +53,6 @@ import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import EpValidation from '../../mixins/EpValidation';
 
-
 @Component({
   components: {
     EpButton,

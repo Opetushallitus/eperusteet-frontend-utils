@@ -13,4 +13,3 @@ export default class EpHallitusImg extends Vue {}
 
 <style scoped lang="scss">
 </style>
-

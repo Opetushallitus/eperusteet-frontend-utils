@@ -108,7 +108,6 @@ export interface EditointiStoreConfig {
   kayttajaProvider: KayttajaProvider;
 }
 
-
 export class EditointiStore {
   private static allEditingEditors: EditointiStore[] = [];
   private static router: VueRouter;
@@ -147,7 +146,7 @@ export class EditointiStore {
   }
 
   public static async cancelAll() {
-    for(const editor of EditointiStore.allEditingEditors) {
+    for (const editor of EditointiStore.allEditingEditors) {
       await editor.cancel(true);
     }
   }
@@ -181,7 +180,7 @@ export class EditointiStore {
     if (cl?.oma || (cl?.vanhentuu && now > new Date(cl.vanhentuu as unknown as number))) {
       return null;
     }
-    return this.state.currentLock
+    return this.state.currentLock;
   });
 
   public get hasPreview() {
@@ -308,7 +307,7 @@ export class EditointiStore {
     }
     // this.config.setData!(JSON.parse(this.state.backup));
     this.state.isEditingState = false;
-    _.remove(EditointiStore.allEditingEditors, (editor) => editor == this);
+    _.remove(EditointiStore.allEditingEditors, (editor) => editor === this);
     this.state.disabled = false;
 
     await this.unlock();
@@ -327,7 +326,7 @@ export class EditointiStore {
   public async remove() {
     this.state.disabled = true;
     this.state.isEditingState = false;
-    _.remove(EditointiStore.allEditingEditors, (editor) => editor == this);
+    _.remove(EditointiStore.allEditingEditors, (editor) => editor === this);
     try {
       await this.config.remove();
       this.logger.debug('Poistettu');
@@ -356,18 +355,18 @@ export class EditointiStore {
     if (!this.isEditing.value) {
       this.logger.warn('Ei voi tallentaa ilman editointia');
     }
-    else if(!validation.valid) {
+    else if (!validation.valid) {
       this.logger.debug('Validointi epäonnistui');
       // fail(validation.message ? validation.message : 'validointi-epaonnistui');
     }
-    else if (!!(this.config.save)) {
+    else if (this.config.save) {
       try {
         const after = await this.config.save(this.state.data);
         this.logger.success('Tallennettu onnistuneesti');
         await this.fetchRevisions();
         await this.init();
         this.state.isEditingState = false;
-        _.remove(EditointiStore.allEditingEditors, (editor) => editor == this);
+        _.remove(EditointiStore.allEditingEditors, (editor) => editor === this);
         if (after && _.isFunction(after)) {
           await after();
         }

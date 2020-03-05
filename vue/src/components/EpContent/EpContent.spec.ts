@@ -68,9 +68,7 @@ function createWrapper(localVue, config: any = {}) {
   return wrapper;
 }
 
-
 describe.only('EpContent component', async () => {
-
   beforeAll(() => {
     jest.spyOn(console, 'error').mockImplementation();
   });
@@ -135,7 +133,6 @@ describe.only('EpContent component', async () => {
   return wrapper;
 });
 
-
 describe('EpContentMenu component', () => {
   const localVue = createLocalVue();
   KieliStore.setup(localVue);
@@ -187,5 +184,4 @@ describe('EpContentMenu component', () => {
     expect(wrapper.find('button[title="Yliviivaus"]').exists()).toBe(true);
     expect(wrapper.find('button[title="Lisää taulukko"]').exists()).toBe(true);
   });
-
 });

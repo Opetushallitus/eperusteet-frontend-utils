@@ -7,7 +7,6 @@ import _ from 'lodash';
 
 Vue.use(VueCompositionApi);
 
-
 interface FlattenedNodeDto {
   id?: number;
   label?: LokalisoituTekstiDto;
@@ -16,9 +15,7 @@ interface FlattenedNodeDto {
   depth: number;
 }
 
-
 export class EpTreeNavibarStore {
-
   constructor(
     private navigation: Computed<NavigationNodeDto>,
   ) {
@@ -30,7 +27,6 @@ export class EpTreeNavibarStore {
 
   public readonly filtered = computed(() => this.connected.value);
 }
-
 
 function flattenNodes(root: NavigationNodeDto, depth = 0): FlattenedNodeDto[] {
   return [{

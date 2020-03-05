@@ -4,7 +4,6 @@ import VueI18n from 'vue-i18n';
 import { Kielet } from '../../../stores/kieli';
 
 describe('EpFormContent component', () => {
-
   const localVue = createLocalVue();
   localVue.use(VueI18n);
 
@@ -34,5 +33,4 @@ describe('EpFormContent component', () => {
     const wrapper = mountWrapper();
     expect(wrapper.html()).toContain('sisältö teksti');
   });
-
 });

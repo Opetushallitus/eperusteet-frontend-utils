@@ -99,7 +99,7 @@ export default class EpAikataulu extends Vue {
 
   get aikatauluTavoitteet() {
     return _.chain(this.aikataulut)
-      .filter(aikataulu => !(aikataulu.tapahtuma == aikataulutapahtuma.luominen && this.julkaisuAikaPosition < this.luomisaikaPalloPoint))
+      .filter(aikataulu => !(aikataulu.tapahtuma === aikataulutapahtuma.luominen && this.julkaisuAikaPosition < this.luomisaikaPalloPoint))
       .filter(aikataulu => aikataulu.tapahtuma !== aikataulutapahtuma.julkaisu)
       .filter('tapahtumapaiva')
       .map(aikataulu => {

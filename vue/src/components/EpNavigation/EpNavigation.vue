@@ -68,7 +68,6 @@ import { Kayttajat } from '@/stores/kayttaja';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpKayttaja from '@shared/components/EpKayttaja/EpKayttaja.vue';
 
-
 @Component({
   directives: {
     Sticky,

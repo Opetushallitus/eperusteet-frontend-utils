@@ -60,7 +60,6 @@ import draggable from 'vuedraggable';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpInput from '@shared/components/forms/EpInput.vue';
 
-
 @Component({
   components: {
     draggable,
@@ -186,4 +185,3 @@ export default class EpPrefixList extends Vue {
   }
 }
 </style>
-

@@ -118,7 +118,6 @@ describe('Store annotations', () => {
       value: () => 5,
     })).not.toThrow();
   });
-
 });
 
 describe('Store', () => {
@@ -166,6 +165,5 @@ describe('Store', () => {
     expect(foos).toEqual(1);
     expect(seconds).toEqual(1);
     expect(thirds).toEqual(1);
-
   });
 });

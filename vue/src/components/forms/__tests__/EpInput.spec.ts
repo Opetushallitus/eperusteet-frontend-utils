@@ -4,7 +4,6 @@ import VueI18n from 'vue-i18n';
 import { Kielet } from '../../../stores/kieli';
 
 describe('EpInput component', () => {
-
   const localVue = createLocalVue();
   localVue.use(VueI18n);
 
@@ -32,7 +31,7 @@ describe('EpInput component', () => {
 
     expect(wrapper.html()).not.toContain('apua');
 
-    wrapper.setProps({isEditing: true});
+    wrapper.setProps({ isEditing: true });
     await localVue.nextTick();
 
     expect(wrapper.html()).toContain('aputarve');
@@ -43,8 +42,8 @@ describe('EpInput component', () => {
       components: {
         EpInput,
       },
-      props:['isEditing'],
-      data(){
+      props: ['isEditing'],
+      data() {
         return {
           value: '123'
         };
@@ -62,18 +61,15 @@ describe('EpInput component', () => {
     await localVue.nextTick();
     expect(wrapper.html()).toContain('123');
 
-    wrapper.setProps({isEditing: true});
+    wrapper.setProps({ isEditing: true });
     await localVue.nextTick();
 
     wrapper.find('input[type="text"]').setValue('321');
 
-    wrapper.setProps({isEditing: false});
+    wrapper.setProps({ isEditing: false });
     await localVue.nextTick();
 
     expect(wrapper.text()).toContain('321');
     expect(wrapper.text()).not.toContain('123');
-
   });
-
-
 });

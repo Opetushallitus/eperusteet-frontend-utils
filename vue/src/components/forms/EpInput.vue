@@ -57,7 +57,7 @@ export default class EpInput extends Mixins(EpValidation) {
   @Prop({ default: '' })
   private placeholder!: string;
 
-  @Prop( {default: true, required: false})
+  @Prop({ default: true, required: false })
   private showValidValidation!: boolean;
 
   get hasLeftSlot() {

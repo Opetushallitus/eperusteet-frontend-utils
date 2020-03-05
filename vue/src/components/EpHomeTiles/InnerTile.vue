@@ -14,7 +14,6 @@
   </div>
 </template>
 
-
 <script lang="ts">
 import { Vue, Prop, Component } from 'vue-property-decorator';
 import EpIcon from '@shared/components/EpIcon/EpIcon.vue';
@@ -49,7 +48,6 @@ export default class BaseInnerTile extends Vue {
   }
 }
 </script>
-
 
 <style scoped lang="scss">
 @import '../../styles/_variables.scss';

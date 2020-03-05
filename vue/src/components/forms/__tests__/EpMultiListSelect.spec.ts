@@ -17,7 +17,7 @@ describe('EpMultiListSelect component', () => {
     {
       value: 'value2',
       text: 'text2',
-    },{
+    }, {
       value: 'value3',
       text: 'text3',
     }
@@ -42,7 +42,7 @@ describe('EpMultiListSelect component', () => {
       components: {
         EpMultiListSelect,
       },
-      data(){
+      data() {
         return props;
       },
       template: `<ep-multi-list-select
@@ -67,7 +67,7 @@ describe('EpMultiListSelect component', () => {
       items: itemMock,
       value: valueMockEmpty,
       tyyppi: 'tyyppi1',
-      validation:'',
+      validation: '',
       required: true,
       update: () => {},
     });
@@ -79,7 +79,6 @@ describe('EpMultiListSelect component', () => {
     expect(wrapper.findAll('.multiselect__element')).toHaveLength(3);
 
     expect(wrapper.html()).toContain('lisaa tyyppi');
-
   });
 
   test('No lists rendered when not required', async () => {
@@ -87,13 +86,12 @@ describe('EpMultiListSelect component', () => {
       items: itemMock,
       value: valueMockEmpty,
       tyyppi: 'tyyppi1',
-      validation:'',
+      validation: '',
       required: false,
       update: () => {},
     });
 
     expect(wrapper.findAll('.multiselect__select')).toHaveLength(0);
-
   });
 
   test('Renders list when add button pressed', async () => {
@@ -101,7 +99,7 @@ describe('EpMultiListSelect component', () => {
       items: itemMock,
       value: valueMockEmpty,
       tyyppi: 'tyyppi1',
-      validation:'',
+      validation: '',
       required: true,
       update: () => {},
     });
@@ -122,7 +120,7 @@ describe('EpMultiListSelect component', () => {
       items: itemMock,
       value: valueMock,
       tyyppi: 'tyyppi1',
-      validation:'',
+      validation: '',
       required: true,
       update: () => {},
     });
@@ -144,7 +142,7 @@ describe('EpMultiListSelect component', () => {
       items: itemMock,
       value: valueMockEmpty,
       tyyppi: 'tyyppi1',
-      validation:'',
+      validation: '',
       required: true,
       update: (newValues) => {
         values = newValues;
@@ -172,7 +170,7 @@ describe('EpMultiListSelect component', () => {
       items: itemMock,
       value: valueMockEmpty,
       tyyppi: 'tyyppi1',
-      validation:'',
+      validation: '',
       required: true,
       update: (newValues) => {
         values = newValues;
@@ -207,7 +205,6 @@ describe('EpMultiListSelect component', () => {
       .trigger('click');
 
     expect(values).toEqual(['value2', 'value3']);
-
   });
 
   test('Value changed correctly when removed', async () => {
@@ -216,7 +213,7 @@ describe('EpMultiListSelect component', () => {
       items: itemMock,
       value: values,
       tyyppi: 'tyyppi1',
-      validation:'',
+      validation: '',
       required: true,
       update: (newValues) => {
         values = newValues;
@@ -230,9 +227,7 @@ describe('EpMultiListSelect component', () => {
       .trigger('click');
     await localVue.nextTick();
 
-
     expect(values).toEqual(['value1']);
-
   });
 
   test('Value changed correctly when items changed on fly', async () => {
@@ -245,7 +240,7 @@ describe('EpMultiListSelect component', () => {
       {
         value: 'value2',
         text: 'text2',
-      },{
+      }, {
         value: 'value3',
         text: 'text3',
       }
@@ -254,7 +249,7 @@ describe('EpMultiListSelect component', () => {
       items: itemMocks,
       value: values,
       tyyppi: 'tyyppi1',
-      validation:'',
+      validation: '',
       required: true,
       update: (newValues) => {
         values = newValues;
@@ -265,15 +260,13 @@ describe('EpMultiListSelect component', () => {
     expect(wrapper.findAll('.multiselect__select')).toHaveLength(2);
     await localVue.nextTick();
 
-    itemMocks = itemMocks.splice(0,1);
+    itemMocks = itemMocks.splice(0, 1);
 
-    wrapper.setProps({items: itemMocks});
+    wrapper.setProps({ items: itemMocks });
 
     await localVue.nextTick();
 
     expect(wrapper.findAll('.multiselect__select')).toHaveLength(1);
     expect(values).toEqual(['value2']);
-
   });
-
 });
