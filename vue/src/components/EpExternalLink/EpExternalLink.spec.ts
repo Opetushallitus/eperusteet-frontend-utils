@@ -1,6 +1,7 @@
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils';
 import EpExternalLink from './EpExternalLink.vue';
-import { KieliStore } from '../../stores/kieli';
+import VueI18n from 'vue-i18n';
+import { Kielet } from '../../stores/kieli';
 import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
 
@@ -9,8 +10,9 @@ Vue.use(BootstrapVue);
 describe('EpExternalLink component', () => {
 
   const localVue = createLocalVue();
+  localVue.use(VueI18n);
 
-  KieliStore.setup(localVue,{
+  Kielet.install(localVue,{
     messages: {
       fi: {
         'apu-teksti': 'apu teksti',
@@ -18,9 +20,9 @@ describe('EpExternalLink component', () => {
     },
   });
 
-  const i18n = KieliStore.i18n;
+  const i18n = Kielet.i18n;
 
-  function mountWrapper(props : any) { 
+  function mountWrapper(props : any) {
     return mount(localVue.extend({
       components: {
         EpExternalLink,

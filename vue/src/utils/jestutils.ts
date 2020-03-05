@@ -2,10 +2,46 @@ import Vue from 'vue';
 import _ from 'lodash';
 
 import { Wrapper } from '@vue/test-utils';
+import { EditointiStore, IEditoitava } from '../components/EpEditointi/EditointiStore';
 
 import '@/config/bootstrap';
 import '@/config/fontawesome';
 
+
+export function mockEditointiStore<T>(config: Partial<IEditoitava> = {}) {
+  const editointi = {
+    acquire: jest.fn(async () => {
+      const vanhentuu = new Date();
+      vanhentuu.setMinutes(vanhentuu.getMinutes() + 10);
+      return {
+        haltijaOid: 'haltijaOid',
+        haltijaNimi: 'haltijaNimi',
+        luotu: new Date(),
+        vanhentuu,
+        oma: true,
+        revisio: 1,
+      };
+    }),
+    cancel: jest.fn(),
+    editAfterLoad: jest.fn(async () => false),
+    history: jest.fn(),
+    load: jest.fn(),
+    lock: jest.fn(async () => null),
+    preview: jest.fn(async () => null),
+    release: jest.fn(),
+    remove: jest.fn(),
+    restore: jest.fn(),
+    revisions: jest.fn(),
+    save: jest.fn(),
+    start: jest.fn(),
+    validate: jest.fn(async () => ({ valid: true })),
+    ...config,
+  };
+  return {
+    store: new EditointiStore(editointi),
+    config: editointi,
+  }
+}
 
 export function findAllContaining<T extends Vue>(wrapper: Wrapper<T>, selector: string, text: string) {
   return wrapper.findAll(selector).filter(r => r.text().includes(text));

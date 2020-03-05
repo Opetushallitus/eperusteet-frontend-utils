@@ -1,14 +1,14 @@
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils';
 import EpMultiListSelect from '../EpMultiListSelect.vue';
-import { KieliStore } from '../../../stores/kieli';
-import Vue from 'vue';
+import { Kielet } from '../../../stores/kieli';
+import VueI18n from 'vue-i18n';
 import BootstrapVue from 'bootstrap-vue';
 
-Vue.use(BootstrapVue);
-
 describe('EpMultiListSelect component', () => {
-
   const localVue = createLocalVue();
+  localVue.use(BootstrapVue);
+  localVue.use(VueI18n);
+
   const itemMock = [
     {
       value: 'value1',
@@ -25,7 +25,7 @@ describe('EpMultiListSelect component', () => {
   const valueMockEmpty = [];
   const valueMock = ['value1', 'value2', 'value3'];
 
-  KieliStore.setup(localVue,{
+  Kielet.install(localVue, {
     messages: {
       fi: {
         'lisaa-tyyppi1': 'lisaa tyyppi',
@@ -35,7 +35,7 @@ describe('EpMultiListSelect component', () => {
     },
   });
 
-  const i18n = KieliStore.i18n;
+  const i18n = Kielet.i18n;
 
   function mountWrapper(props : any) {
     return mount(localVue.extend({

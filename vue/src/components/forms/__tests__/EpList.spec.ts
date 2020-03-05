@@ -1,17 +1,17 @@
-import { mount, createLocalVue, shallowMount } from '@vue/test-utils';
+import { mount, createLocalVue } from '@vue/test-utils';
 import EpList from '../EpList.vue';
-import { KieliStore } from '../../../stores/kieli';
-import Vue from 'vue';
+import VueI18n from 'vue-i18n';
+import { Kielet } from '../../../stores/kieli';
 import BootstrapVue from 'bootstrap-vue';
-
-Vue.use(BootstrapVue);
 
 describe('EpList component', () => {
 
   const localVue = createLocalVue();
+  localVue.use(BootstrapVue);
+  localVue.use(VueI18n);
   const valueMock = [{id: 1, kentta: 'arvo1'}, {id: 2, kentta: 'arvo2'}];
 
-  KieliStore.setup(localVue,{
+  Kielet.install(localVue,{
     messages: {
       fi: {
         'lisaa-sisalto': 'lisaasisalto',
@@ -19,7 +19,7 @@ describe('EpList component', () => {
     },
   });
 
-  const i18n = KieliStore.i18n;
+  const i18n = Kielet.i18n;
 
   function mountWrapper() {
     return mount(localVue.extend({

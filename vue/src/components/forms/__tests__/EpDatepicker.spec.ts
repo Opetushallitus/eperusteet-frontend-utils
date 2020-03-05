@@ -1,10 +1,17 @@
 import { createLocalVue, mount } from '@vue/test-utils';
 import EpDatepicker from '../EpDatepicker.vue';
-import { KieliStore } from '../../../stores/kieli';
+import VueI18n from 'vue-i18n';
+import { Kaannos } from '../../../plugins/kaannos';
+import { Kielet } from '../../../stores/kieli';
+import { Aikaleima } from '../../../plugins/aikaleima';
+
 
 describe('EpDatepicker component', () => {
   const localVue = createLocalVue();
-  KieliStore.setup(localVue, {
+  localVue.use(VueI18n);
+  localVue.use(new Kaannos());
+  localVue.use(new Aikaleima());
+  Kielet.install(localVue, {
     messages: {
       fi: {
         'valitse-pvm': 'valitse-pvm',
@@ -13,7 +20,7 @@ describe('EpDatepicker component', () => {
       }
     },
   });
-  const i18n = KieliStore.i18n;
+  const i18n = Kielet.i18n;
 
   const stubs = ['fas'];
 

@@ -1,11 +1,15 @@
 import { createLocalVue, mount } from '@vue/test-utils';
-import { Kielet, KieliStore } from '../../stores/kieli';
+import { Kielet } from '../../stores/kieli';
+import { Kaannos } from '../../plugins/kaannos';
 import { Kieli } from '../../tyypit';
+import VueI18n from 'vue-i18n';
 
 describe('Plugin kaannos', () => {
   const localVue = createLocalVue();
-  KieliStore.setup(localVue);
-  const i18n = KieliStore.i18n;
+  localVue.use(VueI18n);
+  Kielet.install(localVue);
+  localVue.use(new Kaannos());
+  const i18n = Kielet.i18n;
 
   beforeEach(() => {
     Kielet.setSisaltoKieli(Kieli.fi);

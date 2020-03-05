@@ -1,12 +1,14 @@
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils';
 import EpFormContent from '../EpFormContent.vue';
-import { KieliStore } from '../../../stores/kieli';
+import VueI18n from 'vue-i18n';
+import { Kielet } from '../../../stores/kieli';
 
 describe('EpFormContent component', () => {
 
   const localVue = createLocalVue();
+  localVue.use(VueI18n);
 
-  KieliStore.setup(localVue,{
+  Kielet.install(localVue, {
     messages: {
       fi: {
         'sisalto-teksti': 'sisältö teksti',
@@ -14,7 +16,7 @@ describe('EpFormContent component', () => {
     },
   });
 
-  const i18n = KieliStore.i18n;
+  const i18n = Kielet.i18n;
 
   function mountWrapper() {
     return mount(localVue.extend({
