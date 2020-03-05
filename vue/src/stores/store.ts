@@ -171,7 +171,6 @@ export function Getter(fn: (state: any, getters: any) => any) {
   };
 }
 
-
 export function Action() {
   return (target: any, key: string, descriptor: any) => {
     if (!_.isFunction(descriptor.value)) {

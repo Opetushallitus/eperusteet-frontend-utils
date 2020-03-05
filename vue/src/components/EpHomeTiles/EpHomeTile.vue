@@ -73,7 +73,6 @@ export default class BaseTile extends Vue {
 }
 </script>
 
-
 <style scoped lang="scss">
 
 $tile-width: 540px;

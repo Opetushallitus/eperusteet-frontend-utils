@@ -4,7 +4,6 @@ import { Oikeus } from '../tyypit';
 
 const DisableTags = ['input', 'button'];
 
-
 export interface IOikeusProvider {
   hasOikeus: (oikeus: Oikeus, kohde: any) => Promise<boolean>;
 }
@@ -16,8 +15,8 @@ export interface OikeustarkasteluConfig {
 export class Oikeustarkastelu {
   public static install(vue: typeof Vue, config: OikeustarkasteluConfig) {
     vue.prototype.$hasOikeus = async function(oikeus: Oikeus, kohde: any) {
-      return await config.oikeusProvider.hasOikeus(oikeus, kohde);
-    }
+      return config.oikeusProvider.hasOikeus(oikeus, kohde);
+    };
 
     // Sisällön kääntäminen
     vue.directive('oikeustarkastelu', {
@@ -44,6 +43,5 @@ export class Oikeustarkastelu {
         }
       },
     } as Vue.DirectiveOptions);
-
   }
 }

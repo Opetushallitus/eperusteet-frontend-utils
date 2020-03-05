@@ -13,7 +13,7 @@ export class VueTutorial {
 
     vue.directive('tutorial', {
       inserted(el, def) {
-        el.setAttribute('tutorial','');
+        el.setAttribute('tutorial', '');
         options.tutoriaaliStore.paivitaAvaimet();
       }
     });

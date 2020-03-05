@@ -47,7 +47,6 @@ import EpValidation from '../../mixins/EpValidation';
   },
 })
 export default class EpDatepicker extends Mixins(EpValidation) {
-
   @Prop({ required: true })
   private value!: any;
 
@@ -65,7 +64,7 @@ export default class EpDatepicker extends Mixins(EpValidation) {
   @Prop({ default: '', type: String })
   private help!: string;
 
-  @Prop( {default: true, required: false})
+  @Prop({ default: true, required: false })
   private showValidValidation!: boolean;
 
   get inputClass() {

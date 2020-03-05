@@ -7,17 +7,16 @@ import BootstrapVue from 'bootstrap-vue';
 Vue.use(BootstrapVue);
 
 describe('EpToggle component', () => {
-
   const localVue = createLocalVue();
 
-  function mountWrapper() { 
+  function mountWrapper() {
     return mount(localVue.extend({
       components: {
         EpToggle,
       },
-      data(){
+      data() {
         return {
-          arvo : false
+          arvo: false
         };
       },
       template: '<ep-toggle v-model="arvo" />'

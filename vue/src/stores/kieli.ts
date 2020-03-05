@@ -9,10 +9,9 @@ import 'moment/locale/fi';
 import 'moment/locale/ru';
 import 'moment/locale/se';
 import 'moment/locale/sv';
-import VueCompositionApi, {computed, reactive} from '@vue/composition-api';
+import VueCompositionApi, { computed, reactive } from '@vue/composition-api';
 
 Vue.use(VueCompositionApi);
-
 
 declare module 'vue/types/vue' {
   interface Vue {
@@ -39,7 +38,6 @@ function getMessages() {
   catch (e) {}
   return result;
 }
-
 
 export class KieliStore {
   private vi18n!: VueI18n;

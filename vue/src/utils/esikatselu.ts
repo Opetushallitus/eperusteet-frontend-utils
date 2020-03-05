@@ -21,4 +21,3 @@ export function buildBaseUrl() {
     return origin.replace(/virkailija/g, 'eperusteet');
   }
 }
-

@@ -16,7 +16,6 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { colorize } from '@shared/utils/perusteet';
 
-
 export type IndicatorKind = 'normaali'
   | 'pakollinen'
   | 'valinnainen'
@@ -51,7 +50,6 @@ export default class EpColorIndicator extends Vue {
       background,
     };
   }
-
 }
 </script>
 

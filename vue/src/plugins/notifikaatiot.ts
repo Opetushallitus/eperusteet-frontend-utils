@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import Vue from 'vue';
 
 interface NotificationConfig {
   title: string;
@@ -31,29 +31,29 @@ export class Notifikaatiot {
         title: config.title,
         type: config.kind || 'info',
         text: config.text,
-      })
-    }
+      });
+    };
 
     vue.prototype.$success = function(title: string) {
       this.$notify({
         title,
         type: 'success'
-      })
-    }
+      });
+    };
 
     vue.prototype.$info = function(title: string) {
       this.$notify({
         title,
         type: 'info'
-      })
-    }
+      });
+    };
 
     vue.prototype.$fail = function(title: string, text: string = '') {
       this.$notify({
         title,
         type: 'error',
         text,
-      })
-    }
+      });
+    };
   }
 }

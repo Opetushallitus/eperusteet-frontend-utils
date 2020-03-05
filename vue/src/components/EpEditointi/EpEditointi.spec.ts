@@ -35,7 +35,7 @@ function mockAndWrapper(extension: Partial<IEditoitava> = {}, template?: string)
   });
 
   const { store, config } = mockEditointiStore({
-    load: jest.fn(async() => {
+    load: jest.fn(async () => {
       return {
         name: 'foo',
         description: 'xyz',
@@ -77,7 +77,6 @@ function mockAndWrapper(extension: Partial<IEditoitava> = {}, template?: string)
 }
 
 describe('EpEditointi component', () => {
-
   test('Renders header and content', async () => {
     const { store, config, wrapper } = mockAndWrapper();
     await delay();
@@ -107,8 +106,12 @@ describe('EpEditointi component', () => {
   test('Can save', async () => {
     const data = { name: 'name' };
     const { store, config, wrapper } = mockAndWrapper({
-      async editAfterLoad() { return true; },
-      save: jest.fn(async () => { data.name = 'uusi' }),
+      async editAfterLoad() {
+        return true;
+      },
+      save: jest.fn(async () => {
+        data.name = 'uusi';
+      }),
       load: jest.fn(async () => data),
     });
     await delay();
@@ -162,5 +165,4 @@ describe('EpEditointi component', () => {
     expect(config.cancel).toBeCalledTimes(1);
     expect(store.data.value.name).toEqual('foo');
   });
-
 });

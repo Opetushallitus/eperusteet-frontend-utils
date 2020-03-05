@@ -7,9 +7,7 @@ import BootstrapVue from 'bootstrap-vue';
 
 Vue.use(BootstrapVue);
 
-
 describe('EpSelect component', () => {
-
   const localVue = createLocalVue();
   localVue.use(VueI18n);
   localVue.use(Kielet, {
@@ -29,7 +27,7 @@ describe('EpSelect component', () => {
       components: {
         EpSelect,
       },
-      data(){
+      data() {
         return props;
       },
       template: '<ep-select :items="items" v-model="value" :is-editing="isEditing" :multiple="multiple" :help="help" :validation="validation" :useCheckboxes="useCheckboxes"/>'
@@ -48,8 +46,8 @@ describe('EpSelect component', () => {
       items: itemMock,
       value: valueMock,
       multiple: false,
-      help:'apu-teksti',
-      validation:'',
+      help: 'apu-teksti',
+      validation: '',
       useCheckboxes: false,
     });
 
@@ -58,7 +56,6 @@ describe('EpSelect component', () => {
     expect(wrapper.html()).not.toContain('arvo3');
 
     expect(wrapper.html()).not.toContain('apu teksti');
-
   });
 
   test('Renders list with content when editable', async () => {
@@ -67,8 +64,8 @@ describe('EpSelect component', () => {
       items: itemMock,
       value: valueMock,
       multiple: false,
-      help:'apu-teksti',
-      validation:'',
+      help: 'apu-teksti',
+      validation: '',
       useCheckboxes: false,
     });
 
@@ -77,7 +74,6 @@ describe('EpSelect component', () => {
     expect(wrapper.html()).toContain('arvo3');
 
     expect(wrapper.html()).toContain('apu teksti');
-
   });
 
   test('Value change on list clicks', async () => {
@@ -86,8 +82,8 @@ describe('EpSelect component', () => {
       items: itemMock,
       value: valueMock,
       multiple: true,
-      help:'',
-      validation:'',
+      help: '',
+      validation: '',
       useCheckboxes: false,
     });
 
@@ -98,7 +94,6 @@ describe('EpSelect component', () => {
 
     expect(wrapper.vm.value).toHaveLength(2);
     expect(wrapper.vm.value[1]).toBe('arvo3');
-
   });
 
   test('Value change on list clicks', async () => {
@@ -107,10 +102,10 @@ describe('EpSelect component', () => {
       items: itemMock,
       value: valueMock,
       multiple: false,
-      help:'',
+      help: '',
       useCheckboxes: false,
       validation: {
-        $touch:jest.fn()
+        $touch: jest.fn()
       }
     });
 
@@ -120,7 +115,6 @@ describe('EpSelect component', () => {
     expect(wrapper.vm.value).toBe('arvo3');
 
     expect(wrapper.vm.validation.$touch).toBeCalled();
-
   });
 
   test('Value change on list clicks - with checkboxes', async () => {
@@ -129,10 +123,10 @@ describe('EpSelect component', () => {
       items: itemMock,
       value: valueMock,
       multiple: false,
-      help:'',
+      help: '',
       useCheckboxes: true,
       validation: {
-        $touch:jest.fn()
+        $touch: jest.fn()
       }
     });
 
@@ -153,7 +147,5 @@ describe('EpSelect component', () => {
     expect(wrapper.vm.value[0]).toBe('arvo3');
 
     expect(wrapper.vm.validation.$touch).toBeCalled();
-
   });
-
 });

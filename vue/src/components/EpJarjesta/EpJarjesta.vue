@@ -96,7 +96,6 @@ export default class EpJarjesta extends Vue {
   emitter(value) {
     this.$emit('input', value);
   }
-
 }
 </script>
 
@@ -150,6 +149,5 @@ export default class EpJarjesta extends Vue {
 .box-draggable {
   cursor: grab;
 }
-
 
 </style>

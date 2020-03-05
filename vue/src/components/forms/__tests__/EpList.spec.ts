@@ -5,13 +5,12 @@ import { Kielet } from '../../../stores/kieli';
 import BootstrapVue from 'bootstrap-vue';
 
 describe('EpList component', () => {
-
   const localVue = createLocalVue();
   localVue.use(BootstrapVue);
   localVue.use(VueI18n);
-  const valueMock = [{id: 1, kentta: 'arvo1'}, {id: 2, kentta: 'arvo2'}];
+  const valueMock = [{ id: 1, kentta: 'arvo1' }, { id: 2, kentta: 'arvo2' }];
 
-  Kielet.install(localVue,{
+  Kielet.install(localVue, {
     messages: {
       fi: {
         'lisaa-sisalto': 'lisaasisalto',
@@ -26,8 +25,8 @@ describe('EpList component', () => {
       components: {
         EpList,
       },
-      props:['isEditing'],
-      data(){
+      props: ['isEditing'],
+      data() {
         return {
           value: valueMock
         };
@@ -47,13 +46,12 @@ describe('EpList component', () => {
 
     expect(wrapper.html()).toContain('arvo1');
     expect(wrapper.html()).toContain('arvo2');
-
   });
 
   test('Delete list content', async () => {
     const wrapper = mountWrapper();
 
-    wrapper.setProps({isEditing: true});
+    wrapper.setProps({ isEditing: true });
     await localVue.nextTick();
 
     expect(wrapper.findAll('div.arvo')).toHaveLength(2);
@@ -64,13 +62,12 @@ describe('EpList component', () => {
 
     expect(wrapper.vm.value).toHaveLength(1);
     expect(wrapper.findAll('div.arvo')).toHaveLength(1);
-
   });
 
   test('Add list content', async () => {
     const wrapper = mountWrapper();
 
-    wrapper.setProps({isEditing: true});
+    wrapper.setProps({ isEditing: true });
     await localVue.nextTick();
 
     expect(wrapper.vm.value).toHaveLength(2);
@@ -80,7 +77,5 @@ describe('EpList component', () => {
 
     expect(wrapper.vm.value).toHaveLength(3);
     expect(wrapper.findAll('div.arvo')).toHaveLength(3);
-
   });
-
 });

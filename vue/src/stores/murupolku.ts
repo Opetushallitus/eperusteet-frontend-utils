@@ -2,7 +2,6 @@ import { Getter, State, Store } from '@shared/stores/store';
 import _ from 'lodash';
 import { Location } from 'vue-router';
 
-
 @Store
 class MurupolkuStore {
   @State()
