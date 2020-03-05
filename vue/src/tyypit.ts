@@ -45,6 +45,15 @@ export interface LokalisoituTekstiDto {
   [key: string]: string;
 }
 
+export interface IKayttaja {
+  numero: number;
+  pvm: Date;
+  oidHenkilo: string;
+  kutsumanimi?: string;
+  sukunimi?: string;
+  kommentti?: string;
+}
+
 export interface Revision {
   numero: number;
   pvm: Date;

@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EpFooter component Renders 1`] = `
+<footer>
+  <div class="footer-content">
+    <div class="row">
+      <div class="col-lg col-slot"><img slot="footer-logo" src="../../../../img/banners/oph_logo.svg" alt="oph"></div>
+      <div class="col-md col-slot">
+        <p class="linkki-kuvaus">opetushallitus</p>
+        <div class="linkki"><a href="https://www.oph.fi/fi" rel="noopener noreferrer" target="_blank">
+            <div fixed-width="" icon="ulkoinen-linkki" class="mr-1"></div> <span>www.oph.fi</span>
+          </a></div>
+      </div>
+      <div class="col-md col-slot">
+        <p class="linkki-kuvaus">opintopolku</p>
+        <div class="linkki"><a href="https://opintopolku.fi/wp/fi" rel="noopener noreferrer" target="_blank">
+            <div fixed-width="" icon="ulkoinen-linkki" class="mr-1"></div> <span>opintopolku.fi</span>
+          </a></div>
+      </div>
+      <div class="col-md col-slot">
+        <p class="linkki-kuvaus">eperusteet</p>
+        <div class="linkki"><a href="https://eperusteet.opintopolku.fi/#/fi" rel="noopener noreferrer" target="_blank">
+            <div fixed-width="" icon="ulkoinen-linkki" class="mr-1"></div> <span>eperusteet.opintopolku.fi</span>
+          </a></div>
+      </div>
+      <div class="col-md col-slot"><a href="https://opintopolku.fi/wp/tietosuojaseloste">tietosuojaseloste</a></div>
+    </div>
+  </div>
+</footer>
+`;

@@ -145,7 +145,3 @@ export async function getAllPerusteet(query: PerusteQuery) {
     query.koulutusvienti,
   );
 }
-
-export async function getAllPerusteetInternal(query: PerusteQuery) {
-  return Perusteet.getAllPerusteetInternal({ params: query });
-}

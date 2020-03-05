@@ -15,7 +15,7 @@ import { Prop, Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class EpLinkki extends Vue {
-  @Prop({ type: String })
+  @Prop({ required: true, type: String })
   private url!: string;
 
   @Prop({

@@ -99,7 +99,7 @@ describe('EpEditointi component', () => {
     });
     await delay();
     expect(config.start).toBeCalledTimes(1);
-    findContaining(wrapper, 'button', 'peruuta').trigger('click');
+    findContaining(wrapper, 'button', 'peruuta')!.trigger('click');
     await delay();
   });
 
@@ -115,7 +115,7 @@ describe('EpEditointi component', () => {
       load: jest.fn(async () => data),
     });
     await delay();
-    findContaining(wrapper, 'button', 'tallenna').trigger('click');
+    findContaining(wrapper, 'button', 'tallenna')!.trigger('click');
     await delay();
     expect(config.start).toBeCalledTimes(1);
     expect(config.save).toBeCalledTimes(1);
@@ -150,7 +150,7 @@ describe('EpEditointi component', () => {
     await delay();
 
     expect(wrapper.html()).toContain('<pre>editing false</pre>');
-    findContaining(wrapper, 'button', 'muokkaa').trigger('click');
+    findContaining(wrapper, 'button', 'muokkaa')!.trigger('click');
     await delay();
 
     wrapper.find('input').setValue('uusi nimi');
@@ -159,7 +159,7 @@ describe('EpEditointi component', () => {
     expect(config.acquire).toBeCalledTimes(1);
     expect(wrapper.html()).toContain('<pre>editing true</pre>');
 
-    findContaining(wrapper, 'button', 'peruuta').trigger('click');
+    findContaining(wrapper, 'button', 'peruuta')!.trigger('click');
     await delay();
     expect(config.release).toBeCalledTimes(1);
     expect(config.cancel).toBeCalledTimes(1);
