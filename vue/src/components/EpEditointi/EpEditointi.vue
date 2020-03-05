@@ -13,7 +13,7 @@
                       :validation="$v && $v.inner"></slot>
               </div>
               <span class="muokattu text-nowrap" v-if="!isEditing">
-                <span class="text-truncate">{{ $t('muokattu') }}: {{ $sdt(latest.pvm) }},</span>
+                <span class="text-truncate" v-if="latest">{{ $t('muokattu') }}: {{ $sdt(latest.pvm) }},</span>
                 <span class="ml-1">{{ nimi }}</span>
               </span>
             </div>

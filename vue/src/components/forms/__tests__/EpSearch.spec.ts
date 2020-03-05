@@ -1,12 +1,13 @@
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils';
 import EpSearch from '../EpSearch.vue';
-import { KieliStore } from '../../../stores/kieli';
+import VueI18n from 'vue-i18n';
+import { Kielet } from '../../../stores/kieli';
 
 describe('EpFormContent component', () => {
 
   const localVue = createLocalVue();
-
-  KieliStore.setup(localVue,{
+  localVue.use(VueI18n);
+  Kielet.install(localVue, {
     messages: {
       fi: {
         'etsi': 'Etsi'
@@ -14,9 +15,9 @@ describe('EpFormContent component', () => {
     },
   });
 
-  const i18n = KieliStore.i18n;
+  const i18n = Kielet.i18n;
 
-  function mountWrapper(updateSearch, propsit) { 
+  function mountWrapper(updateSearch, propsit) {
     return mount(localVue.extend({
       components: {
         EpSearch,

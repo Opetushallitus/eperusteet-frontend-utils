@@ -1,27 +1,28 @@
 import { createLocalVue, mount } from '@vue/test-utils';
 import EpContentViewer from './EpContentViewer.vue';
-import { KieliStore } from '../../stores/kieli';
-import Vue from 'vue';
+import VueI18n from 'vue-i18n';
+import { Kielet } from '../../stores/kieli';
 import BootstrapVue from 'bootstrap-vue';
-
-Vue.use(BootstrapVue);
 
 
 describe('EpContentViewer component', () => {
 
   const localVue = createLocalVue();
+  localVue.use(BootstrapVue);
+  localVue.use(VueI18n);
+  Kielet.install(localVue);
 
-  KieliStore.setup(localVue);
+  const i18n = Kielet.i18n;
 
-  const i18n = KieliStore.i18n;
-
-  function mountWrapper(props) {
+  function mountWrapper(props: any) {
     return mount(localVue.extend({
       components: {
         EpContentViewer,
       },
       data() {
-        return props;
+        return {
+          ...props,
+        };
       },
       template: '<ep-content-viewer :value="value" :termit="termit" :kuvat="kuvat" />'
     }), {
@@ -30,7 +31,7 @@ describe('EpContentViewer component', () => {
     });
   }
 
-  test('Renders', async () => {
+  test('Renders', () => {
     const wrapper = mountWrapper({
       value: '<p>Lorem ipsum</p>',
       termit: [],

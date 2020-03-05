@@ -50,6 +50,10 @@ export class Aikaleima {
       // eslint-disable-next-line only-arrow-functions
       const self: any = this;
       return function(this: void, value: number) {
+        if (!Kielet.i18n.locale) {
+          throw new Error('vue-i18n is required');
+        }
+
         if (!value) {
           logger.warn('Virheellinen aikaformaatti:', value);
           return value;
@@ -78,14 +82,15 @@ export class Aikaleima {
 
     // Time until or ago an event counting from now
     vue.prototype.$ago = function(value: number) {
-      if (!this.$i18n) {
+      if (!Kielet.i18n.locale) {
         throw new Error('vue-i18n is required');
       }
-      return moment(value).fromNow();
+      const result = moment(value).fromNow();
+      return result;
     };
 
     vue.prototype.$date = function(value: number) {
-      if (!this.$i18n) {
+      if (!Kielet.i18n.locale) {
         throw new Error('vue-i18n is required');
       }
 
@@ -95,9 +100,10 @@ export class Aikaleima {
 
     // Custom datetime
     vue.prototype.$cdt = function(value: number, format: string) {
-      if (!this.$i18n) {
+      if (!Kielet.i18n.locale) {
         throw new Error('vue-i18n is required');
       }
+
       return moment(value).format(format);
     };
   }
