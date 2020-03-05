@@ -19,9 +19,9 @@
 
       <div class="kielet">
         <b-dd-item-button @click="valitseUiKieli(kieli)"
-                                v-for="kieli in sovelluksenKielet"
-                                :key="kieli"
-                                :disabled="kieli === uiKieli">
+                          v-for="kieli in sovelluksenKielet"
+                          :key="kieli"
+                          :disabled="kieli === uiKieli">
           <fas fixed-width icon="checkmark" v-if="kieli === uiKieli" class="mr-3 valittu" />
           {{ $t(kieli) }}
         </b-dd-item-button>
@@ -52,9 +52,7 @@ import { Prop, Component, Vue } from 'vue-property-decorator';
 
 import { Kielet, UiKielet } from '../../stores/kieli';
 import { Kieli } from '../../tyypit';
-import { KayttajanTietoDto } from '../../../../../src/tyypit';
-import { parsiEsitysnimi } from '../../../../../src/stores/kayttaja';
-
+import { IEsitysnimij parsiEsitysnimi } from '../../stores/kayttaja';
 import EpCollapse from '../EpCollapse/EpCollapse.vue';
 
 @Component({
@@ -64,7 +62,7 @@ import EpCollapse from '../EpCollapse/EpCollapse.vue';
 })
 export default class EpKayttaja extends Vue {
   @Prop({ required: true })
-  private tiedot!: KayttajanTietoDto;
+  private tiedot!: IEsitysnimi;
 
   get esitysnimi() {
     return parsiEsitysnimi(this.tiedot);
@@ -75,10 +73,10 @@ export default class EpKayttaja extends Vue {
   }
 
   get uiKieli() {
-    return Kielet.getUiKieli;
+    return Kielet.uiKieli.value;
   }
 
-  private valitseUiKieli(kieli: Kieli) {
+  private async valitseUiKieli(kieli: Kieli) {
     const router = this.$router;
     const current: any = router.currentRoute;
     Kielet.setUiKieli(kieli);
@@ -89,7 +87,11 @@ export default class EpKayttaja extends Vue {
         lang: kieli || this.$i18n.fallbackLocale,
       },
     };
-    router.push(next).catch(_.noop);
+
+    try {
+      await router.push(next);
+    }
+    catch (err) { }
   }
 }
 </script>

@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EpKayttaja component Renders 1`] = `
+<div class="kayttaja">
+  <li id="kayttaja-dropdown" class="nav-item b-nav-dropdown dropdown"><a id="kayttaja-dropdown__BV_button_" aria-haspopup="true" aria-expanded="false" target="_self" href="#" class="nav-link dropdown-toggle"><span class="kielivalitsin">etunimi sukunimi</span></a>
+    <ul tabindex="-1" aria-labelledby="kayttaja-dropdown__BV_button_" class="dropdown-menu dropdown-menu-right">
+      <div>
+        <div class="ep-collapse">
+          <div role="button" tabindex="0" class="collapse-button d-flex">
+            <div class="align-self-start">
+              <div class="header">
+                <div class="pl-3 py-2 text-nowrap kieli">
+                  <div fixed-width="" icon="kielet" class="mr-3"></div>
+                  kieli: sv
+                </div>
+              </div>
+            </div>
+            <div class="ml-auto align-self-start px-3 py-2">
+              <div fixed-width="" icon="chevron-down"></div>
+            </div>
+          </div>
+          <!---->
+        </div>
+      </div>
+      <li role="presentation"><a role="menuitem" target="_self" href="/henkilo-ui/omattiedot" class="dropdown-item">
+          <div fixed-width="" icon="user" class="mr-3"></div> kayttajan-asetukset
+        </a></li>
+      <li role="presentation"><a role="menuitem" target="_self" href="/virkailijan-tyopoyta" class="dropdown-item">
+          <div fixed-width="" icon="ulkoinen-linkki" class="mr-3"></div> palaa-virkailijan-tyopyodalle
+        </a></li>
+      <li role="presentation">
+        <hr role="separator" aria-orientation="horizontal" class="dropdown-divider">
+      </li>
+      <li role="presentation"><a role="menuitem" target="_self" href="/service-provider-app/saml/logout" class="dropdown-item">
+          <div fixed-width="" icon="kirjaudu-ulos" class="mr-3"></div> kirjaudu-ulos
+        </a></li>
+    </ul>
+  </li>
+</div>
+`;
