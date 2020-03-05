@@ -1,8 +1,7 @@
 import _ from 'lodash';
 import Vue from 'vue';
-import { Store, Getter, State } from '@shared/stores/store';
-import { Kayttajat as KayttajatApi, KayttajanTietoDto } from '@shared/api/eperusteet';
-import { createLogger } from '@shared/utils/logger';
+import { Kayttajat as KayttajatApi, KayttajanTietoDto } from '../api/eperusteet';
+import { createLogger } from '../utils/logger';
 import VueCompositionApi, { reactive, computed, ref, watch } from '@vue/composition-api';
 
 Vue.use(VueCompositionApi);
@@ -24,12 +23,19 @@ function getOikeusArvo(oikeus: Oikeus) {
   }
 }
 
-export function parsiEsitysnimi(tiedot: any): string {
+export interface IEsitysnimi {
+  kutsumanimi?: string;
+  sukunimi?: string;
+  oidHenkilo?: string;
+  muokkaajaOid?: string;
+}
+
+export function parsiEsitysnimi(tiedot: IEsitysnimi): string {
   if (tiedot.kutsumanimi && tiedot.sukunimi) {
     return tiedot.kutsumanimi + ' ' + tiedot.sukunimi;
   }
   else {
-    return tiedot.oidHenkilo as string;
+    return tiedot.oidHenkilo || tiedot.muokkaajaOid || '';
   }
 }
 

@@ -26,7 +26,7 @@
     <div class="float-right mt-5">
       <ep-button variant="link" @click="previous" v-if="stepIdx > 0">{{ $t('edellinen') }}</ep-button>
       <ep-button @click="next" v-if="stepIdx < steps.length - 1">{{ $t('seuraava') }}</ep-button>
-      <ep-button @click="onSave" v-else>
+      <ep-button @click="saveImpl" v-else>
         <slot name="luo">{{ $t('tallenna') }}</slot>
       </ep-button>
     </div>
@@ -37,6 +37,7 @@
 <script lang="ts">
 import { Watch, Component, Prop, Vue } from 'vue-property-decorator';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
+import _ from 'lodash';
 
 interface Step {
   key: string;
@@ -62,12 +63,17 @@ export default class EpSteps extends Vue {
 
   private stepIdx = 0;
 
+  async saveImpl() {
+    const isValid = _.last(this.steps)?.isValid;
+    if (isValid && !isValid()) {
+      return;
+    }
+    await this.onSave();
+  }
+
   @Watch('initialStep', { immediate: true })
   onInitialStepUpdate(value: number) {
     this.stepIdx = value;
-  }
-
-  mounted() {
   }
 
   get currentStep() {

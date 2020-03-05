@@ -53,18 +53,18 @@ import InnerTile from './InnerTile.vue';
     InnerTile,
   }
 })
-export default class BaseTile extends Vue {
+export default class EpHomeTile extends Vue {
   @Prop({ required: true })
   private icon!: string;
 
-  @Prop()
-  private color!: string;
+  @Prop({ default: null })
+  private color!: string | null;
 
-  @Prop()
-  private route!: object | string;
+  @Prop({ default: null })
+  private route!: object | string | null;
 
-  @Prop()
-  private href!: string;
+  @Prop({ default: null })
+  private href!: string | null;
 
   private effects = {
     hover: false,

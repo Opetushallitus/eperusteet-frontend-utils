@@ -40,6 +40,8 @@
     "tests/integration/**/*.tsx"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "generated",
+    "src/generated"
   ]
 }

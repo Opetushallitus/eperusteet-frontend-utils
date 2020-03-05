@@ -2,8 +2,8 @@ import { createLocalVue, mount } from '@vue/test-utils';
 import Vue from 'vue';
 import EpEditorMenuBar from './EpEditorMenuBar.vue';
 import EpContent from './EpContent.vue';
-import { KieliStore, Kielet } from '@shared/stores/kieli';
-import { Kieli } from '@shared/tyypit';
+import { Kielet } from '../../stores/kieli';
+import { Kieli } from '../../tyypit';
 import { Editor } from 'tiptap';
 import '@/config/bootstrap';
 import '@/config/fontawesome';
@@ -55,7 +55,7 @@ function createWrapper(localVue, config: any = {}) {
   const wrapper = mount(EpEditorMenuBar as any, {
     localVue,
     attachToDocument: true,
-    i18n: KieliStore.i18n,
+    i18n: Kielet.i18n,
     propsData: {
       help: '',
       layout: 'simplified',
@@ -78,7 +78,7 @@ describe.only('EpContent component', async () => {
   });
 
   const localVue = createLocalVue();
-  KieliStore.setup(localVue);
+  Kielet.install(localVue);
   const propsData = {
     help: '',
     layout: 'simplified',
@@ -93,7 +93,7 @@ describe.only('EpContent component', async () => {
   const wrapper = mount(EpContent as any, {
     localVue,
     attachToDocument: true,
-    i18n: KieliStore.i18n,
+    i18n: Kielet.i18n,
     propsData,
     stubs: {
       'EditorView': true,
@@ -135,7 +135,7 @@ describe.only('EpContent component', async () => {
 
 describe('EpContentMenu component', () => {
   const localVue = createLocalVue();
-  KieliStore.setup(localVue);
+  Kielet.install(localVue);
 
   it('Hide menu when read only', async () => {
     const wrapper = createWrapper(localVue, {

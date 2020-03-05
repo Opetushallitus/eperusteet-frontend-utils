@@ -48,8 +48,11 @@ export function findAllContaining<T extends Vue>(wrapper: Wrapper<T>, selector: 
 
 export function findContaining<T extends Vue>(wrapper: Wrapper<T>, selector: string, text: string) {
   const results = findAllContaining(wrapper, selector, text);
-  if (results.length !== 1) {
+  if (results.length > 1) {
     throw new Error('Multiple results: ' + selector + ' ' + text);
+  }
+  else if (results.length === 0) {
+    return null;
   }
   return results.at(0);
 }

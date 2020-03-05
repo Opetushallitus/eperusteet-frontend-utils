@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import { colorize } from '@shared/utils/perusteet';
+import { colorize } from '../../utils/perusteet';
 
 export type IndicatorKind = 'normaali'
   | 'pakollinen'
