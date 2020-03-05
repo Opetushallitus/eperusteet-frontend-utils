@@ -40,7 +40,7 @@ export default class EpField extends Mixins(EpValidation) {
   @Prop({ default: '', type: String })
   private help!: string;
 
-  @Prop( {default: true, required: false})
+  @Prop({ default: true, required: false })
   private showValidValidation!: boolean;
 }
 </script>

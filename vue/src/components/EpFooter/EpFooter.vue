@@ -28,7 +28,6 @@ import { Component, Vue } from 'vue-property-decorator';
 
 import EpLinkki from '@shared/components/EpLinkki/EpLinkki.vue';
 
-
 @Component({
   name: 'EpFooter',
   components: {

@@ -7,7 +7,6 @@ import { EditointiStore, IEditoitava } from '../components/EpEditointi/Editointi
 import '@/config/bootstrap';
 import '@/config/fontawesome';
 
-
 export function mockEditointiStore<T>(config: Partial<IEditoitava> = {}) {
   const editointi = {
     acquire: jest.fn(async () => {
@@ -40,7 +39,7 @@ export function mockEditointiStore<T>(config: Partial<IEditoitava> = {}) {
   return {
     store: new EditointiStore(editointi),
     config: editointi,
-  }
+  };
 }
 
 export function findAllContaining<T extends Vue>(wrapper: Wrapper<T>, selector: string, text: string) {

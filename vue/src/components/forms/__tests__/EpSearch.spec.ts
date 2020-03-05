@@ -4,7 +4,6 @@ import VueI18n from 'vue-i18n';
 import { Kielet } from '../../../stores/kieli';
 
 describe('EpFormContent component', () => {
-
   const localVue = createLocalVue();
   localVue.use(VueI18n);
   Kielet.install(localVue, {
@@ -25,7 +24,7 @@ describe('EpFormContent component', () => {
       methods: {
         updateSearch
       },
-      data(){
+      data() {
         return propsit;
       },
       template: '<ep-search v-model="rajain" @input="updateSearch" :placeholder="placeholder"/>'
@@ -40,14 +39,14 @@ describe('EpFormContent component', () => {
 
   test('Renders content with content', async () => {
     const testMethod = jest.fn();
-    const wrapper = mountWrapper(testMethod, {placeholder: null, rajain:''});
+    const wrapper = mountWrapper(testMethod, { placeholder: null, rajain: '' });
     expect(wrapper.html()).toContain('Etsi');
   });
 
   test('Renders content with content and props', async () => {
     const testMethod = jest.fn();
-    const wrapper = mountWrapper(testMethod, {placeholder: 'etsi-teksti', rajain:''});
-    wrapper.setProps({placeholder: 'etsi-teksti'});
+    const wrapper = mountWrapper(testMethod, { placeholder: 'etsi-teksti', rajain: '' });
+    wrapper.setProps({ placeholder: 'etsi-teksti' });
     await localVue.nextTick();
     expect(wrapper.find('input').html()).toContain('etsi-teksti');
   });
@@ -55,12 +54,10 @@ describe('EpFormContent component', () => {
   test('Renders content with content and props', async () => {
     const testMethod = jest.fn();
     const testrajain = '';
-    const wrapper = mountWrapper(testMethod, {placeholder: 'etsi-teksti', rajain: testrajain});
+    const wrapper = mountWrapper(testMethod, { placeholder: 'etsi-teksti', rajain: testrajain });
 
     wrapper.find('input').setValue('arvoa');
     await localVue.nextTick();
     expect(testMethod).toBeCalled();
-
   });
-
 });

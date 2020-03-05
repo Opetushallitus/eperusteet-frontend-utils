@@ -44,7 +44,6 @@
         {{ $t(lisaaTeksti) }}
       </ep-button>
 
-
       <div class="valid-feedback" v-if="!validationError && validMessage">{{ $t(validMessage) }}</div>
       <div class="invalid-feedback" v-else-if="validationError && invalidMessage ">{{ $t(invalidMessage) }}</div>
       <div class="invalid-feedback" v-else-if="validationError && !invalidMessage">{{ $t('validation-error-' + validationError, validation.$params[validationError]) }}</div>
@@ -94,7 +93,7 @@ export default class EpMultiListSelect extends Mixins(EpValidation) {
 
   private innerModels: any[] = [];
 
-  @Prop({default: false})
+  @Prop({ default: false })
   public isLoading!: boolean;
 
   @Prop({ default: true })
@@ -129,7 +128,7 @@ export default class EpMultiListSelect extends Mixins(EpValidation) {
   }
 
   get lisaaTeksti() {
-    if(this.tyyppi) {
+    if (this.tyyppi) {
       return 'lisaa-' + this.tyyppi;
     }
 
@@ -149,13 +148,12 @@ export default class EpMultiListSelect extends Mixins(EpValidation) {
   }
 
   handleInput(selected, index) {
-
-    if(_.isEmpty(selected) || selected.unselectable) {
+    if (_.isEmpty(selected) || selected.unselectable) {
       this.poistaValinta(index);
       this.lisaaValinta();
     }
     else {
-      if(_.size(_.filter(this.innerModels, (innerModel) => innerModel === selected)) === 1){
+      if (_.size(_.filter(this.innerModels, (innerModel) => innerModel === selected)) === 1) {
         this.updateValue();
       }
       else {
@@ -170,7 +168,6 @@ export default class EpMultiListSelect extends Mixins(EpValidation) {
       .map(innerModel => innerModel.value)
       .value();
   }
-
 }
 </script>
 

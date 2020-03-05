@@ -5,7 +5,6 @@ import { Kaannos } from '../../../plugins/kaannos';
 import { Kielet } from '../../../stores/kieli';
 import { Aikaleima } from '../../../plugins/aikaleima';
 
-
 describe('EpDatepicker component', () => {
   const localVue = createLocalVue();
   localVue.use(VueI18n);

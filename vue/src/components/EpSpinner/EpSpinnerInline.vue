@@ -11,10 +11,8 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 
 @Component
 export default class EpSpinnerInline extends Vue {
-
-  @Prop({required: false, default: false})
+  @Prop({ required: false, default: false })
   private link!: boolean;
-
 }
 </script>
 

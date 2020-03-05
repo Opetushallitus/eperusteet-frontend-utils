@@ -51,7 +51,6 @@ import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import EpValidation from '../../mixins/EpValidation';
 import _ from 'lodash';
 
-
 @Component({
   components: {
     EpContent,
@@ -134,7 +133,6 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
 
 <style scoped lang="scss">
 @import '@shared/styles/_variables.scss';
-
 
 /deep/ .multiselect__tags {
   border: 2px solid #E0E0E1;

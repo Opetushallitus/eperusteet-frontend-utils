@@ -57,14 +57,12 @@ import { parsiEsitysnimi } from '../../../../../src/stores/kayttaja';
 
 import EpCollapse from '../EpCollapse/EpCollapse.vue';
 
-
 @Component({
   components: {
     EpCollapse,
   }
 })
 export default class EpKayttaja extends Vue {
-
   @Prop({ required: true })
   private tiedot!: KayttajanTietoDto;
 
@@ -148,4 +146,3 @@ export default class EpKayttaja extends Vue {
   }
 }
 </style>
-

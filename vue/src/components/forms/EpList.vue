@@ -36,7 +36,6 @@ import EpButton from '../EpButton/EpButton.vue';
 import EpInput from './EpInput.vue';
 import _ from 'lodash';
 
-
 @Component({
   components: {
     EpButton,
@@ -94,7 +93,6 @@ export default class EpList extends Vue {
       ...this.internal.slice(idx + 1),
     ];
   }
-
 }
 </script>
 
@@ -151,4 +149,3 @@ export default class EpList extends Vue {
   }
 }
 </style>
-

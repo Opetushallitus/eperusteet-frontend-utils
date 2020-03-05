@@ -28,7 +28,6 @@ import { Kielet } from '../../stores/kieli';
 
 @Component
 export default class EpContentViewer extends Vue {
-
   @Prop({ required: false, type: String })
   private value!: string; // Käännetty versio
 
@@ -96,10 +95,9 @@ export default class EpContentViewer extends Vue {
   }
 
   @Watch('valueFormatted', { immediate: true })
-  async onValueChanged(newVal) {
+  async onValueChanged(newVal) {
     await this.$nextTick(); // Odotetaan DOM-elementtien rendausta
     if (newVal) {
-
       // Termit
       this.termiElements = [];
       const abbrs = this.$el.querySelectorAll('abbr');

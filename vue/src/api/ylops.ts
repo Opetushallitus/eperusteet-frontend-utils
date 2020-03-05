@@ -1,8 +1,5 @@
 import { axiosHandler } from './common';
-import { Configuration } from '../generated/ylops';
-import axios, { AxiosInstance } from 'axios';
-import _ from 'lodash';
-import {
+import { Configuration,
   DokumentitApi,
   DokumentitApiAxiosParamCreator,
   KayttajatApi,
@@ -21,6 +18,9 @@ import {
   TermistoApi,
   UlkopuolisetApi,
 } from '../generated/ylops';
+import axios, { AxiosInstance } from 'axios';
+import _ from 'lodash';
+
 import * as YlopsApi from '../generated/ylops';
 import Qs from 'qs';
 import { createLogger } from '../utils/logger';
@@ -31,7 +31,7 @@ export const baseURL = '/eperusteet-ylops-service/api';
 
 const ax = axios.create({
   baseURL,
-  paramsSerializer: params => Qs.stringify(params, {arrayFormat: 'repeat'})
+  paramsSerializer: params => Qs.stringify(params, { arrayFormat: 'repeat' })
 });
 
 function successfulResponseHandler() {

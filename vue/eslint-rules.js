@@ -12,32 +12,32 @@ module.exports = {
     // "vue/match-component-file-name": "error",
     // "vue/space-infix-ops": "error",
     // "vue/space-unary-ops": "error",
-    "array-bracket-spacing": ["error", "never"],
-    "no-useless-constructor": "off",
-    "operator-linebreak": ["error", "before"],
-    "newline-per-chained-call": "error",
-    "brace-style": ["error", "stroustrup"],
-    "space-before-function-paren": ["error", {
-      "anonymous": "never",
-      "named": "never",
-      "asyncArrow": "always",
+    'array-bracket-spacing': ['error', 'never'],
+    'no-useless-constructor': 'off',
+    'operator-linebreak': ['error', 'before'],
+    'newline-per-chained-call': 'error',
+    'brace-style': ['error', 'stroustrup'],
+    'space-before-function-paren': ['error', {
+      'anonymous': 'never',
+      'named': 'never',
+      'asyncArrow': 'always',
     }],
-    "indent": [
-      "error",
+    'indent': [
+      'error',
       2
     ],
-    "comma-dangle": ["error", "always-multiline"],
-    "linebreak-style": [
-      "error",
-      "unix"
+    'comma-dangle': ['error', 'always-multiline'],
+    'linebreak-style': [
+      'error',
+      'unix'
     ],
-    "quotes": [
-      "error",
-      "single"
+    'quotes': [
+      'error',
+      'single'
     ],
-    "semi": [
-      "error",
-      "always"
+    'semi': [
+      'error',
+      'always'
     ]
   }
-}
+};

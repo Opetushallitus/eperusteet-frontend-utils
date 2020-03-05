@@ -16,10 +16,8 @@ import { Prop, Component, Vue } from 'vue-property-decorator';
 import { Kielet, UiKielet } from '@shared/stores/kieli';
 import { Kieli } from '@shared/tyypit';
 
-
 @Component
 export default class EpKielivalinta extends Vue {
-
   get sisaltoKieli() {
     return Kielet.getSisaltoKieli.value;
   }
@@ -64,6 +62,5 @@ export default class EpKielivalinta extends Vue {
   .valintanuoli {
     margin-left: -20px;
   }
-
 
 </style>

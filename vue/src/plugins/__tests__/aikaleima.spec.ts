@@ -4,7 +4,6 @@ import { Kieli } from '../../tyypit';
 import { Aikaleima } from '../aikaleima';
 import VueI18n from 'vue-i18n';
 
-
 describe('Plugin aikaleima', () => {
   const localVue = createLocalVue();
   localVue.use(VueI18n);

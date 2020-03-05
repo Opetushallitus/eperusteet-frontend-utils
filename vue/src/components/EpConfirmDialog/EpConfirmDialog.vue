@@ -23,13 +23,12 @@ import { Prop, Component, Vue, Mixins } from 'vue-property-decorator';
 import _ from 'lodash';
 import { EditointiKontrolli } from '@/stores/editointi';
 
-@Component({name:'EpConfirmDialog'})
+@Component({ name: 'EpConfirmDialog' })
 export default class EpConfirmDialog extends Vue {
-
-  @Prop({ required:true })
+  @Prop({ required: true })
   private redirect!: Function;
 
-  @Prop({ required:true })
+  @Prop({ required: true })
   private ctrls!: EditointiKontrolli;
 
   private visible: boolean = false;
@@ -42,7 +41,6 @@ export default class EpConfirmDialog extends Vue {
     await this.ctrls.cancel();
     this.redirect();
   }
-
 }
 </script>
 

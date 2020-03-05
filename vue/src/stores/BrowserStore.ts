@@ -5,9 +5,7 @@ import _ from 'lodash';
 
 Vue.use(VueCompositionApi);
 
-
 export class BrowserStore {
-
   private static state = reactive({
     scrollY: 0,
   });
@@ -19,5 +17,4 @@ export class BrowserStore {
       BrowserStore.state.scrollY = window.pageYOffset;
     });
   }
-
 }

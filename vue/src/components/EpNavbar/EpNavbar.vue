@@ -69,7 +69,6 @@ import { Kielet, UiKielet } from '@shared/stores/kieli';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 // import EpKayttaja from '@shared/components/EpKayttaja/EpKayttaja.vue';
 
-
 @Component({
   directives: {
     // oikeustarkastelu,

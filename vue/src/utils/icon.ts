@@ -3,14 +3,13 @@ import { createLogger } from './logger';
 
 const logger = createLogger('Icon');
 
-
 function changeIcons(isModeDark: boolean) {
   const links = document.getElementsByTagName('link');
   if (isModeDark) {
     logger.info('Set dark mode');
     _.each(links, link => {
       if (link.hasAttribute('href') && _.includes(link.getAttribute('href'), 'favicon')) {
-        const href = _.replace(link.getAttribute('href')!, 'favicon','favicon-inverted');
+        const href = _.replace(link.getAttribute('href')!, 'favicon', 'favicon-inverted');
         link.setAttribute('href', href);
       }
     });
@@ -19,7 +18,7 @@ function changeIcons(isModeDark: boolean) {
     logger.info('Set light mode');
     _.each(links, link => {
       if (link.hasAttribute('href') && _.includes(link.getAttribute('href'), 'favicon')) {
-        const href = _.replace(link.getAttribute('href')!, 'favicon-inverted','favicon');
+        const href = _.replace(link.getAttribute('href')!, 'favicon-inverted', 'favicon');
         link.setAttribute('href', href);
       }
     });

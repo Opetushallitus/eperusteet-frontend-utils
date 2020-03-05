@@ -2,7 +2,6 @@ import _ from 'lodash';
 import { Kielet } from '../stores/kieli';
 import { Kieli } from '../tyypit';
 
-
 /**
  * Resolves async props from route's meta object
  * and pass those to childroutes.
@@ -46,7 +45,7 @@ export function changeLang(to, from) {
   let fromKieli = from.params.lang || Kieli.fi;
   let toKieli = to.params.lang || Kieli.fi;
 
-  if(fromKieli !== toKieli) {
+  if (fromKieli !== toKieli) {
     Kielet.setUiKieli(toKieli);
     Kielet.setSisaltoKieli(toKieli);
   }
@@ -55,6 +54,6 @@ export function changeLang(to, from) {
 export function removeQueryParam(to, router, queryParam) {
   if (_.has(to.query, queryParam)) {
     const toquery = _.omit(to.query, queryParam);
-    router.push({query: toquery });
+    router.push({ query: toquery });
   }
 }

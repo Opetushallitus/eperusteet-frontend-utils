@@ -25,7 +25,7 @@ export default class EpFormContent extends Vue {
   @Prop({ type: String })
   private headerClass!: string;
 
-  @Prop({ required: false, default: true})
+  @Prop({ required: false, default: true })
   private showHeader!:boolean;
 }
 </script>

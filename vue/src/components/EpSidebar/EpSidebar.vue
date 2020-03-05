@@ -31,7 +31,6 @@ import EpToggle from '../forms/EpToggle.vue';
 import EpSidebarButtons from './EpSidebarButtons.vue';
 import Sticky from 'vue-sticky-directive';
 
-
 @Component({
   components: {
     EpSidebarButtons,

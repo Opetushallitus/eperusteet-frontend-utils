@@ -3,7 +3,6 @@ import EpCollapse from './EpCollapse.vue';
 import '../../config/bootstrap';
 import '../../config/fontawesome';
 
-
 describe('EpCollapse component', () => {
   const localVue = createLocalVue();
 

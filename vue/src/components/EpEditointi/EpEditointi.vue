@@ -214,7 +214,6 @@ import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpRoundButton from '@shared/components/EpButton/EpRoundButton.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 
-
 @Component({
   validations() {
     return {
@@ -248,12 +247,12 @@ export default class EpEditointi extends Mixins(validationMixin) {
   private versionumero!: number | null;
 
   private sidebarState = 0;
-  
+
   private state: any = null;
   private isInitialized = false;
-  
+
   private currentPage = 1;
-  
+
   private updateVersionumero(versionumero) {
     this.$router.push({
       query: {
@@ -271,80 +270,80 @@ export default class EpEditointi extends Mixins(validationMixin) {
     }
     return this.latest?.muokkaajaOid || '';
   }
-  
+
   get inner() {
     if (this.store && this.store.data) {
       return this.store.data.value;
     }
     return null;
   }
-  
+
   get hasPreview() {
     return this.store.hasPreview;
   }
-  
+
   get currentLock() {
     return this.store.currentLock.value;
   }
-  
+
   get isSaving() {
     return this.store.isSaving.value;
   }
-  
+
   get isEditable() {
     return this.store.isEditable;
   }
-  
+
   get isEditing() {
     return this.store.isEditing.value;
   }
-  
+
   get revisions() {
     return this.store.revisions.value;
   }
-  
+
   get disabled() {
     return this.store.disabled.value;
   }
-  
+
   get versions() {
     return this.historia.length - 1; // Ei näytetä nykyistä versiota
   }
-  
+
   get poistoteksti() {
     if (!this.type) {
       return this.$t('poista');
     }
     return this.$t('poista-' + this.type);
   }
-  
+
   get editointiDropDownValinnatVisible() {
     return this.isEditing && !this.disabled && this.store.remove;
   }
-  
+
   get katseluDropDownValinnatVisible() {
     return !this.store!.isEditing
       && !this.disabled
       && !this.versiohistoriaVisible
       && this.store.validate;
   }
-  
+
   get versiohistoriaVisible() {
     return this.current && this.current !== this.latest;
   }
-  
+
   get hasKeskusteluSlot() {
     return this.$scopedSlots.keskustelu;
   }
-  
+
   get hasPerusteSlot() {
     return this.$scopedSlots.peruste;
   }
-  
+
   get hasOhjeSlot() {
     return this.$scopedSlots.ohje;
   }
-  
+
   private toggleSidebarState(val: number) {
     if (val === this.sidebarState) {
       this.sidebarState = 0;
@@ -356,7 +355,7 @@ export default class EpEditointi extends Mixins(validationMixin) {
       value: this.sidebarState,
     });
   }
-  
+
   get saveHelpText() {
     const vuelidate = this.$v as any;
     if (this.disabled) {
@@ -372,23 +371,23 @@ export default class EpEditointi extends Mixins(validationMixin) {
       return '';
     }
   }
-  
+
   @Watch('data')
   private onDataChange(newValue: any, oldValue: any) {
     this.$emit('input', newValue);
   }
-  
+
   @Watch('store', { immediate: true })
   async onStoreChange(newValue: any, oldValue: any) {
     await this.store.init();
     this.isInitialized = true;
-  
+
     const sidebarState = await getItem('ep-editointi-sidebar-state') as any;
     if (sidebarState) {
       this.sidebarState = sidebarState!.value;
     }
   }
-  
+
   get current() {
     if (!_.isEmpty(this.historia)) {
       if (this.versionumero) {
@@ -408,11 +407,11 @@ export default class EpEditointi extends Mixins(validationMixin) {
       }
     }
   }
-  
+
   get latest() {
     return _.first(this.historia) || null;
   }
-  
+
   get historia() {
     const revs = this.revisions || [];
     return _.map(revs, (rev, index: number) => ({
@@ -420,7 +419,6 @@ export default class EpEditointi extends Mixins(validationMixin) {
       index: revs.length - index,
     } as Revision & { index: number }));
   }
-
 }
 
 </script>

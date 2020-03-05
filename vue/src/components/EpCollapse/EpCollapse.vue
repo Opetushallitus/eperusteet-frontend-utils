@@ -34,7 +34,6 @@ import _ from 'lodash';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { setItem, getItem } from '../../utils/localstorage';
 
-
 @Component
 export default class EpCollapse extends Vue {
   @Prop({ default: true })

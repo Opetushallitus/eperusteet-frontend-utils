@@ -1,7 +1,6 @@
 import { buildEsikatseluUrl } from '../esikatselu';
 
 describe('Esikatselu URL', () => {
-
   function setOrigin(origin) {
     delete window.location;
     window.location = {
@@ -49,5 +48,4 @@ describe('Esikatselu URL', () => {
     const url = buildEsikatseluUrl('fi', '/opetussuunnitelma/1/lukiokoulutus/tiedot');
     expect(url).toEqual('https://eperusteet.opintopolku.fi/beta/#/fi/opetussuunnitelma/1/lukiokoulutus/tiedot');
   });
-
 });
