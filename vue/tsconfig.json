@@ -1,23 +1,29 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "jsx": "preserve",
     "module": "esnext",
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "noImplicitThis": false,
+    "sourceMap": true,
     "strict": true,
     "strictPropertyInitialization": true,
-    "jsx": "preserve",
-    "importHelpers": true,
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "esModuleInterop": true,
-    "noImplicitThis": false,
-    "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
-    "noImplicitAny": false,
-    "baseUrl": ".",
+    "suppressImplicitAnyIndexErrors": true,
+    "target": "es5",
     "types": [
       "webpack-env",
       "jest"
     ],
+    "paths": {
+      "@shared/*": ["src/*"],
+      "@/*": ["src/*"],
+      "&/*": ["tests/*"]
+    },
     "lib": [
       "esnext",
       "es2015.promise",
@@ -25,11 +31,6 @@
       "dom.iterable",
       "scripthost"
     ]
-  },
-  "paths": {
-    "@shared/*": ["./src/*"],
-    "@/*": ["./src/*"],
-    "&/*": ["./tests/*"]
   },
   "include": [
     "src/**/*.ts.d",
