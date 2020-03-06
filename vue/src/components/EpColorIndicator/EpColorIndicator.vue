@@ -60,7 +60,7 @@ export default class EpColorIndicator extends Vue {
 </script>
 
 <style lang="scss" scoped>
-@import '@shared/styles/_variables.scss';
+@import '../../styles/_variables.scss';
 
 .ball {
   background: black;
