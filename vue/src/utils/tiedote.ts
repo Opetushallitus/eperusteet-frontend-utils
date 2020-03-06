@@ -1,12 +1,7 @@
-export interface KoulutustyyppiTaiTutkinto {
+export interface KoulutustyyppiRyhmaValinta {
   type: string,
-  object: any,
+  object: string[],
 };
-
-export interface KoulutustyyppiTaiTutkintoItem {
-  text: string,
-  value: KoulutustyyppiTaiTutkinto,
-}
 
 export const julkaisupaikkaSort = {
   'opintopolku_etusivu': 1,
