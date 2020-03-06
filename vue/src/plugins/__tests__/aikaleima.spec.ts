@@ -10,6 +10,13 @@ describe('Plugin aikaleima', () => {
   localVue.use(Kielet);
   localVue.use(new Aikaleima());
   const i18n = Kielet.i18n;
+  Kielet.install(localVue, {
+    messages: {
+      fi: {
+        'muutama-sekunti': 's',
+      }
+    },
+  });
 
   beforeEach(() => {
     // Asetetaan nykyinen aika staattiseksi
@@ -86,7 +93,7 @@ describe('Plugin aikaleima', () => {
   test('ago', () => {
     const wrapper = mountAikaleima(1546870463248, '$ago(value)');
 
-    expect(wrapper.text()).toEqual('muutama sekunti sitten');
+    expect(wrapper.text()).toEqual('s sitten');
 
     Kielet.setUiKieli(Kieli.sv);
     expect(wrapper.text()).toEqual('för några sekunder sedan');
