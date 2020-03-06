@@ -11,15 +11,6 @@ env:
     - EPERUSTEET_SERVICE_DIR=$PWD/eperusteet/eperusteet/eperusteet-service
     - secure: "2UumsdTNk01Za2wfreCUEyDI4S6b36QPg2JSQMHH7/M0wlMINH6VQ5A1Q603+YFkf8PVTKbI+Tnm3O/P5g7PxhH71cf9mZ7Aqi9WOAsZpdOFNblC1wzPrfHVjJ8iM73C+KJm3smGM0zZHsqtmIH+AUpWZR9vHdK6bZiYTqUtiZ7Lh150eVuUuJIhlkxre0FA3icyVIVEVfVMNQar6rWW84oguTA8oXv8rxLv+xn00enACJjENNRx1DYlw5X2nRmtf67FnWMAzROc4LCia+P9GJuDokZ4J4Zn/ZkvfhBogtAudUakAglmCGnBQpjc2aBxbWmHZ6m+x+Yl+LKTf5a3bT1gpBZXj5f5/ojA0gMl10qiGrJFTEv0qbb2kNr7D1f4+ll6pR2qY7x2+YnthfY8MizDHIA8cZXBvlgcBJXg296REkRBbA+0d4VmPDC5NFg0oIQUF7+cQS2M0UNxH6aIVuhK/qZsum5ZcZvcnIZrGuf5cVff2Bcd/hlNJNojkWgVSOmUubibdNyISnlIf5TN82IQ2ooB3Z6XQ0O2XPcYgq13CBsrEUzzK4vzeyScpsLbYLfAOrG2JsehEzqT/8wzChZRL4HWjHer2OfE9RkUA0fLIsYQXYwZ1seO14c0kofcrpnv8wbZiJoH3CiqaJIwSGlcT0N/9QGH4+GraBKimSs="
 
-install:
-  - git clone --depth=1 https://github.com/Opetushallitus/eperusteet-ylops
-  - git clone --depth=1 https://github.com/Opetushallitus/eperusteet
-  - cd eperusteet/eperusteet && mvn dependency:resolve --batch-mode && cd ../..
-  - cd eperusteet-ylops && mvn dependency:resolve --batch-mode && cd ..
-  - nvm install 10.16.3
-  - cd vue
-  - yarn install
-  - cd ..
 
 before_script:
   - echo $JAVA_HOME
@@ -29,12 +20,19 @@ before_script:
   - ./cc-test-reporter before-build
 
 script:
+  - nvm install 10.16.3
   - nvm use 10.16.3
-  - cd vue
-  - ls
+  - git clone --depth=1 https://github.com/Opetushallitus/eperusteet-ylops
+  - git clone --depth=1 https://github.com/Opetushallitus/eperusteet
   - echo 'Generate API code' && echo -en 'travis_fold:start:script.1\\r'
-  - yarn run gen:api
+  - cd eperusteet/eperusteet && mvn dependency:resolve --batch-mode && cd ../..
+  - cd eperusteet-ylops && mvn dependency:resolve --batch-mode && cd ..
   - echo -en 'travis_fold:end:script.1\\r'
+  - cd vue
+  - yarn install --silent
+  - yarn run gen:api
+  - ls src/generated/eperusteet
+  - ls src/generated/ylops
   - yarn run lint
   - yarn run test:unit
 
@@ -48,5 +46,5 @@ cache:
   directories:
     - node_modules
     - $HOME/.npm
-    - $HOME/.m2
+    # - $HOME/.m2
     - $HOME/.cache
