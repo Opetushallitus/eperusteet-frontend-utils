@@ -20,6 +20,9 @@
       </template>
 
       <div v-if="editing">
+
+        <ep-toggle class="mb-3" v-if="peruste" v-model="liitaPeruste">{{$t('liita-peruste-osaksi-tiedotetta')}}</ep-toggle>
+
         <ep-form-content name="tiedotteen-otsikko">
           <ep-input v-model="muokattavaTiedote.otsikko" :is-editing="editing" :validation="$v.muokattavaTiedote.otsikko"/>
         </ep-form-content>
@@ -32,7 +35,7 @@
 
           <ep-toggle class="pb-2 mt-3" v-model="opintopolkuJulkaisu" :isSWitch="false" :is-editing="editing"> {{ $t('tiedote-julkaisupaikka-opintopolku_etusivu')}} </ep-toggle>
 
-          <div v-if="perusteet">
+          <div>
             <ep-toggle class="pb-2" v-model="opintopolkuJulkaisuKoulutustyyppiTutkinto" :isSWitch="false" :is-editing="editing">
               {{ $t('tiedote-julkaisupaikka-opintopolku-koulutus-ja-tutkintonakyma')}}
             </ep-toggle>
@@ -40,14 +43,19 @@
             <ep-multi-list-select
               v-if="opintopolkuJulkaisuKoulutustyyppiTutkinto"
               class="pl-5 pb-2"
-              tyyppi="koulutustyyppi-tai-tutkinto"
-              :items="koulutustyyppiTaiTutkintoItems"
-              v-model="koulutustyypitTaiTutkinnot"
+              tyyppi="koulutuskohtainen-nakyma"
+              :items="koulutustyyppiRyhmaItems"
+              v-model="koulutusryypiRyhmaValinnat"
               :is-editing="editing"
               :required="true">
 
               <template v-slot:option="{option}">
-                <ep-color-indicator :size="10" v-if="option.value && option.value.type && option.value.type !=='peruste'" :tooltip="false" :kind="option.value.type"/>
+                <ep-color-indicator :size="10" v-if="option.value && option.value.type" :tooltip="false" :kind="option.value.type"/>
+                {{option.text}}
+                </template>
+
+              <template v-slot:singleLabel="{option}">
+                <ep-color-indicator :size="10" v-if="option.value && option.value.type" :tooltip="false" :kind="option.value.type"/>
                 {{option.text}}
               </template>
 
@@ -60,12 +68,12 @@
 
         </ep-form-content>
 
-        <ep-form-content name="linkita-perusteprojekti-tiedotteeseen" v-if="!peruste && perusteet">
+        <ep-form-content name="liita-peruste-tiedotteeseen" v-if="!peruste && perusteet">
           <div class="peruste-linkitys-ohje mb-2">{{$t('valitsemasi-peruste-linkitetaan-osaksi-tiedotetta')}}</div>
           <ep-multi-list-select
-              tyyppi="perusteprojekti"
+              tyyppi="peruste"
               :items="perusteItems"
-              v-model="tutkinnot"
+              v-model="muokattavaTiedote.perusteet"
               :is-editing="editing"
               :required="false"/>
         </ep-form-content>
@@ -81,17 +89,20 @@
 
         <div class="mb-5 mt-4" v-html="$kaanna(esittavaMuokkaustieto.sisalto)"></div>
 
-        <h6 v-if="esittavaMuokkaustieto.filteredJulkaisupaikat.length > 0 || esittavaMuokkaustieto.filteredJulkaisusovellukset.length > 0">
+        <h6 v-if="opintopolkuJulkaisu || esittavaMuokkaustieto.filteredJulkaisupaikat.length > 0 || esittavaMuokkaustieto.filteredJulkaisusovellukset.length > 0">
           {{$t('tiedote-julkaistu')}}:
         </h6>
 
-        <div v-if="esittavaMuokkaustieto.filteredJulkaisupaikat.length > 0">
+        <div class="mb-3" v-if="esittavaMuokkaustieto.filteredJulkaisupaikat.length > 0 || opintopolkuJulkaisu">
           {{$t('tiedote-julkaisupaikka-opintopolku')}}
-          <ul>
-            <li v-for="(julkaisupaikka, index) in esittavaMuokkaustieto.filteredJulkaisupaikat" :key="index+'filteredjulkaisupaikka'">
-              {{julkaisupaikka}}
-            </li>
-          </ul>
+
+          <div class="ml-4" v-if="opintopolkuJulkaisu">
+            <ep-color-indicator class="mr-2" :size="6" :tooltip="false" kind="etusivu"/> {{$t('etusivu')}}
+          </div>
+
+          <div class="ml-4" v-for="(julkaisupaikka, index) in esittavaMuokkaustieto.filteredJulkaisupaikat" :key="index+'filteredjulkaisupaikka'">
+            <ep-color-indicator class="mr-2" :size="6" :tooltip="false" :kind="julkaisupaikka"/> {{$t(julkaisupaikka)}}
+          </div>
         </div>
 
         <div v-for="(julkaisusovellus, index) in esittavaMuokkaustieto.filteredJulkaisusovellukset" :key="index+'julkaisusovellus'">
@@ -99,7 +110,7 @@
         </div>
 
         <div v-if="esittavaMuokkaustieto.filteredPerusteet.length > 0" class="mt-4">
-          <h6>{{$t('linkitetyt-perusteprojektit')}}:</h6>
+          <h6>{{$t('liitetyt-perusteet')}}:</h6>
           <div v-for="(peruste, index) in esittavaMuokkaustieto.filteredPerusteet" :key="index+'filteredPerusteet'">
             {{peruste}}
           </div>
@@ -146,11 +157,12 @@ import EpToggle from '@shared/components/forms/EpToggle.vue';
 import { required } from 'vuelidate/lib/validators';
 import { validationMixin } from 'vuelidate';
 import { success, fail } from '@shared/utils/notifications';
-import { KoulutustyyppiTaiTutkinto, KoulutustyyppiTaiTutkintoItem, julkaisupaikkaSort, julkaisupaikka } from '@shared/utils/tiedote';
+import { julkaisupaikkaSort, julkaisupaikka, KoulutustyyppiRyhmaValinta } from '@shared/utils/tiedote';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
 import EpKielivalinta from '@shared/components/EpKielivalinta/EpKielivalinta.vue';
 import { themes, ktToState, perustetila, koulutustyyppiRyhmat, KoulutustyyppiRyhma, koulutustyyppiRyhmaSort } from '@shared/utils/perusteet';
 import EpColorIndicator from '@shared/components/EpColorIndicator/EpColorIndicator.vue';
+import { Kielet } from '../../stores/kieli';
 
 @Component({
   components: {
@@ -168,10 +180,15 @@ import EpColorIndicator from '@shared/components/EpColorIndicator/EpColorIndicat
   validations: {
     muokattavaTiedote: {
       otsikko: {
-        required,
+        [Kielet.getSisaltoKieli.value]: {
+          required
+        },
       },
       sisalto: {
         required,
+        [Kielet.getSisaltoKieli.value]: {
+          required
+        },
       },
     },
   },
@@ -186,9 +203,9 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
   @Prop({ required: true })
   private tiedotteetStore!: ITiedotteetProvider;
 
-  private koulutustyypitTaiTutkinnot: KoulutustyyppiTaiTutkinto[] = [];
-  private tutkinnot: KoulutustyyppiTaiTutkinto[] = [];
+  private koulutusryypiRyhmaValinnat: KoulutustyyppiRyhmaValinta[] = [];
 
+  private liitaPeruste: boolean = false;
   private opintopolkuJulkaisu: boolean = false;
   private opintopolkuJulkaisuKoulutustyyppiTutkinto: boolean = false;
   private opsJulkaisu: boolean = false;
@@ -210,37 +227,20 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
     this.lopsJulkaisu = _.includes(rivi.julkaisupaikat, julkaisupaikka.lops);
     this.amosaaJulkaisu = _.includes(rivi.julkaisupaikat, julkaisupaikka.amosaa);
 
-    this.koulutustyypitTaiTutkinnot = [
-      ..._.chain(this.koulutustyyppiTaiTutkintoItems)
-        .filter(item => item.value && item.value.type !== 'peruste')
+    this.koulutusryypiRyhmaValinnat = [
+      ..._.chain(this.koulutustyyppiRyhmaItems)
         .filter(item => _.some(item.value.object, koulutustyyppi => _.includes(rivi.koulutustyypit, koulutustyyppi)))
         .map(item => {
           return {
             ...item.value,
-          } as KoulutustyyppiTaiTutkinto;
-        })
-        .value(),
-      ..._.chain(this.koulutustyyppiTaiTutkintoItems)
-        .filter(item => item.value && item.value.type === 'peruste')
-        .filter(item => !_.isEmpty(_.keyBy(rivi.perusteet, 'id')[item.value.object]))
-        .map(item => {
-          return {
-            ...item.value,
-          } as KoulutustyyppiTaiTutkinto;
+          } as KoulutustyyppiRyhmaValinta;
         })
         .value(),
     ];
 
-    this.opintopolkuJulkaisuKoulutustyyppiTutkinto = !_.isEmpty(this.koulutustyypitTaiTutkinnot);
+    this.opintopolkuJulkaisuKoulutustyyppiTutkinto = !_.isEmpty(this.koulutusryypiRyhmaValinnat);
 
-    this.tutkinnot = _.chain(rivi.perusteet)
-      .map(peruste => {
-        return {
-          type: 'peruste',
-          object: peruste.id,
-        } as KoulutustyyppiTaiTutkinto;
-      })
-      .value();
+    this.muokattavaTiedote.perusteet = _.map(this.muokattavaTiedote.perusteet, peruste => this.perusteToKevytDto(peruste));
 
     if (this.muokattavaTiedote.luotu) {
       const kayttaja = (await Kayttajat.getKayttaja((this.muokattavaTiedote.muokkaaja as any))).data;
@@ -252,6 +252,10 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
       }
     }
 
+    if (this.peruste) {
+      this.liitaPeruste = true;
+    }
+
     (this as any).$refs.tiedoteMuokkausModal.show();
   }
 
@@ -259,19 +263,10 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
     return {
       ...this.muokattavaTiedote,
       filteredJulkaisupaikat: [
-        ..._.chain(this.opintopolkuJulkaisu ? [this.opintopolkuJulkaisu] : [])
-          .map(julkaisukanava => this.$t('etusivu'))
-          .value(),
         ..._.chain(this.muokattavaTiedote.koulutustyypit)
-          .map(koulutustyyppi => this.$t(themes[koulutustyyppi]))
+          .map(koulutustyyppi => themes[koulutustyyppi])
           .uniq()
           .value(),
-        ..._.chain(this.muokattavaTiedote.perusteet)
-          .filter(peruste => _.includes(this.tutkintonakymaKoulutustyypit, peruste.koulutustyyppi))
-          .filter(peruste => !_.isEmpty(this.perusteetById[(peruste as any).id]))
-          .map(peruste => this.$kaanna((this.perusteetById[(peruste as any).id] as any).nimi))
-          .uniq()
-          .value()
       ],
       filteredJulkaisusovellukset: [
         ..._.chain([julkaisupaikka.ops, julkaisupaikka.lops, julkaisupaikka.amosaa])
@@ -281,7 +276,6 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
       ],
       filteredPerusteet: [
         ..._.chain(this.muokattavaTiedote.perusteet)
-          .filter(peruste => !_.includes(this.tutkintonakymaKoulutustyypit, peruste.koulutustyyppi))
           .filter(peruste => !_.isEmpty(this.perusteetById[(peruste as any).id]))
           .map(peruste => this.$kaanna((this.perusteetById[(peruste as any).id] as any).nimi))
           .uniq()
@@ -303,24 +297,11 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
     (this as any).$refs.tiedoteMuokkausModal.hide();
   }
 
-  get valitutKoulutustyypit() {
-    return _.chain(this.koulutustyypitTaiTutkinnot)
-      .filter((koulutustyyppiTaiTutkinto: KoulutustyyppiTaiTutkinto) => koulutustyyppiTaiTutkinto.type !== 'peruste')
+  get valitutKoulutustyypit(): string[] {
+    return _.chain(this.koulutusryypiRyhmaValinnat)
       .map('object')
       .flatMap()
       .value();
-  }
-
-  get valitutPerusteet() {
-    return [
-      ..._.chain(this.koulutustyypitTaiTutkinnot)
-        .filter((koulutustyyppiTaiTutkinto: KoulutustyyppiTaiTutkinto) => koulutustyyppiTaiTutkinto.type === 'peruste')
-        .map('object')
-        .value(),
-      ..._.chain(this.tutkinnot)
-        .map('object')
-        .value()
-    ];
   }
 
   async tallennaTiedote() {
@@ -331,13 +312,19 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
       .filter(value => value !== julkaisupaikka.amosaa || this.amosaaJulkaisu)
       .value() as any;
 
-    if (!this.peruste) {
-      this.muokattavaTiedote.perusteet = _.map(this.valitutPerusteet, (perusteId) => this.perusteHakuToPerusteKevyt(this.perusteetById[perusteId]));
-      this.muokattavaTiedote.koulutustyypit = this.valitutKoulutustyypit;
-    }
-    else {
-      if (!this.muokattavaTiedote.id) {
-        this.muokattavaTiedote.perusteet = [this.perusteToPerusteKevyt(this.peruste)];
+    this.muokattavaTiedote.koulutustyypit = (this.valitutKoulutustyypit as any);
+
+    if (this.peruste) {
+      if (this.liitaPeruste) {
+        if (!_.includes(_.map(this.muokattavaTiedote.perusteet, 'id'), this.peruste.id)) {
+          this.muokattavaTiedote.perusteet = [
+            ..._.map(this.muokattavaTiedote.perusteet),
+            this.perusteToKevytDto(this.peruste)
+          ];
+        }
+      }
+      else {
+        this.muokattavaTiedote.perusteet = _.filter(this.muokattavaTiedote.perusteet, peruste => peruste.id !== this.peruste.id);
       }
     }
 
@@ -346,14 +333,7 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
     success('tiedote-tallennettu');
   }
 
-  private perusteHakuToPerusteKevyt(perusteHaku: PerusteHakuDto): PerusteKevytDto {
-    return {
-      id: perusteHaku.id,
-      nimi: perusteHaku.nimi,
-    } as PerusteKevytDto;
-  }
-
-  private perusteToPerusteKevyt(peruste: PerusteDto): PerusteKevytDto {
+  private perusteToKevytDto(peruste): PerusteKevytDto {
     return {
       id: peruste.id,
       nimi: peruste.nimi,
@@ -390,12 +370,8 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
     });
   }
 
-  get koulutustyyppiTaiTutkintoItems(): MultiListSelectItem[] {
+  get koulutustyyppiRyhmaItems(): MultiListSelectItem[] {
     return [
-      {
-        text: this.$t('paanakymat'),
-        unselectable: true,
-      } as MultiListSelectItem,
       ..._.chain(koulutustyyppiRyhmat())
         .map((koulutustyyppiryhma: KoulutustyyppiRyhma) => {
           return {
@@ -404,39 +380,16 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
               type: koulutustyyppiryhma.ryhma,
               object: koulutustyyppiryhma.koulutustyypit,
             },
-            child: true,
           } as MultiListSelectItem;
         })
         .sortBy(koulutustyyppiryhma => koulutustyyppiRyhmaSort[koulutustyyppiryhma.value.type])
         .value(),
-      {
-        text: this.$t('tutkintojen-nakymat'),
-        unselectable: true,
-      } as MultiListSelectItem,
-      ..._.chain(this.perusteet)
-        .filter((peruste) => _.includes(this.tutkintonakymaKoulutustyypit, peruste.koulutustyyppi))
-        .map(peruste => {
-          return {
-            text: (this as any).$kaanna(peruste.nimi),
-            value: {
-              type: 'peruste',
-              object: peruste.id,
-            },
-            child: true,
-          } as MultiListSelectItem;
-        })
-        .value(),
     ];
-  }
-
-  get tutkintonakymaKoulutustyypit() {
-    return ['koulutustyyppi_1', 'koulutustyyppi_11', 'koulutustyyppi_12', 'koulutustyyppi_18', 'koulutustyyppi_5'];
   }
 
   get perusteItems(): MultiListSelectItem[] {
     return [
       ..._.chain(_.keys(ktToState))
-        .filter((koulutustyyppi) => !_.includes(this.tutkintonakymaKoulutustyypit, koulutustyyppi))
         .filter(koulutustyyppi => !_.isEmpty(_.keyBy(this.perusteet, 'koulutustyyppi')[koulutustyyppi]))
         .map((koulutustyyppi) => {
           return [
@@ -453,10 +406,7 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
               .map(peruste => {
                 return {
                   text: (this as any).$kaanna(peruste.nimi),
-                  value: {
-                    type: 'peruste',
-                    object: peruste.id,
-                  },
+                  value: this.perusteToKevytDto(peruste),
                   child: true,
                 } as MultiListSelectItem;
               })
