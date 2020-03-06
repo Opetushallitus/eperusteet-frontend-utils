@@ -24,6 +24,10 @@
               </div>
             </template>
 
+            <template slot="singleLabel" slot-scope="{ option }">
+              <slot name="singleLabel" :option="option">{{option.text}}</slot>
+            </template>
+
             <template slot="noResult">
               <div>{{ $t('ei-hakutuloksia') }}</div>
             </template>
@@ -164,7 +168,7 @@ export default class EpMultiListSelect extends Mixins(EpValidation) {
 
   get innerModelsValues() {
     return _.chain(this.innerModels)
-      .filter(innerModel => !_.isEmpty(innerModel.value))
+      .filter(innerModel => (_.isArray(innerModel.value) && !_.isEmpty(innerModel.value)) || !_.isNil(innerModel.value))
       .map(innerModel => innerModel.value)
       .value();
   }
