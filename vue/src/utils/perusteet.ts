@@ -49,6 +49,7 @@ export const koulutustyyppiRyhmaSort = {
 };
 
 const themeColors = {
+  'etusivu': [0, 0, 0],
   'ammatillinen': [0, 136, 0],
   'esiopetus': [132, 210, 255],
   'lukio': [1, 67, 218],
