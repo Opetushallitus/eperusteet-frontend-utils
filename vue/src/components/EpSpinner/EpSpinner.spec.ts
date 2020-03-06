@@ -14,6 +14,4 @@ describe('EpSpinner component', () => {
     const wrapper = mount(EpSpinner);
     expect(wrapper.html()).toMatchSnapshot();
   });
-
 });
-

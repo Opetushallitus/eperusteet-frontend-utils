@@ -9,7 +9,6 @@ import { Kielet } from '../../stores/kieli';
 import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
 
-
 Vue.use(BootstrapVue);
 
 describe('EpMainView component', () => {
@@ -34,9 +33,5 @@ describe('EpMainView component', () => {
     expect(wrapper.html()).toContain('DEFAULT SLOT');
     expect(wrapper.html()).toContain('CUSTOM CONTENT');
     expect(wrapper.html()).toContain('AFTER CONTENT');
-
   });
-
-
 });
-

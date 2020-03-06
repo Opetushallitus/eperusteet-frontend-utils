@@ -10,7 +10,6 @@ import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
 import EpCollapse from '../EpCollapse/EpCollapse.vue';
 
-
 Vue.use(BootstrapVue);
 
 describe('EpKielivalinta component', () => {
@@ -33,7 +32,4 @@ describe('EpKielivalinta component', () => {
 
     expect(wrapper.html()).toMatchSnapshot();
   });
-
-
 });
-

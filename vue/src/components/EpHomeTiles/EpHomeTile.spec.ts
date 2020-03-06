@@ -52,6 +52,4 @@ describe('EpHomeTile component', () => {
 
     expect(wrapper.html()).toMatchSnapshot();
   });
-
 });
-

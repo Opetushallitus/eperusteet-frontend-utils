@@ -9,7 +9,6 @@ import { Kielet } from '../../stores/kieli';
 import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
 
-
 Vue.use(BootstrapVue);
 
 describe('EpLinkki component', () => {
@@ -38,6 +37,4 @@ describe('EpLinkki component', () => {
     expect(wrapper.text()).toEqual('eperusteet.opintopolku.fi');
     expect(el.attributes('href')).toEqual('https://eperusteet.opintopolku.fi');
   });
-
-
 });
