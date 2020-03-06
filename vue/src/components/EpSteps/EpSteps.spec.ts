@@ -28,7 +28,7 @@ describe('EpSteps component', () => {
       isValid: jest.fn(() => true),
     }],
     onSave: jest.fn(),
-  }
+  };
 
   test('Renders', async () => {
     const wrapper = mount(EpSteps, {
@@ -58,7 +58,4 @@ describe('EpSteps component', () => {
     expect(propsData.steps[1].isValid).toHaveBeenCalledTimes(1);
     expect(propsData.onSave).toHaveBeenCalledTimes(1);
   });
-
 });
-
-

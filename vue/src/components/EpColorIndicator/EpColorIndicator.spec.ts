@@ -30,4 +30,3 @@ describe('EpToggle component', () => {
     expect(wrapper.html()).toContain('min-width: 20px');
   });
 });
-
