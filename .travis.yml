@@ -24,15 +24,19 @@ script:
   - nvm use 10.16.3
   - git clone --depth=1 https://github.com/Opetushallitus/eperusteet-ylops
   - git clone --depth=1 https://github.com/Opetushallitus/eperusteet
-  - cd eperusteet/eperusteet && mvn dependency:resolve -q && cd ../..
-  - cd eperusteet-ylops && mvn dependency:resolve -q && cd ..
+  - cd eperusteet/eperusteet && mvn dependency:resolve --batch-mode -q && cd ../..
+  - cd eperusteet-ylops && mvn dependency:resolve --batch-mode -q && cd ..
   - cd vue
   - yarn install --silent
-  - yarn run gen:api:eperusteet
+  - yarn run gen:api
+  - pwd
+  - ls
+  - ls src
+  - ls src/generated
   - ls src/generated/eperusteet
-  # - ls src/generated/ylops
-  # - yarn run lint
-  # - yarn run test:unit
+  - ls src/generated/ylops
+  - yarn run lint
+  - yarn run test:unit
 
 after_script:
   - ./cc-test-reporter format-coverage -t lcov ./coverage/lcov.info
@@ -44,5 +48,5 @@ cache:
   directories:
     - node_modules
     - $HOME/.npm
-    # - $HOME/.m2
+    - $HOME/.m2
     - $HOME/.cache
