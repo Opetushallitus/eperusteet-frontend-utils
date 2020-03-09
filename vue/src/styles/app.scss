@@ -63,6 +63,7 @@ img.content-image {
   }
 
   h4, h5, h6 {
+    font-size: 1rem;
     font-family: "Open Sans", sans-serif;
   }
 
@@ -79,19 +80,13 @@ img.content-image {
     font-weight: 400;
   }
   h4 {
-    font-size: 1rem;
     font-weight: 600;
-    font-family: "Open Sans";
   }
   h5 {
-    font-size: 1rem;
     font-weight: 500;
-    font-family: "Open Sans";
   }
   h6 {
-    font-size: 1rem;
     font-weight: 400;
-    font-family: "Open Sans";
   }
 
   div.mx-datepicker-popup {
