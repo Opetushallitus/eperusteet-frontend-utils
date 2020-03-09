@@ -127,7 +127,7 @@ export class KieliStore {
       return _.includes(_.toLower(target), _.toLower(query));
     }
     else {
-      return false;
+      return true;
     }
   }
 

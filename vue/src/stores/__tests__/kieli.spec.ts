@@ -3,11 +3,13 @@ import { Kieli } from '../../tyypit';
 import VueI18n from 'vue-i18n';
 import { Kielet } from '../kieli';
 import _ from 'lodash';
+import { Kaannos } from 'src/plugins/kaannos';
 
 describe('Kielet', () => {
   const localVue = createLocalVue();
   localVue.use(VueI18n);
   Kielet.install(localVue);
+  localVue.use(new Kaannos());
   const i18n = Kielet.i18n;
 
   beforeEach(() => {
