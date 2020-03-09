@@ -20,6 +20,7 @@ before_script:
   - ./cc-test-reporter before-build
 
 script:
+  - rm -rf $HOME/.m2/repository/ma/glasnost/orika/orika-core/
   - nvm install 10.16.3
   - nvm use 10.16.3
   - git clone --depth=1 https://github.com/Opetushallitus/eperusteet-ylops
