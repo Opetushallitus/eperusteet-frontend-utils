@@ -60,13 +60,13 @@
 import _ from 'lodash';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import Sticky from 'vue-sticky-directive';
-import { Kieli } from '@shared/tyypit';
-import { Kielet, UiKielet } from '@shared/stores/kieli';
+import { Kieli } from '../../tyypit';
+import { Kielet, UiKielet } from '../../stores/kieli';
 // import { Murupolku } from '@/stores/murupolku';
 // import { oikeustarkastelu } from '@/directives/oikeustarkastelu';
 // import { TutoriaaliStore } from '@/stores/tutoriaaliStore';
 // import { Kayttajat } from '@/stores/kayttaja';
-import EpButton from '@shared/components/EpButton/EpButton.vue';
+import EpButton from '../../components/EpButton/EpButton.vue';
 // import EpKayttaja from '@shared/components/EpKayttaja/EpKayttaja.vue';
 
 @Component({
@@ -135,7 +135,7 @@ export default class EpNavigation extends Vue {
 </script>
 
 <style scoped lang="scss">
-@import '@shared/styles/_variables.scss';
+@import '../../styles/_variables.scss';
 
 .topbar {
   .navbar {
