@@ -20,6 +20,7 @@ before_script:
   - ./cc-test-reporter before-build
 
 script:
+  - rm -rf $HOME/.m2/repository/ma/glasnost/orika/orika-core/
   - nvm install 10.16.3
   - nvm use 10.16.3
   - git clone --depth=1 https://github.com/Opetushallitus/eperusteet-ylops
@@ -29,12 +30,6 @@ script:
   - cd vue
   - yarn install --silent
   - yarn run gen:api
-  - pwd
-  - ls
-  - ls src
-  - ls src/generated
-  - ls src/generated/eperusteet
-  - ls src/generated/ylops
   - yarn run lint
   - yarn run test:unit
 
