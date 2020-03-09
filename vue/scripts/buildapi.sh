@@ -56,12 +56,18 @@ generate_eperusteet() {
   cd ${eperusteetgen} || exit 1
 
   specfile="$EPERUSTEET_SERVICE_DIR/target/openapi/eperusteet.spec.json"
+
+  echo "Eperusteet target: ${eperusteetgen}"
+  echo "openapi-generator version"
+  npx openapi-generator version
+
   cd "$EPERUSTEET_SERVICE_DIR" \
-    && mvn clean compile -B -Pgenerate-openapi \
+    && mvn clean compile --batch-mode -B -Pgenerate-openapi \
     && cd "${eperusteetgen}" \
     && echo "Building eperusteet api" \
     && pwd \
-    && ls \
+    && echo "Swagger spec location: ${specfile}" \
+    && ls ${specfile} \
     && npx openapi-generator generate -c "${genconfig}" -i "$specfile" -g typescript-axios
 }
 
@@ -75,7 +81,7 @@ generate_ylops() {
 
   specfile="$YLOPS_SERVICE_DIR/target/openapi/ylops.spec.json"
   cd "$YLOPS_SERVICE_DIR" \
-    && mvn clean compile -B -Pgenerate-openapi \
+    && mvn clean compile --batch-mode -B -Pgenerate-openapi \
     && cd "${ylopsgen}" \
     && echo "Building ylops api" \
     && pwd \
