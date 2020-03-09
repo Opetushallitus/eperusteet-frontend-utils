@@ -1,4 +1,4 @@
-import { TermiDto, LiiteDto } from '@shared/api/ylops';
+import { TermiDto, LiiteDto } from '../api/ylops';
 import _ from 'lodash';
 
 export interface LiiteWithSrc extends LiiteDto {
