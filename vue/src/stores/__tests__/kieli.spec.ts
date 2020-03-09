@@ -3,7 +3,7 @@ import { Kieli } from '../../tyypit';
 import VueI18n from 'vue-i18n';
 import { Kielet } from '../kieli';
 import _ from 'lodash';
-import { Kaannos } from 'src/plugins/kaannos';
+import { Kaannos } from '../../plugins/kaannos';
 
 describe('Kielet', () => {
   const localVue = createLocalVue();
