@@ -14,7 +14,8 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import { colorize } from '../../utils/perusteet';
+import { colorize, kouluturtyyppiRyhmat } from '../../utils/perusteet';
+import * as _ from 'lodash';
 
 export type IndicatorKind = 'normaali'
   | 'pakollinen'
@@ -32,6 +33,8 @@ export type IndicatorKind = 'normaali'
   | 'perusopetus'
   | 'varhaiskasvatus'
   | 'taiteenperusopetus';
+
+
 
 @Component
 export default class EpColorIndicator extends Vue {
@@ -53,7 +56,7 @@ export default class EpColorIndicator extends Vue {
     return {
       'min-height': this.size + 'px',
       'min-width': this.size + 'px',
-      background,
+      background: _.includes(kouluturtyyppiRyhmat, this.kind),
     };
   }
 }

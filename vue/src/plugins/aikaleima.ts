@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import Vue, { PluginObject } from 'vue';
 import VueI18n from 'vue-i18n';
 import moment from 'moment';
 import { createLogger } from '../utils/logger';
@@ -22,7 +22,6 @@ declare module 'vue/types/vue' {
 }
 
 export class Aikaleima {
-
   public install(vue: typeof Vue) {
 
     function aikaleimaFnFactory(this: void, format: string) {

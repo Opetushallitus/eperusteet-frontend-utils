@@ -421,7 +421,7 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/_variables';
+@import '../../styles/_variables';
 
   .peruste-linkitys-ohje {
     font-size: 0.8rem;

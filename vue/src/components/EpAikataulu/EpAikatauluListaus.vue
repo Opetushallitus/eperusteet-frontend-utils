@@ -78,7 +78,7 @@ import { aikataulutapahtuma, aikatauluTapahtumaSort, aikatauluTapahtumapaivaSort
       }
     },
   },
-})
+} as any)
 export default class EpAikatauluListaus extends Mixins(validationMixin) {
   // @Prop({ required: false })
   // private rootModel!: any;
@@ -128,7 +128,7 @@ export default class EpAikatauluListaus extends Mixins(validationMixin) {
 </script>
 
 <style scoped lang="scss">
-@import "@/styles/_variables.scss";
+@import "../../styles/_variables.scss";
 
   .roskalaatikko {
     color: $blue;

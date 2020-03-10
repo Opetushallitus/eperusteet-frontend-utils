@@ -170,7 +170,7 @@ export class KieliStore {
     }
   };
 
-  public kaanna(value: LokalisoituTeksti | string): string {
+  public kaanna(value: LokalisoituTeksti | undefined): string {
     if (!value) {
       return '';
     }
