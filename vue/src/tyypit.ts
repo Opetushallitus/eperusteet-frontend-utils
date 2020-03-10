@@ -62,6 +62,7 @@ export interface Revision {
   kutsumanimi?: string;
   sukunimi?: string;
   kommentti?: string;
+  nykyinen?: boolean;
 }
 
 export type LiiteDtoWrapper = {
@@ -108,4 +109,43 @@ export interface ILukko {
   vanhentuu?: Date;
   oma?: boolean;
   revisio?: number;
+}
+
+export enum OrganisaatioTyyppi {
+  Muu = 'Muu organisaatio',
+  Varhaiskasvatus = 'Varhaiskasvatuksen jarjestaja',
+  Oppilaitos = 'Oppilaitos',
+  Toimija = 'Koulutustoimija',
+}
+
+export type DiagrammiVarit = 'vaalea_sininen' | 'vihrea_sininen';
+
+export interface OrganisaatioDto {
+  oid: string;
+}
+
+export interface SideMenuEntry {
+  item: SideMenuItem,
+  route?: SideMenuRoute,
+  flatten?: boolean,
+  children?: Array<SideMenuEntry>,
+  parent?: SideMenuEntry,
+}
+
+export interface SideMenuItem {
+  type: string,
+  i18key?: string,
+  objref?: object,
+  prefix?: string,
+  hideChevron?: boolean,
+}
+
+export interface SideMenuRoute {
+  name: string,
+  params: object,
+  query?: object,
+}
+
+export interface RecursiveTreeItem {
+  id: number;
 }

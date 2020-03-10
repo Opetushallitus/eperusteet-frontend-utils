@@ -48,7 +48,7 @@ export default class EpTreeNavibar extends Vue {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/_variables';
+@import '../../styles/_variables';
 
 .sidenav {
   min-width: $sidebar-width;

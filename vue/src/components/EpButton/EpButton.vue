@@ -13,8 +13,8 @@
     </span>
     <div class="pl-3 pr-3">
       <slot />
+      <ep-spinner-inline v-if="showSpinner" />
     </div>
-    <ep-spinner-inline v-if="showSpinner" />
   </b-button>
   <b-tooltip v-if="help" :target="() => $refs['button-container']">{{ $t(help) }}</b-tooltip>
 </div>

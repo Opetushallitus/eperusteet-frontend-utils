@@ -138,6 +138,22 @@ $tabcolor: #0041dc;
     }
 
   }
+
+  &.table-borderless {
+
+    thead {
+      th {
+        border-bottom-width: 2px;
+        border-bottom-color: $gray-lighten-3;
+        border-bottom-style: solid;
+      }
+
+      th[aria-sort="descending"], th[aria-sort="ascending"]{
+        border-bottom-width: 2px;
+        border-bottom-color: $black;
+      }
+    }
+  }
 }
 
 fieldset {
