@@ -15,7 +15,7 @@
     </div>
     <slot v-if="isOpen"
           name="bar" />
-    <div v-if="$scopedSlots.bottom" class="bottom" v-sticky sticky-side="bottom">
+    <div v-if="isOpen && $scopedSlots.bottom" class="bottom" v-sticky sticky-side="bottom">
       <slot name="bottom" />
     </div>
   </div>
@@ -41,7 +41,7 @@ import Sticky from 'vue-sticky-directive';
   },
 })
 export default class EpSidebar extends Vue {
-  private isOpen = true;
+  private isOpen = false;
   private settings = {
     autoScroll: true,
     showSubchapter: true

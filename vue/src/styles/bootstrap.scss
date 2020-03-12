@@ -203,3 +203,11 @@ fieldset {
   background-color: $table-hover-row-bg-color;
   cursor: pointer;
 }
+
+.noselect {
+  user-select: none;
+}
+
+.b-dropdown-text {
+  padding: 0 0 0 0.75rem !important;
+}

@@ -22,7 +22,7 @@ export class EpTreeNavibarStore {
   }
 
   private readonly connected = computed(() => {
-    return _.drop(flattenNodes(this.navigation.value), 2);
+    return _.drop(flattenNodes(this.navigation.value), 1);
   });
 
   public readonly filtered = computed(() => this.connected.value);
