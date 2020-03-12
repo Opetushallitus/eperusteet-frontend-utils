@@ -223,3 +223,11 @@ fieldset {
 .popover {
   font-family: "Open Sans", "Helvetica", sans-serif;
 }
+
+.noselect {
+  user-select: none;
+}
+
+.b-dropdown-text {
+  padding: 0 0 0 0.75rem !important;
+}

@@ -24,6 +24,7 @@
 import * as _ from 'lodash';
 import { Component, Mixins, Prop, Watch } from 'vue-property-decorator';
 import { Editor, EditorContent } from 'tiptap';
+import { delay } from '@shared/utils/delay';
 import { Kielet } from '@shared/stores/kieli';
 import {
   Blockquote,
@@ -165,14 +166,17 @@ export default class EpContent extends Mixins(EpValidation) {
   }
 
   async setClass(c: string) {
+    await delay();
     // HACK: give prose mirror 10 vue ticks.
     for (let count = 0; count < 10; ++count) {
-      await this.$nextTick();
-      const pm = (this.$refs.content as any).$el.firstChild;
-      if (pm) {
-        (this.$refs.content as any).$el.firstChild.className = 'ProseMirror ' + c;
-        break;
+      if (this.$refs.content) {
+        const pm = (this.$refs.content as any).$el?.firstChild;
+        if (pm) {
+          (this.$refs.content as any).$el.firstChild.className = 'ProseMirror ' + c;
+          break;
+        }
       }
+      await this.$nextTick();
     }
   }
 
