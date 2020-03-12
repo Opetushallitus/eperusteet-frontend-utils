@@ -82,6 +82,7 @@ export type PerusteprojektiDto = EperusteetApi.PerusteprojektiDto;
 export type PerusteprojektiKevytDto = EperusteetApi.PerusteprojektiKevytDto;
 export type PerusteprojektiListausDto = EperusteetApi.PerusteprojektiListausDto;
 export type PerusteprojektiLuontiDto = EperusteetApi.PerusteprojektiLuontiDto;
+export type RakenneModuuliDto = EperusteetApi.RakenneModuuliDto;
 export type RevisionDto = EperusteetApi.Revision;
 export type TermiDto = EperusteetApi.TermiDto;
 export type TiedoteDto = EperusteetApi.TiedoteDto;
@@ -89,6 +90,7 @@ export type TilaUpdateStatus = EperusteetApi.TilaUpdateStatus;
 export type TutkinnonOsaViiteDto = EperusteetApi.TutkinnonOsaViiteDto;
 export type TutkinnonOsaViiteUpdateDto = EperusteetApi.TutkinnonOsaViiteUpdateDto;
 export type TyoryhmaHenkiloDto = EperusteetApi.TyoryhmaHenkiloDto;
+export type UpdateDtoRakenneModuuliDto = EperusteetApi.UpdateDtoRakenneModuuliDto;
 export type ValidationDto = EperusteetApi.ValidationDto;
 
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
@@ -125,7 +127,7 @@ export interface PerusteQuery {
   sivukoko?: number;
   suoritustapa?: string;
   tila?: string[];
-  tuleva?: boolean;
+  tuleva?: boolean
   tutkinnonosat?: boolean;
   tutkintonimikkeet?: boolean;
   voimassaolo?: boolean;
@@ -157,4 +159,28 @@ export async function getAllPerusteet(query: PerusteQuery) {
 
 export interface ViiteLaaja extends EperusteetApi.PerusteenOsaViiteDto {
   lapset?: Array<object>;
+}
+
+export async function getAllPerusteetInternal(query: PerusteQuery) {
+  return Perusteet.getAllPerusteetInternal(
+    query.sivu,
+    query.sivukoko,
+    query.tuleva,
+    query.siirtyma,
+    query.voimassaolo,
+    query.poistunut,
+    query.nimi,
+    query.koulutusala,
+    query.koulutustyyppi,
+    query.kieli,
+    query.opintoala,
+    query.suoritustapa,
+    query.koulutuskoodi,
+    query.diaarinumero,
+    query.muokattu,
+    query.tutkintonimikkeet,
+    query.tutkinnonosat,
+    query.osaamisalat,
+    query.koulutusvienti,
+  );
 }
