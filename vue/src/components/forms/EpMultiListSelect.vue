@@ -1,7 +1,7 @@
 <template>
     <div>
 
-      <div v-for="(innerModel, i) in innerModels" :key="i" class="row mb-2">
+      <div v-for="(innerModel, i) in innerModelValidations" :key="i" class="row mb-2">
         <div class="col-11">
           <multiselect
             :disabled="isLoading"
@@ -15,7 +15,7 @@
             selected-label=""
             deselect-label=""
             :placeholder="''"
-            :class="{'is-invalid': isInvalid && i === 0 }"
+            :class="{'is-invalid': !innerModel.valid }"
             @input="handleInput($event, i)" >
 
             <template slot="option" slot-scope="{ option }">
@@ -65,6 +65,11 @@ import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpMultiSelect from '@shared/components/forms/EpMultiSelect.vue';
 import Multiselect from 'vue-multiselect';
 
+export interface InnerModelValidations {
+  innerModel: any;
+  valid: boolean;
+}
+
 export interface MultiListSelectItem {
   value: any,
   text: string,
@@ -110,6 +115,21 @@ export default class EpMultiListSelect extends Mixins(EpValidation) {
     else {
       this.$emit('input', this.innerModelsValues[0]);
     }
+  }
+
+  get innerModelValidations(): InnerModelValidations[] {
+    return _.map(this.innerModels, (innerModel, index) => {
+
+      let valid = true;
+      if (this.validation && this.validation.$each && this.validation.$each.$iter[index]) {
+        valid = !this.validation.$each.$iter[index].$invalid;
+      }
+
+      return {
+        innerModel,
+        valid,
+      } as InnerModelValidations;
+    });
   }
 
   @Watch('items', { immediate: true })
