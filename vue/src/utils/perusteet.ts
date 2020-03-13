@@ -39,7 +39,8 @@ export function koulutustyyppiRyhmat(): KoulutustyyppiRyhma[] {
     .value();
 }
 
-export const kouluturtyyppiRyhmat = ['varhaiskasvatus',
+export const kouluturtyyppiRyhmat = [
+  'varhaiskasvatus',
   'esiopetus',
   'perusopetus',
   'taiteenperusopetus',
