@@ -88,7 +88,7 @@ export default class EpContentViewer extends Vue {
     return _.map(this.termiElements, el => {
       const dataviite = el.getAttribute('data-viite');
       if (dataviite) {
-        const termi: any = _.find(this.termit, { 'avain': dataviite } );
+        const termi: any = _.find(this.termit, { 'avain': dataviite });
         if (termi) {
           el.setAttribute('tabindex', '0');
           el.setAttribute('role', 'button');

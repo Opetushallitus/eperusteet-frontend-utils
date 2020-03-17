@@ -20,7 +20,7 @@ export class Kaannos {
 
     vue.prototype.$filterBy = function(field: string, query: string) {
       return Kielet.filterBy(field, query);
-    }
+    };
 
     vue.prototype.$kaanna = (value: any) => {
       return Kielet.kaanna(value);

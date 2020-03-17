@@ -40,7 +40,6 @@ import ModuuliEsitys from '@shared/components/EpOpintojaksonModuuli/ModuuliEsity
   },
 })
 export default class EpOpintojaksonModuuli extends Vue {
-
   @Prop({ required: true })
   private opetussuunnitelmaDataStore!: OpetussuunnitelmaDataStore;
 
