@@ -8,7 +8,7 @@
             <div class="d-flex flex-wrap flex-xl-nowrap">
               <div class="headerline">
                 <slot name="header"
-                :isEditing="isEditing"
+                      :isEditing="isEditing"
                       :data="inner"
                       :validation="$v && $v.inner"></slot>
               </div>
