@@ -34,8 +34,6 @@ export type IndicatorKind = 'normaali'
   | 'varhaiskasvatus'
   | 'taiteenperusopetus';
 
-
-
 @Component
 export default class EpColorIndicator extends Vue {
   @Prop({ default: 'normaali' })

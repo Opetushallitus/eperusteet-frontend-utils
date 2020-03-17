@@ -109,7 +109,7 @@ export default class EpMultiListSelect extends Mixins(EpValidation) {
   private multiple!: boolean;
 
   private updateValue() {
-    if  (this.multiple) {
+    if (this.multiple) {
       this.$emit('input', [...this.innerModelsValues]);
     }
     else {
@@ -119,7 +119,6 @@ export default class EpMultiListSelect extends Mixins(EpValidation) {
 
   get innerModelValidations(): InnerModelValidations[] {
     return _.map(this.innerModels, (innerModel, index) => {
-
       let valid = true;
       if (this.validation && this.validation.$each && this.validation.$each.$iter[index]) {
         valid = !this.validation.$each.$iter[index].$invalid;

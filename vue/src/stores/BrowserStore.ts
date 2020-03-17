@@ -40,6 +40,5 @@ export class BrowserStore {
       const press = _.pick(ev, 'ctrlKey', 'code', 'shiftKey', 'type', 'keyCode');
       this.state.latestKeypress = press;
     });
-
   }
 }

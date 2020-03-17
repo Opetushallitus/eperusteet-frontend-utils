@@ -35,7 +35,6 @@ import { LiiteDtoWrapper, Lops2019ModuuliDto, TermiDto } from '@shared/api/tyypi
 import EpColorIndicator from '@shared/components/EpColorIndicator/EpColorIndicator.vue';
 import EpContentViewer from '@shared/components/EpContentViewer/EpContentViewer.vue';
 
-
 @Component({
   components: {
     EpColorIndicator,
@@ -43,7 +42,6 @@ import EpContentViewer from '@shared/components/EpContentViewer/EpContentViewer.
   },
 })
 export default class ModuuliEsitys extends Vue {
-
   @Prop({ required: false, default: true })
   private isPerusteView!: boolean;
 
@@ -87,10 +85,8 @@ export default class ModuuliEsitys extends Vue {
   get hasSisallot() {
     return !_.isEmpty(this.sisallot);
   }
-
 }
 </script>
 
 <style scoped lang="scss">
 </style>
-

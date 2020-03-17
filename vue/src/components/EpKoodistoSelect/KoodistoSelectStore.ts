@@ -4,11 +4,9 @@ import { Page } from '../../tyypit';
 import { Koodisto, KoodistoKoodiDto } from '../../api/eperusteet';
 import { Debounced } from '../../utils/delay';
 
-
 export interface IKoodisto {
   query: (query: string, sivu?: number) => Promise<Page<KoodistoKoodiDto>>;
 }
-
 
 export class KoodistoSelectStore {
   private state = reactive({

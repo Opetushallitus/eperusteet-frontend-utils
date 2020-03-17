@@ -71,7 +71,6 @@
   </div>
 </template>
 
-
 <script lang="ts">
 import { Vue, Watch, Component, Prop } from 'vue-property-decorator';
 import EpButton from '../EpButton/EpButton.vue';
@@ -79,7 +78,6 @@ import EpSearch from '../forms/EpSearch.vue';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import { KoodistoSelectStore } from './KoodistoSelectStore';
 import _ from 'lodash';
-
 
 @Component({
   components: {
@@ -140,7 +138,7 @@ export default class EpKoodistoSelect extends Vue {
 
   openDialog() {
     (this.$refs.editModal as any).show();
-    this.onQueryChange("");
+    this.onQueryChange('');
   }
 
   selectKoodi(item: any) {
@@ -165,6 +163,5 @@ export default class EpKoodistoSelect extends Vue {
       label: this.$t('voimaantulo-paattyminen'),
     }];
   }
-
 }
 </script>
