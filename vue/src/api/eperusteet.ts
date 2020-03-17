@@ -88,6 +88,7 @@ export type TutkinnonOsaViiteDto = EperusteetApi.TutkinnonOsaViiteDto;
 export type MuokkaustietoKayttajallaDto = EperusteetApi.MuokkaustietoKayttajallaDto;
 export type Lops2019OppiaineDto = EperusteetApi.Lops2019OppiaineDto;
 export type TilaUpdateStatus = EperusteetApi.TilaUpdateStatus;
+export type TermiDto = EperusteetApi.TermiDto;
 
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
