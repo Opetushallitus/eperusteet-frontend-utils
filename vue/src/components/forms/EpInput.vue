@@ -1,12 +1,12 @@
 <template>
 <div v-if="isEditing">
-  <div class="input-container">
+  <div class="input-container d-flex align-items-center">
     <input class="input-style form-control"
            :class="[ inputClass ]"
            :placeholder="placeholder"
            @input="onInput($event.target.value)"
            :type="type === 'number' ? 'number' : 'text'"
-           :attrs="$attrs"
+           v-bind="$attrs"
            :value="val">
     <div v-if="hasLeftSlot" class="addon addon-left">
       <slot name="left" />
@@ -20,7 +20,7 @@
   <div class="invalid-feedback" v-else-if="validationError && !invalidMessage">{{ $t('validation-error-' + validationError, validation.$params[validationError]) }}</div>
   <small class="form-text text-muted" v-if="help && isEditing">{{ $t(help) }}</small>
 </div>
-<div v-else :attrs="$attrs">
+<div v-else v-bind="$attrs">
   <h2 v-if="isHeader">{{val}}</h2>
   <span v-else>{{val}}</span>
 </div>
@@ -142,7 +142,6 @@ export default class EpInput extends Mixins(EpValidation) {
   }
 
   .addon-right {
-    top: 0;
     right: 0;
   }
 

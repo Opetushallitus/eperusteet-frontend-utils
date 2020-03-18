@@ -126,7 +126,7 @@ export default class EpKoodistoSelect extends Vue {
   }
 
   set sivu(value: number) {
-    this.store.query(newValue, value - 1);
+    this.store.query(this.query, value - 1);
   }
 
   @Watch('query')

@@ -1,6 +1,6 @@
 <template>
 <div>
-  <div class="ep-collapse" v-if="!disableHeader">
+  <div :class="classess" v-if="!disableHeader">
     <!-- Button tagia ei voida käyttää, sillä ml-auto ei toimi.-->
     <!-- Käytetään button rolea saavutettavuuden takaamiseksi.-->
     <div class="collapse-button d-flex"
@@ -45,7 +45,24 @@ export default class EpCollapse extends Vue {
   @Prop({ default: '' })
   private tyyppi!: string;
 
+  @Prop({ default: false })
+  private borderTop!: boolean;
+
+  @Prop({ default: true })
+  private borderBottom!: boolean;
+
   private toggled = false;
+
+  get classess() {
+    let result = 'ep-collapse';
+    if (this.borderTop) {
+      result += ' topborder';
+    }
+    if (this.borderBottom) {
+      result += ' bottomborder';
+    }
+    return result
+  }
 
   isToggled() {
     try {
@@ -83,11 +100,22 @@ export default class EpCollapse extends Vue {
 <style scoped lang="scss">
 @import '../../styles/_variables.scss';
 
-.ep-collapse {
+.topborder {
+  border-top: 1px;
+  border-top-style: solid;
+  border-top-color: #eeeeee;
+}
+
+.bottomborder {
   border-bottom: 1px;
   border-bottom-style: solid;
   border-bottom-color: #eeeeee;
-  margin-bottom: 5px;
+}
+
+.ep-collapse {
+  margin-top: 5px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 
   .collapse-button {
     cursor: pointer;
@@ -95,6 +123,7 @@ export default class EpCollapse extends Vue {
   }
 
   .header {
+    padding-left: 10px;
     user-select: none;
     margin-bottom: 10px;
     margin-top: 5px;
