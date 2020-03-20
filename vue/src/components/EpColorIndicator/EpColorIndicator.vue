@@ -50,12 +50,17 @@ export default class EpColorIndicator extends Vue {
   }
 
   get dynstyle() {
-    const background = colorize(this.kind) || 'black';
-    return {
+    const background = colorize(this.kind);
+    const result = {
       'min-height': this.size + 'px',
       'min-width': this.size + 'px',
-      background: _.includes(kouluturtyyppiRyhmat, this.kind),
     };
+    if (background) {
+      return { ...result, background };
+    }
+    else {
+      return result;
+    }
   }
 }
 </script>
