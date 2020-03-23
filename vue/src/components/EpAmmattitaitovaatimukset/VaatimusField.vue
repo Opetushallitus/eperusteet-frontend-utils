@@ -18,7 +18,6 @@
   </ep-koodisto-select>
 </template>
 
-
 <script lang="ts">
 import { Watch, Component, Prop, Vue } from 'vue-property-decorator';
 import EpButton from '../EpButton/EpButton.vue';
@@ -29,7 +28,6 @@ import { Ammattitaitovaatimukset2019Dto } from '../../api/eperusteet';
 import { KoodistoSelectStore } from '@shared/components/EpKoodistoSelect/KoodistoSelectStore';
 import { Koodisto } from '@shared/api/eperusteet';
 import _ from 'lodash';
-
 
 @Component({
   components: {
@@ -45,11 +43,8 @@ export default class EpAmmattitaitovaatimukset extends Vue {
 
   @Prop({ required: true })
   private koodisto: KoodistoSelectStore;
-
 }
 </script>
 
 <style scoped lang="scss">
 </style>
-
-

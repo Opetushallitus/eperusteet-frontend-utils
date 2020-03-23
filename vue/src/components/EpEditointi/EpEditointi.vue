@@ -6,7 +6,7 @@
         <div class="ylapaneeli">
           <div class="d-flex align-items-center flex-md-row flex-column justify-content-between">
             <div class="d-flex flex-wrap flex-xl-nowrap">
-              <div class="headerline">
+              <div class="headerline" v-if="inner">
                 <slot name="header"
                       :isEditing="isEditing"
                       :data="inner"

@@ -437,7 +437,7 @@ export class EditointiStore {
 
   private async fetch() {
     this.state.backup = null;
-    this.state.data = null;
+    // this.state.data = null;
     const data = await this.config.load();
     if (_.isObject(data) || _.isArray(data)) {
       const dataStr = JSON.stringify(data);
