@@ -5,7 +5,7 @@ export interface ITiedotteetProvider {
   tiedotteet: Computed<TiedoteDto[]>;
   perusteenTiedotteet: Computed<TiedoteDto[]>;
   perusteId: Computed<number>;
-  init: (perusteId: number) => Promise<void>;
+  init: (options: any) => Promise<void>;
   fetch: () => Promise<void>;
   save: (tiedote: TiedoteDto) => Promise<void>;
   delete: (tiedote: TiedoteDto) => Promise<void>;

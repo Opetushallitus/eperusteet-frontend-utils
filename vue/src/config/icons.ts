@@ -252,6 +252,18 @@ export const listaNumerointi: IconDefinition = {
   icon: [20, 20, [], null as any, 'M0 15h2v.5H1v1h1v.5H0v1h3v-4H0v1zm1-9h1V2H0v1h1v3zM0 9h1.8L0 11.1v.9h3v-1H1.2L3 8.9V8H0v1zm5-6v2h14V3H5zm0 14h14v-2H5v2zm0-6h14V9H5v2z'],
 };
 
+export const lokaatio: IconDefinition = {
+  prefix: 'fas',
+  iconName: 'lokaatio' as any,
+  icon: [20, 20, [], null as any, 'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zM7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.92 16.21 7 11.85 7 9z M10,9a2,2 0 1,0 4,0a2,2 0 1,0 -4,0'],
+};
+
+export const lokaatioNuoli: IconDefinition = {
+  prefix: 'fas',
+  iconName: 'lokaatio-nuoli' as any,
+  icon: [20, 20, [], null as any, 'M17.27 6.73l-4.24 10.13-1.32-3.42-.32-.83-.82-.32-3.43-1.33 10.13-4.23M21 3L3 10.53v.98l6.84 2.65L12.48 21h.98L21 3z'],
+};
+
 export const luoPdf: IconDefinition = {
   prefix: 'fas',
   iconName: 'luo-pdf' as any,

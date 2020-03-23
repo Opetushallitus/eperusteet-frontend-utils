@@ -75,6 +75,10 @@ library.add(solid.faUnderline);
 library.add(solid.faUndo);
 library.add(solid.faUpload);
 library.add(solid.faUsers);
+library.add(solid.faMapMarkerAlt);
+library.add(solid.faLocationArrow);
+library.add(solid.faLanguage);
+library.add(solid.faEnvelope);
 
 // OPH icons
 library.add(oph.arkisto);
@@ -156,6 +160,8 @@ library.add(oph.vakanenAlas);
 library.add(oph.vakanenOikea);
 library.add(oph.vakanenVasen);
 library.add(oph.tilasto);
+library.add(oph.lokaatio);
+library.add(oph.lokaatioNuoli);
 
 Vue.component('fas', FontAwesomeIcon);
 Vue.component('fal', FontAwesomeLayers);

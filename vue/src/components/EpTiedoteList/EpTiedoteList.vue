@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content">
     <ep-spinner v-if="!tiedotteet" />
 
     <div v-else>
@@ -8,8 +8,12 @@
         <div class="muokkausaika">{{$sdt(tiedote.muokattu)}}</div>
       </div>
 
-      <div class="text-center">
-        <ep-button variant="link" @click="tiedoteMaara += 3" v-if="tiedoteMaara < tiedotteetSize">{{$t('katso-lisaa-tiedotteita')}}</ep-button>
+      <div>
+        <ep-button variant="link" @click="naytettavaTiedoteMaara += 3" v-if="naytettavaTiedoteMaara < tiedotteetSize">
+          <slot name="lisaaBtnText">
+            {{$t('katso-lisaa-tiedotteita')}}
+          </slot>
+        </ep-button>
         <span v-if="tiedotteetSize === 0">{{$t('ei-tiedotteita')}}</span>
       </div>
     </div>
@@ -20,10 +24,14 @@
 
 import { Vue, Component, Prop, Mixins, Watch } from 'vue-property-decorator';
 import _ from 'lodash';
-import EpSpinner from '../EpSpinner.vue';
-import EpButton from '../EpButton.vue';
+import EpSpinner from '../EpSpinner/EpSpinner.vue';
+import EpButton from '../EpButton/EpButton.vue';
 import { TiedoteDto } from '../../api/eperusteet';
 import { ITiedotteetProvider } from '../../stores/types';
+
+interface ListaTiedote extends TiedoteDto {
+  uusi: boolean;
+}
 
 @Component({
   components: {
@@ -33,13 +41,17 @@ import { ITiedotteetProvider } from '../../stores/types';
 })
 export default class EpTiedoteList extends Vue {
   @Prop({ required: true })
-  private tiedotteetStore!: ITiedotteetProvider;
+  private tiedotteet!: TiedoteDto;
 
-  @Prop({ required: false, default: 3 })
-  private tiedoteMaara = 3;
+  @Prop({ required: false})
+  private tiedoteMaara;
 
-  get tiedotteet() {
-    return this.tiedotteetStore.perusteenTiedotteet.value;
+  private naytettavaTiedoteMaara = 3;
+
+  mounted() {
+    if (this.tiedoteMaara) {
+      this.naytettavaTiedoteMaara = this.tiedoteMaara;
+    }
   }
 
   get tiedotteetSize() {
@@ -47,19 +59,21 @@ export default class EpTiedoteList extends Vue {
   }
 
   get tiedotteetFiltered() {
-    return _.chain(this.tiedotteet)
-      .map(tiedote => {
-        return {
-          ...tiedote,
-          uusi: this.tuntisitten(tiedote.luotu),
-        };
-      })
-      .take(this.tiedoteMaara)
-      .value();
+    if (this.tiedotteet) {
+      return _.chain(this.tiedotteet)
+        .map((tiedote: TiedoteDto) => {
+          return {
+            ...tiedote,
+            uusi: this.tuntisitten((tiedote as any).luotu),
+          } as ListaTiedote;
+        })
+        .take(this.naytettavaTiedoteMaara)
+        .value();
+    }
   }
 
   avaaTiedote(tiedote: TiedoteDto) {
-
+    this.$emit('avaaTiedote', tiedote);
   }
 
   tuntisitten(aika) {
