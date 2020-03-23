@@ -5,28 +5,22 @@
       <ep-input v-model="value.kohde" :is-editing="true" />
     </b-form-group>
     <b-form-group :label="$t('vaatimukset')">
-      <div v-for="(v, idx) in value.vaatimukset" :key="idx" class="d-flex align-items-center">
-        <div class="flex-grow-1">
-          <ep-koodisto-select :store="koodisto" v-model="v.koodi">
-            <template #default="{ open }">
-              <b-input-group>
-                <b-form-input :value="v.vaatimus ? v.vaatimus[$slang.value] : ''" @input="v.vaatimus = { ...v.vaatimus, [$slang.value]: $event }"></b-form-input>
-                <b-input-group-append>
-                  <b-button @click="open" icon="plus" variant="primary">
-                    {{ $t('hae-koodistosta') }}
-                  </b-button>
-                </b-input-group-append>
-              </b-input-group>
-            </template>
-          </ep-koodisto-select>
+      <draggable
+        v-bind="vaatimusOptions"
+        tag="div"
+        v-model="value.vaatimukset">
+        <div v-for="(v, idx) in value.vaatimukset" :key="idx" class="d-flex align-items-center mt-1">
+          <div class="flex-grow-1">
+            <vaatimus-field :koodisto="koodisto" v-model="value.vaatimukset[idx]" />
+          </div>
+          <div>
+            <ep-button @click="poistaVaatimus(value, v)" variant="link">
+              <fas icon="roskalaatikko" />
+            </ep-button>
+          </div>
         </div>
-        <div>
-          <ep-button @click="poistaVaatimus(value, v)" variant="link">
-            <fas icon="roskalaatikko" />
-          </ep-button>
-        </div>
-      </div>
-      <div class="mt-1">
+      </draggable>
+      <div class="mt-2">
         <ep-button variant="outline"
           @click="lisaaVaatimus(value)"
                    icon="plus">
@@ -35,53 +29,56 @@
       </div>
     </b-form-group>
     <b-form-group :label="$t('ammattitaito-kohdealueet')">
-      <div v-for="(kohdealue, kohdealueIdx) in value.kohdealueet" class="kohdealue">
-        <div class="float-right">
-          <ep-button @click="poistaKohdealue(value, kohdealue)" variant="link">
-            <fas icon="roskalaatikko" />
-            {{ $t('poista-kohdealue') }}
-          </ep-button>
-        </div>
-        <b-form-group :label="$t('kohdealueen-otsikko')">
-          <ep-input v-model="kohdealue.kuvaus" :is-editing="true" />
-        </b-form-group>
-        <b-form-group :label="$t('vaatimukset')" class="">
-          <div class="otsikko font-italic">
-            {{ $kaanna(value.kohde) }}
+      <draggable
+        v-bind="kohdealueOptions"
+        tag="div"
+        v-model="value.kohdealueet">
+        <div v-for="(kohdealue, kohdealueIdx) in value.kohdealueet" class="kohdealue mt-2" :key="kohdealueIdx">
+          <div class="float-right">
+            <ep-button @click="poistaKohdealue(value, kohdealue)" variant="link">
+              <fas icon="roskalaatikko" />
+              {{ $t('poista-kohdealue') }}
+            </ep-button>
           </div>
-          <div v-for="(v, idx) in kohdealue.vaatimukset" :key="idx" class="mt-1 d-flex align-items-center">
-            <div class="flex-grow-1">
-              <ep-koodisto-select :store="koodisto" v-model="v.koodi">
-                <template #default="{ open }">
-                  <b-input-group>
-                    <b-form-input :value="v.vaatimus ? v.vaatimus[$slang.value] : ''" @input="v.vaatimus = { ...v.vaatimus, [$slang.value]: $event }"></b-form-input>
-                    <b-input-group-append>
-                      <b-button @click="open" icon="plus" variant="primary">
-                        {{ $t('hae-koodistosta') }}
-                      </b-button>
-                    </b-input-group-append>
-                  </b-input-group>
-                </template>
-              </ep-koodisto-select>
+          <b-form-group :label="$t('kohdealueen-otsikko')">
+            <ep-input v-model="kohdealue.kuvaus" :is-editing="true" />
+          </b-form-group>
+          <b-form-group :label="$t('vaatimukset')" class="">
+            <div class="otsikko font-italic">
+              {{ $kaanna(value.kohde) }}
             </div>
-            <div>
-              <ep-button @click="poistaVaatimus(kohdealue, v)" variant="link">
-                <fas icon="roskalaatikko" />
+            <draggable
+              v-bind="vaatimusOptions"
+              tag="div"
+              v-model="kohdealue.vaatimukset">
+              <div v-for="(v, idx) in kohdealue.vaatimukset" :key="idx" class="mt-1 d-flex align-items-center">
+                <div class="flex-grow-1">
+                  <vaatimus-field :koodisto="koodisto" v-model="kohdealue.vaatimukset[idx]" />
+                </div>
+                <div>
+                  <ep-button @click="poistaVaatimus(kohdealue, v)" variant="link">
+                    <fas icon="roskalaatikko" />
+                  </ep-button>
+                </div>
+              </div>
+            </draggable>
+            <div class="mt-2">
+              <ep-button @click="lisaaVaatimus(kohdealue)"
+                variant="outline"
+                icon="plus">
+                {{ $t('lisaa-vaatimus') }}
               </ep-button>
             </div>
-          </div>
-          <ep-button @click="lisaaVaatimus(kohdealue)"
-                     variant="outline"
-                     icon="plus">
-            {{ $t('lisaa-vaatimus') }}
-          </ep-button>
-        </b-form-group>
+          </b-form-group>
+        </div>
+      </draggable>
+      <div class="mt-2">
+        <ep-button @click="lisaaKohdealue(value)"
+          variant="outline"
+          icon="plus">
+          {{ $t('lisaa-kohdealue') }}
+        </ep-button>
       </div>
-      <ep-button @click="lisaaKohdealue(value)"
-                 variant="outline"
-                 icon="plus">
-        {{ $t('lisaa-kohdealue') }}
-      </ep-button>
     </b-form-group>
   </div>
   <div v-else>
@@ -139,8 +136,9 @@ import { Watch, Component, Prop, Vue } from 'vue-property-decorator';
 import EpButton from '../EpButton/EpButton.vue';
 import EpInput from '../forms/EpInput.vue';
 import EpExternalLink from '../EpExternalLink/EpExternalLink.vue';
-import EpKoodistoSelect from '../EpKoodistoSelect/EpKoodistoSelect.vue';
+import VaatimusField from './VaatimusField.vue';
 import { Ammattitaitovaatimukset2019Dto } from '../../api/eperusteet';
+import draggable from 'vuedraggable';
 import { KoodistoSelectStore } from '@shared/components/EpKoodistoSelect/KoodistoSelectStore';
 import { Koodisto } from '@shared/api/eperusteet';
 import _ from 'lodash';
@@ -148,10 +146,11 @@ import _ from 'lodash';
 
 @Component({
   components: {
+    draggable,
     EpButton,
     EpExternalLink,
     EpInput,
-    EpKoodistoSelect,
+    VaatimusField,
   },
 })
 export default class EpAmmattitaitovaatimukset extends Vue {
@@ -183,9 +182,33 @@ export default class EpAmmattitaitovaatimukset extends Vue {
   lisaaKohdealue(value: Ammattitaitovaatimukset2019Dto) {
     value.kohdealueet = [...value.kohdealueet || [], {
       kuvaus: null,
-      koodi: null,
-      vaatimukset: [],
+      koodi: null as any,
+      vaatimukset: [] as any[],
     }];
+  }
+
+  get kohdealueOptions() {
+    return {
+      animation: 300,
+      emptyInsertThreshold: 10,
+      group: {
+        name: 'kohdealueet-drag-list',
+      },
+      disabled: !this.isEditing,
+      ghostClass: 'dragged',
+    };
+  }
+
+  get vaatimusOptions() {
+    return {
+      animation: 300,
+      emptyInsertThreshold: 10,
+      group: {
+        name: 'vaatimukset',
+      },
+      disabled: !this.isEditing,
+      ghostClass: 'dragged',
+    };
   }
 
   lisaaVaatimus(value: any) {
@@ -201,6 +224,10 @@ export default class EpAmmattitaitovaatimukset extends Vue {
 <style scoped lang="scss">
 .kohdealue {
   border: 1px solid #eee;
+}
+
+.dragged {
+  background: white;
 }
 </style>
 

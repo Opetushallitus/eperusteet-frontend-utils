@@ -237,13 +237,13 @@ export class EditointiStore {
       if (!this.state.isNew) {
         await this.init();
       }
+      this.state.isEditingState = true;
 
       await this.lock();
 
       if (this.config.start) {
         await this.config.start();
       }
-      this.state.isEditingState = true;
       EditointiStore.allEditingEditors = [
         ...EditointiStore.allEditingEditors,
         this
