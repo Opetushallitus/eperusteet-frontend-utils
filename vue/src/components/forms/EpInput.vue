@@ -86,7 +86,10 @@ export default class EpInput extends Mixins(EpValidation) {
       logger.warn('Given value is not a number:', this.value);
     }
 
-    if (this.type === 'localized' && !_.isPlainObject(this.value) && typeof this.value !== 'undefined') {
+    if (this.type === 'localized'
+      && !_.isPlainObject(this.value)
+      && !_.isNull(this.value)
+      && !_.isUndefined(this.value)) {
       logger.warn('Given value is not an object:', this.value);
     }
 

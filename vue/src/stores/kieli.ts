@@ -11,12 +11,15 @@ import 'moment/locale/se';
 import 'moment/locale/sv';
 import VueCompositionApi, { computed, reactive } from '@vue/composition-api';
 import { updateRelativeTime } from '../plugins/aikaleima';
+import { Computed } from '../utils/interfaces';
 
 Vue.use(VueCompositionApi);
 
 declare module 'vue/types/vue' {
   interface Vue {
-    $kaanna: <T extends object>(obj: T) => string;
+    $kaanna: Computed<string>;
+    $locale: Computed<string>;
+    $slang: Computed<string>;
     $t: typeof VueI18n.prototype.t;
     $tc: typeof VueI18n.prototype.tc;
     $te: typeof VueI18n.prototype.te;
@@ -59,6 +62,8 @@ export class KieliStore {
       messages: getMessages(),
       ..._.cloneDeep(config),
     });
+    v.prototype.$locale = this.uiKieli;
+    v.prototype.$slang = this.sisaltoKieli;
     moment.updateLocale(Kieli.fi, updateRelativeTime());
   }
 

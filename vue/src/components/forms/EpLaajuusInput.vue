@@ -1,8 +1,15 @@
 <template>
-  <div class="d-flex align-items-center">
+  <div v-if="!isEditing">
+    <div v-if="model">
+      {{ model }} {{ $t('OSAAMISPISTE') }}
+    </div>
+    <div v-else>
+      -
+    </div>
+  </div>
+  <div v-else class="d-flex align-items-center">
     <div class="flex-grow-1">
-      <ep-input type="number" v-model="model" min="0" max="999" :is-editing="isEditing">
-      </ep-input>
+      <ep-input type="number" v-model="model" min="0" max="999" :is-editing="isEditing" />
     </div>
     <div class="ml-2">
       <slot>
@@ -34,8 +41,6 @@ export default class RouteTutkinnonosa extends Vue {
   @Watch('value', { immediate: true })
   onValueUpdate(newValue: number) {
     this.model = newValue;
-    // const val = Math.max(Math.min(999, Number(value)), 0);
-    // this.$emit('input', val);
   }
 
   @Watch('model', { immediate: true })

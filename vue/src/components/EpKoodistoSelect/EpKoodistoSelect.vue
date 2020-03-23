@@ -59,6 +59,7 @@
           </b-table>
 
           <b-pagination
+            v-if="raw"
             v-model="sivu"
             :total-rows="raw.kokonaismäärä"
             :per-page="raw.sivukoko"
@@ -87,6 +88,9 @@ import _ from 'lodash';
   },
 })
 export default class EpKoodistoSelect extends Vue {
+  @Prop({ default: null })
+  private value!: any;
+
   @Prop({ required: true })
   private store!: KoodistoSelectStore;
 
@@ -142,6 +146,7 @@ export default class EpKoodistoSelect extends Vue {
   }
 
   selectKoodi(item: any) {
+    this.$emit('input', item);
     this.$emit('add', item);
   }
 
@@ -149,9 +154,11 @@ export default class EpKoodistoSelect extends Vue {
     return [{
       key: 'arvo',
       label: this.$t('arvo'),
+      thStyle: { width: '4rem' },
     }, {
       key: 'nimi',
       label: this.$t('nimi'),
+      thStyle: { width: '50%' },
     }, {
       key: 'versio',
       label: this.$t('versio'),
