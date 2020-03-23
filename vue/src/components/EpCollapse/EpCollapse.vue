@@ -61,7 +61,7 @@ export default class EpCollapse extends Vue {
     if (this.borderBottom) {
       result += ' bottomborder';
     }
-    return result
+    return result;
   }
 
   isToggled() {

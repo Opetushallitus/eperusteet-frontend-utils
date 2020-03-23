@@ -5,7 +5,7 @@ exports[`EpKayttaja component Renders 1`] = `
   <li id="kayttaja-dropdown" class="nav-item b-nav-dropdown dropdown"><a id="kayttaja-dropdown__BV_button_" aria-haspopup="true" aria-expanded="false" target="_self" href="#" class="nav-link dropdown-toggle"><span class="kielivalitsin">etunimi sukunimi</span></a>
     <ul tabindex="-1" aria-labelledby="kayttaja-dropdown__BV_button_" class="dropdown-menu dropdown-menu-right">
       <div>
-        <div class="ep-collapse">
+        <div class="ep-collapse bottomborder">
           <div role="button" tabindex="0" class="collapse-button d-flex">
             <div class="align-self-start">
               <div class="header">

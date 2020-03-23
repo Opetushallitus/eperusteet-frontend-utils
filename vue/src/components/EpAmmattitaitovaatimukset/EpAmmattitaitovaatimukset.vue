@@ -86,7 +86,7 @@
       {{ $kaanna(value.kohde) }}
     </div>
     <ul>
-      <li v-for="v in value.vaatimukset">
+      <li v-for="(v, vidx) in value.vaatimukset" :key="vidx">
         <span v-if="v.koodi">
           <span>{{ $kaanna(v.koodi.nimi) }}</span>
           <span class="ml-1">
@@ -102,7 +102,7 @@
       </li>
     </ul>
     <div>
-      <div v-for="kohdealue in value.kohdealueet" class="mt-4">
+      <div v-for="(kohdealue, kaIdx) in value.kohdealueet" class="mt-4" :key="kaIdx">
         <div class="otsikko font-weight-bold">
           {{ $kaanna(kohdealue.kuvaus) }}
         </div>
@@ -110,7 +110,7 @@
           {{ $kaanna(value.kohde) }}
         </div>
         <ul>
-          <li v-for="v in kohdealue.vaatimukset">
+          <li v-for="(v, kvIdx) in kohdealue.vaatimukset" :key="kvIdx">
             <span v-if="v.koodi">
               <span>{{ $kaanna(v.koodi.nimi) }}</span>
               <span class="ml-1">
@@ -142,7 +142,6 @@ import draggable from 'vuedraggable';
 import { KoodistoSelectStore } from '@shared/components/EpKoodistoSelect/KoodistoSelectStore';
 import { Koodisto } from '@shared/api/eperusteet';
 import _ from 'lodash';
-
 
 @Component({
   components: {
@@ -217,7 +216,6 @@ export default class EpAmmattitaitovaatimukset extends Vue {
       koodi: null,
     }];
   }
-
 }
 </script>
 
@@ -230,4 +228,3 @@ export default class EpAmmattitaitovaatimukset extends Vue {
   background: white;
 }
 </style>
-

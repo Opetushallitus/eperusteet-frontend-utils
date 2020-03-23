@@ -23,7 +23,6 @@
 import { Watch, Prop, Component, Vue } from 'vue-property-decorator';
 import EpInput from '@shared/components/forms/EpInput.vue';
 
-
 @Component({
   components: {
     EpInput,
@@ -37,7 +36,7 @@ export default class RouteTutkinnonosa extends Vue {
   private isEditing!: boolean;
 
   private model = 0;
-  
+
   @Watch('value', { immediate: true })
   onValueUpdate(newValue: number) {
     this.model = newValue;
@@ -45,10 +44,9 @@ export default class RouteTutkinnonosa extends Vue {
 
   @Watch('model', { immediate: true })
   onModelUpdate(newValue: number) {
-    this.model = Math.max(Math.min(999, Number(newValue)), 0);;
+    this.model = Math.max(Math.min(999, Number(newValue)), 0); ;
     this.$emit('input', this.model);
   }
-
 }
 </script>
 
