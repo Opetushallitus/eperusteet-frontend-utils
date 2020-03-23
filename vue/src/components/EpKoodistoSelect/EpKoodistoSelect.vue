@@ -146,8 +146,15 @@ export default class EpKoodistoSelect extends Vue {
   }
 
   selectKoodi(item: any) {
-    this.$emit('input', item);
-    this.$emit('add', item);
+    const emittable = {
+      uri: item.koodiUri,
+      arvo: item.koodiArvo,
+      nimi: item.nimi,
+      versio: item.versio,
+    };
+    this.$emit('input', emittable);
+    this.$emit('add', emittable);
+    (this.$refs.editModal as any).hide();
   }
 
   get fields() {
