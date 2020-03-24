@@ -60,26 +60,9 @@ show_amosaa_missing_env_warn() {
 }
 
 generate_eperusteet() {
-  show_eperusteet_missing_env_warn
-  eperusteetgen="${rootdir}/src/generated/eperusteet"
-
-  mkdir -p ${eperusteetgen}
-  cd ${eperusteetgen} || exit 1
-
-  specfile="$EPERUSTEET_SERVICE_DIR/target/openapi/eperusteet.spec.json"
-
-  echo "Eperusteet target: ${eperusteetgen}"
-  echo "openapi-generator version"
-  npx openapi-generator version
-
-  cd "$EPERUSTEET_SERVICE_DIR" \
-    && mvn clean compile --batch-mode -B -Pgenerate-openapi \
-    && cd "${eperusteetgen}" \
-    && echo "Building eperusteet api" \
-    && pwd \
-    && echo "Swagger spec location: ${specfile}" \
-    && ls ${specfile} \
-    && npx openapi-generator generate -c "${genconfig}" -i "$specfile" -g typescript-axios
+  EPERUSTEET_SPECFILE=${EPERUSTEET_SPECFILE:-"https://raw.githubusercontent.com/Opetushallitus/eperusteet/master/generated/eperusteet.spec.json"}
+  echo "Using EPERUSTEET_SPECFILE=${EPERUSTEET_SPECFILE}"
+  npx openapi-generator generate -c "${genconfig}" -i "${EPERUSTEET_SPECFILE}" -g typescript-axios
 }
 
 generate_ylops() {
