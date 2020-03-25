@@ -7,7 +7,7 @@
       <div class="row" v-for="(aikataulu, i) in aikataulutFilter" :key="i">
         <div class="col">
           <ep-form-content :name="aikataulu.tapahtuma !== 'julkaisu' ? 'tavoitteen-paivamaara' : 'suunniteltu-julkaisupaiva'">
-            <ep-datepicker v-model="aikataulu.tapahtumapaiva" :is-editing="true" :hide-header="true" :validation="$v.aikataulut.$each.$iter[i+1].tapahtumapaiva" :showValidValidation="false" >
+            <ep-datepicker v-model="aikataulu.tapahtumapaiva" :is-editing="true" :validation="$v.aikataulut.$each.$iter[i+1].tapahtumapaiva" :showValidValidation="true" >
             </ep-datepicker>
           </ep-form-content>
         </div>
@@ -80,8 +80,6 @@ import { aikataulutapahtuma, aikatauluTapahtumaSort, aikatauluTapahtumapaivaSort
   },
 } as any)
 export default class EpAikatauluListaus extends Mixins(validationMixin) {
-  // @Prop({ required: false })
-  // private rootModel!: any;
 
   @Prop({ required: true })
   private aikataulutProp!: any[];
@@ -99,7 +97,6 @@ export default class EpAikatauluListaus extends Mixins(validationMixin) {
       ...this.aikataulut,
       {
         tapahtuma: aikataulutapahtuma.tavoite,
-        // opetussuunnitelmaId: this.rootModel?.id,
         tapahtumapaiva: null,
         tavoite: {},
       }
