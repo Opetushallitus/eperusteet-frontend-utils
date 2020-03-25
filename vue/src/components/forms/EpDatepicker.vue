@@ -85,18 +85,6 @@ export default class EpDatepicker extends Mixins(EpValidation) {
     return this.isValid;
   }
 
-  get inputClass() {
-    if (this.isInvalid) {
-      return 'form-control ep-datepicker-validation is-invalid';
-    }
-    else if (this.isValid && this.showValidValidation) {
-      return 'form-control ep-datepicker-validation is-valid';
-    }
-    else {
-      return 'form-control';
-    }
-  }
-
   get locdate() {
     if (!this.value) {
       return this.$t('ei-asetettu');
