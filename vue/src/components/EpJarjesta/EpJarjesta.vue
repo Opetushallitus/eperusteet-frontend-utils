@@ -79,11 +79,14 @@ export default class EpJarjesta extends Vue {
   @Prop({ default: null })
   private group!: string | null;
 
+  @Prop( {required: false, default: true })
+  private sortable!: boolean;
+
   get options() {
     return {
       animation: 300,
       group: this.group,
-      disabled: !this.isEditable,
+      disabled: !this.isEditable || !this.sortable,
       ghostClass: 'placeholder',
     };
   }
