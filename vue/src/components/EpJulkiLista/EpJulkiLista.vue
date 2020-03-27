@@ -1,20 +1,24 @@
 <template>
   <div class="content">
-    <ep-spinner v-if="!tiedotteet" />
+    <ep-spinner v-if="!tiedot" />
 
     <div v-else>
-      <div v-for="(tiedote, index) in tiedotteetFiltered" :key="index" class="tiedote p-2 pl-3" @click="avaaTiedote(tiedote)">
-        <div class="otsikko" :class="{'uusi': tiedote.uusi}">{{$kaanna(tiedote.otsikko)}} <span class="uusi" v-if="tiedote.uusi">Uusi</span></div>
-        <div class="muokkausaika">{{$sdt(tiedote.muokattu)}}</div>
+      <div v-for="(tieto, index) in tiedotFiltered" :key="index" class="tieto p-2 pl-3" @click="avaaTieto(tieto)">
+        <div class="otsikko" :class="{'uusi': tieto.uusi}">{{$kaanna(tieto.otsikko)}} <span class="uusi" v-if="tieto.uusi">{{$t('uusi')}}</span></div>
+        <div class="muokkausaika">{{$sdt(tieto.muokattu)}}</div>
       </div>
 
       <div>
-        <ep-button variant="link" @click="naytettavaTiedoteMaara += 3" v-if="naytettavaTiedoteMaara < tiedotteetSize">
+        <ep-button variant="link" @click="naytettavaTietoMaara += 3" v-if="naytettavaTietoMaara < tiedotSize">
           <slot name="lisaaBtnText">
             {{$t('katso-lisaa-tiedotteita')}}
           </slot>
         </ep-button>
-        <span v-if="tiedotteetSize === 0">{{$t('ei-tiedotteita')}}</span>
+        <span v-if="tiedotSize === 0">
+          <slot name="eiTietoja">
+            {{$t('ei-tuloksia')}}
+          </slot>
+        </span>
       </div>
     </div>
   </div>
@@ -26,11 +30,11 @@ import { Vue, Component, Prop, Mixins, Watch } from 'vue-property-decorator';
 import _ from 'lodash';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import EpButton from '../EpButton/EpButton.vue';
-import { TiedoteDto } from '../../api/eperusteet';
-import { ITiedotteetProvider } from '../../stores/types';
 
-interface ListaTiedote extends TiedoteDto {
+export interface JulkiRivi {
+  otsikko?: { [key: string]: string; }
   uusi: boolean;
+  muokattu?: Date;
 }
 
 @Component({
@@ -39,41 +43,41 @@ interface ListaTiedote extends TiedoteDto {
     EpButton,
   },
 })
-export default class EpTiedoteList extends Vue {
+export default class EpJulkiLista extends Vue {
   @Prop({ required: true })
-  private tiedotteet!: TiedoteDto;
+  private tiedot!: JulkiRivi;
 
   @Prop({ required: false})
-  private tiedoteMaara;
+  private tietoMaara;
 
-  private naytettavaTiedoteMaara = 3;
+  private naytettavaTietoMaara = 3;
 
   mounted() {
-    if (this.tiedoteMaara) {
-      this.naytettavaTiedoteMaara = this.tiedoteMaara;
+    if (this.tietoMaara) {
+      this.naytettavaTietoMaara = this.tietoMaara;
     }
   }
 
-  get tiedotteetSize() {
-    return _.size(this.tiedotteet);
+  get tiedotSize() {
+    return _.size(this.tiedot);
   }
 
-  get tiedotteetFiltered() {
-    if (this.tiedotteet) {
-      return _.chain(this.tiedotteet)
-        .map((tiedote: TiedoteDto) => {
+  get tiedotFiltered() {
+    if (this.tiedot) {
+      return _.chain(this.tiedot)
+        .map((tieto: JulkiRivi) => {
           return {
-            ...tiedote,
-            uusi: this.tuntisitten((tiedote as any).luotu),
-          } as ListaTiedote;
+            ...tieto,
+            uusi: this.tuntisitten((tieto as any).luotu),
+          } as JulkiRivi;
         })
-        .take(this.naytettavaTiedoteMaara)
+        .take(this.naytettavaTietoMaara)
         .value();
     }
   }
 
-  avaaTiedote(tiedote: TiedoteDto) {
-    this.$emit('avaaTiedote', tiedote);
+  avaaTieto(tieto: JulkiRivi) {
+    this.$emit('avaaTieto', tieto);
   }
 
   tuntisitten(aika) {
@@ -90,15 +94,15 @@ export default class EpTiedoteList extends Vue {
 
   .content {
 
-    .tiedote:nth-of-type(even) {
+    .tieto:nth-of-type(even) {
       background-color: $table-even-row-bg-color;
     }
 
-    .tiedote:nth-of-type(odd) {
+    .tieto:nth-of-type(odd) {
       background-color: $table-odd-row-bg-color;
     }
 
-    .tiedote {
+    .tieto {
 
       &:hover{
         background-color: $table-hover-row-bg-color;
