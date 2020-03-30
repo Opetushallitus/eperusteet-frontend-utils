@@ -55,7 +55,7 @@ export default class EpColorIndicator extends Vue {
       'min-height': this.size + 'px',
       'min-width': this.size + 'px',
     };
-    if (background) {
+    if (_.includes(kouluturtyyppiRyhmat, this.kind)) {
       return { ...result, background };
     }
     else {
