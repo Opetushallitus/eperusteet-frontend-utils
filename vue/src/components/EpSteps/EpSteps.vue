@@ -1,12 +1,15 @@
 <template>
 <div class="ep-steps">
   <div class="steps d-flex justify-content-center mr-5 ml-5 mb-5">
-    <div role="button" v-for="(step, idx) in steps" :key="step.key" class="text-center p-4 step" @click="stepIdx = idx">
-      <div :class="{ ball: true, active: idx === stepIdx }">
-        {{ idx + 1 }}
-      </div>
-      <div :class="{ name: true, active: idx === stepIdx }">
-        {{ step.name }}
+    <div role="button" v-for="(step, idx) in steps" :key="step.key" class="text-center step" @click="stepIdx = idx">
+      <div class="connection" v-if="steps.length > 1" :class="{ left: idx === steps.length - 1, right: idx === 0 }"/>
+      <div class="p-4">
+        <div class="d-inline-block" :class="{ ball: true, active: idx === stepIdx }">
+          {{ idx + 1 }}
+        </div>
+        <div :class="{ name: true, active: idx === stepIdx }">
+          {{ step.name }}
+        </div>
       </div>
     </div>
   </div>
@@ -14,7 +17,7 @@
   <h2 class="heading">
     {{ currentStep.name }}
   </h2>
-  <p class="description">
+  <p class="description" v-if="currentStep.description">
     {{ currentStep.description }}
   </p>
 
@@ -95,6 +98,7 @@ export default class EpSteps extends Vue {
 </script>
 
 <style scoped lang="scss">
+@import "../../styles/_variables.scss";
 
 .ep-steps {
 
@@ -104,16 +108,38 @@ export default class EpSteps extends Vue {
     .step {
       user-select: none;
       cursor: pointer;
+
+      .connection {
+        border-top: 2px solid $gray-lighten-3;
+        position: relative;
+        width: 100%;
+        top: 38px;
+        z-index: 1;
+
+        &.right {
+          width: 50%;
+          left: 50%;
+        }
+
+        &.left {
+          width: 50%;
+        }
+      }
+
     }
   }
 
   .ball {
+    padding: 1px 9px;
+    margin-bottom: 10px;
     border-radius: 100%;
-    color: #b2b2b2;
-    // border: 2px solid #b2b2b2;
+    color: $white;
+    background-color: $blue-lighten-5;
+    position: relative;
+    z-index: 10;
   }
 
-  .active {
+  .active:not(.ball) {
     font-weight: 600;
     color: black;
   }

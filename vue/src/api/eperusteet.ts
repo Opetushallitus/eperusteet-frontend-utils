@@ -95,6 +95,7 @@ export type TutkinnonOsaViiteUpdateDto = EperusteetApi.TutkinnonOsaViiteUpdateDt
 export type TyoryhmaHenkiloDto = EperusteetApi.TyoryhmaHenkiloDto;
 export type UpdateDtoRakenneModuuliDto = EperusteetApi.UpdateDtoRakenneModuuliDto;
 export type ValidationDto = EperusteetApi.ValidationDto;
+export type OpasLuontiDto = EperusteetApi.OpasLuontiDto;
 
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
