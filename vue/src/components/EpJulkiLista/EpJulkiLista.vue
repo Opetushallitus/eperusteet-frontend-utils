@@ -45,7 +45,7 @@ export interface JulkiRivi {
 })
 export default class EpJulkiLista extends Vue {
   @Prop({ required: true })
-  private tiedot!: JulkiRivi;
+  private tiedot!: JulkiRivi[];
 
   @Prop({ required: false})
   private tietoMaara;
