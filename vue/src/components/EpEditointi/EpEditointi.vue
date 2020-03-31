@@ -10,7 +10,7 @@
                 <slot name="header"
                       :isEditing="isEditing"
                       :data="inner"
-                      :validation="$v && $v.inner"></slot>
+                      :validation="validation" />
               </div>
               <span class="muokattu text-nowrap" v-if="!isEditing">
                 <span class="text-truncate" v-if="latest">{{ $t('muokattu') }}: {{ $sdt(latest.pvm) }},</span>
@@ -27,13 +27,13 @@
                   <slot name="peruuta">{{ $t('peruuta') }}</slot>
                 </ep-button>
                 <ep-button class="ml-4"
-                           @click="store.save()"
+                           @click="save()"
                            v-if="isEditing"
-                           :disabled="disabled || ($v && $v.inner && $v.inner.$invalid)"
+                           :disabled="disabled"
                            variant="primary"
                            :show-spinner="isSaving"
                            :help="saveHelpText">
-                  <slot name="tallrnna">{{ $t('tallenna') }}</slot>
+                  <slot name="tallenna">{{ $t('tallenna') }}</slot>
                 </ep-button>
                 <b-dropdown class="mx-4"
                             v-if="editointiDropDownValinnatVisible"
@@ -171,25 +171,25 @@
         <div class="threads">
           <div class="actual-content">
             <div class="sisalto">
-              <slot :isEditing="isEditing" :data="inner" :validation="$v.inner"></slot>
+              <slot :isEditing="isEditing" :data="inner" :validation="validation"></slot>
             </div>
           </div>
           <div class="rightbar rb-keskustelu" v-if="hasKeskusteluSlot && sidebarState === 1">
             <div class="rbheader"><b>{{ $t('keskustelu') }}</b></div>
             <div class="rbcontent">
-              <slot name="keskustelu" :isEditing="isEditing" :data="inner" :validation="$v.inner"></slot>
+              <slot name="keskustelu" :isEditing="isEditing" :data="inner" :validation="validation"></slot>
             </div>
           </div>
           <div class="rightbar rb-ohje" v-if="hasOhjeSlot && sidebarState === 2">
             <div class="rbheader"><b>{{ $t('ohje') }}</b></div>
             <div class="rbcontent">
-              <slot name="ohje" :isEditing="isEditing" :validation="$v.inner" :data="inner"></slot>
+              <slot name="ohje" :isEditing="isEditing" :validation="validation" :data="inner"></slot>
             </div>
           </div>
           <div class="rightbar rb-peruste" v-if="hasPerusteSlot && sidebarState === 3">
             <div class="rbheader"><b>{{ $t('perusteen-teksti') }}</b></div>
             <div class="rbcontent">
-              <slot name="peruste" :isEditing="isEditing" :validation="$v.inner" :data="inner"></slot>
+              <slot name="peruste" :isEditing="isEditing" :validation="validation" :data="inner"></slot>
             </div>
           </div>
         </div>
@@ -207,19 +207,19 @@ import Sticky from 'vue-sticky-directive';
 
 import { EditointiStore } from './EditointiStore';
 import { setItem, getItem } from '../../utils/localstorage';
-import { Revision } from '@shared/tyypit';
+import { Revision } from '../../tyypit';
+import { Debounced } from '../../utils/delay';
 import EpVersioModaali from './EpVersioModaali.vue';
 import '@shared/stores/kieli';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpRoundButton from '@shared/components/EpButton/EpRoundButton.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 
+
 @Component({
   validations() {
     return {
-      inner: {
-        ...(this as any).validator,
-      },
+      inner: this.validator,
     };
   },
   directives: {
@@ -236,9 +236,6 @@ export default class EpEditointi extends Mixins(validationMixin) {
   @Prop({ required: true })
   private store!: EditointiStore;
 
-  @Prop({ default: null })
-  private validator!: any | null;
-
   @Prop({ required: false })
   private type!: string | null;
 
@@ -250,6 +247,7 @@ export default class EpEditointi extends Mixins(validationMixin) {
 
   private state: any = null;
   private isInitialized = false;
+  private isValidating = false;
 
   private currentPage = 1;
 
@@ -259,6 +257,21 @@ export default class EpEditointi extends Mixins(validationMixin) {
         versionumero,
       }
     });
+  }
+
+  @Watch('data')
+  private onDataChange(newValue: any, oldValue: any) {
+    this.$emit('input', newValue);
+  }
+
+  @Watch('store', { immediate: true })
+  async onStoreChange(newValue: any, oldValue: any) {
+    await this.store.init();
+    this.isInitialized = true;
+    const sidebarState = await getItem('ep-editointi-sidebar-state') as any;
+    if (sidebarState) {
+      this.sidebarState = sidebarState!.value;
+    }
   }
 
   get nimi() {
@@ -278,6 +291,10 @@ export default class EpEditointi extends Mixins(validationMixin) {
     return null;
   }
 
+  get errorValidationData() {
+    return this.inner;
+  }
+
   get hasPreview() {
     return this.store.hasPreview;
   }
@@ -292,6 +309,14 @@ export default class EpEditointi extends Mixins(validationMixin) {
 
   get isEditable() {
     return this.store.isEditable;
+  }
+
+  get validation() {
+    return this.$v?.inner;
+  }
+
+  get validator() {
+    return this.store.validator.value;
   }
 
   get isEditing() {
@@ -324,8 +349,7 @@ export default class EpEditointi extends Mixins(validationMixin) {
   get katseluDropDownValinnatVisible() {
     return !this.store!.isEditing
       && !this.disabled
-      && !this.versiohistoriaVisible
-      && this.store.validate;
+      && !this.versiohistoriaVisible;
   }
 
   get versiohistoriaVisible() {
@@ -357,34 +381,17 @@ export default class EpEditointi extends Mixins(validationMixin) {
   }
 
   get saveHelpText() {
-    const vuelidate = this.$v as any;
     if (this.disabled) {
       return 'tallenna-kaynnissa';
     }
     else if (this.disabled) {
       return 'tallenna-tila-virhe-ohje';
     }
-    else if (vuelidate.inner.$invalid) {
+    else if (this.validation?.$invalid) {
       return 'tallenna-validointi-virhe-ohje';
     }
     else {
       return '';
-    }
-  }
-
-  @Watch('data')
-  private onDataChange(newValue: any, oldValue: any) {
-    this.$emit('input', newValue);
-  }
-
-  @Watch('store', { immediate: true })
-  async onStoreChange(newValue: any, oldValue: any) {
-    await this.store.init();
-    this.isInitialized = true;
-
-    const sidebarState = await getItem('ep-editointi-sidebar-state') as any;
-    if (sidebarState) {
-      this.sidebarState = sidebarState!.value;
     }
   }
 
@@ -419,6 +426,39 @@ export default class EpEditointi extends Mixins(validationMixin) {
       index: revs.length - index,
     } as Revision & { index: number }));
   }
+
+  async onValidationImpl(validation) {
+    this.$v.$touch();
+    setTimeout(() => {
+      this.isValidating = false;
+    });
+  }
+
+// 
+  // @Debounced(3000)
+  // async onValidation(validation) {
+    // this.onValidationImpl(validation);
+  // }
+// 
+  // @Watch('$v', { deep: true })
+  // onVuelidateUpdate(validation, old) {
+    // if (!this.isEditing || this.isValidating) {
+      // return;
+    // }
+// 
+    // this.isValidating = true;
+    // this.$v.$reset();
+// 
+    // if (validation && old) {
+      // this.onValidation(validation);
+    // }
+  // }
+
+  async save() {
+    this.store.save();
+  }
+
+
 }
 
 </script>

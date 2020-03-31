@@ -8,6 +8,7 @@ import * as oph from './icons';
 library.add(regular.faComment);
 library.add(regular.faFolder);
 library.add(regular.faTrashAlt);
+library.add(solid.faTrash);
 library.add(solid.faArrowDown);
 library.add(solid.faArrowLeft);
 library.add(solid.faArrowRight);

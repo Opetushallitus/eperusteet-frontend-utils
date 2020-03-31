@@ -1,6 +1,9 @@
 <template>
   <EpSpinner v-if="!navigation" />
   <div v-else>
+    <slot name="header"></slot>
+    <hr v-if="$slots.header || $scopedSlots.header">
+    
     <div v-for="(item, idx) in navigation" :key="idx">
       <div class="d-flex">
         <slot name="padding" :item="item"></slot>
