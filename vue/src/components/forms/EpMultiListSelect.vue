@@ -25,7 +25,8 @@
             </template>
 
             <template slot="singleLabel" slot-scope="{ option }">
-              <slot name="singleLabel" :option="option">{{option.text}}</slot>
+              <slot name="singleLabel" :option="option" v-if="option.value">{{option.text}}</slot>
+              <div class="valitse" v-else>{{$t('valitse')}}</div>
             </template>
 
             <template slot="noResult">
@@ -45,7 +46,7 @@
 
       <ep-spinner v-if="isLoading"/>
       <ep-button buttonClass="pl-0 lisaa-valinta" variant="outline-primary" icon="plussa" @click="lisaaValinta" v-else-if="multiple" >
-        {{ $t(lisaaTeksti) }}
+        <slot name="lisaaTeksti">{{ $t(lisaaTeksti) }}</slot>
       </ep-button>
 
       <div class="valid-feedback" v-if="!validationError && validMessage">{{ $t(validMessage) }}</div>
@@ -253,6 +254,10 @@ export default class EpMultiListSelect extends Mixins(EpValidation) {
   /deep/ .invalid-feedback,
   /deep/ .valid-feedback {
     display: block;
+  }
+
+  .valitse {
+    color: $gray-lighten-2;
   }
 
 </style>
