@@ -135,6 +135,7 @@ export interface PerusteQuery {
   tutkinnonosat?: boolean;
   tutkintonimikkeet?: boolean;
   voimassaolo?: boolean;
+  perusteTyyppi?: string;
 };
 
 export async function getAllPerusteet(query: PerusteQuery) {
@@ -186,5 +187,7 @@ export async function getAllPerusteetInternal(query: PerusteQuery) {
     query.tutkinnonosat,
     query.osaamisalat,
     query.koulutusvienti,
+    query.tila,
+    query.perusteTyyppi,
   );
 }
