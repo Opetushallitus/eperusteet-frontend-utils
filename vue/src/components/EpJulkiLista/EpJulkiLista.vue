@@ -3,12 +3,16 @@
     <ep-spinner v-if="!tiedot" />
 
     <div v-else>
-      <div v-for="(tieto, index) in tiedotFiltered" :key="index" class="tieto p-2 pl-3" @click="avaaTieto(tieto)">
-        <div class="otsikko" :class="{'uusi': tieto.uusi}">{{$kaanna(tieto.otsikko)}} <span class="uusi" v-if="tieto.uusi">{{$t('uusi')}}</span></div>
-        <div class="muokkausaika">{{$sdt(tieto.muokattu)}}</div>
+      <div v-for="(tieto, index) in tiedotFiltered" :key="index" class="tieto p-2 pl-3" :class="{clickable: hasClickEvent}" @click="avaaTieto(tieto)">
+        <div class="otsikko" :class="{'uusi': tieto.uusi}">
+          <slot name="otsikko" :item="tieto">
+            {{$kaanna(tieto.otsikko)}} <span class="uusi" v-if="tieto.uusi">{{$t('uusi')}}</span>
+          </slot>
+        </div>
+        <div class="muokkausaika" v-if="tieto.muokattu">{{$sdt(tieto.muokattu)}}</div>
       </div>
 
-      <div>
+      <div v-if="listausTyyppi === 'lisahaku'">
         <ep-button variant="link" @click="naytettavaTietoMaara += 3" v-if="naytettavaTietoMaara < tiedotSize">
           <slot name="lisaaBtnText">
             {{$t('katso-lisaa-tiedotteita')}}
@@ -19,6 +23,13 @@
             {{$t('ei-tuloksia')}}
           </slot>
         </span>
+      </div>
+      <div v-else>
+        <b-pagination align="center"
+                      no-local-sorting
+                      v-model="sivu"
+                      :per-page="naytettavaTietoMaara"
+                      :total-rows="tiedotSize"/>
       </div>
     </div>
   </div>
@@ -32,7 +43,7 @@ import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import EpButton from '../EpButton/EpButton.vue';
 
 export interface JulkiRivi {
-  otsikko?: { [key: string]: string; }
+  otsikko?: { [key: string]: string; } | string;
   uusi: boolean;
   muokattu?: Date;
 }
@@ -47,15 +58,23 @@ export default class EpJulkiLista extends Vue {
   @Prop({ required: true })
   private tiedot!: JulkiRivi[];
 
-  @Prop({ required: false})
+  @Prop({ required: false })
   private tietoMaara;
 
+  @Prop({ required: false, default: 'lisahaku' })
+  private listausTyyppi!: 'sivutus' | 'lisahaku';
+
   private naytettavaTietoMaara = 3;
+  private sivu = 1;
 
   mounted() {
     if (this.tietoMaara) {
       this.naytettavaTietoMaara = this.tietoMaara;
     }
+  }
+
+  get hasClickEvent() {
+    return this.$listeners && this.$listeners.avaaTieto;
   }
 
   get tiedotSize() {
@@ -71,6 +90,7 @@ export default class EpJulkiLista extends Vue {
             uusi: this.tuntisitten((tieto as any).luotu),
           } as JulkiRivi;
         })
+        .filter((tieto, index) => this.listausTyyppi === 'lisahaku' || index >= (this.sivu - 1) * this.naytettavaTietoMaara)
         .take(this.naytettavaTietoMaara)
         .value();
     }
@@ -104,7 +124,7 @@ export default class EpJulkiLista extends Vue {
 
     .tieto {
 
-      &:hover{
+      &.clickable:hover{
         background-color: $table-hover-row-bg-color;
         cursor: pointer;
       }

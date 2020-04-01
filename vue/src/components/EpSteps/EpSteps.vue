@@ -27,9 +27,10 @@
 
   <div class="clearfix">
     <div class="float-right mt-5">
+      <ep-button variant="link" @click="cancel" v-if="hasCancelEvent">{{ $t('peruuta')}}</ep-button>
       <ep-button variant="link" @click="previous" v-if="stepIdx > 0">{{ $t('edellinen') }}</ep-button>
-      <ep-button @click="next" v-if="stepIdx < steps.length - 1">{{ $t('seuraava') }}</ep-button>
-      <ep-button @click="saveImpl" v-else>
+      <ep-button @click="next" v-if="stepIdx < steps.length - 1" :disabled="!valid">{{ $t('seuraava') }}</ep-button>
+      <ep-button @click="saveImpl" v-else :disabled="!valid">
         <slot name="luo">{{ $t('tallenna') }}</slot>
       </ep-button>
     </div>
@@ -64,6 +65,9 @@ export default class EpSteps extends Vue {
   @Prop({ required: true })
   private onSave!: () => Promise<void>;
 
+  @Prop({ default: true })
+  private valid!: boolean;
+
   private stepIdx = 0;
 
   async saveImpl() {
@@ -77,6 +81,13 @@ export default class EpSteps extends Vue {
   @Watch('initialStep', { immediate: true })
   onInitialStepUpdate(value: number) {
     this.stepIdx = value;
+  }
+
+  @Watch('stepIdx', { immediate: true })
+  onStepChange(val) {
+    if (this.$listeners && this.$listeners.stepChange) {
+      this.$emit('stepChange', this.currentStep.key);
+    }
   }
 
   get currentStep() {
@@ -93,6 +104,14 @@ export default class EpSteps extends Vue {
     }
     else {
     }
+  }
+
+  get hasCancelEvent() {
+    return this.$listeners && this.$listeners.cancel;
+  }
+
+  cancel() {
+    this.$emit('cancel');
   }
 }
 </script>
