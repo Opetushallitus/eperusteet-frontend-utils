@@ -17,7 +17,8 @@ angular.module("app")
     $scope.uploader = new FileUploader({
         url: $scope.liitteet.getRestangularUrl() + "/kuvat",
         headers: {
-            CSRF: $cookies.get("CSRF")
+            CSRF: $cookies.get("CSRF"),
+            'Caller-Id': '1.2.246.562.10.00000000001.eperusteet',
         },
         queueLimit: "1"
     });
