@@ -61,7 +61,7 @@ export const koulutustyyppiRyhmaSort = {
   'ammatillinen': 6,
 };
 
-const themeColors = {
+export const themeColors = {
   'etusivu': [0, 0, 0],
   'ammatillinen': [0, 136, 0],
   'esiopetus': [132, 210, 255],
