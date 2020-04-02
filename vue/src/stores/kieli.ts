@@ -4,11 +4,6 @@ import _ from 'lodash';
 import VueI18n from 'vue-i18n';
 import Vue, { VueConstructor } from 'vue';
 import moment from 'moment';
-import 'moment/locale/en-gb';
-import 'moment/locale/fi';
-import 'moment/locale/ru';
-import 'moment/locale/se';
-import 'moment/locale/sv';
 import VueCompositionApi, { computed, reactive } from '@vue/composition-api';
 import { updateRelativeTime } from '../plugins/aikaleima';
 import { Computed } from '../utils/interfaces';
@@ -24,6 +19,7 @@ declare module 'vue/types/vue' {
     $te: typeof VueI18n.prototype.te;
   }
 }
+
 
 export const UiKielet = Object.freeze(['fi', 'sv', 'en']);
 const logger = createLogger('Kieli');

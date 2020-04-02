@@ -52,8 +52,8 @@ export default class EpValidation extends Mixins(validationMixin) {
 
   protected get isDirty() {
     // TODO: Ehkä?
-    // return this.validation?.$dirty || false;
-    return true;
+    return this.validation?.$dirty || false;
+    // return true;
   }
 
   protected get isInvalid() {
