@@ -1,6 +1,11 @@
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 import moment from 'moment';
+import 'moment/locale/fi';
+import 'moment/locale/ru';
+import 'moment/locale/se';
+import 'moment/locale/sv';
+import 'moment/locale/en-gb';
 import { createLogger } from '../utils/logger';
 import { Kielet } from '../stores/kieli';
 
@@ -63,6 +68,7 @@ export class Aikaleima {
         throw new Error('vue-i18n is required');
       }
       const result = moment(value).fromNow();
+      console.log(moment.locale(), result);
       return result;
     };
 
@@ -92,7 +98,7 @@ export default aikaleima;
 export function updateRelativeTime() {
   return {
     relativeTime: {
-      future: 'in %s',
+      future: '%s ' + Kielet.t('paasta'),
       past: '%s ' + Kielet.t('sitten'),
       s: Kielet.t('muutama-sekunti'),
       ss: '%d ' + Kielet.t('aikalyhenne-sekuntia'),

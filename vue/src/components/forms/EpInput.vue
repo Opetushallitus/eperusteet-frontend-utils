@@ -19,7 +19,7 @@
   </div>
   <div v-if="showMessage">
     <div class="valid-feedback" v-if="!validationError && validMessage">{{ $t(validMessage) }}</div>
-    <div v-if="validationError" :class="{ 'is-warning': isWarning }">
+    <div v-if="validationError && isDirty" :class="{ 'is-warning': isWarning }">
       <div class="invalid-feedback" v-if="invalidMessage">{{ $t(invalidMessage) }}</div>
       <div class="invalid-feedback" v-else>{{ message }}</div>
     </div>
@@ -122,7 +122,7 @@ export default class EpInput extends Mixins(EpValidation) {
         [Kielet.getSisaltoKieli.value]: input,
       });
     }
-    this.touch();
+    // this.touch();
   }
 
   get val() {

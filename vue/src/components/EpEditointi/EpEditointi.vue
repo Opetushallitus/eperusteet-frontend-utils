@@ -52,9 +52,9 @@
                 </b-dropdown>
                 <div v-if="currentLock" class="d-flex align-items-center ml-2 mr-2">
                   <div>
-                    <fas size="lg" icon="user-lock" :title="$t('sivu-lukittu')" />
+                    <fas size="lg" icon="lukko" :title="$t('sivu-lukittu')" />
                   </div>
-                  <div class="flex-grow-1 ml-4">
+                  <div class="flex-grow-1 ml-3">
                     <div>
                       {{ currentLock.haltijaNimi || currentLock.haltijaOid }}
                     </div>
@@ -434,25 +434,25 @@ export default class EpEditointi extends Mixins(validationMixin) {
     });
   }
 
-// 
-  // @Debounced(3000)
-  // async onValidation(validation) {
-    // this.onValidationImpl(validation);
-  // }
-// 
-  // @Watch('$v', { deep: true })
-  // onVuelidateUpdate(validation, old) {
-    // if (!this.isEditing || this.isValidating) {
-      // return;
-    // }
-// 
-    // this.isValidating = true;
-    // this.$v.$reset();
-// 
-    // if (validation && old) {
-      // this.onValidation(validation);
-    // }
-  // }
+
+//  @Debounced(1000)
+//  async onValidation(validation) {
+//    this.onValidationImpl(validation);
+//  }
+//
+//  @Watch('$v', { deep: true })
+//  onVuelidateUpdate(validation, old) {
+//    if (!this.isEditing || this.isValidating) {
+//      return;
+//    }
+//
+//    this.isValidating = true;
+//    this.$v.$reset();
+//
+//    if (validation && old) {
+//      this.onValidation(validation);
+//    }
+//  }
 
   async save() {
     this.store.save();
