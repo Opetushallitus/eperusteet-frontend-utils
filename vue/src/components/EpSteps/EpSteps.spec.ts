@@ -47,7 +47,7 @@ describe('EpSteps component', () => {
     expect(wrapper.html()).toContain('First description');
     expect(findContaining(wrapper, 'button', 'edellinen')).toBeFalsy();
     findContaining(wrapper, 'button', 'seuraava')!.trigger('click');
-    expect(propsData.steps[0].isValid).toHaveBeenCalledTimes(1);
+    expect(propsData.steps[0].isValid).toHaveBeenCalledTimes(2);
 
     findContaining(wrapper, 'button', 'edellinen')!.trigger('click');
     findContaining(wrapper, 'button', 'seuraava')!.trigger('click');
@@ -55,7 +55,7 @@ describe('EpSteps component', () => {
     expect(wrapper.html()).toContain('Second step');
     expect(wrapper.html()).toContain('Second description');
     findContaining(wrapper, 'button', 'tallenna')!.trigger('click');
-    expect(propsData.steps[1].isValid).toHaveBeenCalledTimes(1);
+    expect(propsData.steps[1].isValid).toHaveBeenCalledTimes(3);
     expect(propsData.onSave).toHaveBeenCalledTimes(1);
   });
 });
