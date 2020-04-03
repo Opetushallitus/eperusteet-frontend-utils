@@ -68,7 +68,7 @@ export class Aikaleima {
         throw new Error('vue-i18n is required');
       }
       const result = moment(value).fromNow();
-      console.log(moment.locale(), result);
+      // console.log(moment.locale(), result);
       return result;
     };
 
