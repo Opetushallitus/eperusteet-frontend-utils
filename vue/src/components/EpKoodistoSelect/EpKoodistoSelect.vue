@@ -151,6 +151,7 @@ export default class EpKoodistoSelect extends Vue {
       arvo: item.koodiArvo,
       nimi: item.nimi,
       versio: item.versio,
+      koodisto: item.koodisto,
     };
     this.$emit('input', emittable);
     this.$emit('add', emittable);
