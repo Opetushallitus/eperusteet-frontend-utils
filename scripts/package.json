@@ -1,0 +1,13 @@
+{
+  "name": "eperusteet-frontend-utils-scripts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "fetch-locales": "node fetch-locales.js",
+    "merge-locales": "node merge-locales.js"
+  },
+  "dependencies": {
+    "axios": "^0.19.2"
+  }
+}
