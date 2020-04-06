@@ -47,7 +47,6 @@ import { EperusteetKoulutustyypit } from '@/utils/perusteet';
 import { BvTableFieldArray } from 'bootstrap-vue';
 import * as _ from 'lodash';
 
-
 @Component({
   components: {
     EpColorIndicator,
@@ -75,7 +74,6 @@ export default class KoulutustyyppiSelect extends Vue {
   get vaihtoehdot() {
     return _.sortBy(this.koulutustyypit, kt => this.$t(kt));
   }
-
 }
 </script>
 
@@ -90,4 +88,3 @@ export default class KoulutustyyppiSelect extends Vue {
 }
 
 </style>
-

@@ -16,18 +16,16 @@ function exists(value: any, kieli: Kieli) {
     && !_.isEmpty(he.decode(value[kieli].replace(/<[^>]+>/g, '')).trim());
 }
 
-
 export function warning(x: CustomRule | ValidationRule) {
-  return helpers.withParams({ type: 'warning', }, x);
+  return helpers.withParams({ type: 'warning' }, x);
 }
-
 
 export const requiredOneLang = () => {
   return {
     'required-one-lang': (value: any) => {
       return _.some(ValidoitavatKielet, kieli => exists(value, kieli as Kieli));
     },
-  }
+  };
 };
 
 export const allTranslations = (kielet: readonly Kieli[]) => {
@@ -38,14 +36,14 @@ export const allTranslations = (kielet: readonly Kieli[]) => {
       }
       return _.every(kielet, kieli => exists(value, kieli));
     }),
-  }
+  };
 };
 
 export const translated = (kielet: readonly Kieli[]) => {
   return {
     ...requiredOneLang(),
     ...allTranslations(kielet),
-  }
+  };
 };
 
 export function requiredLokalisoituTeksti(kielet?: readonly Kieli[]) {

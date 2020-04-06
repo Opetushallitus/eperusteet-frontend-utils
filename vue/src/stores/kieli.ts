@@ -20,7 +20,6 @@ declare module 'vue/types/vue' {
   }
 }
 
-
 export const UiKielet = Object.freeze(['fi', 'sv', 'en']);
 const logger = createLogger('Kieli');
 

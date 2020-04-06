@@ -146,7 +146,6 @@ import { KoodistoSelectStore } from '@shared/components/EpKoodistoSelect/Koodist
 import { Koodisto } from '@shared/api/eperusteet';
 import _ from 'lodash';
 
-
 @Component({
   components: {
     EpButton,
@@ -232,7 +231,6 @@ export default class EpAmmattitaitovaatimukset extends Vue {
       return this.validation?.kohdealueet?.$each?.$iter[kohdealueIdx]?.vaatimukset?.$each?.$iter[vaatimusIdx]?.vaatimus;
     }
   }
-
 }
 </script>
 

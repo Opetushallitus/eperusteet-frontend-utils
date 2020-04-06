@@ -55,7 +55,6 @@ import { Kieli } from '../../tyypit';
 import { IEsitysnimi, parsiEsitysnimi } from '../../utils/kayttaja';
 import EpCollapse from '../EpCollapse/EpCollapse.vue';
 
-
 @Component({
   components: {
     EpCollapse,

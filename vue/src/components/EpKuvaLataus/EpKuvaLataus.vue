@@ -65,7 +65,7 @@ export default class EpKuvaLataus extends Vue {
   private saved!: boolean;
 
   get previewUrl() {
-    if (this.value){
+    if (this.value) {
       return this.value.previewUrl;
     }
   }
@@ -108,10 +108,10 @@ export default class EpKuvaLataus extends Vue {
 
       // Ladataan kuva Base64 muodossa
       reader.readAsDataURL(file);
-      reader.onload =  (evt: any) => {
+      reader.onload = (evt: any) => {
         let img = new Image();
         img.onload = () => {
-          this.$emit('input',{
+          this.$emit('input', {
             file,
             width: img.width,
             height: img.height,
@@ -121,7 +121,6 @@ export default class EpKuvaLataus extends Vue {
         };
         img.src = evt.target.result;
       };
-
     }
   }
 
@@ -132,7 +131,6 @@ export default class EpKuvaLataus extends Vue {
   cancel() {
     this.$emit('cancel');
   }
-
 }
 
 </script>

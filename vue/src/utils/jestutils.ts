@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import _ from 'lodash';
+import { computed } from '@vue/composition-api';
 
 import { Wrapper } from '@vue/test-utils';
 import { EditointiStore, IEditoitava } from '../components/EpEditointi/EditointiStore';
@@ -33,7 +34,7 @@ export function mockEditointiStore<T>(config: Partial<IEditoitava> = {}) {
     revisions: jest.fn(),
     save: jest.fn(),
     start: jest.fn(),
-    validate: jest.fn(async () => ({ valid: true })),
+    validator: computed(() => ({})),
     ...config,
   };
   return {

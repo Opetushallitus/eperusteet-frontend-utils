@@ -31,7 +31,7 @@ export enum Koulutustyyppi {
   tpo = 'koulutustyyppi_999907'
 }
 
-const ammatilliset = [Koulutustyyppi.ammattitutkinto, Koulutustyyppi.erikoisammattitutkinto, Koulutustyyppi.perustutkinto],
+const ammatilliset = [Koulutustyyppi.ammattitutkinto, Koulutustyyppi.erikoisammattitutkinto, Koulutustyyppi.perustutkinto];
 export const SallitutKoulutustyyppisiirtymat = Object.freeze({
   [Koulutustyyppi.ammattitutkinto]: ammatilliset,
   [Koulutustyyppi.perustutkinto]: ammatilliset,

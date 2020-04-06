@@ -80,7 +80,6 @@ import { aikataulutapahtuma, aikatauluTapahtumaSort, aikatauluTapahtumapaivaSort
   },
 } as any)
 export default class EpAikatauluListaus extends Mixins(validationMixin) {
-
   @Prop({ required: true })
   private aikataulutProp!: any[];
 
