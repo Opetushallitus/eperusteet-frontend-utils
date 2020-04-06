@@ -430,6 +430,10 @@ export class EditointiStore {
       throw new Error('Source must be an object or an array');
     }
   }
+
+  setData(data:any) {
+    this.state.data = data;
+  }
 }
 
 export function editointi(config: IEditoitava) {
