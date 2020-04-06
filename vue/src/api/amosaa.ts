@@ -1,6 +1,5 @@
 import { axiosHandler } from './common';
-import { Configuration,
-} from '../generated/amosaa';
+import { Configuration } from '../generated/amosaa';
 import axios, { AxiosInstance } from 'axios';
 import _ from 'lodash';
 
@@ -40,5 +39,3 @@ export const Api = ax;
 export const JulkinenApi = initApi(AmosaaApi.JulkinenApi);
 
 export type KoulutustoimijaJulkinenDto = AmosaaApi.KoulutustoimijaJulkinenDto;
-
-

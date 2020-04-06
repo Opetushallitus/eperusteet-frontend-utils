@@ -215,7 +215,6 @@ import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpRoundButton from '@shared/components/EpButton/EpRoundButton.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 
-
 @Component({
   validations() {
     return {
@@ -434,31 +433,28 @@ export default class EpEditointi extends Mixins(validationMixin) {
     });
   }
 
-
-//  @Debounced(1000)
-//  async onValidation(validation) {
-//    this.onValidationImpl(validation);
-//  }
-//
-//  @Watch('$v', { deep: true })
-//  onVuelidateUpdate(validation, old) {
-//    if (!this.isEditing || this.isValidating) {
-//      return;
-//    }
-//
-//    this.isValidating = true;
-//    this.$v.$reset();
-//
-//    if (validation && old) {
-//      this.onValidation(validation);
-//    }
-//  }
+  //  @Debounced(1000)
+  //  async onValidation(validation) {
+  //    this.onValidationImpl(validation);
+  //  }
+  //
+  //  @Watch('$v', { deep: true })
+  //  onVuelidateUpdate(validation, old) {
+  //    if (!this.isEditing || this.isValidating) {
+  //      return;
+  //    }
+  //
+  //    this.isValidating = true;
+  //    this.$v.$reset();
+  //
+  //    if (validation && old) {
+  //      this.onValidation(validation);
+  //    }
+  //  }
 
   async save() {
     this.store.save();
   }
-
-
 }
 
 </script>

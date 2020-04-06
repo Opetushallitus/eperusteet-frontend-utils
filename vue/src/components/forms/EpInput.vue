@@ -40,7 +40,6 @@ import { createLogger } from '../../utils/logger';
 import EpValidation from '../../mixins/EpValidation';
 import { Debounced } from '../../utils/delay';
 
-
 const logger = createLogger('EpInput');
 
 @Component({
@@ -195,7 +194,6 @@ input {
     color: orange;
   }
 }
-
 
 /deep/ .invalid-feedback, /deep/ .valid-feedback {
 }

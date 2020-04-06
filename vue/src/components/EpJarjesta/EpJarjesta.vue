@@ -79,7 +79,7 @@ export default class EpJarjesta extends Vue {
   @Prop({ default: null })
   private group!: string | null;
 
-  @Prop( {required: false, default: true })
+  @Prop({ required: false, default: true })
   private sortable!: boolean;
 
   get options() {

@@ -27,7 +27,6 @@ import EpInput from '@shared/components/forms/EpInput.vue';
 import EpValidation from '../../mixins/EpValidation';
 import EpErrorWrapper from '../forms/EpErrorWrapper.vue';
 
-
 @Component({
   components: {
     EpErrorWrapper,

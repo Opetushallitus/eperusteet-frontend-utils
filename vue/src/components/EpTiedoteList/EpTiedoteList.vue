@@ -43,7 +43,7 @@ export default class EpTiedoteList extends Vue {
   @Prop({ required: true })
   private tiedotteet!: TiedoteDto;
 
-  @Prop({ required: false})
+  @Prop({ required: false })
   private tiedoteMaara;
 
   private naytettavaTiedoteMaara = 3;

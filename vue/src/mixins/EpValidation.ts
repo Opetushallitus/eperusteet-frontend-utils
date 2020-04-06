@@ -98,5 +98,4 @@ export default class EpValidation extends Mixins(validationMixin) {
       return null;
     }
   }
-
 }

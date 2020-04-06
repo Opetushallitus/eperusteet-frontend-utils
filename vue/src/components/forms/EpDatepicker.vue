@@ -111,7 +111,6 @@ export default class EpDatepicker extends Mixins(EpValidation) {
       (this.validation as any).$touch();
     }
   }
-
 }
 </script>
 

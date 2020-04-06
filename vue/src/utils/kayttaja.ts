@@ -13,4 +13,3 @@ export function parsiEsitysnimi(tiedot: IEsitysnimi): string {
     return tiedot.oidHenkilo || tiedot.muokkaajaOid || '';
   }
 }
-

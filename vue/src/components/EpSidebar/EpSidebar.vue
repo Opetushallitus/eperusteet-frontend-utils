@@ -33,7 +33,6 @@ import Sticky from 'vue-sticky-directive';
 import { setItem, getItem, removeItem } from '../../utils/localstorage';
 import _ from 'lodash';
 
-
 @Component({
   components: {
     EpSidebarButtons,
