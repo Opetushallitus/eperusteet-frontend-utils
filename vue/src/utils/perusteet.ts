@@ -25,8 +25,12 @@ export interface KoulutustyyppiRyhma {
   koulutustyypit: string[],
 }
 
+export function ryhmatKoulutustyypeilla() {
+  return _.invertBy(themes);
+}
+
 export function koulutustyyppiRyhmat(): KoulutustyyppiRyhma[] {
-  const koulutustyyppiRyhmat = _.invertBy(themes);
+  const koulutustyyppiRyhmat = ryhmatKoulutustyypeilla();
   return _.chain(themes)
     .invertBy()
     .keys()
