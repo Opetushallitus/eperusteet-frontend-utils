@@ -36,7 +36,7 @@ describe('EpJulkiLista component', () => {
     wrapper.setProps({
       tiedot: [
         {
-          otsikko: { 'fi': 'otsikko1'},
+          otsikko: { 'fi': 'otsikko1' },
           uusi: false,
           muokattu: new Date(),
         }
@@ -47,7 +47,6 @@ describe('EpJulkiLista component', () => {
     expect(wrapper.html()).toContain('otsikko1');
     expect(wrapper.html()).toContain('muokkausaika');
     expect(wrapper.html()).not.toContain('katso-lisaa-tiedotteita');
-
   });
 
   test('Renders list with 2 row with button trigger', async () => {
@@ -56,22 +55,22 @@ describe('EpJulkiLista component', () => {
     wrapper.setProps({
       tiedot: [
         {
-          otsikko: { 'fi': 'otsikko1'},
+          otsikko: { 'fi': 'otsikko1' },
           uusi: false,
           muokattu: new Date(),
         },
         {
-          otsikko: { 'fi': 'otsikko2'},
+          otsikko: { 'fi': 'otsikko2' },
           uusi: true,
           muokattu: new Date(),
         },
         {
-          otsikko: { 'fi': 'otsikko3'},
+          otsikko: { 'fi': 'otsikko3' },
           uusi: false,
           muokattu: new Date(),
         },
         {
-          otsikko: { 'fi': 'otsikko4'},
+          otsikko: { 'fi': 'otsikko4' },
           uusi: false,
           muokattu: new Date(),
         }
@@ -95,6 +94,53 @@ describe('EpJulkiLista component', () => {
     expect(wrapper.html()).toContain('otsikko3');
     expect(wrapper.html()).toContain('otsikko4');
     expect(wrapper.html()).not.toContain('katso-lisaa-tiedotteita');
+  });
 
+  test('Renders list with 2 and paging', async () => {
+    const wrapper = mountWrapper(2);
+
+    wrapper.setProps({
+      listausTyyppi: 'sivutus',
+      tiedot: [
+        {
+          otsikko: { 'fi': 'otsikko1' },
+          uusi: false,
+          muokattu: new Date(),
+        },
+        {
+          otsikko: { 'fi': 'otsikko2' },
+          uusi: true,
+          muokattu: new Date(),
+        },
+        {
+          otsikko: { 'fi': 'otsikko3' },
+          uusi: false,
+          muokattu: new Date(),
+        },
+        {
+          otsikko: { 'fi': 'otsikko4' },
+          uusi: false,
+          muokattu: new Date(),
+        }
+      ],
+    });
+
+    expect(wrapper.html()).toContain('otsikko1');
+    expect(wrapper.html()).toContain('otsikko2');
+    expect(wrapper.html()).not.toContain('otsikko3');
+    expect(wrapper.html()).not.toContain('otsikko4');
+
+    expect(wrapper.findAll('button').at(0)
+      .html()).toContain('1');
+    expect(wrapper.findAll('button').at(1)
+      .html()).toContain('2');
+
+    wrapper.findAll('button').at(1)
+      .trigger('click');
+
+    expect(wrapper.html()).not.toContain('otsikko1');
+    expect(wrapper.html()).not.toContain('otsikko2');
+    expect(wrapper.html()).toContain('otsikko3');
+    expect(wrapper.html()).toContain('otsikko4');
   });
 });

@@ -94,6 +94,7 @@ export type TutkinnonOsaViiteDto = EperusteetApi.TutkinnonOsaViiteDto;
 export type TutkinnonOsaViiteUpdateDto = EperusteetApi.TutkinnonOsaViiteUpdateDto;
 export type TyoryhmaHenkiloDto = EperusteetApi.TyoryhmaHenkiloDto;
 export type UpdateDtoRakenneModuuliDto = EperusteetApi.UpdateDtoRakenneModuuliDto;
+export type OpasLuontiDto = EperusteetApi.OpasLuontiDto;
 
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
@@ -133,6 +134,7 @@ export interface PerusteQuery {
   tutkinnonosat?: boolean;
   tutkintonimikkeet?: boolean;
   voimassaolo?: boolean;
+  perusteTyyppi?: string;
 };
 
 export async function getAllPerusteet(query: PerusteQuery) {
@@ -184,5 +186,7 @@ export async function getAllPerusteetInternal(query: PerusteQuery) {
     query.tutkinnonosat,
     query.osaamisalat,
     query.koulutusvienti,
+    query.tila,
+    query.perusteTyyppi,
   );
 }
