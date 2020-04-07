@@ -65,9 +65,6 @@ export default class EpSteps extends Vue {
   @Prop({ required: true })
   private onSave!: () => Promise<void>;
 
-  @Prop({ default: true })
-  private valid!: boolean;
-
   private stepIdx = 0;
 
   async saveImpl() {
@@ -81,13 +78,6 @@ export default class EpSteps extends Vue {
   @Watch('initialStep', { immediate: true })
   onInitialStepUpdate(value: number) {
     this.stepIdx = value;
-  }
-
-  @Watch('stepIdx', { immediate: true })
-  onStepChange(val) {
-    if (this.$listeners && this.$listeners.stepChange) {
-      this.$emit('stepChange', this.currentStep.key);
-    }
   }
 
   get currentStep() {
