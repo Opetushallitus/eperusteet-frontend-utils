@@ -1,11 +1,13 @@
 import Vue from 'vue';
 import _ from 'lodash';
 import { Oikeus } from '../tyypit';
+import { Computed } from '../utils/interfaces';
 
 const DisableTags = ['input', 'button'];
 
 export interface IOikeusProvider {
-  hasOikeus: (oikeus: Oikeus, kohde: any) => Promise<boolean>;
+  hasOikeus: (oikeus: Oikeus, kohde: any) => boolean;
+  isAdmin: Computed<boolean>;
 }
 
 export interface OikeustarkasteluConfig {
@@ -14,7 +16,9 @@ export interface OikeustarkasteluConfig {
 
 export class Oikeustarkastelu {
   public static install(vue: typeof Vue, config: OikeustarkasteluConfig) {
-    vue.prototype.$hasOikeus = async function(oikeus: Oikeus, kohde: any) {
+    vue.prototype.$isAdmin = config.oikeusProvider.isAdmin;
+
+    vue.prototype.$hasOikeus = function(oikeus: Oikeus, kohde: any) {
       return config.oikeusProvider.hasOikeus(oikeus, kohde);
     };
 
@@ -31,7 +35,7 @@ export class Oikeustarkastelu {
           value = (value as any).oikeus;
         }
 
-        if (await config.oikeusProvider.hasOikeus(value, kohde)) {
+        if (config.oikeusProvider.hasOikeus(value, kohde)) {
           el.style.display = old;
         }
         else {

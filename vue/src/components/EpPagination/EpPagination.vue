@@ -1,25 +1,51 @@
 <template>
-<div>
-  moro
-  <!-- <b-pagination align="center"        -->
-  <!--   no-local-sorting                  -->
-  <!--   v-model="sivu"        -->
-  <!--   :per-page="perPage"   -->
-  <!--   :total-rows="total"/> -->
+<div v-if="totalRows > 0">
+  <div :aria-label="$t('sivutus')" class="d-flex align-items-center justify-content-center">
+    <div class="link-container">
+      <b-button variant="link"
+                :aria-label="$t('edellinen')"
+                @click="setValue(value - 1)"
+                class="link"
+                :class="{ 'muted': leftDisabled }"
+                :disabled="leftDisabled">
+        <fas icon="chevron-left" />
+      </b-button>
+    </div>
+    <div v-for="row in pages" :key="row" class="link-container">
+      <div v-if="row !== null">
+        <b-button :class="{ 'active-link': row === value }"
+                  :aria-label="$t('sivu') + ' ' + row"
+                  variant="link"
+                  @click="setValue(row)"
+                  class="link">{{ row }}</b-button>
+      </div>
+      <div v-else>
+        ...
+      </div>
+    </div>
+    <div class="link-container">
+      <b-button class="link"
+                :aria-label="$t('seuraava')"
+                variant="link"
+                @click="setValue(value + 1)"
+                :class="{ 'muted': rightDisabled }"
+                :disabled="rightDisabled">
+        <fas icon="chevron-right" />
+      </b-button>
+    </div>
+  </div>
+</div>
+<div v-else>
+  <slot name="empty">
+  </slot>
 </div>
 </template>
 
 <script lang="ts">
 import { Watch, Component, Prop, Vue } from 'vue-property-decorator';
+import { Debounced } from '../../utils/delay';
 import EpButton from '../EpButton/EpButton.vue';
 import _ from 'lodash';
-
-interface Step {
-  key: string;
-  name: string;
-  description: string;
-  isValid?: () => boolean;
-}
 
 @Component({
   components: {
@@ -35,55 +61,94 @@ export default class EpSteps extends Vue {
 
   @Prop({ required: true })
   private totalRows!: number;
+
+  get leftDisabled() {
+    return this.value < 2;
+  }
+
+  get rightDisabled() {
+    return this.value > this.count - 1;
+  }
+
+  get leftEllipsis() {
+    return this.value - 1 > 1;
+  }
+
+  get rightEllipsis() {
+    return this.value < this.count - 1;
+  }
+
+  get count() {
+    return Math.floor(this.totalRows / this.perPage) + 1;
+  }
+
+  get pages() {
+    if (this.count < 6) {
+      return _.range(1, this.count + 1);
+    }
+    else {
+      const result: (number | null)[] = [];
+      if (!this.leftDisabled) {
+        result.push(1);
+      }
+      if (this.leftEllipsis) {
+        if (this.value > 3) {
+          result.push(null);
+        }
+        result.push(this.value - 1);
+      }
+      result.push(this.value);
+      if (this.rightEllipsis) {
+        result.push(this.value + 1);
+        if (this.value < this.count - 2) {
+          result.push(null);
+        }
+      }
+      if (this.value !== this.count) {
+        result.push(this.count);
+      }
+      return result;
+    }
+  }
+
+  async setValue(value: number) {
+    if (value > 0 && value < this.totalRows - 1) {
+      this.$emit('input', value);
+    }
+  }
+
 }
 </script>
 
 <style scoped lang="scss">
 @import "../../styles/_variables.scss";
 
-.ep-steps {
+.link-container {
+  margin: 0 0.05rem 0 0.05rem;
 
-  .steps {
-    color: #767676;
-
-    .step {
-      user-select: none;
-      cursor: pointer;
-
-      .connection {
-        border-top: 2px solid $gray-lighten-3;
-        position: relative;
-        width: 100%;
-        top: 38px;
-        z-index: 1;
-
-        &.right {
-          width: 50%;
-          left: 50%;
-        }
-
-        &.left {
-          width: 50%;
-        }
-      }
-
-    }
-  }
-
-  .ball {
-    padding: 1px 9px;
-    margin-bottom: 10px;
+  .active-link {
+    background: #3367e3;
     border-radius: 100%;
-    color: $white;
-    background-color: $blue-lighten-5;
-    position: relative;
-    z-index: 10;
+    color: #fff !important;
+    font-weight: bold;
+    height: 2em;
+    padding-top: 0.2rem;
+    width: 2em;
+
+    &:active {
+      background: none;
+    }
+
   }
 
-  .active:not(.ball) {
-    font-weight: 600;
-    color: black;
+  .link {
+    color: #4f4f4f;
   }
+
+  .muted {
+    color: #ccc;
+  }
+
 }
 
 </style>
