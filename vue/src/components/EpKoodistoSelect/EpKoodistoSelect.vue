@@ -6,17 +6,25 @@
     <!-- <ep-button @click="openDialog" icon="plus" variant="outline"> -->
     <!--   {{ $t('lisaa-osaamisala') }}                                -->
     <!-- </ep-button>                                                  -->
-    <b-modal ref="editModal" size="xl">
+    <b-modal id="koodistoModal"
+            ref="editModal"
+            size="xl"
+            :ok-title="multiselect ? $t('lisaa-valitut') : $t('lisaa-valittu')"
+            :cancel-title="$t('peruuta')"
+            @ok="lisaaValitut"
+            :ok-disabled="innerModel.length === 0"
+            @hidden="alusta">
       <template #modal-header>
         <slot name="header">
-          <h2>{{ $t('lisaa-koodi') }}</h2>
+          <h2>{{ $t('hae-koodistosta') }} <slot name="koodisto"></slot></h2>
         </slot>
       </template>
 
       <template #default>
-        <div class="d-flex">
+        <div class="d-flex flex-row align-items-center">
           <div class="flex-grow-1">
             <ep-search v-model="query"></ep-search>
+            <ep-toggle class="pt-3 pl-1" v-model="vanhentuneet" :isSWitch="false">{{$t('nayta-myos-vanhentuneet')}}</ep-toggle>
           </div>
           <div>
             <ep-spinner v-if="isLoading" />
@@ -24,13 +32,24 @@
         </div>
         <div v-if="items">
           <b-table
+            ref="koodistoTable"
             responsive
             borderless
             striped
             fixed
             hover
             :items="items"
-            :fields="fields">
+            :fields="fields"
+            :selectable="true"
+            @row-selected="onRowSelected"
+            select-mode="single"
+            selected-variant=''>
+
+            <template v-slot:cell(nimi)="{ item }">
+              <fas v-if="item.selected" icon="check-square" class="checked mr-2"/>
+              <fas v-else :icon="['far', 'square']" class="checked mr-2"/>
+              {{ $kaanna(item.nimi) }}
+            </template>
 
             <template v-slot:cell(arvo)="{ item }">
               <span class="font-weight-bold">
@@ -38,18 +57,12 @@
               </span>
             </template>
 
-            <template v-slot:cell(nimi)="{ item }">
-              <div role="button" @click="selectKoodi(item)">
-                {{ $kaanna(item.nimi) }}
-              </div>
-            </template>
-
             <template v-slot:cell(versio)="{ item }">
               {{ item.versio }}
             </template>
 
             <template v-slot:cell(voimaantulo)="{ item }">
-              {{ $ago(item.voimassaAlkuPvm) }}
+              {{ $sd(item.voimassaAlkuPvm) }}
             </template>
 
             <template v-slot:cell(paattyminen)="{ item }">
@@ -63,8 +76,16 @@
             v-model="sivu"
             :total-rows="raw.kokonaismäärä"
             :per-page="raw.sivukoko"
-            aria-controls="tiedotteet"
+            aria-controls="koodistot"
             align="center" />
+
+          <div v-if="multiselect && innerModel.length > 0">
+            <h4>{{$t('valittu')}} {{innerModel.length}} {{$t('kpl')}}</h4>
+            <div v-for="(koodi, index) in innerModel" :key="'valitut'+index">
+              {{ $kaanna(koodi.nimi) }}
+            </div>
+          </div>
+
         </div>
         <ep-spinner v-else />
       </template>
@@ -75,6 +96,7 @@
 <script lang="ts">
 import { Vue, Watch, Component, Prop } from 'vue-property-decorator';
 import EpButton from '../EpButton/EpButton.vue';
+import EpToggle from '../forms/EpToggle.vue';
 import EpSearch from '../forms/EpSearch.vue';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import { KoodistoSelectStore } from './KoodistoSelectStore';
@@ -85,6 +107,7 @@ import _ from 'lodash';
     EpButton,
     EpSearch,
     EpSpinner,
+    EpToggle,
   },
 })
 export default class EpKoodistoSelect extends Vue {
@@ -94,8 +117,17 @@ export default class EpKoodistoSelect extends Vue {
   @Prop({ required: true })
   private store!: KoodistoSelectStore;
 
+  @Prop({ required: false, default: false })
+  private multiple!: boolean;
+
   private isLoading = false;
   private query = '';
+  private vanhentuneet = false;
+  private innerModel: any[] = [];
+
+  get selectedUris() {
+    return _.map(this.innerModel, 'uri');
+  }
 
   get raw() {
     if (!this.store) {
@@ -117,6 +149,7 @@ export default class EpKoodistoSelect extends Vue {
           ...x,
           nimi,
           kuvaus,
+          selected: _.includes(this.selectedUris, x.koodiUri),
         };
       })
       .value();
@@ -135,8 +168,17 @@ export default class EpKoodistoSelect extends Vue {
 
   @Watch('query')
   async onQueryChange(newValue) {
+    await this.initStoreQuery(newValue, this.sivu - 1, this.vanhentuneet);
+  }
+
+  @Watch('vanhentuneet')
+  async onVanhentuneetChange(newValue) {
+    await this.initStoreQuery(this.query, this.sivu - 1, newValue);
+  }
+
+  async initStoreQuery(query, sivu, vanhentuneet) {
     this.isLoading = true;
-    await this.store.query(newValue, this.sivu - 1);
+    await this.store.query(query, sivu, !vanhentuneet);
     this.isLoading = false;
   }
 
@@ -145,37 +187,74 @@ export default class EpKoodistoSelect extends Vue {
     this.onQueryChange('');
   }
 
-  selectKoodi(item: any) {
-    const emittable = {
-      uri: item.koodiUri,
-      arvo: item.koodiArvo,
-      nimi: item.nimi,
-      versio: item.versio,
-    };
-    this.$emit('input', emittable);
-    this.$emit('add', emittable);
-    (this.$refs.editModal as any).hide();
+  get multiselect() {
+    return _.isArray(this.value) || this.multiple;
+  }
+
+  onRowSelected(items) {
+    if (!_.isEmpty(items)) {
+      const row = {
+        uri: items[0].koodiUri,
+        arvo: items[0].koodiArvo,
+        nimi: items[0].nimi,
+        versio: items[0].versio,
+        koodisto: items[0].koodisto,
+      };
+
+      if (_.includes(this.selectedUris, row.uri)) {
+        this.innerModel = _.filter(this.innerModel, koodi => koodi.uri !== row.uri);
+      }
+      else {
+        this.innerModel = [
+          ...this.innerModel,
+          row,
+        ];
+      }
+    }
+
+    if (!this.multiselect) {
+      this.$emit('input', this.innerModel[0]);
+      this.$emit('add', this.innerModel[0]);
+      (this.$refs.editModal as any).hide();
+    }
+  }
+
+  lisaaValitut() {
+    if (!this.multiselect) {
+      this.$emit('input', this.innerModel[0]);
+      this.$emit('add', this.innerModel[0]);
+    }
+    else {
+      this.$emit('input', this.innerModel);
+      this.$emit('add', this.innerModel);
+    }
+  }
+
+  alusta() {
+    this.innerModel = [];
   }
 
   get fields() {
     return [{
-      key: 'arvo',
-      label: this.$t('arvo'),
-      thStyle: { width: '4rem' },
-    }, {
       key: 'nimi',
       label: this.$t('nimi'),
-      thStyle: { width: '50%' },
     }, {
-      key: 'versio',
-      label: this.$t('versio'),
+      key: 'arvo',
+      label: this.$t('arvo'),
+      thStyle: { width: '6rem' },
     }, {
       key: 'voimaantulo',
       label: this.$t('voimaantulo'),
-    }, {
-      key: 'paattyminen',
-      label: this.$t('voimaantulo-paattyminen'),
+      thStyle: { width: '10rem' },
     }];
   }
 }
 </script>
+
+<style lang="scss" scoped>
+@import "@shared/styles/_variables.scss";
+
+  .checked {
+    color: $paletti-blue;
+  }
+</style>
