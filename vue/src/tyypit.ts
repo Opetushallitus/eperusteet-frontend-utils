@@ -156,3 +156,10 @@ export interface SideMenuRoute {
 export interface RecursiveTreeItem {
   id: number;
 }
+
+export enum PerusteprojektiLuontiDtoTyyppiEnum {
+  NORMAALI = 'NORMAALI',
+  OPAS = 'OPAS',
+  AMOSAAYHTEINEN = 'AMOSAA_YHTEINEN',
+  POHJA = 'POHJA'
+}
