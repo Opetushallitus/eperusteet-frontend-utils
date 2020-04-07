@@ -44,7 +44,8 @@
                             no-caret="no-caret"
                             right>
                   <template slot="button-content"><fas icon="menu-vaaka"></fas></template>
-                  <b-dropdown-item @click="store.remove()"
+                  <b-dropdown-item
+                    @click="remove()"
                     key="poista"
                     :disabled="!store.remove || disabled">
                     <slot name="poista">{{ poistoteksti }}</slot>
@@ -97,7 +98,7 @@
                       :versions="historia"
                       :current="current"
                       :per-page="10"
-                      @restore="store.restore($event)" />
+                      @restore="restore($event)" />
                   </b-dropdown-item>
                 </b-dropdown>
                 <ep-round-button class="ml-2"
@@ -152,13 +153,13 @@
                 :versions="historia"
                 :current="current"
                 :per-page="10"
-                @restore="store.restore($event)">
+                @restore="restore($event)">
                 {{ $t('palaa-listaan') }}
               </ep-versio-modaali>
             </ep-button>
             <ep-button variant="link"
                        icon="peruuta"
-                       @click="store.restore({ numero: current.numero, routePushLatest: true })">
+                       @click="restore({ numero: current.numero, routePushLatest: true })">
               {{ $t('palauta-tama-versio') }}
             </ep-button>
             <router-link :to="{ query: {} }">
@@ -241,6 +242,24 @@ export default class EpEditointi extends Mixins(validationMixin) {
   /// Tämä on esitettävä versionumero eikä rev.numero
   @Prop({ required: false, type: Number })
   private versionumero!: number | null;
+
+  @Prop({ default: 'palautus-onnistui' })
+  private labelRestoreSuccess!: string;
+
+  @Prop({ default: 'palautus-epaonnistui' })
+  private labelRestoreFail!: string;
+
+  @Prop({ default: 'tallennus-onnistui' })
+  private labelSaveSuccess!: string;
+
+  @Prop({ default: 'tallennus-epaonnistui' })
+  private labelSaveFail!: string;
+
+  @Prop({ default: 'poisto-onnistui' })
+  private labelRemoveSuccess!: string;
+
+  @Prop({ default: 'poisto-epaonnistui' })
+  private labelRemoveFail!: string;
 
   private sidebarState = 0;
 
@@ -452,9 +471,36 @@ export default class EpEditointi extends Mixins(validationMixin) {
   //    }
   //  }
 
-  async save() {
-    this.store.save();
+  async remove() {
+    try {
+      await this.store.remove();
+      this.$success(this.$t(this.labelRemoveSuccess) as string);
+    }
+    catch (err) {
+      this.$success(this.$t(this.labelRemoveFail) as string);
+    }
   }
+
+  async restore(ev: any) {
+    try {
+      await this.store.restore(ev);
+      this.$success(this.$t(this.labelRestoreSuccess) as string);
+    }
+    catch (err) {
+      this.$success(this.$t(this.labelRestoreFail) as string);
+    }
+  }
+
+  async save() {
+    try {
+      await this.store.save();
+      this.$success(this.$t(this.labelSaveSuccess) as string);
+    }
+    catch (err) {
+      this.$success(this.$t(this.labelSaveFail) as string);
+    }
+  }
+
 }
 
 </script>
