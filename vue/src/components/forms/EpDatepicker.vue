@@ -7,11 +7,12 @@
       @input="onInput"
       :locale="locale"
       start-weekday="1"
-      placeholder=""
+      :placeholder="$t('valitse-pvm')"
       :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
       :state="state"
       reset-button
       close-button
+      @blur="onBlur"
       :label-reset-button="$t('tyhjenna')"
       :label-close-button="$t('sulje')"
       :label-no-date-selected="$t('valitse-pvm')"
@@ -23,10 +24,10 @@
 
     <div class="valid-feedback"
          v-if="!validationError && validMessage">{{ $t(validMessage) }}</div>
-    <div class="invalid-feedback"
-         v-else-if="validationError && invalidMessage">{{ $t(invalidMessage) }}</div>
-    <div class="invalid-feedback"
-         v-else-if="validationError && !invalidMessage">{{ $t('validation-error-' + validationError, validation.$params[validationError]) }}</div>
+    <div v-else-if="validationError && isDirty" :class="{ 'is-warning': isWarning }">
+      <div class="invalid-feedback" v-if="invalidMessage">{{ $t(invalidMessage) }}</div>
+      <div class="invalid-feedback" v-else>{{ message }}</div>
+    </div>
     <small class="form-text text-muted"
            v-if="help && isEditing">{{ $t(help) }}</small>
 </div>
