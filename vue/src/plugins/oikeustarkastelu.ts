@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import _ from 'lodash';
+import { computed } from '@vue/composition-api';
 import { Oikeus } from '../tyypit';
 import { Computed } from '../utils/interfaces';
 
@@ -7,16 +8,23 @@ const DisableTags = ['input', 'button'];
 
 export interface IOikeusProvider {
   hasOikeus: (oikeus: Oikeus, kohde: any) => boolean;
-  isAdmin: Computed<boolean>;
+  isAdmin?: Computed<boolean>;
 }
 
 export interface OikeustarkasteluConfig {
   oikeusProvider: IOikeusProvider;
 }
 
+declare module 'vue/types/vue' {
+  interface Vue {
+    $hasOikeus: (oikeus: Oikeus, kohde: any) => boolean;
+    $isAdmin: Computed<boolean>;
+  }
+}
+
 export class Oikeustarkastelu {
   public static install(vue: typeof Vue, config: OikeustarkasteluConfig) {
-    vue.prototype.$isAdmin = config.oikeusProvider.isAdmin;
+    vue.prototype.$isAdmin = config.oikeusProvider.isAdmin || computed(() => false);
 
     vue.prototype.$hasOikeus = function(oikeus: Oikeus, kohde: any) {
       return config.oikeusProvider.hasOikeus(oikeus, kohde);

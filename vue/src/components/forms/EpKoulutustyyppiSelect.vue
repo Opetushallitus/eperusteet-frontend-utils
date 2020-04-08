@@ -64,7 +64,7 @@ export default class KoulutustyyppiSelect extends Vue {
   @Prop({ default: false })
   isEditing!: boolean;
 
-  @Prop({ default: EperusteetKoulutustyypit })
+  @Prop({ default: () => EperusteetKoulutustyypit })
   koulutustyypit!: string[];
 
   identity(tr: any) {

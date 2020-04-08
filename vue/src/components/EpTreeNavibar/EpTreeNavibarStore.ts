@@ -7,12 +7,13 @@ import _ from 'lodash';
 
 Vue.use(VueCompositionApi);
 
-interface FlattenedNodeDto {
+export interface FlattenedNodeDto {
   id?: number;
   label?: LokalisoituTekstiDto;
   type?: NavigationNodeType;
   meta?: { [key: string]: object; };
   depth: number;
+  children: NavigationNodeDto[];
 }
 
 export class EpTreeNavibarStore {
@@ -34,6 +35,7 @@ function flattenNodes(root: NavigationNodeDto, depth = 0): FlattenedNodeDto[] {
     label: root.label,
     type: root.type,
     meta: root.meta,
+    children: root.children as any,
     depth,
   }, ..._.flatten(_.map(root.children, child => flattenNodes(child, depth + 1)))];
 }
