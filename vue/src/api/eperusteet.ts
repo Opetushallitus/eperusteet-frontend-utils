@@ -59,6 +59,7 @@ export const TutkinnonRakenne = initApi(EperusteetApi.TutkinnonRakenneApi);
 export const Tutkinnonosat = initApi(EperusteetApi.TutkinnonosatApi);
 export const TutkinnonosatPrivate = initApi(EperusteetApi.TutkinnonosatPrivateApi);
 export const Ulkopuoliset = initApi(EperusteetApi.UlkopuolisetApi);
+export const Maintenance = initApi(EperusteetApi.MaintenanceApi);
 
 export type Ammattitaitovaatimukset2019Dto = EperusteetApi.Ammattitaitovaatimukset2019Dto;
 export type ArviointiAsteikkoDto = EperusteetApi.ArviointiAsteikkoDto;
