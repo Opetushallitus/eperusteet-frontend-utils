@@ -95,3 +95,12 @@ export function wrap<T extends object>(original: T, value: T) {
   const Mock = jest.fn(() => Vue.observable(result) as T);
   return new Mock();
 }
+
+// export class TestStore<T> extends T {
+//   public get state() {
+//     return (this as any).state;
+//   }
+// }
+// export function exposed<T>() {
+//   return new TestStore<T>();
+// }
