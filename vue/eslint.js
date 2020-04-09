@@ -1,17 +1,16 @@
 module.exports = {
-  rules: {
-    // "vue/array-bracket-spacing": "error",
-    // "vue/this-in-template": "error",
-    // "vue/attributes-order": "error",
-    // "vue/order-in-components": "error",
-    // "vue/arrow-spacing": "error",
-    // "vue/comma-dangle": "error",
-    // "vue/eqeqeq": "error",
-    // "vue/component-name-in-template-casing": "error",
-    // "vue/key-spacing": "error",
-    // "vue/match-component-file-name": "error",
-    // "vue/space-infix-ops": "error",
-    // "vue/space-unary-ops": "error",
+  'env': {
+    'node': true,
+  },
+  'extends': [
+    'plugin:vue/essential',
+    '@vue/standard',
+    '@vue/typescript',
+  ],
+  'parserOptions': {
+    'ecmaVersion': 2020,
+  },
+  'rules': {
     'array-bracket-spacing': ['error', 'never'],
     'no-useless-constructor': 'off',
     'operator-linebreak': ['error', 'before'],
@@ -38,6 +37,22 @@ module.exports = {
     'semi': [
       'error',
       'always'
-    ]
-  }
+    ],
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+  },
+  'parserOptions': {
+    'parser': '@typescript-eslint/parser'
+  },
+  'overrides': [
+    {
+      'files': [
+        '**/__tests__/*.{j,t}s?(x)',
+        '**/tests/unit/**/*.spec.{j,t}s?(x)'
+      ],
+      'env': {
+        'jest': true,
+      },
+    },
+  ],
 };
