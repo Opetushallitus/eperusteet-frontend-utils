@@ -9,6 +9,7 @@ module.exports = {
   ],
   'parserOptions': {
     'ecmaVersion': 2020,
+    'parser': '@typescript-eslint/parser',
   },
   'rules': {
     'array-bracket-spacing': ['error', 'never'],
@@ -23,32 +24,29 @@ module.exports = {
     }],
     'indent': [
       'error',
-      2
+      2,
     ],
     'comma-dangle': ['error', 'always-multiline'],
     'linebreak-style': [
       'error',
-      'unix'
+      'unix',
     ],
     'quotes': [
       'error',
-      'single'
+      'single',
     ],
     'semi': [
       'error',
-      'always'
+      'always',
     ],
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-  },
-  'parserOptions': {
-    'parser': '@typescript-eslint/parser'
   },
   'overrides': [
     {
       'files': [
         '**/__tests__/*.{j,t}s?(x)',
-        '**/tests/unit/**/*.spec.{j,t}s?(x)'
+        '**/tests/unit/**/*.spec.{j,t}s?(x)',
       ],
       'env': {
         'jest': true,
