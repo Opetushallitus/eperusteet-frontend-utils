@@ -1,4 +1,4 @@
-const { eslint } = require('./eslint');
+const eslint = require('./eslint');
 
 module.exports = {
   root: true,
