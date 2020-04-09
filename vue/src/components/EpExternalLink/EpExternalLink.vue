@@ -16,7 +16,7 @@ import EpLinkki from '@shared/components/EpLinkki/EpLinkki.vue';
 @Component({
   components: {
     EpLinkki,
-  }
+  },
 })
 export default class EpExternalLink extends Vue {
   @Prop({ type: String })
@@ -27,7 +27,7 @@ export default class EpExternalLink extends Vue {
 
   @Prop({
     required: false,
-    type: String
+    type: String,
   })
   private label!: string;
 
@@ -36,7 +36,7 @@ export default class EpExternalLink extends Vue {
 
   @Prop({
     default: true,
-    type: Boolean
+    type: Boolean,
   })
   private onlyTopLevel!: boolean;
 

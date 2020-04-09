@@ -16,7 +16,7 @@ export const baseURL = '/eperusteet-service/api';
 
 const ax = axios.create({
   baseURL,
-  paramsSerializer: (params: any) => Qs.stringify(params, { arrayFormat: 'repeat' })
+  paramsSerializer: (params: any) => Qs.stringify(params, { arrayFormat: 'repeat' }),
 });
 
 function successfulResponseHandler() {

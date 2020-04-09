@@ -14,7 +14,7 @@ describe('Plugin aikaleima', () => {
     messages: {
       fi: {
         'muutama-sekunti': 's',
-      }
+      },
     },
   });
 

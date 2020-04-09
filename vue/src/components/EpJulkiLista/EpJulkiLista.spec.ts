@@ -19,7 +19,7 @@ describe('EpJulkiLista component', () => {
       propsData: {
         tiedot: [],
         tietoMaara,
-      }
+      },
     });
   };
 
@@ -39,8 +39,8 @@ describe('EpJulkiLista component', () => {
           otsikko: { 'fi': 'otsikko1' },
           uusi: false,
           muokattu: new Date(),
-        }
-      ]
+        },
+      ],
 
     });
 
@@ -73,7 +73,7 @@ describe('EpJulkiLista component', () => {
           otsikko: { 'fi': 'otsikko4' },
           uusi: false,
           muokattu: new Date(),
-        }
+        },
       ],
     });
 
@@ -121,7 +121,7 @@ describe('EpJulkiLista component', () => {
           otsikko: { 'fi': 'otsikko4' },
           uusi: false,
           muokattu: new Date(),
-        }
+        },
       ],
     });
 

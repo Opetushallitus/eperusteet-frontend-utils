@@ -16,10 +16,10 @@ describe('EpToggle component', () => {
       },
       data() {
         return {
-          arvo: false
+          arvo: false,
         };
       },
-      template: '<ep-toggle v-model="arvo" />'
+      template: '<ep-toggle v-model="arvo" />',
     }), {
       localVue,
     });

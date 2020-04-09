@@ -239,7 +239,7 @@ export class EditointiStore {
       }
       EditointiStore.allEditingEditors = [
         ...EditointiStore.allEditingEditors,
-        this
+        this,
       ];
     }
     catch (err) {

@@ -58,7 +58,7 @@ import EpCollapse from '../EpCollapse/EpCollapse.vue';
 @Component({
   components: {
     EpCollapse,
-  }
+  },
 })
 export default class EpKayttaja extends Vue {
   @Prop({ required: true })

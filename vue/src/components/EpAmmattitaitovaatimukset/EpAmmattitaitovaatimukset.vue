@@ -172,7 +172,7 @@ export default class EpAmmattitaitovaatimukset extends Vue {
         params: {
           sivu,
           sivukoko: 10,
-        }
+        },
       })).data as any;
     },
   });

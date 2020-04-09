@@ -9,8 +9,8 @@ describe('EpFormContent component', () => {
   Kielet.install(localVue, {
     messages: {
       fi: {
-        'etsi': 'Etsi'
-      }
+        'etsi': 'Etsi',
+      },
     },
   });
 
@@ -22,17 +22,17 @@ describe('EpFormContent component', () => {
         EpSearch,
       },
       methods: {
-        updateSearch
+        updateSearch,
       },
       data() {
         return propsit;
       },
-      template: '<ep-search v-model="rajain" @input="updateSearch" :placeholder="placeholder"/>'
+      template: '<ep-search v-model="rajain" @input="updateSearch" :placeholder="placeholder"/>',
     }), {
       localVue,
       i18n,
       stubs: {
-        fas: true
+        fas: true,
       },
     });
   };

@@ -72,10 +72,10 @@ import { aikataulutapahtuma, aikatauluTapahtumaSort, aikatauluTapahtumapaivaSort
         },
         tavoite: {
           [Kielet.getSisaltoKieli.value]: {
-            required
+            required,
           },
         },
-      }
+      },
     },
   },
 } as any)
@@ -98,7 +98,7 @@ export default class EpAikatauluListaus extends Mixins(validationMixin) {
         tapahtuma: aikataulutapahtuma.tavoite,
         tapahtumapaiva: null,
         tavoite: {},
-      }
+      },
     ];
   }
 

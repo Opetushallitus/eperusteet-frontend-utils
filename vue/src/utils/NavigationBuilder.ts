@@ -67,7 +67,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       name: 'perusteTekstikappale',
       params: {
         viiteId: _.toString(rawNode.id),
-      }
+      },
     };
     break;
   case 'laajaalaiset':
@@ -98,7 +98,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       name: 'lops2019oppiaine',
       params: {
         oppiaineId: _.toString(rawNode.id),
-      }
+      },
     };
     break;
   case 'moduulit':
@@ -110,7 +110,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       params: {
         oppiaineId: _.toString(rawNode.meta!.oppiaine),
         moduuliId: _.toString(rawNode.id),
-      }
+      },
     };
     break;
   default:
@@ -127,7 +127,7 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
       name: 'opetussuunnitelmaTekstikappale',
       params: {
         viiteId: _.toString(rawNode.id),
-      }
+      },
     };
     break;
   case 'oppiaineet':
@@ -144,7 +144,7 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
       name: 'lops2019OpetussuunnitelmaOppiaine',
       params: {
         oppiaineId: _.toString(rawNode.id),
-      }
+      },
     };
     break;
   case 'poppiaine':
@@ -152,7 +152,7 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
       name: 'lops2019OpetussuunnitelmaPoppiaine',
       params: {
         oppiaineId: _.toString(rawNode.id),
-      }
+      },
     };
     break;
   case 'moduulit':
@@ -164,7 +164,7 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
       params: {
         oppiaineId: _.toString(rawNode.meta!.oppiaine),
         moduuliId: _.toString(rawNode.id),
-      }
+      },
     };
     break;
   case 'opintojaksot':
@@ -175,7 +175,7 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
       name: 'lops2019OpetussuunnitelmaOpintojakso',
       params: {
         opintojaksoId: _.toString(rawNode.id),
-      }
+      },
     };
     break;
   default:
@@ -230,7 +230,7 @@ export function buildTiedot(routeName: string, params: object): NavigationNode {
       name: routeName,
       params: {
         ...params,
-      }
+      },
     },
     children: [],
   };

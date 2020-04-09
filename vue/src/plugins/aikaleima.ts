@@ -111,7 +111,7 @@ export function updateRelativeTime() {
       M: Kielet.t('aikalyhenne-kuukausi'),
       MM: '%d ' + Kielet.t('aikalyhenne-kuukausi'),
       y: Kielet.t('aikalyhenne-vuosi'),
-      yy: '%d ' + Kielet.t('aikalyhenne-vuosi')
-    }
+      yy: '%d ' + Kielet.t('aikalyhenne-vuosi'),
+    },
   };
 }
