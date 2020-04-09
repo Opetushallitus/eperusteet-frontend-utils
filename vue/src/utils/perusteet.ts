@@ -49,7 +49,7 @@ export const kouluturtyyppiRyhmat = [
   'perusopetus',
   'taiteenperusopetus',
   'lukio',
-  'ammatillinen'
+  'ammatillinen',
 ];
 
 export const koulutustyyppiRyhmaSort = {

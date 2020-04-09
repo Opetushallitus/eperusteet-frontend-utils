@@ -79,7 +79,7 @@ export function Computed() {
     const original = descriptor.get;
     const getter = computed(() => original);
     descriptor.value = {
-      get: getter.value
+      get: getter.value,
     };
   };
 }

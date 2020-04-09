@@ -71,7 +71,7 @@ export default class EpAikatauluModal extends Vue {
           // opetussuunnitelmaId: this.rootModel?.id,
           tapahtumapaiva: this.rootModel.luotu,
           tavoite: {
-            [Kielet.getSisaltoKieli.value]: this.$t('projektin-luomispaiva')
+            [Kielet.getSisaltoKieli.value]: this.$t('projektin-luomispaiva'),
           },
         },
         {
@@ -79,9 +79,9 @@ export default class EpAikatauluModal extends Vue {
           // opetussuunnitelmaId: this.rootModel?.id,
           tapahtumapaiva: null,
           tavoite: {
-            [Kielet.getSisaltoKieli.value]: this.$t('projektin-suunniteltu-julkaisupaiva')
+            [Kielet.getSisaltoKieli.value]: this.$t('projektin-suunniteltu-julkaisupaiva'),
           },
-        }
+        },
       ];
     }
     else {

@@ -46,7 +46,7 @@ export default class EpSidebar extends Vue {
   private isOpen = false;
   private settings = {
     autoScroll: true,
-    showSubchapter: true
+    showSubchapter: true,
   };
 
   get scrollId() {

@@ -20,7 +20,7 @@ export default class EpLinkki extends Vue {
 
   @Prop({
     required: false,
-    type: String
+    type: String,
   })
   private label!: string;
 
@@ -29,7 +29,7 @@ export default class EpLinkki extends Vue {
 
   @Prop({
     default: true,
-    type: Boolean
+    type: Boolean,
   })
   private onlyTopLevel!: boolean;
 

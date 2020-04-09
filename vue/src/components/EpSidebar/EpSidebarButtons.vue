@@ -81,7 +81,7 @@ import EpToggle from '../forms/EpToggle.vue';
 @Component({
   components: {
     EpToggle,
-  }
+  },
 })
 export default class EpSidebarButtons extends Vue {
   @Prop({ required: true, type: Boolean })
@@ -95,7 +95,7 @@ export default class EpSidebarButtons extends Vue {
       'btn-group': this.inline || this.mobile,
       'btn-group-vertical': !this.inline && !this.mobile,
       'd-inline-flex d-md-none': this.mobile,
-      'd-none d-md-inline-flex': !this.mobile
+      'd-none d-md-inline-flex': !this.mobile,
     };
   }
   get settingsButtonId() {

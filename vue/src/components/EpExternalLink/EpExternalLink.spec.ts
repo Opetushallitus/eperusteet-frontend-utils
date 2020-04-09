@@ -15,7 +15,7 @@ describe('EpExternalLink component', () => {
     messages: {
       fi: {
         'apu-teksti': 'apu teksti',
-      }
+      },
     },
   });
 
@@ -29,10 +29,10 @@ describe('EpExternalLink component', () => {
       data() {
         return props;
       },
-      template: '<ep-external-link v-if="teksti" :url="url">{{ teksti }}</ep-external-link> <ep-external-link v-else :url="url"></ep-external-link>'
+      template: '<ep-external-link v-if="teksti" :url="url">{{ teksti }}</ep-external-link> <ep-external-link v-else :url="url"></ep-external-link>',
     }), {
       stubs: {
-        fas: true
+        fas: true,
       },
       localVue,
       i18n,
@@ -42,7 +42,7 @@ describe('EpExternalLink component', () => {
   test('Renders external link ', async () => {
     const wrapper = mountWrapper({
       url: 'www.google.com',
-      teksti: 'google'
+      teksti: 'google',
     });
 
     expect(wrapper.html()).toContain('google</a>');
@@ -51,7 +51,7 @@ describe('EpExternalLink component', () => {
   test('Renders external link ', async () => {
     const wrapper = mountWrapper({
       url: 'www.google.com',
-      teksti: undefined
+      teksti: undefined,
     });
 
     expect(wrapper.html()).not.toContain('google</a>');
