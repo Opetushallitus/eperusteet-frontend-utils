@@ -7,7 +7,7 @@ function main() {
     for (const [name, version] of Object.entries(package.dependencies)) {
         const utilPackageVersion = utilsPackage.dependencies[name];
         if (utilPackageVersion && utilPackageVersion !== version) {
-            console.log(`Fix ${name} version mismatch (${version} -> ${utilPackageVersion})`);
+            console.error(`\nFix ${name} version mismatch (${version} -> ${utilPackageVersion})\n`);
             process.exit(1);
         }
     }
