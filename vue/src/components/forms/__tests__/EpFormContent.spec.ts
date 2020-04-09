@@ -11,7 +11,7 @@ describe('EpFormContent component', () => {
     messages: {
       fi: {
         'sisalto-teksti': 'sisältö teksti',
-      }
+      },
     },
   });
 
@@ -22,7 +22,7 @@ describe('EpFormContent component', () => {
       components: {
         EpFormContent,
       },
-      template: '<ep-form-content name="sisalto-teksti" />'
+      template: '<ep-form-content name="sisalto-teksti" />',
     }), {
       localVue,
       i18n,

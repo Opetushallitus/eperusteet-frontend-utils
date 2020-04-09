@@ -229,7 +229,7 @@ import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
     EpRoundButton,
     EpSpinner,
     EpVersioModaali,
-  }
+  },
 })
 export default class EpEditointi extends Mixins(validationMixin) {
   @Prop({ required: true })
@@ -254,7 +254,7 @@ export default class EpEditointi extends Mixins(validationMixin) {
     this.$router.push({
       query: {
         versionumero,
-      }
+      },
     });
   }
 

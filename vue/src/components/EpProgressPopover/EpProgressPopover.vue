@@ -43,7 +43,7 @@ import EpProgress from './EpProgress.vue';
 @Component({
   components: {
     EpProgress,
-  }
+  },
 })
 export default class EpProgressPopover extends Vue {
   @Prop()

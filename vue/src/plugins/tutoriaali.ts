@@ -15,7 +15,7 @@ export class VueTutorial {
       inserted(el, def) {
         el.setAttribute('tutorial', '');
         options.tutoriaaliStore.paivitaAvaimet();
-      }
+      },
     });
   }
 };

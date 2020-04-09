@@ -9,7 +9,7 @@ describe('EpInput component', () => {
       propsData: {
         value: 'arvo',
       },
-      localVue
+      localVue,
     });
 
     await localVue.nextTick();

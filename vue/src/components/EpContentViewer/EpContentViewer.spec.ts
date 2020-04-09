@@ -22,7 +22,7 @@ describe('EpContentViewer component', () => {
           ...props,
         };
       },
-      template: '<ep-content-viewer :value="value" :termit="termit" :kuvat="kuvat" />'
+      template: '<ep-content-viewer :value="value" :termit="termit" :kuvat="kuvat" />',
     }), {
       localVue,
       i18n,

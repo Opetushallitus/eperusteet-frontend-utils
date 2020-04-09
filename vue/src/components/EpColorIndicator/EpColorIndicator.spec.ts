@@ -12,9 +12,9 @@ describe('EpToggle component', () => {
     const wrapper = mount(EpColorIndicator, {
       localVue,
       mocks: {
-        $t: x => x
+        $t: x => x,
       },
-      propsData: {}
+      propsData: {},
     });
 
     expect(wrapper.html()).toContain('normaali');
@@ -22,7 +22,7 @@ describe('EpToggle component', () => {
     wrapper.setProps({
       kind: 'julkaistu',
       tooltip: 'tooltipviesti',
-      size: 20
+      size: 20,
     });
 
     expect(wrapper.html()).toContain('julkaistu');
@@ -34,7 +34,7 @@ describe('EpToggle component', () => {
     wrapper.setProps({
       kind: 'esiopetus',
       tooltip: 'tooltipviesti',
-      size: 20
+      size: 20,
     });
 
     expect(wrapper.element.style.background).toMatchSnapshot();

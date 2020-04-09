@@ -35,7 +35,7 @@ axios.defaults.headers.common['Caller-Id'] = '1.2.246.562.10.00000000001.eperust
 
 const ax = axios.create({
   baseURL,
-  paramsSerializer: params => Qs.stringify(params, { arrayFormat: 'repeat' })
+  paramsSerializer: params => Qs.stringify(params, { arrayFormat: 'repeat' }),
 });
 
 // Apufuntio kirjautumiseen ja paluulinkin luontiin

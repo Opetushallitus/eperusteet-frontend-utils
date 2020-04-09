@@ -162,7 +162,7 @@ export default class EpMultiListSelect extends Mixins(EpValidation) {
   lisaaValinta() {
     this.innerModels = [
       ...(this.innerModels as any),
-      {}
+      {},
     ];
   }
 

@@ -14,7 +14,7 @@ describe('EpSelect component', () => {
     messages: {
       fi: {
         'apu-teksti': 'apu teksti',
-      }
+      },
     },
   });
 
@@ -30,10 +30,10 @@ describe('EpSelect component', () => {
       data() {
         return props;
       },
-      template: '<ep-select :items="items" v-model="value" :is-editing="isEditing" :multiple="multiple" :help="help" :validation="validation" :useCheckboxes="useCheckboxes"/>'
+      template: '<ep-select :items="items" v-model="value" :is-editing="isEditing" :multiple="multiple" :help="help" :validation="validation" :useCheckboxes="useCheckboxes"/>',
     }), {
       stubs: {
-        fas: true
+        fas: true,
       },
       localVue,
       i18n,
@@ -105,8 +105,8 @@ describe('EpSelect component', () => {
       help: '',
       useCheckboxes: false,
       validation: {
-        $touch: jest.fn()
-      }
+        $touch: jest.fn(),
+      },
     });
 
     expect(wrapper.vm.value).toHaveLength(1);
@@ -126,8 +126,8 @@ describe('EpSelect component', () => {
       help: '',
       useCheckboxes: true,
       validation: {
-        $touch: jest.fn()
-      }
+        $touch: jest.fn(),
+      },
     });
 
     expect(wrapper.findAll('input[type="checkbox"]')).toHaveLength(3);
