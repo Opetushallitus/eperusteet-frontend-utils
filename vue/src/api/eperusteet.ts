@@ -81,6 +81,7 @@ export type PerusteDto = EperusteetApi.PerusteDto;
 export type PerusteHakuDto = EperusteetApi.PerusteHakuDto;
 export type PerusteHakuInternalDto = EperusteetApi.PerusteHakuInternalDto;
 export type PerusteKevytDto = EperusteetApi.PerusteKevytDto;
+export type PerusteInfoDto = EperusteetApi.PerusteInfoDto;
 export type PerusteKoosteDto = EperusteetApi.PerusteKoosteDto;
 export type PerusteprojektiDto = EperusteetApi.PerusteprojektiDto;
 export type PerusteprojektiKevytDto = EperusteetApi.PerusteprojektiKevytDto;
@@ -138,6 +139,7 @@ export interface PerusteQuery {
   tutkintonimikkeet?: boolean;
   voimassaolo?: boolean;
   perusteTyyppi?: string;
+  perusteet?: number[];
 };
 
 export async function getAllPerusteet(query: PerusteQuery) {
