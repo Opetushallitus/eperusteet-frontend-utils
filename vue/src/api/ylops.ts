@@ -1,9 +1,10 @@
 import { axiosHandler } from './common';
 import { Configuration,
+  AikatauluApi,
   DokumentitApi,
   DokumentitApiAxiosParamCreator,
   KayttajatApi,
-  KommentitApi,
+  KommentointiApi,
   KysymyksetApi,
   LiitetiedostotApi,
   LiitetiedostotApiAxiosParamCreator,
@@ -11,14 +12,13 @@ import { Configuration,
   Lops2019OpintojaksotApi,
   Lops2019OppiaineetApi,
   Lops2019PerusteControllerApi,
+  MuokkaustietoApi,
   OhjeetApi,
   OpetussuunnitelmanSisaltoApi,
   OpetussuunnitelmatApi,
   OpetussuunnitelmatJulkisetApi,
   TermistoApi,
   UlkopuolisetApi,
-  MuokkaustietoApi,
-  AikatauluApi,
 } from '../generated/ylops';
 import axios, { AxiosInstance } from 'axios';
 import _ from 'lodash';
@@ -80,7 +80,7 @@ export const Api = ax;
 export const Dokumentit = initApi(DokumentitApi);
 export const DokumentitParams = DokumentitApiAxiosParamCreator(configuration);
 export const Kayttajat = initApi(KayttajatApi);
-export const Kommentit = initApi(KommentitApi);
+export const Kommentointi = initApi(KommentointiApi);
 export const Kysymykset = initApi(KysymyksetApi);
 export const Liitetiedostot = initApi(LiitetiedostotApi);
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
@@ -128,6 +128,7 @@ export type Lops2019PaikallinenLaajaAlainenDto = YlopsApi.Lops2019PaikallinenLaa
 export type Lops2019PaikallinenOppiaineDto = YlopsApi.Lops2019PaikallinenOppiaineDto;
 export type Lops2019PoistettuDto = YlopsApi.Lops2019PoistettuDto;
 export type Lops2019ValidointiDto = YlopsApi.Lops2019ValidointiDto;
+export type KommenttiDto = YlopsApi.Kommentti2019Dto;
 export type Matala = YlopsApi.Matala;
 export type MuokkaustietoKayttajallaDto = YlopsApi.MuokkaustietoKayttajallaDto;
 export type OhjeDto = YlopsApi.OhjeDto;
