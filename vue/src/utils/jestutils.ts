@@ -94,3 +94,29 @@ export function wrap<T extends object>(original: T, value: T) {
   const Mock = jest.fn(() => Vue.observable(result) as T);
   return new Mock();
 }
+
+type Constructable<T> = new(...params: any[]) => T;
+/**
+ * Mocks given store.
+ *
+ * @returns {undefined}
+ */
+export function mock<T>(X: Constructable<T>, overrides: Partial<T> = {}): T {
+  const mocks: any = new X();
+  for (const key of _.keys(X.prototype)) {
+    mocks[key] = jest.fn();
+  }
+  return {
+    ...mocks,
+    ...overrides,
+  };
+}
+
+// export class TestStore<T> extends T {
+//   public get state() {
+//     return (this as any).state;
+//   }
+// }
+// export function exposed<T>() {
+//   return new TestStore<T>();
+// }
