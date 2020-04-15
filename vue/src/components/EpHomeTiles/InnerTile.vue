@@ -84,6 +84,7 @@ $tile-width: 540px;
     top: -37px;
     display: flex;
     justify-content: center;
+    color: $black;
   }
 }
 

@@ -139,6 +139,7 @@ library.add(oph.plussa);
 library.add(oph.poistaKolumni);
 library.add(oph.poistaRivi);
 library.add(oph.poistaTaulukko);
+library.add(oph.pylvasAsteikko);
 library.add(oph.raahaus);
 library.add(oph.rakennus);
 library.add(oph.ratas);
@@ -163,6 +164,7 @@ library.add(oph.vakanenOikea);
 library.add(oph.vakanenVasen);
 library.add(oph.vakanenYlos);
 library.add(oph.valtakunnallisetPerusteet);
+library.add(oph.virheellisetPerusteet);
 library.add(oph.yhdistaSolut);
 library.add(oph.yliviivaus);
 
