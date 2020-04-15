@@ -123,7 +123,7 @@ export const kalenteri: IconDefinition = {
 export const kasitteet: IconDefinition = {
   prefix: 'fas',
   iconName: 'kasitteet' as any,
-  icon: [21, 20, [], null as any, 'M15.5 0h-12c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V2c0-1.1-.9-2-2-2zm-9 2h2v5l-1-.75-1 .75V2zm9 16h-12V2h1v9l3-2.25 3 2.25V2h5v16z'],
+  icon: [19, 20, [], null as any, 'M15.5 0h-12c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V2c0-1.1-.9-2-2-2zm-9 2h2v5l-1-.75-1 .75V2zm9 16h-12V2h1v9l3-2.25 3 2.25V2h5v16z'],
 };
 
 export const kielet: IconDefinition = {
@@ -267,7 +267,7 @@ export const lokaatioNuoli: IconDefinition = {
 export const luoPdf: IconDefinition = {
   prefix: 'fas',
   iconName: 'luo-pdf' as any,
-  icon: [21, 20, [], null as any, 'M12 0H4C2.9 0 2.01.9 2.01 2L2 18c0 1.1.89 2 1.99 2H16c1.1 0 2-.9 2-2V6l-6-6zM4 18V2h7v5h5v11H4z'],
+  icon: [19, 20, [], null as any, 'M12 0H4C2.9 0 2.01.9 2.01 2L2 18c0 1.1.89 2 1.99 2H16c1.1 0 2-.9 2-2V6l-6-6zM4 18V2h7v5h5v11H4z'],
 };
 
 export const menuPysty: IconDefinition = {
@@ -346,6 +346,12 @@ export const poistaTaulukko: IconDefinition = {
   prefix: 'fas',
   iconName: 'poista-taulukko' as any,
   icon: [20, 20, [], null as any, 'M12.318 20.096l-1.414-1.414 3.182-3.182-3.182-3.182 1.414-1.414 3.182 3.182 1.5-1.501 1.682-1.681 1.414 1.414-3.182 3.182 3.182 3.182-1.414 1.414-3.182-3.182-3.182 3.182zM17 1v10.17l-1.5 1.502-.5-.534V10h-5v5h2.137l.535.5L11.17 17H1V1h16zm-9 9H3v5h5v-5zm0-7H3v5h5V3zm7 0h-5v5h5V3z'],
+};
+
+export const pylvasAsteikko: IconDefinition = {
+  prefix: 'fas',
+  iconName: 'pylvas-asteikko' as any,
+  icon: [34, 39, [], null as any, 'M0,39V37H34v2Zm29-3V1a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V36Zm-7,0V9a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V36Zm-7,0V17a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V36ZM8,36V24a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V36ZM1,36V30a1,1,0,0,1,1-1H4a1,1,0,0,1,1,1v6Z'],
 };
 
 export const raahaus: IconDefinition = {
@@ -460,6 +466,12 @@ export const vakanenYlos: IconDefinition = {
   prefix: 'fas',
   iconName: 'vakanen-ylos' as any,
   icon: [20, 20, [], null as any, 'M15.7 13.65l-5.2-5.2-5.2 5.2-1.47-1.48 6.68-6.69 6.68 6.68z'],
+};
+
+export const virheellisetPerusteet: IconDefinition = {
+  prefix: 'fas',
+  iconName: 'virheelliset-perusteet' as any,
+  icon: [40, 38, [], null as any, 'M0,37V33.3H37V37Zm31.45-7.4h-3.7V26.936A12.211,12.211,0,0,0,29,27a12.065,12.065,0,0,0,2.451-.25V29.6h0Zm-11.1,0h-3.7V16.65h.463a11.9,11.9,0,0,0,3.237,6.668V29.6h0Zm-14.8,0V16.65h3.7V29.6ZM19,15A10,10,0,1,1,29,25,10.011,10.011,0,0,1,19,15Zm2,0a8,8,0,1,0,8-8A8.008,8.008,0,0,0,21,15Zm9,5H28V18h2v2h0Zm0-3H28V10h2v7h0ZM17.174,12.95H0V9.25L18.5,0l7.022,3.511a12.08,12.08,0,0,0-8.348,9.438h0Z'],
 };
 
 export const yhdistaSolut: IconDefinition = {
