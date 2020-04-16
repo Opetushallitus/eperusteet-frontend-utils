@@ -166,7 +166,10 @@ export default class EpNavigation extends Vue {
     background-image: url('../../../../img/banners/header.svg');
     background-position: 100% 0;
     background-repeat: no-repeat;
-    background-size: cover;
+
+    @media only screen and (min-width: 2503px)  {
+      background-size: cover;
+    }
 
     .kysymysmerkki {
       color: white;
