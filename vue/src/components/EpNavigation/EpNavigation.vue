@@ -168,7 +168,7 @@ export default class EpNavigation extends Vue {
     background-repeat: no-repeat;
 
     @media only screen and (min-width: 2503px)  {
-      background-size: cover;
+      background-size: 100%;
     }
 
     .kysymysmerkki {
