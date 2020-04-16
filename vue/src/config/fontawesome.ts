@@ -82,6 +82,7 @@ library.add(solid.faUndo);
 library.add(solid.faUpload);
 library.add(solid.faUserLock);
 library.add(solid.faUsers);
+library.add(solid.faShareAlt);
 
 // OPH icons
 library.add(oph.alleviivaus);
