@@ -99,6 +99,8 @@ export type UpdateDtoRakenneModuuliDto = EperusteetApi.UpdateDtoRakenneModuuliDt
 export type OpasLuontiDto = EperusteetApi.OpasLuontiDto;
 
 export import PerusteprojektiLuontiDtoTyyppiEnum = EperusteetApi.PerusteprojektiLuontiDtoTyyppiEnum;
+export import NavigationNodeDtoTypeEnum = EperusteetApi.NavigationNodeDtoTypeEnum;
+export import PerusteDtoTyyppiEnum = EperusteetApi.PerusteDtoTyyppiEnum;
 
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
