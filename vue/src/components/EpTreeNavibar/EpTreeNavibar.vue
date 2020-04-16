@@ -16,6 +16,8 @@
         </div>
       </div>
     </div>
+
+    <slot name="new"></slot>
   </div>
 </template>
 
