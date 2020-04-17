@@ -1,30 +1,33 @@
 <template>
 <div class="ep-date-picker"
      v-if="isEditing">
-    <date-picker @input="onInput"
-                 :format="format"
-                 :value="value"
-                 :lang="lang"
-                 :type="type"
-                 :input-class="inputClass"
-                 :class="{ 'is-invalid': isInvalid, 'is-valid': isValid }"
-                 :width="'100%'"
-                 :clearable="!validation"
-                 :append-to-body="true"
-                 :first-day-of-week="1">
-        <fas fixed-width
-             slot="calendar-icon"
-             icon="calendar-day"></fas>
-        <fas fixed-width
-             slot="mx-clear-icon"
-             icon="sulje"></fas>
-    </date-picker>
+
+    <b-form-datepicker
+      :value="modelValue"
+      @input="onInput"
+      :locale="locale"
+      start-weekday="1"
+      :placeholder="$t('valitse-pvm')"
+      :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+      :state="state"
+      reset-button
+      close-button
+      @blur="onBlur"
+      :label-reset-button="$t('tyhjenna')"
+      :label-close-button="$t('sulje')"
+      :label-no-date-selected="$t('valitse-pvm')"
+      :label-help="$t('kalenteri-navigointi-ohje')"
+      :value-as-date="true"
+      :hide-header="true"
+      :no-flip="true"
+      />
+
     <div class="valid-feedback"
          v-if="!validationError && validMessage">{{ $t(validMessage) }}</div>
-    <div class="invalid-feedback"
-         v-else-if="validationError && invalidMessage">{{ $t(invalidMessage) }}</div>
-    <div class="invalid-feedback"
-         v-else-if="validationError && !invalidMessage">{{ $t('validation-error-' + validationError, validation.$params[validationError]) }}</div>
+    <div v-else-if="validationError && isDirty" :class="{ 'is-warning': isWarning }">
+      <div class="invalid-feedback" v-if="invalidMessage">{{ $t(invalidMessage) }}</div>
+      <div class="invalid-feedback" v-else>{{ message }}</div>
+    </div>
     <small class="form-text text-muted"
            v-if="help && isEditing">{{ $t(help) }}</small>
 </div>
@@ -67,16 +70,20 @@ export default class EpDatepicker extends Mixins(EpValidation) {
   @Prop({ default: true, required: false })
   private showValidValidation!: boolean;
 
-  get inputClass() {
-    if (this.isInvalid) {
-      return 'form-control ep-datepicker-validation is-invalid';
+  get modelValue() {
+    if (_.isNumber(this.value)) {
+      return new Date(this.value);
     }
-    else if (this.isValid && this.showValidValidation) {
-      return 'form-control ep-datepicker-validation is-valid';
+
+    return this.value;
+  }
+
+  get state() {
+    if (!this.showValidValidation || this.isValid) {
+      return null;
     }
-    else {
-      return 'form-control';
-    }
+
+    return this.isValid;
   }
 
   get locdate() {
@@ -91,17 +98,12 @@ export default class EpDatepicker extends Mixins(EpValidation) {
     }
   }
 
-  get format() {
-    if (this.type === 'datetime') {
-      return 'D.M.YYYY H:mm';
-    }
-    else {
-      return 'D.M.YYYY';
-    }
-  }
-
   get lang() {
     return Kielet.getAikakaannokset;
+  }
+
+  get locale() {
+    return Kielet.getUiKieli.value;
   }
 
   private onInput(event: any) {
@@ -115,9 +117,6 @@ export default class EpDatepicker extends Mixins(EpValidation) {
 
 <style scoped lang="scss">
 
-/deep/ .mx-input-append {
-  font-size: 1rem;
-}
 /deep/ .ep-datepicker-validation {
   padding-right: calc(3em + .75rem) !important;
 }

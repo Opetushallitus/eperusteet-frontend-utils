@@ -2,16 +2,16 @@
 <div v-if="value">
   <div v-if="isEditing">
     <b-form-group :label="$t('otsikko')">
-      <ep-input v-model="value.kohde" :is-editing="true" />
+      <ep-input v-model="value.kohde" :is-editing="true" :validation="validation && validation.kohde" :warning="true" />
     </b-form-group>
     <b-form-group :label="$t('vaatimukset')">
       <draggable
         v-bind="vaatimusOptions"
         tag="div"
         v-model="value.vaatimukset">
-        <div v-for="(v, idx) in value.vaatimukset" :key="idx" class="d-flex align-items-center mt-1">
+        <div v-for="(v, vaatimusIdx) in value.vaatimukset" :key="vaatimusIdx" class="d-flex align-items-center mt-1">
           <div class="flex-grow-1">
-            <vaatimus-field :koodisto="koodisto" v-model="value.vaatimukset[idx]" />
+            <vaatimus-field :koodisto="koodisto" v-model="value.vaatimukset[vaatimusIdx]" :validation="vaatimusValidation(null, vaatimusIdx)" />
           </div>
           <div>
             <ep-button @click="poistaVaatimus(value, v)" variant="link">
@@ -22,7 +22,7 @@
       </draggable>
       <div class="mt-2">
         <ep-button variant="outline"
-          @click="lisaaVaatimus(value)"
+                   @click="lisaaVaatimus(value)"
                    icon="plus">
                    {{ $t('lisaa-ammattitaitovaatimus-ilman-kohdealuetta') }}
         </ep-button>
@@ -41,7 +41,7 @@
             </ep-button>
           </div>
           <b-form-group :label="$t('kohdealueen-otsikko')">
-            <ep-input v-model="kohdealue.kuvaus" :is-editing="true" />
+            <ep-input v-model="kohdealue.kuvaus" :is-editing="true" :validation="validation && validation.kohdealueet.$each.$iter[kohdealueIdx].kuvaus" />
           </b-form-group>
           <b-form-group :label="$t('vaatimukset')" class="">
             <div class="otsikko font-italic">
@@ -51,9 +51,11 @@
               v-bind="vaatimusOptions"
               tag="div"
               v-model="kohdealue.vaatimukset">
-              <div v-for="(v, idx) in kohdealue.vaatimukset" :key="idx" class="mt-1 d-flex align-items-center">
+              <div v-for="(v, vaatimusIdx) in kohdealue.vaatimukset" :key="vaatimusIdx" class="mt-1 d-flex align-items-center">
                 <div class="flex-grow-1">
-                  <vaatimus-field :koodisto="koodisto" v-model="kohdealue.vaatimukset[idx]" />
+                  <vaatimus-field :koodisto="koodisto"
+                                  v-model="kohdealue.vaatimukset[vaatimusIdx]"
+                                  :validation="vaatimusValidation(kohdealueIdx, vaatimusIdx)" />
                 </div>
                 <div>
                   <ep-button @click="poistaVaatimus(kohdealue, v)" variant="link">
@@ -134,6 +136,7 @@
 <script lang="ts">
 import { Watch, Component, Prop, Vue } from 'vue-property-decorator';
 import EpButton from '../EpButton/EpButton.vue';
+import EpErrorWrapper from '../forms/EpErrorWrapper.vue';
 import EpInput from '../forms/EpInput.vue';
 import EpExternalLink from '../EpExternalLink/EpExternalLink.vue';
 import VaatimusField from './VaatimusField.vue';
@@ -145,11 +148,12 @@ import _ from 'lodash';
 
 @Component({
   components: {
-    draggable,
     EpButton,
+    EpErrorWrapper,
     EpExternalLink,
     EpInput,
     VaatimusField,
+    draggable,
   },
 })
 export default class EpAmmattitaitovaatimukset extends Vue {
@@ -159,13 +163,16 @@ export default class EpAmmattitaitovaatimukset extends Vue {
   @Prop({ default: false })
   private isEditing!: boolean;
 
+  @Prop({ default: null })
+  public validation!: any;
+
   private koodisto = new KoodistoSelectStore({
     async query(query: string, sivu = 0) {
       return (await Koodisto.kaikkiSivutettuna('ammattitaitovaatimukset', query, {
         params: {
           sivu,
           sivukoko: 10,
-        }
+        },
       })).data as any;
     },
   });
@@ -180,8 +187,7 @@ export default class EpAmmattitaitovaatimukset extends Vue {
 
   lisaaKohdealue(value: Ammattitaitovaatimukset2019Dto) {
     value.kohdealueet = [...value.kohdealueet || [], {
-      kuvaus: null,
-      koodi: null as any,
+      kuvaus: null as any,
       vaatimukset: [] as any[],
     }];
   }
@@ -215,6 +221,15 @@ export default class EpAmmattitaitovaatimukset extends Vue {
       vaatimus: null,
       koodi: null,
     }];
+  }
+
+  vaatimusValidation(kohdealueIdx: number | null, vaatimusIdx: number) {
+    if (!kohdealueIdx) {
+      return this.validation?.vaatimukset?.$each?.$iter[vaatimusIdx]?.vaatimus;
+    }
+    else {
+      return this.validation?.kohdealueet?.$each?.$iter[kohdealueIdx]?.vaatimukset?.$each?.$iter[vaatimusIdx]?.vaatimus;
+    }
   }
 }
 </script>

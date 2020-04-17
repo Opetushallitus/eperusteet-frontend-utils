@@ -35,7 +35,7 @@ axios.defaults.headers.common['Caller-Id'] = '1.2.246.562.10.00000000001.eperust
 
 const ax = axios.create({
   baseURL,
-  paramsSerializer: params => Qs.stringify(params, { arrayFormat: 'repeat' })
+  paramsSerializer: params => Qs.stringify(params, { arrayFormat: 'repeat' }),
 });
 
 // Apufuntio kirjautumiseen ja paluulinkin luontiin
@@ -110,42 +110,42 @@ Dokumentit.addImage = (opsId, tyyppi, kieli, formData) => {
   });
 };
 
+export const DokumenttiDtoTilaEnum = YlopsApi.DokumenttiDtoTilaEnum;
+export type DokumenttiDto = YlopsApi.DokumenttiDto;
+export type EtusivuDto = YlopsApi.EtusivuDto;
+export type KayttajanTietoDto = YlopsApi.KayttajanTietoDto;
+export type KoodistoKoodiDto = YlopsApi.KoodistoKoodiDto;
+export type KysymysDto = YlopsApi.KysymysDto;
+export type LiiteDto = YlopsApi.LiiteDto;
+export type Lops2019LaajaAlainenOsaaminenKokonaisuusDto = YlopsApi.Lops2019LaajaAlainenOsaaminenKokonaisuusDto;
+export type Lops2019ModuuliDto = YlopsApi.Lops2019ModuuliDto;
+export type Lops2019OpintojaksoDto = YlopsApi.Lops2019OpintojaksoDto;
+export type Lops2019OpintojaksonModuuliDto = YlopsApi.Lops2019OpintojaksonModuuliDto;
+export type Lops2019OpintojaksonOppiaineDto = YlopsApi.Lops2019OpintojaksonOppiaineDto;
+export type Lops2019OppiaineDto = YlopsApi.Lops2019OppiaineKaikkiDto;
+export type Lops2019OppiaineKaikkiDto = YlopsApi.Lops2019OppiaineKaikkiDto;
+export type Lops2019PaikallinenLaajaAlainenDto = YlopsApi.Lops2019PaikallinenLaajaAlainenDto;
+export type Lops2019PaikallinenOppiaineDto = YlopsApi.Lops2019PaikallinenOppiaineDto;
+export type Lops2019PoistettuDto = YlopsApi.Lops2019PoistettuDto;
+export type Lops2019ValidointiDto = YlopsApi.Lops2019ValidointiDto;
+export type Matala = YlopsApi.Matala;
+export type MuokkaustietoKayttajallaDto = YlopsApi.MuokkaustietoKayttajallaDto;
+export type OhjeDto = YlopsApi.OhjeDto;
 export type OpetussuunnitelmaDto = YlopsApi.OpetussuunnitelmaDto
 export type OpetussuunnitelmaInfoDto = YlopsApi.OpetussuunnitelmaInfoDto;
 export type OpetussuunnitelmaJulkinenDto = YlopsApi.OpetussuunnitelmaJulkinenDto;
 export type OpetussuunnitelmaKevytDto = YlopsApi.OpetussuunnitelmaKevytDto;
-export type Lops2019OpintojaksoDto = YlopsApi.Lops2019OpintojaksoDto;
-export type TekstiKappaleViiteKevytDto = YlopsApi.TekstiKappaleViiteKevytDto;
-export type TekstiKappaleKevytDto = YlopsApi.TekstiKappaleKevytDto;
-export type TekstiKappaleDto = YlopsApi.TekstiKappaleDto;
-export type Puu = YlopsApi.Puu;
+export type OpetussuunnitelmaLuontiDto = YlopsApi.OpetussuunnitelmaLuontiDto;
+export type OpetussuunnitelmanAikatauluDto = YlopsApi.OpetussuunnitelmanAikatauluDto;
+export type PerusteInfoDto = YlopsApi.PerusteInfoDto;
 export type PerusteTekstiKappaleViiteDto = YlopsApi.PerusteTekstiKappaleViiteDto;
 export type PerusteTekstiKappaleViiteMatalaDto = YlopsApi.PerusteTekstiKappaleViiteMatalaDto;
-export type Lops2019OpintojaksonModuuliDto = YlopsApi.Lops2019OpintojaksonModuuliDto;
-export type Lops2019PaikallinenOppiaineDto = YlopsApi.Lops2019PaikallinenOppiaineDto;
-export type KoodistoKoodiDto = YlopsApi.KoodistoKoodiDto;
-export type RevisionDto = YlopsApi.RevisionDto;
-export type LiiteDto = YlopsApi.LiiteDto;
-export type TermiDto = YlopsApi.TermiDto;
-export type Lops2019ModuuliDto = YlopsApi.Lops2019ModuuliDto;
-export type Lops2019LaajaAlainenOsaaminenKokonaisuusDto = YlopsApi.Lops2019LaajaAlainenOsaaminenKokonaisuusDto;
-export type Lops2019OppiaineKaikkiDto = YlopsApi.Lops2019OppiaineKaikkiDto;
-export type YlopsNavigationNodeDto = YlopsApi.NavigationNodeDto;
-export type PerusteInfoDto = YlopsApi.PerusteInfoDto;
-export type Lops2019OppiaineDto = YlopsApi.Lops2019OppiaineKaikkiDto;
-export type DokumenttiDto = YlopsApi.DokumenttiDto;
-export type EtusivuDto = YlopsApi.EtusivuDto;
-export const DokumenttiDtoTilaEnum = YlopsApi.DokumenttiDtoTilaEnum;
-export type Lops2019PoistettuDto = YlopsApi.Lops2019PoistettuDto;
-export type Lops2019ValidointiDto = YlopsApi.Lops2019ValidointiDto;
-export type UusiJulkaisuDto = YlopsApi.UusiJulkaisuDto;
-export type OpetussuunnitelmaLuontiDto = YlopsApi.OpetussuunnitelmaLuontiDto;
 export type PoistettuTekstiKappaleDto = YlopsApi.PoistettuTekstiKappaleDto;
-export type Lops2019OpintojaksonOppiaineDto = YlopsApi.Lops2019OpintojaksonOppiaineDto;
-export type KayttajanTietoDto = YlopsApi.KayttajanTietoDto;
-export type Lops2019PaikallinenLaajaAlainenDto = YlopsApi.Lops2019PaikallinenLaajaAlainenDto;
-export type Matala = YlopsApi.Matala;
-export type OhjeDto = YlopsApi.OhjeDto;
-export type KysymysDto = YlopsApi.KysymysDto;
-export type MuokkaustietoKayttajallaDto = YlopsApi.MuokkaustietoKayttajallaDto;
-export type OpetussuunnitelmanAikatauluDto = YlopsApi.OpetussuunnitelmanAikatauluDto;
+export type Puu = YlopsApi.Puu;
+export type RevisionDto = YlopsApi.RevisionDto;
+export type TekstiKappaleDto = YlopsApi.TekstiKappaleDto;
+export type TekstiKappaleKevytDto = YlopsApi.TekstiKappaleKevytDto;
+export type TekstiKappaleViiteKevytDto = YlopsApi.TekstiKappaleViiteKevytDto;
+export type TermiDto = YlopsApi.TermiDto;
+export type UusiJulkaisuDto = YlopsApi.UusiJulkaisuDto;
+export type YlopsNavigationNodeDto = YlopsApi.NavigationNodeDto;

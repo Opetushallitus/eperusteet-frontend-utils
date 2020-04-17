@@ -16,7 +16,7 @@ export const baseURL = '/eperusteet-service/api';
 
 const ax = axios.create({
   baseURL,
-  paramsSerializer: (params: any) => Qs.stringify(params, { arrayFormat: 'repeat' })
+  paramsSerializer: (params: any) => Qs.stringify(params, { arrayFormat: 'repeat' }),
 });
 
 function successfulResponseHandler() {
@@ -59,6 +59,7 @@ export const TutkinnonRakenne = initApi(EperusteetApi.TutkinnonRakenneApi);
 export const Tutkinnonosat = initApi(EperusteetApi.TutkinnonosatApi);
 export const TutkinnonosatPrivate = initApi(EperusteetApi.TutkinnonosatPrivateApi);
 export const Ulkopuoliset = initApi(EperusteetApi.UlkopuolisetApi);
+export const Maintenance = initApi(EperusteetApi.MaintenanceApi);
 
 export type Ammattitaitovaatimukset2019Dto = EperusteetApi.Ammattitaitovaatimukset2019Dto;
 export type ArviointiAsteikkoDto = EperusteetApi.ArviointiAsteikkoDto;
@@ -80,6 +81,7 @@ export type PerusteDto = EperusteetApi.PerusteDto;
 export type PerusteHakuDto = EperusteetApi.PerusteHakuDto;
 export type PerusteHakuInternalDto = EperusteetApi.PerusteHakuInternalDto;
 export type PerusteKevytDto = EperusteetApi.PerusteKevytDto;
+export type PerusteInfoDto = EperusteetApi.PerusteInfoDto;
 export type PerusteKoosteDto = EperusteetApi.PerusteKoosteDto;
 export type PerusteprojektiDto = EperusteetApi.PerusteprojektiDto;
 export type PerusteprojektiKevytDto = EperusteetApi.PerusteprojektiKevytDto;
@@ -94,7 +96,9 @@ export type TutkinnonOsaViiteDto = EperusteetApi.TutkinnonOsaViiteDto;
 export type TutkinnonOsaViiteUpdateDto = EperusteetApi.TutkinnonOsaViiteUpdateDto;
 export type TyoryhmaHenkiloDto = EperusteetApi.TyoryhmaHenkiloDto;
 export type UpdateDtoRakenneModuuliDto = EperusteetApi.UpdateDtoRakenneModuuliDto;
-export type ValidationDto = EperusteetApi.ValidationDto;
+export type OpasLuontiDto = EperusteetApi.OpasLuontiDto;
+
+export import PerusteprojektiLuontiDtoTyyppiEnum = EperusteetApi.PerusteprojektiLuontiDtoTyyppiEnum;
 
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
@@ -134,6 +138,8 @@ export interface PerusteQuery {
   tutkinnonosat?: boolean;
   tutkintonimikkeet?: boolean;
   voimassaolo?: boolean;
+  perusteTyyppi?: string;
+  perusteet?: number[];
 };
 
 export async function getAllPerusteet(query: PerusteQuery) {
@@ -185,5 +191,7 @@ export async function getAllPerusteetInternal(query: PerusteQuery) {
     query.tutkinnonosat,
     query.osaamisalat,
     query.koulutusvienti,
+    query.tila,
+    query.perusteTyyppi,
   );
 }

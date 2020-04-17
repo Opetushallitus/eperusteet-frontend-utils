@@ -14,8 +14,15 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import { colorize, kouluturtyyppiRyhmat } from '../../utils/perusteet';
+import { colorize, kouluturtyyppiRyhmat, themeColors, themes, rgb2string } from '../../utils/perusteet';
 import * as _ from 'lodash';
+
+const moduuliColors = {
+  'normaali': [0, 0, 0],
+  'pakollinen': [189, 219, 138],
+  'valinnainen': [241, 102, 192],
+  'paikallinen': [255, 165, 0],
+};
 
 export type IndicatorKind = 'normaali'
   | 'pakollinen'
@@ -49,18 +56,18 @@ export default class EpColorIndicator extends Vue {
     return `ball ball-${this.kind}${this.tooltip ? ' ball-tooltip' : ''}`;
   }
 
+  get background() {
+    return themeColors[themes[this.kind]] || themeColors[this.kind] || moduuliColors[this.kind] || [0, 0, 0];
+  }
+
   get dynstyle() {
-    const background = colorize(this.kind);
     const result = {
       'min-height': this.size + 'px',
       'min-width': this.size + 'px',
+      'background': rgb2string(this.background),
     };
-    if (background) {
-      return { ...result, background };
-    }
-    else {
-      return result;
-    }
+
+    return result;
   }
 }
 </script>
@@ -75,7 +82,7 @@ export default class EpColorIndicator extends Vue {
 }
 
 .ball-normaali {
-  background: black;
+  background: #000000;
 }
 
 .ball-pakollinen {
@@ -83,11 +90,11 @@ export default class EpColorIndicator extends Vue {
 }
 
 .ball-valinnainen {
-  background: #F166C0;
+  background: #f166c0;
 }
 
 .ball-paikallinen {
-  background: orange;
+  background: #ffa500;
 }
 
 .ball-offline {

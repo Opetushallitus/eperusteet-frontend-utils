@@ -123,7 +123,6 @@ export default class EpCollapse extends Vue {
   }
 
   .header {
-    padding-left: 10px;
     user-select: none;
     margin-bottom: 10px;
     margin-top: 5px;

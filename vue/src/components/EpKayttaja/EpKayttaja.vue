@@ -52,13 +52,13 @@ import { Prop, Component, Vue } from 'vue-property-decorator';
 
 import { Kielet, UiKielet } from '../../stores/kieli';
 import { Kieli } from '../../tyypit';
-import { IEsitysnimi, parsiEsitysnimi } from '../../stores/kayttaja';
+import { IEsitysnimi, parsiEsitysnimi } from '../../utils/kayttaja';
 import EpCollapse from '../EpCollapse/EpCollapse.vue';
 
 @Component({
   components: {
     EpCollapse,
-  }
+  },
 })
 export default class EpKayttaja extends Vue {
   @Prop({ required: true })

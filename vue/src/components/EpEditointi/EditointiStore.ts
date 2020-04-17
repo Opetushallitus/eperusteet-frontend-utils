@@ -84,9 +84,9 @@ export interface IEditoitava {
   start: () => Promise<void>;
 
   /**
-   * Validates if resoruce can be saved.
+   * Save preventing validations
    */
-  validate: (data: any) => Promise<EditointiKontrolliValidation>;
+  validator: Computed<any>;
 }
 
 export interface EditointiKontrolliRestore {
@@ -94,14 +94,6 @@ export interface EditointiKontrolliRestore {
   modal?: any;
   routePushLatest?: boolean;
 }
-
-const DefaultConfig = {
-  start: async () => {},
-  remove: async () => {},
-  validate: async () => ({
-    valid: true
-  }),
-};
 
 export interface EditointiStoreConfig {
   router: VueRouter;
@@ -173,6 +165,7 @@ export class EditointiStore {
   public readonly isSaving = computed(() => this.state.isSaving);
   public readonly isEditing = computed(() => this.state.isEditingState);
   public readonly isRemoved = computed(() => this.state.isRemoved);
+  public readonly validator = computed(() => this.config.validator?.value || null);
   public readonly isNew = computed(() => this.state.isNew);
   public readonly currentLock = computed(() => {
     const now = new Date();
@@ -246,7 +239,7 @@ export class EditointiStore {
       }
       EditointiStore.allEditingEditors = [
         ...EditointiStore.allEditingEditors,
-        this
+        this,
       ];
     }
     catch (err) {
@@ -290,7 +283,7 @@ export class EditointiStore {
     }
   }
 
-  public async cancel(skipRedirectBack?) {
+  public async cancel(skipRedirectBack = false) {
     this.state.disabled = true;
     if (!this.isEditing.value) {
       this.logger.warn('Ei voi perua');
@@ -315,12 +308,6 @@ export class EditointiStore {
     if (this.state.isNew && !skipRedirectBack) {
       EditointiStore.router?.go(-1);
     }
-  }
-
-  public async validate() {
-    const validation = await this.config.validate!(this.state.data);
-    this.logger.debug('Validointi:', validation);
-    return validation;
   }
 
   public async remove() {
@@ -350,14 +337,8 @@ export class EditointiStore {
     this.state.disabled = true;
     this.state.isSaving = true;
 
-    const validation = await this.validate();
-
     if (!this.isEditing.value) {
       this.logger.warn('Ei voi tallentaa ilman editointia');
-    }
-    else if (!validation.valid) {
-      this.logger.debug('Validointi epäonnistui');
-      // fail(validation.message ? validation.message : 'validointi-epaonnistui');
     }
     else if (this.config.save) {
       try {
@@ -448,6 +429,10 @@ export class EditointiStore {
     else {
       throw new Error('Source must be an object or an array');
     }
+  }
+
+  setData(data:any) {
+    this.state.data = data;
   }
 }
 

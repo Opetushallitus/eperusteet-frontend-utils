@@ -21,18 +21,15 @@
 </template>
 
 <script lang="ts">
-
 import { Vue, Component, Prop, Mixins, Watch } from 'vue-property-decorator';
 import _ from 'lodash';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import EpButton from '../EpButton/EpButton.vue';
 import { TiedoteDto } from '../../api/eperusteet';
 import { ITiedotteetProvider } from '../../stores/types';
-
 interface ListaTiedote extends TiedoteDto {
   uusi: boolean;
 }
-
 @Component({
   components: {
     EpSpinner,
@@ -42,22 +39,17 @@ interface ListaTiedote extends TiedoteDto {
 export default class EpTiedoteList extends Vue {
   @Prop({ required: true })
   private tiedotteet!: TiedoteDto;
-
-  @Prop({ required: false})
+  @Prop({ required: false })
   private tiedoteMaara;
-
   private naytettavaTiedoteMaara = 3;
-
   mounted() {
     if (this.tiedoteMaara) {
       this.naytettavaTiedoteMaara = this.tiedoteMaara;
     }
   }
-
   get tiedotteetSize() {
     return _.size(this.tiedotteet);
   }
-
   get tiedotteetFiltered() {
     if (this.tiedotteet) {
       return _.chain(this.tiedotteet)
@@ -71,15 +63,12 @@ export default class EpTiedoteList extends Vue {
         .value();
     }
   }
-
   avaaTiedote(tiedote: TiedoteDto) {
     this.$emit('avaaTiedote', tiedote);
   }
-
   tuntisitten(aika) {
     const tunti = 1000 * 60 * 60;
     const tuntisitten = Date.now() - tunti;
-
     return aika > tuntisitten;
   }
 }
@@ -87,30 +76,22 @@ export default class EpTiedoteList extends Vue {
 
 <style scoped lang="scss">
 @import "@shared/styles/_variables.scss";
-
   .content {
-
     .tiedote:nth-of-type(even) {
       background-color: $table-even-row-bg-color;
     }
-
     .tiedote:nth-of-type(odd) {
       background-color: $table-odd-row-bg-color;
     }
-
     .tiedote {
-
       &:hover{
         background-color: $table-hover-row-bg-color;
         cursor: pointer;
       }
-
       .otsikko {
-
         &.uusi {
           font-weight: bold;
         }
-
         .uusi {
           background-color: $blue-lighten-3;
           border-radius: 5px;
@@ -119,16 +100,12 @@ export default class EpTiedoteList extends Vue {
           margin-left: 5px;
         }
       }
-
       .muokkausaika {
         color: $gray-lighten-1;
       }
     }
-
     ::v-deep .btn {
       padding: 0px;
     }
-
   }
-
 </style>

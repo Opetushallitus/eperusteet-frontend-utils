@@ -4,11 +4,6 @@ import _ from 'lodash';
 import VueI18n from 'vue-i18n';
 import Vue, { VueConstructor } from 'vue';
 import moment from 'moment';
-import 'moment/locale/en-gb';
-import 'moment/locale/fi';
-import 'moment/locale/ru';
-import 'moment/locale/se';
-import 'moment/locale/sv';
 import VueCompositionApi, { computed, reactive } from '@vue/composition-api';
 import { updateRelativeTime } from '../plugins/aikaleima';
 import { Computed } from '../utils/interfaces';
@@ -17,7 +12,6 @@ Vue.use(VueCompositionApi);
 
 declare module 'vue/types/vue' {
   interface Vue {
-    $kaanna: Computed<string>;
     $locale: Computed<string>;
     $slang: Computed<string>;
     $t: typeof VueI18n.prototype.t;
@@ -32,12 +26,12 @@ const logger = createLogger('Kieli');
 function getMessages() {
   const result: any = {};
   try {
-    result.fi = require('@/translations/locale-fi.json');
+    result.fi = require('@shared/translations/locale-fi.json');
   }
   catch (e) {}
 
   try {
-    result.sv = require('@/translations/locale-sv.json');
+    result.sv = require('@shared/translations/locale-sv.json');
   }
   catch (e) {}
   return result;

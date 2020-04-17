@@ -2,6 +2,7 @@
 @import './editorstyle';
 @import './tutorial';
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:100,200,300,400,500,600,700,800|Poppins:100,200,300,400,500,600,700,800&display=swap');
+@import 'vue-select/src/scss/vue-select.scss';
 
 img.content-image {
   max-width: 100%;
@@ -50,7 +51,16 @@ img.content-image {
     margin-bottom: 0;
   }
 
+  .container-fluid {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    max-width: 100% !important;
+  }
+
   @media (max-width: 767.98px) {
+
     .container {
       padding-left: 0 !important;
       padding-right: 0 !important;
@@ -97,6 +107,14 @@ img.content-image {
 
   mark {
     padding: 0;
+  }
+
+  .w-40 {
+    width: 40% !important;
+  }
+
+  .w-60 {
+    width: 60% !important;
   }
 }
 

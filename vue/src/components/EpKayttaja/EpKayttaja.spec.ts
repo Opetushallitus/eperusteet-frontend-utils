@@ -40,7 +40,7 @@ describe('EpKayttaja component', () => {
           currentRoute,
           async push(route: any) {
             currentRoute = route;
-          }
+          },
         },
       },
       stubs: {

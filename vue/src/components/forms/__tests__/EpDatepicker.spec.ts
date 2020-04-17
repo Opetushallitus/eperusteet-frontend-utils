@@ -4,6 +4,10 @@ import VueI18n from 'vue-i18n';
 import { Kaannos } from '../../../plugins/kaannos';
 import { Kielet } from '../../../stores/kieli';
 import { Aikaleima } from '../../../plugins/aikaleima';
+import BootstrapVue from 'bootstrap-vue';
+import Vue from 'vue';
+
+Vue.use(BootstrapVue);
 
 describe('EpDatepicker component', () => {
   const localVue = createLocalVue();
@@ -16,7 +20,7 @@ describe('EpDatepicker component', () => {
         'valitse-pvm': 'valitse-pvm',
         'valitse-pvm-jana': 'valitse-pvm-jana',
         'validation-error-required': 'validation-error-required',
-      }
+      },
     },
   });
   const i18n = Kielet.i18n;
@@ -46,6 +50,8 @@ describe('EpDatepicker component', () => {
         isEditing: true,
       },
     });
+
+    expect(wrapper.find('div').text()).toContain('2019-01-07');
   });
 
   it('Test Validation fail', () => {
@@ -75,18 +81,18 @@ describe('EpDatepicker component', () => {
     });
 
     expect(wrapper.find('.invalid-feedback').exists()).toBe(true);
-    expect(wrapper.find('.is-invalid').exists()).toBe(true);
     expect(wrapper.find('.valid-feedback').exists()).toBe(false);
-    expect(wrapper.find('.is-valid').exists()).toBe(false);
   });
 
   it('Test validation success', () => {
     const wrapper = mount(EpDatepicker, {
       localVue,
       stubs,
+      i18n,
       propsData: {
         value: 1552946400000,
         isEditing: true,
+        validMessage: 'validi',
         validation: {
           required: true,
           $model: 1552946400000,
@@ -105,9 +111,7 @@ describe('EpDatepicker component', () => {
       },
     });
 
-    expect(wrapper.find('.is-valid').exists()).toBe(true);
-    expect(wrapper.find('.is-invalid').exists()).toBe(false);
-
+    expect(wrapper.find('.valid-feedback').exists()).toBe(true);
     expect(wrapper.find('.invalid-feedback').exists()).toBe(false);
   });
 });

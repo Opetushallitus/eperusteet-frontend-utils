@@ -48,12 +48,13 @@
     "@vue/test-utils": "1.0.0-beta.29",
     "animate.css": "^3.7.2",
     "axios": "^0.19.2",
-    "bootstrap-vue": "^2.5.0",
+    "bootstrap-vue": "^2.6.1",
     "core-js": "^3.4.4",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "file-loader": "^5.0.2",
-    "husky": "^4.2.2",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.1.2",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "node-sass": "^4.12.0",
@@ -78,6 +79,7 @@
     "vue-property-decorator": "^8.3.0",
     "vue-router": "^3.1.4",
     "vue-scrollto": "^2.17.1",
+    "vue-select": "^3.9.5",
     "vue-social-sharing": "^2.4.7",
     "vue-sticky-directive": "^0.0.10",
     "vue-template-compiler": "^2.6.10",
@@ -87,6 +89,6 @@
     "vuex": "^3.1.2"
   },
   "engines": {
-    "node": "10.x.x"
+    "node": "^10 || ^12"
   }
 }

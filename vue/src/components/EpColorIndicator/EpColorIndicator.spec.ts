@@ -12,9 +12,9 @@ describe('EpToggle component', () => {
     const wrapper = mount(EpColorIndicator, {
       localVue,
       mocks: {
-        $t: x => x
+        $t: x => x,
       },
-      propsData: {}
+      propsData: {},
     });
 
     expect(wrapper.html()).toContain('normaali');
@@ -22,24 +22,21 @@ describe('EpToggle component', () => {
     wrapper.setProps({
       kind: 'julkaistu',
       tooltip: 'tooltipviesti',
-      size: 20
+      size: 20,
     });
 
     expect(wrapper.html()).toContain('julkaistu');
     expect(wrapper.html()).toContain('min-height: 20px');
     expect(wrapper.html()).toContain('min-width: 20px');
-    expect(wrapper.element.style.background).toMatchInlineSnapshot(
-      '"rgb(47, 95, 209)"'
-    );
+
+    expect(wrapper.element.style.background).toMatchSnapshot();
 
     wrapper.setProps({
       kind: 'esiopetus',
       tooltip: 'tooltipviesti',
-      size: 20
+      size: 20,
     });
 
-    expect(wrapper.element.style.background).toMatchInlineSnapshot(
-      '"rgb(132, 210, 255)"'
-    );
+    expect(wrapper.element.style.background).toMatchSnapshot();
   });
 });

@@ -1,6 +1,5 @@
 import { axiosHandler } from './common';
-import { Configuration,
-} from '../generated/amosaa';
+import { Configuration } from '../generated/amosaa';
 import axios, { AxiosInstance } from 'axios';
 import _ from 'lodash';
 
@@ -14,7 +13,7 @@ export const baseURL = '/eperusteet-amosaa-service/api';
 
 const ax = axios.create({
   baseURL,
-  paramsSerializer: (params: any) => Qs.stringify(params, { arrayFormat: 'repeat' })
+  paramsSerializer: (params: any) => Qs.stringify(params, { arrayFormat: 'repeat' }),
 });
 
 function successfulResponseHandler() {
@@ -40,5 +39,3 @@ export const Api = ax;
 export const JulkinenApi = initApi(AmosaaApi.JulkinenApi);
 
 export type KoulutustoimijaJulkinenDto = AmosaaApi.KoulutustoimijaJulkinenDto;
-
-

@@ -30,6 +30,8 @@ import { Vue, Component } from 'vue-property-decorator';
 import EpToggle from '../forms/EpToggle.vue';
 import EpSidebarButtons from './EpSidebarButtons.vue';
 import Sticky from 'vue-sticky-directive';
+import { setItem, getItem, removeItem } from '../../utils/localstorage';
+import _ from 'lodash';
 
 @Component({
   components: {
@@ -44,13 +46,25 @@ export default class EpSidebar extends Vue {
   private isOpen = false;
   private settings = {
     autoScroll: true,
-    showSubchapter: true
+    showSubchapter: true,
   };
+
   get scrollId() {
     return this.settings.autoScroll ? 'scroll-anchor' : 'scroll-anchor-disabled';
   }
+
   private handleToggle(value) {
     this.isOpen = value;
+    if (this.isOpen) {
+      setItem('ep-sidebar-open', true);
+    }
+    else {
+      removeItem('ep-sidebar-open');
+    }
+  }
+
+  mounted() {
+    this.isOpen = !!getItem('ep-sidebar-open');
   }
 }
 </script>

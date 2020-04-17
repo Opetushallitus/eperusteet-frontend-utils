@@ -20,7 +20,7 @@ describe('EpMultiListSelect component', () => {
     }, {
       value: 'value3',
       text: 'text3',
-    }
+    },
   ];
   const valueMockEmpty = [];
   const valueMock = ['value1', 'value2', 'value3'];
@@ -31,7 +31,7 @@ describe('EpMultiListSelect component', () => {
         'lisaa-tyyppi1': 'lisaa tyyppi',
         'ei-hakutuloksia': 'ei hakutuloksia',
         'ei-vaihtoehtoja': 'ei vaihtoehtoja',
-      }
+      },
     },
   });
 
@@ -51,10 +51,10 @@ describe('EpMultiListSelect component', () => {
                   :items="items"
                   @input="update"
                   :validation="validation"
-                  :required="required"/>`
+                  :required="required"/>`,
     }), {
       stubs: {
-        fas: true
+        fas: true,
       },
       localVue,
       i18n,
@@ -243,7 +243,7 @@ describe('EpMultiListSelect component', () => {
       }, {
         value: 'value3',
         text: 'text3',
-      }
+      },
     ];
     const wrapper = mountWrapper({
       items: itemMocks,

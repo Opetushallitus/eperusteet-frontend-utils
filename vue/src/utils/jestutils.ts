@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import _ from 'lodash';
+import { computed } from '@vue/composition-api';
 
 import { Wrapper } from '@vue/test-utils';
 import { EditointiStore, IEditoitava } from '../components/EpEditointi/EditointiStore';
@@ -33,7 +34,7 @@ export function mockEditointiStore<T>(config: Partial<IEditoitava> = {}) {
     revisions: jest.fn(),
     save: jest.fn(),
     start: jest.fn(),
-    validate: jest.fn(async () => ({ valid: true })),
+    validator: computed(() => ({})),
     ...config,
   };
   return {
@@ -94,3 +95,29 @@ export function wrap<T extends object>(original: T, value: T) {
   const Mock = jest.fn(() => Vue.observable(result) as T);
   return new Mock();
 }
+
+type Constructable<T> = new(...params: any[]) => T;
+/**
+ * Mocks given store.
+ *
+ * @returns {undefined}
+ */
+export function mock<T>(X: Constructable<T>, overrides: Partial<T> = {}): T {
+  const mocks: any = new X();
+  for (const key of _.keys(X.prototype)) {
+    mocks[key] = jest.fn();
+  }
+  return {
+    ...mocks,
+    ...overrides,
+  };
+}
+
+// export class TestStore<T> extends T {
+//   public get state() {
+//     return (this as any).state;
+//   }
+// }
+// export function exposed<T>() {
+//   return new TestStore<T>();
+// }

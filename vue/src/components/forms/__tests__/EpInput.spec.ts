@@ -11,7 +11,7 @@ describe('EpInput component', () => {
     messages: {
       fi: {
         'apua': 'aputarve',
-      }
+      },
     },
   });
 
@@ -45,10 +45,10 @@ describe('EpInput component', () => {
       props: ['isEditing'],
       data() {
         return {
-          value: '123'
+          value: '123',
         };
       },
-      template: '<ep-input :is-editing="isEditing" type="string" v-model="value" />'
+      template: '<ep-input :is-editing="isEditing" type="string" v-model="value" />',
     }), {
       propsData: {
         value: '123',

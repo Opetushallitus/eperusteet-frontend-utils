@@ -5,7 +5,7 @@ import { Koodisto, KoodistoKoodiDto } from '../../api/eperusteet';
 import { Debounced } from '../../utils/delay';
 
 export interface IKoodisto {
-  query: (query: string, sivu?: number) => Promise<Page<KoodistoKoodiDto>>;
+  query: (query: string, sivu?: number, vainVoimassaolevat?: boolean) => Promise<Page<KoodistoKoodiDto>>;
 }
 
 export class KoodistoSelectStore {
@@ -19,8 +19,8 @@ export class KoodistoSelectStore {
   }
 
   @Debounced(300)
-  public async query(query: string = '', sivu = 0) {
-    const result = await this.config.query(query, sivu);
+  public async query(query: string = '', sivu = 0, onlyValidKoodis = true) {
+    const result = await this.config.query(query, sivu, onlyValidKoodis);
     this.state.data = result as any;
   }
 }

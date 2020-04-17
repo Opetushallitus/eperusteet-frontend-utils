@@ -17,33 +17,85 @@ const logger = createLogger('EpValidation');
 } as any)
 export default class EpValidation extends Mixins(validationMixin) {
   @Prop({ type: String })
-  private validMessage!: string | undefined;
+  protected validMessage!: string | undefined;
 
   @Prop({ type: String })
-  private invalidMessage!: string | undefined;
+  protected invalidMessage!: string | undefined;
 
   @Prop({ default: null })
-  public validation!: any;
+  protected validation!: any;
 
-  get isInvalid() {
-    return this.validation && this.validation.$invalid;
+  @Prop({ default: false })
+  protected warning!: boolean;
+
+  protected onFocus() {
+    // TODO: Ehkä käytetään
+    // if (this.validation) {
+    //   this.validation.$reset();
+    // }
   }
 
-  get isValid() {
+  protected onBlur() {
+    if (this.validation) {
+      this.validation.$touch();
+    }
+  }
+
+  protected get isWarning() {
+    if (this.validationError && this.validation.$params) {
+      return this.validation.$params[this.validationError]?.type === 'warning';
+    }
+    else {
+      return false;
+    }
+  }
+
+  protected get isDirty() {
+    // TODO: Ehkä?
+    return this.validation?.$dirty || false;
+    // return true;
+  }
+
+  protected get isInvalid() {
+    return this.validation && this.isDirty && this.validation.$invalid;
+  }
+
+  protected get isValid() {
     return this.validation && !this.validation.$invalid;
   }
 
-  get validationError() {
+  protected get validators() {
+    return _(this.validation)
+      .keys()
+      .reject((key) => _.startsWith(key, '$'))
+      .reject((key) => this.validation[key])
+      .value();
+  }
+
+  protected get errorValidators() {
+    if (this.validation) {
+      return _.reject(this.validators, x => this.validation.$params[x]?.type === 'warning');
+    }
+    return [];
+  }
+
+  protected get message() {
+    if (this.validationError && !this.invalidMessage) {
+      const prefix = this.isWarning
+        ? 'validation-warning-'
+        : 'validation-error-';
+      return this.$t(prefix + (this.validationError || ''), this.validation.$params[this.validationError]) || '';
+    }
+    return '';
+  }
+
+  protected get validationError() {
     // Validointi näyteään vain muokkaustilassa
-    if (this.validation && ((this as any).isEditing === undefined || (this as any).isEditing)) {
-      return _(this.validation)
-        .keys()
-        .reject((key) => _.startsWith(key, '$'))
-        .reject((key) => this.validation[key])
-        .head();
+    if ((this as any).isEditing === undefined || (this as any).isEditing) {
+      return _.first(this.errorValidators) || _.first(this.validators) || null;
     }
     else {
-      return '';
+      return null;
     }
   }
 }

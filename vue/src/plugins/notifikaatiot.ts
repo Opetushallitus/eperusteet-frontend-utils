@@ -37,14 +37,14 @@ export class Notifikaatiot {
     vue.prototype.$success = function(title: string) {
       this.$notify({
         title,
-        type: 'success'
+        type: 'success',
       });
     };
 
     vue.prototype.$info = function(title: string) {
       this.$notify({
         title,
-        type: 'info'
+        type: 'info',
       });
     };
 

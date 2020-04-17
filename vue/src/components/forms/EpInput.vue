@@ -4,6 +4,8 @@
     <input class="input-style form-control"
            :class="[ inputClass ]"
            :placeholder="placeholder"
+           @focus="onFocus"
+           @blur="onBlur"
            @input="onInput($event.target.value)"
            :type="type === 'number' ? 'number' : 'text'"
            v-bind="$attrs"
@@ -15,10 +17,14 @@
       <slot name="right" />
     </div>
   </div>
-  <div class="valid-feedback" v-if="!validationError && validMessage">{{ $t(validMessage) }}</div>
-  <div class="invalid-feedback" v-else-if="validationError && invalidMessage">{{ $t(invalidMessage) }}</div>
-  <div class="invalid-feedback" v-else-if="validationError && !invalidMessage">{{ $t('validation-error-' + validationError, validation.$params[validationError]) }}</div>
-  <small class="form-text text-muted" v-if="help && isEditing">{{ $t(help) }}</small>
+  <div v-if="showMessage">
+    <div class="valid-feedback" v-if="!validationError && validMessage">{{ $t(validMessage) }}</div>
+    <div v-if="validationError && isDirty" :class="{ 'is-warning': isWarning }">
+      <div class="invalid-feedback" v-if="invalidMessage">{{ $t(invalidMessage) }}</div>
+      <div class="invalid-feedback" v-else>{{ message }}</div>
+    </div>
+    <small class="form-text text-muted" v-if="help && isEditing">{{ $t(help) }}</small>
+  </div>
 </div>
 <div v-else v-bind="$attrs">
   <h2 v-if="isHeader">{{val}}</h2>
@@ -32,6 +38,7 @@ import _ from 'lodash';
 import { Kielet } from '../../stores/kieli';
 import { createLogger } from '../../utils/logger';
 import EpValidation from '../../mixins/EpValidation';
+import { Debounced } from '../../utils/delay';
 
 const logger = createLogger('EpInput');
 
@@ -60,6 +67,9 @@ export default class EpInput extends Mixins(EpValidation) {
   @Prop({ default: true, required: false })
   private showValidValidation!: boolean;
 
+  @Prop({ default: true })
+  private showMessage!: boolean;
+
   get hasLeftSlot() {
     return !!this.$slots.left;
   }
@@ -72,9 +82,15 @@ export default class EpInput extends Mixins(EpValidation) {
     return {
       'left-padded': this.hasLeftSlot,
       'right-padded': this.hasRightSlot,
-      'is-invalid': this.isInvalid,
+      'is-invalid': !this.isWarning && this.isInvalid,
+      'is-warning': this.isWarning && this.isInvalid,
       'is-valid': this.isValid && this.showValidValidation,
     };
+  }
+
+  @Debounced(1000)
+  async touch() {
+    this.validation?.$touch();
   }
 
   public onInput(input: any) {
@@ -105,9 +121,7 @@ export default class EpInput extends Mixins(EpValidation) {
         [Kielet.getSisaltoKieli.value]: input,
       });
     }
-    if (this.validation) {
-      this.validation.$touch();
-    }
+    // this.touch();
   }
 
   get val() {
@@ -157,6 +171,10 @@ input.input-style {
   }
 }
 
+input.is-warning:focus {
+  border-color: #ffc107;
+}
+
 input.is-invalid:focus {
   border-color: #dc3545;
 }
@@ -171,9 +189,17 @@ input {
   }
 }
 
+.is-warning {
+  .invalid-feedback {
+    color: orange;
+  }
+}
+
+/deep/ .invalid-feedback, /deep/ .valid-feedback {
+}
+
 // Piilotettu Bootstrapissa oletuksena
-/deep/ .invalid-feedback,
-/deep/ .valid-feedback {
+.invalid-feedback {
   display: block;
 }
 

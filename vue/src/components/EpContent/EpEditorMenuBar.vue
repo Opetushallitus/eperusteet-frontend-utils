@@ -255,7 +255,7 @@ export default class EpEditorMenuBar extends Vue {
   private editLink(data) {
     if (!_.isEmpty(this.linkValue)) {
       data.commands.link({
-        href: this.linkValue
+        href: this.linkValue,
       } as any);
       this.linkValue = null;
     }

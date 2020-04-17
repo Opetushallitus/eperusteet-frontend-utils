@@ -22,6 +22,11 @@ $tabcolor: #0041dc;
 
   .modal-header {
     border-bottom: 0;
+    font-weight: 600;
+
+    h5 {
+      font-weight: 600;
+    }
   }
 
   .modal-footer {
@@ -230,4 +235,9 @@ fieldset {
 
 .b-dropdown-text {
   padding: 0 0 0 0.75rem !important;
+}
+
+fieldset.form-group {
+  padding-left: 0;
+  margin-left: 0;
 }

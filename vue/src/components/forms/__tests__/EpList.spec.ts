@@ -14,7 +14,7 @@ describe('EpList component', () => {
     messages: {
       fi: {
         'lisaa-sisalto': 'lisaasisalto',
-      }
+      },
     },
   });
 
@@ -28,13 +28,13 @@ describe('EpList component', () => {
       props: ['isEditing'],
       data() {
         return {
-          value: valueMock
+          value: valueMock,
         };
       },
-      template: '<ep-list :is-editable="isEditing" kentta="kentta" v-model="value" />'
+      template: '<ep-list :is-editable="isEditing" kentta="kentta" v-model="value" />',
     }), {
       stubs: {
-        fas: true
+        fas: true,
       },
       localVue,
       i18n,

@@ -52,11 +52,17 @@ export function Debounced(ms = 300) {
         clearTimeout(debounces.get(this));
       }
       return new Promise((resolve, reject) => {
-        debounces.set(this, setTimeout(() => {
+        if (process.env.NODE_ENV === 'test') {
           original.apply(this, params).then(resolve)
             .catch(reject);
-          debounces.set(this, undefined);
-        }, ms));
+        }
+        else {
+          debounces.set(this, setTimeout(() => {
+            original.apply(this, params).then(resolve)
+              .catch(reject);
+            debounces.set(this, undefined);
+          }, ms));
+        }
       });
     };
   };
@@ -73,7 +79,7 @@ export function Computed() {
     const original = descriptor.get;
     const getter = computed(() => original);
     descriptor.value = {
-      get: getter.value
+      get: getter.value,
     };
   };
 }

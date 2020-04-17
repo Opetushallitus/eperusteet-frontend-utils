@@ -21,7 +21,7 @@ import EpIcon from '@shared/components/EpIcon/EpIcon.vue';
 @Component({
   components: {
     EpIcon,
-  }
+  },
 })
 export default class BaseInnerTile extends Vue {
   @Prop({ required: true })
@@ -84,6 +84,7 @@ $tile-width: 540px;
     top: -37px;
     display: flex;
     justify-content: center;
+    color: $black;
   }
 }
 

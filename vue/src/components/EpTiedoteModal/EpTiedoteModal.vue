@@ -145,7 +145,7 @@
 import * as _ from 'lodash';
 import { Watch, Prop, Component, Vue, Mixins } from 'vue-property-decorator';
 import { TiedoteDto, Kayttajat, PerusteHakuDto, PerusteDto, PerusteKevytDto } from '@shared/api/eperusteet';
-import { parsiEsitysnimi } from '@shared/stores/kayttaja';
+import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 import { ITiedotteetProvider } from '@shared/stores/types';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
@@ -181,13 +181,13 @@ import { Kielet } from '../../stores/kieli';
     muokattavaTiedote: {
       otsikko: {
         [Kielet.getSisaltoKieli.value]: {
-          required
+          required,
         },
       },
       sisalto: {
         required,
         [Kielet.getSisaltoKieli.value]: {
-          required
+          required,
         },
       },
     },
@@ -279,8 +279,8 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
           .filter(peruste => !_.isEmpty(this.perusteetById[(peruste as any).id]))
           .map(peruste => this.$kaanna((this.perusteetById[(peruste as any).id] as any).nimi))
           .uniq()
-          .value()
-      ]
+          .value(),
+      ],
     };
   }
 
@@ -319,7 +319,7 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
         if (!_.includes(_.map(this.muokattavaTiedote.perusteet, 'id'), this.peruste.id)) {
           this.muokattavaTiedote.perusteet = [
             ..._.map(this.muokattavaTiedote.perusteet),
-            this.perusteToKevytDto(this.peruste)
+            this.perusteToKevytDto(this.peruste),
           ];
         }
       }
