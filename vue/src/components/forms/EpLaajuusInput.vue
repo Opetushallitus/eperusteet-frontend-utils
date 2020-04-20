@@ -1,7 +1,7 @@
 <template>
   <div v-if="!isEditing">
     <div v-if="model">
-      {{ model }} {{ $t('OSAAMISPISTE') }}
+      {{ model }} {{ $t('osaamispiste') }}
     </div>
     <div v-else>
       -
@@ -14,7 +14,7 @@
       </div>
       <div class="ml-2">
         <slot>
-        {{ $t('OSAAMISPISTE') }}
+        {{ $t('osaamispiste') }}
         </slot>
       </div>
     </div>
