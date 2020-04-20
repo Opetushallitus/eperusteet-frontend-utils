@@ -116,7 +116,6 @@ export default class EpSteps extends Vue {
       this.$emit('input', value);
     }
   }
-
 }
 </script>
 
@@ -152,4 +151,3 @@ export default class EpSteps extends Vue {
 }
 
 </style>
-

@@ -500,7 +500,6 @@ export default class EpEditointi extends Mixins(validationMixin) {
       this.$success(this.$t(this.labelSaveFail) as string);
     }
   }
-
 }
 
 </script>

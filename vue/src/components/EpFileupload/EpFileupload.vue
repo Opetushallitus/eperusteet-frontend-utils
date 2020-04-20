@@ -42,9 +42,9 @@
 <script lang="ts">
 import { Vue, Component, Watch, Prop } from 'vue-property-decorator';
 
-import { baseURL, DokumentitParams } from '@/api';
-import { Kielet } from ../../stores/kieli';
-import { DokumenttiDto } from '../../generated';
+// import { baseURL, DokumentitParams } from '../../api/eperusteet';
+import { Kielet } from '../../stores/kieli';
+// import { DokumenttiDto } from '../../generated';
 import EpButton from '../EpButton/EpButton.vue';
 import EpFormContent from '../forms/EpFormContent.vue';
 import _ from 'lodash';
@@ -61,14 +61,15 @@ export default class EpFileupload extends Vue {
   private fileMaxSize = 1 * 1024 * 1024;
   private fileTypes: string [] = ['image/jpeg', 'image/png'];
 
-  @Prop({required: true})
+  @Prop({ required: true })
   private tyyppi!: string;
 
-  @Prop({required: true})
-  private dto: DokumenttiDto | null = null;
+  @Prop({ required: true })
+  private dto: any | null = null;
 
   get kuvaUrl() {
-    return baseURL + DokumentitParams.getImage(this.dto!.opsId!, this.tyyppi, this.kieli).url;;
+    return '';
+    // return baseURL + DokumentitParams.getImage(this.dto!.opsId!, this.tyyppi, this.kieli).url;;
   }
 
   get kieli() {

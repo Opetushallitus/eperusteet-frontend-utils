@@ -41,7 +41,6 @@ import _ from 'lodash';
 
 export type ProjektiFilter = 'koulutustyyppi' | 'tila' | 'voimassaolo';
 
-
 function routeToNode(route: any) {
   if (!route) {
     return null;
@@ -76,9 +75,7 @@ function routeToNode(route: any) {
   return null;
 }
 
-
 type IndexedNode = FlattenedNodeDto & { idx: number };
-
 
 @Component({
   components: {
@@ -187,7 +184,6 @@ export default class EpTreeNavibar extends Vue {
   navigateUp() {
     this.active = _.last(this.activeParents) || null;
   }
-
 }
 </script>
 
