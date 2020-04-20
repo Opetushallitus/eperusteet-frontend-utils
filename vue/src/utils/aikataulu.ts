@@ -19,9 +19,10 @@ export function aikatauluTapahtumapaivaSort(aikataulu: any) {
 }
 
 export interface Tapahtuma {
+  id?: number;
   tapahtuma: 'luominen' | 'julkaisu' | 'tavoite';
   tapahtumapaiva: Date;
-  tavoite: string;
+  tavoite: string | { [key: string]: string; };
 }
 
 export interface AikatauluRootModel {
