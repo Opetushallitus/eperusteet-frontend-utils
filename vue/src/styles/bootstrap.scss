@@ -244,3 +244,12 @@ fieldset.form-group {
   padding-left: 0;
   margin-left: 0;
 }
+
+.custom-checkbox label.custom-control-label::before {
+  border-radius: 0.2rem;
+}
+
+.switch label.custom-control-label::before {
+  border-radius: 10px;
+  border: 2px solid #E0E0E1;
+}
