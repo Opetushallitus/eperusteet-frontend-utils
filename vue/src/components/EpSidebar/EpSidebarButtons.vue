@@ -27,7 +27,7 @@
   <b-popover v-if="showSocial"
              :target="shareButtonId"
              triggers="click blur">
-            
+
     <template v-slot:title>{{ $t('jaa-sosiaalisessa-mediassa') }}</template>
     <social-sharing :url="url"
                     :quote="quote"
@@ -83,7 +83,6 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import EpToggle from '../forms/EpToggle.vue';
 
-
 @Component({
   components: {
     EpToggle,
@@ -110,27 +109,27 @@ export default class EpSidebarButtons extends Vue {
       'd-none d-md-inline-flex': !this.mobile,
     };
   }
-  
+
   get settingsButtonId() {
     return this.mobile ? 'popover-settings-button-mobile' : 'popover-settings-button-desktop';
   }
-  
+
   get shareButtonId() {
     return this.mobile ? 'popover-share-button-mobile' : 'popover-share-button-desktop';
   }
-  
+
   get url() {
     return window.location.href;
   }
-  
+
   get quote() {
     return document.title;
   }
-  
+
   get hashtags() {
     return this.$t('avainsanalista');
   }
-  
+
   get innerValue() {
     return this.value;
   }
