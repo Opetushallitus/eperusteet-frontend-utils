@@ -124,7 +124,7 @@ export default class EpTreeNavibar extends Vue {
   onRouteUpdate(route) {
     const matching = routeToNode(route);
     if (matching) {
-      const node = _.find(this.navigation, matching);
+      const node = _.find(this.navigation, matching) as IndexedNode | null;
       if (node) {
         this.navigate(node);
       }
@@ -153,7 +153,7 @@ export default class EpTreeNavibar extends Vue {
       .value();
   }
 
-  get navigation() {
+  get navigation(): IndexedNode[] | null {
     if (!this.store) {
       return null;
     }
