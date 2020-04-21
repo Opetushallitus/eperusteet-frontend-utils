@@ -5,11 +5,13 @@
       <!-- Desktop -->
       <ep-sidebar-buttons :mobile="false"
                           :inline="isOpen"
+                          :show-social="showSocial"
                           v-model="settings"
                           @toggle="handleToggle" />
       <!-- Mobile -->
       <ep-sidebar-buttons :mobile="true"
                           :inline="isOpen"
+                          :show-social="showSocial"
                           v-model="settings"
                           @toggle="handleToggle" />
     </div>
@@ -26,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { Prop, Vue, Component } from 'vue-property-decorator';
 import EpToggle from '../forms/EpToggle.vue';
 import EpSidebarButtons from './EpSidebarButtons.vue';
 import Sticky from 'vue-sticky-directive';
@@ -43,6 +45,9 @@ import _ from 'lodash';
   },
 })
 export default class EpSidebar extends Vue {
+  @Prop({ default: true })
+  private showSocial!: boolean;
+
   private isOpen = false;
   private settings = {
     autoScroll: true,

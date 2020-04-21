@@ -1,11 +1,11 @@
-import { mount, createLocalVue, RouterLinkStub } from '@vue/test-utils';
-import EpSteps from './EpSteps.vue';
-import { Kaannos } from '../../plugins/kaannos';
-import VueI18n from 'vue-i18n';
-import { findContaining } from '../../utils/jestutils';
-import { Kielet } from '../../stores/kieli';
-import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
+import EpSteps from './EpSteps.vue';
+import Vue from 'vue';
+import VueI18n from 'vue-i18n';
+import { Kaannos } from '../../plugins/kaannos';
+import { Kielet } from '../../stores/kieli';
+import { findContaining } from '../../utils/jestutils';
+import { mount, createLocalVue, RouterLinkStub } from '@vue/test-utils';
 
 Vue.use(BootstrapVue);
 
