@@ -1,59 +1,66 @@
 <template>
-    <div>
+  <div v-if="isEditing">
 
-      <div v-for="(innerModel, i) in innerModelValidations" :key="i" class="row mb-2">
-        <div class="col-11">
-          <multiselect
-            :disabled="isLoading"
-            class="groupselect"
-            v-model="innerModels[i]"
-            :options="items"
-            :multiple="false"
-            track-by="text"
-            label="text"
-            select-label=""
-            selected-label=""
-            deselect-label=""
-            :placeholder="''"
-            :class="{'is-invalid': !innerModel.valid }"
-            @input="handleInput($event, i)" >
+    <div v-for="(innerModel, i) in innerModelValidations" :key="i" class="row mb-2">
+      <div class="col-11">
+        <multiselect
+          :disabled="isLoading"
+          class="groupselect"
+          v-model="innerModels[i]"
+          :options="items"
+          :multiple="false"
+          track-by="text"
+          label="text"
+          select-label=""
+          selected-label=""
+          deselect-label=""
+          :placeholder="''"
+          :class="{'is-invalid': !innerModel.valid }"
+          @input="handleInput($event, i)" >
 
-            <template slot="option" slot-scope="{ option }">
-              <div :class="{'child': option.child, 'unselectable': option.unselectable}">
-                <slot name="option" :option="option">{{option.text}}</slot>
-              </div>
-            </template>
+          <template slot="option" slot-scope="{ option }">
+            <div :class="{'child': option.child, 'unselectable': option.unselectable}">
+              <slot name="option" :option="option">{{option.text}}</slot>
+            </div>
+          </template>
 
-            <template slot="singleLabel" slot-scope="{ option }">
-              <slot name="singleLabel" :option="option" v-if="option.value">{{option.text}}</slot>
-              <div class="valitse" v-else>{{$t('valitse')}}</div>
-            </template>
+          <template slot="singleLabel" slot-scope="{ option }">
+            <slot name="singleLabel" :option="option" v-if="option.value">{{option.text}}</slot>
+            <div class="valitse" v-else>{{$t('valitse')}}</div>
+          </template>
 
-            <template slot="noResult">
-              <div>{{ $t('ei-hakutuloksia') }}</div>
-            </template>
-            <template slot="noOptions">
-              <div>{{ $t('ei-vaihtoehtoja') }}</div>
-            </template>
+          <template slot="noResult">
+            <div>{{ $t('ei-hakutuloksia') }}</div>
+          </template>
+          <template slot="noOptions">
+            <div>{{ $t('ei-vaihtoehtoja') }}</div>
+          </template>
 
-          </multiselect>
+        </multiselect>
 
-        </div>
-        <div class="col-1">
-          <ep-button v-if="!required || (i > 0 && !isLoading)" buttonClass="p-0 pt-2 roskalaatikko" variant="link" icon="roskalaatikko" @click="poistaValinta(i)"/>
-        </div>
       </div>
-
-      <ep-spinner v-if="isLoading"/>
-      <ep-button buttonClass="pl-0 lisaa-valinta" variant="outline-primary" icon="plussa" @click="lisaaValinta" v-else-if="multiple" >
-        <slot name="lisaaTeksti">{{ $t(lisaaTeksti) }}</slot>
-      </ep-button>
-
-      <div class="valid-feedback" v-if="!validationError && validMessage">{{ $t(validMessage) }}</div>
-      <div class="invalid-feedback" v-else-if="validationError && invalidMessage ">{{ $t(invalidMessage) }}</div>
-      <div class="invalid-feedback" v-else-if="validationError && !invalidMessage">{{ $t('validation-error-' + validationError, validation.$params[validationError]) }}</div>
-
+      <div class="col-1">
+        <ep-button v-if="!required || (i > 0 && !isLoading)" buttonClass="p-0 pt-2 roskalaatikko" variant="link" icon="roskalaatikko" @click="poistaValinta(i)"/>
+      </div>
     </div>
+
+    <ep-spinner v-if="isLoading"/>
+    <ep-button buttonClass="pl-0 lisaa-valinta" variant="outline-primary" icon="plussa" @click="lisaaValinta" v-else-if="multiple" >
+      <slot name="lisaaTeksti">{{ $t(lisaaTeksti) }}</slot>
+    </ep-button>
+
+    <div class="valid-feedback" v-if="!validationError && validMessage">{{ $t(validMessage) }}</div>
+    <div class="invalid-feedback" v-else-if="validationError && invalidMessage ">{{ $t(invalidMessage) }}</div>
+    <div class="invalid-feedback" v-else-if="validationError && !invalidMessage">{{ $t('validation-error-' + validationError, validation.$params[validationError]) }}</div>
+
+  </div>
+  <div v-else>
+    <div v-for="(innerModel, i) in innerModelValidations" :key="i" class="row" :class="{'mb-2': i < innerModelValidations.length-1}">
+      <div class="col-11">
+        <slot name="singleLabel" :option="innerModels[i]" v-if="innerModels[i].value">{{innerModels[i].text}}</slot>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -108,6 +115,9 @@ export default class EpMultiListSelect extends Mixins(EpValidation) {
 
   @Prop({ default: true })
   private multiple!: boolean;
+
+  @Prop({ default: true, type: Boolean })
+  private isEditing!: boolean;
 
   private updateValue() {
     if (this.multiple) {
