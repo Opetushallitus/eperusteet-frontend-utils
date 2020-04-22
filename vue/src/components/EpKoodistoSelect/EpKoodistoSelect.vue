@@ -46,8 +46,10 @@
             selected-variant=''>
 
             <template v-slot:cell(nimi)="{ item }">
-              <fas v-if="item.selected" icon="check-square" class="checked mr-2"/>
-              <fas v-else :icon="['far', 'square']" class="checked mr-2"/>
+              <span v-if="multiple">
+                <fas v-if="item.selected" icon="check-square" class="checked mr-2"/>
+                <fas v-else :icon="['far', 'square']" class="checked mr-2"/>
+              </span>
               {{ $kaanna(item.nimi) }}
             </template>
 
