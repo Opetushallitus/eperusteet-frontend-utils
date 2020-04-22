@@ -271,3 +271,7 @@ export const perusteprojektitila = Object.freeze({
   valmis: 'valmis',
   julkaistu: 'julkaistu',
 });
+
+export function metadataToLocalized(metadata: any[], field: string) {
+  return _.mapValues(_.keyBy(metadata, v => _.toLower(v.kieli)), v => v[field]);
+}
