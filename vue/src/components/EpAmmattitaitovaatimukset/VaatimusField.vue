@@ -32,7 +32,7 @@
                 <ep-spinner />
               </div>
               <div class="datalist" v-else>
-                <div class="item" v-for="item in koodit" role="button" @click="valitse(item)" ref="datalist">
+                <div class="item" v-for="(item, idx) in koodit" role="button" @click="valitse(item)" ref="datalist" :key="'autocomplete-' + idx">
                   {{ $kaanna(item.nimi) }}
                 </div>
               </div>
@@ -52,9 +52,9 @@ import EpErrorWrapper from '../forms/EpErrorWrapper.vue';
 import EpExternalLink from '../EpExternalLink/EpExternalLink.vue';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import EpKoodistoSelect from '../EpKoodistoSelect/EpKoodistoSelect.vue';
-import { Ammattitaitovaatimukset2019Dto } from '../../api/eperusteet';
+import { Ammattitaitovaatimukset2019Dto, Koodisto } from '../../api/eperusteet';
 import { KoodistoSelectStore } from '@shared/components/EpKoodistoSelect/KoodistoSelectStore';
-import { Koodisto } from '../../api/eperusteet';
+
 import { BrowserStore } from '../../stores/BrowserStore';
 import { metadataToLocalized } from '../../utils/perusteet';
 import _ from 'lodash';
