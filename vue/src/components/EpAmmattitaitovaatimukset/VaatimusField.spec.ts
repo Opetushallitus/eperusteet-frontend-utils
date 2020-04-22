@@ -11,9 +11,7 @@ import BootstrapVue from 'bootstrap-vue';
 import { KoodistoSelectStore } from '../EpKoodistoSelect/KoodistoSelectStore';
 import VaatimusField from './VaatimusField.vue';
 
-
 Vue.use(BootstrapVue);
-
 
 describe('VaatimusField', () => {
   const localVue = createLocalVue();
@@ -117,7 +115,8 @@ describe('VaatimusField', () => {
     wrapper.find('input').trigger('focus');
     await delay();
     expect(wrapper.html()).toContain('nimi 1234');
-    wrapper.findAll('.item').at(0).trigger('click');
+    wrapper.findAll('.item').at(0)
+      .trigger('click');
     await delay();
     expect(wrapper.html()).not.toContain('nimi 1234');
     expect(wrapper.emitted().input[0][0].nimi).toBeFalsy();
@@ -127,7 +126,6 @@ describe('VaatimusField', () => {
         arvo: '1234',
       }));
   });
-
 });
 
 const koodit = {
@@ -138,13 +136,13 @@ const koodit = {
     metadata: [{
       nimi: 'nimi 1234',
       kieli: 'FI',
-      kuvaus: 'kuvaus 1234'
+      kuvaus: 'kuvaus 1234',
     }],
     koodisto: {
       koodistoUri: 'ammattitaitovaatimukset',
-      latestKoodistoVersio: null
+      latestKoodistoVersio: null,
     },
     voimassaAlkuPvm: 1576713600000,
-    voimassaLoppuPvm: null
-  }]
+    voimassaLoppuPvm: null,
+  }],
 };
