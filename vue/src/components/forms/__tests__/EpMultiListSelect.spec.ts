@@ -49,6 +49,7 @@ describe('EpMultiListSelect component', () => {
                   :value="value"
                   :tyyppi="tyyppi"
                   :items="items"
+                  :isEditing="isEditing"
                   @input="update"
                   :validation="validation"
                   :required="required"/>`,
@@ -69,6 +70,7 @@ describe('EpMultiListSelect component', () => {
       tyyppi: 'tyyppi1',
       validation: '',
       required: true,
+      isEditing: true,
       update: () => {},
     });
 
@@ -88,6 +90,7 @@ describe('EpMultiListSelect component', () => {
       tyyppi: 'tyyppi1',
       validation: '',
       required: false,
+      isEditing: true,
       update: () => {},
     });
 
@@ -101,6 +104,7 @@ describe('EpMultiListSelect component', () => {
       tyyppi: 'tyyppi1',
       validation: '',
       required: true,
+      isEditing: true,
       update: () => {},
     });
 
@@ -122,6 +126,7 @@ describe('EpMultiListSelect component', () => {
       tyyppi: 'tyyppi1',
       validation: '',
       required: true,
+      isEditing: true,
       update: () => {},
     });
 
@@ -144,6 +149,7 @@ describe('EpMultiListSelect component', () => {
       tyyppi: 'tyyppi1',
       validation: '',
       required: true,
+      isEditing: true,
       update: (newValues) => {
         values = newValues;
       },
@@ -172,6 +178,7 @@ describe('EpMultiListSelect component', () => {
       tyyppi: 'tyyppi1',
       validation: '',
       required: true,
+      isEditing: true,
       update: (newValues) => {
         values = newValues;
       },
@@ -215,6 +222,7 @@ describe('EpMultiListSelect component', () => {
       tyyppi: 'tyyppi1',
       validation: '',
       required: true,
+      isEditing: true,
       update: (newValues) => {
         values = newValues;
       },
@@ -251,6 +259,7 @@ describe('EpMultiListSelect component', () => {
       tyyppi: 'tyyppi1',
       validation: '',
       required: true,
+      isEditing: true,
       update: (newValues) => {
         values = newValues;
       },
@@ -268,5 +277,29 @@ describe('EpMultiListSelect component', () => {
 
     expect(wrapper.findAll('.multiselect__select')).toHaveLength(1);
     expect(values).toEqual(['value2']);
+  });
+
+  test('not editable', async () => {
+    let values = ['value1', 'value2'];
+    const wrapper = mountWrapper({
+      items: itemMock,
+      value: values,
+      isEditing: false,
+      required: false,
+      tyyppi: 'tyyppi1',
+      validation: '',
+      update: (newValues) => {},
+    });
+
+    console.log(wrapper.html());
+
+    expect(values).toEqual(['value1', 'value2']);
+    expect(wrapper.findAll('.multiselect__select')).toHaveLength(0);
+    expect(wrapper.findAll('.roskalaatikko')).toHaveLength(0);
+    expect(wrapper.findAll('input')).toHaveLength(0);
+    expect(wrapper.findAll('button')).toHaveLength(0);
+
+    expect(wrapper.html()).toContain('text1');
+    expect(wrapper.html()).toContain('text2');
   });
 });
