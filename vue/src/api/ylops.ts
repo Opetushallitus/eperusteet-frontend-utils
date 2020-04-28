@@ -20,6 +20,8 @@ import { Configuration,
   MuokkaustietoApi,
   AikatauluApi,
   VuosiluokkakokonaisuudetApi,
+  OppiaineetApi,
+  OppiaineenVuosiluokkakokonaisuudetApi,
 } from '../generated/ylops';
 import axios, { AxiosInstance } from 'axios';
 import _ from 'lodash';
@@ -92,12 +94,14 @@ export const OpetussuunnitelmanSisalto = initApi(OpetussuunnitelmanSisaltoApi);
 export const Opetussuunnitelmat = initApi(OpetussuunnitelmatApi);
 export const OpetussuunnitelmatJulkiset = initApi(OpetussuunnitelmatJulkisetApi);
 export const Opintojaksot = initApi(Lops2019OpintojaksotApi);
-export const Oppiaineet = initApi(Lops2019OppiaineetApi);
+export const Lops2019Oppiaineet = initApi(Lops2019OppiaineetApi);
 export const Termisto = initApi(TermistoApi);
 export const Ulkopuoliset = initApi(UlkopuolisetApi);
 export const Muokkaustieto = initApi(MuokkaustietoApi);
 export const Aikataulu = initApi(AikatauluApi);
 export const Vuosiluokkakokonaisuudet = initApi(VuosiluokkakokonaisuudetApi);
+export const Oppiaineet = initApi(OppiaineetApi);
+export const OppiaineenVuosiluokkakokonaisuudet = initApi(OppiaineenVuosiluokkakokonaisuudetApi);
 
 Dokumentit.addImage = (opsId, tyyppi, kieli, formData) => {
   return Api.post('/dokumentit/kuva', formData, {
