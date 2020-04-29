@@ -49,6 +49,8 @@ import Sticky from 'vue-sticky-directive';
 import { EditorLayout } from '@shared/tyypit';
 import EpValidation from '@shared/mixins/EpValidation';
 
+const striptag = document.createElement('span');
+
 @Component({
   components: {
     EditorContent,
@@ -197,13 +199,16 @@ export default class EpContent extends Mixins(EpValidation) {
 
   setUpEditorEvents() {
     const data = this.editor.getHTML();
+    striptag.innerHTML = data;
+    const isValid = !_.isEmpty(striptag.innerText || striptag.textContent) || striptag.getElementsByTagName('img').length > 0;
+    const stripped = isValid ? data : null;
     if (this.isPlainString) {
-      this.$emit('input', data);
+      this.$emit('input', stripped);
     }
     else {
       this.$emit('input', {
         ...this.value,
-        [Kielet.getSisaltoKieli.value as unknown as string]: data,
+        [Kielet.getSisaltoKieli.value as unknown as string]: stripped,
       });
     }
   }
