@@ -76,4 +76,12 @@ describe('Kielet', () => {
 
     expect(i18n.t('testiavain')).toEqual('testiarvo');
   });
+
+  test('Oletuskäännökset', async () => {
+    expect(localVue.prototype.$kaanna({ fi: 'suomeksi' })).toEqual('suomeksi');
+    expect(localVue.prototype.$kaanna({ })).toEqual('');
+    expect(localVue.prototype.$kaanna({ sv: 'ei suomeksi' })).toEqual('[ei suomeksi]');
+    expect(localVue.prototype.$kaanna({ sv: 'ei suomeksi' }, true)).toEqual('');
+  });
+
 });

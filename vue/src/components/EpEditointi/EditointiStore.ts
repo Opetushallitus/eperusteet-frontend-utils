@@ -431,7 +431,7 @@ export class EditointiStore {
     }
   }
 
-  setData(data:any) {
+  setData(data: any) {
     this.state.data = data;
   }
 }

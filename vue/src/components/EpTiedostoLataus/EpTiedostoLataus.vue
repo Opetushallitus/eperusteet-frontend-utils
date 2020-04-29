@@ -6,7 +6,7 @@
 
       <div v-if="file" class="pl-2 d-inline-block">
         <div>{{ $t('valittu-tiedosto') }}: {{ file ? file.name : '' }}</div>
-        <div class="text-right pt-4">
+        <div class="text-right pl-2 pt-4">
           <ep-button @click="cancel" class="pl-5">
             <slot name="peruuta">{{ $t('peruuta') }}</slot>
           </ep-button>
@@ -24,6 +24,7 @@ import _ from 'lodash';
 
 export interface FileData {
   file: File;
+  binary?: ArrayBuffer;
   content?: string;
 }
 
@@ -35,11 +36,14 @@ export interface FileData {
 export default class EpTiedostoLataus extends Vue {
   private fileMaxSize = 1 * 1024 * 1024;
 
-  @Prop()
+  @Prop({ default: null })
   private value!: FileData;
 
   @Prop({ required: true })
   private fileTypes!: string[];
+
+  @Prop({ default: false })
+  private asBinary!: boolean;
 
   get accept() {
     return _.join(this.fileTypes, ', ');
@@ -63,6 +67,12 @@ export default class EpTiedostoLataus extends Vue {
     return this.$t('fu-browse-text');
   }
 
+  handleFail() {
+    this.$fail((this as any).$t('tiedosto-luku-virhe'));
+    this.$emit('input', null);
+    (this as any).$refs['file-input'].reset();
+  }
+
   // Luodaan esikatselukuva kuvan valitsemisen jälkeen
   async onInput(file: File) {
     if (file != null && file.size > this.fileMaxSize) {
@@ -76,22 +86,38 @@ export default class EpTiedostoLataus extends Vue {
     if (file != null) {
       // Luodaan uusi lukija ja rekisteröidään kuuntelija
       const reader = new FileReader();
-      reader.onload = evt => {
-        try {
-          if (evt.target) {
-            this.$emit('input', {
-              file,
-              content: JSON.parse((evt.target.result as any)),
-            } as FileData);
+      if (this.asBinary) {
+        reader.onload = evt => {
+          try {
+            if (evt.target?.result) {
+              this.$emit('input', {
+                file,
+                binary: evt.target.result,
+              } as FileData);
+            }
           }
-        }
-        catch (e) {
-          this.$fail((this as any).$t('tiedosto-luku-virhe'));
-          this.$emit('input', null);
-          (this as any).$refs['file-input'].reset();
-        }
-      };
-      reader.readAsText(file);
+          catch (e) {
+            this.handleFail();
+          }
+        };
+        reader.readAsBinaryString(file);
+      }
+      else {
+        reader.onload = evt => {
+          try {
+            if (evt.target) {
+              this.$emit('input', {
+                file,
+                content: JSON.parse((evt.target.result as any)),
+              } as FileData);
+            }
+          }
+          catch (e) {
+            this.handleFail();
+          }
+        };
+        reader.readAsText(file);
+      }
     }
   }
 
@@ -163,7 +189,7 @@ export default class EpTiedostoLataus extends Vue {
       padding: 60px 310px 0px 0px;
       text-decoration: underline;
       color: blue;
-      padding: 0;
+      padding: 0 0 0 0.25rem;
       display: inline;
       position: relative;
       background-color: $gray-lighten-7;
