@@ -361,7 +361,7 @@ export default class EpEditointi extends Mixins(validationMixin) {
   }
 
   get editointiDropDownValinnatVisible() {
-    return this.isEditing && !this.disabled && this.store.remove;
+    return this.isEditing && !this.disabled && this.store.hooks.remove;
   }
 
   get katseluDropDownValinnatVisible() {

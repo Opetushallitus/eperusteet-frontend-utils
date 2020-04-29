@@ -61,7 +61,7 @@ export interface IEditoitava {
   /**
    * Remove the resource
    */
-  remove: () => Promise<void>;
+  remove?: () => Promise<void>;
 
   /**
    * Replace current data with restored revision
@@ -315,9 +315,11 @@ export class EditointiStore {
     this.state.isEditingState = false;
     _.remove(EditointiStore.allEditingEditors, (editor) => editor === this);
     try {
-      await this.config.remove();
-      this.logger.debug('Poistettu');
-      this.state.isRemoved = true;
+      if (this.config.remove) {
+        await this.config.remove();
+        this.logger.debug('Poistettu');
+        this.state.isRemoved = true;
+      }
     }
     catch (err) {
       const syy = _.get(err, 'response.data.syy');
