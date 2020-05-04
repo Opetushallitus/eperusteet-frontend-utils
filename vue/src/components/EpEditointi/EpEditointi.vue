@@ -68,7 +68,7 @@
                            v-tutorial
                            variant="link"
                            v-oikeustarkastelu="{ oikeus: 'muokkaus' }"
-                           @click="store.start()"
+                           @click="preModify()"
                            v-else-if="!isEditing && isEditable && !versiohistoriaVisible"
                            icon="kyna"
                            :show-spinner="isSaving"
@@ -494,11 +494,17 @@ export default class EpEditointi extends Mixins(validationMixin) {
   async save() {
     try {
       await this.store.save();
+      this.$emit('postSave');
       this.$success(this.$t(this.labelSaveSuccess) as string);
     }
     catch (err) {
       this.$success(this.$t(this.labelSaveFail) as string);
     }
+  }
+
+  preModify() {
+    this.$emit('preModify');
+    this.store.start();
   }
 }
 

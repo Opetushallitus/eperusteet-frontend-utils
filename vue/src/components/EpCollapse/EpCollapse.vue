@@ -9,12 +9,18 @@
          role="button"
          tabindex="0"
          :aria-expanded="toggled">
+      <slot name="icon" :toggled="toggled" v-if="chevronLocation === 'left'">
+        <div class="align-self-start mr-2">
+          <fas icon="chevron-up" v-if="toggled"></fas>
+          <fas icon="chevron-down" v-else></fas>
+        </div>
+      </slot>
       <div class="align-self-start">
         <div class="header">
           <slot name="header"></slot>
         </div>
       </div>
-      <slot name="icon" :toggled="toggled">
+      <slot name="icon" :toggled="toggled" v-if="chevronLocation === 'right'">
         <div class="ml-auto align-self-start">
           <fas icon="chevron-up" v-if="toggled"></fas>
           <fas icon="chevron-down" v-else></fas>
@@ -50,6 +56,9 @@ export default class EpCollapse extends Vue {
 
   @Prop({ default: true })
   private borderBottom!: boolean;
+
+  @Prop({ default: 'right' })
+  private chevronLocation!: 'right' | 'left';
 
   private toggled = false;
 
