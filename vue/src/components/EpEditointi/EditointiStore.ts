@@ -44,6 +44,11 @@ export interface IEditoitava {
   load: () => Promise<unknown>;
 
   /**
+   * called after load
+   */
+  postLoad?: () => Promise<void>;
+
+  /**
    * Get preview url location
    */
   preview: () => Promise<RawLocation | null>;
@@ -205,6 +210,10 @@ export class EditointiStore {
     if (this.state.isNew && this.isFirstRun) {
       this.isFirstRun = false;
       await this.start();
+    }
+
+    if (this.config.postLoad) {
+      await this.config.postLoad();
     }
   }
 
