@@ -68,7 +68,7 @@
                            v-tutorial
                            variant="link"
                            v-oikeustarkastelu="{ oikeus: 'muokkaus' }"
-                           @click="preModify()"
+                           @click="modify()"
                            v-else-if="!isEditing && isEditable && !versiohistoriaVisible"
                            icon="kyna"
                            :show-spinner="isSaving"
@@ -260,6 +260,12 @@ export default class EpEditointi extends Mixins(validationMixin) {
 
   @Prop({ default: 'poisto-epaonnistui' })
   private labelRemoveFail!: string;
+
+  @Prop({ required: false })
+  private preModify!: Function;
+
+  @Prop({ required: false })
+  private postSave!: Function;
 
   private sidebarState = 0;
 
@@ -494,7 +500,9 @@ export default class EpEditointi extends Mixins(validationMixin) {
   async save() {
     try {
       await this.store.save();
-      this.$emit('postSave');
+      if (this.postSave) {
+        await this.postSave();
+      }
       this.$success(this.$t(this.labelSaveSuccess) as string);
     }
     catch (err) {
@@ -502,8 +510,10 @@ export default class EpEditointi extends Mixins(validationMixin) {
     }
   }
 
-  preModify() {
-    this.$emit('preModify');
+  async modify() {
+    if (this.preModify) {
+      await this.preModify();
+    }
     this.store.start();
   }
 }
