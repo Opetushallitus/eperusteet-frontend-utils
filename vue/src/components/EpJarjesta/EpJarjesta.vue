@@ -9,7 +9,7 @@
         <slot :node="node"></slot>
       </span>
       <div
-        v-if="node[childField] && node[childField].length > 0"
+        v-if="node[childField] && node[childField] != null && node[childField].length > 0"
         class="actions"
         role="button"
         tabindex="0"
@@ -20,13 +20,13 @@
         <fas v-else icon="chevron-up"></fas>
       </div>
     </div>
-    <div class="children" v-if="!node.$closed">
+    <div class="children" v-if="!node.$closed && node[childField] && node[childField] != null">
       <ep-jarjesta
           v-model="node[childField]"
           :is-editable="isEditable"
           :prefix="prefix + (idx + 1) + '.'"
           :child-field="childField"
-          :group="group">
+          :group="uniqueChildGroups ? group + idx : group">
         <slot v-for="(_, name) in $slots" :name="name" :slot="name"></slot>
         <template v-for="(_, name) in $scopedSlots" :slot="name" slot-scope="data">
           <slot :name="name" v-bind="data" />
@@ -82,12 +82,16 @@ export default class EpJarjesta extends Vue {
   @Prop({ required: false, default: true })
   private sortable!: boolean;
 
+  @Prop({ default: false, required: false })
+  private uniqueChildGroups!: boolean;
+
   get options() {
     return {
       animation: 300,
       group: this.group,
       disabled: !this.isEditable || !this.sortable,
       ghostClass: 'placeholder',
+      forceFallback: true,
     };
   }
 
