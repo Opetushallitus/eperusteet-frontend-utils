@@ -32,7 +32,7 @@ import EpSpinnerInline from '../EpSpinner/EpSpinnerInline.vue';
   },
 })
 export default class EpButton extends Vue {
-  @Prop({ default: '', type: String })
+  @Prop({ default: '' })
   private icon!: string;
 
   @Prop()

@@ -158,6 +158,7 @@ export type TermiDto = YlopsApi.TermiDto;
 export type UusiJulkaisuDto = YlopsApi.UusiJulkaisuDto;
 export type YlopsNavigationNodeDto = YlopsApi.NavigationNodeDto;
 export type OpsVuosiluokkakokonaisuusKevytDto = YlopsApi.OpsVuosiluokkakokonaisuusKevytDto;
+export type OppiaineenVuosiluokkaDto = YlopsApi.OppiaineenVuosiluokkaDto;
 export type OpsVuosiluokkakokonaisuusDto = YlopsApi.OpsVuosiluokkakokonaisuusDto;
 export type PerusteOppiaineenVuosiluokkakokonaisuusDto = YlopsApi.PerusteOppiaineenVuosiluokkakokonaisuusDto;
 export type OpsOppiaineKevytDto = YlopsApi.OpsOppiaineKevytDto;
