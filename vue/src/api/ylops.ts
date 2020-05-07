@@ -160,5 +160,10 @@ export type YlopsNavigationNodeDto = YlopsApi.NavigationNodeDto;
 export type OpsVuosiluokkakokonaisuusKevytDto = YlopsApi.OpsVuosiluokkakokonaisuusKevytDto;
 export type OpsVuosiluokkakokonaisuusDto = YlopsApi.OpsVuosiluokkakokonaisuusDto;
 export type PerusteOppiaineenVuosiluokkakokonaisuusDto = YlopsApi.PerusteOppiaineenVuosiluokkakokonaisuusDto;
+export type OpsOppiaineKevytDto = YlopsApi.OpsOppiaineKevytDto;
+export type OppiaineSuppeaDto = YlopsApi.OppiaineSuppeaDto;
+export type PerusteOppiaineDto = YlopsApi.PerusteOppiaineDto;
+export type KopioOppimaaraDto = YlopsApi.KopioOppimaaraDto;
+export type UnwrappedOpsVuosiluokkakokonaisuusDto = YlopsApi.UnwrappedOpsVuosiluokkakokonaisuusDto;
 
 export import OpetussuunnitelmaInfoDtoToteutusEnum = YlopsApi.OpetussuunnitelmaInfoDtoToteutusEnum;
