@@ -168,3 +168,4 @@ export type KopioOppimaaraDto = YlopsApi.KopioOppimaaraDto;
 export type UnwrappedOpsVuosiluokkakokonaisuusDto = YlopsApi.UnwrappedOpsVuosiluokkakokonaisuusDto;
 
 export import OpetussuunnitelmaInfoDtoToteutusEnum = YlopsApi.OpetussuunnitelmaInfoDtoToteutusEnum;
+export import OppiaineSuppeaDtoTyyppiEnum = YlopsApi.OppiaineSuppeaDtoTyyppiEnum;
