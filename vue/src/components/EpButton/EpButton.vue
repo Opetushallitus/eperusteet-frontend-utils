@@ -71,6 +71,8 @@ export default class EpButton extends Vue {
 </script>
 
 <style lang="scss" scoped>
+@import '../../styles/_variables.scss';
+
 .ep-button {
   display: inline-block;
   white-space: nowrap;
@@ -79,6 +81,12 @@ export default class EpButton extends Vue {
     border: none;
     color: #2B2B2B;
 
+  }
+
+  ::v-deep button.btn-outline-primary:hover{
+    div.teksti {
+      color: $white;
+    }
   }
 
   .icon {

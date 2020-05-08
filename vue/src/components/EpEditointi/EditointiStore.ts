@@ -81,7 +81,7 @@ export interface IEditoitava {
   /**
    * Save current resource
    */
-  save: (data: any) => Promise<any>;
+  save?: (data: any) => Promise<any>;
 
   /**
    * Start editing of the resource
