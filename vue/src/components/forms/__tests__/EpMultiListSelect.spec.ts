@@ -24,6 +24,7 @@ describe('EpMultiListSelect component', () => {
   ];
   const valueMockEmpty = [];
   const valueMock = ['value1', 'value2', 'value3'];
+  const valueSingle = 'value1';
 
   Kielet.install(localVue, {
     messages: {
@@ -52,6 +53,7 @@ describe('EpMultiListSelect component', () => {
                   :isEditing="isEditing"
                   @input="update"
                   :validation="validation"
+                  :multiple="multiple"
                   :required="required"/>`,
     }), {
       stubs: {
@@ -71,6 +73,7 @@ describe('EpMultiListSelect component', () => {
       validation: '',
       required: true,
       isEditing: true,
+      multiple: true,
       update: () => {},
     });
 
@@ -91,6 +94,7 @@ describe('EpMultiListSelect component', () => {
       validation: '',
       required: false,
       isEditing: true,
+      multiple: true,
       update: () => {},
     });
 
@@ -105,6 +109,7 @@ describe('EpMultiListSelect component', () => {
       validation: '',
       required: true,
       isEditing: true,
+      multiple: true,
       update: () => {},
     });
 
@@ -127,6 +132,7 @@ describe('EpMultiListSelect component', () => {
       validation: '',
       required: true,
       isEditing: true,
+      multiple: true,
       update: () => {},
     });
 
@@ -150,6 +156,7 @@ describe('EpMultiListSelect component', () => {
       validation: '',
       required: true,
       isEditing: true,
+      multiple: true,
       update: (newValues) => {
         values = newValues;
       },
@@ -179,6 +186,7 @@ describe('EpMultiListSelect component', () => {
       validation: '',
       required: true,
       isEditing: true,
+      multiple: true,
       update: (newValues) => {
         values = newValues;
       },
@@ -223,6 +231,7 @@ describe('EpMultiListSelect component', () => {
       validation: '',
       required: true,
       isEditing: true,
+      multiple: true,
       update: (newValues) => {
         values = newValues;
       },
@@ -260,6 +269,7 @@ describe('EpMultiListSelect component', () => {
       validation: '',
       required: true,
       isEditing: true,
+      multiple: true,
       update: (newValues) => {
         values = newValues;
       },
@@ -288,10 +298,9 @@ describe('EpMultiListSelect component', () => {
       required: false,
       tyyppi: 'tyyppi1',
       validation: '',
+      multiple: true,
       update: (newValues) => {},
     });
-
-    console.log(wrapper.html());
 
     expect(values).toEqual(['value1', 'value2']);
     expect(wrapper.findAll('.multiselect__select')).toHaveLength(0);
@@ -301,5 +310,35 @@ describe('EpMultiListSelect component', () => {
 
     expect(wrapper.html()).toContain('text1');
     expect(wrapper.html()).toContain('text2');
+  });
+
+  test('Value preserved correctly on editing', async () => {
+    let values = null;
+    const wrapper = mountWrapper({
+      items: itemMock,
+      value: valueSingle,
+      tyyppi: 'tyyppi1',
+      validation: '',
+      required: true,
+      isEditing: true,
+      multiple: false,
+      update: (newValues) => {
+        values = newValues;
+      },
+    });
+
+    expect(values).toEqual('value1');
+
+    wrapper.findAll('.multiselect__element').at(1)
+      .find('.multiselect__option')
+      .trigger('click');
+
+    expect(values).toEqual('value2');
+
+    wrapper.findAll('.multiselect__element').at(2)
+      .find('.multiselect__option')
+      .trigger('click');
+
+    expect(values).toEqual('value3');
   });
 });

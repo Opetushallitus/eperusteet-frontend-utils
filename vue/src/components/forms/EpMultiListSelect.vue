@@ -154,7 +154,8 @@ export default class EpMultiListSelect extends Mixins(EpValidation) {
   }
 
   private changeInnerModels(items, value) {
-    this.innerModels = _.chain(value)
+    let valueArray = _.isArray(value) ? value : [value];
+    this.innerModels = _.chain(valueArray)
       .map((singleValue) => _.head(_.filter(items, (item) => _.isEqual(item.value, singleValue))))
       .filter(singleValue => _.isObject(singleValue))
       .value();
