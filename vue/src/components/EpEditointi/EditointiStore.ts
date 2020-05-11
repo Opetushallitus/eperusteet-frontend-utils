@@ -72,6 +72,16 @@ export interface IEditoitava {
   remove?: () => Promise<void>;
 
   /**
+   * Hide the resource
+   */
+  hide?: (data: any) => Promise<void>;
+
+  /**
+   * UnHide the resource
+   */
+  unHide?: (data: any) => Promise<void>;
+
+  /**
    * Replace current data with restored revision
    */
   restore?: (rev: number) => Promise<void>;
@@ -431,6 +441,38 @@ export class EditointiStore {
         // fail('palautus-epaonnistui');
       }
     }
+  }
+
+  public async hide() {
+    this.state.disabled = true;
+    this.state.isEditingState = false;
+    try {
+      if (this.config.hide) {
+        await this.config.hide(this.state.data);
+        await this.init();
+        this.logger.debug('Piilotettu');
+      }
+    }
+    catch (err) {
+      fail('piilotus-epaonnistui');
+    }
+    this.state.disabled = false;
+  }
+
+  public async unHide() {
+    this.state.disabled = true;
+    this.state.isEditingState = false;
+    try {
+      if (this.config.unHide) {
+        await this.config.unHide(this.state.data);
+        await this.init();
+        this.logger.debug('Palautettu');
+      }
+    }
+    catch (err) {
+      fail('palautus-epaonnistui');
+    }
+    this.state.disabled = false;
   }
 
   public async preview() {
