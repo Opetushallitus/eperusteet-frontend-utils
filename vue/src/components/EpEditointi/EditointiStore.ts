@@ -23,6 +23,8 @@ export interface EditoitavaFeatures {
   lockable?: boolean;
   validated?: boolean;
   recoverable?: boolean;
+  hideable?: boolean;
+  hidden?: boolean;
 }
 
 export interface IEditoitava {
@@ -72,6 +74,16 @@ export interface IEditoitava {
   remove?: () => Promise<void>;
 
   /**
+   * Hide the resource
+   */
+  hide?: (data: any) => Promise<void>;
+
+  /**
+   * Unhide the resource
+   */
+  unHide?: (data: any) => Promise<void>;
+
+  /**
    * Replace current data with restored revision
    */
   restore?: (rev: number) => Promise<void>;
@@ -99,7 +111,7 @@ export interface IEditoitava {
   /**
    * Dynamic features that are enabled
    */
-  features?: Computed<EditoitavaFeatures>;
+  features? :(data) => Computed<EditoitavaFeatures>;
 }
 
 export interface EditointiKontrolliRestore {
@@ -180,12 +192,14 @@ export class EditointiStore {
   public readonly isNew = computed(() => this.state.isNew);
 
   public readonly features = computed(() => {
-    const features = this.config.features?.value || {
+    const features = this.config.features ? this.config.features(this.data.value).value : {
       editable: true,
       removable: true,
       lockable: true,
       validated: true,
       recoverable: true,
+      hideable: true,
+      isHidden: false,
     };
     const cfg = this.config || {};
     return {
@@ -194,6 +208,8 @@ export class EditointiStore {
       lockable: cfg.lock && cfg.release && features.lockable,
       validated: cfg.validator && features.validated,
       recoverable: cfg.restore && cfg.revisions && features.recoverable,
+      hideable: cfg.hide && features.hideable,
+      isHidden: features.isHidden,
     };
   });
 
@@ -459,6 +475,29 @@ export class EditointiStore {
     else {
       throw new Error('Source must be an object or an array');
     }
+  }
+
+  public async hide() {
+    this.state.disabled = true;
+    this.state.isEditingState = false;
+    if (this.config.hide) {
+      await this.config.hide(this.state.data);
+      await this.init();
+      this.logger.debug('Piilotettu');
+      this.state.isRemoved = true;
+    }
+    this.state.disabled = false;
+  }
+
+  public async unHide() {
+    this.state.disabled = true;
+    this.state.isEditingState = false;
+    if (this.config.unHide) {
+      await this.config.unHide(this.state.data);
+      await this.init();
+      this.logger.debug('Poistettu');
+    }
+    this.state.disabled = false;
   }
 
   setData(data:any) {

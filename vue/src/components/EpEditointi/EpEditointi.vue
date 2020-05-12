@@ -49,6 +49,20 @@
                     :disabled="!features.removable || disabled">
                     <slot name="poista">{{ poistoteksti }}</slot>
                   </b-dropdown-item>
+                  <b-dropdown-item
+                    v-if="!hidden"
+                    @click="hide()"
+                    key="piilota"
+                    :disabled="!features.hideable || disabled">
+                    <slot name="piilota">{{ $t('piilota') }}</slot>
+                  </b-dropdown-item>
+                  <b-dropdown-item
+                    v-if="hidden"
+                    @click="unHide()"
+                    key="palauta"
+                    :disabled="!features.hideable || disabled">
+                    <slot name="palauta">{{ $t('palauta') }}</slot>
+                  </b-dropdown-item>
                 </b-dropdown>
                 <div v-if="currentLock && features.lockable" class="d-flex align-items-center ml-2 mr-2">
                   <div>
@@ -171,7 +185,8 @@
         <div class="threads">
           <div class="actual-content">
             <div class="sisalto">
-              <slot :isEditing="isEditing" :data="inner" :validation="validation"></slot>
+              <slot v-if="hidden" name="piilotettu">{{$t('sisalto-piilotettu')}}</slot>
+              <slot v-else :isEditing="isEditing" :data="inner" :validation="validation"></slot>
             </div>
           </div>
           <div class="rightbar rb-keskustelu" v-if="hasKeskusteluSlot && sidebarState === 1">
@@ -259,6 +274,18 @@ export default class EpEditointi extends Mixins(validationMixin) {
 
   @Prop({ default: 'poisto-epaonnistui' })
   private labelRemoveFail!: string;
+
+  @Prop({ default: 'piilotus-onnistui' })
+  private labelHideSuccess!: string;
+
+  @Prop({ default: 'piilotus-epaonnistui' })
+  private labelHideFail!: string;
+
+  @Prop({ default: 'palautus-onnistui' })
+  private labelUnHideSuccess!: string;
+
+  @Prop({ default: 'palautus-epaonnistui' })
+  private labelUnHideFail!: string;
 
   @Prop({ required: false })
   private preModify!: Function;
@@ -362,6 +389,10 @@ export default class EpEditointi extends Mixins(validationMixin) {
     return this.historia.length - 1; // Ei näytetä nykyistä versiota
   }
 
+  get hidden() {
+    return this.features.isHidden;
+  }
+
   get poistoteksti() {
     if (!this.type) {
       return this.$t('poista');
@@ -370,7 +401,7 @@ export default class EpEditointi extends Mixins(validationMixin) {
   }
 
   get katseluDropDownValinnatVisible() {
-    return !this.store!.isEditing
+    return !this.isEditing
       && !this.disabled
       && this.features.recoverable
       && !this.versiohistoriaVisible;
@@ -507,6 +538,26 @@ export default class EpEditointi extends Mixins(validationMixin) {
     }
     catch (err) {
       this.$success(this.$t(this.labelSaveFail) as string);
+    }
+  }
+
+  async hide() {
+    try {
+      await this.store.hide();
+      this.$success(this.$t(this.labelHideSuccess) as string);
+    }
+    catch (err) {
+      this.$success(this.$t(this.labelHideFail) as string);
+    }
+  }
+
+  async unHide() {
+    try {
+      await this.store.unHide();
+      this.$success(this.$t(this.labelUnHideSuccess) as string);
+    }
+    catch (err) {
+      this.$success(this.$t(this.labelUnHideFail) as string);
     }
   }
 
