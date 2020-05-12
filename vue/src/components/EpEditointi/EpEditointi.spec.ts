@@ -151,7 +151,9 @@ describe('EpEditointi component', () => {
     });
 
     const { localVue, store, config, wrapper } = mockAndWrapper({
-      features: computed(() => features),
+      features: () => {
+        return computed(() => features);
+      },
     }, `
       <ep-editointi :store="store">
         <template v-slot:default="{ data, isEditing }">
