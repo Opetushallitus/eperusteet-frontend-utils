@@ -111,7 +111,7 @@ export interface IEditoitava {
   /**
    * Dynamic features that are enabled
    */
-  features? :(data) => Computed<EditoitavaFeatures>;
+  features?: (data: Computed<any>) => Computed<EditoitavaFeatures>;
 }
 
 export interface EditointiKontrolliRestore {
