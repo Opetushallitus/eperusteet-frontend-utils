@@ -17,6 +17,14 @@ export interface KayttajaProvider {
   userOid: Computed<string>;
 }
 
+export interface EditoitavaFeatures {
+  editable?: boolean;
+  removable?: boolean;
+  lockable?: boolean;
+  validated?: boolean;
+  recoverable?: boolean;
+}
+
 export interface IEditoitava {
   /**
    * Try to acquire lock. Return true on success.
@@ -26,17 +34,12 @@ export interface IEditoitava {
   /**
    * Called right after user cancels editing.
    */
-  cancel: () => Promise<void>;
+  cancel?: () => Promise<void>;
 
   /**
    * Returns true if editing is started immediately after data fetch
    */
   editAfterLoad: () => Promise<boolean>;
-
-  /**
-   * History
-   */
-  history: () => Promise<void>;
 
   /**
    * Loads most recent version of the data to be edited
@@ -71,12 +74,12 @@ export interface IEditoitava {
   /**
    * Replace current data with restored revision
    */
-  restore: (rev: number) => Promise<void>;
+  restore?: (rev: number) => Promise<void>;
 
   /**
    * Get all revisions of the resource
    */
-  revisions: () => Promise<Revision[]>;
+  revisions?: () => Promise<Revision[]>;
 
   /**
    * Save current resource
@@ -86,12 +89,17 @@ export interface IEditoitava {
   /**
    * Start editing of the resource
    */
-  start: () => Promise<void>;
+  start?: () => Promise<void>;
 
   /**
    * Save preventing validations
    */
-  validator: Computed<any>;
+  validator?: Computed<any>;
+
+  /**
+   * Dynamic features that are enabled
+   */
+  features?: Computed<EditoitavaFeatures>;
 }
 
 export interface EditointiKontrolliRestore {
@@ -144,7 +152,9 @@ export class EditointiStore {
 
   public static async cancelAll() {
     for (const editor of EditointiStore.allEditingEditors) {
-      await editor.cancel(true);
+      if (editor.cancel) {
+        await editor.cancel(true);
+      }
     }
   }
 
@@ -153,10 +163,6 @@ export class EditointiStore {
   ) {
     this.logger.debug('Initing editointikontrollit with: ', _.keys(config));
     this.config = config;
-  }
-
-  public get isEditable() {
-    return !!(this.config.save);
   }
 
   public get hooks() {
@@ -170,8 +176,27 @@ export class EditointiStore {
   public readonly isSaving = computed(() => this.state.isSaving);
   public readonly isEditing = computed(() => this.state.isEditingState);
   public readonly isRemoved = computed(() => this.state.isRemoved);
-  public readonly validator = computed(() => this.config.validator?.value || null);
+  public readonly validator = computed(() => this.config.validator?.value || {});
   public readonly isNew = computed(() => this.state.isNew);
+
+  public readonly features = computed(() => {
+    const features = this.config.features?.value || {
+      editable: true,
+      removable: true,
+      lockable: true,
+      validated: true,
+      recoverable: true,
+    };
+    const cfg = this.config || {};
+    return {
+      editable: cfg.save && features.editable,
+      removable: cfg.remove && features.removable,
+      lockable: cfg.lock && cfg.release && features.lockable,
+      validated: cfg.validator && features.validated,
+      recoverable: cfg.restore && cfg.revisions && features.recoverable,
+    };
+  });
+
   public readonly currentLock = computed(() => {
     const now = new Date();
     const cl = this.state.currentLock;
@@ -413,12 +438,6 @@ export class EditointiStore {
       return this.config.preview();
     }
     return null;
-  }
-
-  public async history() {
-    if (this.config.history) {
-      return this.config.history();
-    }
   }
 
   private async fetchRevisions() {
