@@ -35,7 +35,7 @@
                   <slot name="tallenna">{{ $t('tallenna') }}</slot>
                 </ep-button>
                 <b-dropdown class="mx-4"
-                            v-if="editointiDropDownValinnatVisible"
+                            v-if="isEditing && !disabled && features.removable"
                             size="md"
                             variant="link"
                             :disabled="disabled"
@@ -46,11 +46,11 @@
                   <b-dropdown-item
                     @click="remove()"
                     key="poista"
-                    :disabled="!store.remove || disabled">
+                    :disabled="!features.removable || disabled">
                     <slot name="poista">{{ poistoteksti }}</slot>
                   </b-dropdown-item>
                 </b-dropdown>
-                <div v-if="currentLock" class="d-flex align-items-center ml-2 mr-2">
+                <div v-if="currentLock && features.lockable" class="d-flex align-items-center ml-2 mr-2">
                   <div>
                     <fas size="lg" icon="lukko" :title="$t('sivu-lukittu')" />
                   </div>
@@ -68,7 +68,7 @@
                            variant="link"
                            v-oikeustarkastelu="{ oikeus: 'muokkaus' }"
                            @click="modify()"
-                           v-else-if="!isEditing && isEditable && !versiohistoriaVisible"
+                           v-else-if="!isEditing && features.editable && !versiohistoriaVisible"
                            icon="kyna"
                            :show-spinner="isSaving"
                            :disabled="disabled">
@@ -92,7 +92,7 @@
                   <b-dropdown-item :disabled="!store.validate || disabled">
                     {{ $t('validoi') }}
                   </b-dropdown-item>
-                  <b-dropdown-item :disabled="!historia || disabled">
+                  <b-dropdown-item v-if="features.recoverable" :disabled="!historia || disabled">
                     <ep-versio-modaali :value="current"
                       :versions="historia"
                       :current="current"
@@ -331,7 +331,7 @@ export default class EpEditointi extends Mixins(validationMixin) {
   }
 
   get isEditable() {
-    return this.store.isEditable;
+    return this.features.editable;
   }
 
   get validation() {
@@ -350,6 +350,10 @@ export default class EpEditointi extends Mixins(validationMixin) {
     return this.store.revisions.value;
   }
 
+  get features() {
+    return this.store.features.value;
+  }
+
   get disabled() {
     return this.store.disabled.value;
   }
@@ -365,13 +369,10 @@ export default class EpEditointi extends Mixins(validationMixin) {
     return this.$t('poista-' + this.type);
   }
 
-  get editointiDropDownValinnatVisible() {
-    return this.isEditing && !this.disabled && this.store.hooks.remove;
-  }
-
   get katseluDropDownValinnatVisible() {
     return !this.store!.isEditing
       && !this.disabled
+      && this.features.recoverable
       && !this.versiohistoriaVisible;
   }
 
