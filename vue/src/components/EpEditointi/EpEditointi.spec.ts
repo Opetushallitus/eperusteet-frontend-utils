@@ -1,8 +1,10 @@
 import { mount, createLocalVue } from '@vue/test-utils';
+import { reactive, computed } from '@vue/composition-api';
 import Vue from 'vue';
 import EpEditointi from './EpEditointi.vue';
 import { IEditoitava } from './EditointiStore';
 import { Kielet } from '../../stores/kieli';
+import _ from 'lodash';
 import { Oikeustarkastelu } from '../../plugins/oikeustarkastelu';
 import { VueTutorial } from '../../plugins/tutoriaali';
 import { delay } from '../../utils/delay';
@@ -68,6 +70,7 @@ function mockAndWrapper(extension: Partial<IEditoitava> = {}, template?: string)
   } as any, {
     localVue,
     mocks: {
+      $success: _.noop,
       $t: x => x,
       $sdt: x => '[' + x + ']',
     },
@@ -136,6 +139,35 @@ describe('EpEditointi component', () => {
     });
     await delay();
     expect(wrapper.html()).toContain('etunimi sukunimi');
+  });
+
+  test('Feature picking', async () => {
+    const features = reactive({
+      editable: false,
+      removable: false,
+      lockable: false,
+      validated: false,
+      recoverable: false,
+    });
+
+    const { localVue, store, config, wrapper } = mockAndWrapper({
+      features: () => {
+        return computed(() => features);
+      },
+    }, `
+      <ep-editointi :store="store">
+        <template v-slot:default="{ data, isEditing }">
+          <input v-model="data.name" />
+          <pre>editing {{ isEditing }}</pre>
+        </template>
+      </ep-editointi>
+    `);
+    await delay();
+    expect(findContaining(wrapper, 'button', 'muokkaa')).toBeNull();
+
+    features.editable = true;
+    await delay();
+    expect(findContaining(wrapper, 'button', 'muokkaa')).toBeTruthy();
   });
 
   test('Can start and cancel editing', async () => {

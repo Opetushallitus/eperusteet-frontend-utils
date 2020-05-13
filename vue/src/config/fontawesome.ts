@@ -8,7 +8,6 @@ import * as oph from './icons';
 library.add(regular.faComment);
 library.add(regular.faFolder);
 library.add(regular.faTrashAlt);
-library.add(regular.faTrashAlt);
 library.add(regular.faSquare);
 library.add(regular.faBookmark);
 library.add(regular.faFilePdf);

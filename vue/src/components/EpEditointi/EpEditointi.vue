@@ -13,8 +13,7 @@
                       :validation="validation" />
               </div>
               <span class="muokattu text-nowrap" v-if="!isEditing">
-                <span class="text-truncate" v-if="latest">{{ $t('muokattu') }}: {{ $sdt(latest.pvm) }},</span>
-                <span class="ml-1">{{ nimi }}</span>
+                <span class="text-truncate" v-if="latest">{{ $t('muokattu') }}: {{ $sdt(latest.pvm) }}, {{ nimi }}</span>
               </span>
             </div>
             <div>
@@ -36,7 +35,7 @@
                   <slot name="tallenna">{{ $t('tallenna') }}</slot>
                 </ep-button>
                 <b-dropdown class="mx-4"
-                            v-if="editointiDropDownValinnatVisible"
+                            v-if="isEditing && !disabled && features.removable"
                             size="md"
                             variant="link"
                             :disabled="disabled"
@@ -47,11 +46,25 @@
                   <b-dropdown-item
                     @click="remove()"
                     key="poista"
-                    :disabled="!store.remove || disabled">
+                    :disabled="!features.removable || disabled">
                     <slot name="poista">{{ poistoteksti }}</slot>
                   </b-dropdown-item>
+                  <b-dropdown-item
+                    v-if="!hidden"
+                    @click="hide()"
+                    key="piilota"
+                    :disabled="!features.hideable || disabled">
+                    <slot name="piilota">{{ $t('piilota') }}</slot>
+                  </b-dropdown-item>
+                  <b-dropdown-item
+                    v-if="hidden"
+                    @click="unHide()"
+                    key="palauta"
+                    :disabled="!features.hideable || disabled">
+                    <slot name="palauta">{{ $t('palauta') }}</slot>
+                  </b-dropdown-item>
                 </b-dropdown>
-                <div v-if="currentLock" class="d-flex align-items-center ml-2 mr-2">
+                <div v-if="currentLock && features.lockable" class="d-flex align-items-center ml-2 mr-2">
                   <div>
                     <fas size="lg" icon="lukko" :title="$t('sivu-lukittu')" />
                   </div>
@@ -68,8 +81,8 @@
                            v-tutorial
                            variant="link"
                            v-oikeustarkastelu="{ oikeus: 'muokkaus' }"
-                           @click="store.start()"
-                           v-else-if="!isEditing && isEditable && !versiohistoriaVisible"
+                           @click="modify()"
+                           v-else-if="!isEditing && features.editable && !versiohistoriaVisible"
                            icon="kyna"
                            :show-spinner="isSaving"
                            :disabled="disabled">
@@ -93,7 +106,7 @@
                   <b-dropdown-item :disabled="!store.validate || disabled">
                     {{ $t('validoi') }}
                   </b-dropdown-item>
-                  <b-dropdown-item :disabled="!historia || disabled">
+                  <b-dropdown-item v-if="features.recoverable" :disabled="!historia || disabled">
                     <ep-versio-modaali :value="current"
                       :versions="historia"
                       :current="current"
@@ -172,7 +185,8 @@
         <div class="threads">
           <div class="actual-content">
             <div class="sisalto">
-              <slot :isEditing="isEditing" :data="inner" :validation="validation"></slot>
+              <slot v-if="hidden" name="piilotettu">{{$t('sisalto-piilotettu')}}</slot>
+              <slot v-else :isEditing="isEditing" :data="inner" :validation="validation"></slot>
             </div>
           </div>
           <div class="rightbar rb-keskustelu" v-if="hasKeskusteluSlot && sidebarState === 1">
@@ -261,6 +275,24 @@ export default class EpEditointi extends Mixins(validationMixin) {
   @Prop({ default: 'poisto-epaonnistui' })
   private labelRemoveFail!: string;
 
+  @Prop({ default: 'piilotus-onnistui' })
+  private labelHideSuccess!: string;
+
+  @Prop({ default: 'piilotus-epaonnistui' })
+  private labelHideFail!: string;
+
+  @Prop({ default: 'palautus-onnistui' })
+  private labelUnHideSuccess!: string;
+
+  @Prop({ default: 'palautus-epaonnistui' })
+  private labelUnHideFail!: string;
+
+  @Prop({ required: false })
+  private preModify!: Function;
+
+  @Prop({ required: false })
+  private postSave!: Function;
+
   private sidebarState = 0;
 
   private state: any = null;
@@ -327,7 +359,7 @@ export default class EpEditointi extends Mixins(validationMixin) {
   }
 
   get isEditable() {
-    return this.store.isEditable;
+    return this.features.editable;
   }
 
   get validation() {
@@ -346,12 +378,20 @@ export default class EpEditointi extends Mixins(validationMixin) {
     return this.store.revisions.value;
   }
 
+  get features() {
+    return this.store.features.value;
+  }
+
   get disabled() {
     return this.store.disabled.value;
   }
 
   get versions() {
     return this.historia.length - 1; // Ei näytetä nykyistä versiota
+  }
+
+  get hidden() {
+    return this.features.isHidden;
   }
 
   get poistoteksti() {
@@ -361,13 +401,10 @@ export default class EpEditointi extends Mixins(validationMixin) {
     return this.$t('poista-' + this.type);
   }
 
-  get editointiDropDownValinnatVisible() {
-    return this.isEditing && !this.disabled && this.store.remove;
-  }
-
   get katseluDropDownValinnatVisible() {
-    return !this.store!.isEditing
+    return !this.isEditing
       && !this.disabled
+      && this.features.recoverable
       && !this.versiohistoriaVisible;
   }
 
@@ -495,11 +532,41 @@ export default class EpEditointi extends Mixins(validationMixin) {
   async save() {
     try {
       await this.store.save();
+      if (this.postSave) {
+        await this.postSave();
+      }
       this.$success(this.$t(this.labelSaveSuccess) as string);
     }
     catch (err) {
       this.$success(this.$t(this.labelSaveFail) as string);
     }
+  }
+
+  async hide() {
+    try {
+      await this.store.hide();
+      this.$success(this.$t(this.labelHideSuccess) as string);
+    }
+    catch (err) {
+      this.$success(this.$t(this.labelHideFail) as string);
+    }
+  }
+
+  async unHide() {
+    try {
+      await this.store.unHide();
+      this.$success(this.$t(this.labelUnHideSuccess) as string);
+    }
+    catch (err) {
+      this.$success(this.$t(this.labelUnHideFail) as string);
+    }
+  }
+
+  async modify() {
+    if (this.preModify) {
+      await this.preModify();
+    }
+    this.store.start();
   }
 }
 

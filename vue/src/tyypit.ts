@@ -138,6 +138,7 @@ export interface SideMenuEntry {
   flatten?: boolean,
   children?: Array<SideMenuEntry>,
   parent?: SideMenuEntry,
+  allowEmpty?: boolean,
 }
 
 export interface SideMenuItem {

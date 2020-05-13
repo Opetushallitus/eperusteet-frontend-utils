@@ -25,15 +25,8 @@ const logger = createLogger('Kieli');
 
 function getMessages() {
   const result: any = {};
-  try {
-    result.fi = require('@shared/translations/locale-fi.json');
-  }
-  catch (e) {}
-
-  try {
-    result.sv = require('@shared/translations/locale-sv.json');
-  }
-  catch (e) {}
+  result.fi = require('../translations/locale-fi.json');
+  result.sv = require('../translations/locale-sv.json');
   return result;
 }
 
@@ -53,8 +46,8 @@ export class KieliStore {
     this.vi18n = new VueI18n({
       fallbackLocale: Kieli.fi,
       locale: Kieli.fi,
-      messages: getMessages(),
-      ..._.cloneDeep(config),
+      ...config,
+      messages: _.merge(getMessages(), config.messages),
     });
     v.prototype.$locale = this.uiKieli;
     v.prototype.$slang = this.sisaltoKieli;

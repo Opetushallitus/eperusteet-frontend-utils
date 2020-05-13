@@ -184,6 +184,10 @@ export function isAmmatillinen(statename: string): boolean {
   return themes[koulutustyyppi] === 'ammatillinen';
 }
 
+export function isKoulutustyyppiAmmatillinen(koulutustyyppi: string): boolean {
+  return themes[koulutustyyppi] === 'ammatillinen';
+}
+
 export function koulutustyyppiTheme(koulutustyyppi: string) {
   return themes[koulutustyyppi] || koulutustyyppi;
 }
