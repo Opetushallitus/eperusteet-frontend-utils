@@ -89,6 +89,7 @@ export interface IEditoitava {
   validator: Computed<any>;
 }
 
+
 export interface EditointiKontrolliRestore {
   numero: number;
   modal?: any;
@@ -165,8 +166,9 @@ export class EditointiStore {
   public readonly isSaving = computed(() => this.state.isSaving);
   public readonly isEditing = computed(() => this.state.isEditingState);
   public readonly isRemoved = computed(() => this.state.isRemoved);
-  public readonly validator = computed(() => this.config.validator?.value || null);
+  public readonly validator = computed(() => this.config.validator?.value || {});
   public readonly isNew = computed(() => this.state.isNew);
+
   public readonly currentLock = computed(() => {
     const now = new Date();
     const cl = this.state.currentLock;

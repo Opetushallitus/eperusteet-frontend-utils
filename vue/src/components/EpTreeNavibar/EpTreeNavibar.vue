@@ -26,7 +26,9 @@
       </div>
     </div>
 
-    <slot name="new"></slot>
+    <div class="action-container">
+      <slot name="new"></slot>
+    </div>
   </div>
 </template>
 
@@ -43,39 +45,6 @@ import _ from 'lodash';
 
 export type ProjektiFilter = 'koulutustyyppi' | 'tila' | 'voimassaolo';
 
-function routeToNode(route: any) {
-  if (!route) {
-    return null;
-  }
-
-  if (route.name === 'tekstikappale') {
-    return {
-      type: 'viite',
-      id: Number(route.params.tekstiKappaleId),
-    };
-  }
-  else if (route.name === 'muodostuminen') {
-    return {
-      type: 'muodostuminen',
-    };
-  }
-  else if (route.name === 'tutkinnonosa') {
-    return {
-      type: 'tutkinnonosaviite',
-      id: Number(route.params.tutkinnonOsaId),
-    };
-  }
-  else if (route.name === 'tutkinnonosat') {
-    return {
-      type: 'tutkinnonosat',
-    };
-  }
-  else {
-    console.error(route.type, route);
-  }
-
-  return null;
-}
 
 type IndexedNode = FlattenedNodeDto & { idx: number };
 
@@ -122,7 +91,11 @@ export default class EpTreeNavibar extends Vue {
 
   @Watch('$route', { immediate: true })
   onRouteUpdate(route) {
-    const matching = routeToNode(route);
+    if (!this.store) {
+      return;
+    }
+
+    const matching = this.store.routeToNode(route);
     if (matching) {
       const node = _.find(this.navigation, matching) as IndexedNode | null;
       if (node) {
@@ -226,23 +199,23 @@ export default class EpTreeNavibar extends Vue {
 }
 
 .item {
-  height: 26px;
 
   .backwrapper {
-    width: 22px;
+    min-width: 28px;
+    max-width: 28px;
 
     .back {
+      margin-top: 4px;
       margin-left: 3px;
       background: #3367e3;
       border-radius: 100%;
-      height: 16px;
-      width: 16px;
+      height: 30px;
+      width: 30px;
 
       .btn {
-        margin-top: -10px;
-        margin-left: 3px;
-        font-size: 11px;
-        padding: 0;
+        margin-top: -2px;
+        font-size: 16px;
+        font-weight: 400;
       }
 
       .backbtn {
@@ -250,6 +223,10 @@ export default class EpTreeNavibar extends Vue {
       }
     }
   }
+}
+
+.action-container {
+  margin-left: 20px;
 }
 
 </style>

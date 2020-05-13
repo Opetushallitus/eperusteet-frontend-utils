@@ -93,6 +93,7 @@ library.add(oph.arkisto);
 library.add(oph.arkistoi);
 library.add(oph.checkmark);
 library.add(oph.checkmarkYmpyra);
+library.add(oph.dragindicator);
 library.add(oph.etsi);
 library.add(oph.faq);
 library.add(oph.hallitus);

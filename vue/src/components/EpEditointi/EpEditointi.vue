@@ -285,6 +285,7 @@ export default class EpEditointi extends Mixins(validationMixin) {
   @Watch('store', { immediate: true })
   async onStoreChange(newValue: any, oldValue: any) {
     await this.store.init();
+    console.log(this.store);
     this.isInitialized = true;
     const sidebarState = await getItem('ep-editointi-sidebar-state') as any;
     if (sidebarState) {
@@ -338,7 +339,7 @@ export default class EpEditointi extends Mixins(validationMixin) {
   }
 
   get isEditing() {
-    return this.store.isEditing.value;
+    return this.store.isEditing?.value || false;
   }
 
   get revisions() {

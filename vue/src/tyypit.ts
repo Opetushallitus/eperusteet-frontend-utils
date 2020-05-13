@@ -94,6 +94,7 @@ export type OikeusKohde = 'opetussuunnitelma' | 'pohja';
 export type NavigationNodeType =
   | 'root'
   | 'tiedot'
+  | 'kvliite'
   | 'viite'
   | 'liitteet' | 'liite'
   | 'laajaalaiset' | 'laajaalainen'

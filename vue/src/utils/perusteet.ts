@@ -2,6 +2,14 @@ import _ from 'lodash';
 
 export const KoodistoLops2019LaajaAlaiset = 'laajaalainenosaaminenlops2021';
 
+const AmmatillisetKoulutustyypit = [
+  'koulutustyyppi_1',
+  'koulutustyyppi_11',
+  'koulutustyyppi_12',
+  'koulutustyyppi_5',
+  'koulutustyyppi_18',
+];
+
 export const themes = {
   'koulutustyyppi_1': 'ammatillinen',
   'koulutustyyppi_11': 'ammatillinen',
@@ -165,6 +173,10 @@ export function ryhmat(koulutustyyppi: string) {
   else {
     return [koulutustyyppi];
   }
+}
+
+export function isAmmatillinenKoulutustyyppi(kt: string | undefined): boolean {
+  return _.includes(AmmatillisetKoulutustyypit, kt);
 }
 
 export function isAmmatillinen(statename: string): boolean {
