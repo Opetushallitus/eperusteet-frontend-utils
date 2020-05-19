@@ -19,6 +19,7 @@ export interface KayttajaProvider {
 
 export interface EditoitavaFeatures {
   editable?: boolean;
+  previewable?: boolean;
   removable?: boolean;
   lockable?: boolean;
   validated?: boolean;
@@ -193,24 +194,33 @@ export class EditointiStore {
   public readonly isNew = computed(() => this.state.isNew);
 
   public readonly features = computed(() => {
-    const features = this.config.features ? this.config.features(this.data.value).value : {
+    const Default = {
       editable: true,
-      removable: true,
-      lockable: true,
-      validated: true,
-      recoverable: true,
       hideable: true,
       isHidden: false,
+      lockable: true,
+      previewable: true,
+      recoverable: true,
+      removable: true,
+      validated: true,
     };
+
+    const provided = this.config.features ? this.config.features(this.data.value).value : Default;
+    const features = {
+      ...Default,
+      ...provided,
+    };
+
     const cfg = this.config || {};
     return {
       editable: cfg.save && features.editable,
-      removable: cfg.remove && features.removable,
-      lockable: cfg.lock && cfg.release && features.lockable,
-      validated: cfg.validator && features.validated,
-      recoverable: cfg.restore && cfg.revisions && features.recoverable,
       hideable: cfg.hide && features.hideable,
-      isHidden: features.isHidden,
+      isHidden: features.isHidden || false,
+      lockable: cfg.lock && cfg.release && features.lockable,
+      recoverable: cfg.restore && cfg.revisions && features.recoverable,
+      removable: cfg.remove && features.removable,
+      validated: cfg.validator && features.validated,
+      previewable: features.previewable || false,
     };
   });
 
@@ -408,6 +418,9 @@ export class EditointiStore {
       catch (err) {
         // fail('tallennus-epaonnistui', err.response.data.syy);
         this.state.isEditingState = true;
+        this.state.disabled = false;
+        this.state.isSaving = false;
+        throw err;
       }
       finally {
         this.unlock();

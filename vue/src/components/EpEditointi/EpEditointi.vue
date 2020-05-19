@@ -100,7 +100,7 @@
                   <template slot="button-content">
                     <fas icon="menu-vaaka"></fas>
                   </template>
-                  <b-dropdown-item :disabled="!hasPreview || disabled">
+                  <b-dropdown-item :disabled="!features.previewable || disabled">
                     {{ $t('esikatsele-sivua') }}
                   </b-dropdown-item>
                   <b-dropdown-item :disabled="!store.validate || disabled">
@@ -315,9 +315,17 @@ export default class EpEditointi extends Mixins(validationMixin) {
   }
 
   @Watch('store', { immediate: true })
-  async onStoreChange(newValue: any, oldValue: any) {
-    await this.store.init();
+  async onStoreChange(newValue: EditointiStore | null, oldValue: EditointiStore | null) {
+    if (!newValue) {
+      return;
+    }
+
+    if (!(newValue instanceof EditointiStore)) {
+      throw new Error('Store must be EditointiStore');
+    }
+
     console.log(this.store);
+    await this.store.init();
     this.isInitialized = true;
     const sidebarState = await getItem('ep-editointi-sidebar-state') as any;
     if (sidebarState) {
@@ -351,15 +359,15 @@ export default class EpEditointi extends Mixins(validationMixin) {
   }
 
   get currentLock() {
-    return this.store.currentLock.value;
+    return this.store.currentLock?.value || null;
   }
 
   get isSaving() {
-    return this.store.isSaving.value;
+    return this.store.isSaving?.value || false;
   }
 
   get isEditable() {
-    return this.features.editable;
+    return this.features.editable || false;
   }
 
   get validation() {
@@ -375,15 +383,15 @@ export default class EpEditointi extends Mixins(validationMixin) {
   }
 
   get revisions() {
-    return this.store.revisions.value;
+    return this.store.revisions?.value || [];
   }
 
   get features() {
-    return this.store.features.value;
+    return this.store.features?.value || {};
   }
 
   get disabled() {
-    return this.store.disabled.value;
+    return this.store.disabled?.value || false;
   }
 
   get versions() {
@@ -391,7 +399,7 @@ export default class EpEditointi extends Mixins(validationMixin) {
   }
 
   get hidden() {
-    return this.features.isHidden;
+    return this.features.isHidden || false;
   }
 
   get poistoteksti() {

@@ -26,6 +26,10 @@
       </div>
     </div>
 
+    <Portal to="breadcrumbs">
+      <pre>{{ activeParents }}</pre>
+    </Portal>
+
     <div class="action-container">
       <slot name="new"></slot>
     </div>
@@ -47,6 +51,7 @@ export type ProjektiFilter = 'koulutustyyppi' | 'tila' | 'voimassaolo';
 
 
 type IndexedNode = FlattenedNodeDto & { idx: number };
+
 
 @Component({
   components: {
@@ -89,13 +94,22 @@ export default class EpTreeNavibar extends Vue {
       .value();
   }
 
-  @Watch('$route', { immediate: true })
-  onRouteUpdate(route) {
+  get path() {
+    return this.$route?.path || null;
+  }
+
+  @Watch('store')
+  onStoreChange() {
+    this.onRouteUpdate();
+  }
+
+  @Watch('path', { immediate: true })
+  onRouteUpdate() {
     if (!this.store) {
       return;
     }
 
-    const matching = this.store.routeToNode(route);
+    const matching = this.store.routeToNode(this.$route);
     if (matching) {
       const node = _.find(this.navigation, matching) as IndexedNode | null;
       if (node) {
@@ -119,6 +133,7 @@ export default class EpTreeNavibar extends Vue {
     if (!this.navigation || this.activeIdx < 0) {
       return null;
     }
+
     const node = this.navigation[this.activeIdx];
     return _(this.navigation)
       .drop(this.activeIdx + 1)
@@ -140,7 +155,10 @@ export default class EpTreeNavibar extends Vue {
 
   get menu() {
     if (this.active) {
-      return _.filter([this.active, ...(this.children || [])], item => item.depth === this.depth || item.depth === this.depth + 1);
+      return _.filter([
+        this.active,
+        ...(this.children || [])],
+        item => item.depth === this.depth || item.depth === this.depth + 1);
     }
     else {
       return _.filter(this.navigation, item => item.depth === this.depth);
@@ -149,7 +167,7 @@ export default class EpTreeNavibar extends Vue {
 
   navigate(item: IndexedNode) {
     if (_.isEmpty(item.children)) {
-      return _.last(this.parents(item));
+      this.active = _.last(this.parents(item));
     }
     else {
       this.active = item;

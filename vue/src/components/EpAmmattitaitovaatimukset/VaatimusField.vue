@@ -6,15 +6,20 @@
           <div>
             <ep-error-wrapper :validation="validation">
               <b-input-group>
+                <div class="handle text-muted">
+                  <fas icon="dragindicator" size="lg"></fas>
+                </div>
                 <b-form-input
-                  :value="value.vaatimus ? value.vaatimus[$slang.value] : ''"
+                  class="vaatimus"
+                  :value="vaatimus"
                   @input="onInput"
                   @resize="onResize"
                   @focus="focused = true"
                   @blur="onBlur"
                   ref="input"
-                  v-if="!value.koodi"></b-form-input>
+                  v-if="!value.koodi" />
                 <b-form-input
+                  class="vaatimus"
                   :value="$kaanna(value.koodi.nimi) + ' (' + value.koodi.arvo + ')'"
                   disabled
                   v-if="value.koodi"></b-form-input>
@@ -32,8 +37,20 @@
                 <ep-spinner />
               </div>
               <div class="datalist" v-else>
-                <div class="item" v-for="(item, idx) in koodit" role="button" @click="valitse(item)" ref="datalist" :key="'autocomplete-' + idx">
-                  {{ $kaanna(item.nimi) }}
+                <div class="item"
+                     v-for="(item, idx) in koodit"
+                     ref="datalist"
+                     :key="'autocomplete-' + idx">
+                  <div class="d-flex align-items-center">
+                    <div role="button" @click="valitse(item)">
+                      <span class="font-weight-bold">{{ item.completion.left }}</span>
+                      <span>{{ item.completion.hit }}</span>
+                      <span class="font-weight-bold">{{ item.completion.right }}</span>
+                    </div>
+                    <div>
+                      <Kayttolistaus :koodi="item.koodi" />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -57,7 +74,10 @@ import { KoodistoSelectStore } from '@shared/components/EpKoodistoSelect/Koodist
 
 import { BrowserStore } from '../../stores/BrowserStore';
 import { metadataToLocalized } from '../../utils/perusteet';
+import { delay } from '@shared/utils/delay';
 import _ from 'lodash';
+import Kayttolistaus from './Kayttolistaus.vue';
+
 
 @Component({
   components: {
@@ -65,8 +85,9 @@ import _ from 'lodash';
     EpErrorWrapper,
     EpExternalLink,
     EpInput,
-    EpSpinner,
     EpKoodistoSelect,
+    EpSpinner,
+    Kayttolistaus,
   },
 })
 export default class VaatimusField extends Vue {
@@ -77,17 +98,29 @@ export default class VaatimusField extends Vue {
   private koodisto!: KoodistoSelectStore;
 
   @Prop({ default: null })
-  validation!: any;
+  private validation!: any;
 
   private focused = false;
   private hasChanged = false;
   private isLoading = false;
 
+  get vaatimus() {
+    return this.value?.vaatimus ? this.value.vaatimus[this.$slang.value] : '';
+  }
+
   get koodit() {
     const res = _.map(this.koodisto?.data.value?.data || [], koodi => {
+      const localized = metadataToLocalized(koodi.metadata!, 'nimi');
+      const nimi = localized[this.$slang.value] || '';
+      const idx = nimi.indexOf(this.vaatimus);
       return {
         ...koodi,
-        nimi: metadataToLocalized(koodi.metadata!, 'nimi'),
+        nimi: localized,
+        completion: {
+          left: nimi.substring(0, idx),
+          hit: this.vaatimus,
+          right: nimi.substring(idx + this.vaatimus.length),
+        },
       };
     });
     return res;
@@ -124,7 +157,8 @@ export default class VaatimusField extends Vue {
     }, 300);
   }
 
-  valitse(koodi) {
+  async valitse(koodi) {
+    await delay(100);
     this.focused = false;
     this.$emit('input', {
       koodi: {
@@ -132,7 +166,7 @@ export default class VaatimusField extends Vue {
         arvo: koodi.koodiArvo,
         nimi: koodi.nimi,
         versio: koodi.versio,
-        koodisto: koodi.koodisto,
+        koodisto: koodi.koodisto.koodistoUri,
       },
     });
   }
@@ -142,6 +176,18 @@ export default class VaatimusField extends Vue {
 </script>
 
 <style scoped lang="scss">
+
+.vaatimus {
+  padding-left: 2rem !important;
+}
+
+.handle {
+  position: absolute;
+  padding: 10px 0 0 0;
+  left: 6px;
+  z-index: 100;
+}
+
 .datalist-wrapper {
   width: 100%;
   position: relative;
@@ -159,7 +205,7 @@ export default class VaatimusField extends Vue {
 
     .datalist {
       .item {
-        padding: 6px;
+        padding: 8px;
         cursor: pointer;
 
         &:hover {

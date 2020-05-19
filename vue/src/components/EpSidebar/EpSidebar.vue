@@ -1,26 +1,14 @@
 <template>
 <div class="sidenav">
-  <div class="bar" :class="{ 'bar-open': isOpen}">
-    <div class="bar-buttons d-block">
-      <!-- Desktop -->
-      <ep-sidebar-buttons :mobile="false"
-                          :inline="isOpen"
-                          :show-social="showSocial"
-                          v-model="settings"
-                          @toggle="handleToggle" />
-      <!-- Mobile -->
-      <ep-sidebar-buttons :mobile="true"
-                          :inline="isOpen"
-                          :show-social="showSocial"
-                          v-model="settings"
-                          @toggle="handleToggle" />
-    </div>
-    <slot v-if="isOpen"
-          name="bar" />
-    <div v-if="isOpen && $scopedSlots.bottom" class="bottom" v-sticky sticky-side="bottom">
+  <div v-if="showNavigation" class="bar">
+    <slot name="bar" />
+    <div v-if="$scopedSlots.bottom" class="bottom" v-sticky sticky-side="bottom">
       <slot name="bottom" />
     </div>
   </div>
+  <Portal v-else to="globalNavigation">
+    <slot name="bar" />
+  </Portal>
   <div class="view" :id="scrollId">
     <slot name="view" />
   </div>
@@ -34,6 +22,8 @@ import EpSidebarButtons from './EpSidebarButtons.vue';
 import Sticky from 'vue-sticky-directive';
 import { setItem, getItem, removeItem } from '../../utils/localstorage';
 import _ from 'lodash';
+import { BrowserStore } from '../../stores/BrowserStore';
+
 
 @Component({
   components: {
@@ -45,10 +35,12 @@ import _ from 'lodash';
   },
 })
 export default class EpSidebar extends Vue {
-  @Prop({ default: true })
-  private showSocial!: boolean;
+  private browserStore = new BrowserStore();
 
-  private isOpen = false;
+  get showNavigation() {
+    return this.browserStore.navigationVisible.value;
+  }
+
   private settings = {
     autoScroll: true,
     showSubchapter: true,
@@ -57,28 +49,17 @@ export default class EpSidebar extends Vue {
   get scrollId() {
     return this.settings.autoScroll ? 'scroll-anchor' : 'scroll-anchor-disabled';
   }
-
-  private handleToggle(value) {
-    this.isOpen = value;
-    if (this.isOpen) {
-      setItem('ep-sidebar-open', true);
-    }
-    else {
-      removeItem('ep-sidebar-open');
-    }
-  }
-
-  mounted() {
-    this.isOpen = !!getItem('ep-sidebar-open');
-  }
 }
 </script>
 <style scoped lang="scss">
 @import "../../styles/_variables.scss";
 .sidenav {
-  min-height: 100vh;
+  @media (min-width: 992px) {
+    min-height: 100vh;
+  }
 
   .bar {
+    width: 340px;
 
     .bar-buttons {
       padding: 0 $content-padding;
@@ -92,16 +73,18 @@ export default class EpSidebar extends Vue {
       bottom: 0;
     }
   }
+
   @media (max-width: 767.98px) {
     .btn-group-vertical {
       flex-direction: row;
     }
   }
+
   @media (min-width: 768px) {
     display: flex;
     .bar {
       &.bar-open {
-        width: $sidebar-width;
+        min-width: $sidebar-width;
       }
     }
     .view {

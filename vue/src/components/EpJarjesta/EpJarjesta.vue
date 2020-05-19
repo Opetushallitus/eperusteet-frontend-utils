@@ -1,13 +1,16 @@
 <template>
 <draggable v-bind="options" tag="div" class="tree-container" :value="value" @input="emitter" :key="value.length">
   <div v-for="(node, idx) in value" :key="idx">
-    <div class="box" :class="{ 'new-box': node.$uusi, 'box-draggable': isEditable }" >
-      <span class="chapter">
+    <div class="box d-flex align-items-center" :class="{ 'new-box': node.$uusi, 'box-draggable': isEditable }" >
+      <div class="handle">
+        <fas icon="dragindicator"></fas>
+      </div>
+      <div class="chapter">
         {{ prefix }}{{ idx + 1 }}
-      </span>
-      <span class="name">
+      </div>
+      <div class="name">
         <slot :node="node"></slot>
-      </span>
+      </div>
       <div
         v-if="node[childField] && node[childField] != null && node[childField].length > 0"
         class="actions"
@@ -41,6 +44,7 @@
 
 import { Vue, Prop, Component } from 'vue-property-decorator';
 import draggable from 'vuedraggable';
+
 
 @Component({
   name: 'EpJarjesta',
@@ -88,10 +92,11 @@ export default class EpJarjesta extends Vue {
   get options() {
     return {
       animation: 300,
-      group: this.group,
       disabled: !this.isEditable || !this.sortable,
-      ghostClass: 'placeholder',
       forceFallback: true,
+      ghostClass: 'placeholder',
+      group: this.group,
+      handle: '.handle',
     };
   }
 
@@ -132,8 +137,14 @@ export default class EpJarjesta extends Vue {
   border: 1px solid #CCD9F8;
   border-radius: 4px;
   background-color: rgba(230,246,255,0.6);
-  padding: 7px 20px 7px 20px;
+  padding: 7px 20px 7px 10px;
   margin-bottom: 10px;
+
+  .handle {
+    margin-top: 2px;
+    color: #668DEA;
+    font-size: 1.2rem;
+  }
 
   .actions {
     float: right;

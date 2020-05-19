@@ -40,6 +40,7 @@ function initApi<T>(X: BaseAPIConstructor<T>): T {
 export const Api = ax;
 
 export const Arviointiasteikot = initApi(EperusteetApi.ArviointiasteikotApi);
+export const Ammattitaitovaatimukset = initApi(EperusteetApi.AmmattitaitovaatimuksetApi);
 export const Dokumentit = initApi(EperusteetApi.DokumentitApi);
 export const DokumentitParams = DokumentitApiAxiosParamCreator(configuration);
 export const GeneerinenArviointiasteikko = initApi(EperusteetApi.GeneerinenArviointiasteikkoApi);

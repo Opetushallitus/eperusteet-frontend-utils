@@ -200,7 +200,7 @@ export default class EpKoodistoSelect extends Vue {
         arvo: items[0].koodiArvo,
         nimi: items[0].nimi,
         versio: items[0].versio,
-        koodisto: items[0].koodisto,
+        koodisto: items[0].koodisto?.koodistoUri || items[0].koodisto,
       };
 
       if (!this.multiselect) {

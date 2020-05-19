@@ -52,7 +52,7 @@ import _ from 'lodash';
     EpButton,
   },
 })
-export default class EpSteps extends Vue {
+export default class EpPagination extends Vue {
   @Prop({ required: true })
   private value!: number;
 
@@ -84,7 +84,7 @@ export default class EpSteps extends Vue {
 
   get pages() {
     if (this.count < 6) {
-      return _.range(1, this.count + 1);
+      return _.range(1, this.count);
     }
     else {
       const result: (number | null)[] = [];
@@ -112,7 +112,8 @@ export default class EpSteps extends Vue {
   }
 
   async setValue(value: number) {
-    if (value > 0 && value < this.totalRows - 1) {
+    console.log('setting value', value);
+    if (value > 0 && value < this.count) {
       this.$emit('input', value);
     }
   }

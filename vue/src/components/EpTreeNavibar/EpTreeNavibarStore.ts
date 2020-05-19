@@ -8,6 +8,13 @@ import _ from 'lodash';
 
 Vue.use(VueCompositionApi);
 
+interface NodeConfig {
+  disableNesting?: boolean;
+}
+
+type NodeConfigs = { [type: string]: NodeConfig | undefined | null };
+
+
 export interface FlattenedNodeDto {
   id?: number;
   label?: LokalisoituTekstiDto;
@@ -22,6 +29,8 @@ export class EpTreeNavibarStore {
   constructor(
     private navigation: Computed<NavigationNodeDto>,
     private readonly routeToNodeImpl: (route: Location) => NavigationNodeDto | null,
+    private config: NodeConfigs = {
+    },
   ) {
   }
 
@@ -30,21 +39,26 @@ export class EpTreeNavibarStore {
   }
 
   private readonly connected = computed(() => {
-    return _.drop(flattenNodes(this.navigation.value), 1);
+    return _.drop(flattenNodes(this.config, this.navigation.value), 1);
   });
 
   public readonly filtered = computed(() => this.connected.value);
 }
 
-function flattenNodes(root: NavigationNodeDto, depth = 0, idx = 0): FlattenedNodeDto[] {
+function flattenNodes(config: NodeConfigs, root: NavigationNodeDto, depth = 0, parents: number[] = []): FlattenedNodeDto[] {
+  const tconfig = config[root.type!];
+  const nextDepth = tconfig?.disableNesting ? depth : depth + 1;
   return [{
     id: root.id,
     label: root.label,
     type: root.type,
     meta: root.meta,
-    children: root.children as any,
-    // chapter: (depth > 1 ? '.' : '') + (idx + 1),
-    chapter: '',
+    children: tconfig?.disableNesting ? [] : root.children as any,
+    chapter: _.join(_.map(parents, p => p + 1), '.'),
     depth,
-  }, ..._.flatten(_.map(root.children, (child, idx) => flattenNodes(child, depth + 1, idx)))];
+  }, ..._.flatten(_.map(root.children, (child, idx) => flattenNodes(
+    config,
+    child,
+    nextDepth,
+    [...parents, idx])))];
 }
