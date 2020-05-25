@@ -5,7 +5,7 @@
     </slot>
     <ep-collapse :border-bottom="false" :border-top="false" :expandedByDefault="perusteTekstiAvattu" v-if="perusteObject && perusteObject[teksti]">
       <template v-slot:header><h4>{{$t('perusteen-teksti')}}</h4></template>
-      <span v-html="$kaanna(perusteObject[teksti])"></span>
+      <span> {{ $kaanna(perusteObject[teksti]) }}</span>
     </ep-collapse>
     <div v-if="object">
       <h4>{{ $t('paikallinen-teksti') }}</h4>
@@ -31,7 +31,7 @@ import EpAlert from '@shared/components/EpAlert/EpAlert.vue';
   },
 })
 export default class EpPerusteContent extends Vue {
-  @Prop({ required: true })
+  @Prop({ required: false })
   private perusteObject!: any;
 
   @Prop({ required: false })
