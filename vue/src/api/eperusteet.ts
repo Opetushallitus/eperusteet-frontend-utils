@@ -100,7 +100,6 @@ export type TyoryhmaHenkiloDto = EperusteetApi.TyoryhmaHenkiloDto;
 export type UpdateDtoRakenneModuuliDto = EperusteetApi.UpdateDtoRakenneModuuliDto;
 export type OpasLuontiDto = EperusteetApi.OpasLuontiDto;
 export type DokumenttiDto = EperusteetApi.DokumenttiDto;
-export type PerusteprojektiImportDto = EperusteetApi.PerusteprojektiImportDto;
 
 export import PerusteprojektiLuontiDtoTyyppiEnum = EperusteetApi.PerusteprojektiLuontiDtoTyyppiEnum;
 export import NavigationNodeDtoTypeEnum = EperusteetApi.NavigationNodeDtoTypeEnum;
