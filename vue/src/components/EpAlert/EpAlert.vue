@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="d-flex align-items-center">
     <div v-if="ops">
       <svg width="116" height="116" xmlns="http://www.w3.org/2000/svg">
         <g fill="none" fill-rule="evenodd">
@@ -11,7 +11,6 @@
           </g>
         </g>
       </svg>
-      <span class="alert">{{ text }}</span>
     </div>
     <div v-else>
       <svg width="116" height="116" xmlns="http://www.w3.org/2000/svg">
@@ -25,8 +24,8 @@
           <path d="M57.26 64.24l.7-3.54 2.84 2.83-3.54.7z" fill="#99B3F1"/>
         </g>
       </svg>
-      <span class="alert">{{ text }}</span>
     </div>
+    <div class="alert flex-fill-1">{{ text }}</div>
   </div>
 </template>
 
@@ -40,6 +39,7 @@ export default class EpAlert extends Vue {
 
   @Prop({ default: false, required: false })
   private ops!: boolean;
+
 }
 </script>
 
