@@ -37,5 +37,7 @@ function initApi<T>(X: BaseAPIConstructor<T>): T {
 export const Api = ax;
 
 export const JulkinenApi = initApi(AmosaaApi.JulkinenApi);
+export const Ohjeet = initApi(AmosaaApi.OhjeetApi);
 
 export type KoulutustoimijaJulkinenDto = AmosaaApi.KoulutustoimijaJulkinenDto;
+export type OhjeDto = AmosaaApi.OhjeDto;
