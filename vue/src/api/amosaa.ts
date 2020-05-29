@@ -38,6 +38,11 @@ export const Api = ax;
 
 export const JulkinenApi = initApi(AmosaaApi.JulkinenApi);
 export const Ohjeet = initApi(AmosaaApi.OhjeetApi);
+export const Opetussuunnitelmat = initApi(AmosaaApi.OpetussuunnitelmatApi);
 
 export type KoulutustoimijaJulkinenDto = AmosaaApi.KoulutustoimijaJulkinenDto;
 export type OhjeDto = AmosaaApi.OhjeDto;
+export type OpetussuunnitelmaDto = AmosaaApi.OpetussuunnitelmaDto;
+export type OpetussuunnitelmaBaseDto = AmosaaApi.OpetussuunnitelmaBaseDto;
+export type PageOpetussuunnitelmaDto = AmosaaApi.PageOpetussuunnitelmaDto;
+export type PageOpetussuunnitelmaBaseDto = AmosaaApi.PageOpetussuunnitelmaBaseDto;
