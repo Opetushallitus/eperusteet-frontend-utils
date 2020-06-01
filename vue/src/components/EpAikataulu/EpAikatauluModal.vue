@@ -16,7 +16,10 @@
 
       <slot name="selite"></slot>
 
-      <ep-aikataulu-listaus ref="epAikatauluListaus" :aikataulutProp="aikataulutClone" :rootModel="rootModel" @setInvalid="setInvalid"/>
+      <ep-aikataulu-listaus ref="epAikatauluListaus" :aikataulutProp="aikataulutClone" :rootModel="rootModel" @setInvalid="setInvalid" >
+        <template v-slot:luomispaiva-topic><slot name="luomispaiva-topic"></slot></template>
+        <template v-slot:julkaisupaiva-topic><slot name="julkaisupaiva-topic"></slot></template>
+      </ep-aikataulu-listaus>
 
       <template v-slot:modal-cancel>
         {{ $t('peruuta')}}
