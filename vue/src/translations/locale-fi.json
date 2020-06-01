@@ -3002,5 +3002,14 @@
     "ylikirjoita-uusi-sisalto": "Jatka muokkaamista",
     "ylikirjoita-uusi-sisältö": "Jatka muokkaamista",
     "ylikirjoittaessasi-voit-palauttaa": "Jatkaessasi voit ylikirjoittaa toisten muutokset. Ne säilyvät edelleen muutoshistoriassa ja voit palauttaa ne sieltä",
-    "ystava-organisaatiot": "Ystäväorganisaatiot"
+    "ystava-organisaatiot": "Ystäväorganisaatiot",
+    "amosaa-tervetuloa": "Hei {nimi}, tervetuloa AMOSAA-työkaluun!",
+    "amosaa-tervetuloa-kuvaus": "Tämän työkalun avulla voit hallita toteutusprojekteja, sekä seurata siihen liittyviä asioita.",
+    "tile-toteutussuunnitelmat": "Toteutussuunnitelmat",
+    "tile-paivitettavat-ja-siirrettavat-toteutussuunnitelmat": "Päivitettävät ja siirrettävät toteutussuunnitelmat",
+    "tile-koulutustoimijan-yhteinen-osuus": "Koulutustoimijan yhteinen osuus",
+    "tile-wip": "Toteutus kesken...",
+    "tile-organisaation-hallinta": "Organisaation hallinta",
+    "tile-usein-kysytyt-kysymykset": "Usein kysytyt kysymykset",
+    "tile-tilastot": "Tilastot"
 }
