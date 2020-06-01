@@ -39,6 +39,9 @@ export const Api = ax;
 export const JulkinenApi = initApi(AmosaaApi.JulkinenApi);
 export const Ohjeet = initApi(AmosaaApi.OhjeetApi);
 export const Opetussuunnitelmat = initApi(AmosaaApi.OpetussuunnitelmatApi);
+export const Aikataulut = initApi(AmosaaApi.AikataulutApi);
+export const Sisaltoviitteet = initApi(AmosaaApi.SisaltoviitteetApi);
+export const Muokkaustiedot = initApi(AmosaaApi.MuokkaustietoApi);
 
 export type KoulutustoimijaJulkinenDto = AmosaaApi.KoulutustoimijaJulkinenDto;
 export type OhjeDto = AmosaaApi.OhjeDto;
@@ -46,3 +49,11 @@ export type OpetussuunnitelmaDto = AmosaaApi.OpetussuunnitelmaDto;
 export type OpetussuunnitelmaBaseDto = AmosaaApi.OpetussuunnitelmaBaseDto;
 export type PageOpetussuunnitelmaDto = AmosaaApi.PageOpetussuunnitelmaDto;
 export type PageOpetussuunnitelmaBaseDto = AmosaaApi.PageOpetussuunnitelmaBaseDto;
+export type OpetussuunnitelmaAikatauluDto = AmosaaApi.OpetussuunnitelmaAikatauluDto;
+export type SisaltoViiteKevytDto = AmosaaApi.SisaltoViiteKevytDto;
+export type OpetussuunnitelmaMuokkaustietoDto = AmosaaApi.OpetussuunnitelmaMuokkaustietoDto;
+
+export import SisaltoViiteKevytDtoTyyppiEnum = AmosaaApi.SisaltoViiteKevytDtoTyyppiEnum;
+export import TutkinnonOsaKevytDtoTyyppiEnum = AmosaaApi.TutkinnonOsaKevytDtoTyyppiEnum;
+export import OpetussuunnitelmaMuokkaustietoDtoTapahtumaEnum = AmosaaApi.OpetussuunnitelmaMuokkaustietoDtoTapahtumaEnum;
+export import OpetussuunnitelmaMuokkaustietoDtoKohdeEnum = AmosaaApi.OpetussuunnitelmaMuokkaustietoDtoKohdeEnum;
