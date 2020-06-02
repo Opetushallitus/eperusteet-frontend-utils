@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <ep-button icon="plussa" variant="outline" v-b-modal.tiedoteMuokkausModal @click="lisaaTiedote">{{ $t('lisaa-tiedote') }}</ep-button>
+    <ep-button v-if="editable" icon="plussa" variant="outline" v-b-modal.tiedoteMuokkausModal @click="lisaaTiedote">{{ $t('lisaa-tiedote') }}</ep-button>
 
     <b-modal ref="tiedoteMuokkausModal"
         id="tiedoteMuokkausModal"
@@ -120,16 +120,17 @@
 
       <template v-slot:modal-footer>
 
-        <div v-if="editing">
+        <div v-if="editing && editable">
           <ep-button @click="suljeTiedote" variant="link">{{ $t('peruuta') }}</ep-button>
           <ep-button @click="tallennaTiedote" class="ml-3" :disabled="$v.$invalid">{{ muokattavaTiedote.id ? $t('tallenna') : $t('julkaise-tiedote') }}</ep-button>
         </div>
 
         <div v-else class="d-flex justify-content-between w-100">
-          <div>
+          <div v-if="editable">
             <ep-button icon="kyna" variant="link" @click="editing = true">{{ $t('muokkaa') }}</ep-button>
             <ep-button icon="roskalaatikko" variant="link" @click="poista">{{ $t('poista') }}</ep-button>
           </div>
+          <div v-else />
 
           <ep-button @click="suljeTiedote">{{ $t('sulje') }}</ep-button>
         </div>
@@ -200,8 +201,11 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
   @Prop({ required: false })
   private peruste!: PerusteDto;
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   private tiedotteetStore!: ITiedotteetProvider;
+
+  @Prop({ required: false, default: true })
+  private editable!: boolean;
 
   private koulutusryypiRyhmaValinnat: KoulutustyyppiRyhmaValinta[] = [];
 

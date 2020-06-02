@@ -58,8 +58,8 @@ export default class EpJulkiLista extends Vue {
   @Prop({ required: true })
   private tiedot!: JulkiRivi[];
 
-  @Prop({ required: false })
-  private tietoMaara;
+  @Prop({ required: false, default: null })
+  private tietoMaara!: number;
 
   @Prop({ required: false, default: 'lisahaku' })
   private listausTyyppi!: 'sivutus' | 'lisahaku';
