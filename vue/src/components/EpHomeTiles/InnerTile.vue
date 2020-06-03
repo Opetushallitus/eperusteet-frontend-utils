@@ -8,7 +8,7 @@
     <div class="iconline">
       <ep-icon :icon="icon" :color="correctColor" background-color="white"></ep-icon>
     </div>
-    <div class="tile-content">
+    <div class="tile-content px-3">
       <slot name="content"></slot>
     </div>
   </div>

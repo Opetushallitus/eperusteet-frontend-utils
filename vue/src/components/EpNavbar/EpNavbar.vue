@@ -10,7 +10,7 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <router-link id="nav-admin" :to="{ name: 'root' }">
+            <router-link id="nav-admin" :to="{ name: 'home' }">
               <fas fixed-width icon="koti" />
             </router-link>
           </li>
@@ -34,22 +34,30 @@
       <!-- </b-nav-form>                                                                      -->
 
       <!-- Sisällön kieli-->
-      <b-nav-item-dropdown id="content-lang-selector" right>
+      <b-nav-item-dropdown id="content-lang-selector" right no-caret>
         <template slot="button-content">
-          <span class="kielivalitsin">{{ $t("kieli-sisalto") }}: {{ $t(sisaltoKieli) }}</span>
+          <div class="d-flex flex-row">
+            <div class="kieli-valikko d-flex flex-column">
+              <span class="kielivalitsin text-right">{{ $t("kieli-sisalto") }}</span>
+              <small class="valittu-kieli text-right">{{ $t(sisaltoKieli) }}</small>
+            </div>
+            <fas fixed-width icon="chevron-down" class="mx-2 my-1" />
+          </div>
         </template>
         <div class="kielet">
           <b-dd-item @click="valitseSisaltoKieli(kieli)"
-                     v-for="kieli in sovelluksenKielet"
-                     :key="kieli"
-                     :disabled="kieli === sisaltoKieli">
+                    v-for="kieli in sovelluksenKielet"
+                    :key="kieli"
+                    :disabled="kieli === sisaltoKieli">
             <fas fixed-width icon="checkmark" v-if="kieli === sisaltoKieli" class="mr-3 valittu" />
             {{ $t(kieli) }}
           </b-dd-item>
         </div>
       </b-nav-item-dropdown>
 
-      <!-- <ep-kayttaja :tiedot="tiedot" /> -->
+      <ep-kayttaja :tiedot="kayttaja"
+                   :koulutustoimijat="koulutustoimijat"
+                   :koulutustoimija="koulutustoimija" />
 
     </b-navbar-nav>
   </b-navbar>
@@ -67,7 +75,7 @@ import { Kielet, UiKielet } from '../../stores/kieli';
 // import { TutoriaaliStore } from '@/stores/tutoriaaliStore';
 // import { Kayttajat } from '@/stores/kayttaja';
 import EpButton from '../../components/EpButton/EpButton.vue';
-// import EpKayttaja from '@shared/components/EpKayttaja/EpKayttaja.vue';
+import EpKayttaja from '@shared/components/EpKayttaja/EpKayttaja.vue';
 
 @Component({
   directives: {
@@ -76,15 +84,28 @@ import EpButton from '../../components/EpButton/EpButton.vue';
   },
   components: {
     EpButton,
-    // EpKayttaja,
+    EpKayttaja,
   },
 })
-export default class EpNavigation extends Vue {
+export default class EpNavbar extends Vue {
   @Prop({ default: true })
   private sticky!: boolean;
 
   @Prop({ default: 'normaali' })
   private tyyli!: string;
+
+  //@Prop({ required: false })
+  //private tutoriaalistore!: TutoriaaliStore | undefined;
+
+  @Prop({ required: true })
+  private kayttaja!: any;
+
+  @Prop({ required: false })
+  private koulutustoimijat!: any;
+
+  get koulutustoimija() {
+    return _.toNumber(this.$route?.params?.koulutustoimijaId);
+  }
 
   // @Prop({ required: false })
   // private tutoriaalistore!: TutoriaaliStore | undefined;
@@ -160,6 +181,14 @@ export default class EpNavigation extends Vue {
         }
       }
     }
+  }
+
+  .kieli-valikko {
+    color: white;
+  }
+
+  .valittu-koulutustoimija {
+    font-size: 0.75rem;
   }
 
   .ep-navbar {

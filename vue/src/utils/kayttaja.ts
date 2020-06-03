@@ -2,6 +2,7 @@ export interface IEsitysnimi {
   kutsumanimi?: string;
   sukunimi?: string;
   oidHenkilo?: string;
+  oid?: string;
   muokkaajaOid?: string;
 }
 
@@ -10,6 +11,6 @@ export function parsiEsitysnimi(tiedot: IEsitysnimi): string {
     return tiedot.kutsumanimi + ' ' + tiedot.sukunimi;
   }
   else {
-    return tiedot.oidHenkilo || tiedot.muokkaajaOid || '';
+    return tiedot.oidHenkilo || tiedot.oid || tiedot.muokkaajaOid || '';
   }
 }
