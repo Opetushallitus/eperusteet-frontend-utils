@@ -28,7 +28,7 @@
                 <ep-button class="ml-4"
                            @click="save()"
                            v-if="isEditing"
-                           :disabled="disabled"
+                           :disabled="disabled || (validation && validation.$invalid)"
                            variant="primary"
                            :show-spinner="isSaving"
                            :help="saveHelpText">

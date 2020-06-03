@@ -56,7 +56,7 @@ export default class EpDatepicker extends Mixins(EpValidation) {
   @Prop({
     default: 'date',
     validator(value) {
-      return _.includes(['date', 'datetime'], value);
+      return _.includes(['date', 'datetime', 'sd'], value);
     },
   })
   private type!: string;
@@ -92,6 +92,9 @@ export default class EpDatepicker extends Mixins(EpValidation) {
     }
     else if (this.type === 'datetime') {
       return (this as any).$ldt(this.value);
+    }
+    else if (this.type === 'sd') {
+      return (this as any).$sd(this.value);
     }
     else {
       return (this as any).$ld(this.value);

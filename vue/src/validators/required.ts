@@ -55,7 +55,7 @@ export function requiredLokalisoituTeksti(kielet?: readonly Kieli[]) {
 
       const isInSomeLang = () => _.some(ValidoitavatKielet, kieli => exists(value, kieli as Kieli));
       if (_.isEmpty(kielet)) {
-        return isInSomeLang;
+        return isInSomeLang();
       }
 
       const isMaaritettyInAllLangs = () => _.every(kielet, kieli => exists(value, kieli));
