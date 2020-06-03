@@ -103,6 +103,7 @@ import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import {
   KoulutustoimijaBaseDto,
  } from '../../api/amosaa';
+ import { setItem } from '@shared/utils/localstorage';
 
 @Component({
   components: {
@@ -142,14 +143,14 @@ export default class EpKayttaja extends Vue {
 
   private async valitseOrganisaatio(koulutustoimija: any) {
     const router = this.$router;
-    const current: any = router.currentRoute;
     const next = {
-      ...current,
+      name: 'home',
       params: {
-        ...current.params,
         koulutustoimijaId: _.toString(koulutustoimija.id),
       },
     };
+    setItem('koulutustoimija', koulutustoimija.id);
+
     try {
       await router.push(next);
     }
