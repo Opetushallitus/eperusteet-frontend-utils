@@ -13,8 +13,7 @@
       style="outline: none;">
       <InnerTile :icon="icon"
                  :color="color"
-                 :effects="effects"
-                 :header-bg-color="headerBgColor">
+                 :effects="effects">
         <template slot="header">
           <slot name="header"></slot>
         </template>
@@ -35,8 +34,7 @@
       style="outline: none;">
       <InnerTile :icon="icon"
                  :color="color"
-                 :effects="effects"
-                 :header-bg-color="headerBgColor">
+                 :effects="effects">
         <template slot="header">
           <slot name="header"></slot>
         </template>
@@ -71,9 +69,6 @@ export default class EpHomeTile extends Vue {
 
   @Prop({ default: null })
   private href!: string | null;
-
-  @Prop()
-  private headerBgColor!: any;
 
   private effects = {
     hover: false,

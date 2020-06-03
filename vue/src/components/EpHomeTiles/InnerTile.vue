@@ -1,6 +1,6 @@
 <template>
   <div :class="{ 'innertile': true, 'route-button': effectEnabled}">
-    <div class="tile-header" :style="headerBgStyle">
+    <div class="tile-header">
       <h3 class="oph-h3 tileheader">
         <slot name="header"></slot>
       </h3>
@@ -33,9 +33,6 @@ export default class BaseInnerTile extends Vue {
   @Prop({ default: { hover: false, focus: false } })
   private effects!: any;
 
-  @Prop({ default: { top: '#4797B7', bottom: '#3C839F' } })
-  private headerBgColor!: any;
-
   get effectEnabled() {
     if (this.effects.hover || this.effects.focus) {
       return true;
@@ -48,10 +45,6 @@ export default class BaseInnerTile extends Vue {
       return '#3467e3';
     }
     return this.color;
-  }
-
-  get headerBgStyle() {
-    return `background: linear-gradient(180deg, ${this.headerBgColor.top} 0%, ${this.headerBgColor.bottom} 100%);`;
   }
 }
 </script>
@@ -75,6 +68,7 @@ $tile-width: 540px;
   .tile-header {
     height: 120px;
     border-radius: 10px 10px 0 0;
+    background: linear-gradient(180deg, $home-tile-top-background-color 0%, $home-tile-bottom-background-color 100%);
     color: white;
     padding-top: 30px;
   }

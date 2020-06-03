@@ -22,7 +22,7 @@ export default class EpSpinner extends Vue {}
 .spinner {
   margin-top: 5px;
   .oph-bounce {
-    background-color: $light-blue !important;
+    background-color: $spinner-background-color !important;
   }
 }
 </style>
