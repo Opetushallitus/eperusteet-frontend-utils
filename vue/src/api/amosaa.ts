@@ -43,6 +43,7 @@ export const Aikataulut = initApi(AmosaaApi.AikataulutApi);
 export const Sisaltoviitteet = initApi(AmosaaApi.SisaltoviitteetApi);
 export const Muokkaustiedot = initApi(AmosaaApi.MuokkaustietoApi);
 export const KayttajaApi = initApi(AmosaaApi.KayttajaApi);
+export const Perusteet = initApi(AmosaaApi.PerusteetApi);
 
 export type KoulutustoimijaJulkinenDto = AmosaaApi.KoulutustoimijaJulkinenDto;
 export type OhjeDto = AmosaaApi.OhjeDto;
@@ -56,6 +57,7 @@ export type OpetussuunnitelmaMuokkaustietoDto = AmosaaApi.OpetussuunnitelmaMuokk
 export type EtusivuDto = AmosaaApi.EtusivuDto;
 export type NavigationNodeDto = AmosaaApi.NavigationNodeDto;
 export type KoulutustoimijaBaseDto = AmosaaApi.KoulutustoimijaBaseDto;
+export type PerusteDto = AmosaaApi.PerusteDto;
 
 export import SisaltoViiteKevytDtoTyyppiEnum = AmosaaApi.SisaltoViiteKevytDtoTyyppiEnum;
 export import TutkinnonOsaKevytDtoTyyppiEnum = AmosaaApi.TutkinnonOsaKevytDtoTyyppiEnum;

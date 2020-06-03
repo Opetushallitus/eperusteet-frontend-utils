@@ -56,7 +56,7 @@ export interface IEditoitava {
   /**
    * Get preview url location
    */
-  preview: () => Promise<RawLocation | null>;
+  preview?: () => Promise<RawLocation | null>;
 
   /**
    * Release locked resource.
