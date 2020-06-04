@@ -10,7 +10,7 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <router-link id="nav-admin" :to="{ name: 'home' }">
+            <router-link id="nav-admin" :to="{ name: 'root' }">
               <fas fixed-width icon="koti" />
             </router-link>
           </li>
