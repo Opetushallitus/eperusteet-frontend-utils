@@ -44,6 +44,8 @@ export const Sisaltoviitteet = initApi(AmosaaApi.SisaltoviitteetApi);
 export const Muokkaustiedot = initApi(AmosaaApi.MuokkaustietoApi);
 export const KayttajaApi = initApi(AmosaaApi.KayttajaApi);
 export const Perusteet = initApi(AmosaaApi.PerusteetApi);
+export const Koulutustoimijat = initApi(AmosaaApi.KoulutustoimijatApi);
+export const Ulkopuoliset = initApi(AmosaaApi.UlkopuolisetApi);
 
 export type KoulutustoimijaJulkinenDto = AmosaaApi.KoulutustoimijaJulkinenDto;
 export type OhjeDto = AmosaaApi.OhjeDto;

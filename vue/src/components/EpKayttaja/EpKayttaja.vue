@@ -143,9 +143,11 @@ export default class EpKayttaja extends Vue {
 
   private async valitseOrganisaatio(koulutustoimija: any) {
     const router = this.$router;
+    const current: any = router.currentRoute;
     const next = {
-      name: 'home',
+      ...current,
       params: {
+        ...current.params,
         koulutustoimijaId: _.toString(koulutustoimija.id),
       },
     };
