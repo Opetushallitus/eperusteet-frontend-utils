@@ -60,6 +60,7 @@ export type EtusivuDto = AmosaaApi.EtusivuDto;
 export type NavigationNodeDto = AmosaaApi.NavigationNodeDto;
 export type KoulutustoimijaBaseDto = AmosaaApi.KoulutustoimijaBaseDto;
 export type PerusteDto = AmosaaApi.PerusteDto;
+export type TiedoteDto = AmosaaApi.TiedoteDto;
 
 export import SisaltoViiteKevytDtoTyyppiEnum = AmosaaApi.SisaltoViiteKevytDtoTyyppiEnum;
 export import TutkinnonOsaKevytDtoTyyppiEnum = AmosaaApi.TutkinnonOsaKevytDtoTyyppiEnum;

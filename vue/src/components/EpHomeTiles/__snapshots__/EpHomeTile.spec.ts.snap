@@ -11,7 +11,7 @@ exports[`EpHomeTile component Renders state 1`] = `
           <div icon="plus"></div>
         </div>
       </div>
-      <div class="tile-content"></div>
+      <div class="tile-content px-3"></div>
     </div>
   </a></div>
 `;
@@ -27,7 +27,7 @@ exports[`EpHomeTile component Router link 1`] = `
           <div icon="plus"></div>
         </div>
       </div>
-      <div class="tile-content"></div>
+      <div class="tile-content px-3"></div>
     </div>
   </a></div>
 `;

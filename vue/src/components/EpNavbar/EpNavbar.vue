@@ -94,8 +94,8 @@ export default class EpNavbar extends Vue {
   @Prop({ default: 'normaali' })
   private tyyli!: string;
 
-  //@Prop({ required: false })
-  //private tutoriaalistore!: TutoriaaliStore | undefined;
+  // @Prop({ required: false })
+  // private tutoriaalistore!: TutoriaaliStore | undefined;
 
   @Prop({ required: true })
   private kayttaja!: any;
