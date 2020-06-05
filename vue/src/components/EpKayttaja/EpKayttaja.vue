@@ -49,7 +49,7 @@
           <fas fixed-width icon="kielet" class="icon mr-3" />
           <span>{{ $t('kieli') }}</span>
         </div>
-        <div class="pl-3">
+        <div class="pl-3 uikieli">
           <span class="icon mr-3" />
           <small>{{ $t(uiKieli) }}</small>
         </div>
@@ -102,8 +102,8 @@ import EpCollapse from '../EpCollapse/EpCollapse.vue';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import {
   KoulutustoimijaBaseDto,
- } from '../../api/amosaa';
- import { setItem } from '@shared/utils/localstorage';
+} from '../../api/amosaa';
+import { setItem } from '@shared/utils/localstorage';
 
 @Component({
   components: {
@@ -136,7 +136,8 @@ export default class EpKayttaja extends Vue {
   get valittuKoulutustoimija() {
     if (this.koulutustoimijat && this.koulutustoimija) {
       return _.find(this.koulutustoimijat, { id: this.koulutustoimija });
-    } else {
+    }
+    else {
       return null;
     }
   }
