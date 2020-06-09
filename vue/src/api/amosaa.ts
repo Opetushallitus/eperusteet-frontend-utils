@@ -46,6 +46,8 @@ export const KayttajaApi = initApi(AmosaaApi.KayttajaApi);
 export const Perusteet = initApi(AmosaaApi.PerusteetApi);
 export const Koulutustoimijat = initApi(AmosaaApi.KoulutustoimijatApi);
 export const Ulkopuoliset = initApi(AmosaaApi.UlkopuolisetApi);
+export const Koodistot = initApi(AmosaaApi.KoodistotApi);
+export const Arviointiasteikot = initApi(AmosaaApi.ArviointiasteikotApi);
 
 export type KoulutustoimijaJulkinenDto = AmosaaApi.KoulutustoimijaJulkinenDto;
 export type OhjeDto = AmosaaApi.OhjeDto;
@@ -62,6 +64,9 @@ export type KoulutustoimijaBaseDto = AmosaaApi.KoulutustoimijaBaseDto;
 export type PerusteDto = AmosaaApi.PerusteDto;
 export type TiedoteDto = AmosaaApi.TiedoteDto;
 export type OpetussuunnitelmaLuontiDto = AmosaaApi.OpetussuunnitelmaLuontiDto;
+export type VapaaTekstiDto = AmosaaApi.VapaaTekstiDto;
+export type TutkinnonosaToteutusDto = AmosaaApi.TutkinnonosaToteutusDto;
+export type TutkinnonosaDto = AmosaaApi.TutkinnonosaDto;
 
 export import SisaltoViiteKevytDtoTyyppiEnum = AmosaaApi.SisaltoViiteKevytDtoTyyppiEnum;
 export import TutkinnonOsaKevytDtoTyyppiEnum = AmosaaApi.TutkinnonOsaKevytDtoTyyppiEnum;
