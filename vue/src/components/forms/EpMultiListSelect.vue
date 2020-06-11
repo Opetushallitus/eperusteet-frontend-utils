@@ -52,6 +52,7 @@
     <div class="valid-feedback" v-if="!validationError && validMessage">{{ $t(validMessage) }}</div>
     <div class="invalid-feedback" v-else-if="validationError && invalidMessage ">{{ $t(invalidMessage) }}</div>
     <div class="invalid-feedback" v-else-if="validationError && !invalidMessage">{{ $t('validation-error-' + validationError, validation.$params[validationError]) }}</div>
+    <small class="form-text text-muted" v-if="help && isEditing">{{ $t(help) }}</small>
 
   </div>
   <div v-else>
@@ -118,6 +119,9 @@ export default class EpMultiListSelect extends Mixins(EpValidation) {
 
   @Prop({ default: true, type: Boolean })
   private isEditing!: boolean;
+
+  @Prop({ default: '', type: String })
+  private help!: string;
 
   private updateValue() {
     if (this.multiple) {
@@ -211,6 +215,13 @@ export default class EpMultiListSelect extends Mixins(EpValidation) {
 
   .unselectable {
     cursor: default;
+  }
+
+  /deep/ .multiselect__tags {
+    border: 2px solid #E0E0E1;
+    border-radius: 10px;
+    font-size: 1rem;
+    background-color: $white;
   }
 
   /deep/ .multiselect__element {
