@@ -78,6 +78,7 @@ library.add(solid.faSearch);
 library.add(solid.faSearchLocation);
 library.add(solid.faShareAlt);
 library.add(solid.faSort);
+library.add(solid.faSpinner);
 library.add(solid.faStrikethrough);
 library.add(solid.faTable);
 library.add(solid.faThumbsUp);

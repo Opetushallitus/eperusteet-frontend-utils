@@ -1,7 +1,7 @@
 <template>
 <div class="filter" role="search">
     <span class="form-control-feedback">
-        <fas fixed-width icon="etsi"></fas>
+        <fas fixed-width :icon="icon" :spin="isLoading"></fas>
     </span>
     <input class="form-control"
            type="search"
@@ -26,6 +26,13 @@ export default class EpSearch extends Vue {
 
   @Prop({ type: String })
   private placeholder!: string;
+
+  @Prop({ required: false, default: false })
+  private isLoading!: boolean;
+
+  get icon() {
+    return this.isLoading ? 'spinner' : 'etsi';
+  }
 
   get placeholderText() {
     return this.placeholder || this.$t('etsi');
