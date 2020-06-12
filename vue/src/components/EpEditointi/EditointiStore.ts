@@ -381,6 +381,7 @@ export class EditointiStore {
         // fail('poisto-epaonnistui');
       }
       this.state.isRemoved = false;
+      throw err;
     }
     this.state.disabled = false;
   }
