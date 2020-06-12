@@ -17,7 +17,7 @@ exports[`EpKayttaja component Renders 1`] = `
           <div role="button" tabindex="0" class="collapse-button d-flex">
             <!---->
             <div class="align-self-start">
-              <div class="header">
+              <div class="">
                 <div>
                   <div class="pl-3 pt-2 text-nowrap kieli">
                     <div fixed-width="" icon="kielet" class="icon mr-3"></div> <span>kieli</span>

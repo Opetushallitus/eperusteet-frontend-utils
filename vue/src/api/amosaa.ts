@@ -48,6 +48,7 @@ export const Koulutustoimijat = initApi(AmosaaApi.KoulutustoimijatApi);
 export const Ulkopuoliset = initApi(AmosaaApi.UlkopuolisetApi);
 export const Koodistot = initApi(AmosaaApi.KoodistotApi);
 export const Arviointiasteikot = initApi(AmosaaApi.ArviointiasteikotApi);
+export const SisaltoviiteLukko = initApi(AmosaaApi.SisaltoviiteLukkoApi);
 
 export type KoulutustoimijaJulkinenDto = AmosaaApi.KoulutustoimijaJulkinenDto;
 export type OhjeDto = AmosaaApi.OhjeDto;
@@ -67,9 +68,11 @@ export type OpetussuunnitelmaLuontiDto = AmosaaApi.OpetussuunnitelmaLuontiDto;
 export type VapaaTekstiDto = AmosaaApi.VapaaTekstiDto;
 export type TutkinnonosaToteutusDto = AmosaaApi.TutkinnonosaToteutusDto;
 export type TutkinnonosaDto = AmosaaApi.TutkinnonosaDto;
+export type SisaltoviiteMatalaDto = AmosaaApi.Matala;
 
 export import SisaltoViiteKevytDtoTyyppiEnum = AmosaaApi.SisaltoViiteKevytDtoTyyppiEnum;
 export import TutkinnonOsaKevytDtoTyyppiEnum = AmosaaApi.TutkinnonOsaKevytDtoTyyppiEnum;
 export import OpetussuunnitelmaMuokkaustietoDtoTapahtumaEnum = AmosaaApi.OpetussuunnitelmaMuokkaustietoDtoTapahtumaEnum;
 export import OpetussuunnitelmaMuokkaustietoDtoKohdeEnum = AmosaaApi.OpetussuunnitelmaMuokkaustietoDtoKohdeEnum;
 export import PerusteDtoKoulutustyyppiEnum = AmosaaApi.PerusteDtoKoulutustyyppiEnum;
+export import MatalaTyyppiEnum = AmosaaApi.MatalaTyyppiEnum;

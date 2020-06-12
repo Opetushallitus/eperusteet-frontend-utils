@@ -1,9 +1,13 @@
 <template>
 <div>
-  <ep-button id="tekstikappalelisaysBtn" v-b-modal.tekstikappalelisays variant="link" buttonClass="text-decoration-none">
-     <fas class="mr-2" icon="plussa" />
-    <span>{{ $t('uusi-tekstikappale') }}</span>
-  </ep-button>
+  <div v-b-modal.tekstikappalelisays>
+    <slot name="lisays-btn">
+      <ep-button id="tekstikappalelisaysBtn" variant="link" buttonClass="text-decoration-none">
+          <fas class="mr-2" icon="plussa" />
+          <span>{{ $t('uusi-tekstikappale') }}</span>
+      </ep-button>
+    </slot>
+  </div>
   <b-modal ref="tekstikappalelisaysModal"
            id="tekstikappalelisays"
            size="lg"
