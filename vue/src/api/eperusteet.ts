@@ -1,4 +1,4 @@
-import { axiosHandler } from './common';
+import { axiosHandler, successfulResponseHandler } from './common';
 import { Configuration,
   DokumentitApiAxiosParamCreator,
   LiitetiedostotApiAxiosParamCreator,
@@ -18,12 +18,6 @@ const ax = axios.create({
   baseURL,
   paramsSerializer: (params: any) => Qs.stringify(params, { arrayFormat: 'repeat' }),
 });
-
-function successfulResponseHandler() {
-  return async (res: any) => {
-    return res;
-  };
-}
 
 ax.interceptors.request.use(_.identity, axiosHandler('Request error'));
 ax.interceptors.response.use(successfulResponseHandler(), axiosHandler('Response error'));
