@@ -167,7 +167,7 @@ export default class EpTreeNavibar extends Vue {
 
   navigate(item: IndexedNode) {
     if (_.isEmpty(item.children)) {
-      this.active = _.last(this.parents(item));
+      this.active = _.last(this.parents(item)) || null;
     }
     else {
       this.active = item;
