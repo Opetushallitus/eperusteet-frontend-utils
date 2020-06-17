@@ -68,7 +68,7 @@ function createWrapper(localVue, config: any = {}) {
   return wrapper;
 }
 
-describe.only('EpContent component', async () => {
+describe('EpContent component', () => {
   beforeAll(() => {
     jest.spyOn(console, 'error').mockImplementation();
   });
