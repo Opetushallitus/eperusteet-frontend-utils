@@ -9,12 +9,18 @@
          role="button"
          tabindex="0"
          :aria-expanded="toggled">
+      <slot name="icon" :toggled="toggled" v-if="chevronLocation === 'left' && collapsable">
+        <div class="align-self-start mr-2">
+          <fas icon="chevron-up" v-if="toggled"></fas>
+          <fas icon="chevron-down" v-else></fas>
+        </div>
+      </slot>
       <div class="align-self-start">
-        <div class="header">
+        <div :class="{'header': toggled}">
           <slot name="header"></slot>
         </div>
       </div>
-      <slot name="icon" :toggled="toggled">
+      <slot name="icon" :toggled="toggled" v-if="chevronLocation === 'right'  && collapsable">
         <div class="ml-auto align-self-start">
           <fas icon="chevron-up" v-if="toggled"></fas>
           <fas icon="chevron-down" v-else></fas>
@@ -51,7 +57,13 @@ export default class EpCollapse extends Vue {
   @Prop({ default: true })
   private borderBottom!: boolean;
 
+  @Prop({ default: 'right' })
+  private chevronLocation!: 'right' | 'left';
+
   private toggled = false;
+
+  @Prop({ default: true })
+  private collapsable!: boolean;
 
   get classess() {
     let result = 'ep-collapse';
@@ -85,12 +97,19 @@ export default class EpCollapse extends Vue {
       : this.expandedByDefault;
   }
 
-  toggle() {
-    this.toggled = !this.toggled;
-    if (this.tyyppi) {
-      setItem('toggle-' + this.tyyppi, {
-        toggled: this.toggled,
-      });
+  toggle(toggle: boolean | null = null) {
+    if (this.collapsable) {
+      if (!toggle) {
+        this.toggled = !this.toggled;
+      }
+      else {
+        this.toggled = toggle;
+      }
+      if (this.tyyppi) {
+        setItem('toggle-' + this.tyyppi, {
+          toggled: this.toggled,
+        });
+      }
     }
   }
 }
@@ -125,7 +144,6 @@ export default class EpCollapse extends Vue {
   .header {
     user-select: none;
     margin-bottom: 10px;
-    margin-top: 5px;
   }
 }
 

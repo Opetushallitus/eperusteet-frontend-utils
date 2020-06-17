@@ -1,4 +1,4 @@
-import { axiosHandler } from './common';
+import { axiosHandler, successfulResponseHandler } from './common';
 import { Configuration,
   DokumentitApiAxiosParamCreator,
   LiitetiedostotApiAxiosParamCreator,
@@ -19,12 +19,6 @@ const ax = axios.create({
   paramsSerializer: (params: any) => Qs.stringify(params, { arrayFormat: 'repeat' }),
 });
 
-function successfulResponseHandler() {
-  return async (res: any) => {
-    return res;
-  };
-}
-
 ax.interceptors.request.use(_.identity, axiosHandler('Request error'));
 ax.interceptors.response.use(successfulResponseHandler(), axiosHandler('Response error'));
 
@@ -41,6 +35,7 @@ export const Api = ax;
 
 export const Arviointiasteikot = initApi(EperusteetApi.ArviointiasteikotApi);
 export const Dokumentit = initApi(EperusteetApi.DokumentitApi);
+export const DokumentitParams = DokumentitApiAxiosParamCreator(configuration);
 export const GeneerinenArviointiasteikko = initApi(EperusteetApi.GeneerinenArviointiasteikkoApi);
 export const Kayttajat = initApi(EperusteetApi.KayttajatApi);
 export const Liitetiedostot = initApi(EperusteetApi.LiitetiedostotApi);
@@ -60,6 +55,7 @@ export const Tutkinnonosat = initApi(EperusteetApi.TutkinnonosatApi);
 export const TutkinnonosatPrivate = initApi(EperusteetApi.TutkinnonosatPrivateApi);
 export const Ulkopuoliset = initApi(EperusteetApi.UlkopuolisetApi);
 export const Maintenance = initApi(EperusteetApi.MaintenanceApi);
+export const Aikataulut = initApi(EperusteetApi.AikataulutApi);
 
 export type Ammattitaitovaatimukset2019Dto = EperusteetApi.Ammattitaitovaatimukset2019Dto;
 export type ArviointiAsteikkoDto = EperusteetApi.ArviointiAsteikkoDto;
@@ -81,6 +77,7 @@ export type PerusteDto = EperusteetApi.PerusteDto;
 export type PerusteHakuDto = EperusteetApi.PerusteHakuDto;
 export type PerusteHakuInternalDto = EperusteetApi.PerusteHakuInternalDto;
 export type PerusteKevytDto = EperusteetApi.PerusteKevytDto;
+export type PerusteInfoDto = EperusteetApi.PerusteInfoDto;
 export type PerusteKoosteDto = EperusteetApi.PerusteKoosteDto;
 export type PerusteprojektiDto = EperusteetApi.PerusteprojektiDto;
 export type PerusteprojektiKevytDto = EperusteetApi.PerusteprojektiKevytDto;
@@ -96,8 +93,12 @@ export type TutkinnonOsaViiteUpdateDto = EperusteetApi.TutkinnonOsaViiteUpdateDt
 export type TyoryhmaHenkiloDto = EperusteetApi.TyoryhmaHenkiloDto;
 export type UpdateDtoRakenneModuuliDto = EperusteetApi.UpdateDtoRakenneModuuliDto;
 export type OpasLuontiDto = EperusteetApi.OpasLuontiDto;
+export type DokumenttiDto = EperusteetApi.DokumenttiDto;
 
 export import PerusteprojektiLuontiDtoTyyppiEnum = EperusteetApi.PerusteprojektiLuontiDtoTyyppiEnum;
+export import NavigationNodeDtoTypeEnum = EperusteetApi.NavigationNodeDtoTypeEnum;
+export import PerusteDtoTyyppiEnum = EperusteetApi.PerusteDtoTyyppiEnum;
+export import DokumenttiDtoTilaEnum = EperusteetApi.DokumenttiDtoTilaEnum;
 
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
@@ -138,6 +139,7 @@ export interface PerusteQuery {
   tutkintonimikkeet?: boolean;
   voimassaolo?: boolean;
   perusteTyyppi?: string;
+  perusteet?: number[];
 };
 
 export async function getAllPerusteet(query: PerusteQuery) {

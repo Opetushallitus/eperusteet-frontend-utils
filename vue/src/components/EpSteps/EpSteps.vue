@@ -1,6 +1,6 @@
 <template>
 <div class="ep-steps">
-  <div class="steps d-flex justify-content-center mr-5 ml-5 mb-5">
+  <div class="steps d-flex justify-content-center mr-5 ml-5 mb-5" v-if="steps.length > 1">
     <div role="button" v-for="(step, idx) in steps" :key="step.key" class="text-center step" @click="stepIdx = idx">
       <div class="connection" v-if="steps.length > 1" :class="{ left: idx === steps.length - 1, right: idx === 0 }"/>
       <div class="p-4">
@@ -28,7 +28,7 @@
       <ep-button variant="link" @click="cancel" v-if="hasCancelEvent">{{ $t('peruuta')}}</ep-button>
       <ep-button variant="link" @click="previous" v-if="stepIdx > 0">{{ $t('edellinen') }}</ep-button>
       <ep-button @click="next" v-if="stepIdx < steps.length - 1" :disabled="!currentValid">{{ $t('seuraava') }}</ep-button>
-      <ep-button @click="saveImpl" v-else :disabled="!currentValid">
+      <ep-button @click="saveImpl" v-else :disabled="!currentValid" :showSpinner="saving">
         <slot name="luo">{{ $t('tallenna') }}</slot>
       </ep-button>
     </div>
@@ -65,13 +65,16 @@ export default class EpSteps extends Vue {
   private onSave!: () => Promise<void>;
 
   private stepIdx = 0;
+  private saving = false;
 
   async saveImpl() {
     const isValid = _.last(this.steps)?.isValid;
     if (isValid && !isValid()) {
       return;
     }
+    this.saving = true;
     await this.onSave();
+    this.saving = false;
   }
 
   @Watch('initialStep', { immediate: true })

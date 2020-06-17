@@ -27,8 +27,8 @@
   </div>
 </div>
 <div v-else v-bind="$attrs">
-  <h2 v-if="isHeader">{{val}}</h2>
-  <span v-else>{{val}}</span>
+  <h2 v-if="isHeader">{{ val }}</h2>
+  <span v-else>{{ val }}{{ unit ? ' ' + $kaannaOlioTaiTeksti(unit) : '' }}</span>
 </div>
 </template>
 
@@ -69,6 +69,9 @@ export default class EpInput extends Mixins(EpValidation) {
 
   @Prop({ default: true })
   private showMessage!: boolean;
+
+  @Prop({ required: false })
+  private unit!: string | object;
 
   get hasLeftSlot() {
     return !!this.$slots.left;

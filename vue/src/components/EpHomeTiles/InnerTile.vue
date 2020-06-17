@@ -8,7 +8,7 @@
     <div class="iconline">
       <ep-icon :icon="icon" :color="correctColor" background-color="white"></ep-icon>
     </div>
-    <div class="tile-content">
+    <div class="tile-content px-3">
       <slot name="content"></slot>
     </div>
   </div>
@@ -68,7 +68,7 @@ $tile-width: 540px;
   .tile-header {
     height: 120px;
     border-radius: 10px 10px 0 0;
-    background: linear-gradient(180deg, #4797B7 0%, #3C839F 100%);
+    background: linear-gradient(180deg, $home-tile-top-background-color 0%, $home-tile-bottom-background-color 100%);
     color: white;
     padding-top: 30px;
   }
@@ -84,6 +84,7 @@ $tile-width: 540px;
     top: -37px;
     display: flex;
     justify-content: center;
+    color: $black;
   }
 }
 

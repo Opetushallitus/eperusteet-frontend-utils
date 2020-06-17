@@ -46,8 +46,10 @@
             selected-variant=''>
 
             <template v-slot:cell(nimi)="{ item }">
-              <fas v-if="item.selected" icon="check-square" class="checked mr-2"/>
-              <fas v-else :icon="['far', 'square']" class="checked mr-2"/>
+              <span v-if="multiple">
+                <fas v-if="item.selected" icon="check-square" class="checked mr-2"/>
+                <fas v-else :icon="['far', 'square']" class="checked mr-2"/>
+              </span>
               {{ $kaanna(item.nimi) }}
             </template>
 
@@ -201,30 +203,27 @@ export default class EpKoodistoSelect extends Vue {
         koodisto: items[0].koodisto,
       };
 
-      if (_.includes(this.selectedUris, row.uri)) {
-        this.innerModel = _.filter(this.innerModel, koodi => koodi.uri !== row.uri);
+      if (!this.multiselect) {
+        this.$emit('input', row);
+        this.$emit('add', row);
+        (this.$refs.editModal as any).hide();
       }
       else {
-        this.innerModel = [
-          ...this.innerModel,
-          row,
-        ];
+        if (_.includes(this.selectedUris, row.uri)) {
+          this.innerModel = _.filter(this.innerModel, koodi => koodi.uri !== row.uri);
+        }
+        else {
+          this.innerModel = [
+            ...this.innerModel,
+            row,
+          ];
+        }
       }
-    }
-
-    if (!this.multiselect) {
-      this.$emit('input', this.innerModel[0]);
-      this.$emit('add', this.innerModel[0]);
-      (this.$refs.editModal as any).hide();
     }
   }
 
   lisaaValitut() {
-    if (!this.multiselect) {
-      this.$emit('input', this.innerModel[0]);
-      this.$emit('add', this.innerModel[0]);
-    }
-    else {
+    if (this.multiselect) {
       this.$emit('input', this.innerModel);
       this.$emit('add', this.innerModel);
     }

@@ -9,6 +9,8 @@ library.add(regular.faComment);
 library.add(regular.faFolder);
 library.add(regular.faTrashAlt);
 library.add(regular.faSquare);
+library.add(regular.faBookmark);
+library.add(regular.faFilePdf);
 library.add(solid.faArrowDown);
 library.add(solid.faArrowLeft);
 library.add(solid.faArrowRight);
@@ -82,6 +84,7 @@ library.add(solid.faUndo);
 library.add(solid.faUpload);
 library.add(solid.faUserLock);
 library.add(solid.faUsers);
+library.add(solid.faShareAlt);
 
 // OPH icons
 library.add(oph.alleviivaus);
@@ -139,6 +142,7 @@ library.add(oph.plussa);
 library.add(oph.poistaKolumni);
 library.add(oph.poistaRivi);
 library.add(oph.poistaTaulukko);
+library.add(oph.pylvasAsteikko);
 library.add(oph.raahaus);
 library.add(oph.rakennus);
 library.add(oph.ratas);
@@ -163,8 +167,10 @@ library.add(oph.vakanenOikea);
 library.add(oph.vakanenVasen);
 library.add(oph.vakanenYlos);
 library.add(oph.valtakunnallisetPerusteet);
+library.add(oph.virheellisetPerusteet);
 library.add(oph.yhdistaSolut);
 library.add(oph.yliviivaus);
+library.add(oph.osaamisenArviointi);
 
 Vue.component('fas', FontAwesomeIcon);
 Vue.component('fal', FontAwesomeLayers);

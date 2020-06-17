@@ -11,7 +11,7 @@
          :class="{ 'mr-2': $slots.default, 'icon': isOutline }">
       <fas fixed-width :icon="icon"></fas>
     </span>
-    <div class="pl-3 pr-3">
+    <div class="teksti pl-3 pr-3">
       <slot />
       <ep-spinner-inline v-if="showSpinner" />
     </div>
@@ -32,7 +32,7 @@ import EpSpinnerInline from '../EpSpinner/EpSpinnerInline.vue';
   },
 })
 export default class EpButton extends Vue {
-  @Prop({ default: '', type: String })
+  @Prop({ default: '' })
   private icon!: string;
 
   @Prop()
@@ -71,6 +71,8 @@ export default class EpButton extends Vue {
 </script>
 
 <style lang="scss" scoped>
+@import '../../styles/_variables.scss';
+
 .ep-button {
   display: inline-block;
   white-space: nowrap;
@@ -79,6 +81,12 @@ export default class EpButton extends Vue {
     border: none;
     color: #2B2B2B;
 
+  }
+
+  ::v-deep button.btn-outline-primary:hover{
+    div.teksti {
+      color: $white;
+    }
   }
 
   .icon {

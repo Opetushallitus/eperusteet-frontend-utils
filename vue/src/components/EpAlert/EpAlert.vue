@@ -1,5 +1,6 @@
 <template>
-  <div class="d-flex align-items-center">
+<div class="d-flex align-items-center">
+  <div v-if="!onlyText">
     <div v-if="ops">
       <svg width="116" height="116" xmlns="http://www.w3.org/2000/svg">
         <g fill="none" fill-rule="evenodd">
@@ -27,6 +28,8 @@
     </div>
     <div class="alert flex-fill-1">{{ text }}</div>
   </div>
+  <span v-else class="alert alert-only-text">{{ text }}</span>
+</div>
 </template>
 
 <script lang="ts">
@@ -40,13 +43,19 @@ export default class EpAlert extends Vue {
   @Prop({ default: false, required: false })
   private ops!: boolean;
 
+  @Prop({ default: false, required: false })
+  private onlyText!: boolean;
 }
 </script>
 
 <style lang="scss" scoped>
 
-  .alert {
-    color: #9e9e9e;
-  }
+.alert {
+  color: #9e9e9e;
+}
+
+.alert-only-text {
+  padding: 0;
+}
 
 </style>

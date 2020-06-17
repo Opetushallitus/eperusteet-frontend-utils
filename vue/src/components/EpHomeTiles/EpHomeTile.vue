@@ -11,7 +11,9 @@
       @focus.native="effects.focus = true"
       @blur.native="effects.focus = false"
       style="outline: none;">
-      <InnerTile :icon="icon" :color="color" :effects="effects">
+      <InnerTile :icon="icon"
+                 :color="color"
+                 :effects="effects">
         <template slot="header">
           <slot name="header"></slot>
         </template>
@@ -30,7 +32,9 @@
       @focus="effects.focus = true"
       @blur="effects.focus = false"
       style="outline: none;">
-      <InnerTile :icon="icon" :color="color" :effects="effects">
+      <InnerTile :icon="icon"
+                 :color="color"
+                 :effects="effects">
         <template slot="header">
           <slot name="header"></slot>
         </template>

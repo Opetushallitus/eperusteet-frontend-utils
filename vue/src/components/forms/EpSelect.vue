@@ -6,8 +6,9 @@
                     v-model="innerModel"
                     :multiple="multiple"
                     @change="updateValue()"
-                    :class="{ 'is-invalid': isInvalid, 'is-valid': isValid }">
-                <option :value="null" v-if="enableEmptyOption">{{ $t(placeholder) }}</option>
+                    :class="{ 'is-invalid': isInvalid, 'is-valid': isValid }"
+                    :disabled="disabled">
+                <option :value="null" v-if="enableEmptyOption" :disabled="emptyOptionDisabled" :hidden="emptyOptionDisabled">{{ $t(placeholder) }}</option>
                 <option v-for="(item, idx) in items" :value="item" :key="idx">
                     <slot name="default" :item="item">{{ item }}</slot>
                 </option>
@@ -84,6 +85,12 @@ export default class EpSelect extends Mixins(EpValidation) {
 
   private innerModel: any | any[] | null = null;
 
+  @Prop({ default: false, type: Boolean })
+  private disabled!: boolean;
+
+  @Prop({ default: false, type: Boolean })
+  private emptyOptionDisabled!: boolean;
+
   get displayValue() {
     return _.filter(this.items, (item) => _.includes(this.value, item));
   }
@@ -130,6 +137,9 @@ export default class EpSelect extends Mixins(EpValidation) {
 select {
   // Chrome pakottaa oman border-radiuksen ilman
   appearance: none;
+  background: url('../../../public/img/icons/vakanen-alas.svg') no-repeat right $white;
+  background-position-x: calc(100% - 5px);
+  background-position-y: calc(100% - 2px);
 }
 
 /deep/ label.custom-control-label::before {

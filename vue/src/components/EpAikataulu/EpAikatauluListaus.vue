@@ -1,7 +1,10 @@
 <template>
   <div>
 
-    <ep-aikataulu :aikataulut ="aikataulut" class="pt-3" :showPopover="false"/>
+    <ep-aikataulu :aikataulut ="aikataulut" class="pt-3" :showPopover="false">
+      <template v-slot:luomispaiva-topic><slot name="luomispaiva-topic"></slot></template>
+      <template v-slot:julkaisupaiva-topic><slot name="julkaisupaiva-topic"></slot></template>
+    </ep-aikataulu>
 
     <div class="pt-5">
       <div class="row" v-for="(aikataulu, i) in aikataulutFilter" :key="i">

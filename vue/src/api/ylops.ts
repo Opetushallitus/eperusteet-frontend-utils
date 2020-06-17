@@ -1,4 +1,4 @@
-import { axiosHandler } from './common';
+import { axiosHandler, successfulResponseHandler } from './common';
 import { Configuration,
   AikatauluApi,
   DokumentitApi,
@@ -17,8 +17,12 @@ import { Configuration,
   OpetussuunnitelmanSisaltoApi,
   OpetussuunnitelmatApi,
   OpetussuunnitelmatJulkisetApi,
+  OppiaineenVuosiluokatApi,
+  OppiaineenVuosiluokkakokonaisuudetApi,
+  OppiaineetApi,
   TermistoApi,
   UlkopuolisetApi,
+  VuosiluokkakokonaisuudetApi,
 } from '../generated/ylops';
 import axios, { AxiosInstance } from 'axios';
 import _ from 'lodash';
@@ -37,32 +41,6 @@ const ax = axios.create({
   baseURL,
   paramsSerializer: params => Qs.stringify(params, { arrayFormat: 'repeat' }),
 });
-
-// Apufuntio kirjautumiseen ja paluulinkin luontiin
-function getCasURL() {
-  const host = location.host;
-  const protocol = location.protocol;
-  const redirectURL = encodeURIComponent(window.location.href);
-  return protocol + '//' + host + '/cas/login?service=' + redirectURL;
-}
-
-function successfulResponseHandler() {
-  return async (res: any) => {
-    try {
-      if (res.status === 200) {
-        const url = new URL(res.request.responseURL);
-        if (_.startsWith(url.pathname, '/cas/login')) {
-          // Uudelleenohjataan kirjautumiseen jos nykyinen pyyntö on jo mennyt kirjautumissivulle
-          window.location.href = getCasURL();
-        }
-      }
-    }
-    catch (e) {
-      return res;
-    }
-    return res;
-  };
-}
 
 ax.interceptors.request.use(_.identity, axiosHandler('Request error'));
 ax.interceptors.response.use(successfulResponseHandler(), axiosHandler('Response error'));
@@ -91,11 +69,15 @@ export const OpetussuunnitelmanSisalto = initApi(OpetussuunnitelmanSisaltoApi);
 export const Opetussuunnitelmat = initApi(OpetussuunnitelmatApi);
 export const OpetussuunnitelmatJulkiset = initApi(OpetussuunnitelmatJulkisetApi);
 export const Opintojaksot = initApi(Lops2019OpintojaksotApi);
-export const Oppiaineet = initApi(Lops2019OppiaineetApi);
+export const Lops2019Oppiaineet = initApi(Lops2019OppiaineetApi);
 export const Termisto = initApi(TermistoApi);
 export const Ulkopuoliset = initApi(UlkopuolisetApi);
 export const Muokkaustieto = initApi(MuokkaustietoApi);
 export const Aikataulu = initApi(AikatauluApi);
+export const Vuosiluokkakokonaisuudet = initApi(VuosiluokkakokonaisuudetApi);
+export const Oppiaineet = initApi(OppiaineetApi);
+export const OppiaineenVuosiluokkakokonaisuudet = initApi(OppiaineenVuosiluokkakokonaisuudetApi);
+export const OppiaineenVuosiluokat = initApi(OppiaineenVuosiluokatApi);
 
 Dokumentit.addImage = (opsId, tyyppi, kieli, formData) => {
   return Api.post('/dokumentit/kuva', formData, {
@@ -150,3 +132,15 @@ export type TekstiKappaleViiteKevytDto = YlopsApi.TekstiKappaleViiteKevytDto;
 export type TermiDto = YlopsApi.TermiDto;
 export type UusiJulkaisuDto = YlopsApi.UusiJulkaisuDto;
 export type YlopsNavigationNodeDto = YlopsApi.NavigationNodeDto;
+export type OpsVuosiluokkakokonaisuusKevytDto = YlopsApi.OpsVuosiluokkakokonaisuusKevytDto;
+export type OppiaineenVuosiluokkaDto = YlopsApi.OppiaineenVuosiluokkaDto;
+export type OpsVuosiluokkakokonaisuusDto = YlopsApi.OpsVuosiluokkakokonaisuusDto;
+export type PerusteOppiaineenVuosiluokkakokonaisuusDto = YlopsApi.PerusteOppiaineenVuosiluokkakokonaisuusDto;
+export type OpsOppiaineKevytDto = YlopsApi.OpsOppiaineKevytDto;
+export type OppiaineSuppeaDto = YlopsApi.OppiaineSuppeaDto;
+export type PerusteOppiaineDto = YlopsApi.PerusteOppiaineDto;
+export type KopioOppimaaraDto = YlopsApi.KopioOppimaaraDto;
+export type UnwrappedOpsVuosiluokkakokonaisuusDto = YlopsApi.UnwrappedOpsVuosiluokkakokonaisuusDto;
+
+export import OpetussuunnitelmaInfoDtoToteutusEnum = YlopsApi.OpetussuunnitelmaInfoDtoToteutusEnum;
+export import OppiaineSuppeaDtoTyyppiEnum = YlopsApi.OppiaineSuppeaDtoTyyppiEnum;

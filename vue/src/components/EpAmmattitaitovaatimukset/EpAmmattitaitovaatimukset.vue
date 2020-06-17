@@ -236,6 +236,7 @@ export default class EpAmmattitaitovaatimukset extends Vue {
 
 <style scoped lang="scss">
 .kohdealue {
+  padding: 0px 8px 8px 8px;
   border: 1px solid #eee;
 }
 

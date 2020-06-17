@@ -18,7 +18,7 @@ import EpSpinnerInline from '@shared/components/EpSpinner/EpSpinnerInline.vue';
       EpSpinnerInline,
     },
   })
-export default class EpButton extends Vue {
+export default class EpRoundButton extends Vue {
     @Prop({
       required: true,
       type: String,

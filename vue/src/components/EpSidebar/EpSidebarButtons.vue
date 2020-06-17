@@ -17,13 +17,17 @@
   </b-button>
   -->
   <b-button variant="link"
+            v-if="showSocial"
             :aria-label="$t('jaa-sosiaalisessa-mediassa')"
             v-b-tooltip.hover
             :title="$t('jaa-sosiaalisessa-mediassa')"
             :id="shareButtonId">
     <fas fixed-width icon="share-alt"></fas>
   </b-button>
-  <b-popover :target="shareButtonId" triggers="click blur">
+  <b-popover v-if="showSocial"
+             :target="shareButtonId"
+             triggers="click blur">
+
     <template v-slot:title>{{ $t('jaa-sosiaalisessa-mediassa') }}</template>
     <social-sharing :url="url"
                     :quote="quote"
@@ -78,6 +82,7 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import EpToggle from '../forms/EpToggle.vue';
+
 @Component({
   components: {
     EpToggle,
@@ -86,10 +91,16 @@ import EpToggle from '../forms/EpToggle.vue';
 export default class EpSidebarButtons extends Vue {
   @Prop({ required: true, type: Boolean })
   private mobile!: boolean;
+
   @Prop({ required: true, type: Boolean })
   private inline!: boolean;
+
   @Prop({ required: true })
   private value!: boolean;
+
+  @Prop({ required: true })
+  private showSocial!: boolean;
+
   get groupClasses() {
     return {
       'btn-group': this.inline || this.mobile,
@@ -98,21 +109,27 @@ export default class EpSidebarButtons extends Vue {
       'd-none d-md-inline-flex': !this.mobile,
     };
   }
+
   get settingsButtonId() {
     return this.mobile ? 'popover-settings-button-mobile' : 'popover-settings-button-desktop';
   }
+
   get shareButtonId() {
     return this.mobile ? 'popover-share-button-mobile' : 'popover-share-button-desktop';
   }
+
   get url() {
     return window.location.href;
   }
+
   get quote() {
     return document.title;
   }
+
   get hashtags() {
     return this.$t('avainsanalista');
   }
+
   get innerValue() {
     return this.value;
   }

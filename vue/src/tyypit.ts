@@ -137,6 +137,7 @@ export interface SideMenuEntry {
   flatten?: boolean,
   children?: Array<SideMenuEntry>,
   parent?: SideMenuEntry,
+  allowEmpty?: boolean,
 }
 
 export interface SideMenuItem {
@@ -155,4 +156,10 @@ export interface SideMenuRoute {
 
 export interface RecursiveTreeItem {
   id: number;
+}
+
+export interface OpintojaksoModuuliSource {
+  id: number;
+  koodi: string;
+  moduulit?: any[];
 }

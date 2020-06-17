@@ -14,7 +14,8 @@
                @input="changed($event)"
                :multiple="multiple"
                :class="inputClass"
-               :label="label">
+               :label="label"
+               :custom-label="customLabel">
     <template slot="singleLabel"
               slot-scope="{ option }">
       <slot name="singleLabel" :option="option"></slot>
@@ -76,6 +77,9 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
 
   @Prop()
   private label!: string;
+
+  @Prop()
+  private customLabel;
 
   @Prop({ required: true })
   private options!: any[];

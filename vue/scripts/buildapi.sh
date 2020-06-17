@@ -1,15 +1,19 @@
 #!/bin/bash
 
-usage="$(basename "$0") [-h] [-s n] -- program to generate backend API
+usage="$(basename "$0") [-g] [-h] [-s n] -- program to generate backend API
 
 where:
     -s  set service: eperusteet, ylops, amosaa or all (default)
+    -g  generate spec file
     -h  show this help text"
 
 service=all
-while getopts ':hs:' option; do
+generateSpecFile=no
+while getopts ':ghs:' option; do
   case "$option" in
     s) service=$OPTARG
+      ;;
+    g) generateSpecFile=yes
       ;;
     h) echo "$usage"
        exit
@@ -60,62 +64,66 @@ show_amosaa_missing_env_warn() {
 }
 
 generate_eperusteet() {
-  show_eperusteet_missing_env_warn
+	
   eperusteetgen="${rootdir}/src/generated/eperusteet"
 
-  mkdir -p ${eperusteetgen}
-  cd ${eperusteetgen} || exit 1
+  mkdir -p "${eperusteetgen}"
+  cd "${eperusteetgen}" || exit 1
+	
+  if [[ $generateSpecFile = "yes" ]]
+  then
+    show_eperusteet_missing_env_warn
+		
+    cd "$EPERUSTEET_SERVICE_DIR" \
+      && mvn clean compile --batch-mode -B -Pgenerate-openapi \
+	  && cd "${eperusteetgen}"
+  fi
 
-  specfile="$EPERUSTEET_SERVICE_DIR/target/openapi/eperusteet.spec.json"
-
-  echo "Eperusteet target: ${eperusteetgen}"
-  echo "openapi-generator version"
-  npx openapi-generator version
-
-  cd "$EPERUSTEET_SERVICE_DIR" \
-    && mvn clean compile --batch-mode -B -Pgenerate-openapi \
-    && cd "${eperusteetgen}" \
-    && echo "Building eperusteet api" \
-    && pwd \
-    && echo "Swagger spec location: ${specfile}" \
-    && ls ${specfile} \
-    && npx openapi-generator generate -c "${genconfig}" -i "$specfile" -g typescript-axios
+  EPERUSTEET_SPECFILE=${EPERUSTEET_SPECFILE:-"https://raw.githubusercontent.com/Opetushallitus/eperusteet/master/generated/eperusteet.spec.json"}
+  echo "Using EPERUSTEET_SPECFILE=${EPERUSTEET_SPECFILE}"
+  npx openapi-generator generate -c "${genconfig}" -i "${EPERUSTEET_SPECFILE}" -g typescript-axios
 }
 
 generate_ylops() {
-  show_ylops_missing_env_warn
+
   ylopsgen="${rootdir}/src/generated/ylops"
 
   mkdir -p "${ylopsgen}"
   cd "${ylopsgen}" || exit 1
 
+  if [[ $generateSpecFile = "yes" ]]
+  then
+	show_ylops_missing_env_warn
+		
+	cd "$YLOPS_SERVICE_DIR" \
+      && mvn clean compile --batch-mode -B -Pgenerate-openapi \
+	  && cd "${ylopsgen}"
+  fi
 
-  specfile="$YLOPS_SERVICE_DIR/target/openapi/ylops.spec.json"
-  cd "$YLOPS_SERVICE_DIR" \
-    && mvn clean compile --batch-mode -B -Pgenerate-openapi \
-    && cd "${ylopsgen}" \
-    && echo "Building ylops api" \
-    && pwd \
-    && ls \
-    && npx openapi-generator generate -c "${genconfig}" -i "$specfile" -g typescript-axios
+  EPERUSTEET_YLOPS_SPECFILE=${EPERUSTEET_YLOPS_SPECFILE:-"https://raw.githubusercontent.com/Opetushallitus/eperusteet-ylops/master/generated/ylops.spec.json"}
+  echo "Using EPERUSTEET_YLOPS_SPECFILE=${EPERUSTEET_YLOPS_SPECFILE}"
+  npx openapi-generator generate -c "${genconfig}" -i "${EPERUSTEET_YLOPS_SPECFILE}" -g typescript-axios
 }
 
 generate_amosaa() {
-  show_amosaa_missing_env_warn
+
   amosaagen="${rootdir}/src/generated/amosaa"
 
   mkdir -p "${amosaagen}"
   cd "${amosaagen}" || exit 1
 
+  if [[ $generateSpecFile = "yes" ]]
+  then
+	show_amosaa_missing_env_warn
+		
+	cd "$AMOSAA_SERVICE_DIR" \
+      && mvn clean compile --batch-mode -B -Pgenerate-openapi \
+	  && cd "${amosaagen}"
+  fi
 
-  specfile="$AMOSAA_SERVICE_DIR/target/openapi/amosaa.spec.json"
-  cd "$AMOSAA_SERVICE_DIR" \
-    && mvn clean compile --batch-mode -B -Pgenerate-openapi \
-    && cd "${amosaagen}" \
-    && echo "Building amosaa api" \
-    && pwd \
-    && ls \
-    && npx openapi-generator generate -c "${genconfig}" -i "$specfile" -g typescript-axios
+  EPERUSTEET_AMOSAA_SPECFILE=${EPERUSTEET_AMOSAA_SPECFILE:-"https://raw.githubusercontent.com/Opetushallitus/eperusteet-amosaa/master/generated/amosaa.spec.json"}
+  echo "Using EPERUSTEET_AMOSAA_SPECFILE=${EPERUSTEET_AMOSAA_SPECFILE}"
+  npx openapi-generator generate -c "${genconfig}" -i "${EPERUSTEET_AMOSAA_SPECFILE}" -g typescript-axios
 }
 
 generate() {

@@ -22,8 +22,16 @@ $tabcolor: #0041dc;
 
   .modal-header {
     border-bottom: 0;
-  }
+    font-size: 1.125rem;
+    font-weight: 400;
+    font-family: Poppins, sans-serif;
 
+    h5 {
+      font-size: 1.125rem;
+      font-weight: 400;
+      font-family: Poppins, sans-serif;
+    }
+  }
   .modal-footer {
     border-top: 0;
 
@@ -235,4 +243,13 @@ fieldset {
 fieldset.form-group {
   padding-left: 0;
   margin-left: 0;
+}
+
+.custom-checkbox label.custom-control-label::before {
+  border-radius: 0.2rem;
+}
+
+.switch label.custom-control-label::before {
+  border-radius: 10px;
+  border: 2px solid #E0E0E1;
 }

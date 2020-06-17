@@ -172,6 +172,10 @@ export function isAmmatillinen(statename: string): boolean {
   return themes[koulutustyyppi] === 'ammatillinen';
 }
 
+export function isKoulutustyyppiAmmatillinen(koulutustyyppi: string): boolean {
+  return themes[koulutustyyppi] === 'ammatillinen';
+}
+
 export function koulutustyyppiTheme(koulutustyyppi: string) {
   return themes[koulutustyyppi] || koulutustyyppi;
 }
@@ -271,3 +275,7 @@ export const perusteprojektitila = Object.freeze({
   valmis: 'valmis',
   julkaistu: 'julkaistu',
 });
+
+export function metadataToLocalized(metadata: any[], field: string) {
+  return _.mapValues(_.keyBy(metadata, v => _.toLower(v.kieli)), v => v[field]);
+}

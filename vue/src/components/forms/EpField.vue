@@ -7,7 +7,8 @@
           :type="type"
           :validation="validation"
           :help="help"
-          :showValidValidation="showValidValidation">
+          :showValidValidation="showValidValidation"
+          :unit="unit">
 </ep-input>
 </template>
 
@@ -42,5 +43,8 @@ export default class EpField extends Mixins(EpValidation) {
 
   @Prop({ default: true, required: false })
   private showValidValidation!: boolean;
+
+  @Prop({ required: false })
+  private unit!: string | object;
 }
 </script>
