@@ -100,9 +100,6 @@ import { Kieli } from '../../tyypit';
 import { IEsitysnimi, parsiEsitysnimi } from '../../utils/kayttaja';
 import EpCollapse from '../EpCollapse/EpCollapse.vue';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
-import {
-  KoulutustoimijaBaseDto,
-} from '../../api/amosaa';
 import { setItem } from '@shared/utils/localstorage';
 
 @Component({
@@ -119,7 +116,7 @@ export default class EpKayttaja extends Vue {
   private koulutustoimija!: number | null;
 
   @Prop({})
-  private koulutustoimijat!: KoulutustoimijaBaseDto[] | null;
+  private koulutustoimijat!: any[] | null;
 
   get esitysnimi() {
     return parsiEsitysnimi(this.tiedot);

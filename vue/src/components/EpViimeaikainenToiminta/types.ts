@@ -1,10 +1,9 @@
 import { Computed } from '@shared/utils/interfaces';
-import { OpetussuunnitelmaMuokkaustietoDto } from '@shared/api/amosaa';
 import { IEsitysnimi } from '@shared/utils/kayttaja';
 
 export interface IMuokkaustietoProvider {
-  muokkaustiedot: Computed<OpetussuunnitelmaMuokkaustietoDto[]>;
-  viimeinenHaku: Computed<OpetussuunnitelmaMuokkaustietoDto[]>;
+  muokkaustiedot: Computed<any[]>;
+  viimeinenHaku: Computed<any[]>;
   hakuLukumaara: Computed<number>;
   update: () => Promise<void>;
 }
