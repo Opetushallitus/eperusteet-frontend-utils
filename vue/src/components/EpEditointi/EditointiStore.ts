@@ -5,7 +5,7 @@ import { reactive, computed } from '@vue/composition-api';
 import { Computed } from '../../utils/interfaces';
 import { ILukko, Revision } from '../../tyypit';
 import VueRouter, { RawLocation } from 'vue-router';
-import { fail } from '@/utils/notifications';
+import { fail } from '../../utils/notifications';
 import { createLogger } from '../../utils/logger';
 
 export interface EditointiKontrolliValidation {
