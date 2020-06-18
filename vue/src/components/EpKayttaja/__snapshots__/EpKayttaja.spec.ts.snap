@@ -13,7 +13,8 @@ exports[`EpKayttaja component Renders 1`] = `
     <ul tabindex="-1" aria-labelledby="kayttaja-dropdown__BV_button_" class="dropdown-menu dropdown-menu-right">
       <!---->
       <div>
-        <div class="ep-collapse bottomborder">
+        <!---->
+        <div class="ep-collapse">
           <div role="button" tabindex="0" class="collapse-button d-flex">
             <!---->
             <div class="align-self-start">
@@ -32,6 +33,7 @@ exports[`EpKayttaja component Renders 1`] = `
           </div>
           <!---->
         </div>
+        <hr>
       </div>
       <li role="presentation"><a role="menuitem" target="_self" href="/henkilo-ui/omattiedot" class="dropdown-item">
           <div fixed-width="" icon="user" class="icon mr-3"></div><span>kayttajan-asetukset</span>
