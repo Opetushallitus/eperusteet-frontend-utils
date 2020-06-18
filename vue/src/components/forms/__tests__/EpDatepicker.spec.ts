@@ -20,6 +20,7 @@ describe('EpDatepicker component', () => {
         'valitse-pvm': 'valitse-pvm',
         'valitse-pvm-jana': 'valitse-pvm-jana',
         'validation-error-required': 'validation-error-required',
+        'validi': 'validi',
       },
     },
   });

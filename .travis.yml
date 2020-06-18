@@ -23,9 +23,9 @@ script:
   - nvm use 10.16.3
   - cd vue
   - yarn install --silent
-  - yarn run gen:api
   - yarn run lint
   - yarn run test:unit
+  - yarn run gen:api # frontend-utils ei itse ole riippuvainen näistä
 
 after_script:
   - ./cc-test-reporter format-coverage -t lcov ./coverage/lcov.info

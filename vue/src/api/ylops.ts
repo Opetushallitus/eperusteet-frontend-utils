@@ -1,9 +1,10 @@
-import { axiosHandler } from './common';
+import { axiosHandler, successfulResponseHandler } from './common';
 import { Configuration,
+  AikatauluApi,
   DokumentitApi,
   DokumentitApiAxiosParamCreator,
   KayttajatApi,
-  KommentitApi,
+  KommentointiApi,
   KysymyksetApi,
   LiitetiedostotApi,
   LiitetiedostotApiAxiosParamCreator,
@@ -11,18 +12,17 @@ import { Configuration,
   Lops2019OpintojaksotApi,
   Lops2019OppiaineetApi,
   Lops2019PerusteControllerApi,
+  MuokkaustietoApi,
   OhjeetApi,
   OpetussuunnitelmanSisaltoApi,
   OpetussuunnitelmatApi,
   OpetussuunnitelmatJulkisetApi,
+  OppiaineenVuosiluokatApi,
+  OppiaineenVuosiluokkakokonaisuudetApi,
+  OppiaineetApi,
   TermistoApi,
   UlkopuolisetApi,
-  MuokkaustietoApi,
-  AikatauluApi,
   VuosiluokkakokonaisuudetApi,
-  OppiaineetApi,
-  OppiaineenVuosiluokkakokonaisuudetApi,
-  OppiaineenVuosiluokatApi,
 } from '../generated/ylops';
 import axios, { AxiosInstance } from 'axios';
 import _ from 'lodash';
@@ -42,32 +42,6 @@ const ax = axios.create({
   paramsSerializer: params => Qs.stringify(params, { arrayFormat: 'repeat' }),
 });
 
-// Apufuntio kirjautumiseen ja paluulinkin luontiin
-function getCasURL() {
-  const host = location.host;
-  const protocol = location.protocol;
-  const redirectURL = encodeURIComponent(window.location.href);
-  return protocol + '//' + host + '/cas/login?service=' + redirectURL;
-}
-
-function successfulResponseHandler() {
-  return async (res: any) => {
-    try {
-      if (res.status === 200) {
-        const url = new URL(res.request.responseURL);
-        if (_.startsWith(url.pathname, '/cas/login')) {
-          // Uudelleenohjataan kirjautumiseen jos nykyinen pyyntö on jo mennyt kirjautumissivulle
-          window.location.href = getCasURL();
-        }
-      }
-    }
-    catch (e) {
-      return res;
-    }
-    return res;
-  };
-}
-
 ax.interceptors.request.use(_.identity, axiosHandler('Request error'));
 ax.interceptors.response.use(successfulResponseHandler(), axiosHandler('Response error'));
 
@@ -84,7 +58,7 @@ export const Api = ax;
 export const Dokumentit = initApi(DokumentitApi);
 export const DokumentitParams = DokumentitApiAxiosParamCreator(configuration);
 export const Kayttajat = initApi(KayttajatApi);
-export const Kommentit = initApi(KommentitApi);
+export const Kommentointi = initApi(KommentointiApi);
 export const Kysymykset = initApi(KysymyksetApi);
 export const Liitetiedostot = initApi(LiitetiedostotApi);
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
@@ -136,6 +110,7 @@ export type Lops2019PaikallinenLaajaAlainenDto = YlopsApi.Lops2019PaikallinenLaa
 export type Lops2019PaikallinenOppiaineDto = YlopsApi.Lops2019PaikallinenOppiaineDto;
 export type Lops2019PoistettuDto = YlopsApi.Lops2019PoistettuDto;
 export type Lops2019ValidointiDto = YlopsApi.Lops2019ValidointiDto;
+export type KommenttiDto = YlopsApi.Kommentti2019Dto;
 export type Matala = YlopsApi.Matala;
 export type MuokkaustietoKayttajallaDto = YlopsApi.MuokkaustietoKayttajallaDto;
 export type OhjeDto = YlopsApi.OhjeDto;
@@ -148,6 +123,7 @@ export type OpetussuunnitelmanAikatauluDto = YlopsApi.OpetussuunnitelmanAikataul
 export type PerusteInfoDto = YlopsApi.PerusteInfoDto;
 export type PerusteTekstiKappaleViiteDto = YlopsApi.PerusteTekstiKappaleViiteDto;
 export type PerusteTekstiKappaleViiteMatalaDto = YlopsApi.PerusteTekstiKappaleViiteMatalaDto;
+export type TekstiKappaleViiteDto = YlopsApi.TekstiKappaleViiteDto;
 export type PoistettuTekstiKappaleDto = YlopsApi.PoistettuTekstiKappaleDto;
 export type Puu = YlopsApi.Puu;
 export type RevisionDto = YlopsApi.RevisionDto;

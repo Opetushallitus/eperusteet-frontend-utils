@@ -28,7 +28,7 @@
                 <ep-button class="ml-4"
                            @click="save()"
                            v-if="isEditing"
-                           :disabled="disabled"
+                           :disabled="disabled || (validation && validation.$invalid)"
                            variant="primary"
                            :show-spinner="isSaving"
                            :help="saveHelpText">
@@ -523,7 +523,7 @@ export default class EpEditointi extends Mixins(validationMixin) {
       this.$success(this.$t(this.labelRemoveSuccess) as string);
     }
     catch (err) {
-      this.$success(this.$t(this.labelRemoveFail) as string);
+      this.$fail(this.$t(this.labelRemoveFail) as string);
     }
   }
 
@@ -533,7 +533,7 @@ export default class EpEditointi extends Mixins(validationMixin) {
       this.$success(this.$t(this.labelRestoreSuccess) as string);
     }
     catch (err) {
-      this.$success(this.$t(this.labelRestoreFail) as string);
+      this.$fail(this.$t(this.labelRestoreFail) as string);
     }
   }
 
@@ -556,7 +556,7 @@ export default class EpEditointi extends Mixins(validationMixin) {
       this.$fail(this.$t(this.labelHideSuccess) as string);
     }
     catch (err) {
-      this.$success(this.$t(this.labelHideFail) as string);
+      this.$fail(this.$t(this.labelHideFail) as string);
     }
   }
 

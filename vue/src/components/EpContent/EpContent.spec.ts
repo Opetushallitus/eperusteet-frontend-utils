@@ -1,9 +1,12 @@
 import { createLocalVue, mount } from '@vue/test-utils';
 import Vue from 'vue';
+import VueI18n from 'vue-i18n';
+
 import EpEditorMenuBar from './EpEditorMenuBar.vue';
 import EpContent from './EpContent.vue';
 import { Kielet } from '../../stores/kieli';
 import { Kieli } from '../../tyypit';
+import { Kaannos } from '../../plugins/kaannos';
 import { Editor } from 'tiptap';
 import '@/config/bootstrap';
 import '@/config/fontawesome';
@@ -68,7 +71,7 @@ function createWrapper(localVue, config: any = {}) {
   return wrapper;
 }
 
-describe.only('EpContent component', async () => {
+describe('EpContent component', () => {
   beforeAll(() => {
     jest.spyOn(console, 'error').mockImplementation();
   });
@@ -78,7 +81,9 @@ describe.only('EpContent component', async () => {
   });
 
   const localVue = createLocalVue();
+  localVue.use(VueI18n);
   Kielet.install(localVue);
+  localVue.use(new Kaannos());
   const propsData = {
     help: '',
     layout: 'simplified',
@@ -129,13 +134,13 @@ describe.only('EpContent component', async () => {
     expect(wrapper.html()).not.toContain('teksti1234');
     expect(wrapper.html()).toContain('sv');
   });
-
-  return wrapper;
 });
 
 describe('EpContentMenu component', () => {
   const localVue = createLocalVue();
+  localVue.use(VueI18n);
   Kielet.install(localVue);
+  localVue.use(new Kaannos());
 
   it('Hide menu when read only', async () => {
     const wrapper = createWrapper(localVue, {

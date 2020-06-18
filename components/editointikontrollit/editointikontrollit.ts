@@ -2,7 +2,7 @@ interface IEditointikontrollitCallbacks {
     start?: (val?) => Promise<any>,
     preStart?: () => Promise<any>,
     preSave?: () => Promise<any>,
-    save?: (kommentti?) => Promise<any>,
+    save?: (kommentti?, preSavedObject?) => Promise<any>,
     cancel?: () => Promise<any>,
     after?: (res?) => void
     done?: () => void
@@ -64,7 +64,7 @@ namespace EditointikontrollitService {
 
     export const save = (kommentti?) => _$q((resolve, reject) => {
         return _activeCallbacks.preSave()
-            .then(() => _activeCallbacks.save(kommentti))
+            .then((preSavedObject) => _activeCallbacks.save(kommentti, preSavedObject))
             .then((res) => {
                 _$rootScope.$broadcast("editointikontrollit:saving");
                 _$rootScope.$$ekEditing = false;
@@ -171,7 +171,15 @@ namespace EditointikontrollitService {
                     return lataaJaEditoi();
                 }
             }),
-            save: (kommentti) => _$q((resolve, reject) => {
+            save: (kommentti, preSavedObject) => _$q((resolve, reject) => {
+
+                if (preSavedObject) {
+                    scope[field] = {
+                        ...scope[field],
+                        ...preSavedObject,
+                    }
+                }
+
                 _$rootScope.$broadcast("notifyCKEditor");
                 scope[field].kommentti = kommentti;
                 return scope[field].customPUT(_.cloneDeep(scope[field]))

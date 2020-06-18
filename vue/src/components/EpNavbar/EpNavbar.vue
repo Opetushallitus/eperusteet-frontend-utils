@@ -50,10 +50,15 @@
       <!-- </b-nav-form>                                                                      -->
 
       <!-- Sisällön kieli-->
-
-      <b-nav-item-dropdown id="content-lang-selector" right>
+      <b-nav-item-dropdown id="content-lang-selector" right no-caret>
         <template slot="button-content">
-          <span class="kielivalitsin">{{ $t("kieli-sisalto") }}: {{ $t(sisaltoKieli) }}</span>
+          <div class="d-flex flex-row">
+            <div class="kieli-valikko d-flex flex-column">
+              <span class="kielivalitsin text-right">{{ $t("kieli-sisalto") }}</span>
+              <small class="valittu-kieli text-right">{{ $t(sisaltoKieli) }}</small>
+            </div>
+            <fas fixed-width icon="chevron-down" class="mx-2 my-1" />
+          </div>
         </template>
         <div class="kielet">
           <b-dd-item @click="valitseSisaltoKieli(kieli)"
@@ -66,7 +71,10 @@
         </div>
       </b-nav-item-dropdown>
 
-      <ep-kayttaja :tiedot="kayttaja" />
+      <ep-kayttaja :tiedot="kayttaja"
+                   :koulutustoimijat="koulutustoimijat"
+                   :koulutustoimija="koulutustoimija" />
+
     </b-navbar-nav>
   </b-navbar>
 </div>
@@ -79,19 +87,17 @@ import Sticky from 'vue-sticky-directive';
 import { Kieli } from '../../tyypit';
 import { Kielet, UiKielet } from '../../stores/kieli';
 import { Murupolku } from '../../stores/murupolku';
-// import { TutoriaaliStore } from '@/stores/tutoriaaliStore';
-// import { Kayttajat } from '@/stores/kayttaja';
 import EpButton from '../../components/EpButton/EpButton.vue';
 import { Location } from 'vue-router';
 import EpKayttaja from '../../components/EpKayttaja/EpKayttaja.vue';
 import { BrowserStore } from '../../stores/BrowserStore';
+import EpKayttaja from '@shared/components/EpKayttaja/EpKayttaja.vue';
 
 
 interface Breadcrumb {
   label: string;
   route: Location;
 }
-
 
 @Component({
   directives: {
@@ -102,12 +108,8 @@ interface Breadcrumb {
     EpKayttaja,
   },
 })
-export default class EpNavigation extends Vue {
+export default class EpNavbar extends Vue {
   private browserStore = new BrowserStore();
-
-  get showNavigation() {
-    return this.browserStore.navigationVisible.value;
-  }
 
   @Prop({ required: true })
   private kayttaja!: any;
@@ -118,11 +120,20 @@ export default class EpNavigation extends Vue {
   @Prop({ default: 'normaali' })
   private tyyli!: string;
 
-  // @Prop({ required: false })
-  // private tutoriaalistore!: TutoriaaliStore | undefined;
+  @Prop({ required: false })
+  private koulutustoimijat!: any;
+
+
+  get showNavigation() {
+    return this.browserStore.navigationVisible.value;
+  }
 
   get murut() {
     return Murupolku.murut;
+  }
+
+  get koulutustoimija() {
+    return _.toNumber(this.$route?.params?.koulutustoimijaId);
   }
 
   get sisaltoKieli() {
@@ -189,6 +200,14 @@ export default class EpNavigation extends Vue {
         }
       }
     }
+  }
+
+  .kieli-valikko {
+    color: white;
+  }
+
+  .valittu-koulutustoimija {
+    font-size: 0.75rem;
   }
 
   .ep-navbar {

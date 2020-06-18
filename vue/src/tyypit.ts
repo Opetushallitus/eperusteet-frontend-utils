@@ -158,3 +158,9 @@ export interface SideMenuRoute {
 export interface RecursiveTreeItem {
   id: number;
 }
+
+export interface OpintojaksoModuuliSource {
+  id: number;
+  koodi: string;
+  moduulit?: any[];
+}

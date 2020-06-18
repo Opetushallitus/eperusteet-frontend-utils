@@ -50,7 +50,7 @@ describe('EpKayttaja component', () => {
     });
 
     expect(wrapper.html()).toContain('etunimi sukunimi');
-    expect(wrapper.html()).toContain('kieli: fi');
+    expect(wrapper.find('.uikieli').html()).toContain('fi');
     wrapper.find(EpCollapse).trigger('click');
     await delay();
     await (wrapper.vm as any).valitseUiKieli(Kieli.sv);

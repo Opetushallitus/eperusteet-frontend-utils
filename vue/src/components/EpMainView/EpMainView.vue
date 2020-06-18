@@ -1,6 +1,6 @@
 <template>
-<div>
-  <div class="content">
+<div class="content">
+  <div :class="{'container': container}">
     <div>
       <slot name="header"></slot>
     </div>
@@ -18,7 +18,8 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 
 @Component
 export default class EpMainView extends Vue {
-
+  @Prop({ required: false, default: false })
+  private container!: boolean;
 }
 </script>
 

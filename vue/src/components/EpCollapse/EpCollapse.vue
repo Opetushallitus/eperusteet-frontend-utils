@@ -1,5 +1,6 @@
 <template>
 <div>
+  <hr v-if="first && !borderTop" />
   <div :class="classess" v-if="!disableHeader" :style="styles.collapse">
     <!-- Button tagia ei voida käyttää, sillä ml-auto ei toimi.-->
     <!-- Käytetään button rolea saavutettavuuden takaamiseksi.-->
@@ -9,21 +10,21 @@
          role="button"
          tabindex="0"
          :aria-expanded="toggled">
-      <slot name="icon" :toggled="toggled" v-if="chevronLocation === 'left'">
+      <slot name="icon" :toggled="toggled" v-if="chevronLocation === 'left' && collapsable">
         <div class="align-self-start mr-2">
-          <fas icon="chevron-up" v-if="toggled"></fas>
-          <fas icon="chevron-down" v-else></fas>
+          <fas fixed-width icon="chevron-up" v-if="toggled"></fas>
+          <fas fixed-width icon="chevron-down" v-else></fas>
         </div>
       </slot>
       <div class="align-self-start">
-        <div class="header" :style="styles.header">
+        <div :class="{'header': toggled}" :style="styles.header">
           <slot name="header"></slot>
         </div>
       </div>
-      <slot name="icon" :toggled="toggled" v-if="chevronLocation === 'right'">
+      <slot name="icon" :toggled="toggled" v-if="chevronLocation === 'right'  && collapsable">
         <div class="ml-auto align-self-start">
-          <fas icon="chevron-up" v-if="toggled"></fas>
-          <fas icon="chevron-down" v-else></fas>
+          <fas fixed-width icon="chevron-up" v-if="toggled"></fas>
+          <fas fixed-width icon="chevron-down" v-else></fas>
         </div>
       </slot>
     </div>
@@ -32,6 +33,7 @@
     </div>
   </div>
   <slot v-else></slot>
+  <hr v-if="borderBottom" />
 </div>
 </template>
 
@@ -63,6 +65,12 @@ export default class EpCollapse extends Vue {
   @Prop({ default: 'right' })
   private chevronLocation!: 'right' | 'left';
 
+  @Prop({ default: true })
+  private collapsable!: boolean;
+
+  @Prop({ default: false })
+  private first!: boolean;
+
   private toggled = false;
 
   get styles() {
@@ -89,9 +97,6 @@ export default class EpCollapse extends Vue {
     if (this.borderTop) {
       result += ' topborder';
     }
-    if (this.borderBottom) {
-      result += ' bottomborder';
-    }
     return result;
   }
 
@@ -117,16 +122,18 @@ export default class EpCollapse extends Vue {
   }
 
   toggle(toggle: boolean | null = null) {
-    if (!toggle) {
-      this.toggled = !this.toggled;
-    }
-    else {
-      this.toggled = toggle;
-    }
-    if (this.tyyppi) {
-      setItem('toggle-' + this.tyyppi, {
-        toggled: this.toggled,
-      });
+    if (this.collapsable) {
+      if (!toggle) {
+        this.toggled = !this.toggled;
+      }
+      else {
+        this.toggled = toggle;
+      }
+      if (this.tyyppi) {
+        setItem('toggle-' + this.tyyppi, {
+          toggled: this.toggled,
+        });
+      }
     }
   }
 }
@@ -158,6 +165,8 @@ export default class EpCollapse extends Vue {
 
   .header {
     user-select: none;
+    margin-bottom: 10px;
+    margin-top: 5px;
   }
 }
 

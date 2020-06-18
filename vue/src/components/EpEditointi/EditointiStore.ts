@@ -1,11 +1,11 @@
 import * as _ from 'lodash';
 import Vue from 'vue';
 import VueScrollTo from 'vue-scrollto';
-import { watch, reactive, computed } from '@vue/composition-api';
+import { reactive, computed } from '@vue/composition-api';
 import { Computed } from '../../utils/interfaces';
 import { ILukko, Revision } from '../../tyypit';
 import VueRouter, { RawLocation } from 'vue-router';
-// import { fail } from '@/utils/notifications';
+import { fail } from '../../utils/notifications';
 import { createLogger } from '../../utils/logger';
 
 export interface EditointiKontrolliValidation {
@@ -57,7 +57,7 @@ export interface IEditoitava {
   /**
    * Get preview url location
    */
-  preview: () => Promise<RawLocation | null>;
+  preview?: () => Promise<RawLocation | null>;
 
   /**
    * Release locked resource.
@@ -385,13 +385,14 @@ export class EditointiStore {
     catch (err) {
       const syy = _.get(err, 'response.data.syy');
       if (syy) {
-        // fail('poisto-epaonnistui', err.response.data.syy);
+        fail('poisto-epaonnistui', err.response.data.syy);
       }
       else {
         this.logger.error('poisto-epaonnistui', err);
-        // fail('poisto-epaonnistui');
+        fail('poisto-epaonnistui');
       }
       this.state.isRemoved = false;
+      throw err;
     }
     this.state.disabled = false;
   }
@@ -416,7 +417,7 @@ export class EditointiStore {
         }
       }
       catch (err) {
-        // fail('tallennus-epaonnistui', err.response.data.syy);
+        fail('tallennus-epaonnistui', err.response.data.syy);
         this.state.isEditingState = true;
         this.state.disabled = false;
         this.state.isSaving = false;
@@ -454,11 +455,11 @@ export class EditointiStore {
     catch (err) {
       const syy = _.get(err, 'response.data.syy');
       if (syy) {
-        // fail('palautus-epaonnistui', err.response.data.syy);
+        fail('palautus-epaonnistui', err.response.data.syy);
       }
       else {
         this.logger.error('Palautus epäonnistui', err);
-        // fail('palautus-epaonnistui');
+        fail('palautus-epaonnistui');
       }
     }
   }

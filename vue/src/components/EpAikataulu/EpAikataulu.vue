@@ -24,7 +24,11 @@
       <div class="d-inline-block">
         <div v-if="julkaisuAikaPosition < luomisaikaPalloPoint">
           <div class="luomispaiva">{{ $sd(luomisPaiva) }} </div>
-          <div class="paiva-alatieto" v-html="$t('projektin-luomispaiva-br')"></div>
+          <div class="paiva-alatieto">
+            <slot name="luomispaiva-topic">
+              <span v-html="$t('projektin-luomispaiva-br')"/>
+            </slot>
+          </div>
         </div>
         <div v-else>&nbsp;</div>
       </div>
@@ -34,7 +38,11 @@
           <span v-if="julkaisuPaiva">{{ $sd(julkaisuPaiva) }}</span>
           <span v-else>&nbsp;</span>
         </div>
-        <div class="paiva-alatieto" v-html="$t('projektin-suunniteltu-julkaisupaiva-br')"></div>
+        <div class="paiva-alatieto">
+          <slot name="julkaisupaiva-topic">
+            <span v-html="$t('projektin-suunniteltu-julkaisupaiva-br')"/>
+          </slot>
+        </div>
       </div>
     </div>
   </div>

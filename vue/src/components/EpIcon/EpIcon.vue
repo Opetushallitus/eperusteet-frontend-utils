@@ -7,7 +7,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
-const ColorMap = {
+const ColorMap: any = {
   'arkisto': '#3367E3',
   'luo-uusi': '#3367E3',
   'opetussuunnitelmasi': '#3367E3',
@@ -30,8 +30,8 @@ export default class EpIcon extends Vue {
   @Prop({ default: '' })
   private backgroundColor!: string;
 
-  get actualBackground() {
-    return this.backgroundColor || ColorMap[this.icon] || '#3367E3';
+  get actualBackground(): string {
+    return this.backgroundColor || ColorMap[this.icon] as string || '#3367E3';
   }
 }
 </script>
