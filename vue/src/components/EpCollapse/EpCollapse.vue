@@ -1,5 +1,6 @@
 <template>
 <div>
+  <hr v-if="first && !borderTop" />
   <div :class="classess" v-if="!disableHeader">
     <!-- Button tagia ei voida käyttää, sillä ml-auto ei toimi.-->
     <!-- Käytetään button rolea saavutettavuuden takaamiseksi.-->
@@ -11,8 +12,8 @@
          :aria-expanded="toggled">
       <slot name="icon" :toggled="toggled" v-if="chevronLocation === 'left' && collapsable">
         <div class="align-self-start mr-2">
-          <fas icon="chevron-up" v-if="toggled"></fas>
-          <fas icon="chevron-down" v-else></fas>
+          <fas fixed-width icon="chevron-up" v-if="toggled"></fas>
+          <fas fixed-width icon="chevron-down" v-else></fas>
         </div>
       </slot>
       <div class="align-self-start">
@@ -22,8 +23,8 @@
       </div>
       <slot name="icon" :toggled="toggled" v-if="chevronLocation === 'right'  && collapsable">
         <div class="ml-auto align-self-start">
-          <fas icon="chevron-up" v-if="toggled"></fas>
-          <fas icon="chevron-down" v-else></fas>
+          <fas fixed-width icon="chevron-up" v-if="toggled"></fas>
+          <fas fixed-width icon="chevron-down" v-else></fas>
         </div>
       </slot>
     </div>
@@ -32,6 +33,7 @@
     </div>
   </div>
   <slot v-else></slot>
+  <hr v-if="borderBottom" />
 </div>
 </template>
 
@@ -65,13 +67,13 @@ export default class EpCollapse extends Vue {
   @Prop({ default: true })
   private collapsable!: boolean;
 
+  @Prop({ default: false })
+  private first!: boolean;
+
   get classess() {
     let result = 'ep-collapse';
     if (this.borderTop) {
       result += ' topborder';
-    }
-    if (this.borderBottom) {
-      result += ' bottomborder';
     }
     return result;
   }

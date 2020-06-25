@@ -1,3 +1,5 @@
+process.env.BOOTSTRAP_VUE_NO_WARN = true; // MutationObserver warnings
+
 module.exports = {
   globals: {
     'ts-jest': {
