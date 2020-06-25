@@ -1,6 +1,6 @@
 <template>
-<div class="d-flex align-items-center">
-  <div v-if="!onlyText">
+<div>
+  <div v-if="!onlyText" class="d-flex align-items-center">
     <div v-if="ops">
       <svg width="116" height="116" xmlns="http://www.w3.org/2000/svg">
         <g fill="none" fill-rule="evenodd">
@@ -14,8 +14,9 @@
       </svg>
     </div>
     <div v-else>
-      <svg width="116" height="116" xmlns="http://www.w3.org/2000/svg">
-        <g fill="none" fill-rule="evenodd">
+      <div>
+        <svg width="116" height="116" xmlns="http://www.w3.org/2000/svg">
+          <g fill="none" fill-rule="evenodd">
           <circle fill="#E9EEF8" cx="58" cy="58" r="58"/>
           <path d="M29.5 23h46a2 2 0 012 2v66a2 2 0 01-2 2h-46a2 2 0 01-2-2V25c0-1.1.9-2 2-2z" fill="#FFF"/>
           <path fill="#E2E9F8" d="M67.87 62.12l-10.6 2.12 2.11-10.6L90.5 22.51 98.98 31z"/>
@@ -23,8 +24,9 @@
           <path fill="#CCD9F8" d="M67.87 62.12l-2.83-2.83 31.11-31.11L98.98 31z"/>
           <path d="M57.26 64.24l2.12-10.6 8.49 8.48-10.6 2.12z" fill="#E9EEF8"/>
           <path d="M57.26 64.24l.7-3.54 2.84 2.83-3.54.7z" fill="#99B3F1"/>
-        </g>
-      </svg>
+          </g>
+        </svg>
+      </div>
     </div>
     <div class="alert flex-fill-1">{{ text }}</div>
   </div>
