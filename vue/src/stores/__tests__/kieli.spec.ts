@@ -83,5 +83,4 @@ describe('Kielet', () => {
     expect(localVue.prototype.$kaanna({ sv: 'ei suomeksi' })).toEqual('[ei suomeksi]');
     expect(localVue.prototype.$kaanna({ sv: 'ei suomeksi' }, true)).toEqual('');
   });
-
 });

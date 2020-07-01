@@ -9,12 +9,10 @@ describe('EpKoulutustyyppiSelect', () => {
   const localVue = createLocalVue();
 
   it('Renders', () => {
-    const wrapper = mount(EpButton, {
+    const wrapper = mount(EpKoulutustyyppiSelect, {
       propsData: {
       },
       localVue,
     });
   });
-
 });
-

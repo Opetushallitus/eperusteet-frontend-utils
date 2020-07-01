@@ -12,7 +12,7 @@ declare module 'vue/types/vue' {
 
 export class Vahvistus {
   public static install(vue: typeof Vue) {
-    vue.prototype.$vahvista = async function (title = 'vahvista-toiminto', msg = 'vahvista-toiminto-viesti', config: any = {}) {
+    vue.prototype.$vahvista = async function(title = 'vahvista-toiminto', msg = 'vahvista-toiminto-viesti', config: any = {}) {
       return await (this as any).$bvModal.msgBoxConfirm(msg, {
         title,
         okVariant: 'danger',
@@ -22,8 +22,6 @@ export class Vahvistus {
         centered: true,
         ...config,
       });
-    }
-
+    };
   }
 }
-

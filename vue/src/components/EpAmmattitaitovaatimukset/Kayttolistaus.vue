@@ -25,7 +25,7 @@
         </div>
         <EpPagination :value="page"
                       :per-page="perPage"
-                      :total-rows="data.kokonaismäärä" 
+                      :total-rows="data.kokonaismäärä"
                       @input="fetch" />
       </div>
       <div class="ei-hakutuloksia" v-else>
@@ -46,7 +46,6 @@ import { BrowserStore } from '../../stores/BrowserStore';
 import { metadataToLocalized } from '../../utils/perusteet';
 import { delay } from '@shared/utils/delay';
 import _ from 'lodash';
-
 
 @Component({
   components: {
@@ -91,16 +90,15 @@ export default class VaatimusField extends Vue {
   }
 
   get triggers() {
-    return "hover click blur";
+    return 'hover click blur';
   }
-
 }
 </script>
 
 <style scoped lang="scss">
 .listaus {
   margin-top: 6px;
-  
+
   .info {
     margin-bottom: 10px;
   }
@@ -114,4 +112,3 @@ export default class VaatimusField extends Vue {
   }
 }
 </style>
-

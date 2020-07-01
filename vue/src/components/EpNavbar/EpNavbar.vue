@@ -93,7 +93,6 @@ import EpKayttaja from '../../components/EpKayttaja/EpKayttaja.vue';
 import { BrowserStore } from '../../stores/BrowserStore';
 import EpKayttaja from '@shared/components/EpKayttaja/EpKayttaja.vue';
 
-
 interface Breadcrumb {
   label: string;
   route: Location;
@@ -122,7 +121,6 @@ export default class EpNavbar extends Vue {
 
   @Prop({ required: false })
   private koulutustoimijat!: any;
-
 
   get showNavigation() {
     return this.browserStore.navigationVisible.value;

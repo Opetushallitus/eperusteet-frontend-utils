@@ -31,7 +31,7 @@
               </b-input-group>
             </ep-error-wrapper>
           </div>
-          <div class="datalist-wrapper" v-if="focused && hasChanged && (isLoading || koodit.length > 0)">
+          <div class="datalist-wrapper" v-if="isDatalistVisible">
             <div class="datalist-container" ref="datalistContainer">
               <div v-if="isLoading" class="m-2">
                 <ep-spinner />
@@ -43,9 +43,9 @@
                      :key="'autocomplete-' + idx">
                   <div class="d-flex align-items-center">
                     <div role="button" @click="valitse(item)">
-                      <span class="font-weight-bold">{{ item.completion.left }}</span>
-                      <span>{{ item.completion.hit }}</span>
-                      <span class="font-weight-bold">{{ item.completion.right }}</span>
+                      <span>{{ item.completion.left }}</span>
+                      <span class="font-weight-bold">{{ item.completion.hit }}</span>
+                      <span>{{ item.completion.right }}</span>
                     </div>
                     <div>
                       <Kayttolistaus :koodi="item.koodi" />
@@ -78,7 +78,6 @@ import { delay } from '@shared/utils/delay';
 import _ from 'lodash';
 import Kayttolistaus from './Kayttolistaus.vue';
 
-
 @Component({
   components: {
     EpButton,
@@ -106,6 +105,12 @@ export default class VaatimusField extends Vue {
 
   get vaatimus() {
     return this.value?.vaatimus ? this.value.vaatimus[this.$slang.value] : '';
+  }
+
+  get isDatalistVisible() {
+    return this.focused
+      && this.hasChanged
+      && (this.isLoading || this.koodit.length > 0);
   }
 
   get koodit() {
@@ -141,8 +146,14 @@ export default class VaatimusField extends Vue {
   }
 
   async onInput(ev: string) {
-    this.value.vaatimus = { ...this.value.vaatimus, [this.$slang.value]: ev };
-    this.fetchKoodisto(ev);
+    this.$emit('input', {
+      ...this.value,
+      vaatimus: {
+        ...this.value.vaatimus,
+        [this.$slang.value]: ev,
+      },
+    });
+    await this.fetchKoodisto(ev);
   }
 
   mounted() {

@@ -49,9 +49,7 @@ import _ from 'lodash';
 
 export type ProjektiFilter = 'koulutustyyppi' | 'tila' | 'voimassaolo';
 
-
 type IndexedNode = FlattenedNodeDto & { idx: number };
-
 
 @Component({
   components: {
@@ -158,7 +156,7 @@ export default class EpTreeNavibar extends Vue {
       return _.filter([
         this.active,
         ...(this.children || [])],
-        item => item.depth === this.depth || item.depth === this.depth + 1);
+      item => item.depth === this.depth || item.depth === this.depth + 1);
     }
     else {
       return _.filter(this.navigation, item => item.depth === this.depth);

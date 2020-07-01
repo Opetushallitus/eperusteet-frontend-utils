@@ -53,7 +53,7 @@ export default class EpProgressPopover extends Vue {
 
   @Prop({ default: {
     'background-color': '#2146a3',
-  }})
+  } })
   private popupStyle!: any;
 
   private tilaPopupVisible = false;

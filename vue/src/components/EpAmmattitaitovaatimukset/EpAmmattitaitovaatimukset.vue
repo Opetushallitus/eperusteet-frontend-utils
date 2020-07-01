@@ -165,7 +165,6 @@ import { Koodisto } from '@shared/api/eperusteet';
 import _ from 'lodash';
 import Kayttolistaus from './Kayttolistaus.vue';
 
-
 @Component({
   components: {
     EpButton,

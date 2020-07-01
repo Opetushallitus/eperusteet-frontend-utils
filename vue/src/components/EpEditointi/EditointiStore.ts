@@ -115,7 +115,6 @@ export interface IEditoitava {
   features?: (data: Computed<any>) => Computed<EditoitavaFeatures>;
 }
 
-
 export interface EditointiKontrolliRestore {
   numero: number;
   modal?: any;

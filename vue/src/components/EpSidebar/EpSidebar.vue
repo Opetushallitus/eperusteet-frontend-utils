@@ -24,7 +24,6 @@ import { setItem, getItem, removeItem } from '../../utils/localstorage';
 import _ from 'lodash';
 import { BrowserStore } from '../../stores/BrowserStore';
 
-
 @Component({
   components: {
     EpSidebarButtons,

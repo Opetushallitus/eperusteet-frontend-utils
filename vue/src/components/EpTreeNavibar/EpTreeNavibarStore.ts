@@ -14,7 +14,6 @@ interface NodeConfig {
 
 type NodeConfigs = { [type: string]: NodeConfig | undefined | null };
 
-
 export interface FlattenedNodeDto {
   id?: number;
   label?: LokalisoituTekstiDto;

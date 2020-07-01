@@ -45,7 +45,6 @@
 import { Vue, Prop, Component } from 'vue-property-decorator';
 import draggable from 'vuedraggable';
 
-
 @Component({
   name: 'EpJarjesta',
   components: {

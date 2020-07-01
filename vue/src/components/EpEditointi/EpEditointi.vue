@@ -324,7 +324,6 @@ export default class EpEditointi extends Mixins(validationMixin) {
       throw new Error('Store must be EditointiStore');
     }
 
-    console.log(this.store);
     await this.store.init();
     this.isInitialized = true;
     const sidebarState = await getItem('ep-editointi-sidebar-state') as any;
@@ -351,11 +350,11 @@ export default class EpEditointi extends Mixins(validationMixin) {
   }
 
   get errorValidationData() {
-    return this.inner;
+    return this.inner || null;
   }
 
   get hasPreview() {
-    return this.store.hasPreview;
+    return this.store.hasPreview || false;
   }
 
   get currentLock() {
@@ -371,11 +370,11 @@ export default class EpEditointi extends Mixins(validationMixin) {
   }
 
   get validation() {
-    return this.$v?.inner;
+    return this.$v?.inner || null;
   }
 
   get validator() {
-    return this.store.validator.value;
+    return this.store.validator.value || null;
   }
 
   get isEditing() {
