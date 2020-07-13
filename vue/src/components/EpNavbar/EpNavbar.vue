@@ -19,10 +19,10 @@
           </li>
           <li class="breadcrumb-item" v-for="(route, idx) in routePath" :key="idx">
             <router-link v-if="route.muru && route.muru.location" :to="route.muru.location">
-              {{ $kaannaOlioTaiTeksti(route.muru.name) }}
+              {{ route.muru.name }}
             </router-link>
             <span v-else-if="route.muru">
-              {{ $kaannaOlioTaiTeksti(route.muru.name) }}
+              {{ route.muru.name }}
             </span>
             <span v-else>{{ $t('route-' + route.name) }}</span>
           </li>
