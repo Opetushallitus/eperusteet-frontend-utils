@@ -30,34 +30,14 @@ export interface EditoitavaFeatures {
 
 export interface IEditoitava {
   /**
-   * Try to acquire lock. Return true on success.
-   */
-  acquire?: () => Promise<ILukko | null>;
-
-  /**
-   * Called right after user cancels editing.
-   */
-  cancel?: () => Promise<void>;
-
-  /**
-   * Returns true if editing is started immediately after data fetch
-   */
-  editAfterLoad: () => Promise<boolean>;
-
-  /**
    * Loads most recent version of the data to be edited
    */
   load: () => Promise<unknown>;
 
   /**
-   * called after load
+   * Try to acquire lock. Return true on success.
    */
-  postLoad?: () => Promise<void>;
-
-  /**
-   * Get preview url location
-   */
-  preview?: () => Promise<RawLocation | null>;
+  acquire?: () => Promise<ILukko | null>;
 
   /**
    * Release locked resource.
@@ -70,9 +50,39 @@ export interface IEditoitava {
   lock?: () => Promise<ILukko | null>;
 
   /**
+   * Start editing of the resource
+   */
+  start?: () => Promise<void>;
+
+  /**
+   * Called right after user cancels editing.
+   */
+  cancel?: () => Promise<void>;
+
+  /**
+   * Save current resource
+   */
+  save?: (data: any) => Promise<any>;
+
+  /**
    * Remove the resource
    */
   remove?: () => Promise<void>;
+
+  /**
+   * Returns true if editing is started immediately after data fetch
+   */
+  editAfterLoad: () => Promise<boolean>;
+
+  /**
+   * called after load
+   */
+  postLoad?: () => Promise<void>;
+
+  /**
+   * Get preview url location
+   */
+  preview?: () => Promise<RawLocation | null>;
 
   /**
    * Hide the resource
@@ -93,16 +103,6 @@ export interface IEditoitava {
    * Get all revisions of the resource
    */
   revisions?: () => Promise<Revision[]>;
-
-  /**
-   * Save current resource
-   */
-  save?: (data: any) => Promise<any>;
-
-  /**
-   * Start editing of the resource
-   */
-  start?: () => Promise<void>;
 
   /**
    * Save preventing validations

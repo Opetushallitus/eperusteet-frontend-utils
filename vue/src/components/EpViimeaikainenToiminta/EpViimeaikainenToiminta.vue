@@ -56,7 +56,6 @@ import _ from 'lodash';
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
-import { MuokkaustietoStore } from '@/stores/MuokkaustietoStore';
 import { muokkaustietoRoute, muokkaustietoIcon } from '@shared/utils/tapahtuma';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 import { IMuokkaustietoProvider, Muokkaustieto } from './types';

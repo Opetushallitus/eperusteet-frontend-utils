@@ -15,7 +15,7 @@
         <div class="info">
           {{ $t('loytyi-tutkinnon-osaa', { amount: data.kokonaismäärä }) }}
         </div>
-        <div v-for="item in data.data" class="kaytetty">
+        <div v-for="(item, idx) in data.data" class="kaytetty" :key="idx">
           <div>
             {{ $kaanna(item.peruste.nimi) }}:
           </div>

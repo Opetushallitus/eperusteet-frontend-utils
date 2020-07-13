@@ -19,10 +19,11 @@ describe('EpTreeNavibar component', () => {
     const wrapper = mount(EpTreeNavibar, {
       localVue,
       propsData: {
-        store: new EpTreeNavibarStore(computed(() => navipuu)),
+        store: new EpTreeNavibarStore(computed(() => navipuu), () => null),
       },
       stubs: {
         fas: '<div />',
+        Portal: '<div />',
         RouterLink: RouterLinkStub,
       },
     });

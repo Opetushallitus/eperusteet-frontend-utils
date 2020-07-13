@@ -91,7 +91,6 @@ import EpButton from '../../components/EpButton/EpButton.vue';
 import { Location } from 'vue-router';
 import EpKayttaja from '../../components/EpKayttaja/EpKayttaja.vue';
 import { BrowserStore } from '../../stores/BrowserStore';
-import EpKayttaja from '@shared/components/EpKayttaja/EpKayttaja.vue';
 
 interface Breadcrumb {
   label: string;
@@ -147,7 +146,7 @@ export default class EpNavbar extends Vue {
   // }
 
   get routePath() {
-    return _(this.$route.matched)
+    return _(this.$route?.matched)
       .filter('name')
       .map(route => {
         const computeds = _.get(route, 'instances.default');

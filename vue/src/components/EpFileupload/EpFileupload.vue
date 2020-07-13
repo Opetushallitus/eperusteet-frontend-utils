@@ -65,7 +65,7 @@ export default class EpFileupload extends Vue {
   private tyyppi!: string;
 
   @Prop({ required: true })
-  private dto: any | null = null;
+  private dto: any | null;
 
   get kuvaUrl() {
     return '';

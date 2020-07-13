@@ -27,9 +27,11 @@ import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import EpButton from '../EpButton/EpButton.vue';
 import { TiedoteDto } from '../../api/eperusteet';
 import { ITiedotteetProvider } from '../../stores/types';
+
 interface ListaTiedote extends TiedoteDto {
   uusi: boolean;
 }
+
 @Component({
   components: {
     EpSpinner,
@@ -38,18 +40,23 @@ interface ListaTiedote extends TiedoteDto {
 })
 export default class EpTiedoteList extends Vue {
   @Prop({ required: true })
-  private tiedotteet!: TiedoteDto;
+  private tiedotteet!: TiedoteDto[];
+
   @Prop({ required: false })
   private tiedoteMaara;
+
   private naytettavaTiedoteMaara = 3;
+
   mounted() {
     if (this.tiedoteMaara) {
       this.naytettavaTiedoteMaara = this.tiedoteMaara;
     }
   }
+
   get tiedotteetSize() {
     return _.size(this.tiedotteet);
   }
+
   get tiedotteetFiltered() {
     if (this.tiedotteet) {
       return _.chain(this.tiedotteet)
@@ -63,9 +70,11 @@ export default class EpTiedoteList extends Vue {
         .value();
     }
   }
+
   avaaTiedote(tiedote: TiedoteDto) {
     this.$emit('avaaTiedote', tiedote);
   }
+
   tuntisitten(aika) {
     const tunti = 1000 * 60 * 60;
     const tuntisitten = Date.now() - tunti;

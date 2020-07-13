@@ -39,6 +39,7 @@ export const Arviointiasteikot = initApi(EperusteetApi.ArviointiasteikotApi);
 export const Dokumentit = initApi(EperusteetApi.DokumentitApi);
 export const DokumentitParams = DokumentitApiAxiosParamCreator(configuration);
 export const GeneerinenArviointiasteikko = initApi(EperusteetApi.GeneerinenArviointiasteikkoApi);
+export const Julkaisut = initApi(EperusteetApi.JulkaisutApi);
 export const Kayttajat = initApi(EperusteetApi.KayttajatApi);
 export const Koodisto = initApi(EperusteetApi.KoodistoApi);
 export const Liitetiedostot = initApi(EperusteetApi.LiitetiedostotApi);

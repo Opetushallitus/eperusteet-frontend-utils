@@ -11,6 +11,10 @@ describe('EpKoulutustyyppiSelect', () => {
   it('Renders', () => {
     const wrapper = mount(EpKoulutustyyppiSelect, {
       propsData: {
+        value: null,
+      },
+      mocks: {
+        $t: x => x,
       },
       localVue,
     });

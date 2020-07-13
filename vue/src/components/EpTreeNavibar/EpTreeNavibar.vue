@@ -89,6 +89,7 @@ export default class EpTreeNavibar extends Vue {
           return false;
         }
       })
+      .reverse()
       .value();
   }
 
@@ -133,6 +134,7 @@ export default class EpTreeNavibar extends Vue {
     }
 
     const node = this.navigation[this.activeIdx];
+
     return _(this.navigation)
       .drop(this.activeIdx + 1)
       .takeWhile(item => node.depth < item.depth)

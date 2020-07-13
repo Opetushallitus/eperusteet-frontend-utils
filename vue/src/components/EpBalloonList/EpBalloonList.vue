@@ -1,8 +1,10 @@
 <template>
 <div>
-  <div v-for="(item, idx) in inner" :key="idx">
-    <template slot="default">
-    </template>
+  <div class="balloon-wrapper" v-for="(item, idx) in inner" :key="idx">
+    <div class="balloon">
+      <slot v-bind="{ item }">
+      </slot>
+    </div>
   </div>
 </div>
 </template>
@@ -12,8 +14,10 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 
 @Component
 export default class EpBalloonList extends Vue {
-  @Prop({ required: true })
-  private value: any[];
+  @Prop({
+    required: true, type: Array,
+  })
+  value!: any[];
 
   get inner() {
     return this.value;
@@ -27,12 +31,15 @@ export default class EpBalloonList extends Vue {
 
 <style lang="scss" scoped>
 
-.alert {
-  color: #9e9e9e;
-}
+.balloon-wrapper {
+  margin-bottom: 6px;
 
-.alert-only-text {
-  padding: 0;
+  .balloon {
+    background: #e6f6ff;
+    border-radius: 60px;
+    padding: 8px 8px 8px 18px;
+    border: 1px solid #cdeeff;
+  }
 }
 
 </style>

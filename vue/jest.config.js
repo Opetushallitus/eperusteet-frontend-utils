@@ -22,7 +22,7 @@ module.exports = {
     '!<rootDir>/src/**/script.ts',
     '!<rootDir>/**/*.d.ts',
     '!<rootDir>/src/config/styles.ts',
-    '!<rootDir>/src/api',
+    '!<rootDir>/src/api/**/*.ts',
     '!<rootDir>/src/main.ts',
   ],
   moduleFileExtensions: [

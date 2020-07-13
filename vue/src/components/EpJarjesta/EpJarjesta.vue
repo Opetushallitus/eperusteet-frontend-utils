@@ -67,7 +67,7 @@ export default class EpJarjesta extends Vue {
   private isEditable!: boolean;
 
   @Prop({
-    required: false,
+    required: true,
     type: Array,
     default: null,
   })
