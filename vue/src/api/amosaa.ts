@@ -70,3 +70,12 @@ export import OpetussuunnitelmaMuokkaustietoDtoTapahtumaEnum = AmosaaApi.Opetuss
 export import OpetussuunnitelmaMuokkaustietoDtoKohdeEnum = AmosaaApi.OpetussuunnitelmaMuokkaustietoDtoKohdeEnum;
 export import PerusteDtoKoulutustyyppiEnum = AmosaaApi.PerusteDtoKoulutustyyppiEnum;
 export import MatalaTyyppiEnum = AmosaaApi.MatalaTyyppiEnum;
+
+export interface OpetussuunnitelmaQuery {
+  perusteId?: number;
+  perusteenDiaarinumero?: string;
+  kieli?: string;
+  nimi?: string;
+  sivu?: number;
+  sivukoko?: number;
+};
