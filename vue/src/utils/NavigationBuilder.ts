@@ -113,6 +113,12 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       },
     };
     break;
+  case 'tutkinnonosat':
+    node.label = 'tutkinnonosat';
+    node.location = {
+      name: 'toteutussuunnitelmaTutkinnonosat',
+    };
+    break;
   default:
     break;
   }
@@ -176,6 +182,18 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
       params: {
         opintojaksoId: _.toString(rawNode.id),
       },
+    };
+    break;
+  case 'tutkinnonosat':
+    node.label = 'tutkinnonosat';
+    node.location = {
+      name: 'toteutussuunnitelmaTutkinnonosat',
+    };
+    break;
+  case 'suorituspolut':
+    node.label = 'suorituspolut';
+    node.location = {
+      name: 'toteutussuunnitelmaSuorituspolut',
     };
     break;
   default:
