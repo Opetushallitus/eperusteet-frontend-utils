@@ -1,11 +1,12 @@
 import { axiosHandler, successfulResponseHandler } from './common';
-import { Configuration } from '../generated/amosaa';
+import { Configuration, JulkinenApiAxiosParamCreator } from '../generated/amosaa';
 import axios, { AxiosInstance } from 'axios';
 import _ from 'lodash';
 
 import * as AmosaaApi from '../generated/amosaa';
 import Qs from 'qs';
 import { createLogger } from '../utils/logger';
+import { DokumentitApiAxiosParamCreator } from '@shared/generated/ylops';
 
 const logger = createLogger('AmosaaAxios');
 const basePath = '';
@@ -31,6 +32,7 @@ function initApi<T>(X: BaseAPIConstructor<T>): T {
 export const Api = ax;
 
 export const JulkinenApi = initApi(AmosaaApi.JulkinenApi);
+export const JulkinenApiParams = JulkinenApiAxiosParamCreator(configuration);
 export const Ohjeet = initApi(AmosaaApi.OhjeetApi);
 export const Opetussuunnitelmat = initApi(AmosaaApi.OpetussuunnitelmatApi);
 export const Aikataulut = initApi(AmosaaApi.AikataulutApi);
@@ -63,6 +65,7 @@ export type VapaaTekstiDto = AmosaaApi.VapaaTekstiDto;
 export type TutkinnonosaToteutusDto = AmosaaApi.TutkinnonosaToteutusDto;
 export type TutkinnonosaDto = AmosaaApi.TutkinnonosaDto;
 export type SisaltoviiteMatalaDto = AmosaaApi.Matala;
+export type DokumenttiDto = AmosaaApi.DokumenttiDto;
 
 export import SisaltoViiteKevytDtoTyyppiEnum = AmosaaApi.SisaltoViiteKevytDtoTyyppiEnum;
 export import TutkinnonOsaKevytDtoTyyppiEnum = AmosaaApi.TutkinnonOsaKevytDtoTyyppiEnum;
@@ -70,6 +73,7 @@ export import OpetussuunnitelmaMuokkaustietoDtoTapahtumaEnum = AmosaaApi.Opetuss
 export import OpetussuunnitelmaMuokkaustietoDtoKohdeEnum = AmosaaApi.OpetussuunnitelmaMuokkaustietoDtoKohdeEnum;
 export import PerusteDtoKoulutustyyppiEnum = AmosaaApi.PerusteDtoKoulutustyyppiEnum;
 export import MatalaTyyppiEnum = AmosaaApi.MatalaTyyppiEnum;
+export import DokumenttiDtoTilaEnum = AmosaaApi.DokumenttiDtoTilaEnum;
 
 export interface OpetussuunnitelmaQuery {
   perusteId?: number;
