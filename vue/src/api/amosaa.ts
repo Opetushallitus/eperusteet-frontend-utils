@@ -1,5 +1,5 @@
 import { axiosHandler, successfulResponseHandler } from './common';
-import { Configuration, JulkinenApiAxiosParamCreator } from '../generated/amosaa';
+import { Configuration, JulkinenApiAxiosParamCreator, LiitetiedostotApiAxiosParamCreator } from '../generated/amosaa';
 import axios, { AxiosInstance } from 'axios';
 import _ from 'lodash';
 
@@ -45,6 +45,8 @@ export const Ulkopuoliset = initApi(AmosaaApi.UlkopuolisetApi);
 export const Koodistot = initApi(AmosaaApi.KoodistotApi);
 export const Arviointiasteikot = initApi(AmosaaApi.ArviointiasteikotApi);
 export const SisaltoviiteLukko = initApi(AmosaaApi.SisaltoviiteLukkoApi);
+export const Liitetiedostot = initApi(AmosaaApi.LiitetiedostotApi);
+export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
 
 export type KoulutustoimijaJulkinenDto = AmosaaApi.KoulutustoimijaJulkinenDto;
 export type OhjeDto = AmosaaApi.OhjeDto;
@@ -66,6 +68,8 @@ export type TutkinnonosaToteutusDto = AmosaaApi.TutkinnonosaToteutusDto;
 export type TutkinnonosaDto = AmosaaApi.TutkinnonosaDto;
 export type SisaltoviiteMatalaDto = AmosaaApi.Matala;
 export type DokumenttiDto = AmosaaApi.DokumenttiDto;
+export type Matala = AmosaaApi.Matala;
+export type ArviointiasteikkoDto = AmosaaApi.ArviointiasteikkoDto;
 
 export import SisaltoViiteKevytDtoTyyppiEnum = AmosaaApi.SisaltoViiteKevytDtoTyyppiEnum;
 export import TutkinnonOsaKevytDtoTyyppiEnum = AmosaaApi.TutkinnonOsaKevytDtoTyyppiEnum;
@@ -74,12 +78,28 @@ export import OpetussuunnitelmaMuokkaustietoDtoKohdeEnum = AmosaaApi.Opetussuunn
 export import PerusteDtoKoulutustyyppiEnum = AmosaaApi.PerusteDtoKoulutustyyppiEnum;
 export import MatalaTyyppiEnum = AmosaaApi.MatalaTyyppiEnum;
 export import DokumenttiDtoTilaEnum = AmosaaApi.DokumenttiDtoTilaEnum;
+export import TutkinnonosaDtoTyyppiEnum = AmosaaApi.TutkinnonosaDtoTyyppiEnum;
 
 export interface OpetussuunnitelmaQuery {
-  perusteId?: number;
   perusteenDiaarinumero?: string;
-  kieli?: string;
-  nimi?: string;
+  perusteId?: number;
+  organisaatio?: string;
+  tyyppi?: Array<string>;
   sivu?: number;
   sivukoko?: number;
+  nimi?: string;
+  kieli?: string;
 };
+
+export async function getJulkisetOpetussuunnitelmat(query: OpetussuunnitelmaQuery) {
+  return JulkinenApi.findOpetussuunnitelmat(
+    query.perusteenDiaarinumero,
+    query.perusteId,
+    query.organisaatio,
+    query.tyyppi,
+    query.sivu,
+    query.sivukoko,
+    query.nimi,
+    query.kieli
+  );
+}

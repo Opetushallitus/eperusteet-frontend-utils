@@ -116,7 +116,20 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
   case 'tutkinnonosat':
     node.label = 'tutkinnonosat';
     node.location = {
-      name: 'toteutussuunnitelmaTutkinnonosat',
+      name: 'tutkinnonosat',
+    };
+    break;
+  case 'tutkinnonosaviite':
+    node.location = {
+      name: 'tutkinnonosa',
+      params: {
+        tutkinnonOsaViiteId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'muodostuminen':
+    node.location = {
+      name: 'perusteenRakenne',
     };
     break;
   default:
@@ -194,6 +207,41 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
     node.label = 'suorituspolut';
     node.location = {
       name: 'toteutussuunnitelmaSuorituspolut',
+      params: {
+        sisaltoviiteId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'tekstikappale':
+    node.location = {
+      name: 'toteutussuunnitelmaSisalto',
+      params: {
+        sisaltoviiteId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'tutkinnonosa':
+    node.location = {
+      name: 'toteutussuunnitelmaSisalto',
+      params: {
+        sisaltoviiteId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'suorituspolku':
+    node.location = {
+      name: 'toteutussuunnitelmaSisalto',
+      params: {
+        sisaltoviiteId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'osasuorituspolku':
+    node.location = {
+      name: 'toteutussuunnitelmaSisalto',
+      params: {
+        sisaltoviiteId: _.toString(rawNode.id),
+      },
     };
     break;
   default:

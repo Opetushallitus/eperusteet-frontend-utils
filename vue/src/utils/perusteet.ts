@@ -110,6 +110,14 @@ const stateToKt = _.zipObject(
   _.keys(ktToState),
 );
 
+export const ammatillisetKoulutustyypit = [
+  'koulutustyyppi_1',
+  'koulutustyyppi_11',
+  'koulutustyyppi_12',
+  'koulutustyyppi_5',
+  'koulutustyyppi_18',
+];
+
 export function koulutustyyppiStateName(koulutustyyppi: string) {
   return ktToState[koulutustyyppi] || koulutustyyppi;
 }
