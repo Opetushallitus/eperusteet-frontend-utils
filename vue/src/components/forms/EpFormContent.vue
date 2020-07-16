@@ -1,8 +1,11 @@
 <template>
 <div class="form-group form-content">
     <div v-if="showHeader">
+      <div v-if="name">
         <h3 :class="headerClass" v-if="headerType === 'h3'">{{ $t(name) }}</h3>
         <label v-else>{{ $t(name) }}</label>
+      </div>
+      <slot name="header"></slot>
     </div>
     <slot></slot>
 </div>
