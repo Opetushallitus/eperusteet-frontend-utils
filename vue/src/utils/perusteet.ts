@@ -290,5 +290,15 @@ export function metadataToLocalized(metadata: any[], field: string) {
 }
 
 export function perusteenSuoritustapa(peruste: any): 'OPS' | 'NAYTTO' | 'REFORMI' | 'PERUSOPETUS' | 'LISAOPETUS' | 'VARHAISKASVATUS' | 'OPAS' | 'ESIOPETUS' | 'AIPE' | 'TPO' | 'LUKIOKOULUTUS' | 'LUKIOKOULUTUS2019' {
-  return _.toUpper(_.get(_.head(peruste.suoritustavat), 'suoritustapakoodi')) as any;
+  const suoritustavat = _.map(peruste.suoritustavat, 'suoritustapakoodi');
+
+  if (_.includes(suoritustavat, 'reformi')) {
+    return 'REFORMI';
+  }
+
+  if (_.includes(suoritustavat, 'naytto')) {
+    return 'NAYTTO';
+  }
+
+  return _.toUpper(_.head(suoritustavat)) as any;
 }
