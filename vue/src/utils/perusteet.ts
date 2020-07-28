@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { PerusteDto } from '@shared/api/eperusteet';
 
 export const KoodistoLops2019LaajaAlaiset = 'laajaalainenosaaminenlops2021';
 
@@ -286,4 +287,8 @@ export const perusteprojektitila = Object.freeze({
 
 export function metadataToLocalized(metadata: any[], field: string) {
   return _.mapValues(_.keyBy(metadata, v => _.toLower(v.kieli)), v => v[field]);
+}
+
+export function perusteenSuoritustapa(peruste: any): 'OPS' | 'NAYTTO' | 'REFORMI' | 'PERUSOPETUS' | 'LISAOPETUS' | 'VARHAISKASVATUS' | 'OPAS' | 'ESIOPETUS' | 'AIPE' | 'TPO' | 'LUKIOKOULUTUS' | 'LUKIOKOULUTUS2019' {
+  return _.toUpper(_.get(_.head(peruste.suoritustavat), 'suoritustapakoodi')) as any;
 }
