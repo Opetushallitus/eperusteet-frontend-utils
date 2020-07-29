@@ -132,6 +132,29 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       name: 'perusteenRakenne',
     };
     break;
+  case 'vuosiluokkakokonaisuus':
+    node.location = {
+      name: 'vuosiluokkakokonaisuus',
+      params: {
+        vlkId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'perusopetusoppiaine':
+    node.location = {
+      name: _.get(rawNode, 'meta.vlkId') ? 'vuosiluokanoppiaine' : 'perusopetusoppiaine',
+      params: {
+        oppiaineId: _.toString(rawNode.id),
+        ...(_.get(rawNode, 'meta.vlkId') && { vlkId: rawNode.meta!.vlkId }) as any,
+      },
+    };
+    break;
+  case 'perusopetusoppiaineet':
+    node.label = 'oppiaineet';
+    node.location = {
+      name: 'perusopetusoppiaineet',
+    };
+    break;
   default:
     break;
   }
