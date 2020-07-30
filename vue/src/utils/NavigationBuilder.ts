@@ -7,7 +7,8 @@ export type NavigationType =
     'root' | 'viite' | 'tiedot' | 'laajaalaiset'
     | 'oppiaineet' | 'oppiaine' | 'oppimaarat' | 'poppiaine'
     | 'moduulit' | 'moduuli' |
-    'opintojaksot' | 'opintojakso';
+    'opintojaksot' | 'opintojakso'
+    | 'perusopetusoppiaineet' | 'perusopetusoppiaine' | 'valinnaisetoppiaineet' | 'vuosiluokkakokonaisuus';
 
 export interface NavigationNode {
   key?: number; // Unique identifier
@@ -19,6 +20,7 @@ export interface NavigationNode {
   location?: Location;
   isMatch?: boolean;
   isVisible?: boolean;
+  id?: number;
 }
 
 export interface NavigationFilter {
@@ -47,6 +49,7 @@ function traverseNavigation(rawNode: NavigationNodeDto, isOps: boolean): Navigat
     children: _.map(rawNode.children, child => traverseNavigation(child, isOps)),
     path: [], // setParents asettaa polun
     meta: rawNode.meta,
+    id: rawNode.id,
   };
 
   if (isOps) {
@@ -264,6 +267,38 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
       name: 'toteutussuunnitelmaSisalto',
       params: {
         sisaltoviiteId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'vuosiluokkakokonaisuus':
+    node.location = {
+      name: 'opetussuunnitelmanvuosiluokkakokonaisuus',
+      params: {
+        vlkId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'perusopetusoppiaine':
+    node.location = {
+      name: _.get(rawNode, 'meta.vlkId') ? 'opetussuunnitelmaperusopetusvuosiluokanoppiaine' : 'opetussuunnitelmaperusopetusoppiaine',
+      params: {
+        oppiaineId: _.toString(rawNode.id),
+        ...(_.get(rawNode, 'meta.vlkId') && { vlkId: rawNode.meta!.vlkId }) as any,
+      },
+    };
+    break;
+  case 'perusopetusoppiaineet':
+    node.label = 'oppiaineet';
+    node.location = {
+      name: 'opetussuunnitelmaperusopetusoppiaineet',
+    };
+    break;
+  case 'valinnaisetoppiaineet':
+    node.label = 'valinnaiset-oppiaineet';
+    node.location = {
+      name: 'opetussuunnitelmaperusopetusvalinnaisetoppiaineet',
+      params: {
+        ...(_.get(rawNode, 'meta.vlkId') && { vlkId: rawNode.meta!.vlkId }) as any,
       },
     };
     break;
