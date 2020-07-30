@@ -5,9 +5,9 @@
     </slot>
     <ep-collapse tyyppi="perusteteksti" :border-bottom="false" :border-top="false" :expanded-by-default="perusteTekstiAvattu" v-if="perusteObject && perusteObject[teksti]">
       <template v-slot:header><h4>{{$t('perusteen-teksti')}}</h4></template>
-      <span> {{ $kaanna(perusteObject[teksti]) }}</span>
+      <span v-html="$kaanna(perusteObject[teksti])"></span>
     </ep-collapse>
-    <div v-if="object">
+    <div v-if="object && (naytaSisaltoTyhjana || hasContent)">
       <h4>{{ $t('paikallinen-teksti') }}</h4>
       <ep-content v-if="isEditing || hasContent" v-model="object[teksti]"
                     layout="normal"
@@ -48,6 +48,9 @@ export default class EpPerusteContent extends Vue {
 
   @Prop({ default: false })
   private perusteTekstiAvattu!: boolean;
+
+  @Prop({ default: true })
+  private naytaSisaltoTyhjana!: boolean;
 
   get hasContent() {
     return this.object != null && this.object[this.teksti] != null;
