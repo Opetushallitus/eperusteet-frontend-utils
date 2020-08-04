@@ -158,6 +158,30 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       name: 'perusopetusoppiaineet',
     };
     break;
+  case 'aipevaihe':
+    node.location = {
+      name: 'aipevaihe',
+      params: {
+        vaiheId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'aipeoppiaine':
+    node.location = {
+      name: 'aipeoppiaine',
+      params: {
+        oppiaineId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'aipekurssi':
+    node.location = {
+      name: 'aipekurssi',
+      params: {
+        kurssiId: _.toString(rawNode.id),
+      },
+    };
+    break;
   default:
     break;
   }

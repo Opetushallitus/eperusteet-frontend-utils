@@ -58,6 +58,7 @@ export const Maintenance = initApi(EperusteetApi.MaintenanceApi);
 export const Aikataulut = initApi(EperusteetApi.AikataulutApi);
 export const PerusteenOsatApi = initApi(EperusteetApi.PerusteenosatApi);
 export const PerusopetuksenPerusteenSisalto = initApi(EperusteetApi.PerusopetuksenPerusteenSisaltoApi);
+export const Aipeopetuksensisalto = initApi(EperusteetApi.AipeopetuksensisaltoApi);
 
 export type Ammattitaitovaatimukset2019Dto = EperusteetApi.Ammattitaitovaatimukset2019Dto;
 export type ArviointiAsteikkoDto = EperusteetApi.ArviointiAsteikkoDto;
@@ -100,6 +101,11 @@ export type TekstiKappaleDto = EperusteetApi.TekstiKappaleDto;
 export type ArvioinninKohdealueDto = EperusteetApi.ArvioinninKohdealueDto;
 export type VuosiluokkaKokonaisuusDto = EperusteetApi.VuosiluokkaKokonaisuusDto;
 export type OppiaineDto = EperusteetApi.OppiaineDto;
+export type AIPEVaiheDto = EperusteetApi.AIPEVaiheDto;
+export type AIPEOppiaineDto = EperusteetApi.AIPEOppiaineDto;
+export type AIPEOppiaineSuppeaDto = EperusteetApi.AIPEOppiaineSuppeaDto;
+export type AIPEKurssiDto = EperusteetApi.AIPEKurssiDto;
+export type LaajaalainenOsaaminenDto = EperusteetApi.LaajaalainenOsaaminenDto;
 
 export import PerusteprojektiLuontiDtoTyyppiEnum = EperusteetApi.PerusteprojektiLuontiDtoTyyppiEnum;
 export import NavigationNodeDtoTypeEnum = EperusteetApi.NavigationNodeDtoTypeEnum;
