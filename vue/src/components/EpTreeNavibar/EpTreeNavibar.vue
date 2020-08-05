@@ -70,9 +70,6 @@ function routeToNode(route: any) {
       type: 'tutkinnonosat',
     };
   }
-  else {
-    console.error(route.type, route);
-  }
 
   return null;
 }

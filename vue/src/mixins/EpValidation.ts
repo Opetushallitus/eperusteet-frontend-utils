@@ -9,7 +9,7 @@ const logger = createLogger('EpValidation');
   validations() {
     const vc = (this as any).validationConfig;
     if (vc === undefined) {
-      logger.error('Validation configuration missing:', this);
+      logger.warn('Validation configuration missing:', this);
       return {};
     }
     return vc;
