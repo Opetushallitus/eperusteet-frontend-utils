@@ -101,5 +101,7 @@ $home-tile-bottom-background-color: #3C839F;
 // Spinner
 $spinner-background-color: $light-blue;
 
+$popup-top-background: #2146a3;
+
 // Ylikirjoitetaan muuttujien arvot palvelukohtaisilla jos määritelty
 @import "~@/styles/_variables.scss";

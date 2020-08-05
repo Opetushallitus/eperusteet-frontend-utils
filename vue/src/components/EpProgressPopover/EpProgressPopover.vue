@@ -82,7 +82,7 @@ export default class EpProgressPopover extends Vue {
 
     .popup-top {
       padding: 15px;
-      background-color: #2146a3;
+      background: $popup-top-background;
       border-radius: 1rem 1rem 0rem 0rem;
       font-size: 1rem;
     }

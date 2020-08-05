@@ -43,7 +43,7 @@
     </ep-collapse>
 
     <!-- Käyttöliittymän kieli -->
-    <ep-collapse :expanded-by-default="false">
+    <ep-collapse :expanded-by-default="false" :border-bottom="false">
       <div slot="header">
         <div class="pl-3 pt-2 text-nowrap kieli">
           <fas fixed-width icon="kielet" class="icon mr-3" />
@@ -210,6 +210,10 @@ export default class EpKayttaja extends Vue {
       color: #3467E3;
       vertical-align: -0.25em;
     }
+  }
+
+  .kieli {
+    font-weight: normal;
   }
 
   /deep/ .dropdown-menu {
