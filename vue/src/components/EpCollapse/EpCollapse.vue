@@ -1,12 +1,12 @@
 <template>
 <div>
   <hr v-if="first && !borderTop" />
-  <div :class="classess" v-if="!disableHeader" :style="styles.collapse">
+  <div :class="classess" v-if="!disableHeader" :style="styles.collapse" @click="togglefull ? toggle(): null" @keyup.enter="togglefull ? toggle(): null">
     <!-- Button tagia ei voida käyttää, sillä ml-auto ei toimi.-->
     <!-- Käytetään button rolea saavutettavuuden takaamiseksi.-->
     <div class="collapse-button d-flex"
-         @click="toggle()"
-         @keyup.enter="toggle()"
+         @click="!togglefull ? toggle(): null"
+         @keyup.enter="!togglefull ? toggle(): null"
          role="button"
          tabindex="0"
          :aria-expanded="toggled">
@@ -92,11 +92,26 @@ export default class EpCollapse extends Vue {
     };
   }
 
+  @Prop({ required: false, default: false })
+  private shadow!: boolean;
+
+  @Prop({ required: false, default: false })
+  private togglefull!: boolean;
+
   get classess() {
     let result = 'ep-collapse';
     if (this.borderTop) {
       result += ' topborder';
     }
+
+    if (this.shadow) {
+      result += ' shadow-tile';
+    }
+
+    if (this.togglefull) {
+      result += ' togglefull';
+    }
+
     return result;
   }
 
@@ -142,6 +157,9 @@ export default class EpCollapse extends Vue {
 
 <style scoped lang="scss">
 @import '../../styles/_variables.scss';
+@import '../../styles/_mixins.scss';
+
+@include shadow-tile;
 
 .topborder {
   border-top: 1px;
@@ -161,13 +179,25 @@ export default class EpCollapse extends Vue {
   .collapse-button {
     cursor: pointer;
     outline: none;
+
+    label {
+      cursor: pointer;
+    }
   }
 
   .header {
     user-select: none;
-    margin-bottom: 10px;
-    margin-top: 5px;
   }
+
+  &.togglefull {
+    cursor: pointer;
+  }
+}
+
+.shadow-tile {
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 0.7rem;
 }
 
 </style>

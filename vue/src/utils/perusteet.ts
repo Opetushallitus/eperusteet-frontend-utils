@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { PerusteDto } from '@shared/api/eperusteet';
 
 export const KoodistoLops2019LaajaAlaiset = 'laajaalainenosaaminenlops2021';
 
@@ -117,6 +118,14 @@ const stateToKt = _.zipObject(
   _.values(ktToState),
   _.keys(ktToState),
 );
+
+export const ammatillisetKoulutustyypit = [
+  'koulutustyyppi_1',
+  'koulutustyyppi_11',
+  'koulutustyyppi_12',
+  'koulutustyyppi_5',
+  'koulutustyyppi_18',
+];
 
 export function koulutustyyppiStateName(koulutustyyppi: string) {
   return ktToState[koulutustyyppi] || koulutustyyppi;
@@ -290,4 +299,18 @@ export const perusteprojektitila = Object.freeze({
 
 export function metadataToLocalized(metadata: any[], field: string) {
   return _.mapValues(_.keyBy(metadata, v => _.toLower(v.kieli)), v => v[field]);
+}
+
+export function perusteenSuoritustapa(peruste: any): 'OPS' | 'NAYTTO' | 'REFORMI' | 'PERUSOPETUS' | 'LISAOPETUS' | 'VARHAISKASVATUS' | 'OPAS' | 'ESIOPETUS' | 'AIPE' | 'TPO' | 'LUKIOKOULUTUS' | 'LUKIOKOULUTUS2019' {
+  const suoritustavat = _.map(peruste.suoritustavat, 'suoritustapakoodi');
+
+  if (_.includes(suoritustavat, 'reformi')) {
+    return 'REFORMI';
+  }
+
+  if (_.includes(suoritustavat, 'naytto')) {
+    return 'NAYTTO';
+  }
+
+  return _.toUpper(_.head(suoritustavat)) as any;
 }

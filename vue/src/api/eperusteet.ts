@@ -34,6 +34,9 @@ function initApi<T>(X: BaseAPIConstructor<T>): T {
 export const Api = ax;
 
 export const Aikataulut = initApi(EperusteetApi.AikataulutApi);
+export const Aikataulut = initApi(EperusteetApi.AikataulutApi);
+export const Aikataulut = initApi(EperusteetApi.AikataulutApi);
+export const Aipeopetuksensisalto = initApi(EperusteetApi.AipeopetuksensisaltoApi);
 export const Ammattitaitovaatimukset = initApi(EperusteetApi.AmmattitaitovaatimuksetApi);
 export const Arviointiasteikot = initApi(EperusteetApi.ArviointiasteikotApi);
 export const Dokumentit = initApi(EperusteetApi.DokumentitApi);
@@ -49,6 +52,8 @@ export const Maintenance = initApi(EperusteetApi.MaintenanceApi);
 export const Muokkaustiedot = initApi(EperusteetApi.MuokkaustietoApi);
 export const Oppaat = initApi(EperusteetApi.OppaatApi);
 export const OsaAlueet = initApi(EperusteetApi.OsaAlueetApi);
+export const PerusopetuksenPerusteenSisalto = initApi(EperusteetApi.PerusopetuksenPerusteenSisaltoApi);
+export const PerusteenOsatApi = initApi(EperusteetApi.PerusteenosatApi);
 export const Perusteenosat = initApi(EperusteetApi.PerusteenosatApi);
 export const Perusteet = initApi(EperusteetApi.PerusteetApi);
 export const Perusteprojektit = initApi(EperusteetApi.PerusteprojektitApi);
@@ -97,6 +102,15 @@ export type TyoryhmaHenkiloDto = EperusteetApi.TyoryhmaHenkiloDto;
 export type UpdateDtoRakenneModuuliDto = EperusteetApi.UpdateDtoRakenneModuuliDto;
 export type OpasLuontiDto = EperusteetApi.OpasLuontiDto;
 export type DokumenttiDto = EperusteetApi.DokumenttiDto;
+export type TekstiKappaleDto = EperusteetApi.TekstiKappaleDto;
+export type ArvioinninKohdealueDto = EperusteetApi.ArvioinninKohdealueDto;
+export type VuosiluokkaKokonaisuusDto = EperusteetApi.VuosiluokkaKokonaisuusDto;
+export type OppiaineDto = EperusteetApi.OppiaineDto;
+export type AIPEVaiheDto = EperusteetApi.AIPEVaiheDto;
+export type AIPEOppiaineDto = EperusteetApi.AIPEOppiaineDto;
+export type AIPEOppiaineSuppeaDto = EperusteetApi.AIPEOppiaineSuppeaDto;
+export type AIPEKurssiDto = EperusteetApi.AIPEKurssiDto;
+export type LaajaalainenOsaaminenDto = EperusteetApi.LaajaalainenOsaaminenDto;
 
 export import PerusteprojektiLuontiDtoTyyppiEnum = EperusteetApi.PerusteprojektiLuontiDtoTyyppiEnum;
 export import NavigationNodeDtoTypeEnum = EperusteetApi.NavigationNodeDtoTypeEnum;

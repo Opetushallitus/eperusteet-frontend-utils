@@ -7,7 +7,8 @@ export type NavigationType =
     'root' | 'viite' | 'tiedot' | 'laajaalaiset'
     | 'oppiaineet' | 'oppiaine' | 'oppimaarat' | 'poppiaine'
     | 'moduulit' | 'moduuli' |
-    'opintojaksot' | 'opintojakso';
+    'opintojaksot' | 'opintojakso'
+    | 'perusopetusoppiaineet' | 'perusopetusoppiaine' | 'valinnaisetoppiaineet' | 'vuosiluokkakokonaisuus';
 
 export interface NavigationNode {
   key?: number; // Unique identifier
@@ -19,6 +20,7 @@ export interface NavigationNode {
   location?: Location;
   isMatch?: boolean;
   isVisible?: boolean;
+  id?: number;
 }
 
 export interface NavigationFilter {
@@ -47,6 +49,7 @@ function traverseNavigation(rawNode: NavigationNodeDto, isOps: boolean): Navigat
     children: _.map(rawNode.children, child => traverseNavigation(child, isOps)),
     path: [], // setParents asettaa polun
     meta: rawNode.meta,
+    id: rawNode.id,
   };
 
   if (isOps) {
@@ -113,6 +116,72 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       },
     };
     break;
+  case 'tutkinnonosat':
+    node.label = 'tutkinnonosat';
+    node.location = {
+      name: 'tutkinnonosat',
+    };
+    break;
+  case 'tutkinnonosaviite':
+    node.location = {
+      name: 'tutkinnonosa',
+      params: {
+        tutkinnonOsaViiteId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'muodostuminen':
+    node.location = {
+      name: 'perusteenRakenne',
+    };
+    break;
+  case 'vuosiluokkakokonaisuus':
+    node.location = {
+      name: 'vuosiluokkakokonaisuus',
+      params: {
+        vlkId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'perusopetusoppiaine':
+    node.location = {
+      name: _.get(rawNode, 'meta.vlkId') ? 'vuosiluokanoppiaine' : 'perusopetusoppiaine',
+      params: {
+        oppiaineId: _.toString(rawNode.id),
+        ...(_.get(rawNode, 'meta.vlkId') && { vlkId: rawNode.meta!.vlkId }) as any,
+      },
+    };
+    break;
+  case 'perusopetusoppiaineet':
+    node.label = 'oppiaineet';
+    node.location = {
+      name: 'perusopetusoppiaineet',
+    };
+    break;
+  case 'aipevaihe':
+    node.location = {
+      name: 'aipevaihe',
+      params: {
+        vaiheId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'aipeoppiaine':
+    node.location = {
+      name: 'aipeoppiaine',
+      params: {
+        oppiaineId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'aipekurssi':
+    node.location = {
+      name: 'aipekurssi',
+      params: {
+        kurssiId: _.toString(rawNode.id),
+      },
+    };
+    break;
   default:
     break;
   }
@@ -175,6 +244,85 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
       name: 'lops2019OpetussuunnitelmaOpintojakso',
       params: {
         opintojaksoId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'tutkinnonosat':
+    node.label = 'tutkinnonosat';
+    node.location = {
+      name: 'toteutussuunnitelmaTutkinnonosat',
+    };
+    break;
+  case 'suorituspolut':
+    node.label = 'suorituspolut';
+    node.location = {
+      name: 'toteutussuunnitelmaSuorituspolut',
+      params: {
+        sisaltoviiteId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'tekstikappale':
+    node.location = {
+      name: 'toteutussuunnitelmaSisalto',
+      params: {
+        sisaltoviiteId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'tutkinnonosa':
+    node.location = {
+      name: 'toteutussuunnitelmaSisalto',
+      params: {
+        sisaltoviiteId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'suorituspolku':
+    node.location = {
+      name: 'toteutussuunnitelmaSisalto',
+      params: {
+        sisaltoviiteId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'osasuorituspolku':
+    node.location = {
+      name: 'toteutussuunnitelmaSisalto',
+      params: {
+        sisaltoviiteId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'vuosiluokkakokonaisuus':
+    node.location = {
+      name: 'opetussuunnitelmanvuosiluokkakokonaisuus',
+      params: {
+        vlkId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'perusopetusoppiaine':
+    node.location = {
+      name: _.get(rawNode, 'meta.vlkId') ? 'opetussuunnitelmaperusopetusvuosiluokanoppiaine' : 'opetussuunnitelmaperusopetusoppiaine',
+      params: {
+        oppiaineId: _.toString(rawNode.id),
+        ...(_.get(rawNode, 'meta.vlkId') && { vlkId: rawNode.meta!.vlkId }) as any,
+      },
+    };
+    break;
+  case 'perusopetusoppiaineet':
+    node.label = 'oppiaineet';
+    node.location = {
+      name: 'opetussuunnitelmaperusopetusoppiaineet',
+    };
+    break;
+  case 'valinnaisetoppiaineet':
+    node.label = 'valinnaiset-oppiaineet';
+    node.location = {
+      name: 'opetussuunnitelmaperusopetusvalinnaisetoppiaineet',
+      params: {
+        ...(_.get(rawNode, 'meta.vlkId') && { vlkId: rawNode.meta!.vlkId }) as any,
       },
     };
     break;

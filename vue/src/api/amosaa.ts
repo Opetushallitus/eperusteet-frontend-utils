@@ -1,11 +1,12 @@
 import { axiosHandler, successfulResponseHandler } from './common';
-import { Configuration } from '../generated/amosaa';
+import { Configuration, JulkinenApiAxiosParamCreator, LiitetiedostotApiAxiosParamCreator } from '../generated/amosaa';
 import axios, { AxiosInstance } from 'axios';
 import _ from 'lodash';
 
 import * as AmosaaApi from '../generated/amosaa';
 import Qs from 'qs';
 import { createLogger } from '../utils/logger';
+import { DokumentitApiAxiosParamCreator } from '@shared/generated/ylops';
 
 const logger = createLogger('AmosaaAxios');
 const basePath = '';
@@ -31,6 +32,7 @@ function initApi<T>(X: BaseAPIConstructor<T>): T {
 export const Api = ax;
 
 export const JulkinenApi = initApi(AmosaaApi.JulkinenApi);
+export const JulkinenApiParams = JulkinenApiAxiosParamCreator(configuration);
 export const Ohjeet = initApi(AmosaaApi.OhjeetApi);
 export const Opetussuunnitelmat = initApi(AmosaaApi.OpetussuunnitelmatApi);
 export const Aikataulut = initApi(AmosaaApi.AikataulutApi);
@@ -43,6 +45,8 @@ export const Ulkopuoliset = initApi(AmosaaApi.UlkopuolisetApi);
 export const Koodistot = initApi(AmosaaApi.KoodistotApi);
 export const Arviointiasteikot = initApi(AmosaaApi.ArviointiasteikotApi);
 export const SisaltoviiteLukko = initApi(AmosaaApi.SisaltoviiteLukkoApi);
+export const Liitetiedostot = initApi(AmosaaApi.LiitetiedostotApi);
+export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
 
 export type KoulutustoimijaJulkinenDto = AmosaaApi.KoulutustoimijaJulkinenDto;
 export type OhjeDto = AmosaaApi.OhjeDto;
@@ -63,6 +67,9 @@ export type VapaaTekstiDto = AmosaaApi.VapaaTekstiDto;
 export type TutkinnonosaToteutusDto = AmosaaApi.TutkinnonosaToteutusDto;
 export type TutkinnonosaDto = AmosaaApi.TutkinnonosaDto;
 export type SisaltoviiteMatalaDto = AmosaaApi.Matala;
+export type DokumenttiDto = AmosaaApi.DokumenttiDto;
+export type Matala = AmosaaApi.Matala;
+export type ArviointiasteikkoDto = AmosaaApi.ArviointiasteikkoDto;
 
 export import SisaltoViiteKevytDtoTyyppiEnum = AmosaaApi.SisaltoViiteKevytDtoTyyppiEnum;
 export import TutkinnonOsaKevytDtoTyyppiEnum = AmosaaApi.TutkinnonOsaKevytDtoTyyppiEnum;
@@ -70,3 +77,29 @@ export import OpetussuunnitelmaMuokkaustietoDtoTapahtumaEnum = AmosaaApi.Opetuss
 export import OpetussuunnitelmaMuokkaustietoDtoKohdeEnum = AmosaaApi.OpetussuunnitelmaMuokkaustietoDtoKohdeEnum;
 export import PerusteDtoKoulutustyyppiEnum = AmosaaApi.PerusteDtoKoulutustyyppiEnum;
 export import MatalaTyyppiEnum = AmosaaApi.MatalaTyyppiEnum;
+export import DokumenttiDtoTilaEnum = AmosaaApi.DokumenttiDtoTilaEnum;
+export import TutkinnonosaDtoTyyppiEnum = AmosaaApi.TutkinnonosaDtoTyyppiEnum;
+
+export interface OpetussuunnitelmaQuery {
+  perusteenDiaarinumero?: string;
+  perusteId?: number;
+  organisaatio?: string;
+  tyyppi?: Array<string>;
+  sivu?: number;
+  sivukoko?: number;
+  nimi?: string;
+  kieli?: string;
+};
+
+export async function getJulkisetOpetussuunnitelmat(query: OpetussuunnitelmaQuery) {
+  return JulkinenApi.findOpetussuunnitelmat(
+    query.perusteenDiaarinumero,
+    query.perusteId,
+    query.organisaatio,
+    query.tyyppi,
+    query.sivu,
+    query.sivukoko,
+    query.nimi,
+    query.kieli
+  );
+}
