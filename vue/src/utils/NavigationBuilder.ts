@@ -182,6 +182,17 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       },
     };
     break;
+  case 'taiteenosa':
+    if (!rawNode.label) {
+      node.label = _.get(rawNode.meta, 'alaosa') as any;
+    }
+    node.location = {
+      name: 'tekstikappaleOsa',
+      params: {
+        osa: _.get(rawNode.meta, 'alaosa') as any,
+      },
+    };
+    break;
   default:
     break;
   }
