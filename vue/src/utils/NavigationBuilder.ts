@@ -96,6 +96,9 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
   case 'oppimaarat':
     node.label = 'oppimaarat';
     break;
+  case 'kurssit':
+    node.label = 'kurssit';
+    break;
   case 'oppiaine':
     node.location = {
       name: 'lops2019oppiaine',
