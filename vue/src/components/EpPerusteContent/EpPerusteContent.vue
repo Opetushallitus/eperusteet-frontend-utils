@@ -9,7 +9,8 @@
     </ep-collapse>
     <div v-if="object && (naytaSisaltoTyhjana || hasContent)">
       <h4>{{ $t('paikallinen-teksti') }}</h4>
-      <ep-content v-if="isEditing || hasContent" v-model="object[teksti]"
+      <ep-content-viewer v-if="!isEditing && kuvat && hasContent" :value="$kaanna(object[teksti])" :kuvat="kuvat" />
+      <ep-content v-else-if="isEditing || hasContent" v-model="object[teksti]"
                     layout="normal"
                     :is-editable="isEditing"></ep-content>
       <ep-alert v-if="!isEditing && !hasContent" :text="$t('paikallista-sisaltoa-ei-maaritetty')" />
@@ -22,12 +23,14 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import EpCollapse from '@shared/components/EpCollapse/EpCollapse.vue';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
 import EpAlert from '@shared/components/EpAlert/EpAlert.vue';
+import EpContentViewer from '@shared/components/EpContentViewer/EpContentViewer.vue';
 
 @Component({
   components: {
     EpCollapse,
     EpContent,
     EpAlert,
+    EpContentViewer,
   },
 })
 export default class EpPerusteContent extends Vue {
@@ -51,6 +54,9 @@ export default class EpPerusteContent extends Vue {
 
   @Prop({ default: true })
   private naytaSisaltoTyhjana!: boolean;
+
+  @Prop({ required: false })
+  private kuvat!: any[];
 
   get hasContent() {
     return this.object != null && this.object[this.teksti] != null;
