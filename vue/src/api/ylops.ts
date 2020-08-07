@@ -145,6 +145,7 @@ export type PerusteVuosiluokkakokonaisuusDto = YlopsApi.PerusteVuosiluokkakokona
 export type UnwrappedOpsOppiaineDto = YlopsApi.UnwrappedOpsOppiaineDto;
 export type PerusteLaajaalainenosaaminenDto = YlopsApi.PerusteLaajaalainenosaaminenDto;
 export type OppiaineenVuosiluokkakokonaisuusDto = YlopsApi.OppiaineenVuosiluokkakokonaisuusDto;
+export type Lops2019OppiaineJarjestysDto = YlopsApi.Lops2019OppiaineJarjestysDto;
 
 export import OpetussuunnitelmaInfoDtoToteutusEnum = YlopsApi.OpetussuunnitelmaInfoDtoToteutusEnum;
 export import OppiaineSuppeaDtoTyyppiEnum = YlopsApi.OppiaineSuppeaDtoTyyppiEnum;
