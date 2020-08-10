@@ -69,12 +69,11 @@ import EpErrorWrapper from '../forms/EpErrorWrapper.vue';
 import EpExternalLink from '../EpExternalLink/EpExternalLink.vue';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import EpKoodistoSelect from '../EpKoodistoSelect/EpKoodistoSelect.vue';
-import { Ammattitaitovaatimukset2019Dto, Koodisto } from '../../api/eperusteet';
 import { KoodistoSelectStore } from '@shared/components/EpKoodistoSelect/KoodistoSelectStore';
 
 import { BrowserStore } from '../../stores/BrowserStore';
 import { metadataToLocalized } from '../../utils/perusteet';
-import { delay } from '@shared/utils/delay';
+import { delay } from '../../utils/delay';
 import _ from 'lodash';
 import Kayttolistaus from './Kayttolistaus.vue';
 

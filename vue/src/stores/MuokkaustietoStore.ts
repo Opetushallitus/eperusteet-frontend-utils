@@ -20,7 +20,7 @@ export class MuokkaustietoStore {
   }
 
   public readonly muokkaustiedot = computed(() => this.state.muokkaustiedot);
-  public readonly viimeinenHaku = computed(() => this.state.hakuLukumaara);
+  public readonly viimeinenHaku = computed(() => this.state.viimeinenHaku);
   public readonly hakuLukumaara = computed(() => this.state.hakuLukumaara);
 
   public async update() {

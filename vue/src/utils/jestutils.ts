@@ -97,6 +97,7 @@ export function wrap<T extends object>(original: T, value: T) {
 }
 
 type Constructable<T> = new(...params: any[]) => T;
+
 /**
  * Mocks given store.
  *

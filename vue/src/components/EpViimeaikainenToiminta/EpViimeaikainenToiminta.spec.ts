@@ -2,10 +2,10 @@ import { mount, createLocalVue, RouterLinkStub } from '@vue/test-utils';
 import EpViimeaikainenToiminta from './EpViimeaikainenToiminta.vue';
 import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
-import { Kielet } from '../../stores/kieli';
-import { MuokkaustietoStore } from '../../stores/MuokkaustietoStore';
-import { delay } from '../../utils/delay';
-import { Kaannos } from '../../plugins/kaannos';
+import { Kielet } from '@shared/stores/kieli';
+import { MuokkaustietoStore } from '@shared/stores/MuokkaustietoStore';
+import { Kaannos } from '@shared/plugins/kaannos';
+import { mock } from '@shared/utils/jestutils';
 import VueI18n from 'vue-i18n';
 
 Vue.use(BootstrapVue);
@@ -17,7 +17,7 @@ describe('EpViimeaikainenToiminta component', () => {
   localVue.use(new Kaannos());
 
   test('Renders', async () => {
-    const store = new MuokkaustietoStore();
+    const store = mock(MuokkaustietoStore);
 
     const wrapper = mount(EpViimeaikainenToiminta, {
       localVue,

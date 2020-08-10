@@ -34,8 +34,6 @@ function initApi<T>(X: BaseAPIConstructor<T>): T {
 export const Api = ax;
 
 export const Aikataulut = initApi(EperusteetApi.AikataulutApi);
-export const Aikataulut = initApi(EperusteetApi.AikataulutApi);
-export const Aikataulut = initApi(EperusteetApi.AikataulutApi);
 export const Aipeopetuksensisalto = initApi(EperusteetApi.AipeopetuksensisaltoApi);
 export const Ammattitaitovaatimukset = initApi(EperusteetApi.AmmattitaitovaatimuksetApi);
 export const Arviointiasteikot = initApi(EperusteetApi.ArviointiasteikotApi);
