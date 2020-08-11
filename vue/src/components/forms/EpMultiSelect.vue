@@ -207,4 +207,9 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
   display: block;
 }
 
+::v-deep .multiselect__option--disabled {
+  background: none !important;
+  color: $disabled !important;
+}
+
 </style>
