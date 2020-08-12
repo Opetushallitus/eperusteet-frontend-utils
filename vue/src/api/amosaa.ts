@@ -6,7 +6,7 @@ import _ from 'lodash';
 import * as AmosaaApi from '../generated/amosaa';
 import Qs from 'qs';
 import { createLogger } from '../utils/logger';
-import { DokumentitApiAxiosParamCreator } from '@shared/generated/ylops';
+import { DokumentitApiAxiosParamCreator } from '@shared/generated/amosaa';
 
 const logger = createLogger('AmosaaAxios');
 const basePath = '';
@@ -47,6 +47,8 @@ export const Arviointiasteikot = initApi(AmosaaApi.ArviointiasteikotApi);
 export const SisaltoviiteLukko = initApi(AmosaaApi.SisaltoviiteLukkoApi);
 export const Liitetiedostot = initApi(AmosaaApi.LiitetiedostotApi);
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
+export const Dokumentit = initApi(AmosaaApi.DokumentitApi);
+export const DokumentitParams = DokumentitApiAxiosParamCreator(configuration);
 
 export type KoulutustoimijaJulkinenDto = AmosaaApi.KoulutustoimijaJulkinenDto;
 export type OhjeDto = AmosaaApi.OhjeDto;
