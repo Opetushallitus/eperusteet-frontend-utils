@@ -96,6 +96,9 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
   case 'oppimaarat':
     node.label = 'oppimaarat';
     break;
+  case 'kurssit':
+    node.label = 'kurssit';
+    break;
   case 'oppiaine':
     node.location = {
       name: 'lops2019oppiaine',
@@ -179,6 +182,17 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       name: 'aipekurssi',
       params: {
         kurssiId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'taiteenosa':
+    if (!rawNode.label) {
+      node.label = _.get(rawNode.meta, 'alaosa') as any;
+    }
+    node.location = {
+      name: 'tekstikappaleOsa',
+      params: {
+        osa: _.get(rawNode.meta, 'alaosa') as any,
       },
     };
     break;

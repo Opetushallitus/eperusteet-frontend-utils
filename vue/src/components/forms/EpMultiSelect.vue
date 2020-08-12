@@ -117,7 +117,7 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
   }
 
   @Debounced(300)
-  onSearchChange(ev) {
+  async onSearchChange(ev) {
     if (this.searchIdentity) {
       this.search = ev;
     }
@@ -205,6 +205,11 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
 /deep/ .invalid-feedback,
 /deep/ .valid-feedback {
   display: block;
+}
+
+::v-deep .multiselect__option--disabled {
+  background: none !important;
+  color: $disabled !important;
 }
 
 </style>

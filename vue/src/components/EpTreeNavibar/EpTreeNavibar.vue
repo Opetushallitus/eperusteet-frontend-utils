@@ -1,37 +1,38 @@
 <template>
-  <EpSpinner v-if="!navigation" />
-  <div v-else>
-    <div class="header">
-      <slot name="header"></slot>
-    </div>
-    <div v-for="item in menu" :key="item.idx">
-      <div class="d-flex align-items-center item">
-        <div class="backwrapper">
-          <div v-if="activeIdx === item.idx" class="back">
-            <b-button size="sm" variant="link" @click="navigateUp()" class="backbtn">
-              <fas icon="chevron-left" />
+  <div>
+    <EpSpinner v-if="!navigation" />
+    <div v-else>
+      <div class="header">
+        <slot name="header"></slot>
+      </div>
+      <div v-for="item in menu" :key="item.idx">
+        <div class="d-flex align-items-center item">
+          <div class="backwrapper">
+            <div v-if="activeIdx === item.idx" class="back">
+              <b-button size="sm" variant="link" @click="navigateUp()" class="backbtn">
+                <fas icon="chevron-left" />
+              </b-button>
+            </div>
+          </div>
+          <div class="flex-grow-1">
+            <slot :name="$scopedSlots[item.type] ? item.type : 'default'" :item="item">
+            {{ $kaanna(item.label) }}
+            </slot>
+          </div>
+          <div class="text-muted" v-if="item.children.length > 0 && item.idx !== activeIdx">
+            <b-button variant="link" @click="navigate(item)" class="forwards">
+              <fas icon="chevron-right" />
             </b-button>
           </div>
         </div>
-        <div class="flex-grow-1">
-          <slot :name="$scopedSlots[item.type] ? item.type : 'default'" :item="item">
-            {{ $kaanna(item.label) }}
-          </slot>
-        </div>
-        <div class="text-muted" v-if="item.children.length > 0 && item.idx !== activeIdx">
-          <b-button variant="link" @click="navigate(item)" class="forwards">
-            <fas icon="chevron-right" />
-          </b-button>
-        </div>
       </div>
-    </div>
 
-    <Portal to="breadcrumbs">
-      <pre>{{ activeParents }}</pre>
-    </Portal>
+      <Portal to="breadcrumbs">
+      </Portal>
 
-    <div class="action-container">
-      <slot name="new"></slot>
+      <div class="action-container">
+        <slot name="new"></slot>
+      </div>
     </div>
   </div>
 </template>

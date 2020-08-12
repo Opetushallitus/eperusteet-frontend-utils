@@ -70,6 +70,7 @@ export type SisaltoviiteMatalaDto = AmosaaApi.Matala;
 export type DokumenttiDto = AmosaaApi.DokumenttiDto;
 export type Matala = AmosaaApi.Matala;
 export type ArviointiasteikkoDto = AmosaaApi.ArviointiasteikkoDto;
+export type OpetussuunnitelmaTilastoDto = AmosaaApi.OpetussuunnitelmaTilastoDto;
 
 export import SisaltoViiteKevytDtoTyyppiEnum = AmosaaApi.SisaltoViiteKevytDtoTyyppiEnum;
 export import TutkinnonOsaKevytDtoTyyppiEnum = AmosaaApi.TutkinnonOsaKevytDtoTyyppiEnum;
@@ -79,6 +80,7 @@ export import PerusteDtoKoulutustyyppiEnum = AmosaaApi.PerusteDtoKoulutustyyppiE
 export import MatalaTyyppiEnum = AmosaaApi.MatalaTyyppiEnum;
 export import DokumenttiDtoTilaEnum = AmosaaApi.DokumenttiDtoTilaEnum;
 export import TutkinnonosaDtoTyyppiEnum = AmosaaApi.TutkinnonosaDtoTyyppiEnum;
+export import OpetussuunnitelmaTilastoDtoTilaEnum = AmosaaApi.OpetussuunnitelmaTilastoDtoTilaEnum;
 
 export interface OpetussuunnitelmaQuery {
   perusteenDiaarinumero?: string;

@@ -1,9 +1,14 @@
 <template>
-<draggable v-bind="options" tag="div" class="tree-container" :value="value" @input="emitter" :key="value.length">
+<draggable v-bind="options"
+           tag="div"
+           class="tree-container"
+           :value="value"
+           @input="emitter"
+           :key="value.length">
   <div v-for="(node, idx) in value" :key="idx">
     <div class="box d-flex align-items-center" :class="{ 'new-box': node.$uusi, 'box-draggable': isEditable }" >
-      <div class="handle">
-        <fas icon="dragindicator"></fas>
+      <div class="handle" v-if="isEditable && !options.disabled">
+        <fas icon="grip-vertical"></fas>
       </div>
       <div class="chapter">
         {{ prefix }}{{ idx + 1 }}
@@ -29,7 +34,8 @@
           :is-editable="isEditable"
           :prefix="prefix + (idx + 1) + '.'"
           :child-field="childField"
-          :group="uniqueChildGroups ? group + idx : group">
+          :sortable="node.sortable"
+          :group="node.group ? node.group + idx : (uniqueChildGroups ? group + idx : group)">
         <slot v-for="(_, name) in $slots" :name="name" :slot="name"></slot>
         <template v-for="(_, name) in $scopedSlots" :slot="name" slot-scope="data">
           <slot :name="name" v-bind="data" />
@@ -136,13 +142,13 @@ export default class EpJarjesta extends Vue {
   border: 1px solid #CCD9F8;
   border-radius: 4px;
   background-color: rgba(230,246,255,0.6);
-  padding: 7px 20px 7px 10px;
-  margin-bottom: 10px;
+  padding: 8px 12px;
+  margin-bottom: 8px;
 
   .handle {
-    margin-top: 2px;
     color: #668DEA;
-    font-size: 1.2rem;
+    margin-right: 8px;
+    cursor: grab;
   }
 
   .actions {

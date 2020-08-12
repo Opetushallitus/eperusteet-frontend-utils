@@ -143,7 +143,7 @@ export interface SideMenuEntry {
 
 export interface SideMenuItem {
   type: string,
-  i18key?: string,
+  i18key?: string | string[],
   objref?: object,
   prefix?: string,
   hideChevron?: boolean,
