@@ -2,8 +2,8 @@
   <ep-form-content :name="tyyppi">
 
     <div class="kuvaus">{{$t('pdf-tiedosto-kuvaus')}}</div>
-    <div class="ops-dokumentti-tiedosto-lataus" :class="dto && dto[tyyppi] || file ? 'tiedosto' : 'ei-tiedosto'">
-      <div class="justify-content-around align-items-center h-100 m-3" v-if="dto && dto[tyyppi]">
+    <div class="ops-dokumentti-tiedosto-lataus" :class="kuvaUrl || file ? 'tiedosto' : 'ei-tiedosto'">
+      <div class="justify-content-around align-items-center h-100 m-3" v-if="kuvaUrl">
         <div class="h-100 justify-content-around align-items-center"><img :src="kuvaUrl" /></div>
         <div class="vali-viiva justify-content-center">
           <ep-button @click="removeImage()" variant="link" icon="roskalaatikko" class="mt-2">
@@ -41,10 +41,7 @@
 
 <script lang="ts">
 import { Vue, Component, Watch, Prop } from 'vue-property-decorator';
-
-// import { baseURL, DokumentitParams } from '../../api/eperusteet';
 import { Kielet } from '../../stores/kieli';
-// import { DokumenttiDto } from '../../generated';
 import EpButton from '../EpButton/EpButton.vue';
 import EpFormContent from '../forms/EpFormContent.vue';
 import _ from 'lodash';
@@ -65,12 +62,7 @@ export default class EpFileupload extends Vue {
   private tyyppi!: string;
 
   @Prop({ required: true })
-  private dto: any | null;
-
-  get kuvaUrl() {
-    return '';
-    // return baseURL + DokumentitParams.getImage(this.dto!.opsId!, this.tyyppi, this.kieli).url;;
-  }
+  private kuvaUrl!: string;
 
   get kieli() {
     return Kielet.getSisaltoKieli;
@@ -136,7 +128,7 @@ export default class EpFileupload extends Vue {
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/_variables.scss";
+@import "@shared/styles/_variables.scss";
 
 .dokumentit {
 
@@ -180,7 +172,7 @@ export default class EpFileupload extends Vue {
 
       .custom-file-label {
         width: 90%;
-        background-image: url('../../../../public/img/icons/lataus_ikoni.svg');
+        background-image: url('../../../public/img/icons/lataus_ikoni.svg');
         background-repeat: no-repeat;
         background-position: left;
         border: 0px;

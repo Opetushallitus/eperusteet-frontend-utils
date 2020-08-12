@@ -38,7 +38,7 @@
 import { Vue, Component, Watch, Prop } from 'vue-property-decorator';
 
 import EpButton from '../EpButton/EpButton.vue';
-import { fail } from '@/utils/notifications';
+import { fail } from '@shared/utils/notifications';
 import _ from 'lodash';
 
 export interface ImageData {

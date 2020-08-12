@@ -1,3 +1,5 @@
+import { Computed } from './utils/interfaces';
+
 export enum Kieli {
   fi = 'fi',
   sv = 'sv',
@@ -181,4 +183,11 @@ export interface TiedoteDto {
     nimi?: string;
     muokattu?: Date;
     muokkaaja?: string;
+}
+
+export interface IDokumenttiStore {
+  dokumentti: Computed<any>,
+  dokumenttiHref: Computed<string>,
+  polling: Computed<any>,
+  luoPdf: () => void,
 }
