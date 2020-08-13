@@ -8,6 +8,7 @@
         </div>
       </div>
     </div>
+
     <b-popover
       target="tila-popover"
       triggers="focus hover blur"
@@ -18,9 +19,10 @@
       custom-class="progress-popover"
       v-if="$slots.default">
 
-      <div class="popup-top row justify-content-center">
+      <div class="popup-top row justify-content-center" :style="popupStyle">
         <div class="progress-area">
-          <ep-progress :slices="slices"/>
+          <ep-progress :slices="slices"
+                       :popup-style="{ 'background-color': '' }" />
           <div class="header">
             <slot name="header" />
           </div>
@@ -46,8 +48,17 @@ import EpProgress from './EpProgress.vue';
   },
 })
 export default class EpProgressPopover extends Vue {
-  @Prop()
+  @Prop({ required: true })
   private slices!: number[];
+
+  @Prop({
+    default() {
+      return {
+        'background-color': '#2146a3',
+      };
+    },
+  })
+  private popupStyle!: string;
 
   private tilaPopupVisible = false;
 }
@@ -71,7 +82,7 @@ export default class EpProgressPopover extends Vue {
   @include tile-background-shadow-selected;
   border: 0px;
   border-radius: 1rem;
-  margin-top: -115px;
+  margin-top: -95px;
 
   /deep/ .arrow {
     display:none;

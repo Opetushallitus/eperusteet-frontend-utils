@@ -9,7 +9,7 @@ export interface IKoodisto {
 }
 
 export class KoodistoSelectStore {
-  private state = reactive({
+  public readonly state = reactive({
     data: null as Page<KoodistoKoodiDto> | null,
   });
 

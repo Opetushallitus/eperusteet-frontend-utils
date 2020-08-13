@@ -94,6 +94,7 @@ export type OikeusKohde = 'opetussuunnitelma' | 'pohja';
 export type NavigationNodeType =
   | 'root'
   | 'tiedot'
+  | 'kvliite'
   | 'viite'
   | 'liitteet' | 'liite'
   | 'laajaalaiset' | 'laajaalainen'
@@ -162,4 +163,22 @@ export interface OpintojaksoModuuliSource {
   id: number;
   koodi: string;
   moduulit?: any[];
+}
+
+export interface TiedoteDto {
+    id?: number;
+    perusteprojekti?: object;
+    peruste?: any[];
+    julkinen?: boolean;
+    yleinen?: boolean;
+    otsikko?: LokalisoituTekstiDto;
+    sisalto?: LokalisoituTekstiDto;
+    julkaisupaikat?: string[];
+    koulutustyypit?: string[];
+    perusteet?: any[];
+    luotu?: Date;
+    luoja?: string;
+    nimi?: string;
+    muokattu?: Date;
+    muokkaaja?: string;
 }

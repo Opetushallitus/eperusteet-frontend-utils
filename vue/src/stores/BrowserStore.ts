@@ -7,8 +7,8 @@ Vue.use(VueCompositionApi);
 
 const state = reactive({
   window: {
-    width: 0,
-    height: 0,
+    width: window.innerWidth,
+    height: window.innerHeight,
   },
   scrollY: 0,
   focused: null as FocusEvent | null,
@@ -50,4 +50,5 @@ export class BrowserStore {
   public readonly focused = computed(() => state.focused);
   public readonly activeElement = computed(() => state.focused?.target);
   public readonly latestKeypress = computed(() => state.latestKeypress);
+  public readonly navigationVisible = computed(() => state.window.width > 991);
 }

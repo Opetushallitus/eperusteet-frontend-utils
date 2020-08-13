@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="isEditing">
     <slot name="default" :open="openDialog">
       <div class="bg-danger">Painike puuttuu</div>
     </slot>
@@ -93,6 +93,12 @@
       </template>
     </b-modal>
   </div>
+  <div v-else-if="value && value.arvo">
+    {{ $kaanna(value.nimi) }} {{ value.arvo }}
+  </div>
+  <div class="font-italic" v-else>
+    {{ $t('ei-asetettu') }}
+  </div>
 </template>
 
 <script lang="ts">
@@ -118,6 +124,9 @@ export default class EpKoodistoSelect extends Vue {
 
   @Prop({ required: true })
   private store!: KoodistoSelectStore;
+
+  @Prop({ default: true })
+  private isEditing!: boolean;
 
   @Prop({ required: false, default: false })
   private multiple!: boolean;
@@ -200,7 +209,7 @@ export default class EpKoodistoSelect extends Vue {
         arvo: items[0].koodiArvo,
         nimi: items[0].nimi,
         versio: items[0].versio,
-        koodisto: items[0].koodisto,
+        koodisto: items[0].koodisto?.koodistoUri || items[0].koodisto,
       };
 
       if (!this.multiselect) {

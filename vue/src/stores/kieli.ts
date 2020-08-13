@@ -162,23 +162,28 @@ export class KieliStore {
     }
   };
 
-  public kaanna(value: LokalisoituTeksti | undefined | null): string {
+  public kaanna(value: LokalisoituTeksti | undefined | null, emptyWhenNotFound = false): string {
     if (!value) {
       return '';
     }
     else if (_.isObject(value)) {
       const locale = this.getSisaltoKieli.value;
       const kielet = [locale, ..._.pull(['fi', 'sv', 'en', 'se', 'ru'], locale)];
-      let teksti = '';
+      let teksti: string = '' + (value[locale] || '');
 
-      _.forEach(kielet, kieli => {
-        if (!_.isEmpty(value[kieli])) {
-          teksti = value[kieli] as string;
-          return false;
+      if (teksti) {
+        return teksti;
+      }
+      else if (emptyWhenNotFound) {
+        return '';
+      }
+      else {
+        const other = _.first(_.filter(_.map(kielet, kieli => value[kieli] as string)));
+        if (other) {
+          return '[' + other + ']';
         }
-      });
-
-      return teksti;
+      }
+      return '';
     }
     else {
       logger.warn('"$kaanna" on tekstiolioiden kääntämiseen. Käytä vue-i18n vastaavaa funktiota. Esimerkiksi "$t()".', 'Käännös:', '"' + value + '"');

@@ -52,7 +52,7 @@
 
 import { Vue, Component, Prop, Mixins } from 'vue-property-decorator';
 import _ from 'lodash';
-import { aikataulutapahtuma, Tapahtuma } from '@shared/utils/aikataulu';
+import { aikataulutapahtuma, Tapahtuma } from '../../utils/aikataulu';
 
 @Component
 export default class EpAikataulu extends Vue {

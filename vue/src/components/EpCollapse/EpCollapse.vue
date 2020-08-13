@@ -1,7 +1,7 @@
 <template>
 <div>
   <hr v-if="first && !borderTop" />
-  <div :class="classess" v-if="!disableHeader" @click="togglefull ? toggle(): null" @keyup.enter="togglefull ? toggle(): null">
+  <div :class="classess" v-if="!disableHeader" :style="styles.collapse" @click="togglefull ? toggle(): null" @keyup.enter="togglefull ? toggle(): null">
     <!-- Button tagia ei voida käyttää, sillä ml-auto ei toimi.-->
     <!-- Käytetään button rolea saavutettavuuden takaamiseksi.-->
     <div class="collapse-button d-flex"
@@ -17,7 +17,7 @@
         </div>
       </slot>
       <div class="align-self-start">
-        <div :class="{'header': toggled}">
+        <div :class="{'header': toggled}" :style="styles.header">
           <slot name="header"></slot>
         </div>
       </div>
@@ -50,6 +50,9 @@ export default class EpCollapse extends Vue {
   @Prop({ default: false })
   private disableHeader!: boolean;
 
+  @Prop({ default: true })
+  private usePadding!: boolean;
+
   @Prop({ default: '' })
   private tyyppi!: string;
 
@@ -62,13 +65,32 @@ export default class EpCollapse extends Vue {
   @Prop({ default: 'right' })
   private chevronLocation!: 'right' | 'left';
 
-  private toggled = false;
-
   @Prop({ default: true })
   private collapsable!: boolean;
 
   @Prop({ default: false })
   private first!: boolean;
+
+  private toggled = false;
+
+  get styles() {
+    if (this.usePadding) {
+      return {
+        header: {
+          'margin-bottom': '10px',
+          'margin-top': '5px',
+        },
+        collapse: {
+          'padding-top': '20px',
+          'padding-bottom': '20px',
+        },
+      };
+    }
+    return {
+      header: {},
+      collapse: {},
+    };
+  }
 
   @Prop({ required: false, default: false })
   private shadow!: boolean;
@@ -153,8 +175,6 @@ export default class EpCollapse extends Vue {
 
 .ep-collapse {
   margin-top: 5px;
-  padding-top: 20px;
-  padding-bottom: 20px;
 
   .collapse-button {
     cursor: pointer;
@@ -167,13 +187,11 @@ export default class EpCollapse extends Vue {
 
   .header {
     user-select: none;
-    //margin-bottom: 10px;
   }
 
   &.togglefull {
     cursor: pointer;
   }
-
 }
 
 .shadow-tile {

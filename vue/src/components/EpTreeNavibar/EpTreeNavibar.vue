@@ -1,32 +1,39 @@
 <template>
-  <EpSpinner v-if="!navigation" />
-  <div v-else>
-    <div class="header">
-      <slot name="header"></slot>
-    </div>
-    <div v-for="item in menu" :key="item.idx">
-      <div class="d-flex align-items-center item">
-        <div class="backwrapper">
-          <div v-if="activeIdx === item.idx" class="back">
-            <b-button size="sm" variant="link" @click="navigateUp()" class="backbtn">
-              <fas icon="chevron-left" />
+  <div>
+    <EpSpinner v-if="!navigation" />
+    <div v-else>
+      <div class="header">
+        <slot name="header"></slot>
+      </div>
+      <div v-for="item in menu" :key="item.idx">
+        <div class="d-flex align-items-center item">
+          <div class="backwrapper">
+            <div v-if="activeIdx === item.idx" class="back">
+              <b-button size="sm" variant="link" @click="navigateUp()" class="backbtn">
+                <fas icon="chevron-left" />
+              </b-button>
+            </div>
+          </div>
+          <div class="flex-grow-1">
+            <slot :name="$scopedSlots[item.type] ? item.type : 'default'" :item="item">
+            {{ $kaanna(item.label) }}
+            </slot>
+          </div>
+          <div class="text-muted" v-if="item.children.length > 0 && item.idx !== activeIdx">
+            <b-button variant="link" @click="navigate(item)" class="forwards">
+              <fas icon="chevron-right" />
             </b-button>
           </div>
         </div>
-        <div class="flex-grow-1">
-          <slot :name="$scopedSlots[item.type] ? item.type : 'default'" :item="item">
-            {{ $kaanna(item.label) }}
-          </slot>
-        </div>
-        <div class="text-muted" v-if="item.children.length > 0 && item.idx !== activeIdx">
-          <b-button variant="link" @click="navigate(item)" class="forwards">
-            <fas icon="chevron-right" />
-          </b-button>
-        </div>
+      </div>
+
+      <Portal to="breadcrumbs">
+      </Portal>
+
+      <div class="action-container">
+        <slot name="new"></slot>
       </div>
     </div>
-
-    <slot name="new"></slot>
   </div>
 </template>
 
@@ -42,37 +49,6 @@ import { NavigationNodeType, NavigationNodeDto } from '@shared/tyypit';
 import _ from 'lodash';
 
 export type ProjektiFilter = 'koulutustyyppi' | 'tila' | 'voimassaolo';
-
-function routeToNode(route: any) {
-  if (!route) {
-    return null;
-  }
-
-  if (route.name === 'tekstikappale') {
-    return {
-      type: 'viite',
-      id: Number(route.params.tekstiKappaleId),
-    };
-  }
-  else if (route.name === 'muodostuminen') {
-    return {
-      type: 'muodostuminen',
-    };
-  }
-  else if (route.name === 'tutkinnonosa') {
-    return {
-      type: 'tutkinnonosaviite',
-      id: Number(route.params.tutkinnonOsaId),
-    };
-  }
-  else if (route.name === 'tutkinnonosat') {
-    return {
-      type: 'tutkinnonosat',
-    };
-  }
-
-  return null;
-}
 
 type IndexedNode = FlattenedNodeDto & { idx: number };
 
@@ -114,12 +90,26 @@ export default class EpTreeNavibar extends Vue {
           return false;
         }
       })
+      .reverse()
       .value();
   }
 
-  @Watch('$route', { immediate: true })
-  onRouteUpdate(route) {
-    const matching = routeToNode(route);
+  get path() {
+    return this.$route?.path || null;
+  }
+
+  @Watch('store')
+  onStoreChange() {
+    this.onRouteUpdate();
+  }
+
+  @Watch('path', { immediate: true })
+  onRouteUpdate() {
+    if (!this.store) {
+      return;
+    }
+
+    const matching = this.store.routeToNode(this.$route);
     if (matching) {
       const node = _.find(this.navigation, matching) as IndexedNode | null;
       if (node) {
@@ -143,7 +133,9 @@ export default class EpTreeNavibar extends Vue {
     if (!this.navigation || this.activeIdx < 0) {
       return null;
     }
+
     const node = this.navigation[this.activeIdx];
+
     return _(this.navigation)
       .drop(this.activeIdx + 1)
       .takeWhile(item => node.depth < item.depth)
@@ -164,7 +156,10 @@ export default class EpTreeNavibar extends Vue {
 
   get menu() {
     if (this.active) {
-      return _.filter([this.active, ...(this.children || [])], item => item.depth === this.depth || item.depth === this.depth + 1);
+      return _.filter([
+        this.active,
+        ...(this.children || [])],
+      item => item.depth === this.depth || item.depth === this.depth + 1);
     }
     else {
       return _.filter(this.navigation, item => item.depth === this.depth);
@@ -173,7 +168,7 @@ export default class EpTreeNavibar extends Vue {
 
   navigate(item: IndexedNode) {
     if (_.isEmpty(item.children)) {
-      return _.last(this.parents(item));
+      this.active = _.last(this.parents(item)) || null;
     }
     else {
       this.active = item;
@@ -223,23 +218,23 @@ export default class EpTreeNavibar extends Vue {
 }
 
 .item {
-  height: 26px;
 
   .backwrapper {
-    width: 22px;
+    min-width: 28px;
+    max-width: 28px;
 
     .back {
+      margin-top: 4px;
       margin-left: 3px;
       background: #3367e3;
       border-radius: 100%;
-      height: 16px;
-      width: 16px;
+      height: 30px;
+      width: 30px;
 
       .btn {
-        margin-top: -10px;
-        margin-left: 3px;
-        font-size: 11px;
-        padding: 0;
+        margin-top: -2px;
+        font-size: 16px;
+        font-weight: 400;
       }
 
       .backbtn {
@@ -247,6 +242,10 @@ export default class EpTreeNavibar extends Vue {
       }
     }
   }
+}
+
+.action-container {
+  margin-left: 20px;
 }
 
 </style>

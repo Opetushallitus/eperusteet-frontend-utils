@@ -6,16 +6,16 @@
            @input="emitter"
            :key="value.length">
   <div v-for="(node, idx) in value" :key="idx">
-    <div class="box" :class="{ 'new-box': node.$uusi, 'box-draggable': isEditable }" >
-      <span class="handle" v-if="isEditable && !options.disabled">
-        <fas icon="grip-vertical" />
-      </span>
-      <span class="chapter">
+    <div class="box d-flex align-items-center" :class="{ 'new-box': node.$uusi, 'box-draggable': isEditable }" >
+      <div class="handle" v-if="isEditable && !options.disabled">
+        <fas icon="grip-vertical"></fas>
+      </div>
+      <div class="chapter">
         {{ prefix }}{{ idx + 1 }}
-      </span>
-      <span class="name">
+      </div>
+      <div class="name">
         <slot :node="node"></slot>
-      </span>
+      </div>
       <div
         v-if="node[childField] && node[childField] != null && node[childField].length > 0"
         class="actions"
@@ -73,7 +73,7 @@ export default class EpJarjesta extends Vue {
   private isEditable!: boolean;
 
   @Prop({
-    required: false,
+    required: true,
     type: Array,
     default: null,
   })
@@ -97,10 +97,11 @@ export default class EpJarjesta extends Vue {
   get options() {
     return {
       animation: 300,
-      group: this.group,
       disabled: !this.isEditable || !this.sortable,
-      ghostClass: 'placeholder',
       forceFallback: true,
+      ghostClass: 'placeholder',
+      group: this.group,
+      handle: '.handle',
     };
   }
 
@@ -134,12 +135,6 @@ export default class EpJarjesta extends Vue {
   margin-left: 26px;
 }
 
-.handle {
-  color: #668DEA;
-  margin-right: 8px;
-  cursor: grab;
-}
-
 .box {
   min-height: 40px;
   max-width: 512px;
@@ -149,6 +144,12 @@ export default class EpJarjesta extends Vue {
   background-color: rgba(230,246,255,0.6);
   padding: 8px 12px;
   margin-bottom: 8px;
+
+  .handle {
+    color: #668DEA;
+    margin-right: 8px;
+    cursor: grab;
+  }
 
   .actions {
     float: right;

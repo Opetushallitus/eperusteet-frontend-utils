@@ -7,7 +7,10 @@ export interface IEsitysnimi {
 }
 
 export function parsiEsitysnimi(tiedot: IEsitysnimi): string {
-  if (tiedot.kutsumanimi && tiedot.sukunimi) {
+  if (!tiedot) {
+    return '';
+  }
+  else if (tiedot.kutsumanimi && tiedot.sukunimi) {
     return tiedot.kutsumanimi + ' ' + tiedot.sukunimi;
   }
   else {

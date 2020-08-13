@@ -140,6 +140,10 @@ export default class EpKayttaja extends Vue {
   }
 
   private async valitseOrganisaatio(koulutustoimija: any) {
+    if (!this.$router) {
+      return;
+    }
+
     const router = this.$router;
     const current: any = router.currentRoute;
     const next = {
@@ -149,18 +153,23 @@ export default class EpKayttaja extends Vue {
         koulutustoimijaId: _.toString(koulutustoimija.id),
       },
     };
-    setItem('koulutustoimija', koulutustoimija.id);
 
     try {
       await router.push(next);
+      setItem('koulutustoimija', koulutustoimija.id);
     }
     catch (err) { }
   }
 
   private async valitseUiKieli(kieli: Kieli) {
+    Kielet.setUiKieli(kieli);
+
+    if (!this.$router) {
+      return;
+    }
+
     const router = this.$router;
     const current: any = router.currentRoute;
-    Kielet.setUiKieli(kieli);
     const next = {
       ...current,
       params: {

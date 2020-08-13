@@ -100,7 +100,7 @@
                   <template slot="button-content">
                     <fas icon="menu-vaaka"></fas>
                   </template>
-                  <b-dropdown-item :disabled="!hasPreview || disabled">
+                  <b-dropdown-item :disabled="!features.previewable || disabled">
                     {{ $t('esikatsele-sivua') }}
                   </b-dropdown-item>
                   <b-dropdown-item :disabled="!store.validate || disabled">
@@ -315,7 +315,15 @@ export default class EpEditointi extends Mixins(validationMixin) {
   }
 
   @Watch('store', { immediate: true })
-  async onStoreChange(newValue: any, oldValue: any) {
+  async onStoreChange(newValue: EditointiStore | null, oldValue: EditointiStore | null) {
+    if (!newValue) {
+      return;
+    }
+
+    if (!(newValue instanceof EditointiStore)) {
+      throw new Error('Store must be EditointiStore');
+    }
+
     await this.store.init();
     this.isInitialized = true;
     const sidebarState = await getItem('ep-editointi-sidebar-state') as any;
@@ -342,47 +350,47 @@ export default class EpEditointi extends Mixins(validationMixin) {
   }
 
   get errorValidationData() {
-    return this.inner;
+    return this.inner || null;
   }
 
   get hasPreview() {
-    return this.store.hasPreview;
+    return this.store.hasPreview || false;
   }
 
   get currentLock() {
-    return this.store.currentLock.value;
+    return this.store.currentLock?.value || null;
   }
 
   get isSaving() {
-    return this.store.isSaving.value;
+    return this.store.isSaving?.value || false;
   }
 
   get isEditable() {
-    return this.features.editable;
+    return this.features.editable || false;
   }
 
   get validation() {
-    return this.$v?.inner;
+    return this.$v?.inner || null;
   }
 
   get validator() {
-    return this.store.validator.value;
+    return this.store.validator.value || null;
   }
 
   get isEditing() {
-    return this.store.isEditing.value;
+    return this.store.isEditing?.value || false;
   }
 
   get revisions() {
-    return this.store.revisions.value;
+    return this.store.revisions?.value || [];
   }
 
   get features() {
-    return this.store.features.value;
+    return this.store.features?.value || {};
   }
 
   get disabled() {
-    return this.store.disabled.value;
+    return this.store.disabled?.value || false;
   }
 
   get versions() {
@@ -390,7 +398,7 @@ export default class EpEditointi extends Mixins(validationMixin) {
   }
 
   get hidden() {
-    return this.features.isHidden;
+    return this.features.isHidden || false;
   }
 
   get poistoteksti() {
@@ -544,7 +552,7 @@ export default class EpEditointi extends Mixins(validationMixin) {
   async hide() {
     try {
       await this.store.hide();
-      this.$success(this.$t(this.labelHideSuccess) as string);
+      this.$fail(this.$t(this.labelHideSuccess) as string);
     }
     catch (err) {
       this.$fail(this.$t(this.labelHideFail) as string);

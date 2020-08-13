@@ -98,6 +98,7 @@ $tabcolor: #0041dc;
 }
 
 .b-popover {
+  max-width: 386px;
 
   .popover-header {
     background-color: $white;
@@ -252,4 +253,15 @@ fieldset.form-group {
 .switch label.custom-control-label::before {
   border-radius: 10px;
   border: 2px solid #E0E0E1;
+}
+
+button.navbar-toggler {
+  color: rgba(255, 255, 255, 1) !important;
+  border-color: white !important;
+  border: none;
+  padding: 0;
+
+  .navbar-toggler-icon {
+    color: white !important;
+  }
 }

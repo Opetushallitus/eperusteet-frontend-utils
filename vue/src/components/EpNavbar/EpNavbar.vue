@@ -1,12 +1,15 @@
 <template>
 <div class="topbar">
+  <b-sidebar id="sisaltobar">
+    <PortalTarget ref="innerPortal" name="globalNavigation"></PortalTarget>
+  </b-sidebar>
+
   <b-navbar id="navigation-bar"
             class="ep-navbar"
             type="dark"
-            toggleable="md"
-            :class="'navbar-style-' + tyyli"
-            :style="{ 'background-attachment': sticky ? 'fixed' : '' }">
-    <b-navbar-nav>
+            toggleable="lg">
+
+    <b-navbar-nav v-if="showNavigation">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
@@ -16,16 +19,29 @@
           </li>
           <li class="breadcrumb-item" v-for="(route, idx) in routePath" :key="idx">
             <router-link v-if="route.muru && route.muru.location" :to="route.muru.location">
-              {{ $kaanna(route.muru.name) }}
+              {{ route.muru.name }}
             </router-link>
             <span v-else-if="route.muru">
-              {{ $kaanna(route.muru.name) }}
+              {{ route.muru.name }}
             </span>
             <span v-else>{{ $t('route-' + route.name) }}</span>
           </li>
+          <!-- <li class="breadcrumb-item" v-for="(bc, idx) in breadcrumbs" :key="'bc-' + idx"> -->
+          <!--   <router-link v-if="bc && bc.location" :to="bc.location">                       -->
+          <!--     {{ $kaanna(bc.label) }}                                                      -->
+          <!--   </router-link>                                                                 -->
+          <!--   <span v-else="bc.label">                                                       -->
+          <!--     {{ $kaanna(bc.label) }}                                                      -->
+          <!--   </span>                                                                        -->
+          <!--   <span v-else>{{ $t('bc' + route.name) }}</span>                                -->
+          <!-- </li>                                                                            -->
         </ol>
       </nav>
     </b-navbar-nav>
+    <b-button class="text-white" v-else v-b-toggle.sisaltobar variant="icon">
+      <fas icon="bars"></fas>
+    </b-button>
+
     <b-navbar-nav class="ml-auto">
       <!-- <b-nav-form v-if="tutoriaalistore && naytettaviaTutoriaaleja">                     -->
       <!--   <b-button variant="primary" size="sm" @click="kaynnistaTutoriaali" class="mr-2"> -->
@@ -46,9 +62,9 @@
         </template>
         <div class="kielet">
           <b-dd-item @click="valitseSisaltoKieli(kieli)"
-                    v-for="kieli in sovelluksenKielet"
-                    :key="kieli"
-                    :disabled="kieli === sisaltoKieli">
+            v-for="kieli in sovelluksenKielet"
+            :key="kieli"
+            :disabled="kieli === sisaltoKieli">
             <fas fixed-width icon="checkmark" v-if="kieli === sisaltoKieli" class="mr-3 valittu" />
             {{ $t(kieli) }}
           </b-dd-item>
@@ -70,16 +86,19 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import Sticky from 'vue-sticky-directive';
 import { Kieli } from '../../tyypit';
 import { Kielet, UiKielet } from '../../stores/kieli';
-// import { Murupolku } from '@/stores/murupolku';
-// import { oikeustarkastelu } from '@/directives/oikeustarkastelu';
-// import { TutoriaaliStore } from '@/stores/tutoriaaliStore';
-// import { Kayttajat } from '@/stores/kayttaja';
+import { Murupolku } from '../../stores/murupolku';
 import EpButton from '../../components/EpButton/EpButton.vue';
-import EpKayttaja from '@shared/components/EpKayttaja/EpKayttaja.vue';
+import { Location } from 'vue-router';
+import EpKayttaja from '../../components/EpKayttaja/EpKayttaja.vue';
+import { BrowserStore } from '../../stores/BrowserStore';
+
+interface Breadcrumb {
+  label: string;
+  route: Location;
+}
 
 @Component({
   directives: {
-    // oikeustarkastelu,
     Sticky,
   },
   components: {
@@ -88,35 +107,31 @@ import EpKayttaja from '@shared/components/EpKayttaja/EpKayttaja.vue';
   },
 })
 export default class EpNavbar extends Vue {
+  private browserStore = new BrowserStore();
+
+  @Prop({ required: true })
+  private kayttaja!: any;
+
   @Prop({ default: true })
   private sticky!: boolean;
 
   @Prop({ default: 'normaali' })
   private tyyli!: string;
 
-  // @Prop({ required: false })
-  // private tutoriaalistore!: TutoriaaliStore | undefined;
-
-  @Prop({ required: true })
-  private kayttaja!: any;
-
   @Prop({ required: false })
   private koulutustoimijat!: any;
+
+  get showNavigation() {
+    return this.browserStore.navigationVisible.value;
+  }
+
+  get murut() {
+    return Murupolku.murut;
+  }
 
   get koulutustoimija() {
     return _.toNumber(this.$route?.params?.koulutustoimijaId);
   }
-
-  // @Prop({ required: false })
-  // private tutoriaalistore!: TutoriaaliStore | undefined;
-  //
-  // get tiedot() {
-  //   return Kayttajat.tiedot;
-  // }
-  //
-  // get murut() {
-  //   return Murupolku.murut;
-  // }
 
   get sisaltoKieli() {
     return Kielet.getSisaltoKieli.value;
@@ -131,13 +146,13 @@ export default class EpNavbar extends Vue {
   // }
 
   get routePath() {
-    return _(this.$route.matched)
+    return _(this.$route?.matched)
       .filter('name')
       .map(route => {
         const computeds = _.get(route, 'instances.default');
         const result = {
           ...route,
-          // muru: this.murut[route!.name!],
+          muru: this.murut[route!.name!],
           // breadname: computeds && computeds.breadcrumb,
         };
         return result;
@@ -159,6 +174,7 @@ export default class EpNavbar extends Vue {
 @import '../../styles/_variables.scss';
 
 .topbar {
+
   .navbar {
     top: 0;
     font-weight: 600;
@@ -192,7 +208,6 @@ export default class EpNavbar extends Vue {
   }
 
   .ep-navbar {
-    height: 50px;
 
     .kysymysmerkki {
       color: white;

@@ -33,18 +33,26 @@ function initApi<T>(X: BaseAPIConstructor<T>): T {
 
 export const Api = ax;
 
+export const Aikataulut = initApi(EperusteetApi.AikataulutApi);
+export const Aipeopetuksensisalto = initApi(EperusteetApi.AipeopetuksensisaltoApi);
+export const Ammattitaitovaatimukset = initApi(EperusteetApi.AmmattitaitovaatimuksetApi);
 export const Arviointiasteikot = initApi(EperusteetApi.ArviointiasteikotApi);
 export const Dokumentit = initApi(EperusteetApi.DokumentitApi);
 export const DokumentitParams = DokumentitApiAxiosParamCreator(configuration);
 export const GeneerinenArviointiasteikko = initApi(EperusteetApi.GeneerinenArviointiasteikkoApi);
+export const Julkaisut = initApi(EperusteetApi.JulkaisutApi);
 export const Kayttajat = initApi(EperusteetApi.KayttajatApi);
+export const Koodisto = initApi(EperusteetApi.KoodistoApi);
 export const Liitetiedostot = initApi(EperusteetApi.LiitetiedostotApi);
 export const Lokalisointi = initApi(EperusteetApi.LokalisointiApi);
 export const Lops2019 = initApi(EperusteetApi.Lops2019Api);
+export const Maintenance = initApi(EperusteetApi.MaintenanceApi);
 export const Muokkaustiedot = initApi(EperusteetApi.MuokkaustietoApi);
 export const Oppaat = initApi(EperusteetApi.OppaatApi);
+export const OsaAlueet = initApi(EperusteetApi.OsaAlueetApi);
+export const PerusopetuksenPerusteenSisalto = initApi(EperusteetApi.PerusopetuksenPerusteenSisaltoApi);
+export const PerusteenOsatApi = initApi(EperusteetApi.PerusteenosatApi);
 export const Perusteenosat = initApi(EperusteetApi.PerusteenosatApi);
-export const Koodisto = initApi(EperusteetApi.KoodistoApi);
 export const Perusteet = initApi(EperusteetApi.PerusteetApi);
 export const Perusteprojektit = initApi(EperusteetApi.PerusteprojektitApi);
 export const Sisallot = initApi(EperusteetApi.SisallotApi);
@@ -54,11 +62,6 @@ export const TutkinnonRakenne = initApi(EperusteetApi.TutkinnonRakenneApi);
 export const Tutkinnonosat = initApi(EperusteetApi.TutkinnonosatApi);
 export const TutkinnonosatPrivate = initApi(EperusteetApi.TutkinnonosatPrivateApi);
 export const Ulkopuoliset = initApi(EperusteetApi.UlkopuolisetApi);
-export const Maintenance = initApi(EperusteetApi.MaintenanceApi);
-export const Aikataulut = initApi(EperusteetApi.AikataulutApi);
-export const PerusteenOsatApi = initApi(EperusteetApi.PerusteenosatApi);
-export const PerusopetuksenPerusteenSisalto = initApi(EperusteetApi.PerusopetuksenPerusteenSisaltoApi);
-export const Aipeopetuksensisalto = initApi(EperusteetApi.AipeopetuksensisaltoApi);
 
 export type Ammattitaitovaatimukset2019Dto = EperusteetApi.Ammattitaitovaatimukset2019Dto;
 export type ArviointiAsteikkoDto = EperusteetApi.ArviointiAsteikkoDto;
