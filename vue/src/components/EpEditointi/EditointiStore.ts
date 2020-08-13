@@ -514,9 +514,17 @@ export class EditointiStore {
     this.state.disabled = false;
   }
 
-  setData(data:any) {
+  public setData(data: any) {
     this.state.data = data;
   }
+
+  public mergeData(data: any) {
+    this.state.data = {
+      ...this.state.data,
+      ...data,
+    };
+  }
+
 }
 
 export function editointi(config: IEditoitava) {

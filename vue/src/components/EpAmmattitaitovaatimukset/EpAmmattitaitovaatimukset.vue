@@ -194,7 +194,7 @@ export default class EpAmmattitaitovaatimukset extends Vue {
     };
   }
 
-  set inner(value) {
+  set inner(value: any) {
     this.$emit('input', value);
   }
 
@@ -248,10 +248,13 @@ export default class EpAmmattitaitovaatimukset extends Vue {
   }
 
   lisaaKohdealue(value: Ammattitaitovaatimukset2019Dto) {
-    Vue.set(this.inner, 'kohdealueet', [...(this.inner.kohdealueet || []), {
-      kuvaus: null as any,
-      vaatimukset: [] as any[],
-    }]);
+    this.inner = {
+      ...this.inner,
+      kohdealueet: [...(this.inner.kohdealueet || []), {
+        kuvaus: null as any,
+        vaatimukset: [] as any[],
+      }],
+    };
   }
 
   lisaaKohdealueVaatimus(kohdealue: any) {
