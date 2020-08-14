@@ -73,6 +73,7 @@ export type DokumenttiDto = AmosaaApi.DokumenttiDto;
 export type Matala = AmosaaApi.Matala;
 export type ArviointiasteikkoDto = AmosaaApi.ArviointiasteikkoDto;
 export type OpetussuunnitelmaTilastoDto = AmosaaApi.OpetussuunnitelmaTilastoDto;
+export type SisaltoViiteRakenneDto = AmosaaApi.SisaltoViiteRakenneDto;
 
 export import SisaltoViiteKevytDtoTyyppiEnum = AmosaaApi.SisaltoViiteKevytDtoTyyppiEnum;
 export import TutkinnonOsaKevytDtoTyyppiEnum = AmosaaApi.TutkinnonOsaKevytDtoTyyppiEnum;
