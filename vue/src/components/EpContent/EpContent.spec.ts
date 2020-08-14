@@ -5,11 +5,10 @@ import VueI18n from 'vue-i18n';
 import EpEditorMenuBar from './EpEditorMenuBar.vue';
 import EpContent from './EpContent.vue';
 import { Kielet } from '../../stores/kieli';
-import { Kieli } from '../../tyypit';
 import { Kaannos } from '../../plugins/kaannos';
 import { Editor } from 'tiptap';
-import '@/config/bootstrap';
-import '@/config/fontawesome';
+import '../../config/bootstrap';
+import '../../config/fontawesome';
 
 import {
   Blockquote,
