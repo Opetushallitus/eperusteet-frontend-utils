@@ -13,8 +13,8 @@ import { findContaining, mockEditointiStore } from '../../utils/jestutils';
 import VueI18n from 'vue-i18n';
 import pretty from 'pretty';
 
-import '@/config/bootstrap';
-import '@/config/fontawesome';
+import '../../config/bootstrap';
+import '../../config/fontawesome';
 
 function mockAndWrapper(extension: Partial<IEditoitava> = {}, template?: string) {
   const localVue = createLocalVue();
