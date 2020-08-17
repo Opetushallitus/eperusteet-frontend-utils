@@ -1830,6 +1830,7 @@
     "pdf-tiedosto-kuvaus-alatunniste": "Lataa kuva .jpeg tai .jpg muodossa. Kuva-alueen koko on 180 pikseliä korkea ja 900 pikseliä leveä.",
     "pdf-tiedosto-kuvaus-kansikuva": "Lataa kuva .jpeg tai .jpg muodossa. Kuva-alueen koko on 1600 pikseliä korkea ja 900 pikseliä leveä.",
     "pdf-tiedosto-kuvaus-ylatunniste": "Lataa kuva .jpeg tai .jpg muodossa. Kuva-alueen koko on 180 pikseliä korkea ja 900 pikseliä leveä.",
+    "pdf-tiedosto-luonti-epaonnistui": "PDF-tiedoston luonti epäonnistui",
     "pdf-tiedostoa-ei-ole-viela-luotu": "PDF-tiedostoa ei ole vielä luotu",
     "peru": "Peruuta",
     "peru-omat-muutokset": "Peru omat muutokset",
