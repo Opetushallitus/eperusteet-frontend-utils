@@ -64,7 +64,6 @@ import { Kieli } from '@shared/tyypit';
 import { Kielet, UiKielet } from '@shared/stores/kieli';
 import { Murupolku } from '@shared/stores/murupolku';
 import { TutoriaaliStore } from '@shared/stores/tutoriaali';
-import { Kayttajat } from '@/stores/kayttaja';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpKayttaja from '@shared/components/EpKayttaja/EpKayttaja.vue';
 
@@ -87,9 +86,8 @@ export default class EpNavigation extends Vue {
   @Prop({ required: false })
   private tutoriaalistore!: TutoriaaliStore | undefined;
 
-  get tiedot() {
-    return Kayttajat.tiedot;
-  }
+  @Prop({ required: false })
+  private tiedot!: string | undefined;
 
   get murut() {
     return Murupolku.murut;

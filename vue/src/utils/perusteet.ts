@@ -3,6 +3,24 @@ import { PerusteDto } from '@shared/api/eperusteet';
 
 export const KoodistoLops2019LaajaAlaiset = 'laajaalainenosaaminenlops2021';
 
+export const EperusteetKoulutustyypit = Object.freeze([
+  'koulutustyyppi_1',
+  'koulutustyyppi_2',
+  'koulutustyyppi_5',
+  'koulutustyyppi_6',
+  'koulutustyyppi_11',
+  'koulutustyyppi_12',
+  'koulutustyyppi_14',
+  'koulutustyyppi_15',
+  'koulutustyyppi_16',
+  'koulutustyyppi_17',
+  'koulutustyyppi_18',
+  'koulutustyyppi_20',
+  'koulutustyyppi_22',
+  'koulutustyyppi_23',
+  'koulutustyyppi_999907',
+]);
+
 const AmmatillisetKoulutustyypit = [
   'koulutustyyppi_1',
   'koulutustyyppi_11',

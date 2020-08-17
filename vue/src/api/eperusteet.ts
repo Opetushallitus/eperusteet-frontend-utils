@@ -35,7 +35,7 @@ export const Api = ax;
 
 export const Aikataulut = initApi(EperusteetApi.AikataulutApi);
 export const Aipeopetuksensisalto = initApi(EperusteetApi.AipeopetuksensisaltoApi);
-export const Ammattitaitovaatimukset = initApi(EperusteetApi.AmmattitaitovaatimuksetApi);
+// export const Ammattitaitovaatimukset = initApi(EperusteetApi.AmmattitaitovaatimuksetApi);
 export const Arviointiasteikot = initApi(EperusteetApi.ArviointiasteikotApi);
 export const Dokumentit = initApi(EperusteetApi.DokumentitApi);
 export const DokumentitParams = DokumentitApiAxiosParamCreator(configuration);
@@ -49,7 +49,7 @@ export const Lops2019 = initApi(EperusteetApi.Lops2019Api);
 export const Maintenance = initApi(EperusteetApi.MaintenanceApi);
 export const Muokkaustiedot = initApi(EperusteetApi.MuokkaustietoApi);
 export const Oppaat = initApi(EperusteetApi.OppaatApi);
-export const OsaAlueet = initApi(EperusteetApi.OsaAlueetApi);
+// export const OsaAlueet = initApi(EperusteetApi.OsaAlueetApi);
 export const PerusopetuksenPerusteenSisalto = initApi(EperusteetApi.PerusopetuksenPerusteenSisaltoApi);
 export const PerusteenOsatApi = initApi(EperusteetApi.PerusteenosatApi);
 export const Perusteenosat = initApi(EperusteetApi.PerusteenosatApi);

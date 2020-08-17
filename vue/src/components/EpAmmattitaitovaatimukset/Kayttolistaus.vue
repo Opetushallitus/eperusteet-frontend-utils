@@ -53,7 +53,7 @@ import _ from 'lodash';
     EpSpinner,
   },
 })
-export default class VaatimusField extends Vue {
+export default class Kayttolistaus extends Vue {
   @Prop({ required: true })
   private koodi!: any;
 

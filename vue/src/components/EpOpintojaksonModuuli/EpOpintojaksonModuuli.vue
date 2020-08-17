@@ -29,8 +29,6 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import EpColorIndicator from '../EpColorIndicator/EpColorIndicator.vue';
-import { Lops2019ModuuliDto } from '../../api/tyypit';
-import { OpetussuunnitelmaDataStore } from '@/stores/OpetussuunnitelmaDataStore';
 import ModuuliEsitys from '@shared/components/EpOpintojaksonModuuli/ModuuliEsitys.vue';
 
 @Component({
@@ -41,10 +39,10 @@ import ModuuliEsitys from '@shared/components/EpOpintojaksonModuuli/ModuuliEsity
 })
 export default class EpOpintojaksonModuuli extends Vue {
   @Prop({ required: true })
-  private opetussuunnitelmaDataStore!: OpetussuunnitelmaDataStore;
+  private opetussuunnitelmaDataStore!: any;
 
   @Prop({ required: true })
-  private moduuli!: Lops2019ModuuliDto;
+  private moduuli!: any;
 
   get koodi() {
     if (this.moduuli) {

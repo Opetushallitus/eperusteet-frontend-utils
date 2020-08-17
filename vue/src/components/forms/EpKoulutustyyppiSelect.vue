@@ -38,12 +38,7 @@ import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpSteps from '@shared/components/EpSteps/EpSteps.vue';
 import EpAikataulu from '@shared/components/EpAikataulu/EpAikataulu.vue';
 import EpColorIndicator from '@shared/components/EpColorIndicator/EpColorIndicator.vue';
-import { PerusteprojektiLuontiDto, PerusteQuery, PerusteprojektiKevytDto, PerusteprojektiListausDto } from '@shared/api/eperusteet';
-import { PerusteprojektiStore } from '@/stores/PerusteprojektiStore';
-import { PerusteetStore } from '@/stores/PerusteetStore';
-import { UlkopuolisetStore } from '@/stores/UlkopuolisetStore';
-import { Page } from '@shared/tyypit';
-import { EperusteetKoulutustyypit } from '@/utils/perusteet';
+import { EperusteetKoulutustyypit } from '../../utils/perusteet';
 import { BvTableFieldArray } from 'bootstrap-vue';
 import * as _ from 'lodash';
 
