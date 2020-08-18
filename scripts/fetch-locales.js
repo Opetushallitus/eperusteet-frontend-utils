@@ -27,12 +27,12 @@ const categories = Object.freeze([
         locales: [
             {
                 name: 'fi',
-                baseUrl: 'https://raw.githubusercontent.com/Opetushallitus/eperusteet-ylops-lukio/master/src/translations/locale-fi.json',
+                baseUrl: 'https://raw.githubusercontent.com/Opetushallitus/eperusteet-ylops-ui/master/src/translations/locale-fi.json',
                 url: 'https://virkailija.opintopolku.fi/lokalisointi/cxf/rest/v1/localisation?category=eperusteet-ylops&locale=fi',
             },
             {
                 name: 'sv',
-                baseUrl: 'https://raw.githubusercontent.com/Opetushallitus/eperusteet-ylops-lukio/master/src/translations/locale-sv.json',
+                baseUrl: 'https://raw.githubusercontent.com/Opetushallitus/eperusteet-ylops-ui/master/src/translations/locale-sv.json',
                 url: 'https://virkailija.opintopolku.fi/lokalisointi/cxf/rest/v1/localisation?category=eperusteet-ylops&locale=sv',
             },
             {
