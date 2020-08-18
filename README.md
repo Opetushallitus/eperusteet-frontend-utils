@@ -5,8 +5,10 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/f782a4a50622ae34a2bd/maintainability)](https://codeclimate.com/github/Opetushallitus/eperusteet-frontend-utils/maintainability)
 
 Käytetään ePerusteet-projekteissa:
+* <https://github.com/Opetushallitus/eperusteet-ui>
+* <https://github.com/Opetushallitus/eperusteet-ylops-ui>
+* <https://github.com/Opetushallitus/eperusteet-amosaa-ui>
 * <https://github.com/Opetushallitus/eperusteet-opintopolku>
-* <https://github.com/Opetushallitus/eperusteet-ylops-lukio>
 
 Ympäristön pystytys ja käyttöönotto on kuvattu tarkemmin kunkin projektin yhteydessä.
 
