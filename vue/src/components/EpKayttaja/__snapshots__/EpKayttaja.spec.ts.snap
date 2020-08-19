@@ -44,9 +44,7 @@ exports[`EpKayttaja component Renders 1`] = `
       <li role="presentation">
         <hr role="separator" aria-orientation="horizontal" class="dropdown-divider">
       </li>
-      <li role="presentation"><a role="menuitem" target="_self" href="/service-provider-app/saml/logout" class="dropdown-item">
-          <div fixed-width="" icon="kirjaudu-ulos" class="icon mr-3"></div><span>kirjaudu-ulos</span>
-        </a></li>
+      <!---->
     </ul>
   </li>
 </div>
