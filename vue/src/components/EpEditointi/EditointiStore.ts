@@ -524,7 +524,6 @@ export class EditointiStore {
       ...data,
     };
   }
-
 }
 
 export function editointi(config: IEditoitava) {
