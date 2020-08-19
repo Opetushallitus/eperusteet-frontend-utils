@@ -83,7 +83,7 @@
 
     <b-dd-divider />
 
-    <b-dd-item href="/service-provider-app/saml/logout">
+    <b-dd-item :href="logoutHref" v-if="logoutHref">
       <fas fixed-width icon="kirjaudu-ulos" class="icon mr-3" /><span>{{ $t('kirjaudu-ulos') }}</span>
     </b-dd-item>
 
@@ -117,6 +117,9 @@ export default class EpKayttaja extends Vue {
 
   @Prop({})
   private koulutustoimijat!: any[] | null;
+
+  @Prop({})
+  private logoutHref!: string | null;
 
   get esitysnimi() {
     return parsiEsitysnimi(this.tiedot);
