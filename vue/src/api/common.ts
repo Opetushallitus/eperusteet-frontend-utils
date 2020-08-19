@@ -17,7 +17,7 @@ export function axiosHandler(msg: string) {
 function getCasURL() {
   const host = location.host;
   const protocol = location.protocol;
-  const redirectURL = encodeURIComponent(window.location.href);
+  const redirectURL = encodeURIComponent(window.location.origin + window.location.pathname);
   return protocol + '//' + host + '/cas/login?service=' + redirectURL;
 }
 
