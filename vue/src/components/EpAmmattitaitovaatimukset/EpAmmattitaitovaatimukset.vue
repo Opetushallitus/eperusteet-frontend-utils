@@ -1,10 +1,13 @@
 <template>
 <div v-if="inner">
   <div v-if="isEditing">
-    <b-form-group :label="$t('otsikko')">
-      <ep-input v-model="inner.kohde" :is-editing="true" :validation="validation && validation.kohde" :warning="true" />
+    <b-form-group v-if="showKohde" :label="$t('otsikko')">
+        <ep-input v-model="inner.kohde"
+                  :is-editing="true"
+                  :validation="validation && validation.kohde"
+                  :warning="true" />
     </b-form-group>
-    <b-form-group :label="$t('vaatimukset')">
+    <b-form-group :label="$t('vaatimukset')" v-if="kohdealueettomat">
       <draggable
         v-bind="vaatimusOptions"
         tag="div"
@@ -36,7 +39,7 @@
         </ep-button>
       </div>
     </b-form-group>
-    <b-form-group :label="$t('ammattitaito-kohdealueet')">
+    <b-form-group :label="kaannokset.kohdealueet">
       <draggable
         v-bind="kohdealueOptions"
         tag="div"
@@ -53,11 +56,11 @@
               <span class="handle-kohdealue text-muted">
                 <fas icon="dragindicator" size="lg" />
               </span>
-              <span class="font-weight-bold">{{ $t('kohdealueen-otsikko') }}</span>
+              <span class="font-weight-bold">{{ kaannokset.kohdealue }}</span>
             </div>
             <ep-input v-model="kohdealue.kuvaus" :is-editing="true" :validation="validation && validation.kohdealueet.$each.$iter[kohdealueIdx].kuvaus" />
           </b-form-group>
-          <b-form-group :label="$t('vaatimukset')" class="">
+          <b-form-group :label="kaannokset.vaatimukset" class="">
             <div class="otsikko font-italic">
               {{ $kaanna(inner.kohde) }}
             </div>
@@ -86,7 +89,7 @@
               <ep-button @click="lisaaKohdealueVaatimus(kohdealue)"
                 variant="outline"
                 icon="plus">
-                {{ $t('lisaa-vaatimus') }}
+                {{ kaannokset.lisaaAmmattitaitovaatimus }}
               </ep-button>
             </div>
           </b-form-group>
@@ -96,13 +99,13 @@
         <ep-button @click="lisaaKohdealue(inner)"
           variant="outline"
           icon="plus">
-          {{ $t('lisaa-kohdealue') }}
+          {{ kaannokset.lisaaKohdealue }}
         </ep-button>
       </div>
     </b-form-group>
   </div>
   <div v-else>
-    <div class="otsikko font-weight-bold">
+    <div v-if="showKohde" class="otsikko font-weight-bold">
       {{ $kaanna(inner.kohde) }}
     </div>
     <ul>
@@ -180,11 +183,48 @@ export default class EpAmmattitaitovaatimukset extends Vue {
   @Prop({ required: true })
   private value!: Ammattitaitovaatimukset2019Dto | null;
 
+  @Prop({ default: 'ammattitaitovaatimukset' })
+  private tavoitekoodisto!: string;
+
+  @Prop({ required: false })
+  private kaannosKohdealueet!: string;
+
+  @Prop({ required: false })
+  private kaannosLisaaAmmattitaitovaatimus!: string;
+
+  @Prop({ required: false })
+  private kaannosLisaaKohdealue!: string;
+
+  @Prop({ required: false })
+  private kaannosVaatimukset!: string;
+
+  @Prop({ required: false })
+  private kaannosKohdealue!: string;
+
+  @Prop({ default: true })
+  private kohdealueettomat!: boolean;
+
   @Prop({ default: false })
   private isEditing!: boolean;
 
   @Prop({ default: null })
+  public kohde!: any;
+
+  @Prop({ default: null })
   public validation!: any;
+
+  @Prop({ default: true })
+  public showKohde!: boolean;
+
+  get kaannokset() {
+    return {
+      kohdealueet: this.kaannosKohdealueet !== null ? this.kaannosKohdealueet : this.$t('ammattitaito-kohdealueet'),
+      lisaaKohdealue: this.kaannosLisaaKohdealue !== null ? this.kaannosLisaaKohdealue : this.$t('lisaa-kohdealue'),
+      lisaaAmmattitaitovaatimus: this.kaannosLisaaAmmattitaitovaatimus != null ? this.kaannosLisaaAmmattitaitovaatimus : this.$t('lisaa-ammattitaitovaatimus'),
+      kohdealue: this.kaannosKohdealue !== null ? this.kaannosKohdealue : this.$t('kohdealueen-otsikko'),
+      vaatimukset: this.kaannosVaatimukset !== null ? this.kaannosVaatimukset : this.$t('vaatimukset'),
+    };
+  }
 
   get inner() {
     return this.value || {
@@ -224,16 +264,21 @@ export default class EpAmmattitaitovaatimukset extends Vue {
     };
   }
 
-  private koodisto = new KoodistoSelectStore({
-    async query(query: string, sivu = 0) {
-      return (await Koodisto.kaikkiSivutettuna('ammattitaitovaatimukset', query, {
-        params: {
-          sivu,
-          sivukoko: 10,
-        },
-      })).data as any;
-    },
-  });
+  private koodisto!: KoodistoSelectStore;
+
+  mounted() {
+    const koodisto = this.tavoitekoodisto;
+    this.koodisto = new KoodistoSelectStore({
+      async query(query: string, sivu = 0) {
+        return (await Koodisto.kaikkiSivutettuna(koodisto, query, {
+          params: {
+            sivu,
+            sivukoko: 10,
+          },
+        })).data as any;
+      },
+    });
+  }
 
   async poistaKohdealue(value: any, el: any) {
     if (await this.$vahvista(this.$t('poista-kohdealue') as string, this.$t('poista-kohdealue-kuvaus') as string)) {
