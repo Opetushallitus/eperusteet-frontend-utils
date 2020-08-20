@@ -109,7 +109,7 @@ export default class EpTreeNavibar extends Vue {
       return;
     }
 
-    const matching = this.store.routeToNode(this.$route);
+    const matching = this.store.routeToNode(this.$route as any);
     if (matching) {
       const node = _.find(this.navigation, matching) as IndexedNode | null;
       if (node) {
