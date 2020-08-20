@@ -337,9 +337,11 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
       }
     }
 
-    await this.tiedotteetStore.save(this.muokattavaTiedote);
-    this.suljeTiedote();
-    success('tiedote-tallennettu');
+    if (this.tiedotteetStore.save) {
+      await this.tiedotteetStore.save(this.muokattavaTiedote);
+      this.suljeTiedote();
+      success('tiedote-tallennettu');
+    }
   }
 
   private perusteToKevytDto(peruste): PerusteKevytDto {
@@ -352,7 +354,7 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
   async poista() {
     this.suljeTiedote();
 
-    if (await this.vahvistaPoisto()) {
+    if (await this.vahvistaPoisto() && this.tiedotteetStore.delete) {
       await this.tiedotteetStore.delete(this.muokattavaTiedote);
       success('tiedote-poistettu');
     }
