@@ -33,7 +33,7 @@ exports[`EpKayttaja component Renders 1`] = `
           </div>
           <!---->
         </div>
-        <hr>
+        <!---->
       </div>
       <li role="presentation"><a role="menuitem" target="_self" href="/henkilo-ui/omattiedot" class="dropdown-item">
           <div fixed-width="" icon="user" class="icon mr-3"></div><span>kayttajan-asetukset</span>
