@@ -76,6 +76,7 @@ export type TutkinnonosaToteutusDto = AmosaaApi.TutkinnonosaToteutusDto;
 export type VapaaTekstiDto = AmosaaApi.VapaaTekstiDto;
 export type PageSisaltoviiteLaajaDto = AmosaaApi.PageSisaltoviiteLaajaDto;
 export type SisaltoviiteLaajaDto = AmosaaApi.SisaltoviiteLaajaDto;
+export type SisaltoViiteDto = AmosaaApi.SisaltoViiteDto;
 
 export import DokumenttiDtoTilaEnum = AmosaaApi.DokumenttiDtoTilaEnum;
 export import MatalaTyyppiEnum = AmosaaApi.MatalaTyyppiEnum;
@@ -86,6 +87,7 @@ export import PerusteDtoKoulutustyyppiEnum = AmosaaApi.PerusteDtoKoulutustyyppiE
 export import SisaltoViiteKevytDtoTyyppiEnum = AmosaaApi.SisaltoViiteKevytDtoTyyppiEnum;
 export import TutkinnonOsaKevytDtoTyyppiEnum = AmosaaApi.TutkinnonOsaKevytDtoTyyppiEnum;
 export import TutkinnonosaDtoTyyppiEnum = AmosaaApi.TutkinnonosaDtoTyyppiEnum;
+export import SisaltoViiteDtoTyyppiEnum = AmosaaApi.SisaltoViiteDtoTyyppiEnum;
 
 export interface OpetussuunnitelmaQuery {
   perusteenDiaarinumero?: string;
