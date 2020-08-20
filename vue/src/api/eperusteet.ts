@@ -35,7 +35,7 @@ export const Api = ax;
 
 export const Aikataulut = initApi(EperusteetApi.AikataulutApi);
 export const Aipeopetuksensisalto = initApi(EperusteetApi.AipeopetuksensisaltoApi);
-// export const Ammattitaitovaatimukset = initApi(EperusteetApi.AmmattitaitovaatimuksetApi);
+export const Ammattitaitovaatimukset = initApi(EperusteetApi.AmmattitaitovaatimuksetApi);
 export const Arviointiasteikot = initApi(EperusteetApi.ArviointiasteikotApi);
 export const Dokumentit = initApi(EperusteetApi.DokumentitApi);
 export const DokumentitParams = DokumentitApiAxiosParamCreator(configuration);
