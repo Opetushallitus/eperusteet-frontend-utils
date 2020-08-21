@@ -77,6 +77,7 @@ export type VapaaTekstiDto = AmosaaApi.VapaaTekstiDto;
 export type PageSisaltoviiteLaajaDto = AmosaaApi.PageSisaltoviiteLaajaDto;
 export type SisaltoviiteLaajaDto = AmosaaApi.SisaltoviiteLaajaDto;
 export type SisaltoViiteDto = AmosaaApi.SisaltoViiteDto;
+export type VanhentunutPohjaperusteDto = AmosaaApi.VanhentunutPohjaperusteDto;
 
 export import DokumenttiDtoTilaEnum = AmosaaApi.DokumenttiDtoTilaEnum;
 export import MatalaTyyppiEnum = AmosaaApi.MatalaTyyppiEnum;
