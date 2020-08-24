@@ -144,7 +144,7 @@ select {
 
 /deep/ label.custom-control-label::before {
   border: 2px solid #E0E0E1;
-  border-radius: 5px;
+  border-radius: 0.2rem;
 }
 
 /deep/ input.custom-control-input {

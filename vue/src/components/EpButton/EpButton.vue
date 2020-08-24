@@ -1,5 +1,5 @@
 <template>
-<div class="ep-button" ref="button-container">
+<div class="ep-button d-print-none" ref="button-container">
   <b-button :variant="variant"
           v-bind="$attrs"
           :disabled="disabled || showSpinner"
