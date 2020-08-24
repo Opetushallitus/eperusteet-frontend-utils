@@ -229,7 +229,7 @@ export default class EpKayttaja extends Vue {
 
     .collapse-tausta-valinta-icon {
       display: inline-block;
-      width: 35px;
+      width: 28px;
     }
   }
 
