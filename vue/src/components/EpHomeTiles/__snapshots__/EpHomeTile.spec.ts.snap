@@ -10,6 +10,7 @@ exports[`EpHomeTile component Renders state 1`] = `
         <div class="icon" style="background: white; color: red;">
           <div icon="plus"></div>
         </div>
+        <!---->
       </div>
       <div class="tile-content px-3"></div>
     </div>
@@ -26,6 +27,7 @@ exports[`EpHomeTile component Router link 1`] = `
         <div class="icon" style="background: white; color: red;">
           <div icon="plus"></div>
         </div>
+        <div class="count">1</div>
       </div>
       <div class="tile-content px-3"></div>
     </div>
