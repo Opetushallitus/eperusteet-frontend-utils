@@ -3,8 +3,8 @@
     <ep-spinner v-if="!store"></ep-spinner>
     <div class="editointikontrolli" v-else>
       <div v-sticky sticky-offset="{ top: 0 }" sticky-z-index="500">
-        <div class="ylapaneeli">
-          <div class="d-flex align-items-center flex-md-row flex-column justify-content-between">
+        <div class="ylapaneeli d-print-none">
+          <div class="d-flex align-items-center flex-md-row flex-column justify-content-between" :class="{ container: useContainer }">
             <div class="d-flex flex-wrap flex-xl-nowrap">
               <div class="headerline" v-if="inner">
                 <slot name="header"
@@ -292,6 +292,9 @@ export default class EpEditointi extends Mixins(validationMixin) {
 
   @Prop({ required: false })
   private postSave!: Function;
+
+  @Prop({ required: false, default: false })
+  private useContainer!: boolean;
 
   private sidebarState = 0;
 
