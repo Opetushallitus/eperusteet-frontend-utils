@@ -7,6 +7,7 @@
     </div>
     <div class="iconline">
       <ep-icon :icon="icon" :color="correctColor" background-color="white"></ep-icon>
+      <div class="count" v-if="count">{{count}}</div>
     </div>
     <div class="tile-content px-3">
       <slot name="content"></slot>
@@ -32,6 +33,9 @@ export default class BaseInnerTile extends Vue {
 
   @Prop({ default: { hover: false, focus: false } })
   private effects!: any;
+
+  @Prop({ required: false })
+  private count!: number;
 
   get effectEnabled() {
     if (this.effects.hover || this.effects.focus) {
@@ -85,6 +89,19 @@ $tile-width: 540px;
     display: flex;
     justify-content: center;
     color: $black;
+  }
+
+  .count {
+    position: absolute;
+    border-radius: 100%;
+    border: 1px solid $white;
+    background-color: $red;
+    width: 24px;
+    line-height: 24px;
+    color: $white;
+    font-size: 0.85rem;
+    margin-right: -55px;
+    margin-top: -5px;
   }
 }
 

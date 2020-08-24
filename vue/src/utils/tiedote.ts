@@ -16,3 +16,10 @@ export const julkaisupaikka = Object.freeze({
   lops: 'lops',
   amosaa: 'amosaa',
 });
+
+export function onkoUusi(aika) {
+  const paiva = 1000 * 60 * 60 * 24;
+  const paivaSitten = Date.now() - paiva;
+
+  return aika > paivaSitten;
+}
