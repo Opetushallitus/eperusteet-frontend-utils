@@ -18,7 +18,7 @@
           <fas fixed-width icon="ryhma" class="icon mr-3" />
           <span>{{ $t('organisaatio') }}</span>
         </div>
-        <div class="pl-3">
+        <div class="pl-3 text-nowrap">
           <span class="icon mr-3" />
           <small>{{ $kaanna(valittuKoulutustoimija.nimi) }}</small>
         </div>
@@ -31,12 +31,14 @@
         </div>
       </template>
 
-      <div class="collapse-tausta">
+      <div class="collapse-tausta text-left">
         <b-dd-item-button @click="valitseOrganisaatio(kt)"
                           v-for="kt in koulutustoimijat"
                           :key="kt.id"
                           :disabled="koulutustoimija === kt.id">
-          <fas fixed-width icon="checkmark" v-if="koulutustoimija === kt.id" class="mr-3 valittu" />
+          <div class="collapse-tausta-valinta-icon">
+            <fas fixed-width icon="checkmark" v-if="koulutustoimija === kt.id" class="valittu" />
+          </div>
           {{ $kaanna(kt.nimi) }}
         </b-dd-item-button>
       </div>
@@ -62,12 +64,14 @@
         </div>
       </template>
 
-      <div class="collapse-tausta">
+      <div class="collapse-tausta text-left">
         <b-dd-item-button @click="valitseUiKieli(kieli)"
                           v-for="kieli in sovelluksenKielet"
                           :key="kieli"
                           :disabled="kieli === uiKieli">
-          <fas fixed-width icon="checkmark" v-if="kieli === uiKieli" class="mr-3 valittu" />
+          <div class="collapse-tausta-valinta-icon">
+            <fas fixed-width icon="checkmark" v-if="kieli === uiKieli" class="mr-3 valittu" />
+          </div>
           {{ $t(kieli) }}
         </b-dd-item-button>
       </div>
@@ -221,6 +225,11 @@ export default class EpKayttaja extends Vue {
     .valittu {
       color: #3467E3;
       vertical-align: -0.25em;
+    }
+
+    .collapse-tausta-valinta-icon {
+      display: inline-block;
+      width: 35px;
     }
   }
 
