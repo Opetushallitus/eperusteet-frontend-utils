@@ -31,7 +31,6 @@
 import * as _ from 'lodash';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 
-import { LiiteDtoWrapper, Lops2019ModuuliDto, TermiDto } from '@shared/api/tyypit';
 import EpColorIndicator from '@shared/components/EpColorIndicator/EpColorIndicator.vue';
 import EpContentViewer from '@shared/components/EpContentViewer/EpContentViewer.vue';
 
@@ -46,13 +45,13 @@ export default class ModuuliEsitys extends Vue {
   private isPerusteView!: boolean;
 
   @Prop({ required: true })
-  private moduuli!: Lops2019ModuuliDto;
+  private moduuli!: any;
 
   @Prop({ required: false, type: Array })
-  private termit!: TermiDto[];
+  private termit!: any[];
 
   @Prop({ required: false, type: Array })
-  private kuvat!: LiiteDtoWrapper[];
+  private kuvat!: any[];
 
   get hasKuvaus() {
     if (this.moduuli) {

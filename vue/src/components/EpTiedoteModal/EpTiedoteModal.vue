@@ -87,26 +87,28 @@
           <span class="pl-3">{{muokkaavanKayttajanNimi}}</span>
         </div>
 
-        <div class="mb-5 mt-4" v-html="$kaanna(esittavaMuokkaustieto.sisalto)"></div>
+        <div class="mt-4" v-html="$kaanna(esittavaMuokkaustieto.sisalto)" :class="{ 'mb-5': naytaJulkaisupaikka }"></div>
 
-        <h6 v-if="opintopolkuJulkaisu || esittavaMuokkaustieto.filteredJulkaisupaikat.length > 0 || esittavaMuokkaustieto.filteredJulkaisusovellukset.length > 0">
-          {{$t('tiedote-julkaistu')}}:
-        </h6>
+        <div v-if="naytaJulkaisupaikka">
+          <h6 v-if="opintopolkuJulkaisu || esittavaMuokkaustieto.filteredJulkaisupaikat.length > 0 || esittavaMuokkaustieto.filteredJulkaisusovellukset.length > 0">
+            {{$t('tiedote-julkaistu')}}:
+          </h6>
 
-        <div class="mb-3" v-if="esittavaMuokkaustieto.filteredJulkaisupaikat.length > 0 || opintopolkuJulkaisu">
-          {{$t('tiedote-julkaisupaikka-opintopolku')}}
+          <div class="mb-3" v-if="esittavaMuokkaustieto.filteredJulkaisupaikat.length > 0 || opintopolkuJulkaisu">
+            {{$t('tiedote-julkaisupaikka-opintopolku')}}
 
-          <div class="ml-4" v-if="opintopolkuJulkaisu">
-            <ep-color-indicator class="mr-2" :size="6" :tooltip="false" kind="etusivu"/> {{$t('etusivu')}}
+            <div class="ml-4" v-if="opintopolkuJulkaisu">
+              <ep-color-indicator class="mr-2" :size="6" :tooltip="false" kind="etusivu"/> {{$t('etusivu')}}
+            </div>
+
+            <div class="ml-4" v-for="(julkaisupaikka, index) in esittavaMuokkaustieto.filteredJulkaisupaikat" :key="index+'filteredjulkaisupaikka'">
+              <ep-color-indicator class="mr-2" :size="6" :tooltip="false" :kind="julkaisupaikka"/> {{$t(julkaisupaikka)}}
+            </div>
           </div>
 
-          <div class="ml-4" v-for="(julkaisupaikka, index) in esittavaMuokkaustieto.filteredJulkaisupaikat" :key="index+'filteredjulkaisupaikka'">
-            <ep-color-indicator class="mr-2" :size="6" :tooltip="false" :kind="julkaisupaikka"/> {{$t(julkaisupaikka)}}
+          <div v-for="(julkaisusovellus, index) in esittavaMuokkaustieto.filteredJulkaisusovellukset" :key="index+'julkaisusovellus'">
+            {{julkaisusovellus}}
           </div>
-        </div>
-
-        <div v-for="(julkaisusovellus, index) in esittavaMuokkaustieto.filteredJulkaisusovellukset" :key="index+'julkaisusovellus'">
-          {{julkaisusovellus}}
         </div>
 
         <div v-if="esittavaMuokkaustieto.filteredPerusteet.length > 0" class="mt-4">
@@ -206,6 +208,9 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
 
   @Prop({ required: false, default: true })
   private editable!: boolean;
+
+  @Prop({ required: false, default: true })
+  private naytaJulkaisupaikka!: boolean;
 
   private koulutusryypiRyhmaValinnat: KoulutustyyppiRyhmaValinta[] = [];
 
@@ -332,9 +337,11 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
       }
     }
 
-    await this.tiedotteetStore.save(this.muokattavaTiedote);
-    this.suljeTiedote();
-    success('tiedote-tallennettu');
+    if (this.tiedotteetStore.save) {
+      await this.tiedotteetStore.save(this.muokattavaTiedote);
+      this.suljeTiedote();
+      success('tiedote-tallennettu');
+    }
   }
 
   private perusteToKevytDto(peruste): PerusteKevytDto {
@@ -347,7 +354,7 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
   async poista() {
     this.suljeTiedote();
 
-    if (await this.vahvistaPoisto()) {
+    if (await this.vahvistaPoisto() && this.tiedotteetStore.delete) {
       await this.tiedotteetStore.delete(this.muokattavaTiedote);
       success('tiedote-poistettu');
     }

@@ -18,7 +18,7 @@
       </div>
       <div
         v-if="node[childField] && node[childField] != null && node[childField].length > 0"
-        class="actions"
+        class="actions ml-auto"
         role="button"
         tabindex="0"
         @click="toggle(idx)"
@@ -94,6 +94,9 @@ export default class EpJarjesta extends Vue {
   @Prop({ default: false, required: false })
   private uniqueChildGroups!: boolean;
 
+  @Prop({ default: false })
+  private useHandle!: boolean ;
+
   get options() {
     return {
       animation: 300,
@@ -101,7 +104,7 @@ export default class EpJarjesta extends Vue {
       forceFallback: true,
       ghostClass: 'placeholder',
       group: this.group,
-      handle: '.handle',
+      handle: this.useHandle && '.handle',
     };
   }
 

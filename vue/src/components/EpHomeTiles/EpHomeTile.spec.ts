@@ -41,6 +41,7 @@ describe('EpHomeTile component', () => {
         icon: 'plus',
         color: 'red',
         href: 'https://eperusteet.opintopolku.fi',
+        count: 1,
       },
       mocks: {
         $t: x => x,

@@ -14,11 +14,11 @@ exports[`EpKayttaja component Renders 1`] = `
       <!---->
       <div>
         <!---->
-        <div class="ep-collapse" style="padding-top: 20px; padding-bottom: 20px;">
+        <div class="ep-collapse">
           <div role="button" tabindex="0" class="collapse-button d-flex">
             <!---->
             <div class="align-self-start">
-              <div class="" style="margin-bottom: 10px; margin-top: 5px;">
+              <div class="">
                 <div>
                   <div class="pl-3 pt-2 text-nowrap kieli">
                     <div fixed-width="" icon="kielet" class="icon mr-3"></div> <span>kieli</span>
@@ -44,9 +44,7 @@ exports[`EpKayttaja component Renders 1`] = `
       <li role="presentation">
         <hr role="separator" aria-orientation="horizontal" class="dropdown-divider">
       </li>
-      <li role="presentation"><a role="menuitem" target="_self" href="/service-provider-app/saml/logout" class="dropdown-item">
-          <div fixed-width="" icon="kirjaudu-ulos" class="icon mr-3"></div><span>kirjaudu-ulos</span>
-        </a></li>
+      <!---->
     </ul>
   </li>
 </div>

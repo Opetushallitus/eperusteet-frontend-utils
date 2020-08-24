@@ -121,6 +121,7 @@ export type OpetussuunnitelmaKevytDto = YlopsApi.OpetussuunnitelmaKevytDto;
 export type OpetussuunnitelmaLuontiDto = YlopsApi.OpetussuunnitelmaLuontiDto;
 export type OpetussuunnitelmanAikatauluDto = YlopsApi.OpetussuunnitelmanAikatauluDto;
 export type PerusteInfoDto = YlopsApi.PerusteInfoDto;
+export type TekstiKappaleViiteDto = YlopsApi.TekstiKappaleViiteDto;
 export type PerusteTekstiKappaleViiteDto = YlopsApi.PerusteTekstiKappaleViiteDto;
 export type PerusteTekstiKappaleViiteMatalaDto = YlopsApi.PerusteTekstiKappaleViiteMatalaDto;
 export type PoistettuTekstiKappaleDto = YlopsApi.PoistettuTekstiKappaleDto;

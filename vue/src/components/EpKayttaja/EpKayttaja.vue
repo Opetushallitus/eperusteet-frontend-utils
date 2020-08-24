@@ -12,7 +12,7 @@
     </template>
 
     <!-- Koulutustoimija -->
-    <ep-collapse :expanded-by-default="false" v-if="valittuKoulutustoimija">
+    <ep-collapse :expanded-by-default="false" v-if="valittuKoulutustoimija" :use-padding="false">
       <div slot="header">
         <div class="pl-3 pt-2 text-nowrap kieli">
           <fas fixed-width icon="ryhma" class="icon mr-3" />
@@ -43,7 +43,7 @@
     </ep-collapse>
 
     <!-- Käyttöliittymän kieli -->
-    <ep-collapse :expanded-by-default="false" :border-bottom="false">
+    <ep-collapse :expanded-by-default="false" :border-bottom="false" :use-padding="false">
       <div slot="header">
         <div class="pl-3 pt-2 text-nowrap kieli">
           <fas fixed-width icon="kielet" class="icon mr-3" />
@@ -83,7 +83,7 @@
 
     <b-dd-divider />
 
-    <b-dd-item href="/service-provider-app/saml/logout">
+    <b-dd-item :href="logoutHref" v-if="logoutHref">
       <fas fixed-width icon="kirjaudu-ulos" class="icon mr-3" /><span>{{ $t('kirjaudu-ulos') }}</span>
     </b-dd-item>
 
@@ -117,6 +117,9 @@ export default class EpKayttaja extends Vue {
 
   @Prop({})
   private koulutustoimijat!: any[] | null;
+
+  @Prop({})
+  private logoutHref!: string | null;
 
   get esitysnimi() {
     return parsiEsitysnimi(this.tiedot);
