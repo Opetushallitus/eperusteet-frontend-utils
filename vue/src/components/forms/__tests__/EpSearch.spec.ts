@@ -48,7 +48,7 @@ describe('EpFormContent component', () => {
     const wrapper = mountWrapper(testMethod, { placeholder: 'etsi-teksti', rajain: '' });
     wrapper.setProps({ placeholder: 'etsi-teksti' });
     await localVue.nextTick();
-    expect(wrapper.find('input').html()).toContain('etsi-teksti');
+    expect(wrapper.find('label').html()).toContain('etsi-teksti');
   });
 
   test('Renders content with content and props', async () => {
