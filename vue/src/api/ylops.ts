@@ -114,7 +114,7 @@ export type KommenttiDto = YlopsApi.Kommentti2019Dto;
 export type Matala = YlopsApi.Matala;
 export type MuokkaustietoKayttajallaDto = YlopsApi.MuokkaustietoKayttajallaDto;
 export type OhjeDto = YlopsApi.OhjeDto;
-export type OpetussuunnitelmaDto = YlopsApi.OpetussuunnitelmaDto
+export type OpetussuunnitelmaDto = YlopsApi.OpetussuunnitelmaDto;
 export type OpetussuunnitelmaInfoDto = YlopsApi.OpetussuunnitelmaInfoDto;
 export type OpetussuunnitelmaJulkinenDto = YlopsApi.OpetussuunnitelmaJulkinenDto;
 export type OpetussuunnitelmaKevytDto = YlopsApi.OpetussuunnitelmaKevytDto;
@@ -147,6 +147,7 @@ export type UnwrappedOpsOppiaineDto = YlopsApi.UnwrappedOpsOppiaineDto;
 export type PerusteLaajaalainenosaaminenDto = YlopsApi.PerusteLaajaalainenosaaminenDto;
 export type OppiaineenVuosiluokkakokonaisuusDto = YlopsApi.OppiaineenVuosiluokkakokonaisuusDto;
 export type Lops2019OppiaineJarjestysDto = YlopsApi.Lops2019OppiaineJarjestysDto;
+export type OppiaineDto = YlopsApi.OppiaineDto;
 
 export import OpetussuunnitelmaInfoDtoToteutusEnum = YlopsApi.OpetussuunnitelmaInfoDtoToteutusEnum;
 export import OppiaineSuppeaDtoTyyppiEnum = YlopsApi.OppiaineSuppeaDtoTyyppiEnum;
