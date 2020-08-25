@@ -1,6 +1,6 @@
 <template>
 <div class="sidenav">
-  <div v-if="showNavigation" class="bar">
+  <div v-if="showNavigation" class="bar d-print-none">
     <slot name="bar" />
     <div v-if="$scopedSlots.bottom" class="bottom" v-sticky sticky-side="bottom">
       <slot name="bottom" />
@@ -89,6 +89,9 @@ export default class EpSidebar extends Vue {
     .view {
       flex: 1;
       border-left: 1px solid #eee;
+      @media print { 
+        border-left: none;
+      }
     }
   }
 }
