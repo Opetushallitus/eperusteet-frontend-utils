@@ -5,7 +5,7 @@ import BootstrapVue from 'bootstrap-vue';
 
 Vue.use(BootstrapVue);
 
-describe('EpBalloonList component', () => {
+describe.skip('EpBalloonList component', () => {
   const localVue = createLocalVue();
 
   test('Renders', async () => {

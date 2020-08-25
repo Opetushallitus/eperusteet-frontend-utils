@@ -21,6 +21,7 @@ describe('EpFileupload component', () => {
       propsData: {
         tyyppi: 'binary',
         dto: null,
+        kuvaUrl: 'kuva.png',
       },
       mocks: {
         $t: x => x,

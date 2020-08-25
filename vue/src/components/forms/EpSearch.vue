@@ -3,10 +3,10 @@
     <span class="form-control-feedback">
         <fas fixed-width :icon="icon" :spin="isLoading"></fas>
     </span>
-    <input class="form-control"
+    <label class="sr-only" :for="id">{{ placeholderText }}</label>
+    <input :id="id"
+           class="form-control"
            type="search"
-           :placeholder="placeholderText"
-           :aria-label="ariaPlaceholderText"
            @input="onInput($event.target.value)"
            :value="val">
 </div>
@@ -29,6 +29,10 @@ export default class EpSearch extends Vue {
 
   @Prop({ required: false, default: false })
   private isLoading!: boolean;
+
+  get id() {
+    return 'search-' + _.uniqueId();
+  }
 
   get icon() {
     return this.isLoading ? 'spinner' : 'etsi';
