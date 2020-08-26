@@ -332,3 +332,39 @@ export function perusteenSuoritustapa(peruste: any): 'OPS' | 'NAYTTO' | 'REFORMI
 
   return _.toUpper(_.head(suoritustavat)) as any;
 }
+
+export function getArvo(koodillinen: any) {
+  return _.get(koodillinen, 'koodi.arvo')
+    || _.get(koodillinen, 'arvo')
+    || _.get(koodillinen, 'koodi.uri')
+    || _.get(koodillinen, 'uri')
+    || _.get(koodillinen, 'koodi')
+    || koodillinen;
+}
+
+const splitKoodi = _.memoize((arvo: string) => {
+  if (_.isString(arvo) && !_.isEmpty(arvo)) {
+    const splitattu = arvo.match(/^([^0-9]*?)(\d+$)/);
+
+    if (splitattu && splitattu.length > 2) {
+      return [splitattu[1], Number(splitattu[2])];
+    }
+  }
+  return [arvo, 0];
+});
+
+export function getUri(koodillinen: any) {
+  return _.get(koodillinen, 'koodi.uri', _.get(koodillinen, 'uri', koodillinen));
+}
+
+export function koodiAlku(koodillinen: object | string) {
+  return _.toLower(_.toString(splitKoodi(getArvo(koodillinen))[0]));
+}
+
+export function koodiNumero(koodillinen: object | string) {
+  return splitKoodi(getArvo(koodillinen))[1];
+}
+
+export function koodiSorters(): any[] {
+  return [koodiAlku, koodiNumero];
+}

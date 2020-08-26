@@ -1,70 +1,89 @@
 <template>
-<div v-if="moduuli && moduuli.node && moduuli.node.location">
-  <router-link class="moduulibox" role="button" :to="moduuli.node.location" tabindex="0">
-    <div class="name">{{ $kaanna(moduuli.node.label) }} ({{ moduuli.node.meta.koodi.arvo }})</div>
-    <div class="bottom">
-      <div class="d-flex bd-highlight">
-        <div class="px-2 flex-grow-1">
-        </div>
-        <div class="px-2 info">
-          <span class="op">{{ moduuli.node.meta.laajuus }} {{ $t('opintopiste') }}</span>
-          <ep-color-indicator :kind="moduuli.node.meta.pakollinen ? 'pakollinen' : 'valinnainen'" />
-        </div>
+<div class="moduulibox" role="button" :class="{'moduulibox-valittu': valittu, 'selectable': isEditing}" @click="toggle()" @keyup.enter="toggle()" tabindex="0" :title="moduuliNimi">
+  <div class="name">{{ moduuliNimi }} ({{ moduuli.koodi.arvo }})</div>
+  <div class="bottom">
+    <div class="d-flex bd-highlight justify-content-end">
+      <div class="px-2 info">
+        <span class="op">{{ moduuli.laajuus }} {{ $t('opintopiste') }}</span>
+        <ep-color-indicator :kind="moduuli.pakollinen ? 'pakollinen' : 'valinnainen'">
+        </ep-color-indicator>
       </div>
     </div>
-  </router-link>
-</div>
-<div v-else-if="moduuli">
-  <h2 class="otsikko" slot="header">{{ $kaanna(moduuli.nimi) + (koodi ? ' (' + koodi.arvo + ')'  : '') }}</h2>
-
-  <div class="teksti">
-  <moduuli-esitys :moduuli="moduuli"
-                  :termit="perusteTermit"
-                  :kuvat="perusteKuvat"
-                  :isPerusteView="false" />
   </div>
 </div>
 </template>
 
 <script lang="ts">
+import _ from 'lodash';
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import EpColorIndicator from '../EpColorIndicator/EpColorIndicator.vue';
-import ModuuliEsitys from '@shared/components/EpOpintojaksonModuuli/ModuuliEsitys.vue';
+import EpColorIndicator from '@shared/components/EpColorIndicator/EpColorIndicator.vue';
+import { Lops2019OpintojaksonModuuliDto, Lops2019ModuuliDto } from '@shared/api/ylops';
+import { Kielet } from '@shared/stores/kieli';
 
 @Component({
   components: {
     EpColorIndicator,
-    ModuuliEsitys,
   },
 })
 export default class EpOpintojaksonModuuli extends Vue {
   @Prop({ required: true })
-  private opetussuunnitelmaDataStore!: any;
+  private moduuli!: Lops2019ModuuliDto;
 
-  @Prop({ required: true })
-  private moduuli!: any;
+  @Prop({ required: false })
+  private value!: Lops2019OpintojaksonModuuliDto[];
 
-  get koodi() {
+  @Prop({ default: false })
+  private isEditing!: boolean;
+
+  get moduuliNimi() {
     if (this.moduuli) {
-      return this.moduuli.koodi;
+      return Kielet.kaanna(this.moduuli.nimi);
     }
   }
 
-  get perusteTermit() {
-    return this.opetussuunnitelmaDataStore.perusteTermit;
+  get koodi() {
+    try {
+      return this.moduuli!.koodi!.uri!;
+    }
+    catch (err) {
+      return null;
+    }
   }
 
-  get perusteKuvat() {
-    return this.opetussuunnitelmaDataStore.perusteKuvat;
+  get valittu() {
+    return this.koodi && this.koodit[this.koodi];
+  }
+
+  get koodit() {
+    return _.keyBy(this.value, 'koodiUri');
+  }
+
+  public toggle() {
+    if (!this.isEditing) {
+      return;
+    }
+
+    const koodiUri = this.koodi;
+    if (koodiUri) {
+      if (this.koodit[koodiUri]) {
+        this.$emit('input', _.reject(this.value, x => x.koodiUri === koodiUri));
+      }
+      else {
+        this.$emit('input', [
+          ...this.value,
+          { koodiUri },
+        ]);
+      }
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import "../../styles/_variables.scss";
+@import "@shared/styles/_variables.scss";
 
 .moduulibox {
-  background-image: url('./moduuli.svg');
+  background-color: #E6F6FF;
   height: 161px;
   margin: 0;
   padding: 20px 10px 44px 20px;
@@ -72,12 +91,22 @@ export default class EpOpintojaksonModuuli extends Vue {
   width: 158px;
   color: $blue-darken-1;
   user-select: none;
-  cursor: pointer;
-  display: block;
+  border-radius: 10px;
+  outline: none;
+
+  &.selectable {
+    cursor: pointer;
+  }
+
+  &:hover {
+    background-color: #C3EAFF;
+  }
 
   .name {
+    text-overflow: ellipsis;
+    overflow: hidden;
     font-weight: bold;
-    max-height: 76px;
+    height: 100px;
 
     &::-webkit-scrollbar {
       width: 0.5em;
@@ -101,6 +130,7 @@ export default class EpOpintojaksonModuuli extends Vue {
     .icon {
       display: inline-block;
       outline: none;
+      color: #3367E3;
     }
 
     .icon-editing {
@@ -111,6 +141,31 @@ export default class EpOpintojaksonModuuli extends Vue {
       .op {
         padding: 0 5px 0 0;
       }
+    }
+  }
+}
+
+.moduulibox-valittu {
+  color: white;
+  animation: fade 0.1s linear;
+  background-color: #3367E3;
+
+   &:hover {
+    background-color: #3367E3;
+  }
+
+  .name {
+    &::-webkit-scrollbar-track {
+      background-color: $light-blue;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: $dark-blue;
+    }
+  }
+
+  .bottom {
+    .icon {
+      color: white;
     }
   }
 }
