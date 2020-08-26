@@ -116,7 +116,6 @@ export default class EpContent extends Mixins(EpValidation) {
       new Bold(),
       new Italic(),
       new Strike(),
-      new Underline(),
       new Link(),
       new BulletList(),
       new OrderedList(),

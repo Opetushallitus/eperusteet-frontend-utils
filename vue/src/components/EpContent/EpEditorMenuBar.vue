@@ -116,9 +116,6 @@ export default class EpEditorMenuBar extends Vue {
     }, {
       command: 'strike',
       icon: 'yliviivaus',
-    }, {
-      command: 'underline',
-      icon: 'alleviivaus',
     }];
   }
 
