@@ -55,8 +55,10 @@
 <script lang="ts">
 import _ from 'lodash';
 import { Vue, Component, Prop } from 'vue-property-decorator';
-
 import draggable from 'vuedraggable';
+
+import { Kielet } from '@shared/stores/kieli';
+
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpInput from '@shared/components/forms/EpInput.vue';
 
@@ -96,8 +98,41 @@ export default class EpPrefixList extends Vue {
     }
   }
 
+  get kieli() {
+    return Kielet.getSisaltoKieli.value;
+  }
+
   get internal() {
-    return this.sanitized;
+    return _.map(this.sanitized, el => {
+      const res = _.cloneDeep(el);
+
+      // Piilotetaan kohteet, joita ei ole lokalisoitu jos kyseessä lokalisoitu teksti
+      const kohde = res[this.kohde];
+      if (kohde) {
+        if (_.isObject(kohde) && !kohde[this.kieli]) {
+          res[this.kohde] = undefined;
+        }
+      }
+
+      // Piilotetaan arvot, joita ei ole lokalisoitu jos kyseessä lokalisoitu teksti
+      const arvot = res[this.arvot];
+      if (arvot && !_.isEmpty(arvot)) {
+        const arvotFiltered: any[] = [];
+        _.each(arvot, arvo => {
+          if (_.isObject(arvo)) {
+            if (arvo[this.kieli]) {
+              arvotFiltered.push(arvo);
+            }
+          }
+          else {
+            arvotFiltered.push(arvo);
+          }
+        });
+        res[this.arvot] = arvotFiltered;
+      }
+
+      return res;
+    });
   }
 
   set internal(value: any) {
