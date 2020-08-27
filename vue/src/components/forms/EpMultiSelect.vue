@@ -15,7 +15,17 @@
                :multiple="multiple"
                :class="inputClass"
                :label="label"
-               :custom-label="customLabel">
+               :custom-label="customLabel"
+               :group-values="groupValues"
+               :group-label="groupLabel"
+               :group-select="groupSelect"
+               :searchable="searchable"
+               :maxHeight="maxHeight">
+
+    <template slot="beforeList">
+      <slot name="beforeList" />
+    </template>
+
     <template slot="singleLabel"
               slot-scope="{ option }">
       <slot name="singleLabel" :option="option"></slot>
@@ -92,6 +102,21 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
 
   @Prop({ default: null })
   private searchIdentity!: null | ((v: any) => string | null | undefined);
+
+  @Prop()
+  private groupValues!: string;
+
+  @Prop()
+  private groupLabel!: string;
+
+  @Prop({ default: false })
+  private groupSelect!: boolean;
+
+  @Prop({ default: true })
+  private searchable!: boolean;
+
+  @Prop()
+  private maxHeight!: number;
 
   private search = '';
 

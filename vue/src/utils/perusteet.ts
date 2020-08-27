@@ -4,21 +4,21 @@ import { PerusteDto } from '@shared/api/eperusteet';
 export const KoodistoLops2019LaajaAlaiset = 'laajaalainenosaaminenlops2021';
 
 export const EperusteetKoulutustyypit = Object.freeze([
-  'koulutustyyppi_1',
-  'koulutustyyppi_2',
-  'koulutustyyppi_5',
-  'koulutustyyppi_6',
-  'koulutustyyppi_11',
-  'koulutustyyppi_12',
-  'koulutustyyppi_14',
-  'koulutustyyppi_15',
-  'koulutustyyppi_16',
-  'koulutustyyppi_17',
-  'koulutustyyppi_18',
-  'koulutustyyppi_20',
-  'koulutustyyppi_22',
-  'koulutustyyppi_23',
-  'koulutustyyppi_999907',
+  'koulutustyyppi_1', // ammatillinen perustutkinto
+  'koulutustyyppi_2', // lukiokoulutus
+  'koulutustyyppi_5', // telma
+  'koulutustyyppi_6', // lisaopetus
+  'koulutustyyppi_11', // ammattitutkinto
+  'koulutustyyppi_12', // erikoisammattitutkinto
+  'koulutustyyppi_14', // aikuisten lukiokoulutus
+  'koulutustyyppi_15', // esiopetus
+  'koulutustyyppi_16', // perusopetus
+  'koulutustyyppi_17', // aikuisten perusopetus
+  'koulutustyyppi_18', // valma
+  'koulutustyyppi_20', // varhaiskasvatus
+  'koulutustyyppi_22', // perusopetuksen valmistava
+  'koulutustyyppi_23', // valmistava lukiokoulutus
+  'koulutustyyppi_999907', // taiteen perusopetus,
 ]);
 
 const AmmatillisetKoulutustyypit = [
@@ -27,6 +27,19 @@ const AmmatillisetKoulutustyypit = [
   'koulutustyyppi_12',
   'koulutustyyppi_5',
   'koulutustyyppi_18',
+];
+
+export const yleissivistavatKoulutustyypit = [
+  'koulutustyyppi_20',
+  'koulutustyyppi_15',
+  'koulutustyyppi_16',
+  'koulutustyyppi_22',
+  'koulutustyyppi_6',
+  'koulutustyyppi_17',
+  'koulutustyyppi_999907',
+  'koulutustyyppi_2',
+  'koulutustyyppi_23',
+  'koulutustyyppi_14',
 ];
 
 export const themes = {
@@ -45,6 +58,36 @@ export const themes = {
   'koulutustyyppi_23': 'lukio',
   'koulutustyyppi_6': 'perusopetus',
   'koulutustyyppi_999907': 'taiteenperusopetus',
+};
+
+export const EperusteetKoulutustyyppiRyhmat = {
+  'varhaiskasvatus': [
+    'koulutustyyppi_20',
+  ],
+  'esiopetus': [
+    'koulutustyyppi_15',
+  ],
+  'perusopetus': [
+    'koulutustyyppi_16',
+    'koulutustyyppi_22',
+    'koulutustyyppi_6',
+    'koulutustyyppi_17',
+  ],
+  'taiteenperusopetus': [
+    'koulutustyyppi_999907',
+  ],
+  'lukiokoulutus': [
+    'koulutustyyppi_2',
+    'koulutustyyppi_23',
+    'koulutustyyppi_14',
+  ],
+  'ammatillinen': [
+    'koulutustyyppi_1',
+    'koulutustyyppi_11',
+    'koulutustyyppi_12',
+    'koulutustyyppi_5',
+    'koulutustyyppi_18',
+  ],
 };
 
 export interface KoulutustyyppiRyhma {
