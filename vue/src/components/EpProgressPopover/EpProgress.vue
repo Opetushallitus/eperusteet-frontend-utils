@@ -25,9 +25,9 @@
     <div v-else-if="hasValidation">
       <svg viewBox="0 0 100 100" class="vaiheet" style="transform: rotate(-90deg)" :height="height" :width="width">
         <circle
-          v-for="(v, idx) in slices" :key="idx"
+          v-for="(v, idx) in slicesColored" :key="idx"
           r="50%" cx="50%" cy="50%"
-          :style="'stroke: rgba(91, 202, 19, ' + (v || 0.4) + ');' + 'stroke-dasharray: ' + segmentLength + ' ' + 314.15 + '; stroke-dashoffset: ' + (-idx * gapLength -2)"/>
+          :style="'stroke: rgba('+v.color+', ' + (v.progress || 0.4) + ');' + 'stroke-dasharray: ' + segmentLength + ' ' + 314.15 + '; stroke-dashoffset: ' + (-idx * gapLength -2)"/>
       </svg>
     </div>
 
@@ -43,14 +43,25 @@ export default class EpProgress extends Vue {
   @Prop()
   private slices!: number[] | null;
 
+  @Prop({ default: 70 })
+  private height!: number;
+
+  @Prop({ default: 70 })
+  private width!: number;
+
   private tilaPopupVisible = false;
 
-  get height() {
-    return 70;
-  }
+  get slicesColored() {
+    if (!this.slices) {
+      return this.slices;
+    }
 
-  get width() {
-    return 70;
+    return _.map(this.slices, slice => {
+      return {
+        progress: slice,
+        color: slice >= 0.9 ? '91, 202, 19' : '255, 255, 255',
+      };
+    });
   }
 
   get done() {

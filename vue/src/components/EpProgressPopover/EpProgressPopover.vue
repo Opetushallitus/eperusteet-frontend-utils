@@ -2,7 +2,7 @@
   <div>
     <div class="row justify-content-center">
       <div class="progress-area">
-        <ep-progress :slices="slices"/>
+        <ep-progress :slices="slices" :height="height" :width="width"/>
         <div class="header">
           <slot name="header" />
         </div>
@@ -21,7 +21,7 @@
 
       <div class="popup-top row justify-content-center" :style="popupStyle">
         <div class="progress-area">
-          <ep-progress :slices="slices"
+          <ep-progress :slices="slices" :height="height" :width="width"
                        :popup-style="{ 'background-color': '' }" />
           <div class="header">
             <slot name="header" />
@@ -50,6 +50,12 @@ import EpProgress from './EpProgress.vue';
 export default class EpProgressPopover extends Vue {
   @Prop({ required: true })
   private slices!: number[];
+
+  @Prop({ default: 70 })
+  private height!: number;
+
+  @Prop({ default: 70 })
+  private width!: number;
 
   @Prop({
     default() {
