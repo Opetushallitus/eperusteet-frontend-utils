@@ -1,19 +1,19 @@
 <template>
 <div>
-  <div class="perustesisalto" v-for="(moduuli, idx) in value.moduulit" :key="idx">
-    <div v-if="moduulitMap[moduuli.koodiUri]">
+  <div class="perustesisalto" v-for="(moduuli, idx) in value.moduulit" :key="idx + '-moduuli'">
+    <div v-if="moduuli && moduulitMap[moduuli.koodiUri]">
       <div class="moduuliotsikko"><h4>{{ $kaanna(moduulitMap[moduuli.koodiUri].nimi) }} {{ moduulitMap[moduuli.koodiUri].laajuus }} {{ $t('op') }}</h4></div>
       <ep-prefix-list :value="moduulitMap[moduuli.koodiUri].tavoitteet" kohde="kohde" arvot="tavoitteet"></ep-prefix-list>
     </div>
   </div>
 
-  <div v-for="(paikallinenOpintojakso, idx) in value.paikallisetOpintojaksot" :key="idx">
+  <div v-for="(paikallinenOpintojakso, idx) in value.paikallisetOpintojaksot" :key="idx + '-opintojakso'">
     <div class="perustesisalto" v-if="paikallinenOpintojakso.tavoitteet.length > 0">
-    <div class="moduuliotsikko"><h4>{{ $kaanna(paikallinenOpintojakso.nimi) }} {{ moduulitMap[moduuli.koodiUri].laajuus }} {{ $t('op') }}</h4></div>
+    <div class="moduuliotsikko"><h4>{{ $kaanna(paikallinenOpintojakso.nimi) }}</h4></div>
     <ep-list :is-editable="false"
-             lisays="lisaa-tavoite"
-             kentta="kuvaus"
-             v-model="paikallinenOpintojakso.tavoitteet" />
+            lisays="lisaa-tavoite"
+            kentta="kuvaus"
+            v-model="paikallinenOpintojakso.tavoitteet" />
     </div>
   </div>
 
