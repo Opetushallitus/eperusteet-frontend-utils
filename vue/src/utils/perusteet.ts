@@ -141,6 +141,14 @@ export const themeColors = {
   'taiteenperusopetus': [250, 204, 234],
 };
 
+export const tileColors = {
+  'varhaiskasvatus': ['#FFD966', '#FFCC33'],
+  'esiopetus': ['#A3DEFF', '#84D2FF'],
+  'perusopetus': ['#8DD9D9', '#67CCCC'],
+  'lukio': ['#4172E4', '#0143DA'],
+  'taide': ['#FBD9EF', '#FACCEA'],
+};
+
 export const ktToState = {
   'koulutustyyppi_1': 'ammatillinenperustutkinto',
   'koulutustyyppi_11': 'ammattitutkinto',
