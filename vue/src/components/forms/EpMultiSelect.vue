@@ -103,10 +103,10 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
   @Prop({ default: null })
   private searchIdentity!: null | ((v: any) => string | null | undefined);
 
-  @Prop()
+  @Prop({ required: false })
   private groupValues!: string;
 
-  @Prop()
+  @Prop({ required: false })
   private groupLabel!: string;
 
   @Prop({ default: false })
@@ -115,7 +115,7 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
   @Prop({ default: true })
   private searchable!: boolean;
 
-  @Prop()
+  @Prop({ required: false })
   private maxHeight!: number;
 
   private search = '';
