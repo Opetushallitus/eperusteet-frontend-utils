@@ -149,6 +149,12 @@ export const tileColors = {
   'taide': ['#FBD9EF', '#FACCEA'],
 };
 
+export function tileBackgroundColor(koulutustyyppi) {
+  const themeType = themes[koulutustyyppi];
+  const tileColor = tileColors[themeType] || tileColors['lukio'];
+  return 'background: linear-gradient(180deg, ' + tileColor[0] + ' 0%, ' + tileColor[1] + ' 100%)';
+}
+
 export const ktToState = {
   'koulutustyyppi_1': 'ammatillinenperustutkinto',
   'koulutustyyppi_11': 'ammattitutkinto',
