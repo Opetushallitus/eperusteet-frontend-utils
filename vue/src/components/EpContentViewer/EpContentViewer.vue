@@ -49,6 +49,10 @@ export default class EpContentViewer extends Vue {
       const tables = template.content.querySelectorAll('table');
       _.each(tables, table => {
         table.setAttribute('class', 'table table-bordered');
+        const wrapper = document.createElement('div');
+        wrapper.setAttribute('class', 'table-responsive');
+        table.parentNode!.insertBefore(wrapper, table);
+        wrapper.appendChild(table);
       });
 
       // Kuvat
@@ -77,6 +81,17 @@ export default class EpContentViewer extends Vue {
             }
             */
           }
+        }
+      });
+
+      // Linkit
+      const links = template.content.querySelectorAll('a');
+      _.each(links, link => {
+        const href = link.getAttribute('href');
+        // Jos ulkoinen linkki
+        if (href && href.charAt(0) !== '#') {
+          link.setAttribute('target', '_blank');
+          link.setAttribute('rel', 'noopener noreferrer');
         }
       });
 
