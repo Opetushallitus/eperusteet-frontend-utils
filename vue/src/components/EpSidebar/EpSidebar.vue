@@ -87,7 +87,7 @@ export default class EpSidebar extends Vue {
       }
     }
     .view {
-      flex: 1;
+      width: calc(100% - 340px);
       border-left: 1px solid #eee;
       @media print {
         border-left: none;
