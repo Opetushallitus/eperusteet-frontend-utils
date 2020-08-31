@@ -4,12 +4,12 @@ exports[`EpKielivalinta component Renders 1`] = `
 <div class="dropdown b-dropdown kielivalinta btn-group">
   <!----><button aria-haspopup="true" aria-expanded="false" type="button" class="btn dropdown-toggle btn-secondary btn-sm"><span>kieli-sisalto:
       <span class="valittukieli">fi</span>
-    <div icon="chevron-down" class="valintanuoli"></div>
-    </span></button>
+    <div icon="chevron-down" class="valintanuoli"></div></span>
+  </button>
   <ul role="menu" tabindex="-1" class="dropdown-menu dropdown-menu-right">
-    <li role="presentation"><a role="menuitem" target="_self" tabindex="-1" aria-disabled="true" href="#" class="dropdown-item disabled">fi</a></li>
-    <li role="presentation"><a role="menuitem" target="_self" href="#" class="dropdown-item">sv</a></li>
-    <li role="presentation"><a role="menuitem" target="_self" href="#" class="dropdown-item">en</a></li>
+    <li role="presentation"><a role="menuitem" href="#" target="_self" tabindex="-1" aria-disabled="true" class="dropdown-item disabled">fi</a></li>
+    <li role="presentation"><a role="menuitem" href="#" target="_self" class="dropdown-item">sv</a></li>
+    <li role="presentation"><a role="menuitem" href="#" target="_self" class="dropdown-item">en</a></li>
   </ul>
 </div>
 `;
