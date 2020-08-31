@@ -155,6 +155,12 @@ export function tileBackgroundColor(koulutustyyppi) {
   return 'background: linear-gradient(180deg, ' + tileColor[0] + ' 0%, ' + tileColor[1] + ' 100%)';
 }
 
+export function koulutustyyppiBanner(koulutustyyppiRyhma) {
+  const ryhma = koulutustyyppiRyhma || 'lukio';
+  const imgUrl = require(`@shared/../public/img/banners/banner_${ryhma}.svg`);
+  return { 'background-image': `url('${imgUrl}')` };
+}
+
 export const ktToState = {
   'koulutustyyppi_1': 'ammatillinenperustutkinto',
   'koulutustyyppi_11': 'ammattitutkinto',
