@@ -79,7 +79,7 @@ export default class EpSidebar extends Vue {
     }
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 992px) {
     display: flex;
     .bar {
       &.bar-open {
