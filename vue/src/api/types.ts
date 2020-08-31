@@ -10,4 +10,6 @@ export interface TiedoteQuery {
   tiedoteJulkaisuPaikka?: Array<string>;
   perusteIds?: Array<number>;
   koulutusTyyppi?: Array<string>;
+  jarjestys?: string;
+  jarjestysNouseva?: boolean;
 };
