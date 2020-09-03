@@ -1,5 +1,5 @@
 <template>
-<div class="filter" role="search">
+<div class="filter" role="search" :class="{'maxWidth': maxWidth}">
     <span class="form-control-feedback">
         <fas fixed-width :icon="icon" :spin="isLoading"></fas>
     </span>
@@ -29,6 +29,9 @@ export default class EpSearch extends Vue {
 
   @Prop({ required: false, default: false })
   private isLoading!: boolean;
+
+  @Prop({ required: false, default: false })
+  private maxWidth!: boolean;
 
   get id() {
     return 'search-' + _.uniqueId();
@@ -65,6 +68,10 @@ export default class EpSearch extends Vue {
 .filter {
   position: relative;
   max-width: 400px;
+
+  &.maxWidth {
+    max-width: 100%;
+  }
 
   .form-control {
     padding-left: 2.375rem;
