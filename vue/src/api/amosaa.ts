@@ -70,6 +70,7 @@ export type OpetussuunnitelmaTilastoDto = AmosaaApi.OpetussuunnitelmaTilastoDto;
 export type PageOpetussuunnitelmaBaseDto = AmosaaApi.PageOpetussuunnitelmaBaseDto;
 export type PageOpetussuunnitelmaDto = AmosaaApi.PageOpetussuunnitelmaDto;
 export type PerusteDto = AmosaaApi.PerusteDto;
+export type PerusteKevytDto = AmosaaApi.PerusteKevytDto;
 export type SisaltoViiteKevytDto = AmosaaApi.SisaltoViiteKevytDto;
 export type SisaltoViiteRakenneDto = AmosaaApi.SisaltoViiteRakenneDto;
 export type SisaltoviiteMatalaDto = AmosaaApi.Matala;
