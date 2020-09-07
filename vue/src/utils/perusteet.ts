@@ -141,26 +141,6 @@ export const themeColors = {
   'taiteenperusopetus': [250, 204, 234],
 };
 
-export const tileColors = {
-  'varhaiskasvatus': ['#FFD966', '#FFCC33'],
-  'esiopetus': ['#A3DEFF', '#84D2FF'],
-  'perusopetus': ['#8DD9D9', '#67CCCC'],
-  'lukio': ['#4172E4', '#0143DA'],
-  'taide': ['#FBD9EF', '#FACCEA'],
-};
-
-export function tileBackgroundColor(koulutustyyppi) {
-  const themeType = themes[koulutustyyppi];
-  const tileColor = tileColors[themeType] || tileColors['lukio'];
-  return 'background: linear-gradient(180deg, ' + tileColor[0] + ' 0%, ' + tileColor[1] + ' 100%)';
-}
-
-export function koulutustyyppiBanner(koulutustyyppiRyhma) {
-  const ryhma = koulutustyyppiRyhma || 'lukio';
-  const imgUrl = require(`@shared/../public/img/banners/banner_${ryhma}.svg`);
-  return { 'background-image': `url('${imgUrl}')` };
-}
-
 export const ktToState = {
   'koulutustyyppi_1': 'ammatillinenperustutkinto',
   'koulutustyyppi_11': 'ammattitutkinto',
