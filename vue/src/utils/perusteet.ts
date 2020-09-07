@@ -21,6 +21,14 @@ export const EperusteetKoulutustyypit = Object.freeze([
   'koulutustyyppi_999907', // taiteen perusopetus,
 ]);
 
+export function isLukio(koulutustyyppi: string) {
+  return _.includes([
+    'koulutustyyppi_2',
+    'koulutustyyppi_14',
+    'koulutustyyppi_23',
+  ], koulutustyyppi);
+}
+
 const AmmatillisetKoulutustyypit = [
   'koulutustyyppi_1',
   'koulutustyyppi_11',
