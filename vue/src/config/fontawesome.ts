@@ -176,6 +176,7 @@ library.add(oph.valtakunnallisetPerusteet);
 library.add(oph.virheellisetPerusteet);
 library.add(oph.yhdistaSolut);
 library.add(oph.yliviivaus);
+library.add(oph.kayttoOikeus);
 
 Vue.component('fas', FontAwesomeIcon);
 Vue.component('fal', FontAwesomeLayers);
