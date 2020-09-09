@@ -98,5 +98,15 @@ export default class EpButton extends Vue {
     color: #fff;
     background-color: #3367E3;
   }
+
+  &.no-padding {
+    button {
+      padding: 0 !important;
+
+      div {
+        padding: 0 !important;
+      }
+    }
+  }
 }
 </style>
