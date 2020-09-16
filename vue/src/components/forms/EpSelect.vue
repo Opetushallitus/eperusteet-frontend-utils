@@ -5,7 +5,6 @@
                     class="form-control"
                     v-model="innerModel"
                     :multiple="multiple"
-                    @change="updateValue()"
                     :class="{ 'is-invalid': isInvalid, 'is-valid': isValid }"
                     :disabled="disabled">
                 <option :value="null" v-if="enableEmptyOption" :disabled="emptyOptionDisabled" :hidden="emptyOptionDisabled">{{ $t(placeholder) }}</option>
@@ -18,7 +17,6 @@
                 v-model="innerModel"
                 :options="items"
                 name="kielivalinta"
-                @input="updateValue()"
                 stacked
                 :class="{ 'is-invalid': isInvalid, 'is-valid': isValid }">
               </b-form-checkbox-group>
@@ -65,7 +63,9 @@ export default class EpSelect extends Mixins(EpValidation) {
   @Prop({ required: true })
   private items!: any[];
 
-  @Prop({ required: true })
+  @Prop({
+    required: true,
+  })
   private value!: any | any[];
 
   @Prop({ default: false, type: Boolean })
@@ -83,8 +83,6 @@ export default class EpSelect extends Mixins(EpValidation) {
   @Prop({ default: '', type: String })
   private placeholder!: string;
 
-  private innerModel: any | any[] | null = null;
-
   @Prop({ default: false, type: Boolean })
   private disabled!: boolean;
 
@@ -95,39 +93,33 @@ export default class EpSelect extends Mixins(EpValidation) {
     return _.filter(this.items, (item) => _.includes(this.value, item));
   }
 
-  private updateValue() {
-    if (_.isArray(this.innerModel)) {
-      this.$emit('input', [...this.innerModel]);
+  set innerModel(innerModel) {
+    if (_.isArray(innerModel)) {
+      $emit('input', [...innerModel]);
     }
     else {
-      this.$emit('input', this.innerModel);
+      this.$emit('input', innerModel);
     }
 
-    if (this.validation) {
-      this.validation.$touch();
+    this.validation?.$touch();
+  }
+
+  get innerModel() {
+    if (this.value) {
+      return this.value;
+    }
+    else if (!_.isEmpty(this.items) && !this.enableEmptyOption) {
+      this.innerModel = _.first(this.items);
+      return null;
+    }
+    else if (this.multiple) {
+      return [];
+    }
+    else {
+      return null;
     }
   }
 
-  mounted() {
-    if (_.isEmpty(this.value)) {
-      if (!_.isEmpty(this.items) && !this.enableEmptyOption) {
-        // Valitaan ensimmäinen arvo
-        this.innerModel = this.items[0];
-        this.updateValue();
-      }
-      else {
-        if (this.multiple) {
-          this.innerModel = this.value;
-        }
-        else {
-          this.innerModel = null;
-        }
-      }
-    }
-    else {
-      this.innerModel = this.value;
-    }
-  }
 }
 </script>
 
