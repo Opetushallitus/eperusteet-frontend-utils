@@ -95,7 +95,7 @@ export default class EpSelect extends Mixins(EpValidation) {
 
   set innerModel(innerModel) {
     if (_.isArray(innerModel)) {
-      $emit('input', [...innerModel]);
+      this.$emit('input', [...innerModel]);
     }
     else {
       this.$emit('input', innerModel);
@@ -119,7 +119,6 @@ export default class EpSelect extends Mixins(EpValidation) {
       return null;
     }
   }
-
 }
 </script>
 
