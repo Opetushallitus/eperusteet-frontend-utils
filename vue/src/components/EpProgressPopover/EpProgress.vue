@@ -1,6 +1,6 @@
 <template>
   <div
-    class="ep-progress"
+    class="ep-progress text-center"
     placement="'bottom'"
     id="tila-popover">
 
