@@ -135,10 +135,11 @@ export default class EpEditorMenuBar extends Vue {
     }, {
       icon: 'kasitteet',
       command: 'termi',
-      disabled: this.editor.selection.from === this.editor.selection.to,
+      disabled: this.editor.selection.from === this.editor.selection.to || !_.isFunction(_.get(this.editor.commands, 'termi')),
     }, {
       icon: 'lisaa-kuva',
       command: 'image',
+      disabled: !_.isFunction(_.get(this.editor.commands, 'image')),
     }];
   }
 

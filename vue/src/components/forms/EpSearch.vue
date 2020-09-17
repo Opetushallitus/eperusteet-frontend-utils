@@ -7,6 +7,7 @@
     <input :id="id"
            class="form-control"
            type="search"
+           :placeholder="placeholderText"
            @input="onInput($event.target.value)"
            :value="val">
 </div>

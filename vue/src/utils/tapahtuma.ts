@@ -1,4 +1,4 @@
-const kohdereititys = {
+const oletusKohdereititys = {
   viite: 'tekstikappale',
   opetussuunnitelma: 'opsTiedot',
   opetussuunnitelma_rakenne: 'jarjesta',
@@ -7,10 +7,36 @@ const kohdereititys = {
   termi: 'opsKasitteet',
 };
 
+const perusteKohdeReititys = {
+  termi: 'kasitteet',
+};
+
+const opasKohdeReititys = {
+  termi: 'opasKasitteet',
+};
+
+const tyypitettyReititys = {
+  'ops': { ...oletusKohdereititys },
+  'normaali': { ...oletusKohdereititys, ...perusteKohdeReititys },
+  'pohja': { ...oletusKohdereititys, ...perusteKohdeReititys },
+  'opas': { ...oletusKohdereititys, ...opasKohdeReititys },
+};
+
 const kohdereititysId = {
   viite: 'osaId',
   poppiaine: 'paikallinenOppiaineId',
   opintojakso: 'opintojaksoId',
+};
+
+const perusteKohdereititysId = {
+  viite: 'tekstiKappaleId',
+};
+
+const tyypitettyKohdereititysId = {
+  'ops': { ...kohdereititysId },
+  'normaali': { ...kohdereititysId, ...perusteKohdereititysId },
+  'pohja': { ...kohdereititysId, ...perusteKohdereititysId },
+  'opas': { ...kohdereititysId, ...perusteKohdereititysId },
 };
 
 const kohdeIcon = {
@@ -34,7 +60,7 @@ const poistetutTabIndices = {
   viite: 2,
 };
 
-export function muokkaustietoRoute(id, kohde, tapahtuma) {
+export function muokkaustietoRoute(id, kohde, tapahtuma, tyyppi = 'ops') {
   if (tapahtuma === 'poisto') {
     return {
       name: 'opsPoistetut',
@@ -44,13 +70,16 @@ export function muokkaustietoRoute(id, kohde, tapahtuma) {
     };
   }
 
+  const tyypinReititys = tyypitettyReititys[tyyppi] || tyypitettyReititys['ops'];
+  const tyypinKohdereititysId = tyypitettyKohdereititysId[tyyppi] || tyypitettyKohdereititysId['ops'];
+
   const router = {
-    name: kohdereititys[kohde],
+    name: tyypinReititys[kohde],
     params: {},
   };
 
-  if (kohdereititysId[kohde]) {
-    router.params[kohdereititysId[kohde]] = id;
+  if (tyypinKohdereititysId[kohde]) {
+    router.params[tyypinKohdereititysId[kohde]] = id;
   }
 
   return router;

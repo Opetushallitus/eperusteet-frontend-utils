@@ -12,7 +12,7 @@ export function notNull() {
 const ValidoitavatKielet = ['fi', 'sv', 'se', 'en', 'ru'];
 
 function exists(value: any, kieli: Kieli) {
-  return _.has(value, kieli)
+  return _.has(value, kieli) && !_.isEmpty(value[kieli])
     && !_.isEmpty(he.decode(value[kieli].replace(/<[^>]+>/g, '')).trim());
 }
 

@@ -48,6 +48,10 @@ import EpEditorMenuBar from './EpEditorMenuBar.vue';
 import Sticky from 'vue-sticky-directive';
 import { EditorLayout } from '@shared/tyypit';
 import EpValidation from '@shared/mixins/EpValidation';
+import { IKasiteHandler } from './KasiteHandler';
+import TermiExtension from './TermiExtension';
+import ImageExtension from './ImageExtension';
+import { IKuvaHandler } from './KuvaHandler';
 
 const striptag = document.createElement('span');
 
@@ -84,6 +88,12 @@ export default class EpContent extends Mixins(EpValidation) {
 
   @Prop({ default: false })
   sticky!: boolean;
+
+  @Prop({ required: false })
+  kasiteHandler!: IKasiteHandler;
+
+  @Prop({ required: false })
+  kuvaHandler!: IKuvaHandler;
 
   private editor: any = null;
 
@@ -125,6 +135,14 @@ export default class EpContent extends Mixins(EpValidation) {
       new TableCell(),
       new TableRow(),
     ];
+
+    if (this.kasiteHandler) {
+      extensions.push(new TermiExtension(this.kasiteHandler));
+    }
+
+    if (this.kuvaHandler) {
+      extensions.push(new ImageExtension(this.kuvaHandler));
+    }
 
     this.editor = new Editor({
       content: this.localizedValue,
