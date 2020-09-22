@@ -44,6 +44,7 @@ module.exports = {
   ],
   moduleNameMapper: {
     '^@shared/(.*)$': '<rootDir>/src/$1',
+    '^@assets/(.*)$': '<rootDir>/public/$1',
     '^@/(.*)$': '<rootDir>/src/$1',
     '^&/(.*)$': '<rootDir>/tests/$1',
   },
