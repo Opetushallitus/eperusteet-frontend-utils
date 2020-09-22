@@ -1,19 +1,21 @@
 <template>
 <div>
-  <div class="perustesisalto" v-for="(oppiaine, idx) in opintojaksonOppiaineidenTiedot" :key="idx">
-    <div v-if="oppiaine.laajaAlaisetOsaamiset && oppiaine.laajaAlaisetOsaamiset.kuvaus">
-      <div class="moduuliotsikko"><h4 v-html="$kaanna(oppiaine.nimi)"></h4></div>
-      <ep-content
-        layout="normal"
-        :opetussuunnitelma-store="opetussuunnitelmaStore"
-        :value="oppiaine.laajaAlaisetOsaamiset.kuvaus"
-        help="ohje-lyhyt-laaja-alainen"></ep-content>
-    </div>
-    <div v-else-if="oppiaine.laajaAlainenOsaaminen">
-      <div class="moduuliotsikko"><h4 v-html="$kaanna(oppiaine.nimi)"></h4></div>
-      {{ oppiaine.laajaAlainenOsaaminen }}
-      <ep-content v-for="(laajalainenosaaminen, idx) in oppiaine.laajaAlainenOsaaminen" :key="idx"
-          layout="normal" :opetussuunnitelma-store="opetussuunnitelmaStore" :value="laajalainenosaaminen.kuvaus"></ep-content>
+  <div v-if="showPerustesisalto">
+    <div class="perustesisalto" v-for="(oppiaine, idx) in opintojaksonOppiaineidenTiedot" :key="idx">
+      <div v-if="oppiaine.laajaAlaisetOsaamiset && oppiaine.laajaAlaisetOsaamiset.kuvaus">
+        <div class="moduuliotsikko"><h4 v-html="$kaanna(oppiaine.nimi)"></h4></div>
+        <ep-content
+          layout="normal"
+          :opetussuunnitelma-store="opetussuunnitelmaStore"
+          :value="oppiaine.laajaAlaisetOsaamiset.kuvaus"
+          help="ohje-lyhyt-laaja-alainen"></ep-content>
+      </div>
+      <div v-else-if="oppiaine.laajaAlainenOsaaminen">
+        <div class="moduuliotsikko"><h4 v-html="$kaanna(oppiaine.nimi)"></h4></div>
+        {{ oppiaine.laajaAlainenOsaaminen }}
+        <ep-content v-for="(laajalainenosaaminen, idx) in oppiaine.laajaAlainenOsaaminen" :key="idx"
+            layout="normal" :opetussuunnitelma-store="opetussuunnitelmaStore" :value="laajalainenosaaminen.kuvaus"></ep-content>
+      </div>
     </div>
   </div>
 
@@ -95,6 +97,9 @@ export default class EpOpintojaksonLaajaAlaisetOsaamiset extends Vue {
 
   @Prop({ required: false, default: true })
   private showEmptyAlert!: boolean;
+
+  @Prop({ required: false, default: true })
+  private showPerustesisalto!: boolean;
 
   get laajaAlaisetKooditByUri() {
     return _.keyBy(this.laajaAlaistenKoodit, 'koodi');
