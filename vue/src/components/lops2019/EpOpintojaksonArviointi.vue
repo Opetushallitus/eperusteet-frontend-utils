@@ -1,14 +1,16 @@
 <template>
 <div>
-  <div class="perustesisalto" v-for="(oppiaine, idx) in opintojaksonOppiaineidenTiedot" :key="idx+'op-arviointi'">
-    <div v-if="oppiaine.arviointi && oppiaine.arviointi.kuvaus">
-      <div class="moduuliotsikko"><h4 v-html="$kaanna(oppiaine.nimi)">></h4></div>
-      <ep-content layout="normal" :opetussuunnitelma-store="opetussuunnitelmaStore" :value="oppiaine.arviointi.kuvaus"></ep-content>
+  <div v-if="showPerustesisalto">
+    <div class="perustesisalto" v-for="(oppiaine, idx) in opintojaksonOppiaineidenTiedot" :key="idx+'op-arviointi'">
+      <div v-if="oppiaine.arviointi && oppiaine.arviointi.kuvaus">
+        <div class="moduuliotsikko"><h4 v-html="$kaanna(oppiaine.nimi)">></h4></div>
+        <ep-content layout="normal" :opetussuunnitelma-store="opetussuunnitelmaStore" :value="oppiaine.arviointi.kuvaus"></ep-content>
+      </div>
     </div>
-  </div>
-  <div v-if="showEmptyAlert || value.arviointi">
-    <div class="moduuliotsikko"><h4>{{ $t('paikallinen-lisays-opintojakso-arviointi') }}</h4></div>
-    <div class="alert alert-info" v-if="!isEditing && !value.arviointi">{{ $t('ei-paikallista-tarkennusta') }}</div>
+    <div v-if="showEmptyAlert || value.arviointi">
+      <div class="moduuliotsikko"><h4>{{ $t('paikallinen-lisays-opintojakso-arviointi') }}</h4></div>
+      <div class="alert alert-info" v-if="!isEditing && !value.arviointi">{{ $t('ei-paikallista-tarkennusta') }}</div>
+    </div>
   </div>
   <ep-content :opetussuunnitelma-store="opetussuunnitelmaStore" layout="normal" v-model="value.arviointi" :is-editable="isEditing"></ep-content>
 
@@ -47,6 +49,9 @@ export default class EpOpintojaksonArviointi extends Vue {
 
   @Prop({ required: false, default: true })
   private showEmptyAlert!: boolean;
+
+  @Prop({ required: false, default: true })
+  private showPerustesisalto!: boolean;
 }
 </script>
 
