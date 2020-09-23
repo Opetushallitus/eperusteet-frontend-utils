@@ -38,3 +38,14 @@ export function successfulResponseHandler() {
     return res;
   };
 }
+
+export async function getCasKayttajaKieli() {
+  try {
+    const casKayttaja = await axios.get('kayttooikeus-service/cas/me');
+    return _.get(casKayttaja, 'lang');
+  }
+  catch (e) {
+    logger.error(e);
+    return 'fi';
+  }
+}
