@@ -41,7 +41,7 @@ export function successfulResponseHandler() {
 
 export async function getCasKayttajaKieli() {
   try {
-    const casKayttaja = await axios.get('kayttooikeus-service/cas/me');
+    const casKayttaja = await axios.get(`${location.protocol}//${location.host}/cas/me`);
     return _.get(casKayttaja, 'lang');
   }
   catch (e) {
