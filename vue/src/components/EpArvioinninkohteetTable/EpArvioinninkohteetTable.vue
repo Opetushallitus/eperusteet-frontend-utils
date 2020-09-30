@@ -1,5 +1,5 @@
 <template>
-  <b-table :items="arvioinninkohteet" :fields="sarakkeet"/>
+  <b-table :items="arvioinninKohteetSorted" :fields="sarakkeet"/>
 </template>
 
 <script lang="ts">
@@ -10,6 +10,10 @@ import * as _ from 'lodash';
 export default class EpArvioinninkohteetTable extends Vue {
   @Prop({ required: true })
   private arvioinninkohteet!: any[];
+
+  get arvioinninKohteetSorted() {
+    return _.sortBy(this.arvioinninkohteet, 'arvosana');
+  }
 
   get osaamisenKuvauksetTyhjia() {
     return _.size(_.filter(this.arvioinninkohteet, kohde => kohde.arvosana !== null)) === 0;
