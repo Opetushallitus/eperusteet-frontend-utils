@@ -15,10 +15,17 @@
             <b-form-group v-else>
               <b-form-checkbox-group
                 v-model="innerModel"
-                :options="items"
                 name="kielivalinta"
                 stacked
                 :class="{ 'is-invalid': isInvalid, 'is-valid': isValid }">
+                <b-form-checkbox
+                  v-for="item in items"
+                  :key="item"
+                  :value="item">
+                  <slot name="default" :item="item">
+                    <span>{{ item }}</span>
+                  </slot>
+                </b-form-checkbox>
               </b-form-checkbox-group>
             </b-form-group>
             <div class="valid-feedback"
