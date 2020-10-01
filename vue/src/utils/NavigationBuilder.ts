@@ -196,6 +196,14 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       },
     };
     break;
+  case 'opintokokonaisuus':
+    node.location = {
+      name: 'perusteOpintokokonaisuus',
+      params: {
+        opintokokonaisuusId: _.toString(rawNode.id),
+      },
+    };
+    break;
   default:
     break;
   }

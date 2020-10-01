@@ -46,6 +46,7 @@ export enum KoulutustyyppiToteutus {
   lops = 'lops',
   lops2019 = 'lops2019',
   tpo = 'taiteenperusopetus',
+  vst = 'vapaasivistystyo',
 }
 
 export type EditorLayout = 'minimal' | 'simplified' | 'normal';
