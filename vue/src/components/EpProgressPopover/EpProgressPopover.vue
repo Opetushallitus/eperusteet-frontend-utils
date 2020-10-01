@@ -17,7 +17,7 @@
       :show.sync="tilaPopupVisible"
       ref="popover"
       custom-class="progress-popover"
-      v-if="$slots.default">
+      v-if="$slots.default && !done">
 
       <div class="popup-top row justify-content-center" :style="popupStyle">
         <div class="progress-area">
@@ -51,11 +51,8 @@ export default class EpProgressPopover extends Vue {
   @Prop({ required: true })
   private slices!: number[];
 
-  @Prop({ default: 70 })
-  private height!: number;
-
-  @Prop({ default: 70 })
-  private width!: number;
+  private height = 80;
+  private width = 80;
 
   @Prop({
     default() {
@@ -67,6 +64,10 @@ export default class EpProgressPopover extends Vue {
   private popupStyle!: string;
 
   private tilaPopupVisible = false;
+
+  get done() {
+    return _.size(_.filter(this.slices, (slice) => slice === 1)) === _.size(this.slices);
+  }
 }
 </script>
 

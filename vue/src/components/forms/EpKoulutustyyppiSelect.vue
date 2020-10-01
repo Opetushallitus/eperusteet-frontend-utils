@@ -1,10 +1,10 @@
 <template>
   <EpMultiSelect :value="value"
                  @input="changed($event)"
-                 :placeholder="$t('kaikki')"
+                 :placeholder="placeholder"
                  :search-identity="identity"
                  v-if="isEditing"
-                 :options="kaikkiVaihtoehdot"
+                 :options="selectVaihtoehdot"
                  group-values="koulutustyypit"
                  group-label="ryhma"
                  :group-select="false"
@@ -70,6 +70,9 @@ export default class KoulutustyyppiSelect extends Vue {
   @Prop({ default: false })
   isEditing!: boolean;
 
+  @Prop({ type: Boolean })
+  required!: Boolean;
+
   @Prop({ default: () => EperusteetKoulutustyypit })
   koulutustyypit!: string[];
 
@@ -82,6 +85,24 @@ export default class KoulutustyyppiSelect extends Vue {
       value = undefined;
     }
     this.$emit('input', value);
+  }
+
+  get placeholder() {
+    if (this.required) {
+      return this.$t('valitse');
+    }
+    else {
+      return this.$t('kaikki');
+    }
+  }
+
+  get selectVaihtoehdot() {
+    if (this.required) {
+      return this.vaihtoehdot;
+    }
+    else {
+      return this.kaikkiVaihtoehdot;
+    }
   }
 
   get kaikkiVaihtoehdot() {

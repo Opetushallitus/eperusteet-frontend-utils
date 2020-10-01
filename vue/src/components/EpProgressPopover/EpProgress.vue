@@ -43,10 +43,10 @@ export default class EpProgress extends Vue {
   @Prop()
   private slices!: number[] | null;
 
-  @Prop({ default: 70 })
+  @Prop({ default: 80 })
   private height!: number;
 
-  @Prop({ default: 70 })
+  @Prop({ default: 80 })
   private width!: number;
 
   private tilaPopupVisible = false;
@@ -111,7 +111,7 @@ export default class EpProgress extends Vue {
     font-size: 2rem;
     position: absolute;
     margin-left: 35px;
-    margin-top: 25px;
+    margin-top: 20px;
     color: $white;
   }
 
