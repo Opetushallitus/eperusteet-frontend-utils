@@ -102,7 +102,8 @@ export type NavigationNodeType =
   | 'laajaalaiset' | 'laajaalainen'
   | 'oppiaineet' | 'oppimaarat' | 'oppiaine'
   | 'moduulit' | 'moduuli'
-  | 'muodostuminen' | 'tutkinnonosat' | 'tutkinnonosa' | 'tutkinnonosaviite' | 'osaalue';
+  | 'muodostuminen' | 'tutkinnonosat' | 'tutkinnonosa' | 'tutkinnonosaviite' | 'osaalue'
+  | 'opintokokonaisuus';
 
 export interface NavigationNodeDto {
   id?: number;

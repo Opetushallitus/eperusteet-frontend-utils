@@ -128,3 +128,16 @@ img.content-image {
   color: $disabled
 }
 
+.default-icon {
+  color: $paletti-blue;
+
+  &.clickable {
+    cursor: pointer;
+  }
+}
+
+.order-handle {
+  color: $gray-lighten-2;
+  cursor: grab;
+}
+

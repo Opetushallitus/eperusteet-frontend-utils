@@ -9,7 +9,8 @@
            @input="onInput($event.target.value)"
            :type="type === 'number' ? 'number' : 'text'"
            v-bind="$attrs"
-           :value="val">
+           :value="val"
+           :disabled="disabled">
     <div v-if="hasLeftSlot" class="addon addon-left">
       <slot name="left" />
     </div>
@@ -64,14 +65,17 @@ export default class EpInput extends Mixins(EpValidation) {
   @Prop({ default: '' })
   private placeholder!: string;
 
-  @Prop({ default: true, required: false })
+  @Prop({ default: true, required: false, type: Boolean })
   private showValidValidation!: boolean;
 
-  @Prop({ default: true })
+  @Prop({ default: true, type: Boolean })
   private showMessage!: boolean;
 
   @Prop({ required: false })
   private unit!: string | object;
+
+  @Prop({ default: false, type: Boolean })
+  private disabled!: boolean;
 
   get hasLeftSlot() {
     return !!this.$slots.left;
