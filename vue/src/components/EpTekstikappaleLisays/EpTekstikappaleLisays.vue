@@ -1,33 +1,46 @@
 <template>
 <div>
-  <div v-b-modal.tekstikappalelisays>
+  <div v-b-modal="modalId">
     <slot name="lisays-btn">
       <ep-button id="tekstikappalelisaysBtn" variant="link" buttonClass="text-decoration-none">
           <fas class="mr-2" icon="plussa" />
-          <span>{{ $t('uusi-tekstikappale') }}</span>
+          <span>
+            <slot name="lisays-btn-text">
+              {{ $t('uusi-tekstikappale') }}
+            </slot>
+          </span>
       </ep-button>
     </slot>
   </div>
   <b-modal ref="tekstikappalelisaysModal"
-           id="tekstikappalelisays"
+           :id="modalId"
            size="lg"
            centered
            :ok-disabled="okDisabled"
            @hidden="clear"
            @ok="save">
     <template v-slot:modal-title>
-      {{ $t('lisaa-uusi-tekstikappale') }}
+      <slot name="modal-title">
+        {{ $t('lisaa-uusi-tekstikappale') }}
+      </slot>
     </template>
 
-    <ep-form-content name="tekstikappale-nimi-ohje">
+    <ep-form-content name="tekstikappale-nimi-ohje" v-if="otsikkoRequired">
       <ep-field class="mb-5" v-model="otsikko" :is-editing="true" />
     </ep-form-content>
 
-    <ep-form-content name="tekstikappaleen-sijainti-valikossa">
+    <ep-form-content>
+      <div slot="header">
+        <h3>
+          <slot name="header">
+            {{$t('tekstikappaleen-sijainti-valikossa')}}
+          </slot>
+        </h3>
+      </div>
 
       <div v-if="paatasovalinta">
         <b-form-radio v-model="taso" name="taso" value="paataso" class="mb-1">{{$t('paatasolla')}}</b-form-radio>
-        <b-form-radio v-model="taso" name="taso" value="alataso">{{$t('toisen-tekstikappaleen-alla')}}</b-form-radio>
+        <b-form-radio v-model="taso" name="taso" value="alataso" :disabled="tekstikappaleet.length === 0">{{$t('toisen-tekstikappaleen-alla')}}</b-form-radio>
       </div>
 
       <ep-select class="mb-5 mt-2" :class="{'ml-4': paatasovalinta}"
@@ -48,7 +61,9 @@
       {{ $t('peruuta')}}
     </template>
     <template v-slot:modal-ok>
-      {{ $t('lisaa-tekstikappale')}}
+      <slot name="footer-lisays-btn-text">
+        {{ $t('lisaa-tekstikappale')}}
+      </slot>
     </template>
 
   </b-modal>
@@ -81,6 +96,12 @@ export default class EpTekstikappaleLisays extends Vue {
   @Prop({ required: false, default: false })
   private paatasovalinta!: boolean;
 
+  @Prop({ required: false, default: true })
+  private otsikkoRequired!: boolean;
+
+   @Prop({ required: false, default: 'tekstikappalelisays' })
+  private modalId!: string;
+
   private taso: 'paataso' | 'alataso' = 'paataso';
 
   mounted() {
@@ -88,7 +109,7 @@ export default class EpTekstikappaleLisays extends Vue {
   }
 
   get okDisabled() {
-    return _.isEmpty(this.otsikko) || (this.taso === 'alataso' && _.isEmpty(this.valittuTekstikappale));
+    return (this.otsikkoRequired && _.isEmpty(this.otsikko)) || (this.taso === 'alataso' && _.isEmpty(this.valittuTekstikappale));
   }
 
   async save() {

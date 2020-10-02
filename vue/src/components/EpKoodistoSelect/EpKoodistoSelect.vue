@@ -94,7 +94,7 @@
     </b-modal>
   </div>
   <div v-else-if="value && value.arvo">
-    {{ $kaanna(value.nimi) }} {{ value.arvo }}
+    {{ $kaanna(value.nimi) }} <span v-if="naytaArvo">{{ value.arvo }}</span>
   </div>
   <div class="font-italic" v-else>
     {{ $t('ei-asetettu') }}
@@ -130,6 +130,9 @@ export default class EpKoodistoSelect extends Vue {
 
   @Prop({ required: false, default: false })
   private multiple!: boolean;
+
+  @Prop({ required: false, default: true, type: Boolean })
+  private naytaArvo!: boolean;
 
   private isLoading = false;
   private query = '';

@@ -37,7 +37,7 @@ export class EpTreeNavibarStore {
     return this.routeToNodeImpl(route);
   }
 
-  private readonly connected = computed(() => {
+  public readonly connected = computed(() => {
     return _.drop(flattenNodes(this.config, this.navigation.value), 1);
   });
 
