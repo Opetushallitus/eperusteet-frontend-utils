@@ -64,7 +64,10 @@ import EpValidation from '../../mixins/EpValidation';
   },
 })
 export default class EpSelect extends Mixins(EpValidation) {
-  @Prop({ default: false, type: Boolean })
+  @Prop({
+    default: false,
+    type: Boolean,
+  })
   private isEditing!: boolean;
 
   @Prop({ required: true })
@@ -102,10 +105,14 @@ export default class EpSelect extends Mixins(EpValidation) {
 
   set innerModel(innerModel) {
     if (_.isArray(innerModel)) {
-      this.$emit('input', [...innerModel]);
+      if (!_.isEqual(innerModel, this.innerModel)) {
+        this.$emit('input', [...innerModel]);
+      }
     }
     else {
-      this.$emit('input', innerModel);
+      if (!_.isEqual(innerModel, this.innerModel)) {
+        this.$emit('input', innerModel);
+      }
     }
 
     this.validation?.$touch();
@@ -115,9 +122,9 @@ export default class EpSelect extends Mixins(EpValidation) {
     if (this.value) {
       return this.value;
     }
+
     else if (!_.isEmpty(this.items) && !this.enableEmptyOption) {
-      this.innerModel = _.first(this.items);
-      return null;
+      return _.first(this.items);
     }
     else if (this.multiple) {
       return [];
