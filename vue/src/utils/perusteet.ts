@@ -320,6 +320,18 @@ export function yleissivistavat() {
   });
 }
 
+export function vapaasivistystyo() {
+  return [{
+    name: koulutustyyppiStateName('koulutustyyppi_30'),
+    route: {
+      name: 'kooste',
+      params: {
+        koulutustyyppi: koulutustyyppiStateName('koulutustyyppi_30'),
+      },
+    },
+  }];
+}
+
 export function colorize(topic: string) {
   const str = koulutustyyppiThemeColor(topic);
   return rgb2string(str) || 'black';
