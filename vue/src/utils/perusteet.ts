@@ -264,6 +264,10 @@ export function isAmmatillinenKoulutustyyppi(kt: string | undefined): boolean {
   return _.includes(AmmatillisetKoulutustyypit, kt);
 }
 
+export function isVapaasivistystyoKoulutustyyppi(kt: string | undefined): boolean {
+  return kt === 'koulutustyyppi_30';
+}
+
 export function isAmmatillinen(statename: string): boolean {
   const koulutustyyppi = stateToKoulutustyyppi(statename);
   return themes[koulutustyyppi] === 'ammatillinen';
