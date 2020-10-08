@@ -1,7 +1,10 @@
 <template>
   <div v-if="!isEditing">
     <div v-if="model">
-      {{ model }} {{ $t('osaamispiste') }}
+      {{ model }}
+      <slot>
+        {{ $t('osaamispiste') }}
+      </slot>
     </div>
     <div v-else>
       -
