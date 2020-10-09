@@ -10,7 +10,7 @@
                 <slot name="header"
                       :isEditing="isEditing"
                       :data="inner"
-                      :validation="validation" />
+                      :validation="validation"/>
               </div>
               <span class="muokattu text-nowrap" v-if="!isEditing">
                 <span class="text-truncate" v-if="latest">{{ $t('muokattu') }}: {{ $sdt(latest.pvm) }}, {{ nimi }}</span>
@@ -87,6 +87,17 @@
                            :show-spinner="isSaving"
                            :disabled="disabled">
                   <slot name="muokkaa">{{ $t('muokkaa') }}</slot>
+                </ep-button>
+                <ep-button id="editointi-kopiointi"
+                          v-tutorial
+                          variant="link"
+                          v-oikeustarkastelu="{ oikeus: 'muokkaus' }"
+                          @click="copy()"
+                          v-else-if="!isEditing && features.copyable"
+                          icon="kyna"
+                          :show-spinner="isSaving"
+                          :disabled="disabled">
+                  <slot name="kopioi-teksti">{{ $t('kopioi-muokattavaksi') }}</slot>
                 </ep-button>
                 <b-dropdown class="mx-4"
                             v-if="katseluDropDownValinnatVisible"
@@ -186,7 +197,7 @@
           <div class="actual-content">
             <div class="sisalto">
               <slot v-if="hidden" name="piilotettu">{{$t('sisalto-piilotettu')}}</slot>
-              <slot v-else :isEditing="isEditing" :data="inner" :validation="validation"></slot>
+              <slot v-else :isEditing="isEditing" :data="inner" :validation="validation" :isCopyable="features.copyable"></slot>
             </div>
           </div>
           <div class="rightbar rb-keskustelu" v-if="hasKeskusteluSlot && sidebarState === 1">
@@ -286,6 +297,15 @@ export default class EpEditointi extends Mixins(validationMixin) {
 
   @Prop({ default: 'palautus-epaonnistui' })
   private labelUnHideFail!: string;
+
+  @Prop({ default: 'kopio-varmistus' })
+  private labelCopyConfirm!: string;
+
+  @Prop({ default: 'kopion-luonti-onnistui' })
+  private labelCopySuccess!: string;
+
+  @Prop({ default: 'kopion-luonti-epaonnistui' })
+  private labelCopyFail!: string;
 
   @Prop({ required: false })
   private preModify!: Function;
@@ -532,6 +552,18 @@ export default class EpEditointi extends Mixins(validationMixin) {
     }
   }
 
+  async copy() {
+    try {
+      if (await this.vahvista(this.$t('varmista-kopiointi') as string, this.$t('kopioi') as string, this.$t(this.labelCopyConfirm) as string)) {
+        await this.store.copy();
+        this.$success(this.$t(this.labelCopySuccess) as string);
+      }
+    }
+    catch (err) {
+      this.$fail(this.$t(this.labelCopyFail) as string);
+    }
+  }
+
   async restore(ev: any) {
     try {
       await this.store.restore(ev);
@@ -582,12 +614,19 @@ export default class EpEditointi extends Mixins(validationMixin) {
     this.store.start();
   }
 
-  public async vahvista(title: string, okTitle: string) {
-    const vahvistusSisalto = this.$createElement('div', {},
-      [
-        this.$createElement('strong', this.$t('tata-toimintoa-ei-voida-perua') as string),
-      ]
-    ).children;
+  public async vahvista(title: string, okTitle: string, label?: string) {
+    let modalContent = [
+      this.$createElement('strong', this.$t('tata-toimintoa-ei-voida-perua') as string),
+    ];
+    if (label) {
+      modalContent = [
+        this.$createElement('div', label),
+        this.$createElement('br', ''),
+        ...modalContent,
+      ];
+    }
+
+    const vahvistusSisalto = this.$createElement('div', {}, modalContent).children;
     return this.$bvModal.msgBoxConfirm((vahvistusSisalto as any), {
       title: title,
       okVariant: 'primary',
