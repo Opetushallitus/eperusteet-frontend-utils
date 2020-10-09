@@ -26,6 +26,7 @@ export interface EditoitavaFeatures {
   recoverable?: boolean;
   hideable?: boolean;
   hidden?: boolean;
+  copyable?: boolean;
 }
 
 export interface IEditoitava {
@@ -103,6 +104,11 @@ export interface IEditoitava {
    * Get all revisions of the resource
    */
   revisions?: () => Promise<Revision[]>;
+
+  /**
+   * copy the resource
+   */
+  copy?: (data: any) => Promise<void>;
 
   /**
    * Save preventing validations
@@ -202,6 +208,7 @@ export class EditointiStore {
       recoverable: true,
       removable: true,
       validated: true,
+      copyable: false,
     };
 
     const provided = this.config.features ? this.config.features(this.data.value).value : Default;
@@ -220,6 +227,7 @@ export class EditointiStore {
       removable: cfg.remove && features.removable,
       validated: cfg.validator && features.validated,
       previewable: features.previewable || false,
+      copyable: features.copyable || false,
     };
   });
 
@@ -512,6 +520,21 @@ export class EditointiStore {
       this.logger.debug('Poistettu');
     }
     this.state.disabled = false;
+  }
+
+  public async copy() {
+    this.state.isSaving = true;
+    this.state.disabled = true;
+    try {
+      if (this.config.copy) {
+        await this.config.copy(this.state.data);
+        this.logger.debug('Kopioitu');
+      }
+    }
+    finally {
+      this.state.disabled = false;
+      this.state.isSaving = false;
+    }
   }
 
   public setData(data: any) {
