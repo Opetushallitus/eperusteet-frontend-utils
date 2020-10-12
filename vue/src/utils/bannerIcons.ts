@@ -26,6 +26,7 @@ const koulutustyyppiRyhmaBanners = {
   'perusopetus': bannerPerusopetus,
   'taiteenperusopetus': bannerTaiteenperusopetus,
   'varhaiskasvatus': bannerVarhaiskasvatus,
+  'vapaasivistystyo': bannerVapaasivistystyo,
 };
 
 const toteutusBanners = {
