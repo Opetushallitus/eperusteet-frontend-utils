@@ -521,8 +521,11 @@ export default class EpEditointi extends Mixins(validationMixin) {
 
   async remove() {
     try {
-      await this.store.remove();
-      this.$success(this.$t(this.labelRemoveSuccess) as string);
+      if (await this.vahvista(this.$t('varmista-poisto') as string, this.$t('poista') as string)) {
+        const poistoTeksti = this.$t(this.labelRemoveSuccess);
+        await this.store.remove();
+        this.$success(poistoTeksti as string);
+      }
     }
     catch (err) {
       this.$fail(this.$t(this.labelRemoveFail) as string);
@@ -577,6 +580,23 @@ export default class EpEditointi extends Mixins(validationMixin) {
       await this.preModify();
     }
     this.store.start();
+  }
+
+  public async vahvista(title: string, okTitle: string) {
+    const vahvistusSisalto = this.$createElement('div', {},
+      [
+        this.$createElement('strong', this.$t('tata-toimintoa-ei-voida-perua') as string),
+      ]
+    ).children;
+    return this.$bvModal.msgBoxConfirm((vahvistusSisalto as any), {
+      title: title,
+      okVariant: 'primary',
+      okTitle: okTitle as any,
+      cancelVariant: 'link',
+      cancelTitle: this.$t('peruuta') as any,
+      centered: true,
+      ...{} as any,
+    });
   }
 }
 
