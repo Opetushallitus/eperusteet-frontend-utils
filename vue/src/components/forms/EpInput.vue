@@ -55,7 +55,6 @@ function escapeHtml(str: string | null) {
   }
 }
 
-
 function unescapeHtml(str: string | null) {
   if (!str) {
     return '';
@@ -65,7 +64,6 @@ function unescapeHtml(str: string | null) {
     return TextArea.textContent;
   }
 }
-
 
 @Component({
   name: 'EpInput',
