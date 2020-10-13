@@ -43,6 +43,30 @@ import { Debounced } from '../../utils/delay';
 
 const logger = createLogger('EpInput');
 
+const TextArea = document.createElement('textarea');
+
+function escapeHtml(str: string | null) {
+  if (!str) {
+    return '';
+  }
+  else {
+    TextArea.textContent = str;
+    return TextArea.innerHTML;
+  }
+}
+
+
+function unescapeHtml(str: string | null) {
+  if (!str) {
+    return '';
+  }
+  else {
+    TextArea.innerHTML = str;
+    return TextArea.textContent;
+  }
+}
+
+
 @Component({
   name: 'EpInput',
 })
@@ -120,23 +144,27 @@ export default class EpInput extends Mixins(EpValidation) {
       this.$emit('input', Number(input));
     }
     else if (this.type !== 'localized' || _.isString(this.value)) {
-      this.$emit('input', input);
+      this.$emit('input', escapeHtml(input));
     }
     else {
       this.$emit('input', {
         ...(_.isObject(this.value) ? this.value as any : {}),
-        [Kielet.getSisaltoKieli.value]: input,
+        [Kielet.getSisaltoKieli.value]: _.isString(input) ? escapeHtml(input) : input,
       });
     }
     // this.touch();
   }
 
   get val() {
-    if (_.isObject(this.value)) {
-      return (this.value as any)[Kielet.getSisaltoKieli.value];
+    const target = _.isObject(this.value)
+      ? (this.value as any)[Kielet.getSisaltoKieli.value]
+      : this.value;
+
+    if (_.isString(target)) {
+      return unescapeHtml(target);
     }
     else {
-      return this.value;
+      return target;
     }
   }
 }
