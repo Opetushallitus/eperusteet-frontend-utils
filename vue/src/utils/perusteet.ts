@@ -30,12 +30,16 @@ export function isLukio(koulutustyyppi: string) {
   ], koulutustyyppi);
 }
 
-const AmmatillisetKoulutustyypit = [
+export const AmmatillisetKoulutustyypit = [
   'koulutustyyppi_1',
   'koulutustyyppi_11',
   'koulutustyyppi_12',
   'koulutustyyppi_5',
   'koulutustyyppi_18',
+];
+
+export const VapaasivistystyoKoulutustyypit = [
+  'koulutustyyppi_30',
 ];
 
 export const yleissivistavatKoulutustyypit = [
