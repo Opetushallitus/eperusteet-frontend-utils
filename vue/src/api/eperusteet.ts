@@ -155,6 +155,8 @@ export interface PerusteQuery {
   voimassaolo?: boolean;
   perusteTyyppi?: string;
   perusteet?: number[];
+  jarjestysOrder?: boolean,
+  jarjestysTapa?: string,
 };
 
 export async function getAllPerusteet(query: PerusteQuery) {
