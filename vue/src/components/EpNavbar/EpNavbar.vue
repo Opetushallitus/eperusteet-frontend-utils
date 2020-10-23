@@ -121,7 +121,7 @@ export default class EpNavbar extends Vue {
   @Prop({ required: false })
   private koulutustoimijat!: any;
 
-  @Prop({ required: false, default: { name: 'root' } })
+  @Prop({ required: false, type: Object, default: () => ({ name: 'root' }) })
   private rootNavigation!:any;
 
   get showNavigation() {
