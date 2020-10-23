@@ -714,7 +714,7 @@
     "maarat-tiloittain": "Enligt status",
     "maarayksen-diaarinumero": "Diarienummer för normen",
     "maarayksen-paatospaivamaara": "Slutdatum för normen",
-    "maarayskirje": "Normbrev",
+    "maarayskirje": "Föreskrift",
     "maksimi": "Maximum",
     "mandatory-odottamaton-virhe": "Du har inte fyllt i alla obligatoriska fält",
     "mandatory-otsikkoa-ei-asetettu": "Rubriken är obligatorisk",
@@ -1928,5 +1928,8 @@
     "yleisettavoitteet-kuvaus-placeholder": "En beskrivning av de allmänna målen",
     "ylikirjoita-uusi-sisalto": "Fortsätt redigera",
     "ylikirjoita-uusi-sisältö": "Fortsätt redigera",
-    "ylikirjoittaessasi-voit-palauttaa": "När du fortsätter kan du skriva över ändringar som andra har gjort. De blir kvar i ändringshistoriken och du kan återställa dem därifrån."
+    "ylikirjoittaessasi-voit-palauttaa": "När du fortsätter kan du skriva över ändringar som andra har gjort. De blir kvar i ändringshistoriken och du kan återställa dem därifrån.",
+    "lisaa-valinnainen-oppiaine": "Lägg till valfritt läroämne",
+    "valinnaisen-oppiaineen-nimi": "Valfria läroämnets namn",
+    "valinnaisen-oppiaineen-tyyppi": "Valfria läroämnets typ",
 }
