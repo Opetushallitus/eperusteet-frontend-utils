@@ -13,7 +13,7 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <router-link id="nav-admin" :to="{ name: 'root' }">
+            <router-link id="nav-admin" :to="rootNavigation">
               <fas fixed-width icon="koti" />
             </router-link>
           </li>
@@ -120,6 +120,9 @@ export default class EpNavbar extends Vue {
 
   @Prop({ required: false })
   private koulutustoimijat!: any;
+
+  @Prop({ required: false, default: { name: 'root' } })
+  private rootNavigation!:any;
 
   get showNavigation() {
     return this.browserStore.navigationVisible.value;

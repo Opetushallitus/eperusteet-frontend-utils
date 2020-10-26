@@ -27,10 +27,11 @@ module.exports = {
       2,
     ],
     'comma-dangle': ['error', 'always-multiline'],
-    'linebreak-style': [
-      'error',
-      'unix',
-    ],
+    'linebreak-style':
+      (process.platform === 'win32' ? 0 : [
+        'error',
+        'unix',
+      ]),
     'quotes': [
       'error',
       'single',

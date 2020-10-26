@@ -8,6 +8,8 @@ import bannerEsiopetus from '../../public/img/banners/banner_esiopetus.svg';
 import bannerPerusopetus from '../../public/img/banners/banner_perusopetus.svg';
 import bannerTaiteenperusopetus from '../../public/img/banners/banner_taiteenperusopetus.svg';
 import bannerVarhaiskasvatus from '../../public/img/banners/banner_varhaiskasvatus.svg';
+import bannerVapaasivistystyo from '../../public/img/banners/banner_vapaasivistystyo.svg';
+import bannerAmmatillinen from '../../public/img/banners/banner_ammatillinen.svg';
 import { themes } from './perusteet';
 
 const koulutustyyppiRyhmaTiles = {
@@ -24,6 +26,12 @@ const koulutustyyppiRyhmaBanners = {
   'perusopetus': bannerPerusopetus,
   'taiteenperusopetus': bannerTaiteenperusopetus,
   'varhaiskasvatus': bannerVarhaiskasvatus,
+  'vapaasivistystyo': bannerVapaasivistystyo,
+};
+
+const toteutusBanners = {
+  'ammatillinen': bannerAmmatillinen,
+  'vapaasivistystyo': bannerVapaasivistystyo,
 };
 
 export function koulutustyyppiBanner(koulutustyyppi) {
@@ -35,6 +43,11 @@ export function koulutustyyppiBanner(koulutustyyppi) {
 export function koulutusTyyppiTile(koulutustyyppi) {
   const themeType = themes[koulutustyyppi!] || 'lukio';
   const imgUrl = koulutustyyppiRyhmaTiles[themeType] || tileLukio;
+  return { 'background-image': `url('${imgUrl}')` };
+}
+
+export function toteutusBanner(toteutus) {
+  const imgUrl = toteutusBanners[toteutus] || bannerAmmatillinen;
   return { 'background-image': `url('${imgUrl}')` };
 }
 
