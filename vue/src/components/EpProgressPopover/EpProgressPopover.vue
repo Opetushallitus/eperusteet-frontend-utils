@@ -2,7 +2,7 @@
   <div>
     <div class="row justify-content-center">
       <div class="progress-area">
-        <ep-progress :slices="slices" :height="height" :width="width"/>
+        <ep-progress :slices="processSlices" :height="height" :width="width"/>
         <div class="header">
           <slot name="header" />
         </div>
@@ -21,7 +21,7 @@
 
       <div class="popup-top row justify-content-center" :style="popupStyle">
         <div class="progress-area">
-          <ep-progress :slices="slices" :height="height" :width="width"
+          <ep-progress :slices="processSlices" :height="height" :width="width"
                        :popup-style="{ 'background-color': '' }" />
           <div class="header">
             <slot name="header" />
@@ -64,6 +64,15 @@ export default class EpProgressPopover extends Vue {
   private popupStyle!: string;
 
   private tilaPopupVisible = false;
+
+  get processSlices() {
+    if (this.slices) {
+      if (this.done) {
+        return this.slices;
+      }
+      return [0.2, 0.5, 1];
+    }
+  }
 
   get done() {
     return _.size(_.filter(this.slices, (slice) => slice === 1)) === _.size(this.slices);
