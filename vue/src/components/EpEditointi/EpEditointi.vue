@@ -50,10 +50,10 @@
                     <slot name="poista">{{ poistoteksti }}</slot>
                   </b-dropdown-item>
                   <b-dropdown-item
-                    v-if="!hidden"
+                    v-if="!hidden && features.hideable"
                     @click="hide()"
                     key="piilota"
-                    :disabled="!features.hideable || disabled">
+                    :disabled="disabled">
                     <slot name="piilota">{{ $t('piilota') }}</slot>
                   </b-dropdown-item>
                   <b-dropdown-item
@@ -114,7 +114,7 @@
                   <b-dropdown-item :disabled="!features.previewable || disabled">
                     {{ $t('esikatsele-sivua') }}
                   </b-dropdown-item>
-                  <b-dropdown-item :disabled="!store.validate || disabled">
+                  <b-dropdown-item v-if="store.validate && !disabled">
                     {{ $t('validoi') }}
                   </b-dropdown-item>
                   <b-dropdown-item v-if="features.recoverable" :disabled="!historia || disabled">

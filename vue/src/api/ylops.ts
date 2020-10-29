@@ -153,3 +153,4 @@ export import OpetussuunnitelmaInfoDtoToteutusEnum = YlopsApi.OpetussuunnitelmaI
 export import OppiaineSuppeaDtoTyyppiEnum = YlopsApi.OppiaineSuppeaDtoTyyppiEnum;
 export import UnwrappedOpsOppiaineDtoTyyppiEnum = YlopsApi.UnwrappedOpsOppiaineDtoTyyppiEnum;
 export import NavigationNodeDtoTypeEnum = YlopsApi.NavigationNodeDtoTypeEnum;
+export import OpetussuunnitelmaInfoDtoKoulutustyyppiEnum = YlopsApi.OpetussuunnitelmaInfoDtoKoulutustyyppiEnum;
