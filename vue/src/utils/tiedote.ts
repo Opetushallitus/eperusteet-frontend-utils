@@ -15,6 +15,7 @@ export const julkaisupaikka = Object.freeze({
   ops: 'ops',
   lops: 'lops',
   amosaa: 'amosaa',
+  vst: 'vst',
 });
 
 export function onkoUusi(aika) {

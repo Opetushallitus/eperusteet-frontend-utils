@@ -74,35 +74,45 @@ export const themes = {
   'koulutustyyppi_30': 'vapaasivistystyo',
 };
 
+export enum Toteutus {
+  VARHAISKASVATUS = 'varhaiskasvatus',
+  ESIOPETUS = 'esiopetus',
+  PERUSOPETUS = 'perusopetus',
+  TAITEENPERUSOPETUS = 'taiteenperusopetus',
+  LUKIOKOULUTUS = 'lukiokoulutus',
+  VAPAASIVISTYSTYO = 'vapaasivistystyo',
+  AMMATILLINEN = 'ammatillinen',
+}
+
 export const EperusteetKoulutustyyppiRyhmat = {
-  'varhaiskasvatus': [
+  [Toteutus.VARHAISKASVATUS]: [
     'koulutustyyppi_20',
   ],
-  'esiopetus': [
+  [Toteutus.ESIOPETUS]: [
     'koulutustyyppi_15',
   ],
-  'perusopetus': [
+  [Toteutus.PERUSOPETUS]: [
     'koulutustyyppi_16',
     'koulutustyyppi_22',
     'koulutustyyppi_6',
     'koulutustyyppi_17',
   ],
-  'taiteenperusopetus': [
+  [Toteutus.TAITEENPERUSOPETUS]: [
     'koulutustyyppi_999907',
   ],
-  'lukiokoulutus': [
+  [Toteutus.LUKIOKOULUTUS]: [
     'koulutustyyppi_2',
     'koulutustyyppi_23',
     'koulutustyyppi_14',
   ],
-  'ammatillinen': [
+  [Toteutus.AMMATILLINEN]: [
     'koulutustyyppi_1',
     'koulutustyyppi_11',
     'koulutustyyppi_12',
     'koulutustyyppi_5',
     'koulutustyyppi_18',
   ],
-  'vapaasivistystyo': [
+  [Toteutus.VAPAASIVISTYSTYO]: [
     'koulutustyyppi_30',
   ],
 };
