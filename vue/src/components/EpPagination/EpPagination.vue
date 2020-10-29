@@ -84,7 +84,7 @@ export default class EpPagination extends Vue {
 
   get pages() {
     if (this.count < 6) {
-      return _.range(1, this.count);
+      return _.range(1, this.count + 1);
     }
     else {
       const result: (number | null)[] = [];
@@ -112,8 +112,7 @@ export default class EpPagination extends Vue {
   }
 
   async setValue(value: number) {
-    console.log('setting value', value);
-    if (value > 0 && value < this.count) {
+    if (value > 0 && value <= this.count) {
       this.$emit('input', value);
     }
   }

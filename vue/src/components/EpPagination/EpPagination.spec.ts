@@ -50,11 +50,12 @@ describe('EpPagination', () => {
       },
     });
 
-    expect(wrapper.findAll('.link-container').length).toEqual(6);
+    expect(wrapper.findAll('.link-container').length).toEqual(7);
     expect(findContaining(wrapper, '.link-container', '1')).toBeTruthy();
     expect(findContaining(wrapper, '.link-container', '2')).toBeTruthy();
     expect(findContaining(wrapper, '.link-container', '3')).toBeTruthy();
     expect(findContaining(wrapper, '.link-container', '4')).toBeTruthy();
+    expect(findContaining(wrapper, '.link-container', '5')).toBeTruthy();
   });
 
   test('Pagination with more than six pages', async () => {
