@@ -319,6 +319,9 @@ export function ammatilliset() {
     name: 'ammatillinen-koulutus',
     route: {
       name: 'ammatillinenSelaus',
+      params: {
+        koulutustyyppi: 'ammatillinen',
+      },
     },
   }];
 }
