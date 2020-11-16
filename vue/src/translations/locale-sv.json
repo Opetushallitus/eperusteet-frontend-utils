@@ -1953,5 +1953,17 @@
     "yleisettavoitteet-kuvaus-placeholder": "En beskrivning av de allmänna målen",
     "ylikirjoita-uusi-sisalto": "Fortsätt redigera",
     "ylikirjoita-uusi-sisältö": "Fortsätt redigera",
-    "ylikirjoittaessasi-voit-palauttaa": "När du fortsätter kan du skriva över ändringar som andra har gjort. De blir kvar i ändringshistoriken och du kan återställa dem därifrån."
+    "ylikirjoittaessasi-voit-palauttaa": "När du fortsätter kan du skriva över ändringar som andra har gjort. De blir kvar i ändringshistoriken och du kan återställa dem därifrån.",
+"ota-aikataulu-kayttoon": "Ta ibruk tidtabellen",
+"aikataulu-modal-selite": "Meddela i tidtabellen viktiga datum för läroplanen. Ge till en början en planerad publiceringsdag.",
+"projektin-luomispaiva": "Projektet skapades",
+"projektin-suunniteltu-julkaisupaiva": "Planerad publiceringsdag",
+"tapahtuma-paivitys": "Redigerade",
+"tapahtuma-luonti-tekstikappale": "Lade till textstycke",
+"tapahtuma-luonti-viite": "Lade till textstycke",
+"paivita-opetussuunnitelma": "Uppdatera läroplan",
+"paivita-opetussuunnitelma-huomioteksti": "<p>Du kan lägga till nya textstycken och uppdatera din läroplan. </p> <p>Producera lokala texter till de nya textstyckena till exempel genom att kopiera dem från tidigare textstycken. Kom ihåg att radera de gamla textstyckena och publicera den uppdaterade läroplanen.</p>",
+"route-yleisnakyma": "Allmän vy",
+"tavoitteita-ei-ole-viela-vuosiluokkaistettu":"Målen har inte ännu årskursfördelats",
+"route-perusopetusvalinnaiset": "Valfrihet inom grundläggande utbildning"
 }
