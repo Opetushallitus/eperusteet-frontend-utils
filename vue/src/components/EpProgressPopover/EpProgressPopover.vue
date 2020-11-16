@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="row justify-content-center">
-      <div class="progress-area">
+      <div class="col-12 progress-area">
         <ep-progress :slices="processSlices" :height="height" :width="width"/>
-        <div class="header">
-          <slot name="header" />
-        </div>
+      </div>
+      <div class="col-12 header">
+        <slot name="header" />
       </div>
     </div>
 
@@ -23,9 +23,9 @@
         <div class="progress-area">
           <ep-progress :slices="processSlices" :height="height" :width="width"
                        :popup-style="{ 'background-color': '' }" />
-          <div class="header">
-            <slot name="header" />
-          </div>
+        </div>
+        <div class="header">
+          <slot name="header" />
         </div>
       </div>
 
