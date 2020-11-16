@@ -3,6 +3,7 @@ import tileEsiopetus from '../../public/img/banners/tile_ops_esiopetus.svg';
 import tilePerusopetus from '../../public/img/banners/tile_ops_perusopetus.svg';
 import tileTaiteenperusopetus from '../../public/img/banners/tile_ops_taiteenperusopetus.svg';
 import tileVarhaiskasvatus from '../../public/img/banners/tile_ops_varhaiskasvatus.svg';
+import tileVapaasivistystyo from '../../public/img/banners/tile_ops_vapaasivistysto.svg';
 import bannerLukio from '../../public/img/banners/banner_lukio.svg';
 import bannerEsiopetus from '../../public/img/banners/banner_esiopetus.svg';
 import bannerPerusopetus from '../../public/img/banners/banner_perusopetus.svg';
@@ -18,6 +19,7 @@ const koulutustyyppiRyhmaTiles = {
   'perusopetus': tilePerusopetus,
   'taiteenperusopetus': tileTaiteenperusopetus,
   'varhaiskasvatus': tileVarhaiskasvatus,
+  'vapaasivistystyo': tileVapaasivistystyo,
 };
 
 const koulutustyyppiRyhmaBanners = {
