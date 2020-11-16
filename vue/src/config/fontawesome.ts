@@ -11,6 +11,7 @@ library.add(regular.faFilePdf);
 library.add(regular.faFolder);
 library.add(regular.faSquare);
 library.add(regular.faTrashAlt);
+library.add(regular.faCheckCircle);
 library.add(solid.faArrowDown);
 library.add(solid.faArrowLeft);
 library.add(solid.faArrowRight);
