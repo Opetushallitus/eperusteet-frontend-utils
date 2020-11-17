@@ -17,9 +17,9 @@
       :show.sync="tilaPopupVisible"
       ref="popover"
       custom-class="progress-popover"
-      v-if="$slots.default && !done">
+      v-if="$slots.default && !done || $slots.default && retainPopup">
 
-      <div class="popup-top row justify-content-center" :style="popupStyle">
+      <div class="popup-top row flex-column align-items-center" :style="popupStyle">
         <div class="progress-area">
           <ep-progress :slices="processSlices" :height="height" :width="width"
                        :popup-style="{ 'background-color': '' }" />
@@ -50,6 +50,9 @@ import EpProgress from './EpProgress.vue';
 export default class EpProgressPopover extends Vue {
   @Prop({ required: true })
   private slices!: number[];
+
+  @Prop({ required: false })
+  private retainPopup!: boolean;
 
   private height = 80;
   private width = 80;
