@@ -54,8 +54,11 @@ export default class EpProgressPopover extends Vue {
   @Prop({ required: false })
   private retainPopup!: boolean;
 
-  private height = 80;
-  private width = 80;
+  @Prop({ required: false, default: 80 })
+  private height!: number;
+
+  @Prop({ required: false, default: 80 })
+  private width!: number;
 
   @Prop({
     default() {
