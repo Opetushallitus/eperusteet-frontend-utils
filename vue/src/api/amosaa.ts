@@ -92,6 +92,7 @@ export import MatalaTyyppiEnum = AmosaaApi.MatalaTyyppiEnum;
 export import OpetussuunnitelmaMuokkaustietoDtoKohdeEnum = AmosaaApi.OpetussuunnitelmaMuokkaustietoDtoKohdeEnum;
 export import OpetussuunnitelmaMuokkaustietoDtoTapahtumaEnum = AmosaaApi.OpetussuunnitelmaMuokkaustietoDtoTapahtumaEnum;
 export import OpetussuunnitelmaTilastoDtoTilaEnum = AmosaaApi.OpetussuunnitelmaTilastoDtoTilaEnum;
+export import OpetussuunnitelmaDtoTilaEnum = AmosaaApi.OpetussuunnitelmaDtoTilaEnum;
 export import PerusteDtoKoulutustyyppiEnum = AmosaaApi.PerusteDtoKoulutustyyppiEnum;
 export import SisaltoViiteKevytDtoTyyppiEnum = AmosaaApi.SisaltoViiteKevytDtoTyyppiEnum;
 export import TutkinnonOsaKevytDtoTyyppiEnum = AmosaaApi.TutkinnonOsaKevytDtoTyyppiEnum;
