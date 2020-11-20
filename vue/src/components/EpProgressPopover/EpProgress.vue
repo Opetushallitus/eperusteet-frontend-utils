@@ -13,9 +13,7 @@
       </svg>
     </div>
 
-    <div v-else-if="done" class="done-icon">
-      <fas :icon="['far', 'check-circle']" />
-    </div>
+    <div v-else-if="done" class="done-icon d-inline-block" :style="{ height: height + 'px', width: width + 'px' }"></div>
 
     <div v-else-if="hasValidation">
       <svg viewBox="0 0 100 100" class="vaiheet" style="transform: rotate(-90deg)" :height="height" :width="width">
@@ -103,8 +101,9 @@ export default class EpProgress extends Vue {
   */
 
   .done-icon {
-    font-size: 4.6rem;
-    color: rgba(91, 202, 19, 1);
+    background: url('../../../public/img/icons/valmiusaste-indikaattori-valmis.svg');
+    background-repeat: no-repeat;
+    background-size: 100%;
   }
 
   svg.vaiheet {
