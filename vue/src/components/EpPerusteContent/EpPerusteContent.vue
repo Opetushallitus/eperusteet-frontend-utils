@@ -32,7 +32,7 @@ import EpContentViewer from '@shared/components/EpContentViewer/EpContentViewer.
     EpAlert,
     EpContentViewer,
   },
-})
+} as any)
 export default class EpPerusteContent extends Vue {
   @Prop({ required: false })
   private perusteObject!: any;

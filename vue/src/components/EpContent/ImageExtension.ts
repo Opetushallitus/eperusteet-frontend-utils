@@ -63,7 +63,7 @@ export default class ImageExtension extends Node {
         ImageModal,
         VueSelect,
         EpButton,
-      },
+      } as any,
       props: ['node', 'updateAttrs', 'view'],
       data() {
         return {
