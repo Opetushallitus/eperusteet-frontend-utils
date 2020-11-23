@@ -27,7 +27,9 @@ import {
   TableCell,
   TableHeader,
   TableRow,
+  Link,
 } from 'tiptap-extensions';
+import CustomLink from './CustomLink';
 
 function createEditor(config: any) {
   return new Editor({
@@ -44,6 +46,7 @@ function createEditor(config: any) {
       new BulletList(),
       new OrderedList(),
       new ListItem(),
+      new Link(),
       // new Image(),
       new Table({ resizable: true }),
       new TableHeader(),

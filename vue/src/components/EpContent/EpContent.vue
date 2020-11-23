@@ -32,7 +32,6 @@ import {
   Underline,
   Strike,
   Italic,
-  Link,
   HardBreak,
   History,
   BulletList,
@@ -52,6 +51,7 @@ import { IKasiteHandler } from './KasiteHandler';
 import TermiExtension from './TermiExtension';
 import ImageExtension from './ImageExtension';
 import { IKuvaHandler } from './KuvaHandler';
+import CustomLink from './CustomLink';
 
 const striptag = document.createElement('span');
 
@@ -126,7 +126,7 @@ export default class EpContent extends Mixins(EpValidation) {
       new Bold(),
       new Italic(),
       new Strike(),
-      new Link(),
+      new CustomLink(),
       new BulletList(),
       new OrderedList(),
       new ListItem(),
