@@ -86,6 +86,7 @@ export type VanhentunutPohjaperusteDto = AmosaaApi.VanhentunutPohjaperusteDto;
 export type PoistettuDto = AmosaaApi.PoistettuDto;
 export type KayttajaDto = AmosaaApi.KayttajaDto;
 export type KayttajaoikeusDto = AmosaaApi.KayttajaoikeusDto;
+export type Validointi = AmosaaApi.Validointi;
 
 export import DokumenttiDtoTilaEnum = AmosaaApi.DokumenttiDtoTilaEnum;
 export import MatalaTyyppiEnum = AmosaaApi.MatalaTyyppiEnum;
