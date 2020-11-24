@@ -59,6 +59,8 @@ export const tileColors = {
   'perusopetus': ['#8DD9D9', '#67CCCC'],
   'lukio': ['#4172E4', '#0143DA'],
   'taide': ['#FBD9EF', '#FACCEA'],
+  'ammatillinen': ['#009700', '#007500'],
+  'vapaasivistystyo': ['#9B4E27', '#993300'],
 };
 
 export function tileBackgroundColor(koulutustyyppi) {
