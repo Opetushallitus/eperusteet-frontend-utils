@@ -81,6 +81,6 @@ describe('EpPagination', () => {
     expect(findContaining(wrapper, '.link-container', '5')).toBeTruthy();
     expect(findContaining(wrapper, '.link-container', '6')).toBeTruthy();
     expect(findContaining(wrapper, '.link-container', '7')).not.toBeTruthy();
-    expect(findContaining(wrapper, '.link-container', '9')).toBeTruthy();
+    expect(findContaining(wrapper, '.link-container', '8')).toBeTruthy();
   });
 });
