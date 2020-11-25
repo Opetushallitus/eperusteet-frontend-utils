@@ -73,12 +73,20 @@ export default class EpProgressPopover extends Vue {
       if (this.done) {
         return this.slices;
       }
+      if (this.zero) {
+        return this.slices;
+      }
+
       return [0.2, 0.5, 1];
     }
   }
 
   get done() {
     return _.size(_.filter(this.slices, (slice) => slice === 1)) === _.size(this.slices);
+  }
+
+  get zero() {
+    return _.isEqual(this.slices, [0]);
   }
 }
 </script>
