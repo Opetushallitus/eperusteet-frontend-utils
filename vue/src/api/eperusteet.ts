@@ -114,6 +114,7 @@ export import PerusteprojektiLuontiDtoTyyppiEnum = EperusteetApi.Perusteprojekti
 export import NavigationNodeDtoTypeEnum = EperusteetApi.NavigationNodeDtoTypeEnum;
 export import PerusteDtoTyyppiEnum = EperusteetApi.PerusteDtoTyyppiEnum;
 export import DokumenttiDtoTilaEnum = EperusteetApi.DokumenttiDtoTilaEnum;
+export import PerusteDtoTilaEnum = EperusteetApi.PerusteDtoTilaEnum;
 
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
