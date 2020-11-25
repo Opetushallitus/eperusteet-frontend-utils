@@ -79,7 +79,7 @@ export default class EpPagination extends Vue {
   }
 
   get count() {
-    return Math.floor(this.totalRows / this.perPage) + 1;
+    return Math.ceil(this.totalRows / this.perPage);
   }
 
   get pages() {
