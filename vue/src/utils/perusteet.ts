@@ -166,7 +166,7 @@ export const themeColors = {
   'perusopetus': [103, 204, 204],
   'varhaiskasvatus': [255, 204, 51],
   'taiteenperusopetus': [250, 204, 234],
-  'vapaasivistystyo': [153, 51, 0],
+  'vapaasivistystyo': [102, 0, 102],
 };
 
 export const ktToState = {
