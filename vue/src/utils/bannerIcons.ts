@@ -60,7 +60,7 @@ export const tileColors = {
   'lukio': ['#4172E4', '#0143DA'],
   'taide': ['#FBD9EF', '#FACCEA'],
   'ammatillinen': ['#009700', '#007500'],
-  'vapaasivistystyo': ['#9B4E27', '#993300'],
+  'vapaasivistystyo': ['#8D408D', '#660066'],
 };
 
 export function tileBackgroundColor(koulutustyyppi) {
