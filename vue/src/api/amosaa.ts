@@ -50,6 +50,7 @@ export const SisaltoviiteLukko = initApi(AmosaaApi.SisaltoviiteLukkoApi);
 export const Sisaltoviitteet = initApi(AmosaaApi.SisaltoviitteetApi);
 export const Ulkopuoliset = initApi(AmosaaApi.UlkopuolisetApi);
 export const Kayttajaoikeudet = initApi(AmosaaApi.KayttajaoikeudetApi);
+export const Julkaisut = initApi(AmosaaApi.JulkaisutApi);
 
 export type ArviointiasteikkoDto = AmosaaApi.ArviointiasteikkoDto;
 export type DokumenttiDto = AmosaaApi.DokumenttiDto;
@@ -87,6 +88,7 @@ export type PoistettuDto = AmosaaApi.PoistettuDto;
 export type KayttajaDto = AmosaaApi.KayttajaDto;
 export type KayttajaoikeusDto = AmosaaApi.KayttajaoikeusDto;
 export type Validointi = AmosaaApi.Validointi;
+export type JulkaisuBaseDto = AmosaaApi.JulkaisuBaseDto;
 
 export import DokumenttiDtoTilaEnum = AmosaaApi.DokumenttiDtoTilaEnum;
 export import MatalaTyyppiEnum = AmosaaApi.MatalaTyyppiEnum;
