@@ -52,6 +52,7 @@ import { Revision } from '../../tyypit';
 import EpButton from '../../components/EpButton/EpButton.vue';
 import EpFormContent from '../../components/forms/EpFormContent.vue';
 import EpValidation from '../../mixins/EpValidation';
+import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 
 @Component({
   components: {
@@ -97,7 +98,7 @@ export default class EpVersioModaali extends Mixins(EpValidation) {
   get versionsFormatted() {
     const versions = _.map(this.versions, (rev) => ({
       ...rev,
-      muokkaaja: rev.nimi || rev.muokkaajaOid,
+      muokkaaja: parsiEsitysnimi(rev.kayttajanTieto) || parsiEsitysnimi(rev),
       ajankohta: rev.pvm ? (this as any).$sdt(rev.pvm) : '-',
       kommentti: rev.kommentti || '-',
       valittu: false,

@@ -73,6 +73,7 @@ export interface Revision {
   sukunimi?: string;
   kommentti?: string;
   nykyinen?: boolean;
+  kayttajanTieto?: any;
 }
 
 export type LiiteDtoWrapper = {

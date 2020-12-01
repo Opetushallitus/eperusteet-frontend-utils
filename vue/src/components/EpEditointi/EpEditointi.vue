@@ -240,6 +240,7 @@ import '@shared/stores/kieli';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpRoundButton from '@shared/components/EpButton/EpRoundButton.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
+import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 
 @Component({
   validations() {
@@ -356,13 +357,9 @@ export default class EpEditointi extends Mixins(validationMixin) {
   }
 
   get nimi() {
-    if (this.latest?.nimi) {
-      return this.latest?.nimi;
+    if (this.latest) {
+      return parsiEsitysnimi(this.latest.kayttajanTieto) || parsiEsitysnimi(this.latest);
     }
-    else if (this.latest?.kutsumanimi && this.latest?.sukunimi) {
-      return this.latest?.kutsumanimi + ' ' + this.latest?.sukunimi;
-    }
-    return this.latest?.muokkaajaOid || '';
   }
 
   get inner() {
