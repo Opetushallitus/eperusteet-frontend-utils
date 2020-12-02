@@ -348,6 +348,14 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
       },
     };
     break;
+  case 'opintokokonaisuus':
+    node.location = {
+      name: 'toteutussuunnitelmaSisalto',
+      params: {
+        sisaltoviiteId: _.toString(rawNode.id),
+      },
+    };
+    break;
   default:
     break;
   }
