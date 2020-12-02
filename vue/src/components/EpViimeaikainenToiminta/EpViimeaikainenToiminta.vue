@@ -143,7 +143,7 @@ export default class EpViimeaikainenToiminta extends Vue {
   .container {
     margin-top: 40px;
     margin-bottom: 20px;
-    min-width: 450px;
+    min-width: 350px;
 
     .muokkaustieto {
       margin-top: 0;

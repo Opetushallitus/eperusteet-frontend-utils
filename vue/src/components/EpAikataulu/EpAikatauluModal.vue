@@ -16,7 +16,12 @@
 
       <slot name="selite"></slot>
 
-      <ep-aikataulu-listaus ref="epAikatauluListaus" :aikataulutProp="aikataulutClone" :rootModel="rootModel" @setInvalid="setInvalid" >
+      <ep-aikataulu-listaus
+        ref="epAikatauluListaus"
+        :aikataulutProp="aikataulutClone"
+        :immutableAikataulut="immutableAikataulut"
+        :rootModel="rootModel"
+        @setInvalid="setInvalid" >
         <template v-slot:luomispaiva-topic><slot name="luomispaiva-topic"></slot></template>
         <template v-slot:julkaisupaiva-topic><slot name="julkaisupaiva-topic"></slot></template>
       </ep-aikataulu-listaus>
@@ -61,6 +66,9 @@ export default class EpAikatauluModal extends Vue {
   @Prop({ required: true })
   private aikataulut!: any[];
 
+  @Prop({ required: false })
+  private immutableAikataulut!: any[];
+
   private invalid: boolean = false;
   private aikataulutClone: any[]= [];
 
@@ -71,7 +79,6 @@ export default class EpAikatauluModal extends Vue {
       this.aikataulutClone = [
         {
           tapahtuma: aikataulutapahtuma.luominen,
-          // opetussuunnitelmaId: this.rootModel?.id,
           tapahtumapaiva: this.rootModel.luotu,
           tavoite: {
             [Kielet.getSisaltoKieli.value]: this.$t('projektin-luomispaiva'),
@@ -79,7 +86,6 @@ export default class EpAikatauluModal extends Vue {
         },
         {
           tapahtuma: aikataulutapahtuma.julkaisu,
-          // opetussuunnitelmaId: this.rootModel?.id,
           tapahtumapaiva: null,
           tavoite: {
             [Kielet.getSisaltoKieli.value]: this.$t('projektin-suunniteltu-julkaisupaiva'),
