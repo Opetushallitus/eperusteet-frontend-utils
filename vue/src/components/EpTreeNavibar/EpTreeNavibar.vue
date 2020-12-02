@@ -2,13 +2,19 @@
   <div>
     <EpSpinner v-if="!navigation" />
     <div v-else>
-      <div class="header">
-        <slot name="header"></slot>
+      <div class="structure-toggle" v-if="showAllToggle">
+        <ep-toggle v-model="showAll">
+          {{$t('nayta-koko-rakenne')}}
+        </ep-toggle>
       </div>
-      <div v-for="item in menu" :key="item.idx">
-        <div class="d-flex align-items-center item">
+
+      <div class="header">
+        <slot name="header" :data="showAll"></slot>
+      </div>
+      <div v-for="item in menuStyled" :key="item.idx">
+        <div class="d-flex align-items-center item" :class="item.class">
           <div class="backwrapper">
-            <div v-if="activeIdx === item.idx" class="back">
+            <div v-if="activeIdx === item.idx && !showAll" class="back">
               <b-button size="sm" variant="link" @click="navigateUp()" class="backbtn">
                 <fas icon="chevron-left" />
               </b-button>
@@ -19,7 +25,7 @@
             {{ $kaanna(item.label) }}
             </slot>
           </div>
-          <div class="text-muted" v-if="item.children.length > 0 && item.idx !== activeIdx">
+          <div class="text-muted" v-if="item.children.length > 0 && item.idx !== activeIdx && !showAll">
             <b-button variant="link" @click="navigate(item)" class="forwards">
               <fas icon="chevron-right" />
             </b-button>
@@ -42,6 +48,7 @@ import { Watch, Prop, Component, Vue } from 'vue-property-decorator';
 import EpIcon from '@shared/components/EpIcon/EpIcon.vue';
 import EpSearch from '@shared/components/forms/EpSearch.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
+import EpToggle from '@shared/components/forms/EpToggle.vue';
 import EpMultiSelect from '@shared/components/forms/EpMultiSelect.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { FlattenedNodeDto, EpTreeNavibarStore } from '@shared/components/EpTreeNavibar/EpTreeNavibarStore';
@@ -59,13 +66,18 @@ type IndexedNode = FlattenedNodeDto & { idx: number };
     EpSearch,
     EpButton,
     EpSpinner,
+    EpToggle,
   },
 })
 export default class EpTreeNavibar extends Vue {
   @Prop({ required: true })
   private store!: EpTreeNavibarStore;
 
+  @Prop({ required: false, type: Boolean, default: false })
+  private showAllToggle!: boolean;
+
   private active: IndexedNode | null = null;
+  private showAll= false;
 
   get depth() {
     return this.active?.depth || 1;
@@ -155,7 +167,10 @@ export default class EpTreeNavibar extends Vue {
   }
 
   get menu() {
-    if (this.active) {
+    if (this.showAll) {
+      return this.navigation;
+    }
+    else if (this.active) {
       return _.filter([
         this.active,
         ...(this.children || [])],
@@ -164,6 +179,15 @@ export default class EpTreeNavibar extends Vue {
     else {
       return _.filter(this.navigation, item => item.depth === this.depth);
     }
+  }
+
+  get menuStyled() {
+    return _.map(this.menu, item => {
+      return {
+        ...item,
+        ...(this.showAll && { class: 'item-margin-' + (item.depth - 1) }),
+      };
+    });
   }
 
   navigate(item: IndexedNode) {
@@ -247,5 +271,22 @@ export default class EpTreeNavibar extends Vue {
 .action-container {
   margin-left: 20px;
 }
+
+.structure-toggle {
+  font-size: 14px;
+  border-top: 1px solid rgb(216, 216, 216);
+  border-bottom: 1px solid rgb(216, 216, 216);
+  padding: 10px 0px;
+}
+
+$sizes: 12;
+
+@mixin margin-classes {
+  @for $i from 1 through $sizes {
+     $margin: $i * 0.40rem;
+    .item-margin-#{$i} {margin-left: $margin;}
+  }
+}
+@include margin-classes;
 
 </style>

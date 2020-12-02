@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <ep-aikataulu :aikataulut ="aikataulut" class="pt-3" :showPopover="false">
+    <ep-aikataulu :aikataulut="kaikkiAikataulut" class="pt-3" :showPopover="false">
       <template v-slot:luomispaiva-topic><slot name="luomispaiva-topic"></slot></template>
       <template v-slot:julkaisupaiva-topic><slot name="julkaisupaiva-topic"></slot></template>
     </ep-aikataulu>
@@ -86,12 +86,22 @@ export default class EpAikatauluListaus extends Mixins(validationMixin) {
   @Prop({ required: true })
   private aikataulutProp!: any[];
 
+  @Prop({ required: false })
+  private immutableAikataulut!: any[];
+
   private aikataulut: any[] = [];
 
   mounted() {
     this.aikataulut = _.chain(this.aikataulutProp)
       .sortBy([aikatauluTapahtumaSort, aikatauluTapahtumapaivaSort])
       .value();
+  }
+
+  get kaikkiAikataulut() {
+    return [
+      ..._.toArray(this.immutableAikataulut),
+      ...this.aikataulut,
+    ];
   }
 
   lisaaTavoite() {
