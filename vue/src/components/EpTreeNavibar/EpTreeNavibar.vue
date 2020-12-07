@@ -8,10 +8,13 @@
         </ep-toggle>
       </div>
 
-      <div class="header">
+      <div class="header" v-if="!hasItemTypeTiedot">
         <slot name="header" :data="showAll"></slot>
       </div>
       <div v-for="item in menuStyled" :key="item.idx">
+        <div class="header" v-if="isItemTypeTiedot(item.type)">
+          <slot name="tiedot" :data="showAll"></slot>
+        </div>
         <div class="d-flex align-items-center item" :class="item.class">
           <div class="backwrapper">
             <div v-if="activeIdx === item.idx && !showAll" class="back">
@@ -20,7 +23,7 @@
               </b-button>
             </div>
           </div>
-          <div class="flex-grow-1">
+          <div class="flex-grow-1" v-if="!isItemTypeTiedot(item.type)">
             <slot :name="$scopedSlots[item.type] ? item.type : 'default'" :item="item">
             {{ $kaanna(item.label) }}
             </slot>
@@ -188,6 +191,14 @@ export default class EpTreeNavibar extends Vue {
         ...(this.showAll && { class: 'item-margin-' + (item.depth - 1) }),
       };
     });
+  }
+
+  get hasItemTypeTiedot() {
+    return _.some(this.menu, { type: 'tiedot' });
+  }
+
+  isItemTypeTiedot(itemType) {
+    return itemType === 'tiedot';
   }
 
   navigate(item: IndexedNode) {

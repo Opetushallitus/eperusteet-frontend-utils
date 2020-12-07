@@ -38,26 +38,27 @@ export class EpTreeNavibarStore {
   }
 
   public readonly connected = computed(() => {
-    return _.drop(flattenNodes(this.config, this.navigation.value), 1);
+    return _.drop(this.flattenNodes(this.config, this.navigation.value), 1);
   });
 
   public readonly filtered = computed(() => this.connected.value);
-}
 
-function flattenNodes(config: NodeConfigs, root: NavigationNodeDto, depth = 0, parents: number[] = []): FlattenedNodeDto[] {
-  const tconfig = config[root.type!];
-  const nextDepth = tconfig?.disableNesting ? depth : depth + 1;
-  return [{
-    id: root.id,
-    label: root.label,
-    type: root.type,
-    meta: root.meta,
-    children: tconfig?.disableNesting ? [] : root.children as any,
-    chapter: _.join(_.map(parents, p => p + 1), '.'),
-    depth,
-  }, ..._.flatten(_.map(root.children, (child, idx) => flattenNodes(
-    config,
-    child,
-    nextDepth,
-    [...parents, idx])))];
+  private flattenNodes(config: NodeConfigs, root: NavigationNodeDto, depth = 0, parents: number[] = []): FlattenedNodeDto[] {
+    const tconfig = config[root.type!];
+    const nextDepth = tconfig?.disableNesting ? depth : depth + 1;
+    const hasTypeTiedot = _.some(this.navigation.value.children,  { type: 'tiedot' });
+    return [{
+      id: root.id,
+      label: root.label,
+      type: root.type,
+      meta: root.meta,
+      children: tconfig?.disableNesting ? [] : root.children as any,
+      chapter: _.join(_.map(parents, p => hasTypeTiedot ? p : p + 1), '.'),
+      depth,
+    }, ..._.flatten(_.map(root.children, (child, idx) => this.flattenNodes(
+      config,
+      child,
+      nextDepth,
+      [...parents, idx])))];
+  }
 }
