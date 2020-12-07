@@ -269,6 +269,7 @@ export default class EpContent extends Mixins(EpValidation) {
     width: 100%;
 
     td, th {
+      vertical-align: top;
       border: 1px solid #ddd;
       padding: 4px;
     }
