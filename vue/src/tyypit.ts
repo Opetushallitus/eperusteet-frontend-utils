@@ -152,6 +152,7 @@ export interface SideMenuItem {
   objref?: object,
   prefix?: string,
   hideChevron?: boolean,
+  order?: string,
 }
 
 export interface SideMenuRoute {
