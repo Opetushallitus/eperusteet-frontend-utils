@@ -129,7 +129,7 @@
         <div class="otsikko font-weight-bold">
           {{ $kaanna(kohdealue.kuvaus) }}
         </div>
-        <div class="otsikko font-italic">
+        <div class="otsikko">
           {{ $kaanna(inner.kohde) }}
         </div>
         <ul>
