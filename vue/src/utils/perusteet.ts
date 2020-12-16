@@ -20,6 +20,7 @@ export const EperusteetKoulutustyypit = Object.freeze([
   'koulutustyyppi_23', // valmistava lukiokoulutus
   'koulutustyyppi_999907', // taiteen perusopetus,
   'koulutustyyppi_30', // vapaa sivistystyo
+  'koulutustyyppi_40', // tutkintoon valmentava
 ]);
 
 export function isLukio(koulutustyyppi: string) {
@@ -72,6 +73,7 @@ export const themes = {
   'koulutustyyppi_6': 'perusopetus',
   'koulutustyyppi_999907': 'taiteenperusopetus',
   'koulutustyyppi_30': 'vapaasivistystyo',
+  'koulutustyyppi_40': 'tutkintoonvalmentava',
 };
 
 export enum Toteutus {
@@ -82,6 +84,7 @@ export enum Toteutus {
   LUKIOKOULUTUS = 'lukiokoulutus',
   VAPAASIVISTYSTYO = 'vapaasivistystyo',
   AMMATILLINEN = 'ammatillinen',
+  TUTKINTOONVALMENTAVA = 'tutkintoonvalmentava',
 }
 
 export const EperusteetKoulutustyyppiRyhmat = {
@@ -114,6 +117,9 @@ export const EperusteetKoulutustyyppiRyhmat = {
   ],
   [Toteutus.VAPAASIVISTYSTYO]: [
     'koulutustyyppi_30',
+  ],
+  [Toteutus.TUTKINTOONVALMENTAVA]: [
+    'koulutustyyppi_40',
   ],
 };
 
@@ -167,6 +173,7 @@ export const themeColors = {
   'varhaiskasvatus': [255, 204, 51],
   'taiteenperusopetus': [250, 204, 234],
   'vapaasivistystyo': [102, 0, 102],
+  'tutkintoonvalmentava': [255, 80, 0],
 };
 
 export const ktToState = {
