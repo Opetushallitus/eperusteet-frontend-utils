@@ -109,6 +109,7 @@ export type AIPEOppiaineDto = EperusteetApi.AIPEOppiaineDto;
 export type AIPEOppiaineSuppeaDto = EperusteetApi.AIPEOppiaineSuppeaDto;
 export type AIPEKurssiDto = EperusteetApi.AIPEKurssiDto;
 export type LaajaalainenOsaaminenDto = EperusteetApi.LaajaalainenOsaaminenDto;
+export type KoulutuksenOsaDto = EperusteetApi.KoulutuksenOsaDto;
 
 export import PerusteprojektiLuontiDtoTyyppiEnum = EperusteetApi.PerusteprojektiLuontiDtoTyyppiEnum;
 export import NavigationNodeDtoTypeEnum = EperusteetApi.NavigationNodeDtoTypeEnum;
@@ -116,6 +117,8 @@ export import PerusteDtoTyyppiEnum = EperusteetApi.PerusteDtoTyyppiEnum;
 export import DokumenttiDtoTilaEnum = EperusteetApi.DokumenttiDtoTilaEnum;
 export import PerusteDtoTilaEnum = EperusteetApi.PerusteDtoTilaEnum;
 export import PerusteprojektiLuontiKuvausEnum = EperusteetApi.PerusteprojektiLuontiDtoProjektiKuvausEnum;
+export import PerusteDtoToteutusEnum = EperusteetApi.PerusteDtoToteutusEnum;
+export import KoulutuksenOsaDtoKoulutusOsanKoulutustyyppiEnum = EperusteetApi.KoulutuksenOsaDtoKoulutusOsanKoulutustyyppiEnum
 
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
