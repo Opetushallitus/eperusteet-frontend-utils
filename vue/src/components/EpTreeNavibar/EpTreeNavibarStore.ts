@@ -45,6 +45,9 @@ export class EpTreeNavibarStore {
 }
 
 function flattenNodes(config: NodeConfigs, root: NavigationNodeDto, depth = 0, parents: number[] = []): FlattenedNodeDto[] {
+  if (!root) {
+    return [];
+  }
   const tconfig = config[root.type!];
   const nextDepth = tconfig?.disableNesting ? depth : depth + 1;
   return [{
