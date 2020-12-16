@@ -113,8 +113,9 @@ export interface OpetussuunnitelmaQuery {
   sivukoko?: number;
   nimi?: string;
   kieli?: string;
-  organisaatioTyyppi?: string;
-  koulutustyyppi?: Array<string>;
+  organisaatioRyhma?: boolean,
+  oppilaitosTyyppiKoodiUri?: string,
+  koulutustyyppi?: Array<string>,
 };
 
 export async function getJulkisetOpetussuunnitelmat(query: OpetussuunnitelmaQuery) {
@@ -127,7 +128,8 @@ export async function getJulkisetOpetussuunnitelmat(query: OpetussuunnitelmaQuer
     query.sivukoko,
     query.nimi,
     query.kieli,
-    query.organisaatioTyyppi,
+    query.organisaatioRyhma,
+    query.oppilaitosTyyppiKoodiUri,
     query.koulutustyyppi,
   );
 }
