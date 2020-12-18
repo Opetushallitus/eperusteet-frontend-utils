@@ -2,7 +2,7 @@
 <div class="sidenav">
   <div v-if="showNavigation" class="bar d-print-none">
     <slot name="bar" />
-    <div v-if="$scopedSlots.bottom" class="bottom" v-sticky sticky-side="bottom">
+    <div v-if="$scopedSlots.bottom" class="bottom" v-sticky sticky-side="bottom" sticky-z-index="500">
       <slot name="bottom" />
     </div>
   </div>
@@ -70,6 +70,8 @@ export default class EpSidebar extends Vue {
       border-top: 1px solid #eee;
       position: relative;
       bottom: 0;
+      position: fixed;
+      width: $sidebar-width;
     }
   }
 

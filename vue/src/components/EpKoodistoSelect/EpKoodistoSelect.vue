@@ -50,7 +50,9 @@
                 <fas v-if="item.selected" icon="check-square" class="checked mr-2"/>
                 <fas v-else :icon="['far', 'square']" class="checked mr-2"/>
               </span>
-              {{ $kaanna(item.nimi) }}
+              <span class="btn-link">
+                {{ $kaanna(item.nimi) }}
+              </span>
             </template>
 
             <template v-slot:cell(arvo)="{ item }">
@@ -128,11 +130,14 @@ export default class EpKoodistoSelect extends Vue {
   @Prop({ default: true })
   private isEditing!: boolean;
 
-  @Prop({ required: false, default: false })
+  @Prop({ required: false, default: false, type: Boolean })
   private multiple!: boolean;
 
   @Prop({ required: false, default: true, type: Boolean })
   private naytaArvo!: boolean;
+
+  @Prop({ required: false })
+  private additionalFields!: any[];
 
   private isLoading = false;
   private query = '';
@@ -213,6 +218,7 @@ export default class EpKoodistoSelect extends Vue {
         nimi: items[0].nimi,
         versio: items[0].versio,
         koodisto: items[0].koodisto?.koodistoUri || items[0].koodisto,
+        ..._.pick(items[0], _.map(this.additionalFields, 'key')),
       };
 
       if (!this.multiselect) {
@@ -257,7 +263,9 @@ export default class EpKoodistoSelect extends Vue {
       key: 'voimaantulo',
       label: this.$t('voimaantulo'),
       thStyle: { width: '10rem' },
-    }];
+    },
+    ...(this.additionalFields ? this.additionalFields : []),
+    ];
   }
 }
 </script>

@@ -105,7 +105,7 @@
     </b-form-group>
   </div>
   <div v-else>
-    <div v-if="showKohde" class="otsikko font-weight-bold">
+    <div v-if="inner.vaatimukset && inner.vaatimukset.length > 0" class="otsikko font-weight-bold">
       {{ $kaanna(inner.kohde) }}
     </div>
     <ul>
@@ -161,10 +161,9 @@ import EpErrorWrapper from '../forms/EpErrorWrapper.vue';
 import EpInput from '../forms/EpInput.vue';
 import EpExternalLink from '../EpExternalLink/EpExternalLink.vue';
 import VaatimusField from './VaatimusField.vue';
-import { Ammattitaitovaatimukset2019Dto } from '../../api/eperusteet';
+import { Ammattitaitovaatimukset2019Dto, Koodisto } from '../../api/eperusteet';
 import draggable from 'vuedraggable';
 import { KoodistoSelectStore } from '@shared/components/EpKoodistoSelect/KoodistoSelectStore';
-import { Koodisto } from '@shared/api/eperusteet';
 import _ from 'lodash';
 import Kayttolistaus from './Kayttolistaus.vue';
 
@@ -218,11 +217,11 @@ export default class EpAmmattitaitovaatimukset extends Vue {
 
   get kaannokset() {
     return {
-      kohdealueet: this.kaannosKohdealueet !== null ? this.kaannosKohdealueet : this.$t('ammattitaito-kohdealueet'),
-      lisaaKohdealue: this.kaannosLisaaKohdealue !== null ? this.kaannosLisaaKohdealue : this.$t('lisaa-kohdealue'),
-      lisaaAmmattitaitovaatimus: this.kaannosLisaaAmmattitaitovaatimus != null ? this.kaannosLisaaAmmattitaitovaatimus : this.$t('lisaa-ammattitaitovaatimus'),
-      kohdealue: this.kaannosKohdealue !== null ? this.kaannosKohdealue : this.$t('kohdealueen-otsikko'),
-      vaatimukset: this.kaannosVaatimukset !== null ? this.kaannosVaatimukset : this.$t('vaatimukset'),
+      kohdealueet: this.kaannosKohdealueet ? this.kaannosKohdealueet : this.$t('ammattitaito-kohdealueet'),
+      lisaaKohdealue: this.kaannosLisaaKohdealue ? this.kaannosLisaaKohdealue : this.$t('lisaa-kohdealue'),
+      lisaaAmmattitaitovaatimus: this.kaannosLisaaAmmattitaitovaatimus ? this.kaannosLisaaAmmattitaitovaatimus : this.$t('lisaa-ammattitaitovaatimus'),
+      kohdealue: this.kaannosKohdealue ? this.kaannosKohdealue : this.$t('kohdealueen-otsikko'),
+      vaatimukset: this.kaannosVaatimukset ? this.kaannosVaatimukset : this.$t('vaatimukset'),
     };
   }
 
