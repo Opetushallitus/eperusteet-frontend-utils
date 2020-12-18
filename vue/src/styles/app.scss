@@ -121,6 +121,10 @@ img.content-image {
     font-size: 0.8rem;
     line-height: 1.5rem;
   }
+
+  .font-weight-600 {
+    font-weight: 600;
+  }
 }
 
 .disabled-text {
@@ -139,5 +143,9 @@ img.content-image {
 .order-handle {
   color: $gray-lighten-2;
   cursor: grab;
+}
+
+.btn-link {
+  cursor: pointer;
 }
 

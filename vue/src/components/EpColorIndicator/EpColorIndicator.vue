@@ -53,6 +53,9 @@ export default class EpColorIndicator extends Vue {
   @Prop({ default: 10 })
   size!: number;
 
+  @Prop({ required: false })
+  backgroundColor!: string;
+
   get spanClass() {
     return `ball ball-${this.kind}${this.tooltip ? ' ball-tooltip' : ''}`;
   }
@@ -65,7 +68,7 @@ export default class EpColorIndicator extends Vue {
     const result = {
       'min-height': this.size + 'px',
       'min-width': this.size + 'px',
-      'background': rgb2string(this.background),
+      'background': this.backgroundColor ? this.backgroundColor : rgb2string(this.background),
     };
 
     return result;
