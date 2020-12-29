@@ -204,6 +204,14 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       },
     };
     break;
+  case 'koulutuksenosa':
+    node.location = {
+      name: 'perusteKoulutuksenOsa',
+      params: {
+        koulutuksenosaId: _.toString(rawNode.id),
+      },
+    };
+    break;
   default:
     break;
   }
