@@ -193,6 +193,7 @@ export const ktToState = {
   'koulutustyyppi_6': 'lisaopetus',
   'koulutustyyppi_999907': 'taiteenperusopetus',
   'koulutustyyppi_30': 'vapaasivistystyo',
+  'koulutustyyppi_40': 'tutkintoonvalmentava',
 };
 
 const ktToUrlShortParam = {
@@ -355,6 +356,18 @@ export function vapaasivistystyo() {
       name: 'kooste',
       params: {
         koulutustyyppi: koulutustyyppiStateName('koulutustyyppi_30'),
+      },
+    },
+  }];
+}
+
+export function tutkintoonvalmentava() {
+  return [{
+    name: koulutustyyppiStateName('koulutustyyppi_40'),
+    route: {
+      name: 'kooste',
+      params: {
+        koulutustyyppi: koulutustyyppiStateName('koulutustyyppi_40'),
       },
     },
   }];
