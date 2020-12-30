@@ -1,15 +1,21 @@
 <template>
-<ep-input class="form-data"
-          :value="value"
-          @input="$emit('input', $event)"
-          :is-editing="isEditing"
-          :is-header="isHeader"
-          :type="type"
-          :validation="validation"
-          :help="help"
-          :showValidValidation="showValidValidation"
-          :unit="unit">
-</ep-input>
+  <ep-input
+    class="form-data"
+    :value="value"
+    @input="$emit('input', $event)"
+    :is-editing="isEditing"
+    :is-header="isHeader"
+    :type="type"
+    :validation="validation"
+    :help="help"
+    :showValidValidation="showValidValidation"
+    :unit="unit">
+    <template
+      v-if="suffix"
+      #suffix>
+      {{ $t(suffix) }}
+    </template>
+  </ep-input>
 </template>
 
 <script lang="ts">
@@ -46,5 +52,8 @@ export default class EpField extends Mixins(EpValidation) {
 
   @Prop({ required: false })
   private unit!: string | object;
+
+  @Prop({ required: false })
+  private suffix!: string | object;
 }
 </script>
