@@ -17,6 +17,7 @@ library.add(solid.faArrowLeft);
 library.add(solid.faArrowRight);
 library.add(solid.faArrowUp);
 library.add(solid.faAtlas);
+library.add(solid.faBackspace);
 library.add(solid.faBan);
 library.add(solid.faBars);
 library.add(solid.faBell);
