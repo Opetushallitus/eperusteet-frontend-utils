@@ -3,8 +3,8 @@
   <multiselect :value="model"
                :track-by="track"
                :options="filteredOptions"
-               :close-on-select="true"
-               :clear-on-select="true"
+               :close-on-select="closeOnSelect"
+               :clear-on-select="clearOnSelect"
                :placeholder="placeholder"
                :internalSearch="false"
                select-label=""
@@ -20,7 +20,9 @@
                :group-label="groupLabel"
                :group-select="groupSelect"
                :searchable="searchable"
-               :maxHeight="maxHeight">
+               :maxHeight="maxHeight"
+               :loading="loading"
+               :internal-search="internalSearch">
 
     <template slot="beforeList">
       <slot name="beforeList" />
@@ -38,10 +40,14 @@
       <slot name="tag" :option="option" :search="search" :remove="remove"></slot>
     </template>
     <template slot="noResult">
-      <div>{{ $t('ei-hakutuloksia') }}</div>
+      <slot name="noResult">
+        <div>{{ $t('ei-hakutuloksia') }}</div>
+      </slot>
     </template>
     <template slot="noOptions">
-      <div>{{ $t('ei-vaihtoehtoja') }}</div>
+      <slot name="noOptions">
+        <div>{{ $t('ei-vaihtoehtoja') }}</div>
+      </slot>
     </template>
   </multiselect>
   <div class="valid-feedback" v-if="!validationError && validMessage">{{ $t(validMessage) }}</div>
@@ -114,6 +120,18 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
 
   @Prop({ default: true })
   private searchable!: boolean;
+
+  @Prop({ default: false })
+  private loading!: boolean;
+
+  @Prop({ default: true })
+  private internalSearch!: boolean;
+
+  @Prop({ default: true })
+  private closeOnSelect!: boolean;
+
+  @Prop({ default: true })
+  private clearOnSelect!: boolean;
 
   @Prop({ required: false })
   private maxHeight!: number;

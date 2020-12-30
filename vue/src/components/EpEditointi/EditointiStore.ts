@@ -529,6 +529,7 @@ export class EditointiStore {
       if (this.config.copy) {
         await this.config.copy(this.state.data);
         this.logger.debug('Kopioitu');
+        await this.init();
       }
     }
     finally {

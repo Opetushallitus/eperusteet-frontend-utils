@@ -20,7 +20,7 @@
               </b-button>
             </div>
           </div>
-          <div class="flex-grow-1">
+          <div class="flex-grow-1" :class="{'font-weight-bold': item.isMatch}">
             <slot :name="$scopedSlots[item.type] ? item.type : 'default'" :item="item">
             {{ $kaanna(item.label) }}
             </slot>
@@ -54,6 +54,7 @@ import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { FlattenedNodeDto, EpTreeNavibarStore } from '@shared/components/EpTreeNavibar/EpTreeNavibarStore';
 import { NavigationNodeType, NavigationNodeDto } from '@shared/tyypit';
 import _ from 'lodash';
+import { Kielet } from '@shared/stores/kieli';
 
 export type ProjektiFilter = 'koulutustyyppi' | 'tila' | 'voimassaolo';
 
@@ -75,6 +76,9 @@ export default class EpTreeNavibar extends Vue {
 
   @Prop({ required: false, type: Boolean, default: false })
   private showAllToggle!: boolean;
+
+  @Prop({ required: false, type: String })
+  private query!: string;
 
   private active: IndexedNode | null = null;
   private showAll= false;
@@ -167,8 +171,11 @@ export default class EpTreeNavibar extends Vue {
   }
 
   get menu() {
-    if (this.showAll) {
-      return this.navigation;
+    if (this.allOrQuery) {
+      return _.chain(this.navigation)
+        .map(navi => this.filterNavigation(navi))
+        .filter('isVisible')
+        .value();
     }
     else if (this.active) {
       return _.filter([
@@ -181,13 +188,34 @@ export default class EpTreeNavibar extends Vue {
     }
   }
 
+  filterNavigation(node) {
+    const children = _(node.children)
+      .map(child => this.filterNavigation(child))
+      .filter(child => child.isMatch || child.isVisible)
+      .value();
+    return {
+      ...node,
+      children,
+      isMatch: this.isMatch(node),
+      isVisible: this.isMatch(node) || _.some(children, child => child.isMatch),
+    };
+  }
+
+  isMatch(node) {
+    return Kielet.search(this.query, node.label ? node.label : this.$t(node.type));
+  }
+
   get menuStyled() {
     return _.map(this.menu, item => {
       return {
         ...item,
-        ...(this.showAll && { class: 'item-margin-' + (item.depth - 1) }),
+        ...(this.allOrQuery && { class: 'item-margin-' + (item.depth - 1) }),
       };
     });
+  }
+
+  get allOrQuery() {
+    return this.showAll || !_.isEmpty(this.query);
   }
 
   navigate(item: IndexedNode) {

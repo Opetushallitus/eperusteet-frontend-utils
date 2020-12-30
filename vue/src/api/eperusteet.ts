@@ -110,6 +110,9 @@ export type AIPEOppiaineSuppeaDto = EperusteetApi.AIPEOppiaineSuppeaDto;
 export type AIPEKurssiDto = EperusteetApi.AIPEKurssiDto;
 export type LaajaalainenOsaaminenDto = EperusteetApi.LaajaalainenOsaaminenDto;
 export type KoulutuksenOsaDto = EperusteetApi.KoulutuksenOsaDto;
+export type TutkinnonOsaDto = EperusteetApi.TutkinnonOsaDto;
+export type TutkinnonOsaViiteKontekstiDto = EperusteetApi.TutkinnonOsaViiteKontekstiDto;
+export type TutkinnonOsaViiteLuontiDto = EperusteetApi.TutkinnonOsaViiteLuontiDto;
 
 export import PerusteprojektiLuontiDtoTyyppiEnum = EperusteetApi.PerusteprojektiLuontiDtoTyyppiEnum;
 export import NavigationNodeDtoTypeEnum = EperusteetApi.NavigationNodeDtoTypeEnum;
