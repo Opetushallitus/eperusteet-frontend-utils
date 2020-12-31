@@ -10,11 +10,7 @@
     :help="help"
     :showValidValidation="showValidValidation"
     :unit="unit">
-    <template
-      v-if="suffix"
-      #suffix>
-      {{ $t(suffix) }}
-    </template>
+    <template #suffix><slot /></template>
   </ep-input>
 </template>
 
@@ -52,8 +48,5 @@ export default class EpField extends Mixins(EpValidation) {
 
   @Prop({ required: false })
   private unit!: string | object;
-
-  @Prop({ required: false })
-  private suffix!: string | object;
 }
 </script>
