@@ -1,15 +1,17 @@
 <template>
-<ep-input class="form-data"
-          :value="value"
-          @input="$emit('input', $event)"
-          :is-editing="isEditing"
-          :is-header="isHeader"
-          :type="type"
-          :validation="validation"
-          :help="help"
-          :showValidValidation="showValidValidation"
-          :unit="unit">
-</ep-input>
+  <ep-input
+    class="form-data"
+    :value="value"
+    @input="$emit('input', $event)"
+    :is-editing="isEditing"
+    :is-header="isHeader"
+    :type="type"
+    :validation="validation"
+    :help="help"
+    :showValidValidation="showValidValidation"
+    :unit="unit">
+    <template #suffix><slot /></template>
+  </ep-input>
 </template>
 
 <script lang="ts">

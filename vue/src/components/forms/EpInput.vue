@@ -17,6 +17,9 @@
     <div v-if="hasRightSlot" class="addon addon-right">
       <slot name="right" />
     </div>
+    <div v-if="hasSuffixSlot" class="ml-2">
+      <slot name="suffix" />
+    </div>
   </div>
   <div v-if="showMessage">
     <div class="valid-feedback" v-if="!validationError && validMessage">{{ $t(validMessage) }}</div>
@@ -105,6 +108,10 @@ export default class EpInput extends Mixins(EpValidation) {
 
   get hasRightSlot() {
     return !!this.$slots.right;
+  }
+
+  get hasSuffixSlot() {
+    return !!this.$slots.suffix;
   }
 
   get inputClass() {
