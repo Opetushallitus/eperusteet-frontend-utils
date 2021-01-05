@@ -80,10 +80,9 @@ export default class EpButton extends Vue {
   button.no-outline {
     border: none;
     color: #2B2B2B;
-
   }
 
-  ::v-deep button.btn-outline-primary:hover{
+  ::v-deep button.btn-outline-primary:not(.disabled):hover{
     div.teksti {
       color: $white;
     }
