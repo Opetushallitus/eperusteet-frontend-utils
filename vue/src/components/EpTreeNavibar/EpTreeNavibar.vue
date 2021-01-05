@@ -197,12 +197,12 @@ export default class EpTreeNavibar extends Vue {
       ...node,
       children,
       isMatch: this.isMatch(node),
-      isVisible: this.isMatch(node) || _.some(children, child => child.isMatch),
+      isVisible: (this.showAll && !this.query) || this.isMatch(node) || _.some(children, child => child.isMatch),
     };
   }
 
   isMatch(node) {
-    return Kielet.search(this.query, node.label ? node.label : this.$t(node.type));
+    return this.query ? Kielet.search(this.query, node.label ? node.label : this.$t(node.type)) : false;
   }
 
   get menuStyled() {
