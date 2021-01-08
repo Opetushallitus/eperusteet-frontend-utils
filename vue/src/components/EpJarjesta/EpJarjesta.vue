@@ -86,6 +86,9 @@ export default class EpJarjesta extends Vue {
   private childField!: string;
 
   @Prop({ default: null })
+  private rootGroup!: string | null;
+
+  @Prop({ default: null })
   private group!: string | null;
 
   @Prop({ required: false, default: true })
@@ -103,7 +106,7 @@ export default class EpJarjesta extends Vue {
       disabled: !this.isEditable || !this.sortable,
       forceFallback: true,
       ghostClass: 'placeholder',
-      group: this.group,
+      group: this.rootGroup ? this.rootGroup : this.group,
       handle: this.useHandle && '.handle',
     };
   }
