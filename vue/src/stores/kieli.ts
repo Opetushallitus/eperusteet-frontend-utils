@@ -162,7 +162,7 @@ export class KieliStore {
     }
   };
 
-  public kaanna(value: LokalisoituTeksti | undefined | null, emptyWhenNotFound = false): string {
+  public kaanna(value: LokalisoituTeksti | undefined | null, emptyWhenNotFound = false, squareBrackets = true): string {
     if (!value) {
       return '';
     }
@@ -180,7 +180,7 @@ export class KieliStore {
       else {
         const other = _.first(_.filter(_.map(kielet, kieli => value[kieli] as string)));
         if (other) {
-          return '[' + other + ']';
+          return squareBrackets ? '[' + other + ']' : other;
         }
       }
       return '';
