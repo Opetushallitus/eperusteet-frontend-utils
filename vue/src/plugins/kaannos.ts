@@ -22,8 +22,8 @@ export class Kaannos {
       return Kielet.filterBy(field, query);
     };
 
-    vue.prototype.$kaanna = (value: any, emptyWhenNotFound = false) => {
-      return Kielet.kaanna(value, emptyWhenNotFound);
+    vue.prototype.$kaanna = (value: any, emptyWhenNotFound = false, squareBrackets = true) => {
+      return Kielet.kaanna(value, emptyWhenNotFound, squareBrackets);
     };
 
     vue.prototype.$kaannaOlioTaiTeksti = (value: any) => {
