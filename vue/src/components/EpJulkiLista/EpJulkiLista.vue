@@ -3,10 +3,23 @@
     <ep-spinner v-if="!tiedot" />
 
     <div v-else>
-      <div v-for="(tieto, index) in tiedotFiltered" :key="index" class="tieto p-2 pl-3" :class="{clickable: hasClickEvent}" @click="avaaTieto(tieto)">
+      <div
+        v-for="(tieto, index) in tiedotFiltered"
+        :key="index" class="tieto py-2"
+        :class="{ clickable: hasClickEvent,'pl-3': !isEditing, 'is-editing': isEditing }"
+        @click="avaaTieto(tieto)">
         <div class="otsikko" :class="{'uusi': tieto.uusi}">
           <slot name="otsikko" :item="tieto">
-            {{$kaanna(tieto.otsikko)}} <span class="uusi" v-if="tieto.uusi">{{$t('uusi')}}</span>
+            <template v-if="!isEditing">
+              {{$kaanna(tieto.otsikko)}} <span class="uusi" v-if="tieto.uusi">{{$t('uusi')}}</span>
+            </template>
+            <b-form-group :label="$t('osaamistaso') + ' ' + (index + 1)" v-else>
+              <ep-input
+                :name="$t('osaamistaso')"
+                v-model="tieto.otsikko"
+                :is-editing="true"
+                @input="onInput(tieto)"/>
+            </b-form-group>
           </slot>
         </div>
         <div class="muokkausaika" v-if="tieto.muokattu">{{$sdt(tieto.muokattu)}}</div>
@@ -41,6 +54,8 @@ import { Vue, Component, Prop, Mixins, Watch } from 'vue-property-decorator';
 import _ from 'lodash';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import EpButton from '../EpButton/EpButton.vue';
+import EpInput from '../forms/EpInput.vue';
+import { ArviointiStore } from '@/stores/ArviointiStore';
 
 export interface JulkiRivi {
   otsikko?: { [key: string]: string; } | string;
@@ -52,6 +67,7 @@ export interface JulkiRivi {
   components: {
     EpSpinner,
     EpButton,
+    EpInput,
   },
 })
 export default class EpJulkiLista extends Vue {
@@ -63,6 +79,9 @@ export default class EpJulkiLista extends Vue {
 
   @Prop({ required: false, default: 'lisahaku' })
   private listausTyyppi!: 'sivutus' | 'lisahaku';
+
+  @Prop({ required: false, default: false })
+  private isEditing!: boolean;
 
   private naytettavaTietoMaara = 3;
   private sivu = 1;
@@ -106,6 +125,10 @@ export default class EpJulkiLista extends Vue {
 
     return aika > tuntisitten;
   }
+
+  onInput(tieto: JulkiRivi) {
+    this.$emit('tietoInput', tieto);
+  }
 }
 </script>
 
@@ -114,11 +137,11 @@ export default class EpJulkiLista extends Vue {
 
   .content {
 
-    .tieto:nth-of-type(even) {
+    .tieto:nth-of-type(even):not(.is-editing) {
       background-color: $table-even-row-bg-color;
     }
 
-    .tieto:nth-of-type(odd) {
+    .tieto:nth-of-type(odd):not(.is-editing) {
       background-color: $table-odd-row-bg-color;
     }
 
@@ -153,6 +176,10 @@ export default class EpJulkiLista extends Vue {
       padding: 0px;
     }
 
+  }
+
+  .form-group {
+    margin: 0;
   }
 
 </style>
