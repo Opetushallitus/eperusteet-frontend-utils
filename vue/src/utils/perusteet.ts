@@ -279,11 +279,6 @@ export function koulutustyyppiRelaatiot() {
       'koulutustyyppi_14',
       'koulutustyyppi_23',
     ],
-  }, {
-    koulutustyyppi: 'koulutustyyppi_999907',
-    alityypit: [
-      'koulutustyyppi_999907',
-    ],
   }];
 }
 
