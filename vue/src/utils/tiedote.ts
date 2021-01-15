@@ -8,6 +8,7 @@ export const julkaisupaikkaSort = {
   'ops': 2,
   'lops': 3,
   'amosaa': 4,
+  'vst': 5,
 };
 
 export const julkaisupaikka = Object.freeze({
