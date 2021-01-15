@@ -123,6 +123,17 @@ export const EperusteetKoulutustyyppiRyhmat = {
   ],
 };
 
+export const EperusteetKoulutustyyppiRyhmaSort = {
+  [Toteutus.VARHAISKASVATUS]: 1,
+  [Toteutus.ESIOPETUS]: 2,
+  [Toteutus.PERUSOPETUS]: 3,
+  [Toteutus.TAITEENPERUSOPETUS]: 4,
+  [Toteutus.LUKIOKOULUTUS]: 5,
+  [Toteutus.AMMATILLINEN]: 6,
+  [Toteutus.VAPAASIVISTYSTYO]: 7,
+  [Toteutus.TUTKINTOONVALMENTAVA]: 8,
+};
+
 export interface KoulutustyyppiRyhma {
   ryhma: string,
   koulutustyypit: string[],
@@ -267,6 +278,11 @@ export function koulutustyyppiRelaatiot() {
       'koulutustyyppi_2',
       'koulutustyyppi_14',
       'koulutustyyppi_23',
+    ],
+  }, {
+    koulutustyyppi: 'koulutustyyppi_999907',
+    alityypit: [
+      'koulutustyyppi_999907',
     ],
   }];
 }
