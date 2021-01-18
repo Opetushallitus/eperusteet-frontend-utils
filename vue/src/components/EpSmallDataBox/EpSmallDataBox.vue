@@ -1,5 +1,5 @@
 <template>
-  <div class="box d-inline-flex flex-column  align-items-center justify-content-center text-center">
+  <div class="box d-inline-flex flex-column align-items-center text-center align-items-end">
     <div class="count">{{count}}</div>
     <div class="topic">{{topic}}</div>
   </div>
@@ -25,7 +25,6 @@ export default class EpSmallDataBox extends Vue {
 
   .box {
     width: 125px;
-    height: 140px;
     margin-right: 10px;
     margin-top: 10px;
     padding: 10px;
