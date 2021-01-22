@@ -102,6 +102,9 @@ export default class EpInput extends Mixins(EpValidation) {
   @Prop({ default: false, type: Boolean })
   private disabled!: boolean;
 
+  @Prop({ required: false })
+  private change!: Function;
+
   get hasLeftSlot() {
     return !!this.$slots.left;
   }
@@ -157,6 +160,11 @@ export default class EpInput extends Mixins(EpValidation) {
         [Kielet.getSisaltoKieli.value]: _.isString(input) ? escapeHtml(input) : input,
       });
     }
+
+    if (this.change) {
+      this.change();
+    }
+
     // this.touch();
   }
 
