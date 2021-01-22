@@ -223,7 +223,7 @@ export default class EpKoodistoSelect extends Vue {
 
       if (!this.multiselect) {
         this.$emit('input', row);
-        this.$emit('add', row);
+        this.$emit('add', row, this.value);
         (this.$refs.editModal as any).hide();
       }
       else {
