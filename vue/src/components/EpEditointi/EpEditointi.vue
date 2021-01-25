@@ -99,6 +99,9 @@
                           :disabled="disabled">
                   <slot name="kopioi-teksti">{{ $t('kopioi-muokattavaksi') }}</slot>
                 </ep-button>
+                <span v-else-if="!isEditing && !features.editable && !features.copyable && features.removable" class="disabled-text">
+                  {{$t('muokkausta-ei-sallittu')}}
+                </span>
                 <b-dropdown class="mx-4"
                             v-if="katseluDropDownValinnatVisible"
                             size="md"
@@ -111,6 +114,12 @@
                   <template slot="button-content">
                     <fas icon="menu-vaaka"></fas>
                   </template>
+                  <b-dropdown-item
+                    @click="remove()"
+                    key="poista"
+                    v-if="features.removable && !disabled">
+                    <slot name="poista">{{ poistoteksti }}</slot>
+                  </b-dropdown-item>
                   <b-dropdown-item :disabled="!features.previewable || disabled">
                     {{ $t('esikatsele-sivua') }}
                   </b-dropdown-item>
@@ -281,6 +290,9 @@ export default class EpEditointi extends Mixins(validationMixin) {
   @Prop({ default: 'tallennus-epaonnistui' })
   private labelSaveFail!: string;
 
+  @Prop({ default: 'poista' })
+  private labelRemove!: string;
+
   @Prop({ default: 'poisto-onnistui' })
   private labelRemoveSuccess!: string;
 
@@ -423,7 +435,7 @@ export default class EpEditointi extends Mixins(validationMixin) {
 
   get poistoteksti() {
     if (!this.type) {
-      return this.$t('poista');
+      return this.$t(this.labelRemove);
     }
     return this.$t('poista-' + this.type);
   }
