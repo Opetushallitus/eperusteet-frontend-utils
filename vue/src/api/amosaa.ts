@@ -103,8 +103,8 @@ export import TutkinnonosaDtoTyyppiEnum = AmosaaApi.TutkinnonosaDtoTyyppiEnum;
 export import SisaltoViiteDtoTyyppiEnum = AmosaaApi.SisaltoViiteDtoTyyppiEnum;
 export import OpetussuunnitelmaDtoTyyppiEnum = AmosaaApi.OpetussuunnitelmaDtoTyyppiEnum;
 export import NavigationNodeDtoTypeEnum = AmosaaApi.NavigationNodeDtoTypeEnum;
-
 export import OpetussuunnitelmaLuontiDtoTyyppiEnum = AmosaaApi.OpetussuunnitelmaLuontiDtoTyyppiEnum;
+export import OpintokokonaisuusDtoTyyppiEnum = AmosaaApi.OpintokokonaisuusDtoTyyppiEnum;
 
 export interface OpetussuunnitelmaQuery {
   perusteenDiaarinumero?: string;
