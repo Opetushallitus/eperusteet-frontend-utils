@@ -111,12 +111,14 @@
     <ul>
       <li v-for="(v, vidx) in inner.vaatimukset" :key="vidx">
         <span v-if="v.koodi">
-          <span>{{ $kaanna(v.koodi.nimi) }}</span>
-          <span class="ml-1">
-            (<a :href="'https://virkailija.opintopolku.fi/koodisto-ui/html/koodi/' + v.koodi.uri"
-              target="_blank"
-              rel="nofollow noopener noreferrer">{{ v.koodi.arvo }}</a>)
-          </span>
+          <slot name="koodi" :koodi="v.koodi">
+            <span>{{ $kaanna(v.koodi.nimi) }}</span>
+            <span class="ml-1">
+              (<a :href="'https://virkailija.opintopolku.fi/koodisto-ui/html/koodi/' + v.koodi.uri"
+                target="_blank"
+                rel="nofollow noopener noreferrer">{{ v.koodi.arvo }}</a>)
+            </span>
+          </slot>
         </span>
         <span v-else>
           <span>{{ $kaanna(v.vaatimus) }}</span>
@@ -135,12 +137,14 @@
         <ul>
           <li v-for="(v, kvIdx) in kohdealue.vaatimukset" :key="kvIdx">
             <span v-if="v.koodi">
-              <span>{{ $kaanna(v.koodi.nimi) }}</span>
-              <span class="ml-1">
-                (<a :href="'https://virkailija.opintopolku.fi/koodisto-ui/html/koodi/' + v.koodi.uri"
-                  target="_blank"
-                  rel="nofollow noopener noreferrer">{{ v.koodi.arvo }}</a>)
-              </span>
+              <slot name="koodi" :koodi="v.koodi">
+                <span>{{ $kaanna(v.koodi.nimi) }}</span>
+                <span class="ml-1">
+                  (<a :href="'https://virkailija.opintopolku.fi/koodisto-ui/html/koodi/' + v.koodi.uri"
+                    target="_blank"
+                    rel="nofollow noopener noreferrer">{{ v.koodi.arvo }}</a>)
+                </span>
+              </slot>
             </span>
             <span v-else>
               <span>{{ $kaanna(v.vaatimus) }}</span>
