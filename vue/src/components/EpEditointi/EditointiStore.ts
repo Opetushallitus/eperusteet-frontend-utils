@@ -206,7 +206,7 @@ export class EditointiStore {
       lockable: true,
       previewable: true,
       recoverable: true,
-      removable: true,
+      removable: false,
       validated: true,
       copyable: false,
     };
