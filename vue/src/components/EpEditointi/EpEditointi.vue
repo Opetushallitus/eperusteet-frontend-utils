@@ -99,7 +99,7 @@
                           :disabled="disabled">
                   <slot name="kopioi-teksti">{{ $t('kopioi-muokattavaksi') }}</slot>
                 </ep-button>
-                <span v-else-if="!isEditing && !features.editable && !features.copyable && features.removable" class="disabled-text">
+                <span v-else-if="!isEditing && latest && !features.editable && !features.removable && !features.copyable" class="disabled-text">
                   {{$t('muokkausta-ei-sallittu')}}
                 </span>
                 <b-dropdown class="mx-4"
