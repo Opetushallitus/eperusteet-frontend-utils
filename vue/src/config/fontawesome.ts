@@ -101,6 +101,7 @@ library.add(oph.checkmarkYmpyra);
 library.add(oph.dragindicator);
 library.add(oph.etsi);
 library.add(oph.faq);
+library.add(oph.feedback);
 library.add(oph.hallitus);
 library.add(oph.huutomerkkiYmpyra);
 library.add(oph.hymio);

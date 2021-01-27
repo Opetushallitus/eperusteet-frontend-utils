@@ -63,6 +63,7 @@ export const Tutkinnonosat = initApi(EperusteetApi.TutkinnonosatApi);
 export const TutkinnonosatPrivate = initApi(EperusteetApi.TutkinnonosatPrivateApi);
 export const Ulkopuoliset = initApi(EperusteetApi.UlkopuolisetApi);
 export const Tilastot = initApi(EperusteetApi.TilastotApi);
+export const Palautteet = initApi(EperusteetApi.PalautteetApi);
 
 export type Ammattitaitovaatimukset2019Dto = EperusteetApi.Ammattitaitovaatimukset2019Dto;
 export type ArviointiAsteikkoDto = EperusteetApi.ArviointiAsteikkoDto;
@@ -115,6 +116,7 @@ export type TutkinnonOsaDto = EperusteetApi.TutkinnonOsaDto;
 export type TutkinnonOsaViiteKontekstiDto = EperusteetApi.TutkinnonOsaViiteKontekstiDto;
 export type TutkinnonOsaViiteLuontiDto = EperusteetApi.TutkinnonOsaViiteLuontiDto;
 export type OsaamistasoDto = EperusteetApi.OsaamistasoDto;
+export type PalauteDto = EperusteetApi.PalauteDto;
 
 export import PerusteprojektiLuontiDtoTyyppiEnum = EperusteetApi.PerusteprojektiLuontiDtoTyyppiEnum;
 export import NavigationNodeDtoTypeEnum = EperusteetApi.NavigationNodeDtoTypeEnum;
