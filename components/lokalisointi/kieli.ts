@@ -11,7 +11,8 @@ module KieliService {
     export let SISALTOKIELET = [
         "fi",
         "sv",
-        "se"
+        "se",
+        "en"
     ];
 
     let
