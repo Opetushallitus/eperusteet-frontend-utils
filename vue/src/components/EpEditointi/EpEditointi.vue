@@ -99,7 +99,7 @@
                           :disabled="disabled">
                   <slot name="kopioi-teksti">{{ $t('kopioi-muokattavaksi') }}</slot>
                 </ep-button>
-                <span v-else-if="!isEditing && latest && !features.editable && !features.removable && !features.copyable" class="disabled-text">
+                <span v-else-if="muokkausEiSallittu" class="disabled-text">
                   {{$t('muokkausta-ei-sallittu')}}
                 </span>
                 <b-dropdown class="mx-4"
@@ -443,8 +443,14 @@ export default class EpEditointi extends Mixins(validationMixin) {
   get katseluDropDownValinnatVisible() {
     return !this.isEditing
       && !this.disabled
-      && this.features.recoverable
+      && (this.features.recoverable || this.features.removable)
       && !this.versiohistoriaVisible;
+  }
+
+  get muokkausEiSallittu() {
+    return !this.isEditing
+      && this.latest
+      && !this.features.editable;
   }
 
   get versiohistoriaVisible() {
