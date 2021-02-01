@@ -117,6 +117,7 @@ export type TutkinnonOsaViiteKontekstiDto = EperusteetApi.TutkinnonOsaViiteKonte
 export type TutkinnonOsaViiteLuontiDto = EperusteetApi.TutkinnonOsaViiteLuontiDto;
 export type OsaamistasoDto = EperusteetApi.OsaamistasoDto;
 export type PalauteDto = EperusteetApi.PalauteDto;
+export type Status = EperusteetApi.Status;
 
 export import PerusteprojektiLuontiDtoTyyppiEnum = EperusteetApi.PerusteprojektiLuontiDtoTyyppiEnum;
 export import NavigationNodeDtoTypeEnum = EperusteetApi.NavigationNodeDtoTypeEnum;
@@ -125,7 +126,9 @@ export import DokumenttiDtoTilaEnum = EperusteetApi.DokumenttiDtoTilaEnum;
 export import PerusteDtoTilaEnum = EperusteetApi.PerusteDtoTilaEnum;
 export import PerusteprojektiLuontiKuvausEnum = EperusteetApi.PerusteprojektiLuontiDtoProjektiKuvausEnum;
 export import PerusteDtoToteutusEnum = EperusteetApi.PerusteDtoToteutusEnum;
-export import KoulutuksenOsaDtoKoulutusOsanKoulutustyyppiEnum = EperusteetApi.KoulutuksenOsaDtoKoulutusOsanKoulutustyyppiEnum
+export import KoulutuksenOsaDtoKoulutusOsanKoulutustyyppiEnum = EperusteetApi.KoulutuksenOsaDtoKoulutusOsanKoulutustyyppiEnum;
+export import StatusValidointiStatusTypeEnum = EperusteetApi.StatusValidointiStatusTypeEnum;
+export import StatusValidointiKategoriaEnum = EperusteetApi.StatusValidointiKategoriaEnum
 
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
