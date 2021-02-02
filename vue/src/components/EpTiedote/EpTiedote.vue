@@ -29,7 +29,6 @@ export default class EpTiedote extends Vue {
   onReadMore() {
     this.readMore = !this.readMore;
   }
-
 }
 </script>
 
