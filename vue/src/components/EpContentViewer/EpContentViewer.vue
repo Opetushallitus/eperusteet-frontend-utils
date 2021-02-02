@@ -71,15 +71,13 @@ export default class EpContentViewer extends Vue {
 
           if (kuva) {
             img.setAttribute('src', kuva.src);
-            /* TODO: Nimeksi asetetaan perusteissa tiedostonnimi eikä kuvatekstiä. Piilotetaan toistaiseksi.
-            if (kuva.kuva.nimi) {
-              img.setAttribute('alt', kuva.kuva.nimi);
 
+            const kuvateksti = img.getAttribute('alt');
+            if (kuvateksti) {
               const figcaption = document.createElement('figcaption');
-              figcaption.textContent = kuva.kuva.nimi;
-              wrapper.append(figcaption);
+              figcaption.textContent = kuvateksti;
+              wrapper.appendChild(figcaption);
             }
-            */
           }
         }
       });
