@@ -39,5 +39,22 @@ describe('EpContentViewer component', () => {
     expect(wrapper.html()).toContain('Lorem ipsum');
   });
 
-  // Todo: kuvat ja termit
+  test('Renders image text', () => {
+    const wrapper = mountWrapper({
+      value: '<p>Lorem ipsum <img data-uid="123-123" alt="kuvateksti" /></p>',
+      termit: [],
+      kuvat: [{
+        src: 'url/osoite',
+        id: '123-123',
+      }],
+    });
+
+    expect(wrapper.findAll('figure')).toHaveLength(1);
+    expect(wrapper.find('figure').find('img')
+      .html()).toContain('src="url/osoite"');
+    expect(wrapper.find('figure').find('figcaption')
+      .html()).toContain('kuvateksti');
+  });
+
+  // Todo: termit
 });
