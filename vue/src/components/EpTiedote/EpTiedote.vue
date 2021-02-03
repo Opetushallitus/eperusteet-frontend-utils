@@ -6,7 +6,7 @@
       <span v-if="!readMore" v-html="$kaanna(tiedote.sisalto).slice(0, charLimit) + '...'"></span>
       <span v-else v-html="$kaanna(tiedote.sisalto)"></span>
       <button class="read-more" @click="onReadMore">
-        {{ readMore ? $t('lue-vahemman') : $t('lue-lisaa-2') }}
+        {{ readMore ? $t('nayta-vahemman') : $t('lue-lisaa-2') }}
       </button>
     </div>
   </div>
