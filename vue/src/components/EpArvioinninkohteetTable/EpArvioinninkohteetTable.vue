@@ -1,5 +1,5 @@
 <template>
-  <b-table :items="arvioinninKohteetSorted" :fields="sarakkeet"/>
+  <b-table striped :items="arvioinninKohteetSorted" :fields="sarakkeet"/>
 </template>
 
 <script lang="ts">
@@ -35,8 +35,8 @@ export default class EpArvioinninkohteetTable extends Vue {
   get arvosanaSarake() {
     return {
       key: 'arvosana',
-      label: this.$t('osaamistaso'),
-      thStyle: { width: '20%' },
+      label: this.$t('osaamisen-kuvaus'),
+      thStyle: { width: '30%' },
       formatter: (value, key, item) => {
         if (value) {
           return (this as any).$t('arvosana') + ' ' + value;
@@ -50,7 +50,7 @@ export default class EpArvioinninkohteetTable extends Vue {
   get osaamisenKuvausSarake() {
     return {
       key: 'osaamisenKuvaus',
-      label: this.$t('kuvaus'),
+      label: this.$t('arvion-kuvaus'),
       formatter: (value, key, item) => {
         return (this as any).$kaanna(value);
       },
