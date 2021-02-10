@@ -128,7 +128,8 @@ export import PerusteprojektiLuontiKuvausEnum = EperusteetApi.PerusteprojektiLuo
 export import PerusteDtoToteutusEnum = EperusteetApi.PerusteDtoToteutusEnum;
 export import KoulutuksenOsaDtoKoulutusOsanKoulutustyyppiEnum = EperusteetApi.KoulutuksenOsaDtoKoulutusOsanKoulutustyyppiEnum;
 export import StatusValidointiStatusTypeEnum = EperusteetApi.StatusValidointiStatusTypeEnum;
-export import StatusValidointiKategoriaEnum = EperusteetApi.StatusValidointiKategoriaEnum
+export import StatusValidointiKategoriaEnum = EperusteetApi.StatusValidointiKategoriaEnum;
+export import PerusteAikatauluDtoTapahtumaEnum = EperusteetApi.PerusteAikatauluDtoTapahtumaEnum;
 
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);

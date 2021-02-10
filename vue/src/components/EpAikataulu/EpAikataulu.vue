@@ -26,7 +26,7 @@
           <div class="luomispaiva">{{ $sd(luomisPaiva) }} </div>
           <div class="paiva-alatieto">
             <slot name="luomispaiva-topic">
-              <span v-html="$t('projektin-luomispaiva-br')"/>
+              <span v-html="$t('projektin-luomispaiva')"/>
             </slot>
           </div>
         </div>
@@ -40,7 +40,7 @@
         </div>
         <div class="paiva-alatieto">
           <slot name="julkaisupaiva-topic">
-            <span v-html="$t('projektin-suunniteltu-julkaisupaiva-br')"/>
+            <span v-html="$t('peruste-astuu-voimaan')"/>
           </slot>
         </div>
       </div>
@@ -172,7 +172,7 @@ export default class EpAikataulu extends Vue {
       position: absolute;
       top: -2px;
 
-      &.tavoite, &.luominen {
+      &.tavoite, &.luominen, &.lausuntokierros, &.johtokunnankasittely, &.arvioitujulkaisupaiva {
         background-color: $blue-lighten-5;
       }
 

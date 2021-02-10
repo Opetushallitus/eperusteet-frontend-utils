@@ -38,4 +38,39 @@ describe('EpAikatauluListaus component', () => {
 
     expect(wrapper.html()).toBeTruthy();
   });
+
+  test('julkivalinta', async () => {
+    const wrapper = mount(EpAikatauluListaus, {
+      localVue,
+      propsData: {
+        aikataulutProp: [{
+          id: 42,
+          tapahtuma: 'luominen',
+          tapahtumapaiva: new Date(),
+          tavoite: 'test',
+        }, {
+          id: 43,
+          tapahtuma: 'tavoite',
+          tapahtumapaiva: new Date(),
+          tavoite: 'test',
+          julkinen: true,
+        }],
+        julkinenValinta: true,
+      },
+      mocks: {
+        $t: x => x,
+        $sd: x => x,
+      },
+      stubs: {
+        fas: '<div />',
+        'router-link': RouterLinkStub,
+      },
+    });
+
+    expect(wrapper.findAll('.paatavoite')).toHaveLength(0);
+    expect(wrapper.findAll('.yleistavoite')).toHaveLength(1);
+
+    const julkiChkbox = wrapper.find('.yleistavoite input[type="checkbox"]').element as any;
+    expect(julkiChkbox.value).toBeTruthy();
+  });
 });

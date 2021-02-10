@@ -21,9 +21,11 @@
         :aikataulutProp="aikataulutClone"
         :immutableAikataulut="immutableAikataulut"
         :rootModel="rootModel"
-        @setInvalid="setInvalid" >
+        @setInvalid="setInvalid"
+        :julkinenValinta="julkinenValinta" >
         <template v-slot:luomispaiva-topic><slot name="luomispaiva-topic"></slot></template>
         <template v-slot:julkaisupaiva-topic><slot name="julkaisupaiva-topic"></slot></template>
+        <template v-slot:aikataululistaus-julkaisu-header><slot name="aikataululistaus-julkaisu-header"></slot></template>
       </ep-aikataulu-listaus>
 
       <template v-slot:modal-cancel>
@@ -68,6 +70,9 @@ export default class EpAikatauluModal extends Vue {
 
   @Prop({ required: false })
   private immutableAikataulut!: any[];
+
+  @Prop({ required: false, default: false, type: Boolean })
+  private julkinenValinta!: boolean;
 
   private invalid: boolean = false;
   private aikataulutClone: any[]= [];
