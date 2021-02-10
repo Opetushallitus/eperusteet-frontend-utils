@@ -87,6 +87,7 @@ export type PerusteHakuInternalDto = EperusteetApi.PerusteHakuInternalDto;
 export type PerusteKevytDto = EperusteetApi.PerusteKevytDto;
 export type PerusteInfoDto = EperusteetApi.PerusteInfoDto;
 export type PerusteKoosteDto = EperusteetApi.PerusteKoosteDto;
+export type PerusteBaseDto = EperusteetApi.PerusteBaseDto;
 export type PerusteprojektiDto = EperusteetApi.PerusteprojektiDto;
 export type PerusteprojektiKevytDto = EperusteetApi.PerusteprojektiKevytDto;
 export type PerusteprojektiListausDto = EperusteetApi.PerusteprojektiListausDto;
