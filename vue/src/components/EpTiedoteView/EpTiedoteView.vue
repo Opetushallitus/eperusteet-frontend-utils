@@ -41,7 +41,6 @@ import _ from 'lodash';
 import { Prop, Vue, Component } from 'vue-property-decorator';
 
 import EpMainView from '../EpMainView/EpMainView.vue';
-import EpSearch from '../forms/EpSearch.vue';
 import EpContentReadMore from '../EpContentReadMore/EpContentReadMore.vue';
 import EpLinkki from '../EpLinkki/EpLinkki.vue';
 
@@ -52,7 +51,6 @@ import { TiedoteDto } from '../../tyypit';
 @Component({
   components: {
     EpMainView,
-    EpSearch,
     EpContentReadMore,
     EpLinkki,
   },
