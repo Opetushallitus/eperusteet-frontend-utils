@@ -1,17 +1,13 @@
 <template>
   <ep-main-view :container="true" class="mt-5" v-if="tiedotteet">
     <template slot="header">
-      <div class="d-flex justify-content-between align-items-center">
+      <div class="d-flex justify-content-between align-items-center flex-wrap">
         <h1>{{ $t('tiedotteet') }}</h1>
         <ep-linkki
           :url="url"
-          v-oikeustarkastelu="{ oikeus: 'hallinta', kohde: 'pohja' }">
-          <div class="d-flex">
-            <span class="icon">
-              <fas icon="plussa"></fas>
-            </span>
-            <span class="ml-2 link-text">{{ $t('lisaa-tiedote') }}</span>
-          </div>
+          v-oikeustarkastelu="{ oikeus: 'hallinta', kohde: 'pohja' }"
+          icon="plussa">
+          <span class="ml-1 link-text">{{ $t('lisaa-tiedote') }}</span>
         </ep-linkki>
       </div>
     </template>
@@ -78,15 +74,16 @@ export default class EpTiedoteView extends Vue {
 <style scoped lang="scss">
 @import '../../styles/_variables.scss';
 
-.icon {
+::v-deep .linkki a {
   display: flex;
-  justify-content: center;
-  align-items: center;
+}
+
+::v-deep .fa-plussa {
   height: 24px;
   width: 24px;
   border-radius: 100%;
   margin: 0;
-  padding: 0;
+  padding: .2rem;
   color: #fff;
   background-color: #3367E3;
 }
