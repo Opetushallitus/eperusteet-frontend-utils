@@ -26,7 +26,7 @@
           <div class="luomispaiva">{{ $sd(luomisPaiva) }} </div>
           <div class="paiva-alatieto">
             <slot name="luomispaiva-topic">
-              <span v-html="$t('projektin-luomispaiva')"/>
+              <span v-html="$t('luotu')"/>
             </slot>
           </div>
         </div>
@@ -40,7 +40,7 @@
         </div>
         <div class="paiva-alatieto">
           <slot name="julkaisupaiva-topic">
-            <span v-html="$t('peruste-astuu-voimaan')"/>
+            <span v-html="$t('suunniteltu-julkaisupaiva')"/>
           </slot>
         </div>
       </div>
