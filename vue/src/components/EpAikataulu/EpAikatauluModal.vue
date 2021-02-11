@@ -86,14 +86,14 @@ export default class EpAikatauluModal extends Vue {
           tapahtuma: aikataulutapahtuma.luominen,
           tapahtumapaiva: this.rootModel.luotu,
           tavoite: {
-            [Kielet.getSisaltoKieli.value]: this.$t('projektin-luomispaiva'),
+            [Kielet.getSisaltoKieli.value]: this.$t('luomispaiva'),
           },
         },
         {
           tapahtuma: aikataulutapahtuma.julkaisu,
           tapahtumapaiva: null,
           tavoite: {
-            [Kielet.getSisaltoKieli.value]: this.$t('projektin-suunniteltu-julkaisupaiva'),
+            [Kielet.getSisaltoKieli.value]: this.$t('suunniteltu-julkaisupaiva'),
           },
         },
       ];

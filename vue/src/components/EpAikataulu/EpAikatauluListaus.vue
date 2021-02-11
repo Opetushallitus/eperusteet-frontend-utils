@@ -87,6 +87,7 @@ import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import EpField from '@shared/components/forms/EpField.vue';
 import { Kielet } from '@shared/stores/kieli';
 import { validationMixin } from 'vuelidate';
+import { Validations } from 'vuelidate-property-decorators';
 import EpToggle from '@shared/components/forms/EpToggle.vue';
 import { aikataulutapahtuma, aikatauluTapahtumaSort, aikatauluTapahtumapaivaSort } from '@shared/utils/aikataulu';
 
@@ -99,20 +100,6 @@ import { aikataulutapahtuma, aikatauluTapahtumaSort, aikatauluTapahtumapaivaSort
     EpField,
     EpToggle,
   },
-  validations: {
-    aikataulut: {
-      $each: {
-        tapahtumapaiva: {
-          required: requiredIf((value) => value.tapahtuma === 'tavoite'),
-        },
-        tavoite: {
-          [Kielet.getSisaltoKieli.value]: {
-            required: requiredIf((value) => value.tapahtuma === 'tavoite'),
-          },
-        },
-      },
-    },
-  },
 } as any)
 export default class EpAikatauluListaus extends Mixins(validationMixin) {
   @Prop({ required: true })
@@ -124,6 +111,9 @@ export default class EpAikatauluListaus extends Mixins(validationMixin) {
   @Prop({ required: false, default: false, type: Boolean })
   private julkinenValinta!: boolean;
 
+  @Prop({ required: false, default: () => ['julkaisu', 'tavoite'] })
+  private pakollisetTapahtumat!: string[];
+
   private aikataulut: any[] = [];
 
   mounted() {
@@ -131,6 +121,22 @@ export default class EpAikatauluListaus extends Mixins(validationMixin) {
       .sortBy([aikatauluTapahtumaSort, aikatauluTapahtumapaivaSort])
       .value();
   }
+
+  @Validations()
+    validations = {
+      aikataulut: {
+        $each: {
+          tapahtumapaiva: {
+            required: requiredIf((value) => _.includes((this as any).pakollisetTapahtumat, value.tapahtuma)),
+          },
+          tavoite: {
+            [Kielet.getSisaltoKieli.value]: {
+              required: requiredIf((value) => _.includes((this as any).pakollisetTapahtumat, value.tapahtuma)),
+            },
+          },
+        },
+      },
+    }
 
   get kaikkiAikataulut() {
     return [
@@ -168,9 +174,10 @@ export default class EpAikatauluListaus extends Mixins(validationMixin) {
       .value();
   }
 
-  @Watch('$v.$invalid')
-  validCheck(val) {
-    this.$emit('setInvalid', val);
+  @Watch('aikataulut', { deep: true })
+  aikataulutChange(val) {
+    this.$v.$touch();
+    this.$emit('setInvalid', this.$v.$invalid);
   }
 
   getAikataulu() {
