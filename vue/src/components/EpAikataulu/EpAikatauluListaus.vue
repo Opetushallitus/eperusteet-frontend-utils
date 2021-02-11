@@ -127,11 +127,11 @@ export default class EpAikatauluListaus extends Mixins(validationMixin) {
       aikataulut: {
         $each: {
           tapahtumapaiva: {
-            required: requiredIf((value) => _.includes((this as any).pakollisetTapahtumat, value.tapahtuma)),
+            required: requiredIf((value) => _.includes(this.pakollisetTapahtumat, value.tapahtuma)),
           },
           tavoite: {
             [Kielet.getSisaltoKieli.value]: {
-              required: requiredIf((value) => _.includes((this as any).pakollisetTapahtumat, value.tapahtuma)),
+              required: requiredIf((value) => _.includes(this.pakollisetTapahtumat, value.tapahtuma)),
             },
           },
         },
