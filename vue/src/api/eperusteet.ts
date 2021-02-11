@@ -87,6 +87,7 @@ export type PerusteHakuInternalDto = EperusteetApi.PerusteHakuInternalDto;
 export type PerusteKevytDto = EperusteetApi.PerusteKevytDto;
 export type PerusteInfoDto = EperusteetApi.PerusteInfoDto;
 export type PerusteKoosteDto = EperusteetApi.PerusteKoosteDto;
+export type PerusteBaseDto = EperusteetApi.PerusteBaseDto;
 export type PerusteprojektiDto = EperusteetApi.PerusteprojektiDto;
 export type PerusteprojektiKevytDto = EperusteetApi.PerusteprojektiKevytDto;
 export type PerusteprojektiListausDto = EperusteetApi.PerusteprojektiListausDto;
@@ -128,7 +129,8 @@ export import PerusteprojektiLuontiKuvausEnum = EperusteetApi.PerusteprojektiLuo
 export import PerusteDtoToteutusEnum = EperusteetApi.PerusteDtoToteutusEnum;
 export import KoulutuksenOsaDtoKoulutusOsanKoulutustyyppiEnum = EperusteetApi.KoulutuksenOsaDtoKoulutusOsanKoulutustyyppiEnum;
 export import StatusValidointiStatusTypeEnum = EperusteetApi.StatusValidointiStatusTypeEnum;
-export import StatusValidointiKategoriaEnum = EperusteetApi.StatusValidointiKategoriaEnum
+export import StatusValidointiKategoriaEnum = EperusteetApi.StatusValidointiKategoriaEnum;
+export import PerusteAikatauluDtoTapahtumaEnum = EperusteetApi.PerusteAikatauluDtoTapahtumaEnum;
 
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);

@@ -62,6 +62,9 @@ export class Aikaleima {
     // Short time
     vue.prototype.$st = aikaleimaFnFactory('H:mm');
 
+    // Short date month
+    vue.prototype.$sdm = aikaleimaFnFactory('D MMM');
+
     // Time until or ago an event counting from now
     vue.prototype.$ago = function(value: number) {
       if (!Kielet.i18n.locale) {
