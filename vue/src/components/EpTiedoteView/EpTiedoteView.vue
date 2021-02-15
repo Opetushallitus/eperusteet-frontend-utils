@@ -1,5 +1,5 @@
 <template>
-  <ep-main-view :container="true" class="mt-5" v-if="tiedotteet">
+  <ep-main-view :container="true" class="mt-5">
     <template slot="header">
       <div class="d-flex justify-content-between align-items-center flex-wrap">
         <h1>{{ $t('tiedotteet') }}</h1>
@@ -18,7 +18,8 @@
       </div>
     </div>
 
-    <template v-if="tiedotteet">
+    <ep-spinner v-if="!tiedotteet"/>
+    <template v-else>
       <ep-content-read-more
         v-for="tiedote in tiedotteet"
         :key="tiedote.id"
@@ -39,20 +40,19 @@
 <script lang="ts">
 import _ from 'lodash';
 import { Prop, Vue, Component } from 'vue-property-decorator';
-
 import EpMainView from '../EpMainView/EpMainView.vue';
 import EpContentReadMore from '../EpContentReadMore/EpContentReadMore.vue';
 import EpLinkki from '../EpLinkki/EpLinkki.vue';
-
 import { Kielet } from '../../stores/kieli';
-
 import { TiedoteDto } from '../../tyypit';
+import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 
 @Component({
   components: {
     EpMainView,
     EpContentReadMore,
     EpLinkki,
+    EpSpinner,
   },
 })
 export default class EpTiedoteView extends Vue {
