@@ -3,8 +3,7 @@
     <slot name="preHeading" />
     <slot name="heading" />
     <div class="content">
-      <span v-if="showReadMore && !readMore" v-html="slicedContent"></span>
-      <span v-else v-html="$kaannaOlioTaiTeksti(content)"></span>
+      <div v-html="$kaannaOlioTaiTeksti(content)" :class="{'limited-content': showReadMore && !readMore}"></div>
       <button v-if="showReadMore" class="read-more" @click="onReadMore">
         {{ readMore ? $t('nayta-vahemman') : $t('lue-lisaa') }}
       </button>
@@ -34,10 +33,6 @@ export default class EpContentReadMore extends Vue {
 
   get showReadMore() {
     return Kielet.kaannaOlioTaiTeksti(this.content).length > this.charLimit;
-  }
-
-  get slicedContent() {
-    return `${Kielet.kaannaOlioTaiTeksti(this.content).slice(0, this.charLimit)}...`;
   }
 }
 </script>
@@ -74,6 +69,26 @@ export default class EpContentReadMore extends Vue {
   ::v-deep p:last-of-type {
     display: inline;
     margin-right: 0.5rem;
+  }
+
+  .limited-content {
+    max-height:90px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .limited-content:after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    left: 0;
+    pointer-events: none;
+    background-image: linear-gradient(to bottom,
+                      rgba(255,255,255, 0),
+                      rgba(255,255,255, 1) 90%);
+    width: 100%;
+    height: 4em;
   }
 }
 </style>
