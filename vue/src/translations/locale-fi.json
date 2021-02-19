@@ -1663,6 +1663,7 @@
     "oppaine-sisaltaa-opintojaksoja": "Oppiaine sisältää opintojaksoja",
     "oppainekohtainen-laajuus-opintojaksossa": "Oppiainekohtainen laajuus opintojaksossa",
     "oppainekohtainen-lisalaajuus-opintojaksossa": "Oppiainekohtainen lisälaajuus opintojaksossa",
+    "oppainekohtainen-lisalaajuus-opintojaksossa-kuvaus": "Paikallinen osa, joka on yhdistetty opintojaksoon valittuihin valtakunnallisiin moduuleihin",
     "oppiaine": "Oppiaine",
     "oppiaine-arviointi": "Arviointi",
     "oppiaine-ei-kurssi-tyyppi-kuvauksia": "Ei kurssityyppien kuvauksia.",
