@@ -31,7 +31,7 @@ export enum Koulutustyyppi {
   perusopetusvalmistava = 'koulutustyyppi_22',
   lukiovalmistavakoulutus = 'koulutustyyppi_23',
   tpo = 'koulutustyyppi_999907',
-  vapaasivistystyo = 'koulutustyyppi_30'
+  vapaasivistystyo = 'koulutustyyppi_10'
 }
 
 const ammatilliset = [Koulutustyyppi.ammattitutkinto, Koulutustyyppi.erikoisammattitutkinto, Koulutustyyppi.perustutkinto];

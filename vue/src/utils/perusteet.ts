@@ -19,7 +19,7 @@ export const EperusteetKoulutustyypit = Object.freeze([
   'koulutustyyppi_22', // perusopetuksen valmistava
   'koulutustyyppi_23', // valmistava lukiokoulutus
   'koulutustyyppi_999907', // taiteen perusopetus,
-  'koulutustyyppi_30', // vapaa sivistystyo
+  'koulutustyyppi_10', // vapaa sivistystyo
   'koulutustyyppi_40', // tutkintoon valmentava
 ]);
 
@@ -40,7 +40,7 @@ export const AmmatillisetKoulutustyypit = [
 ];
 
 export const VapaasivistystyoKoulutustyypit = [
-  'koulutustyyppi_30',
+  'koulutustyyppi_10',
 ];
 
 export const yleissivistavatKoulutustyypit = [
@@ -72,7 +72,7 @@ export const themes = {
   'koulutustyyppi_23': 'lukio',
   'koulutustyyppi_6': 'perusopetus',
   'koulutustyyppi_999907': 'taiteenperusopetus',
-  'koulutustyyppi_30': 'vapaasivistystyo',
+  'koulutustyyppi_10': 'vapaasivistystyo',
   'koulutustyyppi_40': 'tutkintoonvalmentava',
 };
 
@@ -116,7 +116,7 @@ export const EperusteetKoulutustyyppiRyhmat = {
     'koulutustyyppi_18',
   ],
   [Toteutus.VAPAASIVISTYSTYO]: [
-    'koulutustyyppi_30',
+    'koulutustyyppi_10',
   ],
   [Toteutus.TUTKINTOONVALMENTAVA]: [
     'koulutustyyppi_40',
@@ -203,7 +203,7 @@ export const ktToState = {
   'koulutustyyppi_5': 'telma',
   'koulutustyyppi_6': 'lisaopetus',
   'koulutustyyppi_999907': 'taiteenperusopetus',
-  'koulutustyyppi_30': 'vapaasivistystyo',
+  'koulutustyyppi_10': 'vapaasivistystyo',
   'koulutustyyppi_40': 'tutkintoonvalmentava',
 };
 
@@ -298,7 +298,7 @@ export function isAmmatillinenKoulutustyyppi(kt: string | undefined): boolean {
 }
 
 export function isVapaasivistystyoKoulutustyyppi(kt: string | undefined): boolean {
-  return kt === 'koulutustyyppi_30';
+  return kt === 'koulutustyyppi_10';
 }
 
 export function isAmmatillinen(statename: string): boolean {
@@ -362,11 +362,11 @@ export function yleissivistavat() {
 
 export function vapaasivistystyo() {
   return [{
-    name: koulutustyyppiStateName('koulutustyyppi_30'),
+    name: koulutustyyppiStateName('koulutustyyppi_10'),
     route: {
       name: 'kooste',
       params: {
-        koulutustyyppi: koulutustyyppiStateName('koulutustyyppi_30'),
+        koulutustyyppi: koulutustyyppiStateName('koulutustyyppi_10'),
       },
     },
   }];
