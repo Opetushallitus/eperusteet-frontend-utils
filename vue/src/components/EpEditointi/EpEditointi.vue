@@ -20,7 +20,7 @@
               <div class="floating-editing-buttons">
                 <ep-button class="ml-4"
                            v-if="isEditing"
-                           @click="store.cancel()"
+                           @click="cancel()"
                            :disabled="disabled"
                            variant="link">
                   <slot name="peruuta">{{ $t('peruuta') }}</slot>
@@ -324,6 +324,12 @@ export default class EpEditointi extends Mixins(validationMixin) {
   private preModify!: Function;
 
   @Prop({ required: false })
+  private allowCancel!: Function;
+
+  @Prop({ required: false })
+  private allowSave!: Function;
+
+  @Prop({ required: false })
   private postSave!: Function;
 
   @Prop({ required: false, default: false })
@@ -591,14 +597,22 @@ export default class EpEditointi extends Mixins(validationMixin) {
 
   async save() {
     try {
-      await this.store.save();
-      if (this.postSave) {
-        await this.postSave();
+      if (!this.allowSave || await this.allowSave()) {
+        await this.store.save();
+        if (this.postSave) {
+          await this.postSave();
+        }
+        this.$success(this.$t(this.labelSaveSuccess) as string);
       }
-      this.$success(this.$t(this.labelSaveSuccess) as string);
     }
     catch (err) {
       this.$fail(this.$t(this.labelSaveFail) as string);
+    }
+  }
+
+  async cancel() {
+    if (!this.allowCancel || await this.allowCancel()) {
+      this.store.cancel();
     }
   }
 
