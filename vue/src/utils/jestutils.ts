@@ -63,6 +63,7 @@ export const mocks = Object.freeze({
   $kaanna: x => x ? x.fi : 'kaanna',
   $sd: x => x,
   $ld: x => x,
+  $sdt: x => x,
 }) as any;
 
 export const stubs = Object.freeze({
