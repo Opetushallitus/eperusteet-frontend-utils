@@ -70,13 +70,16 @@
         </ep-form-content>
 
         <ep-form-content name="liita-peruste-tiedotteeseen" v-if="!peruste && perusteet">
-          <div class="peruste-linkitys-ohje mb-2">{{$t('valitsemasi-peruste-linkitetaan-osaksi-tiedotetta')}}</div>
-          <ep-multi-list-select
-              tyyppi="peruste"
-              :items="perusteItems"
-              v-model="muokattavaTiedote.perusteet"
-              :is-editing="editing"
-              :required="false"/>
+          <ep-spinner v-if="!perusteet" />
+          <template v-else>
+            <div class="peruste-linkitys-ohje mb-2">{{$t('valitsemasi-peruste-linkitetaan-osaksi-tiedotetta')}}</div>
+            <ep-multi-list-select
+                tyyppi="peruste"
+                :items="perusteItems"
+                v-model="muokattavaTiedote.perusteet"
+                :is-editing="editing"
+                :required="false"/>
+          </template>
         </ep-form-content>
 
       </div>
@@ -161,12 +164,13 @@ import EpToggle from '@shared/components/forms/EpToggle.vue';
 import { required } from 'vuelidate/lib/validators';
 import { validationMixin } from 'vuelidate';
 import { success, fail } from '@shared/utils/notifications';
-import { julkaisupaikkaSort, julkaisupaikka, KoulutustyyppiRyhmaValinta } from '@shared/utils/tiedote';
+import { julkaisupaikka, KoulutustyyppiRyhmaValinta } from '@shared/utils/tiedote';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
 import EpKielivalinta from '@shared/components/EpKielivalinta/EpKielivalinta.vue';
-import { themes, ktToState, perustetila, koulutustyyppiRyhmat, KoulutustyyppiRyhma, koulutustyyppiRyhmaSort } from '@shared/utils/perusteet';
+import { themes, ktToState, koulutustyyppiRyhmat, KoulutustyyppiRyhma, koulutustyyppiRyhmaSort } from '@shared/utils/perusteet';
 import EpColorIndicator from '@shared/components/EpColorIndicator/EpColorIndicator.vue';
 import { Kielet } from '../../stores/kieli';
+import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 
 @Component({
   components: {
@@ -180,6 +184,7 @@ import { Kielet } from '../../stores/kieli';
     EpContent,
     EpKielivalinta,
     EpColorIndicator,
+    EpSpinner,
   },
   validations: {
     muokattavaTiedote: {
