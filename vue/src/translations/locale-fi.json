@@ -2451,6 +2451,8 @@
     "siirry-sisaltoon": "Siirry sisältöön",
     "siirry-tarkastelemaan": "Siirry tarkastelemaan",
     "siirtyma-aika-loppuu": "Siirtymä päättyy",
+    "siirtymaajan-paattymisaika": "Siirtymäajan päättymisaika",
+    "siirtymaajan-paattymisaika-kuvaus": "Aloitettu tutkinnon suorittaminen voidaan saattaa loppuun siirtymäajalla",
     "siirtyma-edellisesta": "Siirtymä edellisestä vaiheesta",
     "siirtyma-seuraavaan": "Siirtymä seuraavaan vaiheeseen",
     "siirtymaAlkaa": "Siirtymäaika alkaa",
