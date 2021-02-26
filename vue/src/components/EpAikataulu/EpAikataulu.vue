@@ -138,11 +138,11 @@ export default class EpAikataulu extends Vue {
     if (aikataulu.tapahtuma === aikataulutapahtuma.luominen) {
       return 99;
     }
-    return Math.max(100 - this.timelinePosition(aikataulu.tapahtumapaiva), 0);
+    return Math.min(Math.max(100 - this.timelinePosition(aikataulu.tapahtumapaiva), 0), 99);
   }
 
   timelinePosition(time) {
-    return Math.floor((time - (this.luomisPaiva as any))
+    return Math.floor((Math.max(time, this.luomisPaiva as any) - (this.luomisPaiva as any))
             / ((this.viimeinenPaiva as any) - (this.luomisPaiva as any)) * 100);
   }
 }
