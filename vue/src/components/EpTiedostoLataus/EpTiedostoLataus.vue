@@ -87,12 +87,12 @@ export default class EpTiedostoLataus extends Vue {
       // Luodaan uusi lukija ja rekisteröidään kuuntelija
       const reader = new FileReader();
       if (this.asBinary) {
-        reader.onload = evt => {
+        reader.onload = () => {
           try {
-            if (evt.target?.result) {
+            if (reader.result) {
               this.$emit('input', {
                 file,
-                binary: evt.target.result,
+                binary: reader.result,
               } as FileData);
             }
           }
