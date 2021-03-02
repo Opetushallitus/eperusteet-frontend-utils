@@ -31,13 +31,16 @@ export default class ImageExtension extends Node {
         'alt': {
           default: '',
         },
+        'figcaption': {
+          default: '',
+        },
       },
       content: 'block*',
       group: 'block',
       draggable: true,
       parseDOM: [{
         tag: 'img',
-        getAttrs: domAttrsGetter('data-uid', 'alt'),
+        getAttrs: domAttrsGetter('data-uid', 'alt', 'figcaption'),
       }],
       toDOM: (node: any) => ['img', node.attrs],
     };
@@ -86,13 +89,15 @@ export default class ImageExtension extends Node {
           const h = this.$createElement;
           const t = (v: string): string => Kielet.i18n.t(v) as string;
           const oldAltText = self.altText;
+          const oldFigcaption = self.figcaption;
           const oldDataUid = self.dataUid;
           const uidObs = Vue.observable({ value: self.dataUid });
           const editor = h(ImageModal, {
             props: {
               value: uidObs,
               loader: self.liitteet,
-              kuvatekstiProp: self.altText,
+              kuvatekstiProp: self.figcaption,
+              vaihtoehtotekstiProp: self.altText,
             },
             on: {
               input: (value: string) => {
@@ -100,6 +105,10 @@ export default class ImageExtension extends Node {
                 uidObs.value = value;
               },
               onKuvatekstichange(value: string) {
+                self.figcaption = value;
+              },
+
+              onVaihtoehtoinentekstiChange(value: string) {
                 self.altText = value;
               },
             },
@@ -120,6 +129,7 @@ export default class ImageExtension extends Node {
           this.$root.$on('bv::modal::hide', (bvEvent, modalId) => {
             if (bvEvent.trigger === 'cancel') {
               self.altText = oldAltText;
+              self.figcaption = oldFigcaption;
               self.dataUid = oldDataUid;
             }
             else {
@@ -152,6 +162,21 @@ export default class ImageExtension extends Node {
             });
           },
         },
+        figcaption: {
+          get() {
+            return (this as any).node.attrs['figcaption'];
+          },
+          set(value: any) {
+            (this as any).updateAttrs({
+              'figcaption': value,
+            });
+          },
+        },
+        tempAltText: {
+          get() {
+            return this.$t('kuvituskuva');
+          },
+        },
         url() {
           return (this as any).liitteet.url((this as any).dataUid);
         },
@@ -162,16 +187,16 @@ export default class ImageExtension extends Node {
           <div v-if="view.editable" class="ep-editor-component">
 
             <figure class="text-center" v-if="dataUid">
-              <img class="content-image" @click="open()" :data-uid="dataUid" :src="url" :title="title" :alt="altText">
-              <figcaption>{{altText}}</figcaption>
+              <img class="content-image" @click="open()" :data-uid="dataUid" :src="url" :title="title" :alt="figcaption ? altText : tempAltText">
+              <figcaption>{{figcaption || altText}}</figcaption>
             </figure>
 
             <ep-button v-if="!dataUid" variant="outline" icon="plussa" @click="open()">{{$t('lisaa-kuva')}}</ep-button>
           </div>
 
           <figure v-if="dataUid && !view.editable" class="text-center">
-            <img class="content-image" @click="open()" :data-uid="dataUid" :src="url" :title="title" :alt="altText">
-            <figcaption>{{altText}}</figcaption>
+            <img class="content-image" @click="open()" :data-uid="dataUid" :src="url" :title="title" :alt="figcaption ? altText : tempAltText">
+            <figcaption>{{figcaption || altText}}</figcaption>
           </figure>
 
         </div>
