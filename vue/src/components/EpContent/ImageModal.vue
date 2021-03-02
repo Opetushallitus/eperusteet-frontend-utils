@@ -31,7 +31,22 @@
 
         <div v-if="selected || imageData">
           <ep-form-content name="kuvateksti" class="mt-3">
-            <ep-field v-model="kuvateksti" @input="onKuvatekstichange" :is-editing="true" :validation="$v.kuvateksti"/>
+            <ep-field
+              v-model="kuvateksti"
+              @input="onKuvatekstichange"
+              :is-editing="true"
+              :validation="$v.kuvateksti"
+              :help="$t('teksti-naytetaan-kuvan-alla')"/>
+          </ep-form-content>
+
+          <ep-form-content class="mt-3">
+            <label slot="header">{{$t('kuvan-vaihtoehtoinen-teksti')}} *</label>
+            <ep-field
+              v-model="vaihtoehtoinenteksti"
+              @input="onVaihtoehtoinentekstiChange"
+              :is-editing="true"
+              :validation="$v.vaihtoehtoinenteksti"
+              :help="$t('teksti-naytetaan-ruudunlukijalaitteelle')"/>
           </ep-form-content>
         </div>
       </div>
@@ -62,7 +77,7 @@ import { IKuvaHandler, ILiite } from './KuvaHandler';
     EpKuvaLataus,
   },
   validations: {
-    kuvateksti: {
+    vaihtoehtoinenteksti: {
       [Kielet.getSisaltoKieli.value]: {
         required,
       },
@@ -79,15 +94,23 @@ export default class ImageModal extends Mixins(validationMixin) {
   @Prop({ required: true })
   private kuvatekstiProp!: {};
 
+  @Prop({ required: true })
+  private vaihtoehtotekstiProp!: {};
+
   private imageSaved: boolean = false;
   private imageData: ImageData | null = null;
   private isLoading = true;
   private files: ILiite[] = [];
   private kuvateksti: any = {};
+  private vaihtoehtoinenteksti: any = {};
 
   async mounted() {
     this.kuvateksti = {
-      [Kielet.getSisaltoKieli.value]: this.kuvatekstiProp,
+      [Kielet.getSisaltoKieli.value]: this.kuvatekstiProp || this.vaihtoehtotekstiProp,
+    };
+
+    this.vaihtoehtoinenteksti = {
+      [Kielet.getSisaltoKieli.value]: this.vaihtoehtotekstiProp,
     };
 
     try {
@@ -100,6 +123,9 @@ export default class ImageModal extends Mixins(validationMixin) {
     finally {
       this.isLoading = false;
     }
+
+    this.$emit('onKuvatekstichange', this.kuvateksti[Kielet.getSisaltoKieli.value]);
+    this.$emit('onVaihtoehtoinentekstiChange', this.vaihtoehtoinenteksti[Kielet.getSisaltoKieli.value]);
   }
 
   get id() {
@@ -160,6 +186,10 @@ export default class ImageModal extends Mixins(validationMixin) {
 
   private onKuvatekstichange(kuvateksti) {
     this.$emit('onKuvatekstichange', kuvateksti[Kielet.getSisaltoKieli.value]);
+  }
+
+  private onVaihtoehtoinentekstiChange(vaihtoehtoinenteksti) {
+    this.$emit('onVaihtoehtoinentekstiChange', vaihtoehtoinenteksti[Kielet.getSisaltoKieli.value]);
   }
 
   private peruuta() {
