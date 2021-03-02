@@ -71,11 +71,18 @@ export default class EpContentViewer extends Vue {
 
           if (kuva) {
             img.setAttribute('src', kuva.src);
-
-            const kuvateksti = img.getAttribute('alt');
-            if (kuvateksti) {
-              const figcaption = document.createElement('figcaption');
+            const altteksti = img.getAttribute('alt');
+            const kuvateksti = img.getAttribute('figcaption');
+            const figcaption = document.createElement('figcaption');
+            if (!kuvateksti) {
+              figcaption.textContent = altteksti;
+              img.setAttribute('alt', this.$t('kuvituskuva') as string);
+            }
+            else {
               figcaption.textContent = kuvateksti;
+            }
+
+            if (figcaption.textContent) {
               wrapper.appendChild(figcaption);
             }
           }
