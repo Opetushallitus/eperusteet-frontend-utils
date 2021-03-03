@@ -1,7 +1,15 @@
 <template>
   <div>
 
-    <ep-button v-if="editable" icon="plussa" variant="outline" v-b-modal.tiedoteMuokkausModal @click="lisaaTiedote">{{ $t('lisaa-tiedote') }}</ep-button>
+    <ep-button
+      v-if="editable"
+      icon="plussa"
+      variant="outline"
+      v-b-modal.tiedoteMuokkausModal
+      @click="lisaaTiedote"
+      v-oikeustarkastelu="{ oikeus: 'muokkaus' }">
+      {{ $t('lisaa-tiedote') }}
+    </ep-button>
 
     <b-modal ref="tiedoteMuokkausModal"
         id="tiedoteMuokkausModal"
