@@ -36,7 +36,7 @@
               @input="onKuvatekstichange"
               :is-editing="true"
               :validation="$v.kuvateksti"
-              :help="$t('teksti-naytetaan-kuvan-alla')"/>
+              :help="'teksti-naytetaan-kuvan-alla'"/>
           </ep-form-content>
 
           <ep-form-content class="mt-3">
@@ -46,7 +46,7 @@
               @input="onVaihtoehtoinentekstiChange"
               :is-editing="true"
               :validation="$v.vaihtoehtoinenteksti"
-              :help="$t('teksti-naytetaan-ruudunlukijalaitteelle')"/>
+              :help="'teksti-naytetaan-ruudunlukijalaitteelle'"/>
           </ep-form-content>
         </div>
       </div>
