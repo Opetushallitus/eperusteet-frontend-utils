@@ -236,6 +236,12 @@ export const ammatillisetKoulutustyypit = [
   'koulutustyyppi_18',
 ];
 
+export const koulutustyypitPdfTuki = [
+  'koulutustyyppi_1', 'koulutustyyppi_5', 'koulutustyyppi_6', 'koulutustyyppi_11',
+  'koulutustyyppi_12', 'koulutustyyppi_15', 'koulutustyyppi_17', 'koulutustyyppi_18',
+  'koulutustyyppi_20', 'koulutustyyppi_999907', 'koulutustyyppi_10', 'koulutustyyppi_40',
+];
+
 export function koulutustyyppiStateName(koulutustyyppi: string) {
   return ktToState[koulutustyyppi] || koulutustyyppi;
 }
@@ -316,6 +322,10 @@ export function koulutustyyppiTheme(koulutustyyppi: string) {
 
 export function koulutustyyppiThemeColor(koulutustyyppi: string) {
   return themeColors[themes[koulutustyyppi]] || themeColors[koulutustyyppi] || [47, 95, 209];
+}
+
+export function isKoulutustyyppiPdfTuettu(koulutustyyppi: string | undefined) {
+  return _.includes(koulutustyypitPdfTuki, koulutustyyppi);
 }
 
 export function rgb2string(color: number[]) {
