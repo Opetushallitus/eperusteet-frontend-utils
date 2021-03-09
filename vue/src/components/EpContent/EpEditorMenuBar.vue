@@ -132,15 +132,15 @@ export default class EpEditorMenuBar extends Vue {
         }
         (this as any).$refs['link-modal'].show();
       },
-    }, {
+    }, ...(!_.isFunction(_.get(this.editor.commands, 'termi')) ? [] : [{
       icon: 'kasitteet',
       command: 'termi',
-      disabled: this.editor.selection.from === this.editor.selection.to || !_.isFunction(_.get(this.editor.commands, 'termi')),
-    }, {
+      disabled: this.editor.selection.from === this.editor.selection.to,
+    }]), ...(!_.isFunction(_.get(this.editor.commands, 'image')) ? [] : [{
       icon: 'lisaa-kuva',
       command: 'image',
-      disabled: !_.isFunction(_.get(this.editor.commands, 'image')),
-    }];
+    }]),
+    ];
   }
 
   get lists() {
