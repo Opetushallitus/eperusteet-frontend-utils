@@ -30,6 +30,8 @@ import {
   Link,
 } from 'tiptap-extensions';
 import CustomLink from './CustomLink';
+import { IKuvaHandler } from './KuvaHandler';
+import ImageExtension from './ImageExtension';
 
 function createEditor(config: any) {
   return new Editor({
@@ -52,6 +54,7 @@ function createEditor(config: any) {
       new TableHeader(),
       new TableCell(),
       new TableRow(),
+      ...(config.extensions ? config.extensions : []),
     ],
   });
 }
@@ -182,7 +185,9 @@ describe('EpContentMenu component', () => {
     const wrapper = createWrapper(localVue, {
       isEditable: true,
       layout: 'normal',
+      extensions: [new ImageExtension({} as any)],
     });
+
     expect(wrapper.find('button[title="Lihavoi"]').exists()).toBe(true);
     expect(wrapper.find('button[class="question"]').exists()).toBe(false);
     expect(wrapper.find('button[title="Kursivoi"]').exists()).toBe(true);
@@ -190,5 +195,6 @@ describe('EpContentMenu component', () => {
     expect(wrapper.find('button[title="Undo"]').exists()).toBe(true);
     expect(wrapper.find('button[title="Yliviivaus"]').exists()).toBe(true);
     expect(wrapper.find('button[title="Lisää taulukko"]').exists()).toBe(true);
+    expect(wrapper.find('button[title="Lisää kuva"]').exists()).toBe(true);
   });
 });
