@@ -7,7 +7,7 @@
       variant="outline"
       v-b-modal.tiedoteMuokkausModal
       @click="lisaaTiedote"
-      v-oikeustarkastelu="{ oikeus: 'muokkaus' }">
+      v-oikeustarkastelu="oikeustarkastelu">
       {{ $t('lisaa-tiedote') }}
     </ep-button>
 
@@ -141,8 +141,8 @@
 
         <div v-else class="d-flex justify-content-between w-100">
           <div v-if="editable">
-            <ep-button icon="kyna" variant="link" @click="editing = true">{{ $t('muokkaa') }}</ep-button>
-            <ep-button icon="roskalaatikko" variant="link" @click="poista">{{ $t('poista') }}</ep-button>
+            <ep-button icon="kyna" variant="link" @click="editing = true" v-oikeustarkastelu="oikeustarkastelu">{{ $t('muokkaa') }}</ep-button>
+            <ep-button icon="roskalaatikko" variant="link" @click="poista" v-oikeustarkastelu="oikeustarkastelu">{{ $t('poista') }}</ep-button>
           </div>
           <div v-else />
 
@@ -225,6 +225,9 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
 
   @Prop({ required: false, default: true })
   private naytaJulkaisupaikka!: boolean;
+
+  @Prop({ required: false, default: () => ({ oikeus: 'muokkaus' }) })
+  private oikeustarkastelu!: any;
 
   private koulutusryypiRyhmaValinnat: KoulutustyyppiRyhmaValinta[] = [];
 
