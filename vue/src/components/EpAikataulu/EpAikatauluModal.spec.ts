@@ -6,6 +6,7 @@ import { Kielet } from '../../stores/kieli';
 import { delay } from '../../utils/delay';
 import { Kaannos } from '../../plugins/kaannos';
 import VueI18n from 'vue-i18n';
+import { Oikeustarkastelu } from '@shared/plugins/oikeustarkastelu';
 
 Vue.use(BootstrapVue);
 
@@ -14,6 +15,13 @@ describe('EpAikatauluModal component', () => {
   localVue.use(VueI18n);
   Kielet.install(localVue);
   localVue.use(new Kaannos());
+  localVue.use(Oikeustarkastelu, {
+    oikeusProvider: {
+      async hasOikeus() {
+        return true;
+      },
+    },
+  });
 
   test('Renders', async () => {
     const wrapper = mount(EpAikatauluModal, {
