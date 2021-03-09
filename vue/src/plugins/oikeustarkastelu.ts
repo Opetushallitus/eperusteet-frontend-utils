@@ -19,15 +19,15 @@ export interface OikeustarkasteluConfig {
 declare module 'vue/types/vue' {
   interface Vue {
     $hasOikeus: (oikeus: Oikeus, kohde: any) => boolean;
-    $isAdmin: Computed<boolean>;
-    $hasOphCrud: Computed<boolean>;
+    $isAdmin: () => boolean;
+    $hasOphCrud: () => boolean;
   }
 }
 
 export class Oikeustarkastelu {
   public static install(vue: typeof Vue, config: OikeustarkasteluConfig) {
-    vue.prototype.$isAdmin = config.oikeusProvider.isAdmin || false;
-    vue.prototype.$hasOphCrud = config.oikeusProvider.hasOphCrud || false;
+    vue.prototype.$isAdmin = () => config.oikeusProvider.isAdmin?.value || false;
+    vue.prototype.$hasOphCrud = () => config.oikeusProvider.hasOphCrud?.value || false;
 
     vue.prototype.$hasOikeus = function(oikeus: Oikeus, kohde: any) {
       return config.oikeusProvider.hasOikeus(oikeus, kohde);
