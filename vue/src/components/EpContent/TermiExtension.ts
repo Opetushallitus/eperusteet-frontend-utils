@@ -57,6 +57,11 @@ export default class TermiExtension extends Mark {
           abbrdata: null as ITermi | null,
         };
       },
+      mounted() {
+        if (!(this as any).node.attrs['data-viite']) {
+          (this as any).showTermiSelector();
+        }
+      },
       methods: {
         async showTermiSelector() {
           if (!this.view.editable) {
