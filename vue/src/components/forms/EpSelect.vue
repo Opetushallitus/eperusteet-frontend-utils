@@ -115,7 +115,9 @@ export default class EpSelect extends Mixins(EpValidation) {
       }
     }
 
-    this.validation?.$touch();
+    if (this.validation?.$touch) {
+      this.validation?.$touch();
+    }
   }
 
   get innerModel() {
