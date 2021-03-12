@@ -2,7 +2,12 @@
   <div>
     <div class="tiedosto-lataus" :class="file ? 'tiedosto' : 'ei-tiedosto'">
 
-      <b-form-file ref="file-input" v-if="!file" :accept="accept" :placeholder="placeholder" :drop-placeholder="dropPlaceholder" :browse-text="browseText" @input="onInput"></b-form-file>
+      <b-form-file ref="file-input"
+                   v-if="!file" :accept="accept"
+                   :placeholder="placeholder"
+                   :drop-placeholder="dropPlaceholder"
+                   :browse-text="browseText"
+                   @input="onInput"></b-form-file>
 
       <div v-if="file" class="pl-2 d-inline-block">
         <div>{{ $t('valittu-tiedosto') }}: {{ file ? file.name : '' }}</div>
@@ -45,6 +50,9 @@ export default class EpTiedostoLataus extends Vue {
   @Prop({ default: false })
   private asBinary!: boolean;
 
+  @Prop({ default: false })
+  private ignoreSize!: boolean;
+
   get accept() {
     return _.join(this.fileTypes, ', ');
   }
@@ -75,11 +83,11 @@ export default class EpTiedostoLataus extends Vue {
 
   // Luodaan esikatselukuva kuvan valitsemisen jälkeen
   async onInput(file: File) {
-    if (file != null && file.size > this.fileMaxSize) {
+    if (!this.ignoreSize && file != null && file.size > this.fileMaxSize) {
       this.$fail((this as any).$t('pdf-tiedosto-kuva-liian-suuri'));
     }
 
-    if (file != null && !_.includes(this.fileTypes, file.type)) {
+    if (!this.ignoreSize && file != null && !_.includes(this.fileTypes, file.type)) {
       this.$fail((this as any).$t('pdf-tiedosto-kuva-vaara-tyyppi'));
     }
 
