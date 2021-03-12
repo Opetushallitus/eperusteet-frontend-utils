@@ -23,10 +23,13 @@ declare module 'vue/types/vue' {
 export const UiKielet = Object.freeze(['fi', 'sv', 'en']);
 const logger = createLogger('Kieli');
 
+const kfi = require('../translations/locale-fi.json');
+const ksv = require('../translations/locale-sv.json');
+
 function getMessages() {
   const result: any = {};
-  result.fi = require('../translations/locale-fi.json');
-  result.sv = require('../translations/locale-sv.json');
+  result.fi = kfi;
+  result.sv = ksv;
   return result;
 }
 

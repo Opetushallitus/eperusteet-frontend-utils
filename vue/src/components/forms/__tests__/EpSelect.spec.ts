@@ -83,7 +83,9 @@ describe('EpSelect component', () => {
       value: valueMock,
       multiple: true,
       help: '',
-      validation: '',
+      validation: {
+        $touch: jest.fn(),
+      },
       useCheckboxes: false,
     });
 
