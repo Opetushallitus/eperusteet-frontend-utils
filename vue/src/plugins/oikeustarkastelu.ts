@@ -79,11 +79,11 @@ export const EPERUSTEET_SOVELLUKSET = [
     url: '/eperusteet-app/uusi',
   },
   {
-    sovellus: 'APP_EPERUSTEET_AMOSAA',
+    sovellus: 'APP_EPERUSTEET_YLOPS',
     url: '/eperusteet-ylops-app/uusi',
   },
   {
-    sovellus: 'APP_EPERUSTEET_YLOPS',
+    sovellus: 'APP_EPERUSTEET_AMOSAA',
     url: '/eperusteet-amosaa-app/uusi/#/ammatillinen',
   },
   {
