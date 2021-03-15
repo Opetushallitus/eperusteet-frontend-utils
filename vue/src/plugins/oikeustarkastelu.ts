@@ -76,19 +76,19 @@ export interface EperusteSovellus {
 export const EPERUSTEET_SOVELLUKSET = [
   {
     sovellus: 'APP_EPERUSTEET',
-    url: 'eperusteet-app/uusi',
+    url: '/eperusteet-app/uusi',
   },
   {
     sovellus: 'APP_EPERUSTEET_AMOSAA',
-    url: 'eperusteet-ylops-app/uusi',
+    url: '/eperusteet-ylops-app/uusi',
   },
   {
     sovellus: 'APP_EPERUSTEET_YLOPS',
-    url: 'eperusteet-amosaa-app/uusi/#/ammatillinen',
+    url: '/eperusteet-amosaa-app/uusi/#/ammatillinen',
   },
   {
     sovellus: 'APP_EPERUSTEET_VST',
-    url: 'eperusteet-amosaa-app/uusi/#/vapaasivistystyo',
+    url: '/eperusteet-amosaa-app/uusi/#/vapaasivistystyo',
   },
 ];
 
