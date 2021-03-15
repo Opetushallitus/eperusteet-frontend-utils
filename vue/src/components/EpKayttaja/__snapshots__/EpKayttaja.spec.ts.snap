@@ -38,13 +38,53 @@ exports[`EpKayttaja component Renders 1`] = `
       <li role="presentation"><a role="menuitem" href="/henkilo-ui/omattiedot" target="_self" class="dropdown-item">
           <div fixed-width="" icon="user" class="icon mr-3"></div><span>kayttajan-asetukset</span>
         </a></li>
-      <li role="presentation"><a role="menuitem" href="/virkailijan-tyopoyta" target="_self" class="dropdown-item">
-          <div fixed-width="" icon="ulkoinen-linkki" class="icon mr-3"></div><span>palaa-virkailijan-tyopyodalle</span>
-        </a></li>
       <li role="presentation">
         <hr role="separator" aria-orientation="horizontal" class="dropdown-divider">
       </li>
-      <!---->
+      <div>
+        <!---->
+        <div class="ep-collapse">
+          <div role="button" tabindex="0" class="collapse-button d-flex" aria-expanded="true">
+            <!---->
+            <div class="align-self-start">
+              <div class="header">
+                <div>
+                  <div class="pl-3 pt-2 text-nowrap kieli">
+                    <div fixed-width="" icon="ulkoinen-linkki" class="icon mr-3"></div> <span>vaihda-sovellusta</span>
+                  </div>
+                  <div class="pl-3 valittu-sovellus pb-2"><span class="icon mr-3"></span> <small>APP_EPERUSTEET</small></div>
+                </div>
+              </div>
+            </div>
+            <div class="ml-auto align-self-start" style="padding: 0.8rem 1rem;">
+              <div fixed-width="" icon="chevron-up"></div>
+            </div>
+          </div>
+          <div>
+            <div class="collapse-tausta text-left">
+              <li role="presentation" class="sovellusoikeus"><a role="menuitem" href="eperuste-url" target="_self" tabindex="-1" aria-disabled="true" class="dropdown-item disabled">
+                  <div class="collapse-tausta-valinta-icon">
+                    <div fixed-width="" icon="checkmark" class="mr-3 valittu"></div>
+                  </div>
+                  APP_EPERUSTEET
+                </a></li>
+              <li role="presentation" class="sovellusoikeus"><a role="menuitem" href="amosaa-url" target="_self" class="dropdown-item">
+                  <div class="collapse-tausta-valinta-icon">
+                    <!---->
+                  </div>
+                  APP_EPERUSTEET_AMOSAA
+                </a></li>
+            </div>
+          </div>
+        </div>
+        <!---->
+      </div>
+      <li role="presentation">
+        <hr role="separator" aria-orientation="horizontal" class="dropdown-divider">
+      </li>
+      <li role="presentation"><a role="menuitem" href="/service-provider-app/saml/logout" target="_self" class="dropdown-item">
+          <div fixed-width="" icon="kirjaudu-ulos" class="icon mr-3"></div><span>kirjaudu-ulos</span>
+        </a></li>
     </ul>
   </li>
 </div>

@@ -49,3 +49,13 @@ export async function getCasKayttajaKieli() {
     return 'fi';
   }
 }
+
+export async function getCasKayttaja() {
+  try {
+    return _.get(await axios.get(`${location.protocol}//${location.host}/cas/me`), 'data');
+  }
+  catch (e) {
+    logger.error(e);
+    return null;
+  }
+}

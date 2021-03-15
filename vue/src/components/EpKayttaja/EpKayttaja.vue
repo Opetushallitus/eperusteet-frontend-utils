@@ -12,7 +12,7 @@
     </template>
 
     <!-- Koulutustoimija -->
-    <ep-collapse :expanded-by-default="false" v-if="valittuKoulutustoimija" :use-padding="false">
+    <ep-collapse :expanded-by-default="false" v-if="valittuKoulutustoimija" :use-padding="false" :border-bottom="false">
       <div slot="header">
         <div class="pl-3 pt-2 text-nowrap kieli">
           <fas fixed-width icon="ryhma" class="icon mr-3" />
@@ -45,7 +45,7 @@
     </ep-collapse>
 
     <!-- Käyttöliittymän kieli -->
-    <ep-collapse :expanded-by-default="false" :border-bottom="false" :use-padding="false">
+    <ep-collapse :expanded-by-default="false" :use-padding="false" :border-bottom="false">
       <div slot="header">
         <div class="pl-3 pt-2 text-nowrap kieli">
           <fas fixed-width icon="kielet" class="icon mr-3" />
@@ -81,13 +81,49 @@
       <fas fixed-width icon="user" class="icon mr-3" /><span>{{ $t('kayttajan-asetukset') }}</span>
     </b-dd-item>
 
-    <b-dd-item href="/virkailijan-tyopoyta">
+    <b-dropdown-divider/>
+
+    <b-dd-item href="/virkailijan-tyopoyta" v-if="!sovellusOikeudet || sovellusOikeudet.length === 1">
       <fas fixed-width icon="ulkoinen-linkki" class="icon mr-3"/><span>{{ $t('palaa-virkailijan-tyopyodalle') }}</span>
     </b-dd-item>
 
-    <b-dd-divider />
+    <!-- Sovellussiisrtymä  -->
+    <ep-collapse :expanded-by-default="false" :use-padding="false" :border-bottom="false" v-else>
+      <div slot="header">
+        <div class="pl-3 pt-2 text-nowrap kieli">
+          <fas fixed-width icon="ulkoinen-linkki" class="icon mr-3" />
+          <span>{{ $t('vaihda-sovellusta') }}</span>
+        </div>
+        <div class="pl-3 valittu-sovellus pb-2">
+          <span class="icon mr-3" />
+          <small>{{ $t(valittuSovellus.eperusteSovellus.sovellus) }}</small>
+        </div>
+      </div>
 
-    <b-dd-item :href="logoutHref" v-if="logoutHref">
+      <template slot="icon" slot-scope="{ toggled }">
+        <div class="ml-auto align-self-start" style="padding: 0.8rem 1rem;">
+          <fas fixed-width icon="chevron-up" v-if="toggled" />
+          <fas fixed-width icon="chevron-down" v-else />
+        </div>
+      </template>
+
+      <div class="collapse-tausta text-left">
+        <b-dd-item :href="sovellusOikeus.eperusteSovellus.url"
+                    v-for="sovellusOikeus in sovellusOikeudet"
+                    :key="sovellusOikeus.eperusteSovellus.sovellus"
+                    :disabled="sovellusOikeus.valittu"
+                    class="sovellusoikeus">
+          <div class="collapse-tausta-valinta-icon">
+            <fas fixed-width icon="checkmark" v-if="sovellusOikeus.valittu" class="mr-3 valittu" />
+          </div>
+          {{ $t(sovellusOikeus.eperusteSovellus.sovellus) }}
+        </b-dd-item>
+      </div>
+    </ep-collapse>
+
+    <b-dropdown-divider/>
+
+    <b-dd-item href="/service-provider-app/saml/logout">
       <fas fixed-width icon="kirjaudu-ulos" class="icon mr-3" /><span>{{ $t('kirjaudu-ulos') }}</span>
     </b-dd-item>
 
@@ -100,11 +136,12 @@ import * as _ from 'lodash';
 import { Prop, Component, Vue } from 'vue-property-decorator';
 
 import { Kielet, UiKielet } from '../../stores/kieli';
-import { Kieli } from '../../tyypit';
+import { Kieli, SovellusVirhe } from '../../tyypit';
 import { IEsitysnimi, parsiEsitysnimi } from '../../utils/kayttaja';
 import EpCollapse from '../EpCollapse/EpCollapse.vue';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import { setItem } from '@shared/utils/localstorage';
+import { SovellusOikeus } from '@shared/plugins/oikeustarkastelu';
 
 @Component({
   components: {
@@ -122,8 +159,8 @@ export default class EpKayttaja extends Vue {
   @Prop({})
   private koulutustoimijat!: any[] | null;
 
-  @Prop({})
-  private logoutHref!: string | null;
+  @Prop({ required: false })
+  private sovellusOikeudet!: SovellusOikeus[];
 
   get esitysnimi() {
     return parsiEsitysnimi(this.tiedot);
@@ -189,6 +226,10 @@ export default class EpKayttaja extends Vue {
       await router.push(next);
     }
     catch (err) { }
+  }
+
+  get valittuSovellus() {
+    return _.find(this.sovellusOikeudet, 'valittu');
   }
 }
 </script>

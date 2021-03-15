@@ -73,7 +73,8 @@
 
       <ep-kayttaja :tiedot="kayttaja"
                    :koulutustoimijat="koulutustoimijat"
-                   :koulutustoimija="koulutustoimija" />
+                   :koulutustoimija="koulutustoimija"
+                   :sovellusOikeudet="sovellusOikeudet"/>
 
     </b-navbar-nav>
   </b-navbar>
@@ -91,6 +92,7 @@ import EpButton from '../../components/EpButton/EpButton.vue';
 import { Location } from 'vue-router';
 import EpKayttaja from '../../components/EpKayttaja/EpKayttaja.vue';
 import { BrowserStore } from '../../stores/BrowserStore';
+import { SovellusOikeus } from '@shared/plugins/oikeustarkastelu';
 
 interface Breadcrumb {
   label: string;
@@ -123,6 +125,9 @@ export default class EpNavbar extends Vue {
 
   @Prop({ required: false, type: Object, default: () => ({ name: 'root' }) })
   private rootNavigation!:any;
+
+  @Prop({ required: true })
+  private sovellusOikeudet!: SovellusOikeus[];
 
   get showNavigation() {
     return this.browserStore.navigationVisible.value;
