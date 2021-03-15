@@ -94,7 +94,7 @@
           <fas fixed-width icon="ulkoinen-linkki" class="icon mr-3" />
           <span>{{ $t('vaihda-sovellusta') }}</span>
         </div>
-        <div class="pl-3 valittu-sovellus pb-2">
+        <div class="pl-3 valittu-sovellus pb-2" v-if="valittuSovellus">
           <span class="icon mr-3" />
           <small>{{ $t(valittuSovellus.eperusteSovellus.sovellus) }}</small>
         </div>
@@ -117,6 +117,11 @@
             <fas fixed-width icon="checkmark" v-if="sovellusOikeus.valittu" class="mr-3 valittu" />
           </div>
           {{ $t(sovellusOikeus.eperusteSovellus.sovellus) }}
+        </b-dd-item>
+
+        <b-dd-item href="/virkailijan-tyopoyta">
+          <div class="collapse-tausta-valinta-icon" />
+          {{ $t('virkailijan-tyopoyta') }}
         </b-dd-item>
       </div>
     </ep-collapse>
@@ -237,6 +242,10 @@ export default class EpKayttaja extends Vue {
 <style scoped lang="scss">
 .kayttaja {
 
+  ::v-deep ul.dropdown-menu {
+    width: 350px;
+  }
+
   .icon {
     display: inline-block;
     width: 1rem;
@@ -258,6 +267,8 @@ export default class EpKayttaja extends Vue {
   .collapse-tausta {
     background-color: #F3F3F3;
     text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
 
     /deep/ .dropdown-item {
       padding: 0.25rem 1rem;
@@ -290,6 +301,9 @@ export default class EpKayttaja extends Vue {
   /deep/ .dropdown-item {
     padding: 0.5rem 1rem;
     color: #000000;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   /deep/ .dropdown-item:disabled {
