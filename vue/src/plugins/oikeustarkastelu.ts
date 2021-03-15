@@ -10,6 +10,8 @@ export interface IOikeusProvider {
   hasOikeus: (oikeus: Oikeus, kohde: any) => boolean;
   isAdmin?: Computed<boolean>;
   hasOphCrud?: Computed<boolean>;
+  casKayttaja: Computed<any>;
+  sovellusOikeudet: Computed<SovellusOikeus[]>;
 }
 
 export interface OikeustarkasteluConfig {
@@ -58,5 +60,52 @@ export class Oikeustarkastelu {
         }
       },
     } as Vue.DirectiveOptions);
+  }
+}
+
+export interface SovellusOikeus {
+  eperusteSovellus: EperusteSovellus;
+  valittu: boolean;
+}
+
+export interface EperusteSovellus {
+  sovellus: string;
+  url: string;
+}
+
+export const EPERUSTEET_SOVELLUKSET = [
+  {
+    sovellus: 'APP_EPERUSTEET',
+    url: 'eperusteet-app/uusi',
+  },
+  {
+    sovellus: 'APP_EPERUSTEET_AMOSAA',
+    url: 'eperusteet-ylops-app/uusi',
+  },
+  {
+    sovellus: 'APP_EPERUSTEET_YLOPS',
+    url: 'eperusteet-amosaa-app/uusi/#/ammatillinen',
+  },
+  {
+    sovellus: 'APP_EPERUSTEET_VST',
+    url: 'eperusteet-amosaa-app/uusi/#/vapaasivistystyo',
+  },
+];
+
+export function getSovellusoikeudet(casRoles: string[], valittuSovellus: string): SovellusOikeus[] {
+  const toSovellusOikeus = (eperusteSovellus) => ({
+    eperusteSovellus,
+    valittu: valittuSovellus === eperusteSovellus.sovellus,
+  });
+
+  const origin = window.location.origin;
+  if (_.includes(origin, 'localhost')) {
+    return _.map(EPERUSTEET_SOVELLUKSET, eperusteSovellus => toSovellusOikeus(eperusteSovellus));
+  }
+  else {
+    return _.chain(casRoles)
+      .filter(casRole => _.includes(_.map(EPERUSTEET_SOVELLUKSET, 'sovellus'), casRole))
+      .map(sovellus => toSovellusOikeus(sovellus))
+      .value();
   }
 }

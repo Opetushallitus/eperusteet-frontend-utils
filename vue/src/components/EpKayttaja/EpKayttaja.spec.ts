@@ -33,6 +33,23 @@ describe('EpKayttaja component', () => {
           kutsumanimi: 'etunimi',
           sukunimi: 'sukunimi',
         },
+        sovellusOikeudet: [
+          {
+            eperusteSovellus:
+              {
+                sovellus: 'APP_EPERUSTEET',
+                url: 'eperuste-url',
+              },
+            valittu: true,
+          },
+          {
+            eperusteSovellus: {
+              sovellus: 'APP_EPERUSTEET_AMOSAA',
+              url: 'amosaa-url',
+            },
+            valittu: false,
+          },
+        ],
       },
       mocks: {
         $t: x => x,
@@ -61,6 +78,17 @@ describe('EpKayttaja component', () => {
         lang: 'sv',
       },
     });
+
+    expect(wrapper.find('.valittu-sovellus').html()).toContain('APP_EPERUSTEET');
+    wrapper.find('.valittu-sovellus').trigger('click');
+
+    await delay();
+
+    expect(wrapper.findAll(EpCollapse).at(1)
+      .findAll('.sovellusoikeus').length).toBe(2);
+    expect(wrapper.findAll(EpCollapse).at(1)
+      .html()).toContain('amosaa-url');
+
     expect(wrapper.html()).toMatchSnapshot();
   });
 });
