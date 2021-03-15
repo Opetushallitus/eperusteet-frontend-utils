@@ -74,6 +74,10 @@ exports[`EpKayttaja component Renders 1`] = `
                   </div>
                   APP_EPERUSTEET_AMOSAA
                 </a></li>
+              <li role="presentation"><a role="menuitem" href="/virkailijan-tyopoyta" target="_self" class="dropdown-item">
+                  <div class="collapse-tausta-valinta-icon"></div>
+                  virkailijan-tyopoyta
+                </a></li>
             </div>
           </div>
         </div>

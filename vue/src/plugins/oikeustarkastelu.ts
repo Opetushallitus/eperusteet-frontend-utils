@@ -105,6 +105,7 @@ export function getSovellusoikeudet(casRoles: string[], valittuSovellus: string)
   else {
     return _.chain(casRoles)
       .filter(casRole => _.includes(_.map(EPERUSTEET_SOVELLUKSET, 'sovellus'), casRole))
+      .map(sovellus => _.find(EPERUSTEET_SOVELLUKSET, eSovellus => eSovellus.sovellus === sovellus))
       .map(sovellus => toSovellusOikeus(sovellus))
       .value();
   }
