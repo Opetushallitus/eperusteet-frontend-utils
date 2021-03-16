@@ -52,7 +52,8 @@ export async function getCasKayttajaKieli() {
 
 export async function getCasKayttaja() {
   try {
-    return _.get(await axios.get(`${location.protocol}//${location.host}/cas/me`), 'data');
+    const casKayttaja = await successfulResponseHandler()(await axios.get(`${location.protocol}//${location.host}/cas/me`));
+    return _.get(casKayttaja, 'data');
   }
   catch (e) {
     logger.error(e);
