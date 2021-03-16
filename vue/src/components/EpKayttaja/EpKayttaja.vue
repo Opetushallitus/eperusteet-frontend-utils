@@ -128,7 +128,7 @@
 
     <b-dropdown-divider/>
 
-    <b-dd-item href="/service-provider-app/saml/logout">
+    <b-dd-item :href="logoutHref">
       <fas fixed-width icon="kirjaudu-ulos" class="icon mr-3" /><span>{{ $t('kirjaudu-ulos') }}</span>
     </b-dd-item>
 
@@ -166,6 +166,9 @@ export default class EpKayttaja extends Vue {
 
   @Prop({ required: false })
   private sovellusOikeudet!: SovellusOikeus[];
+
+  @Prop({ required: false, default: '/service-provider-app/saml/logout' })
+  private logoutHref!: string;
 
   get esitysnimi() {
     return parsiEsitysnimi(this.tiedot);
