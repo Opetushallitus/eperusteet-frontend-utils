@@ -26,7 +26,7 @@ const logger = createLogger('Kieli');
 const kfi = require('../translations/locale-fi.json');
 const ksv = require('../translations/locale-sv.json');
 
-function getMessages() {
+export function getMessages() {
   const result: any = {};
   result.fi = kfi;
   result.sv = ksv;
