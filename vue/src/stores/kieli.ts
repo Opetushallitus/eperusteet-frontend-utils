@@ -25,11 +25,13 @@ const logger = createLogger('Kieli');
 
 const kfi = require('../translations/locale-fi.json');
 const ksv = require('../translations/locale-sv.json');
+const ken = require('../translations/locale-en.json');
 
 export function getMessages() {
   const result: any = {};
   result.fi = kfi;
   result.sv = ksv;
+  result.en = ken;
   return result;
 }
 
