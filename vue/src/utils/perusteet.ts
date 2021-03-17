@@ -124,12 +124,12 @@ export const EperusteetKoulutustyyppiRyhmat = {
 };
 
 export const EperusteetKoulutustyyppiRyhmaSort = {
-  [Toteutus.VARHAISKASVATUS]: 1,
-  [Toteutus.ESIOPETUS]: 2,
-  [Toteutus.PERUSOPETUS]: 3,
-  [Toteutus.TAITEENPERUSOPETUS]: 4,
-  [Toteutus.LUKIOKOULUTUS]: 5,
-  [Toteutus.AMMATILLINEN]: 6,
+  [Toteutus.AMMATILLINEN]: 1,
+  [Toteutus.VARHAISKASVATUS]: 2,
+  [Toteutus.ESIOPETUS]: 3,
+  [Toteutus.PERUSOPETUS]: 4,
+  [Toteutus.TAITEENPERUSOPETUS]: 5,
+  [Toteutus.LUKIOKOULUTUS]: 6,
   [Toteutus.VAPAASIVISTYSTYO]: 7,
   [Toteutus.TUTKINTOONVALMENTAVA]: 8,
 };
