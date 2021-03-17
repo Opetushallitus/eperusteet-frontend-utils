@@ -11,6 +11,8 @@ export function notNull() {
 
 const ValidoitavatKielet = ['fi', 'sv', 'se', 'en', 'ru'];
 
+const onlyCharacterOrNumber = helpers.regex('onlyLetterNumbers', /^[a-zA-Z0-9äöåÄÖÅ]*$/);
+
 function exists(value: any, kieli: Kieli) {
   return _.has(value, kieli) && !_.isEmpty(value[kieli])
     && !_.isEmpty(he.decode(value[kieli].replace(/<[^>]+>/g, '')).trim());
@@ -84,6 +86,16 @@ export function koodiValidator(min = 3) {
     koodi: {
       required,
       'min-length': minLength(min),
+    },
+  };
+}
+
+export function paikallinenKoodiValidator(min = 3) {
+  return {
+    koodi: {
+      required,
+      'min-length': minLength(min),
+      onlyCharacterOrNumber,
     },
   };
 }

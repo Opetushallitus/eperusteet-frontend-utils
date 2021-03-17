@@ -3155,6 +3155,7 @@
     "validation-error-min-length": "Minimipituus on {min}",
     "validation-error-min-value": "Arvo liian pieni",
     "validation-error-not-null": "Pakollinen tieto",
+    "validation-error-onlyCharacterOrNumber": "Arvo sisältää virheellisiä merkkejä.",
     "validation-error-required": "Pakollinen tieto",
     "validation-error-required-one-lang": "Pakollinen vähintään yhdellä kielellä",
     "validation-warning-all-translations": "Käännöstä ei ole kaikilla julkaisukielillä",
