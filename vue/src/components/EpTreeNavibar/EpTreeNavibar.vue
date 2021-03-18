@@ -138,7 +138,8 @@ export default class EpTreeNavibar extends Vue {
     if (!this.active || !this.store) {
       return -1;
     }
-    return _.findIndex(this.navigation, this.active);
+
+    return _.findIndex(this.navigation, navItem => navItem.id === this.active!.id);
   }
 
   get activeParents() {
