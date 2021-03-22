@@ -97,7 +97,8 @@
       aria-hidden="true"
       :show="showTooltip"
       target="open-btn"
-      placement="top">
+      placement="top"
+      trigger="hover">
       {{ $t('anna-palautetta-eperusteista') }}
       <fas
         class="close-btn close-btn--tooltip"

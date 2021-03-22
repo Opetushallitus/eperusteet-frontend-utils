@@ -24,5 +24,5 @@ export interface ITPalauteProvider {
   sendPalaute: (palaute: Palaute) => Promise<void>;
   tutkintorakennepalaute: Computed<boolean>;
   fetch?: () => Promise<void>;
-  palautteet?: Computed<Palaute[]>;
+  palautteet?: Computed<{[key: string]: any[] | null}>;
 }
