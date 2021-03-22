@@ -12,3 +12,17 @@ export interface ITiedotteetProvider {
   save?: (tiedote: TiedoteDto) => Promise<void>;
   delete?: (tiedote: TiedoteDto) => Promise<void>;
 }
+
+export interface Palaute {
+  stars: number;
+  feedback: string;
+  'user_agent': string;
+  key?: string,
+}
+
+export interface ITPalauteProvider {
+  sendPalaute: (palaute: Palaute) => Promise<void>;
+  tutkintorakennepalaute: Computed<boolean>;
+  fetch?: () => Promise<void>;
+  palautteet?: Computed<{[key: string]: Palaute[] | null}>;
+}
