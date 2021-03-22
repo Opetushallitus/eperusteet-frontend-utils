@@ -13,7 +13,9 @@
           {{ feedbackSent ? $t('kiitos-palautteestasi') : $t('mita-mielta-uudesta-eperusteet-palvelusta') }}
         </h3>
       </template>
-      <p v-if="feedbackSent">{{ $t('eperusteet-palautemodal-kiitos-sisalto') }}</p>
+      <p v-if="feedbackSent">
+        <span v-if="tutkintorakennepalaute">{{ $t('eperusteet-palautemodal-kiitos-sisalto') }}</span>
+      </p>
       <template v-else>
         <div
           class="d-flex align-items-center justify-content-center my-2"
@@ -46,11 +48,12 @@
         <template v-if="feedbackSent">
           <b-button
             size="md"
-            variant="link"
+            :variant="tutkintorakennepalaute ? 'link' : 'primary'"
             @click="hide()">
             <span class="mx-3">{{ $t('sulje') }}</span>
           </b-button>
           <a
+            v-if="tutkintorakennepalaute"
             class="btn btn-primary btn-md text-white"
             target="_blank"
             :href="furtherFeedbackUrl"
@@ -149,6 +152,10 @@ export default class EpFeedbackModal extends Vue {
       this.$root.$on('bv::tooltip::hide', bvEvent => {
         if (this.tooltipFirstShown) bvEvent.preventDefault();
       });
+    }
+
+    get tutkintorakennepalaute() {
+      return this.palauteProvider.tutkintorakennepalaute.value;
     }
 
     get showTooltip() {
