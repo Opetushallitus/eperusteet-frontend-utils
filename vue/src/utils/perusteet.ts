@@ -1,6 +1,4 @@
 import _ from 'lodash';
-import { PerusteDto } from '@shared/api/eperusteet';
-import { EPERUSTEET_SOVELLUKSET } from '@shared/plugins/oikeustarkastelu';
 
 export const KoodistoLops2019LaajaAlaiset = 'laajaalainenosaaminenlops2021';
 
