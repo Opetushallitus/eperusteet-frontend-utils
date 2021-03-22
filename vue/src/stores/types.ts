@@ -12,3 +12,13 @@ export interface ITiedotteetProvider {
   save?: (tiedote: TiedoteDto) => Promise<void>;
   delete?: (tiedote: TiedoteDto) => Promise<void>;
 }
+
+export interface Palaute {
+  stars: number;
+  feedback: string;
+  'user_agent': string;
+}
+
+export interface ITPalauteProvider {
+  sendPalaute: (palaute: Palaute) => Promise<void>;
+}
