@@ -197,3 +197,11 @@ export interface IDokumenttiStore {
   polling: Computed<any>,
   luoPdf: () => void,
 }
+
+export enum EperusteetPalautekanava {
+  opintopolku = 'eperusteet-opintopolku',
+  eperusteet = 'eperusteet-laadinta',
+  amosaa = 'eperusteet-amosaa',
+  vst = 'eperusteet-vst',
+  ylops = 'eperusteet-ylops',
+}
