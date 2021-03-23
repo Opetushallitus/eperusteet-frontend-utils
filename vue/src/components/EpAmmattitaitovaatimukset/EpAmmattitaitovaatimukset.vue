@@ -105,8 +105,9 @@
     </b-form-group>
   </div>
   <div v-else>
-    <div v-if="inner.vaatimukset && inner.vaatimukset.length > 0" class="otsikko font-weight-bold">
-      {{ $kaanna(inner.kohde) }}
+    <div v-if="inner.vaatimukset && inner.vaatimukset.length > 0 && showKohde"
+        class="otsikko font-weight-bold">
+      {{ $kaanna(innerKohde) }}
     </div>
     <ul>
       <li v-for="(v, vidx) in inner.vaatimukset" :key="vidx">
@@ -131,8 +132,8 @@
         <div class="otsikko font-weight-bold">
           {{ $kaanna(kohdealue.kuvaus) }}
         </div>
-        <div class="otsikko">
-          {{ $kaanna(inner.kohde) }}
+        <div class="otsikko" v-if="showKohde">
+          {{ $kaanna(innerKohde) }}
         </div>
         <ul>
           <li v-for="(v, kvIdx) in kohdealue.vaatimukset" :key="kvIdx">
@@ -239,6 +240,12 @@ export default class EpAmmattitaitovaatimukset extends Vue {
 
   set inner(value: any) {
     this.$emit('input', value);
+  }
+
+  get innerKohde() {
+    if (this.showKohde) {
+      return this.inner.kohde || this.kohde;
+    }
   }
 
   get kohdealueOptions() {
