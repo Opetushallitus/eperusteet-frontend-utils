@@ -43,7 +43,7 @@ export default class Osaamistavoite extends Vue {
   @Prop({ required: true })
   isValinnainen!: boolean;
 
-  @Prop({ required: true })
+  @Prop({ default: true })
   showLaajuus!: boolean;
 
   get inner() {
