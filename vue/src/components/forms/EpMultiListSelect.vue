@@ -123,6 +123,9 @@ export default class EpMultiListSelect extends Mixins(EpValidation) {
   @Prop({ default: '', type: String })
   private help!: string;
 
+  @Prop({ required: false, default: () => _.isEqual })
+  private equality!: Function;
+
   private updateValue() {
     if (this.multiple) {
       this.$emit('input', [...this.innerModelsValues]);
@@ -159,11 +162,16 @@ export default class EpMultiListSelect extends Mixins(EpValidation) {
 
   private changeInnerModels(items, value) {
     let valueArray = _.isArray(value) ? value : [value];
-    this.innerModels = _.chain(valueArray)
-      .map((singleValue) => _.head(_.filter(items, (item) => _.isEqual(item.value, singleValue))))
-      .filter(singleValue => _.isObject(singleValue))
-      .value();
-    this.updateValue();
+
+    if (_.size(items) > 0) {
+      this.innerModels = _.chain(valueArray)
+        .map((singleValue) => _.head(_.filter(items, (item) => {
+          return this.equality(item.value, singleValue);
+        })))
+        .filter(singleValue => _.isObject(singleValue))
+        .value();
+      this.updateValue();
+    }
   }
 
   get lisaaTeksti() {

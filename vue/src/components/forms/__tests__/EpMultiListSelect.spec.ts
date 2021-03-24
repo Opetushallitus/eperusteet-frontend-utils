@@ -3,6 +3,7 @@ import EpMultiListSelect from '../EpMultiListSelect.vue';
 import { Kielet } from '../../../stores/kieli';
 import VueI18n from 'vue-i18n';
 import BootstrapVue from 'bootstrap-vue';
+import pretty from 'pretty';
 
 describe('EpMultiListSelect component', () => {
   const localVue = createLocalVue();
@@ -114,13 +115,11 @@ describe('EpMultiListSelect component', () => {
     });
 
     expect(wrapper.findAll('.multiselect__select')).toHaveLength(1);
-
     wrapper.find('.lisaa-valinta').trigger('click');
     await localVue.nextTick();
-
+    expect(wrapper.findAll('.multiselect__select')).toHaveLength(2);
     wrapper.find('.lisaa-valinta').trigger('click');
     await localVue.nextTick();
-
     expect(wrapper.findAll('.multiselect__select')).toHaveLength(3);
   });
 
