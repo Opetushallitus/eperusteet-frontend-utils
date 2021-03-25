@@ -90,6 +90,52 @@
           </template>
         </ep-form-content>
 
+        <ep-form-content name="liita-tutkinnon-osa-tiedotteeseen">
+          <div v-for="(tutkinnonOsa, index) in muokattavaTiedote.tutkinnonosat" :key="'tutkinnonOsa' + index" class="mb-1 d-flex justify-content-center align-items-center">
+            <ep-koodisto-select :store="tutkinnonOsaKoodisto" v-model="muokattavaTiedote.tutkinnonosat[index]" class="w-100">
+              <template #default="{ open }">
+                <b-input-group class="w-100 d-flex">
+                  <b-form-input :value="$kaanna(tutkinnonOsa.nimi)" disabled></b-form-input>
+                  <b-input-group-append>
+                    <b-button @click="open" icon="plus" variant="primary">
+                      {{ $t('hae') }}
+                    </b-button>
+                  </b-input-group-append>
+                </b-input-group>
+              </template>
+            </ep-koodisto-select>
+            <div class="flex-shrink pl-2">
+              <ep-button @click="poistaTutkinnonosa(index)" variant="link" icon="roskalaatikko"></ep-button>
+            </div>
+          </div>
+          <ep-button buttonClass="pl-0" variant="outline-primary" icon="plussa" @click="lisaaTutkinnonOsa" >
+            {{ $t('lisaa-tutkinnon-osa') }}
+          </ep-button>
+        </ep-form-content>
+
+        <ep-form-content name="liita-osaamisala-tiedotteeseen">
+          <div v-for="(osaamisala, index) in muokattavaTiedote.osaamisalat" :key="'osaamisala' + index" class="mb-1 d-flex justify-content-center align-items-center">
+            <ep-koodisto-select :store="osaamisalaKoodisto" v-model="muokattavaTiedote.osaamisalat[index]" class="w-100">
+              <template #default="{ open }">
+                <b-input-group class="w-100 d-flex">
+                  <b-form-input :value="$kaanna(osaamisala.nimi)" disabled></b-form-input>
+                  <b-input-group-append>
+                    <b-button @click="open" icon="plus" variant="primary">
+                      {{ $t('hae') }}
+                    </b-button>
+                  </b-input-group-append>
+                </b-input-group>
+              </template>
+            </ep-koodisto-select>
+            <div class="flex-shrink pl-2">
+              <ep-button @click="poistaOsaamisala(index)" variant="link" icon="roskalaatikko"></ep-button>
+            </div>
+          </div>
+          <ep-button buttonClass="pl-0" variant="outline-primary" icon="plussa" @click="lisaaOsaamisala" >
+            {{ $t('lisaa-osaamisala') }}
+          </ep-button>
+        </ep-form-content>
+
       </div>
 
       <div v-else>
@@ -130,6 +176,20 @@
           </div>
         </div>
 
+        <div v-if="esittavaMuokkaustieto.tutkinnonosat && esittavaMuokkaustieto.tutkinnonosat.length > 0" class="mt-4">
+          <h6>{{$t('liitetyt-tutkinnonosat')}}:</h6>
+          <div v-for="(tutkinnonosa, index) in esittavaMuokkaustieto.tutkinnonosat" :key="index+'tutkinnonosa'">
+            {{$kaanna(tutkinnonosa.nimi)}}
+          </div>
+        </div>
+
+        <div v-if="esittavaMuokkaustieto.osaamisalat && esittavaMuokkaustieto.osaamisalat.length > 0" class="mt-4">
+          <h6>{{$t('liitetyt-osaamisalat')}}:</h6>
+          <div v-for="(osaamisala, index) in esittavaMuokkaustieto.osaamisalat" :key="index+'osaamisala'">
+            {{$kaanna(osaamisala.nimi)}}
+          </div>
+        </div>
+
       </div>
 
       <template v-slot:modal-footer>
@@ -159,9 +219,8 @@
 <script lang="ts">
 import * as _ from 'lodash';
 import { Watch, Prop, Component, Vue, Mixins } from 'vue-property-decorator';
-import { TiedoteDto, Kayttajat, PerusteHakuDto, PerusteDto, PerusteKevytDto } from '@shared/api/eperusteet';
+import { TiedoteDto, Kayttajat, PerusteHakuDto, PerusteDto, PerusteKevytDto, Koodisto } from '@shared/api/eperusteet';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
-import { ITiedotteetProvider } from '@shared/stores/types';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import EpMultiSelect from '@shared/components/forms/EpMultiSelect.vue';
@@ -179,6 +238,9 @@ import { themes, ktToState, koulutustyyppiRyhmat, KoulutustyyppiRyhma, koulutust
 import EpColorIndicator from '@shared/components/EpColorIndicator/EpColorIndicator.vue';
 import { Kielet } from '../../stores/kieli';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
+import { KoodistoSelectStore } from '../EpKoodistoSelect/KoodistoSelectStore';
+import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
+import { ITiedotteetProvider } from '@shared/stores/types';
 
 @Component({
   components: {
@@ -193,6 +255,7 @@ import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
     EpKielivalinta,
     EpColorIndicator,
     EpSpinner,
+    EpKoodistoSelect,
   },
   validations: {
     muokattavaTiedote: {
@@ -447,6 +510,58 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
         .flatten()
         .value(),
     ];
+  }
+
+  private readonly tutkinnonOsaKoodisto = new KoodistoSelectStore({
+    async query(query: string, sivu = 0) {
+      const { data } = await Koodisto.kaikkiSivutettuna('tutkinnonosat', query, {
+        params: {
+          sivu,
+          sivukoko: 10,
+        },
+      });
+      return data as any;
+    },
+  });
+
+  poistaTutkinnonosa(tutkinnonOsaIndex) {
+    this.muokattavaTiedote.tutkinnonosat = _.filter(this.muokattavaTiedote.tutkinnonosat, (tutkinnonOsa, index) => index !== tutkinnonOsaIndex);
+  }
+
+  lisaaTutkinnonOsa() {
+    this.muokattavaTiedote = {
+      ...this.muokattavaTiedote,
+      tutkinnonosat: [
+        ...(this.muokattavaTiedote.tutkinnonosat || []),
+        {},
+      ],
+    };
+  }
+
+  private readonly osaamisalaKoodisto = new KoodistoSelectStore({
+    async query(query: string, sivu = 0) {
+      const { data } = await Koodisto.kaikkiSivutettuna('osaamisala', query, {
+        params: {
+          sivu,
+          sivukoko: 10,
+        },
+      });
+      return data as any;
+    },
+  });
+
+  poistaOsaamisala(osaamisalaIndex) {
+    this.muokattavaTiedote.osaamisalat = _.filter(this.muokattavaTiedote.osaamisalat, (osaamisala, index) => index !== osaamisalaIndex);
+  }
+
+  lisaaOsaamisala() {
+    this.muokattavaTiedote = {
+      ...this.muokattavaTiedote,
+      osaamisalat: [
+        ...(this.muokattavaTiedote.osaamisalat || []),
+        {},
+      ],
+    };
   }
 }
 </script>
