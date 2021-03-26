@@ -4,7 +4,7 @@
 
     <div v-else>
       <div v-for="(tiedote, index) in tiedotteetFiltered" :key="index" class="tiedote p-2 pl-3" @click="avaaTiedote(tiedote)">
-        <div class="otsikko" :class="{'uusi': tiedote.uusi}">{{$kaanna(tiedote.otsikko)}} <span class="uusi" v-if="tiedote.uusi">Uusi</span></div>
+        <div class="otsikko" :class="{'uusi': tiedote.uusi}">{{$kaanna(tiedote.otsikko)}} <span class="uusi" v-if="tiedote.uusi">{{$t('uusi')}}</span></div>
         <div class="muokkausaika">{{$sdt(tiedote.muokattu)}}</div>
       </div>
 
@@ -27,6 +27,7 @@ import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import EpButton from '../EpButton/EpButton.vue';
 import { TiedoteDto } from '../../api/eperusteet';
 import { ITiedotteetProvider } from '../../stores/types';
+import { onkoUusi } from '@shared/utils/tiedote';
 
 interface ListaTiedote extends TiedoteDto {
   uusi: boolean;
@@ -63,7 +64,7 @@ export default class EpTiedoteList extends Vue {
         .map((tiedote: TiedoteDto) => {
           return {
             ...tiedote,
-            uusi: this.tuntisitten((tiedote as any).luotu),
+            uusi: onkoUusi((tiedote as any).luotu),
           } as ListaTiedote;
         })
         .take(this.naytettavaTiedoteMaara)
@@ -73,12 +74,6 @@ export default class EpTiedoteList extends Vue {
 
   avaaTiedote(tiedote: TiedoteDto) {
     this.$emit('avaaTiedote', tiedote);
-  }
-
-  tuntisitten(aika) {
-    const tunti = 1000 * 60 * 60;
-    const tuntisitten = Date.now() - tunti;
-    return aika > tuntisitten;
   }
 }
 </script>

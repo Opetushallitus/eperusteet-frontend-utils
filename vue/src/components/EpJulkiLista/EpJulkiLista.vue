@@ -40,6 +40,7 @@ import { Vue, Component, Prop, Mixins, Watch } from 'vue-property-decorator';
 import _ from 'lodash';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import EpButton from '../EpButton/EpButton.vue';
+import { onkoUusi } from '@shared/utils/tiedote';
 export interface JulkiRivi {
   otsikko?: { [key: string]: string; } | string;
   uusi: boolean;
@@ -77,7 +78,7 @@ export default class EpJulkiLista extends Vue {
         .map((tieto: JulkiRivi) => {
           return {
             ...tieto,
-            uusi: this.tuntisitten((tieto as any).luotu),
+            uusi: onkoUusi((tieto as any).luotu),
           } as JulkiRivi;
         })
         .filter((tieto, index) => this.listausTyyppi === 'lisahaku' || index >= (this.sivu - 1) * this.naytettavaTietoMaara)
@@ -87,11 +88,6 @@ export default class EpJulkiLista extends Vue {
   }
   avaaTieto(tieto: JulkiRivi) {
     this.$emit('avaaTieto', tieto);
-  }
-  tuntisitten(aika) {
-    const tunti = 1000 * 60 * 60;
-    const tuntisitten = Date.now() - tunti;
-    return aika > tuntisitten;
   }
 }
 </script>
