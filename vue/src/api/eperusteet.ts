@@ -175,6 +175,8 @@ export interface PerusteQuery {
   jarjestysOrder?: boolean,
   jarjestysTapa?: string,
   julkaistu?: boolean,
+  tutkinnonosaKoodit?: Array<string>,
+  osaamisalaKoodit?: Array<string>,
 };
 
 export async function getAllPerusteet(query: PerusteQuery) {
@@ -200,6 +202,8 @@ export async function getAllPerusteet(query: PerusteQuery) {
     query.koulutusvienti,
     query.perusteTyyppi,
     query.julkaistu,
+    query.tutkinnonosaKoodit,
+    query.osaamisalaKoodit,
   );
 }
 
