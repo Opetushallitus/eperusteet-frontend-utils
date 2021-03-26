@@ -119,6 +119,7 @@ export type TutkinnonOsaViiteLuontiDto = EperusteetApi.TutkinnonOsaViiteLuontiDt
 export type OsaamistasoDto = EperusteetApi.OsaamistasoDto;
 export type PalauteDto = EperusteetApi.PalauteDto;
 export type Status = EperusteetApi.Status;
+export type KoodiDto = EperusteetApi.KoodiDto;
 
 export import PerusteprojektiLuontiDtoTyyppiEnum = EperusteetApi.PerusteprojektiLuontiDtoTyyppiEnum;
 export import NavigationNodeDtoTypeEnum = EperusteetApi.NavigationNodeDtoTypeEnum;
