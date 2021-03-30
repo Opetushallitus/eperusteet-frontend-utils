@@ -19,6 +19,7 @@ export const EperusteetKoulutustyypit = Object.freeze([
   'koulutustyyppi_23', // valmistava lukiokoulutus
   'koulutustyyppi_999907', // taiteen perusopetus,
   'koulutustyyppi_10', // vapaa sivistystyo
+  'koulutustyyppi_35', // vapaa sivistystyo lukutaito
   'koulutustyyppi_40', // tutkintoon valmentava
 ]);
 
@@ -40,6 +41,7 @@ export const AmmatillisetKoulutustyypit = [
 
 export const VapaasivistystyoKoulutustyypit = [
   'koulutustyyppi_10',
+  'koulutustyyppi_35',
 ];
 
 export const yleissivistavatKoulutustyypit = [
@@ -72,6 +74,7 @@ export const themes = {
   'koulutustyyppi_6': 'perusopetus',
   'koulutustyyppi_999907': 'taiteenperusopetus',
   'koulutustyyppi_10': 'vapaasivistystyo',
+  'koulutustyyppi_35': 'vapaasivistystyo',
   'koulutustyyppi_40': 'tutkintoonvalmentava',
 };
 
@@ -116,6 +119,7 @@ export const EperusteetKoulutustyyppiRyhmat = {
   ],
   [Toteutus.VAPAASIVISTYSTYO]: [
     'koulutustyyppi_10',
+    'koulutustyyppi_35',
   ],
   [Toteutus.TUTKINTOONVALMENTAVA]: [
     'koulutustyyppi_40',
@@ -203,6 +207,7 @@ export const ktToState = {
   'koulutustyyppi_6': 'lisaopetus',
   'koulutustyyppi_999907': 'taiteenperusopetus',
   'koulutustyyppi_10': 'vapaasivistystyo',
+  'koulutustyyppi_35': 'vapaasivistystyo',
   'koulutustyyppi_40': 'tutkintoonvalmentava',
 };
 
@@ -239,6 +244,7 @@ export const koulutustyypitPdfTuki = [
   'koulutustyyppi_1', 'koulutustyyppi_5', 'koulutustyyppi_6', 'koulutustyyppi_11',
   'koulutustyyppi_12', 'koulutustyyppi_15', 'koulutustyyppi_17', 'koulutustyyppi_18',
   'koulutustyyppi_20', 'koulutustyyppi_999907', 'koulutustyyppi_10', 'koulutustyyppi_40',
+  'koulutustyyppi_35',
 ];
 
 export function koulutustyyppiStateName(koulutustyyppi: string) {
@@ -303,7 +309,7 @@ export function isAmmatillinenKoulutustyyppi(kt: string | undefined): boolean {
 }
 
 export function isVapaasivistystyoKoulutustyyppi(kt: string | undefined): boolean {
-  return kt === 'koulutustyyppi_10';
+  return _.includes(VapaasivistystyoKoulutustyypit, kt);
 }
 
 export function isAmmatillinen(statename: string): boolean {
