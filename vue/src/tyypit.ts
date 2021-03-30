@@ -1,4 +1,5 @@
 import { Computed } from './utils/interfaces';
+import { tutkintoonvalmentava } from './utils/perusteet';
 
 export enum Kieli {
   fi = 'fi',
@@ -31,7 +32,9 @@ export enum Koulutustyyppi {
   perusopetusvalmistava = 'koulutustyyppi_22',
   lukiovalmistavakoulutus = 'koulutustyyppi_23',
   tpo = 'koulutustyyppi_999907',
-  vapaasivistystyo = 'koulutustyyppi_10'
+  vapaasivistystyo = 'koulutustyyppi_10',
+  vapaasivistystyolukutaito = 'koulutustyyppi_35',
+  tutkintoonvalmentava = 'koulutustyyppi_40',
 }
 
 const ammatilliset = [Koulutustyyppi.ammattitutkinto, Koulutustyyppi.erikoisammattitutkinto, Koulutustyyppi.perustutkinto];
