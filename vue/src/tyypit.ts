@@ -109,7 +109,7 @@ export type NavigationNodeType =
   | 'oppiaineet' | 'oppimaarat' | 'oppiaine'
   | 'moduulit' | 'moduuli'
   | 'muodostuminen' | 'tutkinnonosat' | 'tutkinnonosa' | 'tutkinnonosaviite' | 'osaalue'
-  | 'opintokokonaisuus'
+  | 'opintokokonaisuus' | 'tavoitesisaltoalue'
   | 'koulutuksenosa';
 
 export interface NavigationNodeDto {
