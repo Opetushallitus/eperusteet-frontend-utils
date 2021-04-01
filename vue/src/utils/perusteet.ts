@@ -207,7 +207,7 @@ export const ktToState = {
   'koulutustyyppi_6': 'lisaopetus',
   'koulutustyyppi_999907': 'taiteenperusopetus',
   'koulutustyyppi_10': 'vapaasivistystyo',
-  'koulutustyyppi_35': 'vapaasivistystyo',
+  'koulutustyyppi_35': 'vapaasivistystyolukutaito',
   'koulutustyyppi_40': 'tutkintoonvalmentava',
 };
 
@@ -265,6 +265,13 @@ export function perusteKoulutustyyppiUrlShortParamName(koulutustyyppi: string) {
 
 // Koulutustyyppi on oltava myös alityyppinä
 export function koulutustyyppiRelaatiot() {
+  return [
+    ...yleissivastavatKoulutustyyppiRelaatiot(),
+    ...vapaasivistystyoKoulutustyyppiRelaatiot(),
+  ];
+}
+
+export function yleissivastavatKoulutustyyppiRelaatiot() {
   return [{
     koulutustyyppi: 'koulutustyyppi_20',
     alityypit: ['koulutustyyppi_20'],
@@ -289,6 +296,16 @@ export function koulutustyyppiRelaatiot() {
       'koulutustyyppi_2',
       'koulutustyyppi_14',
       'koulutustyyppi_23',
+    ],
+  }];
+}
+
+export function vapaasivistystyoKoulutustyyppiRelaatiot() {
+  return [{
+    koulutustyyppi: 'koulutustyyppi_10',
+    alityypit: [
+      'koulutustyyppi_10',
+      'koulutustyyppi_35',
     ],
   }];
 }
@@ -361,7 +378,7 @@ export function ammatilliset() {
 }
 
 export function yleissivistavat() {
-  return _.map(koulutustyyppiRelaatiot(), kt => {
+  return _.map(yleissivastavatKoulutustyyppiRelaatiot(), kt => {
     return {
       ...kt,
       name: koulutustyyppiStateName(kt.koulutustyyppi),
