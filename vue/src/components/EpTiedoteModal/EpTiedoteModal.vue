@@ -421,9 +421,19 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
     }
 
     if (this.tiedotteetStore.save) {
-      await this.tiedotteetStore.save(this.muokattavaTiedote);
-      this.suljeTiedote();
-      success('tiedote-tallennettu');
+      try {
+        await this.tiedotteetStore.save(this.muokattavaTiedote);
+        this.suljeTiedote();
+        success('tiedote-tallennettu');
+      }
+      catch (e) {
+        if (_.includes(_.get(e, 'message'), '400')) {
+          fail('tiedotteen-tallennus-epaonnistui-sisaltovirhe');
+        }
+        else {
+          fail('tiedotteen-tallennus-epaonnistui');
+        }
+      }
     }
   }
 
