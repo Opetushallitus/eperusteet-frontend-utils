@@ -159,10 +159,10 @@ export default class ImageModal extends Mixins(validationMixin) {
         this.files = await this.loader.hae();
         this.selected = { id: tallenettuId.data };
 
-        (this as any).$success('kuva-tallennettu-onnistuneesti');
+        (this as any).$success(this.$t('kuva-tallennettu-onnistuneesti'));
       }
       catch (err) {
-        (this as any).$fail('kuva-lisays-epaonnistui');
+        (this as any).$fail(this.$t('kuva-lisays-epaonnistui'));
       }
     }
   }
