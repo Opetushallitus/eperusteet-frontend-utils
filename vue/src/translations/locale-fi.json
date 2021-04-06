@@ -2774,6 +2774,8 @@
     "tiedoteteksti": "Tiedoteteksti",
     "tiedotteen-nakyvyys": "Tiedote näytetään työryhmälle perusteprojektin ylläpidossa ja tämän sivun julkaisuhistoriassa.",
     "tiedotteen-otsikko": "Tiedotteen otsikko",
+    "tiedotteen-tallennus-epaonnistui": "Tiedotteen tallennus epäonnistui",
+    "tiedotteen-tallennus-epaonnistui-sisaltovirhe": "Tiedotteen tallennus epäonnistui. Tarkista tiedotteen sisältö",
     "tiedotteeseen-liittyy": "Tiedotteeseen liittyy",
     "tiedotteet": "Tiedotteet",
     "tiedotteet-kuvaus-nakyma": "Täältä löydät Opetushallituksen tiedotteet.",
