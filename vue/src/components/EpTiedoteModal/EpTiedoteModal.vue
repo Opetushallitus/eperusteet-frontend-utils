@@ -573,6 +573,13 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
       ],
     };
   }
+
+  @Watch('opintopolkuJulkaisuKoulutustyyppiTutkinto')
+  opintopolkuJulkaisuKoulutustyyppiTutkintoChange(val) {
+    if (!val) {
+      this.koulutusryypiRyhmaValinnat = [];
+    }
+  }
 }
 </script>
 
