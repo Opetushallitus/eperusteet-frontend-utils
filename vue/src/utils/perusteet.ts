@@ -19,6 +19,7 @@ export const EperusteetKoulutustyypit = Object.freeze([
   'koulutustyyppi_23', // valmistava lukiokoulutus
   'koulutustyyppi_999907', // taiteen perusopetus,
   'koulutustyyppi_10', // vapaa sivistystyo
+  'koulutustyyppi_30', // aikuisten maahanmuuttajien kotoutumiskoulutus
   'koulutustyyppi_35', // vapaa sivistystyo lukutaito
   'koulutustyyppi_40', // tutkintoon valmentava
 ]);
@@ -41,6 +42,7 @@ export const AmmatillisetKoulutustyypit = [
 
 export const VapaasivistystyoKoulutustyypit = [
   'koulutustyyppi_10',
+  'koulutustyyppi_30',
   'koulutustyyppi_35',
 ];
 
@@ -74,6 +76,7 @@ export const themes = {
   'koulutustyyppi_6': 'perusopetus',
   'koulutustyyppi_999907': 'taiteenperusopetus',
   'koulutustyyppi_10': 'vapaasivistystyo',
+  'koulutustyyppi_30': 'vapaasivistystyo',
   'koulutustyyppi_35': 'vapaasivistystyo',
   'koulutustyyppi_40': 'tutkintoonvalmentava',
 };
@@ -119,6 +122,7 @@ export const EperusteetKoulutustyyppiRyhmat = {
   ],
   [Toteutus.VAPAASIVISTYSTYO]: [
     'koulutustyyppi_10',
+    'koulutustyyppi_30',
     'koulutustyyppi_35',
   ],
   [Toteutus.TUTKINTOONVALMENTAVA]: [
@@ -207,6 +211,7 @@ export const ktToState = {
   'koulutustyyppi_6': 'lisaopetus',
   'koulutustyyppi_999907': 'taiteenperusopetus',
   'koulutustyyppi_10': 'vapaasivistystyo',
+  'koulutustyyppi_30': 'maahanmuuttajienkotoutumiskoulutus',
   'koulutustyyppi_35': 'vapaasivistystyolukutaito',
   'koulutustyyppi_40': 'tutkintoonvalmentava',
 };
@@ -244,7 +249,7 @@ export const koulutustyypitPdfTuki = [
   'koulutustyyppi_1', 'koulutustyyppi_5', 'koulutustyyppi_6', 'koulutustyyppi_11',
   'koulutustyyppi_12', 'koulutustyyppi_15', 'koulutustyyppi_17', 'koulutustyyppi_18',
   'koulutustyyppi_20', 'koulutustyyppi_999907', 'koulutustyyppi_10', 'koulutustyyppi_40',
-  'koulutustyyppi_35',
+  'koulutustyyppi_35', 'koulutustyyppi_30',
 ];
 
 export function koulutustyyppiStateName(koulutustyyppi: string) {
@@ -305,6 +310,7 @@ export function vapaasivistystyoKoulutustyyppiRelaatiot() {
     koulutustyyppi: 'koulutustyyppi_10',
     alityypit: [
       'koulutustyyppi_10',
+      'koulutustyyppi_30',
       'koulutustyyppi_35',
     ],
   }];
