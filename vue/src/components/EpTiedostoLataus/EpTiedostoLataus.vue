@@ -177,9 +177,10 @@ export default class EpTiedostoLataus extends Vue {
       background-position: left;
       border: 0px;
       margin-left: 30px;
+      margin-top: 10px;
       height: 50px;
       background-color: inherit;
-      padding-top: 15px;
+      padding-top: 0px;
       padding-left: 60px;
       position: relative;
       border-radius: 0;
@@ -189,7 +190,7 @@ export default class EpTiedostoLataus extends Vue {
       padding: 60px 310px 0px 0px;
       text-decoration: underline;
       color: blue;
-      padding: 0 0 0 0.25rem;
+      padding: 0 0 0 0.20rem;
       display: inline;
       position: relative;
       background-color: $gray-lighten-7;
