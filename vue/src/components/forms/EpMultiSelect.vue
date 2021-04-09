@@ -22,7 +22,10 @@
                :searchable="searchable"
                :maxHeight="maxHeight"
                :loading="loading"
-               :internal-search="internalSearch">
+               :internal-search="internalSearch"
+               :disabled="disabled"
+               :allowEmpty="allowEmpty"
+               :openDirection="openDirection">
 
     <template slot="beforeList">
       <slot name="beforeList" />
@@ -135,6 +138,15 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
 
   @Prop({ required: false })
   private maxHeight!: number;
+
+  @Prop({ default: false, type: Boolean })
+  private disabled!: boolean;
+
+  @Prop({ default: true, type: Boolean })
+  private allowEmpty!: boolean;
+
+  @Prop({ default: '' })
+  private openDirection!: string;
 
   private search = '';
 
