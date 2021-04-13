@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import he from 'he';
 import { Kieli } from '@shared/tyypit';
-import { CustomRule, ValidationRule, helpers, minLength, minValue as vMinValue, required } from 'vuelidate/lib/validators';
+import { CustomRule, ValidationRule, helpers, minLength, minValue as vMinValue, required, maxLength } from 'vuelidate/lib/validators';
+import { Kielet } from '@shared/stores/kieli';
 
 export function notNull() {
   return {
@@ -26,6 +27,14 @@ export const requiredOneLang = () => {
   return {
     'required-one-lang': (value: any) => {
       return _.some(ValidoitavatKielet, kieli => exists(value, kieli as Kieli));
+    },
+  };
+};
+
+export const langMaxLength = (length: number) => {
+  return {
+    'lang-max-length': (value: any) => {
+      return _.every(ValidoitavatKielet, kieli => _.size(_.get(value, kieli)) <= length);
     },
   };
 };
@@ -87,6 +96,15 @@ export function koodiValidator(min = 3) {
       required,
       'min-length': minLength(min),
       onlyCharacterOrNumber,
+    },
+  };
+}
+
+export function koodistoKoodiValidator() {
+  return {
+    nimi: {
+      ...requiredOneLang(),
+      ...langMaxLength(256),
     },
   };
 }

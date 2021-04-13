@@ -17,7 +17,8 @@
                   v-model="tavoite.nimi"
                   :is-editing="true"
                   :disabled="!!tavoite.uri"
-                  class="input-wrapper">
+                  class="input-wrapper"
+                  :validation="$v.tavoitteet.$each.$iter[tavoiteIndex].nimi">
                   <div class="order-handle m-2" slot="left">
                     <fas icon="grip-vertical"></fas>
                   </div>
@@ -52,6 +53,8 @@ import draggable from 'vuedraggable';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
 import EpInput from '@shared/components/forms/EpInput.vue';
+import { koodistoKoodiValidator } from '@shared/validators/required';
+import { Validations } from 'vuelidate-property-decorators';
 
 @Component({
   components: {
@@ -72,6 +75,15 @@ export default class EpTavoitealueTavoitteet extends Vue {
   set tavoitteet(value) {
     this.$emit('input', value);
   }
+
+  @Validations()
+    validations = {
+      tavoitteet: {
+        $each: {
+          ...koodistoKoodiValidator(),
+        },
+      },
+    }
 
   private readonly tavoitteetlukutaidotKoodisto = new KoodistoSelectStore({
     async query(query: string, sivu = 0) {
@@ -119,4 +131,7 @@ export default class EpTavoitealueTavoitteet extends Vue {
 <style scoped lang="scss">
 @import "../../styles/_variables.scss";
 
+  ::v-deep .input-group-append {
+    display: inline-block;
+  }
 </style>
