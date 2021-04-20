@@ -165,6 +165,7 @@ export default class EpNavbar extends Vue {
         };
         return result;
       })
+      .uniqBy('muru.name')
       .value();
   }
 
