@@ -39,7 +39,7 @@
                           :kuvaHandler="kuvaHandler"></ep-content>
           </b-form-group>
 
-          <h4 class="mt-4">{{$t('keskeiset-sisallot')}}</h4>
+          <h5 class="mt-4">{{$t('keskeiset-sisallot')}}</h5>
 
           <b-form-group v-for="(sisalto, index) in sisalto.keskeisetsisallot" :key="'sisalto'+index" :label="$t(sisalto['otsikko'])" class="mt-4">
             <ep-content v-model="taitotaso[sisalto['object']]"
@@ -70,14 +70,16 @@
         <h3 v-if="taitotaso.nimi">{{$kaanna(taitotaso.nimi.nimi)}}</h3>
 
         <b-form-group :label="$t('tavoitteet')" required class="mt-3">
-          <ep-content-viewer :value="$kaanna(taitotaso.tavoitteet)" :termit="termit" :kuvat="kuvat" />
+          <ep-content v-if="kuvaHandler" :value="taitotaso.tavoitteet" :kasiteHandler="kasiteHandler" :kuvaHandler="kuvaHandler"/>
+          <ep-content-viewer v-else :value="$kaanna(taitotaso.tavoitteet)" :termit="termit" :kuvat="kuvat" />
         </b-form-group>
 
         <h5>{{$t('keskeiset-sisallot')}}</h5>
 
         <div v-for="(keskeinenSisalto, index) in keskeisetSisallot" :key="'sisalto'+index">
           <b-form-group :label="$t(keskeinenSisalto['otsikko'])" class="mt-3 mb-2 p-0" v-if="taitotaso[keskeinenSisalto['object']]">
-            <ep-content-viewer :value="$kaanna(taitotaso[keskeinenSisalto['object']])" :termit="termit" :kuvat="kuvat" />
+            <ep-content v-if="kuvaHandler" :value="taitotaso[keskeinenSisalto['object']]" :kasiteHandler="kasiteHandler" :kuvaHandler="kuvaHandler"/>
+            <ep-content-viewer v-else :value="$kaanna(taitotaso[keskeinenSisalto['object']])" :termit="termit" :kuvat="kuvat" />
           </b-form-group>
         </div>
 
@@ -91,15 +93,14 @@
 import { Watch, Component, Prop, Vue } from 'vue-property-decorator';
 import _ from 'lodash';
 import { KoodistoSelectStore } from '../EpKoodistoSelect/KoodistoSelectStore';
-import { Koodisto } from '@shared/api/eperusteet';
+import { Koodisto, TermiDto } from '@shared/api/eperusteet';
 import draggable from 'vuedraggable';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import { IKasiteHandler } from '../EpContent/KasiteHandler';
-import { IKuvaHandler } from '../EpContent/KuvaHandler';
+import { IKuvaHandler, ILiite } from '../EpContent/KuvaHandler';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
-import { TermiDto } from '@shared/generated/eperusteet';
 import { LiiteDtoWrapper } from '@shared/tyypit';
 import EpContentViewer from '@shared/components/EpContentViewer/EpContentViewer.vue';
 
