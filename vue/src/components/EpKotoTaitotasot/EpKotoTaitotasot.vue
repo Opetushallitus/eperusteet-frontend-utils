@@ -237,10 +237,6 @@ export default class EpKotoTaitotasot extends Vue {
   get keskeisetSisallot() {
     return [
       {
-        otsikko: 'aihealueet',
-        object: 'aihealueet',
-      },
-      {
         otsikko: 'kielenkayttotarkoitus',
         object: 'kielenkayttotarkoitus',
       },
