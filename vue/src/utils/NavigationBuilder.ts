@@ -220,6 +220,22 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       },
     };
     break;
+  case 'koto_kielitaitotaso':
+    node.location = {
+      name: 'perusteKotoKielitaitotaso',
+      params: {
+        kotokielitaitotasoId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'koto_opinto':
+    node.location = {
+      name: 'perusteKotoOpinto',
+      params: {
+        kotoOpintoId: _.toString(rawNode.id),
+      },
+    };
+    break;
   default:
     break;
   }

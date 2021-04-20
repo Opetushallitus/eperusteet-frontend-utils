@@ -70,22 +70,16 @@
         <h3 v-if="taitotaso.nimi">{{$kaanna(taitotaso.nimi.nimi)}}</h3>
 
         <b-form-group :label="$t('tavoitteet')" required class="mt-3">
-          <ep-content v-model="taitotaso.tavoitteet"
-                        layout="normal"
-                        :is-editable="isEditing"
-                        :kasiteHandler="kasiteHandler"
-                        :kuvaHandler="kuvaHandler"></ep-content>
+          <ep-content-viewer :value="$kaanna(taitotaso.tavoitteet)" :termit="termit" :kuvat="kuvat" />
         </b-form-group>
 
         <h5>{{$t('keskeiset-sisallot')}}</h5>
 
-        <b-form-group v-for="(sisalto, index) in sisalto.keskeisetsisallot" :key="'sisalto'+index" :label="$t(sisalto['otsikko'])" class="mt-3 mb-2 p-0">
-          <ep-content v-model="taitotaso[sisalto['object']]"
-                      layout="normal"
-                      :is-editable="isEditing"
-                      :kasiteHandler="kasiteHandler"
-                      :kuvaHandler="kuvaHandler"></ep-content>
-        </b-form-group>
+        <div v-for="(keskeinenSisalto, index) in keskeisetSisallot" :key="'sisalto'+index">
+          <b-form-group :label="$t(keskeinenSisalto['otsikko'])" class="mt-3 mb-2 p-0" v-if="taitotaso[keskeinenSisalto['object']]">
+            <ep-content-viewer :value="$kaanna(taitotaso[keskeinenSisalto['object']])" :termit="termit" :kuvat="kuvat" />
+          </b-form-group>
+        </div>
 
       </div>
     </div>
@@ -105,6 +99,9 @@ import EpInput from '@shared/components/forms/EpInput.vue';
 import { IKasiteHandler } from '../EpContent/KasiteHandler';
 import { IKuvaHandler } from '../EpContent/KuvaHandler';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
+import { TermiDto } from '@shared/generated/eperusteet';
+import { LiiteDtoWrapper } from '@shared/tyypit';
+import EpContentViewer from '@shared/components/EpContentViewer/EpContentViewer.vue';
 
 enum TaitotasoTyyppi {
   opintokokonaisuus = 'opintokokonaisuus',
@@ -118,6 +115,7 @@ enum TaitotasoTyyppi {
     draggable,
     EpInput,
     EpContent,
+    EpContentViewer,
   },
 })
 export default class EpKotoTaitotasot extends Vue {
@@ -133,8 +131,14 @@ export default class EpKotoTaitotasot extends Vue {
   @Prop({ required: false })
   private kuvaHandler!: IKuvaHandler;
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   private taitotasoTyyppi!: TaitotasoTyyppi;
+
+  @Prop({ required: false, type: Array })
+  private termit!: TermiDto[];
+
+  @Prop({ required: false, type: Array })
+  private kuvat!: LiiteDtoWrapper[];
 
   get taitotasot() {
     return this.value;
@@ -227,6 +231,31 @@ export default class EpKotoTaitotasot extends Vue {
         ],
       },
     };
+  }
+
+  get keskeisetSisallot() {
+    return [
+      {
+        otsikko: 'aihealueet',
+        object: 'aihealueet',
+      },
+      {
+        otsikko: 'kielenkayttotarkoitus',
+        object: 'kielenkayttotarkoitus',
+      },
+      {
+        otsikko: 'aihealueet',
+        object: 'aihealueet',
+      },
+      {
+        otsikko: 'viestintataidot',
+        object: 'viestintataidot',
+      },
+      {
+        otsikko: 'opiskelijan-taidot',
+        object: 'opiskelijantaidot',
+      },
+    ];
   }
 }
 </script>
