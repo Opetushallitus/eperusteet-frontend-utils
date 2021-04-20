@@ -24,7 +24,6 @@
 import _ from 'lodash';
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 import { LiiteDtoWrapper } from '../../tyypit';
-import { TermiDto } from '../../api/ylops';
 import { Kielet } from '../../stores/kieli';
 
 @Component
@@ -33,7 +32,7 @@ export default class EpContentViewer extends Vue {
   private value!: string; // Käännetty versio
 
   @Prop({ required: false, type: Array })
-  private termit!: TermiDto[];
+  private termit!: any[];
 
   @Prop({ required: false, type: Array })
   private kuvat!: LiiteDtoWrapper[];

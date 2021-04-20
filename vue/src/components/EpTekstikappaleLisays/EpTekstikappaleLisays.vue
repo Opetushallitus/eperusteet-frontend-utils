@@ -3,7 +3,9 @@
   <div v-b-modal="modalId">
     <slot name="lisays-btn">
       <ep-button id="tekstikappalelisaysBtn" variant="link" buttonClass="text-decoration-none">
-          <fas class="mr-2" icon="plussa" />
+          <slot name="lisays-btn-icon">
+            <fas class="mr-2" icon="plussa" />
+          </slot>
           <span>
             <slot name="lisays-btn-text">
               {{ $t('uusi-tekstikappale') }}
