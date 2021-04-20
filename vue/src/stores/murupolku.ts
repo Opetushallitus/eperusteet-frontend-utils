@@ -23,6 +23,10 @@ class MurupolkuStore {
       },
     };
   }
+
+  tyhjenna() {
+    this.polku = [];
+  }
 }
 
 export const Murupolku = new MurupolkuStore();
