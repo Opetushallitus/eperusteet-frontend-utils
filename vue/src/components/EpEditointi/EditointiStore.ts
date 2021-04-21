@@ -108,7 +108,7 @@ export interface IEditoitava {
   /**
    * copy the resource
    */
-  copy?: (data: any) => Promise<void>;
+  copy?: (data: any) => Promise<boolean> | Promise<void>;
 
   /**
    * Save preventing validations
@@ -527,9 +527,12 @@ export class EditointiStore {
     this.state.disabled = true;
     try {
       if (this.config.copy) {
-        await this.config.copy(this.state.data);
+        const doInit = await this.config.copy(this.state.data);
         this.logger.debug('Kopioitu');
-        await this.init();
+
+        if (doInit) {
+          await this.init();
+        }
       }
     }
     finally {
