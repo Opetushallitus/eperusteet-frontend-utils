@@ -67,17 +67,19 @@
       <div v-for="(taitotaso, index) in taitotasot" :key="taitotaso+index">
         <hr v-if="index > 0" class="mb-4"/>
 
-        <h3 v-if="taitotaso.nimi">{{$kaanna(taitotaso.nimi.nimi)}}</h3>
+        <h2 v-if="taitotaso.nimi">{{$kaanna(taitotaso.nimi.nimi)}}</h2>
 
-        <b-form-group :label="$t('tavoitteet')" required class="mt-3">
+        <b-form-group class="mt-3">
+          <h3 slot="label">{{$t('tavoitteet')}}</h3>
           <ep-content v-if="kuvaHandler" :value="taitotaso.tavoitteet" :kasiteHandler="kasiteHandler" :kuvaHandler="kuvaHandler"/>
           <ep-content-viewer v-else :value="$kaanna(taitotaso.tavoitteet)" :termit="termit" :kuvat="kuvat" />
         </b-form-group>
 
-        <h5>{{$t('keskeiset-sisallot')}}</h5>
+        <h3>{{$t('keskeiset-sisallot')}}</h3>
 
         <div v-for="(keskeinenSisalto, index) in keskeisetSisallot" :key="'sisalto'+index">
-          <b-form-group :label="$t(keskeinenSisalto['otsikko'])" class="mt-3 mb-2 p-0" v-if="taitotaso[keskeinenSisalto['object']]">
+          <b-form-group class="mt-3 mb-2 p-0" v-if="taitotaso[keskeinenSisalto['object']]">
+            <h4 slot="label">{{$t(keskeinenSisalto['otsikko'])}}</h4>
             <ep-content v-if="kuvaHandler" :value="taitotaso[keskeinenSisalto['object']]" :kasiteHandler="kasiteHandler" :kuvaHandler="kuvaHandler"/>
             <ep-content-viewer v-else :value="$kaanna(taitotaso[keskeinenSisalto['object']])" :termit="termit" :kuvat="kuvat" />
           </b-form-group>
