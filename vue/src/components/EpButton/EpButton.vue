@@ -11,7 +11,7 @@
          :class="{ 'mr-2': $slots.default, 'icon': isOutline }">
       <fas fixed-width :icon="icon"></fas>
     </span>
-    <div class="teksti pl-3 pr-3">
+    <div class="teksti" :class="{'pl-3 pr-3': paddingx}">
       <slot />
       <ep-spinner-inline v-if="showSpinner" />
     </div>
@@ -52,6 +52,9 @@ export default class EpButton extends Vue {
 
   @Prop({ default: '', type: String })
   private help!: string;
+
+  @Prop({ default: true, type: Boolean })
+  private paddingx!: boolean;
 
   get isOutline() {
     return _.startsWith(this.variant, 'outline');
