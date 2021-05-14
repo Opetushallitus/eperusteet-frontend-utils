@@ -143,7 +143,9 @@ export default class TermitEditor extends Mixins(EpValidation) {
       this.muokattava = valittu;
     }
     else {
-      this.muokattava = {};
+      this.muokattava = {
+        alaviite: false,
+      };
     }
     this.isEditing = true;
   }
