@@ -1,5 +1,5 @@
 <template>
-  <ep-button class="mt-3" @click="suoritaJulkaisu()" :showSpinner="julkaistaan" v-oikeustarkastelu="{ oikeus: 'muokkaus' }">
+  <ep-button class="mt-3" @click="suoritaJulkaisu()" :showSpinner="julkaistaan">
     {{ $t('julkaise') }}
   </ep-button>
 </template>
