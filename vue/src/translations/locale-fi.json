@@ -544,6 +544,7 @@
     "julkaise-opetussuunnitelma": "Julkaise opetussuunnitelma",
     "julkaise-tiedote": "Julkaise tiedote",
     "julkaise-toteutussuunnitelma": "Julkaise toteutussuunnitelma",
+    "julkaisu-varmistus-modal-teksti": "Julkaistu sisältö näkyy ePerusteet-palvelussa ja samalla siitä luodaan PDF. Voit päivittää julkaistua tekemällä ensin tarvittavat muutokset ja julkaisemalla sitten uuden version.",
     "julkaistaanko-geneerinen-arviointi": "Julkaistaanko geneerinen arviointi?",
     "julkaistaanko-geneerinen-arviointi-kuvaus": "Julkaisun jälkeen geneerisen arvioinnin voi liittaa tutkinnon osaan. Julkaisun jälkeen geneeristä arviointia ei voi enää muokata vaan siitä täytyy tehdä kopio.",
     "julkaistu": "Julkaistu",
