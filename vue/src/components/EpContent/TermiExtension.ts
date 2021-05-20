@@ -1,5 +1,6 @@
 import { Node, Mark } from 'tiptap';
 import Vue from 'vue';
+import _ from 'lodash';
 
 import { IKasiteHandler, ITermi } from './KasiteHandler';
 import { domAttrsGetter } from '@shared/utils/helpers';
@@ -122,7 +123,15 @@ export default class TermiExtension extends Mark {
         },
         title() {
           if ((this as any).abbrdata) {
-            return (this as any).$kaanna((this as any).abbrdata.selitys);
+            const selitys = (this as any).$kaanna((this as any).abbrdata.selitys);
+            const data = document.createElement('div');
+            data.innerHTML = selitys;
+            if (data) {
+              return _.trim(data.textContent || data.innerText || '');
+            }
+            else {
+              return '';
+            }
           }
           else {
             return (this as any).$t('termia-ei-kuvattu');
