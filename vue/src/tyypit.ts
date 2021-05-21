@@ -111,7 +111,7 @@ export type NavigationNodeType =
   | 'moduulit' | 'moduuli'
   | 'muodostuminen' | 'tutkinnonosat' | 'tutkinnonosa' | 'tutkinnonosaviite' | 'osaalue'
   | 'opintokokonaisuus' | 'tavoitesisaltoalue'
-  | 'koulutuksenosa'
+  | 'koulutuksenosa' | 'laajaalainenosaaminen'
   | 'koto_kielitaitotaso' | 'koto_opinto';
 
 export interface NavigationNodeDto {
