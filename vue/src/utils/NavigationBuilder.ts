@@ -220,6 +220,14 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       },
     };
     break;
+  case 'laajaalainenosaaminen':
+    node.location = {
+      name: 'perusteLaajaalainenOsaaminen',
+      params: {
+        laajaalainenosaaminenId: _.toString(rawNode.id),
+      },
+    };
+    break;
   case 'koto_kielitaitotaso':
     node.location = {
       name: 'perusteKotoKielitaitotaso',
