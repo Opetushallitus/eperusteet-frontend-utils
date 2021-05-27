@@ -64,6 +64,7 @@ function traverseNavigation(rawNode: NavigationNodeDto, isOps: boolean): Navigat
 export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto) {
   switch (rawNode.type as string) {
   case 'viite':
+  case 'taiteenala':
   case 'liite':
     // Route linkki
     node.location = {
@@ -193,6 +194,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       name: 'tekstikappaleOsa',
       params: {
         osa: _.get(rawNode.meta, 'alaosa') as any,
+        viiteId: _.get(rawNode.meta, 'viiteId') as any,
       },
     };
     break;

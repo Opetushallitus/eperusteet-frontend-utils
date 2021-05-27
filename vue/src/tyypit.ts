@@ -104,7 +104,7 @@ export type NavigationNodeType =
   | 'root'
   | 'tiedot'
   | 'kvliite'
-  | 'viite'
+  | 'viite' | 'taiteenala'
   | 'liitteet' | 'liite'
   | 'laajaalaiset' | 'laajaalainen'
   | 'oppiaineet' | 'oppimaarat' | 'oppiaine'
