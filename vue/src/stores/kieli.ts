@@ -196,9 +196,9 @@ export class KieliStore {
     }
   };
 
-  public kaannaOlioTaiTeksti(value: LokalisoituTeksti | string): string {
+  public kaannaOlioTaiTeksti(value: LokalisoituTeksti | string, emptyWhenNotFound = false, squareBrackets = true): string {
     if (_.isObject(value)) {
-      return this.kaanna(value);
+      return this.kaanna(value, emptyWhenNotFound, squareBrackets);
     }
     else if (_.isString(value)) {
       return this.t(value);

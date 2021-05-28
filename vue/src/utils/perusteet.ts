@@ -380,6 +380,7 @@ export function ammatilliset() {
         koulutustyyppi: 'ammatillinen',
       },
     },
+    alityypit: EperusteetKoulutustyyppiRyhmat.ammatillinen,
   }];
 }
 
@@ -407,6 +408,7 @@ export function vapaasivistystyo() {
         koulutustyyppi: koulutustyyppiStateName('koulutustyyppi_10'),
       },
     },
+    alityypit: EperusteetKoulutustyyppiRyhmat.vapaasivistystyo,
   }];
 }
 
@@ -419,6 +421,7 @@ export function tutkintoonvalmentava() {
         koulutustyyppi: koulutustyyppiStateName('koulutustyyppi_40'),
       },
     },
+    alityypit: EperusteetKoulutustyyppiRyhmat.tutkintoonvalmentava,
   }];
 }
 
