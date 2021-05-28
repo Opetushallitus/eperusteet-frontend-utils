@@ -250,3 +250,39 @@ export async function getKaannokset(palvelu) {
     return {};
   }
 }
+
+export interface TiedotteetQuery {
+  sivu?: number;
+  sivukoko?: number;
+  kieli?: Array<string>;
+  nimi?: string;
+  perusteId?: number;
+  perusteeton?: boolean;
+  ulkinen?: boolean;
+  yleinen?: boolean;
+  tiedoteJulkaisuPaikka?: Array<string>;
+  perusteIds?: Array<number>,
+  koulutusTyyppi?: Array<string>;
+  jarjestys?: string;
+  jarjestysNouseva?: boolean;
+  koulutustyypiton?: boolean;
+};
+
+export async function findTiedotteetBy(query: TiedotteetQuery) {
+  return Tiedotteet.findTiedotteetBy(
+    query.sivu,
+    query.sivukoko,
+    query.kieli,
+    query.nimi,
+    query.perusteId,
+    query.perusteeton,
+    query.ulkinen,
+    query.yleinen,
+    query.tiedoteJulkaisuPaikka,
+    query.perusteIds,
+    query.koulutusTyyppi,
+    query.jarjestys,
+    query.jarjestysNouseva,
+    query.koulutustyypiton,
+  );
+}
