@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import { createLogger } from '../utils/logger';
 import { Kielet } from '../stores/kieli';
+import * as _ from 'lodash';
 
 const logger = createLogger('Kaannos');
 
@@ -14,7 +15,7 @@ declare module 'vue/types/vue' {
 }
 
 export class Kaannos {
-  public install(vue: typeof Vue) {
+  public install(vue: typeof Vue, options) {
     // Sisällön kääntäminen
     vue.prototype.$suodatin = (str: string) => Kielet.searchFn(str);
 
@@ -23,11 +24,14 @@ export class Kaannos {
     };
 
     vue.prototype.$kaanna = (value: any, emptyWhenNotFound = false, squareBrackets = true) => {
-      return Kielet.kaanna(value, emptyWhenNotFound, squareBrackets);
+      return Kielet.kaanna(value, emptyWhenNotFound, _.has(options, 'squareBrackets') ? options.squareBrackets : squareBrackets);
     };
 
-    vue.prototype.$kaannaOlioTaiTeksti = (value: any) => {
-      return Kielet.kaannaOlioTaiTeksti(value);
+    vue.prototype.$kaannaOlioTaiTeksti = (value: any, emptyWhenNotFound = false, squareBrackets = true) => {
+      return Kielet.kaannaOlioTaiTeksti(
+        value,
+        _.has(options, 'emptyWhenNotFound') ? options.emptyWhenNotFound : emptyWhenNotFound,
+        _.has(options, 'squareBrackets') ? options.squareBrackets : squareBrackets);
     };
   }
 }
