@@ -415,6 +415,7 @@ export class EditointiStore {
       try {
         const after = await this.config.save(this.state.data);
         this.logger.success('Tallennettu onnistuneesti');
+        await this.unlock();
         await this.fetchRevisions();
         await this.init();
         this.state.isEditingState = false;
@@ -429,9 +430,6 @@ export class EditointiStore {
         this.state.disabled = false;
         this.state.isSaving = false;
         throw err;
-      }
-      finally {
-        this.unlock();
       }
     }
     else {
