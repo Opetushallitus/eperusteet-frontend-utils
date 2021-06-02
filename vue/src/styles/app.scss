@@ -149,3 +149,19 @@ img.content-image {
   cursor: pointer;
 }
 
+.vue-notification-wrapper {
+  .vue-notification {
+    &.error {
+      background-image: url('../../public/img/icons/info-white.svg');
+      padding-left: 35px;
+      background-repeat:no-repeat;
+      background-position: 5px 10px;
+
+      .notification-title {
+        font-weight: 700;
+      }
+
+    }
+  }
+}
+
