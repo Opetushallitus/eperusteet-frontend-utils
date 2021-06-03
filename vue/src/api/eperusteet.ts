@@ -134,6 +134,7 @@ export import StatusValidointiStatusTypeEnum = EperusteetApi.StatusValidointiSta
 export import StatusValidointiKategoriaEnum = EperusteetApi.StatusValidointiKategoriaEnum;
 export import PerusteAikatauluDtoTapahtumaEnum = EperusteetApi.PerusteAikatauluDtoTapahtumaEnum;
 export import PalauteDtoStatusEnum = EperusteetApi.PalauteDtoStatusEnum;
+export import PerusteprojektiKevytDtoTyyppiEnum = EperusteetApi.PerusteprojektiKevytDtoTyyppiEnum;
 
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
