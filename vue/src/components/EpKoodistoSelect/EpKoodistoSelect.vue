@@ -99,7 +99,7 @@
     {{ $kaanna(value.nimi) }} <span v-if="naytaArvo">{{ value.arvo }}</span>
   </div>
   <div class="font-italic" v-else>
-    {{ $t('ei-asetettu') }}
+    <slot name="empty">{{ $t('ei-asetettu') }}</slot>
   </div>
 </template>
 
