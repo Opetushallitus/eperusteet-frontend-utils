@@ -107,9 +107,7 @@ export default class EpKoodistoSelectTable extends Vue {
       key: 'poisto',
       label: '',
       thStyle: { width: '5rem' },
-    },
-    // ...(this.additionalFields ? this.additionalFields : []),
-    ];
+    }];
   }
 }
 </script>
