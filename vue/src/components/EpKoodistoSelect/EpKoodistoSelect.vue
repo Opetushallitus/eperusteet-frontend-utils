@@ -3,9 +3,6 @@
     <slot name="default" :open="openDialog">
       <div class="bg-danger">Painike puuttuu</div>
     </slot>
-    <!-- <ep-button @click="openDialog" icon="plus" variant="outline"> -->
-    <!--   {{ $t('lisaa-osaamisala') }}                                -->
-    <!-- </ep-button>                                                  -->
     <b-modal id="koodistoModal"
             ref="editModal"
             size="xl"
@@ -136,6 +133,9 @@ export default class EpKoodistoSelect extends Vue {
   @Prop({ required: false, default: true, type: Boolean })
   private naytaArvo!: boolean;
 
+  @Prop({ required: false, default: () => ['nimi', 'arvo', 'voimaantulo'] })
+  private defaultFields!: string[];
+
   @Prop({ required: false })
   private additionalFields!: any[];
 
@@ -252,19 +252,20 @@ export default class EpKoodistoSelect extends Vue {
   }
 
   get fields() {
-    return [{
-      key: 'nimi',
-      label: this.$t('nimi'),
-    }, {
-      key: 'arvo',
-      label: this.$t('arvo'),
-      thStyle: { width: '6rem' },
-    }, {
-      key: 'voimaantulo',
-      label: this.$t('voimaantulo'),
-      thStyle: { width: '10rem' },
-    },
-    ...(this.additionalFields ? this.additionalFields : []),
+    return [
+      ..._.filter([{
+        key: 'nimi',
+        label: this.$t('nimi'),
+      }, {
+        key: 'arvo',
+        label: this.$t('arvo'),
+        thStyle: { width: '6rem' },
+      }, {
+        key: 'voimaantulo',
+        label: this.$t('voimaantulo'),
+        thStyle: { width: '10rem' },
+      }], field => _.includes(this.defaultFields, field.key)),
+      ...(this.additionalFields ? this.additionalFields : []),
     ];
   }
 }
