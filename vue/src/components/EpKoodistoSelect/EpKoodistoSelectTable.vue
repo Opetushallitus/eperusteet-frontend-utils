@@ -3,6 +3,7 @@
     <slot name="header"></slot>
 
     <b-table
+      v-if="value && value.length > 0"
       responsive
       borderless
       striped
@@ -20,23 +21,19 @@
         </span>
       </template>
 
-      <template v-slot:cell(arvo)="{ item }">
-        <span class="font-weight-bold">
-          {{ item.koodiArvo }}
-        </span>
-      </template>
-
       <template v-slot:cell(poisto)="{ item }" v-if="isEditing">
         <ep-button variant="link" icon="roskalaatikko" @click="remove(item)"/>
       </template>
 
     </b-table>
 
-    <ep-koodisto-select v-if="isEditing || !nimi"
+    <ep-koodisto-select v-if="isEditing"
       :store="store"
       v-model="koodi"
       :is-editing="isEditing"
-      :naytaArvo="false">
+      :naytaArvo="false"
+      :multiple="true"
+      :defaultFields="koodistoSelectDefaultFields">
       <template #default="{ open }">
         <ep-button @click="open" icon="plus" variant="outline">
           <slot name="button-text">lisaa-koodi</slot>
@@ -71,11 +68,14 @@ export default class EpKoodistoSelectTable extends Vue {
   @Prop({ default: true })
   private isEditing!: boolean;
 
+  @Prop({ default: true })
+  private showKoodiArvo!: boolean;
+
   @Prop({ required: true })
   private store!: KoodistoSelectStore;
 
   get koodi() {
-    return [];
+    return this.value;
   }
 
   set koodi(koodi) {
@@ -86,15 +86,24 @@ export default class EpKoodistoSelectTable extends Vue {
     this.$emit('remove', koodi);
   }
 
+  get koodistoSelectDefaultFields() {
+    return this.showKoodiArvo ? ['nimi', 'arvo'] : ['nimi'];
+  }
+
   get fields() {
     return [{
       key: 'nimi',
       label: this.$t('nimi'),
-    }, {
-      key: 'koodi',
-      label: this.$t('koodi'),
-      thStyle: { width: '10rem' },
-    }, {
+    },
+    ...(this.showKoodiArvo
+      ? [
+        {
+          key: 'arvo',
+          label: this.$t('koodi'),
+          thStyle: { width: '10rem' },
+        },
+      ] : []),
+    {
       key: 'poisto',
       label: '',
       thStyle: { width: '5rem' },
