@@ -287,3 +287,27 @@ export async function findTiedotteetBy(query: TiedotteetQuery) {
     query.koulutustyypiton,
   );
 }
+
+export interface OppaatQuery {
+  sivu?: number;
+  sivukoko?: number;
+  nimi?: string;
+  kieli?: string;
+  muokattu?: number;
+  koulutustyyppi?: Array<string>;
+  tuleva?: boolean;
+  voimassaolo?: boolean;
+}
+
+export async function findAllOppaat(query: OppaatQuery) {
+  return Oppaat.getAllOppaat(
+    query.sivu,
+    query.sivukoko,
+    query.nimi,
+    query.kieli,
+    query.muokattu,
+    query.koulutustyyppi,
+    query.tuleva,
+    query.voimassaolo,
+  );
+}
