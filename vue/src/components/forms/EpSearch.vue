@@ -31,7 +31,7 @@ export default class EpSearch extends Vue {
   @Prop({ required: false, default: false })
   private isLoading!: boolean;
 
-  @Prop({ required: false, default: false })
+  @Prop({ required: false, default: false, type: Boolean })
   private maxWidth!: boolean;
 
   get id() {
