@@ -16,6 +16,7 @@ export class OppaatStore {
 
   @Debounced()
   public async fetch(query: OppaatQuery) {
+    this.state.oppaat = null;
     this.state.oppaat = (await findAllOppaat(query)).data as Page<PerusteHakuDto>;
   }
 }
