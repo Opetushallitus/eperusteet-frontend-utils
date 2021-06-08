@@ -1,5 +1,5 @@
 <template>
-  <ep-main-view :container="true" class="mt-5">
+  <ep-main-view :container="true">
     <template slot="header">
       <h1>{{ $t('ohjeet-ja-materiaalit') }}</h1>
     </template>
@@ -54,7 +54,7 @@
 <script lang="ts">
 import _ from 'lodash';
 import { Prop, Vue, Component, Watch } from 'vue-property-decorator';
-import EpMainView from '../EpMainView/EpMainView.vue';
+import EpMainView from '@shared/components//EpMainView/EpMainView.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import EpSearch from '@shared/components/forms/EpSearch.vue';
 import { OppaatStore } from '@shared/stores/OppaatStore';
@@ -105,7 +105,9 @@ export default class EpOppaat extends Vue {
   }
 
   get oppaat() {
-    return this.store.oppaat.value?.data;
+    if (this.store.oppaat.value) {
+      return this.store.oppaat.value.data;
+    }
   }
 
   get mappedOppaat() {
