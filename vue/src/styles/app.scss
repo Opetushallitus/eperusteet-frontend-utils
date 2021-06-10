@@ -165,3 +165,8 @@ img.content-image {
   }
 }
 
+.disabled-events {
+  pointer-events: none;
+  opacity: 0.4;
+}
+
