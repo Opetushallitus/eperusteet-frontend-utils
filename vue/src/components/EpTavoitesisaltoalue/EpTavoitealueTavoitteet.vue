@@ -16,7 +16,7 @@
                 <EpInput
                   v-model="tavoite.nimi"
                   :is-editing="true"
-                  :disabled="!!tavoite.uri"
+                  :disabled="!tavoite.uri.startsWith('temporary')"
                   class="input-wrapper"
                   :validation="$v.tavoitteet.$each.$iter[tavoiteIndex].nimi">
                   <div class="order-handle m-2" slot="left">
@@ -55,6 +55,7 @@ import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSele
 import EpInput from '@shared/components/forms/EpInput.vue';
 import { koodistoKoodiValidator } from '@shared/validators/required';
 import { Validations } from 'vuelidate-property-decorators';
+import { generateTemporaryKoodiUri } from '@shared/utils/koodi';
 
 @Component({
   components: {
@@ -100,7 +101,9 @@ export default class EpTavoitealueTavoitteet extends Vue {
   lisaaTavoite() {
     this.tavoitteet = [
       ...this.tavoitteet,
-      {},
+      {
+        uri: generateTemporaryKoodiUri('tavoitteetlukutaidot'),
+      },
     ];
   }
 
