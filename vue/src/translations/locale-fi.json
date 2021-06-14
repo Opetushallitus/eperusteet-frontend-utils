@@ -1612,6 +1612,8 @@
     "oikeus-paivitetty": "Käyttäjäoikeus päivitetty",
     "oikeus-poisto": "Poisto",
     "ok": "OK",
+    "olet-esikastelutilassa-perustetta-ei-ole-viela-julkaistu": "Olet esikatselutilassa. Perustetta ei ole vielä julkaistu.",
+    "olet-esikatselutilassa-suunnitelmaa-ei-ole-viela-julkaistu": "Olet esikatselutilassa. Suunnitelmaa ei ole vielä julkaistu.",
     "oletus": "Oletus",
     "oletuspohja": "Oletuspohja",
     "oma": "Oma",
