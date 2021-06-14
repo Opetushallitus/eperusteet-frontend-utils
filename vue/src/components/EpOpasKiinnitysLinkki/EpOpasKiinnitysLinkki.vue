@@ -25,13 +25,15 @@ import { PerusteDto, Perusteet } from '@shared/api/eperusteet';
   },
 })
 export default class EpOpasKiinnitysLinkki extends Vue {
-  @Prop({ required: true })
+  @Prop({ required: false })
   private koodiUri!: string;
 
   private oppaat: PerusteDto[] | null = null;
 
   async mounted() {
-    this.oppaat = (await Perusteet.getOpasKiinnitettyKoodi(this.koodiUri)).data;
+    if (this.koodiUri) {
+      this.oppaat = (await Perusteet.getOpasKiinnitettyKoodi(this.koodiUri)).data;
+    }
   }
 }
 </script>
