@@ -4,7 +4,13 @@ import _ from 'lodash';
 
 const logger = createLogger('AxiosCommon');
 
+export const getCookies = () => _((document.cookie || '').split(';'))
+  .map(field => _.map(field.split('='), _.trim))
+  .fromPairs()
+  .value();
+
 axios.defaults.headers.common['Caller-Id'] = '1.2.246.562.10.00000000001.eperusteet';
+axios.defaults.headers.common['CSRF'] = getCookies().CSRF;
 
 export function axiosHandler(msg: string) {
   return async (err: any) => {
