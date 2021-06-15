@@ -104,14 +104,14 @@ export type NavigationNodeType =
   | 'root'
   | 'tiedot'
   | 'kvliite'
-  | 'viite' | 'taiteenala'
+  | 'viite' | 'taiteenala' | 'tekstikappale'
   | 'liitteet' | 'liite'
   | 'laajaalaiset' | 'laajaalainen'
   | 'oppiaineet' | 'oppimaarat' | 'oppiaine'
   | 'moduulit' | 'moduuli'
   | 'muodostuminen' | 'tutkinnonosat' | 'tutkinnonosa' | 'tutkinnonosaviite' | 'osaalue'
   | 'opintokokonaisuus' | 'tavoitesisaltoalue'
-  | 'koulutuksenosa' | 'laajaalainenosaaminen'
+  | 'koulutuksenosa' | 'laajaalainenosaaminen' | 'koulutuksenosat'
   | 'koto_kielitaitotaso' | 'koto_opinto';
 
 export interface NavigationNodeDto {
@@ -209,4 +209,5 @@ export enum EperusteetPalautekanava {
   amosaa = 'eperusteet-amosaa',
   vst = 'eperusteet-vst',
   ylops = 'eperusteet-ylops',
+  tuva = 'eperusteet-tuva',
 }

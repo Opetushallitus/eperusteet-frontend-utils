@@ -4,6 +4,7 @@ import tilePerusopetus from '../../public/img/banners/tile_ops_perusopetus.svg';
 import tileTaiteenperusopetus from '../../public/img/banners/tile_ops_taiteenperusopetus.svg';
 import tileVarhaiskasvatus from '../../public/img/banners/tile_ops_varhaiskasvatus.svg';
 import tileVapaasivistystyo from '../../public/img/banners/tile_ops_vapaasivistysto.svg';
+import tileTutkintoonvalmentava from '../../public/img/banners/tile_ops_tuva.svg';
 import bannerLukio from '../../public/img/banners/banner_lukio.svg';
 import bannerEsiopetus from '../../public/img/banners/banner_esiopetus.svg';
 import bannerPerusopetus from '../../public/img/banners/banner_perusopetus.svg';
@@ -11,6 +12,7 @@ import bannerTaiteenperusopetus from '../../public/img/banners/banner_taiteenper
 import bannerVarhaiskasvatus from '../../public/img/banners/banner_varhaiskasvatus.svg';
 import bannerVapaasivistystyo from '../../public/img/banners/banner_vapaasivistystyo.svg';
 import bannerAmmatillinen from '../../public/img/banners/banner_ammatillinen.svg';
+import bannerTutkintoonvalmentava from '../../public/img/banners/banner_tuva.svg';
 import { themes } from './perusteet';
 
 const koulutustyyppiRyhmaTiles = {
@@ -20,6 +22,7 @@ const koulutustyyppiRyhmaTiles = {
   'taiteenperusopetus': tileTaiteenperusopetus,
   'varhaiskasvatus': tileVarhaiskasvatus,
   'vapaasivistystyo': tileVapaasivistystyo,
+  'tutkintoonvalmentava': tileTutkintoonvalmentava,
 };
 
 const koulutustyyppiRyhmaBanners = {
@@ -29,11 +32,13 @@ const koulutustyyppiRyhmaBanners = {
   'taiteenperusopetus': bannerTaiteenperusopetus,
   'varhaiskasvatus': bannerVarhaiskasvatus,
   'vapaasivistystyo': bannerVapaasivistystyo,
+  'tutkintoonvalmentava': bannerTutkintoonvalmentava,
 };
 
 const toteutusBanners = {
   'ammatillinen': bannerAmmatillinen,
   'vapaasivistystyo': bannerVapaasivistystyo,
+  'tutkintoonvalmentava': bannerTutkintoonvalmentava,
 };
 
 export function koulutustyyppiBanner(koulutustyyppi) {
@@ -62,6 +67,7 @@ export const tileColors = {
   'ammatillinen': ['#009700', '#007500'],
   'vapaasivistystyo': ['#8D408D', '#660066'],
   'taiteenperusopetus': ['#fce4f4', '#f2bddf'],
+  'tutkintoonvalmentava': ['#EC4900', '#D94400'],
 };
 
 export function tileBackgroundColor(koulutustyyppi) {
