@@ -91,6 +91,7 @@ export type KayttajaoikeusDto = AmosaaApi.KayttajaoikeusDto;
 export type Validointi = AmosaaApi.Validointi;
 export type JulkaisuBaseDto = AmosaaApi.JulkaisuBaseDto;
 export type PalauteDto = AmosaaApi.PalauteDto;
+export type KoulutuksenJarjestajaDto = AmosaaApi.KoulutuksenJarjestajaDto;
 
 export import DokumenttiDtoTilaEnum = AmosaaApi.DokumenttiDtoTilaEnum;
 export import MatalaTyyppiEnum = AmosaaApi.MatalaTyyppiEnum;
@@ -107,6 +108,7 @@ export import OpetussuunnitelmaDtoTyyppiEnum = AmosaaApi.OpetussuunnitelmaDtoTyy
 export import NavigationNodeDtoTypeEnum = AmosaaApi.NavigationNodeDtoTypeEnum;
 export import OpetussuunnitelmaLuontiDtoTyyppiEnum = AmosaaApi.OpetussuunnitelmaLuontiDtoTyyppiEnum;
 export import OpintokokonaisuusDtoTyyppiEnum = AmosaaApi.OpintokokonaisuusDtoTyyppiEnum;
+export import KoulutuksenOsaDtoKoulutusOsanTyyppiEnum = AmosaaApi.KoulutuksenOsaDtoKoulutusOsanTyyppiEnum;
 
 export interface OpetussuunnitelmaQuery {
   perusteenDiaarinumero?: string;
