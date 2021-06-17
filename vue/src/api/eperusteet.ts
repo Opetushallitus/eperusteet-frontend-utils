@@ -136,6 +136,7 @@ export import PerusteAikatauluDtoTapahtumaEnum = EperusteetApi.PerusteAikatauluD
 export import PalauteDtoStatusEnum = EperusteetApi.PalauteDtoStatusEnum;
 export import PerusteprojektiKevytDtoTyyppiEnum = EperusteetApi.PerusteprojektiKevytDtoTyyppiEnum;
 export import PerusteprojektiDtoTilaEnum = EperusteetApi.PerusteprojektiDtoTilaEnum;
+export import KoulutuksenOsaDtoKoulutusOsanTyyppiEnum = EperusteetApi.KoulutuksenOsaDtoKoulutusOsanTyyppiEnum;
 
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
