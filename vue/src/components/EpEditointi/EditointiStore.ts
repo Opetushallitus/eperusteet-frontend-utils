@@ -425,7 +425,6 @@ export class EditointiStore {
         }
       }
       catch (err) {
-        console.log(err);
         fail('tallennus-epaonnistui', err?.response?.data?.syy);
         this.state.isEditingState = true;
         this.state.disabled = false;
