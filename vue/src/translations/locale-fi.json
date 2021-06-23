@@ -570,6 +570,7 @@
     "julkaisu-epaonnistui-opetussuunnitelma-ei-muuttunut-viime-julkaisun-jalkeen": "Opetussuunnitelma ei ole muuttunut viime julkaisun jälkeen",
     "julkaisu-epaonnistui-peruste-ei-muuttunut-viime-julkaisun-jalkeen": "Peruste ei ole muuttunut viime julkaisun jälkeen",
     "julkaisu-epaonnistui-toteutussuunnitelma-ei-muuttunut-viime-julkaisun-jalkeen": "Toteutussuunnitelma ei ole muuttunut viime julkaisun jälkeen",
+    "julkaisu-epaonnistui-peruste-koodi-arvo-liian-pitka": "Julkaisu epäonnistui: Tallennettavan koodin arvo on liian pitkä",
     "julkaisu-korvaa-perusteet": "Peruste korvaa seuraavat käytössä olevat perusteet:",
     "julkaisu-onnistui": "Julkaisu onnistui",
     "julkaisu-vaikutukset": "Julkaistu peruste tulee näkyviin opintopolkuun",
