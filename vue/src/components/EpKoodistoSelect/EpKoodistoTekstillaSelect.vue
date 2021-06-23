@@ -55,7 +55,7 @@ export default class EpKoodistoTekstillaSelect extends Vue {
   @Prop({ required: true })
   private store!: KoodistoSelectStore;
 
-  @Prop({ default: true })
+  @Prop({ default: false })
   private isEditing!: boolean;
 
   @Prop({ default: false })
