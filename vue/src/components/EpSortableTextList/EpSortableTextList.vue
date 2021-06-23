@@ -60,7 +60,7 @@ export default class EpSortableTextList extends Vue {
   @Prop({ required: true })
   private value!: any[];
 
-  @Prop({ default: true })
+  @Prop({ default: false })
   private isEditing!: boolean;
 
   @Prop({ required: false, default: 'sortableTextList' })

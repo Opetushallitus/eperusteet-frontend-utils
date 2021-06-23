@@ -58,7 +58,7 @@
             :ok-title="$t('peruuta')"
             :ok-only="true">
         <template #modal-header>
-          <h2>{{ $t('valitse-koulutuksen-jarjestaja') }}</slot></h2>
+          <h2>{{ $t('valitse-koulutuksen-jarjestaja') }}</h2>
         </template>
 
         <template #default>
@@ -113,11 +113,13 @@
         </b-form-group>
 
         <b-form-group :label="$t('kaytannon-toteutus')" class="mb-0">
-          <ep-content
-            layout="normal"
-            v-model="model.kuvaus"
-            :is-editable="isEditing"
-            :kuvaHandler="kuvaHandler"/>
+          <slot name="kuvaus" v-bind="{ model }">
+            <ep-content
+              layout="normal"
+              v-model="model.kuvaus"
+              :is-editable="isEditing"
+              :kuvaHandler="kuvaHandler"/>
+          </slot>
         </b-form-group>
 
       </div>
@@ -152,7 +154,7 @@ export default class EpKoulutuksenJarjestajaSelect extends Vue {
   @Prop({ required: true })
   private value!: KoulutuksenJarjestajaDto[];
 
-  @Prop({ default: true })
+  @Prop({ default: false })
   private isEditing!: boolean;
 
   @Prop({ required: false, default: 'koulutuksenjarjestajaSort' })
