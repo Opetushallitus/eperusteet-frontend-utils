@@ -1,6 +1,7 @@
 {
     "APP_EPERUSTEET": "Perusteiden laadinta",
     "APP_EPERUSTEET_AMOSAA": "Amosaa",
+    "APP_EPERUSTEET_TUVA": "Tutkintoon valmentava",
     "APP_EPERUSTEET_VST": "Vapaa sivistystyö",
     "APP_EPERUSTEET_YLOPS": "Ops-työkalu",
     "aihealueet": "Aihealueet",
@@ -3004,6 +3005,7 @@
     "tulosta-sivu": "Tulosta sivu",
     "tuntematon-kayttaja": "Tuntematon käyttäjä",
     "tuo": "Tuo",
+    "tuo-arvioinnin-kohteet-pohjan-opintokokonaisuudesta": "Tuo arvioinnin kohteet pohjan opintokokonaisuudesta",
     "tuo-excel": "Tuo Excel",
     "tuo-excel-tiedostosta": "Tuo Excel-tiedostosta...",
     "tuo-kaannokset": "Tuo käännökset",
@@ -3323,6 +3325,7 @@
     "valitse-peruste": "Valitse peruste",
     "valitse-perusteprojekti": "Valitse perusteprojekti",
     "valitse-pohja": "Valitse pohja",
+    "valitse-pohjan-opintokokonaisuus": "Valitse pohjan opintokokonaisuus",
     "valitse-pvm": "Valitse päivämäärä",
     "valitse-pvm-jana": "Valitse aikajana",
     "valitse-sisallon-tyyppi": "Sisällön tyyppi",

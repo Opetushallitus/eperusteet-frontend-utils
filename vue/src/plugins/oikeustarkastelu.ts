@@ -90,6 +90,10 @@ export const EPERUSTEET_SOVELLUKSET = [
     sovellus: 'APP_EPERUSTEET_VST',
     url: '/eperusteet-amosaa-app/uusi/#/vapaasivistystyo',
   },
+  {
+    sovellus: 'APP_EPERUSTEET_TUVA',
+    url: '/eperusteet-amosaa-app/uusi/#/tutkintoonvalmentava',
+  },
 ];
 
 export function getSovellusoikeudet(casRoles: string[], valittuSovellus: string): SovellusOikeus[] {
