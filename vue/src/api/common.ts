@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { createLogger } from '../utils/logger';
 import _ from 'lodash';
+import { Virheet } from '@shared/stores/virheet';
 
 const logger = createLogger('AxiosCommon');
 
@@ -8,7 +9,12 @@ axios.defaults.headers.common['Caller-Id'] = '1.2.246.562.10.00000000001.eperust
 
 export function axiosHandler(msg: string) {
   return async (err: any) => {
+    const error = { err: '500' };
+    if (err.response) {
+      error.err = err.response.status;
+    }
     logger.error(msg as any, err);
+    Virheet.lisaaVirhe(error);
     throw err;
   };
 }
