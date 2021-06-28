@@ -2,18 +2,15 @@
 <div v-if="isEditable">
   <editor-menu-bar :editor="editor"
                    :focused="true"
-                    v-slot="data"
-                    v-sticky="sticky"
-                    :sticky-offset="{ top: 103 }"
-                    :sticky-z-index="400">
-    <div :class="{ 'editor-toolbar': !sticky, 'editor-toolbar-sticky': sticky, 'd-none': !alwaysVisible && !data.focused}">
+                    v-slot="data">
+    <div class="editor-toolbar" :class="{ 'd-none': !alwaysVisible && !data.focused}">
       <div class="btn-toolbar" role="toolbar">
         <div class="btn-group mr-2" role="group" v-for="(group, idx) in groups" :key="idx">
           <b-button v-for="feature in group"
                   :key="feature.command"
                   :delay="100"
                   :title="$t('editor-' + feature.command)"
-                  :variant="sticky ? 'primary' : 'outline'"
+                  :variant="'outline'"
                   :disabled="feature.disabled"
                   :class="{ 'active': !feature.disabled && data.isActive[feature.command] && data.isActive[feature.command]() }"
                   @click="feature.customClick ? feature.customClick(data) : data.commands[feature.command](feature.params)">
@@ -27,7 +24,7 @@
           <b-button v-for="feature in group"
                   :key="feature.command"
                   :title="$t('editor-' + feature.command)"
-                  :variant="sticky ? 'primary' : 'outline'"
+                  :variant="'outline'"
                   :disabled="feature.disabled"
                   :class="{ 'active': !feature.disabled && data.isActive[feature.command] && data.isActive[feature.command]() }"
                   @click="feature.customClick ? feature.customClick(data) : data.commands[feature.command](feature.params)">
@@ -59,14 +56,10 @@
 import _ from 'lodash';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { EditorMenuBar } from 'tiptap';
-import Sticky from 'vue-sticky-directive';
 
 @Component({
   components: {
     EditorMenuBar,
-  },
-  directives: {
-    Sticky,
   },
 })
 export default class EpEditorMenuBar extends Vue {
@@ -78,12 +71,6 @@ export default class EpEditorMenuBar extends Vue {
 
   @Prop({ required: true })
   private layout!: string;
-
-  @Prop({
-    required: true,
-    type: Boolean,
-  })
-  private sticky!: boolean;
 
   @Prop({ default: true })
   private alwaysVisible!: boolean;
@@ -279,17 +266,6 @@ export default class EpEditorMenuBar extends Vue {
   border: 2px solid #E0E0E1;
   border-bottom: none;
   padding: 0;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-}
-
-.editor-toolbar-sticky {
-  background-color: #fff;
-  padding: 5px $content-padding;
-  border-bottom: 1px solid #eee;
-  position: relative;
-  left: -$content-padding;
-  width: calc(100% + #{ 2 * $content-padding })
 }
 
 </style>
