@@ -4,9 +4,11 @@
   <ep-editor-menu-bar
     :layout="layout"
     :is-editable="isEditable"
-    :sticky="sticky"
     :editor="editor"
-    :help="toolbarHelp" />
+    :help="toolbarHelp"
+    v-sticky="sticky"
+    sticky-offset="{ top: 50 }"
+    sticky-z-index="500"/>
   <editor-content
     ref="content"
     :editor="editor"
@@ -86,7 +88,7 @@ export default class EpContent extends Mixins(EpValidation) {
   @Prop({ default: '' })
   help!: string;
 
-  @Prop({ default: false })
+  @Prop({ default: true })
   sticky!: boolean;
 
   @Prop({ required: false })
