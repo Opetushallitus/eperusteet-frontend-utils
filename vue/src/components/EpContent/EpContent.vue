@@ -6,13 +6,15 @@
     :is-editable="isEditable"
     :editor="editor"
     :help="toolbarHelp"
-    v-sticky="sticky"
+    v-sticky="isSticky"
     sticky-offset="{ top: 50 }"
-    sticky-z-index="500"/>
+    sticky-z-index="500"
+    />
   <editor-content
     ref="content"
     :editor="editor"
-    :class="{ 'content-invalid': validation && validationError, 'content-valid': validation && !validationError }" />
+    :class="{ 'content-invalid': validation && validationError, 'content-valid': validation && !validationError }"
+    v-observe-visibility="visibilityChanged"/>
   <div class="valid-feedback" v-if="!validationError && validMessage && isEditable">{{ $t(validMessage) }}</div>
   <div class="invalid-feedback" v-else-if="validationError && invalidMessage && isEditable">{{ $t(invalidMessage) }}</div>
   <div class="invalid-feedback" v-else-if="validationError && !invalidMessage && isEditable">{{ $t('validation-error-' + validationError, validation.$params[validationError]) }}</div>
@@ -54,6 +56,7 @@ import TermiExtension from './TermiExtension';
 import ImageExtension from './ImageExtension';
 import { IKuvaHandler } from './KuvaHandler';
 import CustomLink from './CustomLink';
+import { ObserveVisibility } from 'vue-observe-visibility';
 
 const striptag = document.createElement('span');
 
@@ -64,6 +67,7 @@ const striptag = document.createElement('span');
   },
   directives: {
     Sticky,
+    ObserveVisibility,
   },
 })
 export default class EpContent extends Mixins(EpValidation) {
@@ -100,6 +104,7 @@ export default class EpContent extends Mixins(EpValidation) {
   private editor: any = null;
 
   private focused = false;
+  private isVisible = true;
 
   get lang() {
     return this.locale || Kielet.getSisaltoKieli.value || 'fi';
@@ -237,6 +242,14 @@ export default class EpContent extends Mixins(EpValidation) {
     if (this.editor) {
       this.editor.setContent(this.localizedValue);
     }
+  }
+
+  visibilityChanged(isVisible) {
+    this.isVisible = isVisible;
+  }
+
+  get isSticky() {
+    return this.sticky && this.isVisible;
   }
 }
 
