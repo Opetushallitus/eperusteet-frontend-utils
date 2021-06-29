@@ -2,6 +2,7 @@ import axios from 'axios';
 import { createLogger } from '../utils/logger';
 import _ from 'lodash';
 import { Virheet } from '@shared/stores/virheet';
+import { localhostOrigin } from '@shared/utils/esikatselu';
 
 const logger = createLogger('AxiosCommon');
 
@@ -14,7 +15,11 @@ export function axiosHandler(msg: string) {
       error.err = err.response.status;
     }
     logger.error(msg as any, err);
-    Virheet.lisaaVirhe(error);
+
+    if (!localhostOrigin()) {
+      Virheet.lisaaVirhe(error);
+    }
+
     throw err;
   };
 }

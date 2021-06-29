@@ -21,3 +21,8 @@ export function buildBaseUrl() {
     return origin.replace(/virkailija/g, 'eperusteet');
   }
 }
+
+export function localhostOrigin() {
+  const origin = window.location.origin;
+  return _.includes(origin, 'localhost');
+}

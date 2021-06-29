@@ -39,13 +39,21 @@ describe('EpJulkaisuHistoria component', () => {
             luotu: '1614073923059',
             luoja: 'testi',
           },
+          {
+            revision: 2,
+            tiedote: { fi: 'tiedote' },
+            luotu: '1614073923052',
+            luoja: 'testi2',
+          },
         ],
+        palauta: () => {},
       },
       mocks,
     });
 
     expect(wrapper.html()).toBeTruthy();
     expect(wrapper.html()).not.toContain('ei-julkaisuja');
-    expect(wrapper.html()).toContain('uusin-julkaisu');
+    expect(wrapper.html()).toContain('julkaistu-versio');
+    expect(wrapper.html()).toContain('palauta');
   });
 });
