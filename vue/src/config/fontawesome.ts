@@ -180,6 +180,7 @@ library.add(oph.virheellisetPerusteet);
 library.add(oph.yhdistaSolut);
 library.add(oph.yliviivaus);
 library.add(oph.kayttoOikeus);
+library.add(oph.julkaisu);
 
 Vue.component('fas', FontAwesomeIcon);
 Vue.component('fal', FontAwesomeLayers);
