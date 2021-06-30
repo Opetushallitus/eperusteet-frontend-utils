@@ -112,7 +112,7 @@ export default class EpViimeaikainenToiminta extends Vue {
       return this.$t(muokkaustieto.lisatieto);
     }
 
-    return this.$t(this.tapahtumakaannos(muokkaustieto)) + ': ' + this.tapahtumakohde(muokkaustieto);
+    return this.$t(this.tapahtumakaannos(muokkaustieto)) + this.tapahtumakohde(muokkaustieto);
   }
 
   tapahtumakaannos(muokkaustieto: Muokkaustieto) {
@@ -124,7 +124,7 @@ export default class EpViimeaikainenToiminta extends Vue {
   }
 
   tapahtumakohde(muokkaustieto: Muokkaustieto) {
-    return (this as any).$kaanna(muokkaustieto.nimi);
+    return (this as any).$kaanna(muokkaustieto.nimi) ? ': ' + (this as any).$kaanna(muokkaustieto.nimi) : '';
   }
 
   muokkaustietoIconClass(muokkaustieto: Muokkaustieto) {
@@ -183,6 +183,10 @@ export default class EpViimeaikainenToiminta extends Vue {
 
           .palautus {
             color: $blue-darken-1;
+          }
+
+          .julkaisu {
+            color: $green-lighten-2;
           }
 
         }
