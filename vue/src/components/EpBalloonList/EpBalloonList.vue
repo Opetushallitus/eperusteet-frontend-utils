@@ -1,23 +1,44 @@
 <template>
-<div>
-  <div class="balloon-wrapper" v-for="(item, idx) in inner" :key="idx">
-    <div class="balloon">
-      <slot v-bind="{ item }">
-      </slot>
-    </div>
+  <div>
+
+    <draggable
+      v-bind="defaultDragOptions"
+      tag="div"
+      v-model="inner">
+
+      <div class="balloon-wrapper" v-for="(item, idx) in inner" :key="idx">
+        <div class="balloon d-flex">
+          <div class="order-handle mr-2" slot="left" v-if="draggable">
+            <fas icon="grip-vertical"></fas>
+          </div>
+          <slot v-bind="{ item }">
+          </slot>
+        </div>
+      </div>
+
+    </draggable>
   </div>
-</div>
+
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
+import draggable from 'vuedraggable';
 
-@Component
+@Component({
+  components: {
+    draggable,
+  },
+})
 export default class EpBalloonList extends Vue {
-  @Prop({
-    required: true, type: Array,
-  })
-  value!: any[];
+  @Prop({ required: true, type: Array })
+  private value!: any[];
+
+  @Prop({ required: false, default: false, type: Boolean })
+  private isEditing!: boolean;
+
+  @Prop({ required: false, default: false, type: Boolean })
+  private sortable!: boolean;
 
   get inner() {
     return this.value;
@@ -25,6 +46,23 @@ export default class EpBalloonList extends Vue {
 
   set inner(value: any[]) {
     this.$emit('input', value);
+  }
+
+  get defaultDragOptions() {
+    return {
+      animation: 300,
+      emptyInsertThreshold: 10,
+      handle: '.order-handle',
+      disabled: !this.draggable,
+      ghostClass: 'dragged',
+      group: {
+        name: 'balloonsorts',
+      },
+    };
+  }
+
+  get draggable() {
+    return this.isEditing && this.sortable;
   }
 }
 </script>
