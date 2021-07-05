@@ -488,3 +488,18 @@ export function getLaajaAlainenId(laajaAlainen) {
   const koodiUri = _.get(laajaAlainen, 'meta.koodi.uri');
   return koodiUri || 'laaja-alainen-' + laajaAlainen.id;
 }
+
+export function chapterStringSort(chapter) {
+  return _.join(_.map(_.split(chapter, '.'), chap => numToSSColumn(chap)), '.');
+}
+
+function numToSSColumn(num) {
+  var s = ''; var t;
+
+  while (num > 0) {
+    t = (num - 1) % 26;
+    s = String.fromCharCode(65 + t) + s;
+    num = (num - t) / 26 | 0;
+  }
+  return s || undefined;
+}
