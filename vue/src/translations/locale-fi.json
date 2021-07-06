@@ -2179,6 +2179,7 @@
     "perusteen-sisalto-tooltip": "Tällä asetuksella voidaan lisätä perusteen sisältö generoitavaan dokumenttiin",
     "perusteen-sisaltoa-ei-maaritetty": "Perusteen sisältöä ei määritetty",
     "perusteen-teksti": "Perusteen teksti",
+    "perusteen-tekstia-ei-loydy": "Perusteen tekstiä ei löydy",
     "perusteen-tekstikappaleet-tuotu-opetussuunitelmaan": "Perusteen tekstit tuotu opetussuunitelmaan",
     "perusteen-tekstikappaleet-tuotu-opetussuunitelmaan-virhe": "Perusteen tekstien tuonti epäonnistui",
     "perusteen-termisto": "Käsitteet",
