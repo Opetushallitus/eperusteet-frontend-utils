@@ -48,7 +48,7 @@
                       <span>{{ item.completion.right }}</span>
                     </div>
                     <div>
-                      <Kayttolistaus :koodi="item.koodi" />
+                      <Kayttolistaus :koodi="item" />
                     </div>
                   </div>
                 </div>
@@ -125,6 +125,7 @@ export default class VaatimusField extends Vue {
           hit: this.vaatimus,
           right: nimi.substring(idx + this.vaatimus.length),
         },
+        uri: koodi.koodiUri,
       };
     });
     return res;
