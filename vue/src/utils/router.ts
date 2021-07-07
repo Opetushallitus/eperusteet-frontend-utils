@@ -43,9 +43,14 @@ export async function resolveRouterMetaProps(to) {
       record.props = _.merge(record.props, props);
     }
   }
-  catch (e) {
-    logger.error(e);
-    Virheet.lisaaVirhe({ err: '500' });
+  catch (err) {
+    logger.error(err);
+    const error = { err: '500', path: '' };
+    if (err.response) {
+      error.err = err.response.status;
+      error.path = err.response.config?.url;
+    }
+    Virheet.lisaaVirhe(error);
   }
 }
 
