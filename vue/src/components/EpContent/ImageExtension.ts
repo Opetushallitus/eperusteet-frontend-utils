@@ -128,9 +128,15 @@ export default class ImageExtension extends Node {
 
           this.$root.$on('bv::modal::hide', (bvEvent, modalId) => {
             if (bvEvent.trigger === 'cancel') {
-              self.altText = oldAltText;
-              self.figcaption = oldFigcaption;
-              self.dataUid = oldDataUid;
+              if (oldAltText) {
+                self.altText = oldAltText;
+              }
+              if (oldFigcaption) {
+                self.figcaption = oldFigcaption;
+              }
+              if (oldDataUid) {
+                self.dataUid = oldDataUid;
+              }
             }
             else {
               if (_.isEmpty(self.dataUid) || _.isEmpty(self.altText)) {
