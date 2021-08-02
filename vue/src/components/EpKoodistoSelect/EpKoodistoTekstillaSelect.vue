@@ -11,6 +11,9 @@
           </ep-button>
         </div>
       </div>
+
+      <slot name="lisateksti" :item="koodi"/>
+
       <EpContent
           v-model="koodi[tekstiField]"
           layout="normal"
