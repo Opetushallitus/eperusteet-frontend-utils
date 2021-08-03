@@ -51,6 +51,11 @@
         </div>
       </div>
     </div>
+
+    <div class="d-flex justify-content-end mt-3">
+      <b-button class="mr-3" variant="link" @click="close(false)">{{$t('peruuta')}}</b-button>
+      <b-button variant="primary" squared @click="close(true)">{{$t('lisaa-kuva')}}</b-button>
+    </div>
   </div>
 </template>
 
@@ -134,6 +139,10 @@ export default class ImageModal extends Mixins(validationMixin) {
 
   get options() {
     return this.files;
+  }
+
+  close(save) {
+    this.$emit('onClose', save);
   }
 
   private filterBy(option, label, search) {

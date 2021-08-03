@@ -111,10 +111,22 @@ export default class ImageExtension extends Node {
               onVaihtoehtoinentekstiChange(value: string) {
                 self.altText = value;
               },
+              onClose(save) {
+                if (!save) {
+                  self.altText = oldAltText;
+                  self.figcaption = oldFigcaption;
+                  self.dataUid = oldDataUid;
+                  self.$bvModal.hide('imagemodal');
+                }
+                else if (!(_.isEmpty(self.dataUid) || _.isEmpty(self.altText))) {
+                  self.$bvModal.hide('imagemodal');
+                }
+              },
             },
           });
 
           this.$bvModal.msgBoxConfirm([editor], {
+            id: 'imagemodal',
             buttonSize: 'sm',
             centered: true,
             size: 'lg',
@@ -124,18 +136,7 @@ export default class ImageExtension extends Node {
             title: [h('h2', {}, t('lisaa-kuva'))],
             cancelTitle: t('peruuta'),
             okTitle: t('lisaa-kuva'),
-          }).then(value => {
-            if (!value) {
-              self.altText = oldAltText;
-              self.figcaption = oldFigcaption;
-              self.dataUid = oldDataUid;
-            }
-          });
-
-          this.$root.$on('bv::modal::hide', (bvEvent, modalId) => {
-            if (bvEvent.trigger !== 'cancel' && (_.isEmpty(self.dataUid) || _.isEmpty(self.altText))) {
-              bvEvent.preventDefault();
-            }
+            footerClass: 'd-none',
           });
         },
       },
