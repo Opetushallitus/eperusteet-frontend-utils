@@ -124,24 +124,17 @@ export default class ImageExtension extends Node {
             title: [h('h2', {}, t('lisaa-kuva'))],
             cancelTitle: t('peruuta'),
             okTitle: t('lisaa-kuva'),
+          }).then(value => {
+            if (!value) {
+              self.altText = oldAltText;
+              self.figcaption = oldFigcaption;
+              self.dataUid = oldDataUid;
+            }
           });
 
           this.$root.$on('bv::modal::hide', (bvEvent, modalId) => {
-            if (bvEvent.trigger === 'cancel') {
-              if (oldAltText) {
-                self.altText = oldAltText;
-              }
-              if (oldFigcaption) {
-                self.figcaption = oldFigcaption;
-              }
-              if (oldDataUid) {
-                self.dataUid = oldDataUid;
-              }
-            }
-            else {
-              if (_.isEmpty(self.dataUid) || _.isEmpty(self.altText)) {
-                bvEvent.preventDefault();
-              }
+            if (bvEvent.trigger !== 'cancel' && (_.isEmpty(self.dataUid) || _.isEmpty(self.altText))) {
+              bvEvent.preventDefault();
             }
           });
         },
