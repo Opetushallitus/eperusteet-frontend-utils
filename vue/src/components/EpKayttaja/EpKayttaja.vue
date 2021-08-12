@@ -31,16 +31,29 @@
         </div>
       </template>
 
-      <div class="collapse-tausta text-left">
-        <b-dd-item-button @click="valitseOrganisaatio(kt)"
-                          v-for="kt in koulutustoimijat"
-                          :key="kt.id"
-                          :disabled="koulutustoimija === kt.id">
-          <div class="collapse-tausta-valinta-icon">
-            <fas fixed-width icon="checkmark" v-if="koulutustoimija === kt.id" class="valittu" />
-          </div>
-          {{ $kaanna(kt.nimi) }}
-        </b-dd-item-button>
+      <div class="collapse-tausta text-left mt-2">
+        <template v-if="koulutustoimijat && koulutustoimijat.length > 10">
+          <hr class="m-0"/>
+          <EpSearch class="rajain pl-2" v-model="koulutustoimijaQuery" />
+          <hr class="mt-0"/>
+        </template>
+
+        <div class="koulutustoimijat mb-2">
+          <b-dd-item-button @click="valitseOrganisaatio(kt)"
+                            v-for="kt in koulutustoimijatFilteredSorted"
+                            :key="kt.id"
+                            :disabled="koulutustoimija === kt.id">
+            <div class="row">
+              <div class="collapse-tausta-valinta-icon col-1">
+                <fas fixed-width icon="checkmark" v-if="koulutustoimija === kt.id" class="valittu" />
+              </div>
+              <div class="col-10 koulutustoimija">
+                {{ $kaanna(kt.nimi) }}
+                <fas icon="eye" v-if="kt.oikeus === 'luku'" class="vain-luku pt-1"/>
+              </div>
+            </div>
+          </b-dd-item-button>
+        </div>
       </div>
     </ep-collapse>
 
@@ -147,11 +160,13 @@ import EpCollapse from '../EpCollapse/EpCollapse.vue';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import { setItem } from '@shared/utils/localstorage';
 import { SovellusOikeus } from '@shared/plugins/oikeustarkastelu';
+import EpSearch from '@shared/components/forms/EpSearch.vue';
 
 @Component({
   components: {
     EpCollapse,
     EpSpinner,
+    EpSearch,
   },
 })
 export default class EpKayttaja extends Vue {
@@ -169,6 +184,8 @@ export default class EpKayttaja extends Vue {
 
   @Prop({ required: false, default: '/service-provider-app/saml/logout' })
   private logoutHref!: string;
+
+  private koulutustoimijaQuery = '';
 
   get esitysnimi() {
     return parsiEsitysnimi(this.tiedot);
@@ -189,6 +206,19 @@ export default class EpKayttaja extends Vue {
     else {
       return null;
     }
+  }
+
+  get koulutustoimijatFilteredSorted() {
+    return _.chain(this.koulutustoimijat)
+      .filter(kt => Kielet.search(this.koulutustoimijaQuery, kt.nimi))
+      .map(kt => {
+        return {
+          ...kt,
+          kaannettyNimi: this.$kaanna(kt.nimi),
+        };
+      })
+      .orderBy(['kaannettyNimi', 'id'], ['asc', 'asc'])
+      .value();
   }
 
   private async valitseOrganisaatio(koulutustoimija: any) {
@@ -243,6 +273,7 @@ export default class EpKayttaja extends Vue {
 </script>
 
 <style scoped lang="scss">
+@import '~@shared/styles/_variables.scss';
 .kayttaja {
 
   ::v-deep ul.dropdown-menu {
@@ -260,6 +291,28 @@ export default class EpKayttaja extends Vue {
 
   .valittu-koulutustoimija {
     font-size: 0.75rem;
+  }
+
+  .rajain {
+    background-color: $white;
+
+    ::v-deep .form-control {
+      background-color: $white;
+    }
+  }
+
+  .koulutustoimijat {
+    overflow-y: auto;
+    max-height: 400px;
+
+    .vain-luku {
+      color: $blue;
+    }
+
+    .koulutustoimija {
+      white-space:normal;
+      line-height: 1.2rem;
+    }
   }
 
   /deep/ .ep-collapse {
