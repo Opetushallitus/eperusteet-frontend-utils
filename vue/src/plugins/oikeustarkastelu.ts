@@ -114,3 +114,10 @@ export function getSovellusoikeudet(casRoles: string[], valittuSovellus: string)
       .value();
   }
 }
+
+export const OIKEUS_KAANNOT = {
+  'READ': 'luku',
+  'READ_UPDATE': 'muokkaus',
+  'CRUD': 'luonti',
+  'ADMIN': 'hallinta',
+};

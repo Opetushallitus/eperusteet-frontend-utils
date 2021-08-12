@@ -42,6 +42,7 @@ library.add(solid.faEllipsisH);
 library.add(solid.faEnvelope);
 library.add(solid.faExclamation);
 library.add(solid.faExternalLinkAlt);
+library.add(solid.faEye);
 library.add(solid.faFile);
 library.add(solid.faFileArchive);
 library.add(solid.faFileDownload);
