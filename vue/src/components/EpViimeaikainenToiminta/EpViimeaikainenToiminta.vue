@@ -59,6 +59,7 @@ import EpButton from '@shared/components/EpButton/EpButton.vue';
 import { muokkaustietoRoute, muokkaustietoIcon } from '@shared/utils/tapahtuma';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 import { IMuokkaustietoProvider, Muokkaustieto } from './types';
+import { PerusteDto } from '@shared/api/eperusteet';
 
 @Component({
   components: {
@@ -69,6 +70,9 @@ import { IMuokkaustietoProvider, Muokkaustieto } from './types';
 export default class EpViimeaikainenToiminta extends Vue {
   @Prop({ required: true })
   private muokkaustietoStore!: IMuokkaustietoProvider;
+
+  @Prop({ required: true })
+  private peruste!: PerusteDto;
 
   private lisahaku: boolean = false;
 
@@ -95,7 +99,7 @@ export default class EpViimeaikainenToiminta extends Vue {
       .map((muokkaustieto: Muokkaustieto) => {
         return {
           ...muokkaustieto,
-          route: muokkaustietoRoute(muokkaustieto.kohdeId, muokkaustieto.kohde, muokkaustieto.tapahtuma),
+          route: muokkaustietoRoute(muokkaustieto.kohdeId, muokkaustieto.kohde, muokkaustieto.tapahtuma, this.peruste?.tyyppi),
           icon: muokkaustietoIcon(muokkaustieto.kohde, muokkaustieto.tapahtuma),
           iconClass: this.muokkaustietoIconClass(muokkaustieto),
           kayttajaNimi: muokkaustieto.kayttajanTieto ? parsiEsitysnimi(muokkaustieto.kayttajanTieto) : muokkaustieto.muokkaaja,
@@ -124,7 +128,14 @@ export default class EpViimeaikainenToiminta extends Vue {
   }
 
   tapahtumakohde(muokkaustieto: Muokkaustieto) {
-    return (this as any).$kaanna(muokkaustieto.nimi) ? ': ' + (this as any).$kaanna(muokkaustieto.nimi) : '';
+    if (muokkaustieto.nimi) {
+      return ': ' + (this as any).$kaanna(muokkaustieto.nimi);
+    }
+
+    if (muokkaustieto.kohde) {
+      return ': ' + (this as any).$t(_.replace(muokkaustieto.kohde, '_', '-'));
+    }
+    return '';
   }
 
   muokkaustietoIconClass(muokkaustieto: Muokkaustieto) {
