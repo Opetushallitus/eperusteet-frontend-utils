@@ -9,6 +9,11 @@ const oletusKohdereititys = {
 
 const perusteKohdeReititys = {
   termi: 'kasitteet',
+  kvliite: 'kvliite',
+  tutkinnonosa: 'tutkinnonosa',
+  tekstikappale: 'tekstikappale',
+  osaalue: 'osaalue',
+  tutkinnon_muodostuminen: 'muodostuminen',
 };
 
 const opasKohdeReititys = {
@@ -30,6 +35,9 @@ const kohdereititysId = {
 
 const perusteKohdereititysId = {
   viite: 'tekstiKappaleId',
+  tutkinnonosa: 'tutkinnonOsaId',
+  tekstikappale: 'tekstiKappaleId',
+  osaalue: 'osaalueId',
 };
 
 const tyypitettyKohdereititysId = {
