@@ -40,7 +40,7 @@ module.exports = {
     '^.+\\.jsx?$': 'babel-jest',
   },
   'transformIgnorePatterns': [
-    '/node_modules/(?!(@ckeditor|katex|vue-masonry|lodash-es|bootstrap-vue|vuelidate-property-decorators)/)',
+    '/node_modules/(?!(@ckeditor|katex|vue-masonry|lodash-es|bootstrap-vue|vuelidate-property-decorators|deepdash-es)/)',
   ],
   moduleNameMapper: {
     '^@shared/(.*)$': '<rootDir>/src/$1',
