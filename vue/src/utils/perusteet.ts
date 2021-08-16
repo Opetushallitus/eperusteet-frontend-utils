@@ -1,3 +1,4 @@
+import { Koulutustyyppi, KoulutustyyppiToteutus } from '@shared/tyypit';
 import _ from 'lodash';
 
 export const KoodistoLops2019LaajaAlaiset = 'laajaalainenosaaminenlops2021';
@@ -342,6 +343,10 @@ export function isAmmatillinen(statename: string): boolean {
 
 export function isKoulutustyyppiAmmatillinen(koulutustyyppi: string): boolean {
   return themes[koulutustyyppi] === 'ammatillinen';
+}
+
+export function isPerusteVanhaLukio(peruste): boolean {
+  return _.toLower(peruste.toteutus) === KoulutustyyppiToteutus.lops || peruste.koulutustyyppi === Koulutustyyppi.lukiovalmistavakoulutus;
 }
 
 export function koulutustyyppiTheme(koulutustyyppi: string) {

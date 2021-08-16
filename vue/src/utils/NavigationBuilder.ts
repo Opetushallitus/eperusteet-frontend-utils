@@ -5,7 +5,7 @@ import { Location } from 'vue-router';
 
 export type NavigationType =
     'root' | 'viite' | 'tiedot' | 'laajaalaiset'
-    | 'oppiaineet' | 'oppiaine' | 'oppimaarat' | 'poppiaine'
+    | 'oppiaineet' | 'oppiaine' | 'oppimaarat' | 'poppiaine' | 'lukiooppiaine' | 'lukiokurssit' | 'lukiokurssi'
     | 'moduulit' | 'moduuli' |
     'opintojaksot' | 'opintojakso'
     | 'perusopetusoppiaineet' | 'perusopetusoppiaine' | 'valinnaisetoppiaineet' | 'vuosiluokkakokonaisuus';
@@ -91,7 +91,13 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
   case 'oppiaineet':
     node.label = 'oppiaineet';
     node.location = {
-      name: 'lops2019oppiaineet',
+      name: 'lukioOppiaineet',
+    };
+    break;
+  case 'lukiooppiaineet':
+    node.label = 'oppiaineet';
+    node.location = {
+      name: 'lukioOppiaineet',
     };
     break;
   case 'oppimaarat':
@@ -105,6 +111,29 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       name: 'lops2019oppiaine',
       params: {
         oppiaineId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'lukiooppiaine':
+    node.location = {
+      name: 'lukioOppiaine',
+      params: {
+        oppiaineId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'lukiooppimaarat':
+    node.label = 'oppimaarat';
+    break;
+  case 'lukiokurssit':
+    node.label = 'kurssit';
+    break;
+  case 'lukiokurssi':
+    node.location = {
+      name: 'lukiokurssi',
+      params: {
+        kurssiId: _.toString(rawNode.id),
+        oppiaineId: _.toString(rawNode.meta!.oppiaine),
       },
     };
     break;
@@ -243,6 +272,22 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       name: 'perusteKotoOpinto',
       params: {
         kotoOpintoId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'opetuksenyleisettavoitteet':
+    node.location = {
+      name: 'perusteYleisettavoitteet',
+      params: {
+        yleistavoiteId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'aihekokonaisuudet':
+    node.location = {
+      name: 'perusteAihekokonaisuudet',
+      params: {
+        aihekokonaisuudetId: _.toString(rawNode.id),
       },
     };
     break;
