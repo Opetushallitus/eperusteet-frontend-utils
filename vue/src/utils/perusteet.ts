@@ -346,7 +346,8 @@ export function isKoulutustyyppiAmmatillinen(koulutustyyppi: string): boolean {
 }
 
 export function isPerusteVanhaLukio(peruste): boolean {
-  return _.toLower(peruste.toteutus) === KoulutustyyppiToteutus.lops || peruste.koulutustyyppi === Koulutustyyppi.lukiovalmistavakoulutus;
+  return _.toLower(peruste.toteutus) === KoulutustyyppiToteutus.lops
+    || (peruste.koulutustyyppi === Koulutustyyppi.lukiovalmistavakoulutus && _.toLower(peruste.toteutus) !== KoulutustyyppiToteutus.lops2019);
 }
 
 export function koulutustyyppiTheme(koulutustyyppi: string) {
