@@ -5,7 +5,7 @@ import { Location } from 'vue-router';
 
 export type NavigationType =
     'root' | 'viite' | 'tiedot' | 'laajaalaiset'
-    | 'oppiaineet' | 'oppiaine' | 'oppimaarat' | 'poppiaine' | 'lukiooppiaine' | 'lukiokurssit' | 'lukiokurssi'
+    | 'oppiaineet' | 'oppiaine' | 'oppimaarat' | 'poppiaine' | 'lukiooppiaine_2015' | 'lukiooppimaarat_2015' | 'lukiokurssit' | 'lukiokurssi'
     | 'moduulit' | 'moduuli' |
     'opintojaksot' | 'opintojakso'
     | 'perusopetusoppiaineet' | 'perusopetusoppiaine' | 'valinnaisetoppiaineet' | 'vuosiluokkakokonaisuus';
@@ -94,7 +94,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       name: 'lukioOppiaineet',
     };
     break;
-  case 'lukiooppiaineet':
+  case 'lukiooppiaineet_2015':
     node.label = 'oppiaineet';
     node.location = {
       name: 'lukioOppiaineet',
@@ -114,7 +114,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       },
     };
     break;
-  case 'lukiooppiaine':
+  case 'lukiooppiaine_2015':
     node.location = {
       name: 'lukioOppiaine',
       params: {
@@ -122,7 +122,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       },
     };
     break;
-  case 'lukiooppimaarat':
+  case 'lukiooppimaarat_2015':
     node.label = 'oppimaarat';
     break;
   case 'lukiokurssit':
@@ -317,11 +317,30 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
   case 'oppimaarat':
     node.label = 'oppimaarat';
     break;
+  case 'lukiooppimaarat_2015':
+    node.label = 'oppimaarat';
+    break;
   case 'oppiaine':
     node.location = {
       name: 'lops2019OpetussuunnitelmaOppiaine',
       params: {
         oppiaineId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'lukiooppiaine_2015':
+    node.location = {
+      name: 'lopsOpetussuunnitelmaOppiaine',
+      params: {
+        oppiaineId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'lukiokurssi':
+    node.location = {
+      name: 'lopsOpetussuunnitelmaKurssi',
+      params: {
+        kurssiId: _.toString(rawNode.id),
       },
     };
     break;
@@ -332,6 +351,9 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
         oppiaineId: _.toString(rawNode.id),
       },
     };
+    break;
+  case 'lukiokurssit':
+    node.label = 'kurssit';
     break;
   case 'moduulit':
     node.label = 'moduulit';
