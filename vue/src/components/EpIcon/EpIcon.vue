@@ -1,6 +1,8 @@
 <template>
 <div class="icon" :style="{ background: actualBackground, color: color }">
-  <fas :icon="icon"></fas>
+  <slot name="fas">
+    <fas :icon="icon"></fas>
+  </slot>
 </div>
 </template>
 

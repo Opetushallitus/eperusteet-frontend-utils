@@ -6,7 +6,11 @@
       </h3>
     </div>
     <div class="iconline">
-      <ep-icon :icon="icon" :color="correctColor" background-color="white"></ep-icon>
+      <ep-icon :icon="icon" :color="correctColor" background-color="white">
+        <template slot="fas">
+          <slot name="fas"></slot>
+        </template>
+      </ep-icon>
       <div class="count" v-if="count">{{count}}</div>
     </div>
     <div class="tile-content px-3">
