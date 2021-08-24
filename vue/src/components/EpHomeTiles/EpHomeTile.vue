@@ -15,6 +15,9 @@
                  :color="color"
                  :effects="effects"
                  :count="count">
+        <template slot="fas">
+          <slot name="fas"></slot>
+        </template>
         <template slot="header">
           <slot name="header"></slot>
         </template>
