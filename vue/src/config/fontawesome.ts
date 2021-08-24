@@ -148,7 +148,6 @@ library.add(oph.opetussuunnitelmasi);
 library.add(oph.osaamisenArviointi);
 library.add(oph.palauta);
 library.add(oph.peruuta);
-library.add(oph.pdflataus);
 library.add(oph.plussa);
 library.add(oph.poistaKolumni);
 library.add(oph.poistaRivi);
