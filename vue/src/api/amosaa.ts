@@ -92,6 +92,7 @@ export type Validointi = AmosaaApi.Validointi;
 export type JulkaisuBaseDto = AmosaaApi.JulkaisuBaseDto;
 export type PalauteDto = AmosaaApi.PalauteDto;
 export type KoulutuksenJarjestajaDto = AmosaaApi.KoulutuksenJarjestajaDto;
+export type OpetussuunnitelmaKaikkiDto = AmosaaApi.OpetussuunnitelmaKaikkiDto;
 
 export import DokumenttiDtoTilaEnum = AmosaaApi.DokumenttiDtoTilaEnum;
 export import MatalaTyyppiEnum = AmosaaApi.MatalaTyyppiEnum;

@@ -126,7 +126,7 @@ export type TuvaLaajaalainenOsaaminenDto = EperusteetApi.TuvaLaajaAlainenOsaamin
 export type LukioOppiaineOppimaaraNodeDto = EperusteetApi.LukioOppiaineOppimaaraNodeDto;
 export type MaaraysDto = EperusteetApi.MaaraysDto;
 export type PerusteKaikkiDto = EperusteetApi.PerusteKaikkiDto;
-export type JulkaisuJulkinenDto = EperusteetApi.JulkaisuJulkinenDto;
+export type PerusteenJulkaisuData = EperusteetApi.PerusteenJulkaisuData;
 
 export import PerusteprojektiLuontiDtoTyyppiEnum = EperusteetApi.PerusteprojektiLuontiDtoTyyppiEnum;
 export import NavigationNodeDtoTypeEnum = EperusteetApi.NavigationNodeDtoTypeEnum;
