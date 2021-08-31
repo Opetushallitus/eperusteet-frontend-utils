@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import * as _ from 'lodash';
 import { findDeep } from 'deepdash-es/standalone';
 
 export function domAttrsGetter(...fields: string[]) {
@@ -26,7 +26,11 @@ export function mapNodeAttrs(...fields: string[]) {
   }), {});
 }
 
-export function deepFind(filterObject: any, searchObject: any) {
+export function deepFind(filterObject: Object | string, searchObject: any) : any {
+  if (typeof filterObject === 'string') {
+    return _.get(searchObject, filterObject);
+  }
+
   return _.get(findDeep(searchObject, (value, key) => {
     if (_.keys(filterObject)[0] === key && _.values(filterObject)[0] === value) return true;
     return false;
