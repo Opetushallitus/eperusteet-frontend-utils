@@ -44,8 +44,35 @@
                :cancel-title="$t('peruuta')"
                @ok="editLink(data)"
                @keyup.enter="editLink(data)"
-               @hidden="linkValue = null">
-        <b-form-input v-model="linkValue" placeholder="https://..."></b-form-input>
+               @hidden="linkValue = null"
+               size="xl">
+
+        <b-form-group class="mx-4">
+
+          <template v-if="navigationFlattened">
+            <b-form-radio class="p-2" v-model="linkkiTyyppi" value="sisainen" name="linkkiTyyppi">{{ $t('sisainen-linkki') }}</b-form-radio>
+            <EpMultiSelect
+              v-if="linkkiTyyppi === 'sisainen'"
+              v-model="internalLink"
+              :is-editing="true"
+              :search-identity="labelSearchIdentity"
+              :options="navigationFlattened"
+              :placeholder="$t('valitse-sivu') + '...'">
+              <template slot="singleLabel" slot-scope="{ option }">
+                {{ $kaanna(option.label) }}
+              </template>
+              <template slot="option" slot-scope="{ option }">
+                <span :style="'padding-left: ' + 10*option.depth +'px'"> {{ $kaanna(option.label) }}</span>
+              </template>
+            </EpMultiSelect>
+
+            <b-form-radio class="p-2 mt-3" v-model="linkkiTyyppi" value="ulkoinen" name="linkkiTyyppi" >{{ $t('ulkoinen-linkki') }}</b-form-radio>
+            <b-form-input v-if="linkkiTyyppi === 'ulkoinen'" v-model="linkValue" placeholder="https://..."></b-form-input>
+          </template>
+          <b-form-input v-else v-model="linkValue" placeholder="https://..."></b-form-input>
+
+        </b-form-group>
+
       </b-modal>
     </div>
   </editor-menu-bar>
@@ -54,12 +81,16 @@
 
 <script lang="ts">
 import _ from 'lodash';
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Component, Prop, InjectReactive } from 'vue-property-decorator';
 import { EditorMenuBar } from 'tiptap';
+import { NavigationNodeDto } from '@shared/tyypit';
+import EpMultiSelect from '@shared/components/forms/EpMultiSelect.vue';
+import { deepFind } from '@shared/utils/helpers';
 
 @Component({
   components: {
     EditorMenuBar,
+    EpMultiSelect,
   },
 })
 export default class EpEditorMenuBar extends Vue {
@@ -75,7 +106,12 @@ export default class EpEditorMenuBar extends Vue {
   @Prop({ default: true })
   private alwaysVisible!: boolean;
 
+  @InjectReactive('navigation')
+  private navigation!: NavigationNodeDto;
+
   private linkValue: string | null = null;
+  private internalLink: NavigationNodeDto | null = null;
+  private linkkiTyyppi: 'ulkoinen' | 'sisainen' | null = null;
 
   get id() {
     return (this as any)._uid;
@@ -114,9 +150,23 @@ export default class EpEditorMenuBar extends Vue {
       customClick: (data) => {
         const isNew = !data.isActive.link();
         const attrs = data.getMarkAttrs('link');
-        if (!isNew && attrs && attrs.href) {
+        this.linkValue = null;
+        this.internalLink = null;
+        this.linkkiTyyppi = null;
+
+        if (!isNew && attrs) {
           this.linkValue = attrs.href;
+
+          if (attrs.href && attrs.href !== '#') {
+            this.linkkiTyyppi = 'ulkoinen';
+          }
+
+          if (attrs.routenode) {
+            this.linkkiTyyppi = 'sisainen';
+            this.internalLink = deepFind({ id: _.get(JSON.parse(attrs.routenode), 'id') }, this.navigationFlattened);
+          }
         }
+
         (this as any).$refs['link-modal'].show();
       },
     }, ...(!_.isFunction(_.get(this.editor.commands, 'termi')) ? [] : [{
@@ -242,8 +292,35 @@ export default class EpEditorMenuBar extends Vue {
       data.commands.link({
         href: this.linkValue,
       } as any);
-      this.linkValue = null;
     }
+
+    if (!_.isEmpty(this.internalLink)) {
+      data.commands.link({
+        href: '#',
+        routenode: JSON.stringify(_.pick(this.internalLink, ['id', 'type', 'koodi', 'meta'])),
+      } as any);
+    }
+
+    this.linkValue = null;
+    this.internalLink = null;
+  }
+
+  get navigationFlattened() {
+    return _.filter(this.flattenedNavi(this.navigation), node => !!node.label);
+  }
+
+  flattenedNavi(navi: NavigationNodeDto, depth = -1) {
+    return [
+      {
+        ...navi,
+        depth,
+      },
+      ..._.flatten(_.map(navi.children, child => this.flattenedNavi(child, depth + 1))),
+    ];
+  }
+
+  labelSearchIdentity(obj: any) {
+    return _.toLower(this.$kaanna(obj.label));
   }
 }
 </script>

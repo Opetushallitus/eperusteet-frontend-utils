@@ -42,7 +42,7 @@ export function buildNavigation(
   return rakenne;
 }
 
-function traverseNavigation(rawNode: NavigationNodeDto, isOps: boolean): NavigationNode {
+export function traverseNavigation(rawNode: NavigationNodeDto, isOps: boolean): NavigationNode {
   const node: NavigationNode = {
     label: rawNode.label as LokalisoituTekstiDto,
     type: rawNode.type as NavigationType,
