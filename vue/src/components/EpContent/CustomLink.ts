@@ -2,7 +2,6 @@ import { Link } from 'tiptap-extensions';
 import { domAttrsGetter, mapNodeAttrs } from '@shared/utils/helpers';
 import Vue from 'vue';
 import _ from 'lodash';
-import { traverseNavigation } from '@shared/utils/NavigationBuilder';
 import { ILinkkiHandler } from './LinkkiHandler';
 
 export default class CustomLink extends Link {

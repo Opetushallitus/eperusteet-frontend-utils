@@ -22,9 +22,11 @@
 
 <script lang="ts">
 import _ from 'lodash';
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
+import { Vue, Component, Prop, Watch, InjectReactive } from 'vue-property-decorator';
 import { LiiteDtoWrapper } from '../../tyypit';
 import { Kielet } from '../../stores/kieli';
+import { ILinkkiHandler } from '../EpContent/LinkkiHandler';
+import { RawLocation } from 'vue-router';
 
 @Component
 export default class EpContentViewer extends Vue {
@@ -36,6 +38,9 @@ export default class EpContentViewer extends Vue {
 
   @Prop({ required: false, type: Array })
   private kuvat!: LiiteDtoWrapper[];
+
+  @InjectReactive('linkkiHandler')
+  private linkkiHandler!: ILinkkiHandler;
 
   private termiElements: Element[] = [];
 
@@ -96,6 +101,16 @@ export default class EpContentViewer extends Vue {
         if (href && href.charAt(0) !== '#') {
           link.setAttribute('target', '_blank');
           link.setAttribute('rel', 'noopener noreferrer');
+        }
+
+        const routeNode = link.getAttribute('routenode');
+        if (routeNode && this.linkkiHandler) {
+          const newLocation = this.$router.resolve(this.linkkiHandler.nodeToRoute(JSON.parse(routeNode)) as RawLocation);
+          if (newLocation) {
+            link.setAttribute('href', newLocation.href);
+            link.removeAttribute('target');
+            link.removeAttribute('rel');
+          }
         }
       });
 
