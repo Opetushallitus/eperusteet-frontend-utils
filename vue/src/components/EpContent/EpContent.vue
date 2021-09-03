@@ -102,7 +102,7 @@ export default class EpContent extends Mixins(EpValidation) {
   @Prop({ required: false })
   kuvaHandler!: IKuvaHandler;
 
-  @InjectReactive({ from: 'linkkiHandler', default: null })
+  @InjectReactive('linkkiHandler')
   private linkkiHandler!: ILinkkiHandler;
 
   private editor: any = null;

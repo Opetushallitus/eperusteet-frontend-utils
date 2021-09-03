@@ -106,7 +106,7 @@ export default class EpEditorMenuBar extends Vue {
   @Prop({ default: true })
   private alwaysVisible!: boolean;
 
-  @InjectReactive({ from: 'navigation', default: null })
+  @InjectReactive('navigation')
   private navigation!: NavigationNodeDto;
 
   private linkValue: string | null = null;

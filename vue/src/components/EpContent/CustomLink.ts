@@ -64,12 +64,11 @@ export default class CustomLink extends Link {
               'routenode': value,
             });
           },
-        },
-
+        } as any,
         nodeRoute: {
           get() {
             if (this.routeNode && linkkiHandler) {
-              return linkkiHandler.nodeToRoute(JSON.parse(this.routeNode));
+              return linkkiHandler.nodeToRoute(JSON.parse(this.routeNode as any));
             }
 
             return undefined;
