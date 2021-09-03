@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { ILinkkiHandler } from './LinkkiHandler';
 
 export default class CustomLink extends Link {
-  constructor(private linkkiHandler: ILinkkiHandler) {
+  constructor(private linkkiHandler?: ILinkkiHandler) {
     super();
   }
 

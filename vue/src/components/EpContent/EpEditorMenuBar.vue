@@ -106,7 +106,7 @@ export default class EpEditorMenuBar extends Vue {
   @Prop({ default: true })
   private alwaysVisible!: boolean;
 
-  @InjectReactive('navigation')
+  @InjectReactive({ from: 'navigation', default: null })
   private navigation!: NavigationNodeDto;
 
   private linkValue: string | null = null;
@@ -306,7 +306,9 @@ export default class EpEditorMenuBar extends Vue {
   }
 
   get navigationFlattened() {
-    return _.filter(this.flattenedNavi(this.navigation), node => !!node.label);
+    if (this.navigation) {
+      return _.filter(this.flattenedNavi(this.navigation), node => !!node.label);
+    }
   }
 
   flattenedNavi(navi: NavigationNodeDto, depth = -1) {

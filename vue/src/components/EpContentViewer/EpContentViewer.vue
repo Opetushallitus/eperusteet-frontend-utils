@@ -39,7 +39,7 @@ export default class EpContentViewer extends Vue {
   @Prop({ required: false, type: Array })
   private kuvat!: LiiteDtoWrapper[];
 
-  @InjectReactive('linkkiHandler')
+  @InjectReactive({ from: 'linkkiHandler', default: null})
   private linkkiHandler!: ILinkkiHandler;
 
   private termiElements: Element[] = [];
