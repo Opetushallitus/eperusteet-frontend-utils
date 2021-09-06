@@ -307,7 +307,15 @@ export default class EpEditorMenuBar extends Vue {
 
   get navigationFlattened() {
     if (this.navigation) {
-      return _.filter(this.flattenedNavi(this.navigation), node => !!node.label);
+      return _.chain(this.flattenedNavi(this.navigation))
+        .filter(node => !!node.label)
+        .map(node => {
+          return {
+            ...node,
+            $isDisabled: !_.has(node, 'id'),
+          };
+        })
+        .value();
     }
   }
 
