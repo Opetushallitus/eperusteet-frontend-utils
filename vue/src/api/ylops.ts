@@ -155,6 +155,7 @@ export type OppiaineDto = YlopsApi.OppiaineDto;
 export type OpetussuunnitelmanJulkaisuDto = YlopsApi.OpetussuunnitelmanJulkaisuDto;
 export type PalauteDto = YlopsApi.PalauteDto;
 export type LukioOppiaineTiedotDto = YlopsApi.LukioOppiaineTiedotDto;
+export type OpetussuunnitelmaExportDto = YlopsApi.OpetussuunnitelmaExportDto;
 
 export import OpetussuunnitelmaInfoDtoToteutusEnum = YlopsApi.OpetussuunnitelmaInfoDtoToteutusEnum;
 export import OppiaineSuppeaDtoTyyppiEnum = YlopsApi.OppiaineSuppeaDtoTyyppiEnum;
