@@ -107,12 +107,13 @@ export type NavigationNodeType =
   | 'viite' | 'taiteenala' | 'tekstikappale'
   | 'liitteet' | 'liite'
   | 'laajaalaiset' | 'laajaalainen'
-  | 'oppiaineet' | 'oppimaarat' | 'oppiaine'
+  | 'oppiaineet' | 'oppimaarat' | 'oppiaine' | 'opintojakso' | 'paikallinenOppiaine' | 'poppiaine'
   | 'moduulit' | 'moduuli'
-  | 'muodostuminen' | 'tutkinnonosat' | 'tutkinnonosa' | 'tutkinnonosaviite' | 'osaalue'
+  | 'muodostuminen' | 'tutkinnonosat' | 'tutkinnonosa' | 'tutkinnonosaviite' | 'osaalue' | 'suorituspolut' | 'suorituspolku'
   | 'opintokokonaisuus' | 'tavoitesisaltoalue'
   | 'koulutuksenosa' | 'laajaalainenosaaminen' | 'koulutuksenosat'
-  | 'koto_kielitaitotaso' | 'koto_opinto';
+  | 'koto_kielitaitotaso' | 'koto_opinto'
+  | 'vuosiluokkakokonaisuus' | 'perusopetusoppiaine' | 'valinnaisetoppiaineet';
 
 export interface NavigationNodeDto {
   id?: number;

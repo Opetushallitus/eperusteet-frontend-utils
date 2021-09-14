@@ -26,7 +26,7 @@
 <script lang="ts">
 
 import * as _ from 'lodash';
-import { Component, Mixins, Prop, Watch } from 'vue-property-decorator';
+import { Component, InjectReactive, Mixins, Prop, Watch } from 'vue-property-decorator';
 import { Editor, EditorContent } from 'tiptap';
 import { delay } from '@shared/utils/delay';
 import { Kielet } from '@shared/stores/kieli';
@@ -57,6 +57,7 @@ import ImageExtension from './ImageExtension';
 import { IKuvaHandler } from './KuvaHandler';
 import CustomLink from './CustomLink';
 import { ObserveVisibility } from 'vue-observe-visibility';
+import { ILinkkiHandler } from './LinkkiHandler';
 
 const striptag = document.createElement('span');
 
@@ -101,6 +102,9 @@ export default class EpContent extends Mixins(EpValidation) {
   @Prop({ required: false })
   kuvaHandler!: IKuvaHandler;
 
+  @InjectReactive('linkkiHandler')
+  private linkkiHandler!: ILinkkiHandler;
+
   private editor: any = null;
 
   private focused = false;
@@ -133,7 +137,7 @@ export default class EpContent extends Mixins(EpValidation) {
       new Bold(),
       new Italic(),
       new Strike(),
-      new CustomLink(),
+      new CustomLink(this.linkkiHandler),
       new BulletList(),
       new OrderedList(),
       new ListItem(),
