@@ -1,5 +1,5 @@
 <template>
-  <EpMultiSelect :value="value"
+  <EpMultiSelect :value="toValue"
                  @input="changed($event)"
                  :placeholder="placeholder"
                  :search-identity="identity"
@@ -13,17 +13,17 @@
 
   <template slot="singleLabel" slot-scope="{ option }">
     <span class="text-nowrap">
-      <EpColorIndicator :size="10" :kind="option"/>
-      <span class="ml-2">{{ $t(option) }}</span>
+      <EpColorIndicator :size="10" :kind="option.koulutustyyppi"/>
+      <span class="ml-2">{{ $t(option.koulutustyyppi) }}</span>
     </span>
   </template>
   <template slot="option" slot-scope="{ option }">
     <hr class="mt-0 mb-0" v-if="option.$groupLabel" />
 
-    <span v-else class="text-nowrap">
-      <EpColorIndicator :size="10" :kind="option" v-if="option !== 'kaikki'"/>
-      <span :class="{'font-weight-bold': option === 'kaikki', 'ml-2': option !== 'kaikki'}">
-        {{ $t(option) }}
+    <span v-else class="option text-nowrap">
+      <EpColorIndicator :size="10" :kind="option.koulutustyyppi" v-if="option.koulutustyyppi !== 'kaikki'"/>
+      <span :class="{'font-weight-bold': option.koulutustyyppi === 'kaikki', 'ml-2': option.koulutustyyppi !== 'kaikki'}">
+        {{ $t(option.koulutustyyppi) }}
       </span>
     </span>
   </template>
@@ -76,15 +76,28 @@ export default class KoulutustyyppiSelect extends Vue {
   @Prop({ default: () => EperusteetKoulutustyypit })
   koulutustyypit!: string[];
 
+  @Prop({ default: () => [] })
+  eiTuetutKoulutustyypit!: string[];
+
   identity(tr: any) {
     return _.toLower(this.$kaanna(tr.nimi));
   }
 
+  get toValue() {
+    return _.chain(this.vaihtoehdot)
+      .map(vaihtoehto => vaihtoehto.koulutustyypit)
+      .flatMap()
+      .find(kt => kt.koulutustyyppi === this.value)
+      .value();
+  }
+
   private changed(value: any) {
-    if (value === 'kaikki') {
-      value = undefined;
+    if (_.get(value, 'koulutustyyppi') === 'kaikki') {
+      this.$emit('input', undefined);
     }
-    this.$emit('input', value);
+    else {
+      this.$emit('input', _.get(value, 'koulutustyyppi'));
+    }
   }
 
   get placeholder() {
@@ -109,7 +122,7 @@ export default class KoulutustyyppiSelect extends Vue {
     return [
       {
         ryhma: 'kaikki',
-        koulutustyypit: ['kaikki'],
+        koulutustyypit: [{ koulutustyyppi: 'kaikki' }],
       },
       ...this.vaihtoehdot,
     ];
@@ -121,7 +134,10 @@ export default class KoulutustyyppiSelect extends Vue {
       .map(ryhma => {
         return {
           ryhma,
-          koulutustyypit: _.filter(EperusteetKoulutustyyppiRyhmat[ryhma], koulutustyyppi => _.isEmpty(this.koulutustyypit) || _.includes(this.koulutustyypit, koulutustyyppi)),
+          koulutustyypit: _.chain(EperusteetKoulutustyyppiRyhmat[ryhma])
+            .filter(koulutustyyppi => _.isEmpty(this.koulutustyypit) || _.includes(this.koulutustyypit, koulutustyyppi))
+            .map(koulutustyyppi => ({ koulutustyyppi, $isDisabled: _.includes(this.eiTuetutKoulutustyypit, koulutustyyppi) }))
+            .value(),
         };
       })
       .value();
@@ -139,9 +155,15 @@ export default class KoulutustyyppiSelect extends Vue {
   }
 }
 
-::v-deep .multiselect__option--disabled {
-  padding: 0;
-  min-height: 0;
+::v-deep .multiselect__option {
+ padding: 0px;
+ min-height: 0px;
+}
+
+::v-deep .multiselect__option--disabled .option, ::v-deep .multiselect__option .option{
+ padding: 12px;
+ min-height: 40px;
+ display: block;
 }
 
 </style>
