@@ -60,6 +60,7 @@
           </span>
         </div>
         <ep-content
+          v-if="lo.kuvaus"
           layout="normal"
           v-model="lo.kuvaus"
           :is-editable="false"></ep-content>
