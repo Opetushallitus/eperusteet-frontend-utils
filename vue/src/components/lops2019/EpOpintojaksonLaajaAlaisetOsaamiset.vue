@@ -31,6 +31,7 @@
         </span>
       </div>
       <ep-content
+        v-if="lo.kuvaus"
         layout="normal"
         v-model="lo.kuvaus"
         :is-editable="isEditing"></ep-content>
