@@ -61,7 +61,6 @@ export function traverseNavigation(rawNode: NavigationNodeDto, isOps: boolean): 
   return node;
 }
 
-
 interface OsanTyypillinen {
   id?: number | string;
   perusteenOsa: {
@@ -71,32 +70,30 @@ interface OsanTyypillinen {
   },
 }
 
-
 export function osaToLocation(osa: OsanTyypillinen): Location {
   switch (osa.perusteenOsa.osanTyyppi) {
-    case "taiteenala":
-    case "tekstikappale":
-      return {
-        name: 'perusteTekstikappale',
-        params: {
-          viiteId: String(osa.id),
-        },
-      };
-    case "rakenne":
-    case "tutkinnonosa":
-    case "opetuksenyleisettavoitteet":
-    case "aihekokonaisuudet":
-    case "laajaalainenosaaminen":
-    case "koto_kielitaitotaso":
-    case "tavoitesisaltoalue":
-    case "koulutuksenosa":
-    case "opintokokonaisuus":
-    case "koto_opinto":
-    default:
-      return {};
+  case 'taiteenala':
+  case 'tekstikappale':
+    return {
+      name: 'perusteTekstikappale',
+      params: {
+        viiteId: String(osa.id),
+      },
+    };
+  case 'rakenne':
+  case 'tutkinnonosa':
+  case 'opetuksenyleisettavoitteet':
+  case 'aihekokonaisuudet':
+  case 'laajaalainenosaaminen':
+  case 'koto_kielitaitotaso':
+  case 'tavoitesisaltoalue':
+  case 'koulutuksenosa':
+  case 'opintokokonaisuus':
+  case 'koto_opinto':
+  default:
+    return {};
   }
 }
-
 
 export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto) {
   switch (rawNode.type as string) {

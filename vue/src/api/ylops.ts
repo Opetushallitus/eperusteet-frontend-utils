@@ -33,6 +33,13 @@ import * as YlopsApi from '../generated/ylops';
 import Qs from 'qs';
 import { createLogger } from '../utils/logger';
 
+export import OpetussuunnitelmaInfoDtoToteutusEnum = YlopsApi.OpetussuunnitelmaInfoDtoToteutusEnum;
+export import OppiaineSuppeaDtoTyyppiEnum = YlopsApi.OppiaineSuppeaDtoTyyppiEnum;
+export import UnwrappedOpsOppiaineDtoTyyppiEnum = YlopsApi.UnwrappedOpsOppiaineDtoTyyppiEnum;
+export import NavigationNodeDtoTypeEnum = YlopsApi.NavigationNodeDtoTypeEnum;
+export import OpetussuunnitelmaInfoDtoKoulutustyyppiEnum = YlopsApi.OpetussuunnitelmaInfoDtoKoulutustyyppiEnum;
+export import OpetussuunnitelmaKevytDtoTilaEnum = YlopsApi.OpetussuunnitelmaKevytDtoTilaEnum;
+
 const logger = createLogger('YlopsAxios');
 const basePath = '';
 export const baseURL = '/eperusteet-ylops-service/api';
@@ -156,10 +163,3 @@ export type OpetussuunnitelmanJulkaisuDto = YlopsApi.OpetussuunnitelmanJulkaisuD
 export type PalauteDto = YlopsApi.PalauteDto;
 export type LukioOppiaineTiedotDto = YlopsApi.LukioOppiaineTiedotDto;
 export type OpetussuunnitelmaExportDto = YlopsApi.OpetussuunnitelmaExportDto;
-
-export import OpetussuunnitelmaInfoDtoToteutusEnum = YlopsApi.OpetussuunnitelmaInfoDtoToteutusEnum;
-export import OppiaineSuppeaDtoTyyppiEnum = YlopsApi.OppiaineSuppeaDtoTyyppiEnum;
-export import UnwrappedOpsOppiaineDtoTyyppiEnum = YlopsApi.UnwrappedOpsOppiaineDtoTyyppiEnum;
-export import NavigationNodeDtoTypeEnum = YlopsApi.NavigationNodeDtoTypeEnum;
-export import OpetussuunnitelmaInfoDtoKoulutustyyppiEnum = YlopsApi.OpetussuunnitelmaInfoDtoKoulutustyyppiEnum;
-export import OpetussuunnitelmaKevytDtoTilaEnum = YlopsApi.OpetussuunnitelmaKevytDtoTilaEnum;
