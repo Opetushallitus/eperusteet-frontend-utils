@@ -7,6 +7,9 @@ import { localhostOrigin } from '@shared/utils/esikatselu';
 const logger = createLogger('AxiosCommon');
 
 axios.defaults.headers.common['Caller-Id'] = '1.2.246.562.10.00000000001.eperusteet';
+axios.defaults.xsrfCookieName = 'CSRF';
+axios.defaults.xsrfHeaderName = 'CSRF';
+
 
 export function axiosHandler(msg: string) {
   return async (err: any) => {
