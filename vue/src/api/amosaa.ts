@@ -8,6 +8,23 @@ import Qs from 'qs';
 import { createLogger } from '../utils/logger';
 import { DokumentitApiAxiosParamCreator } from '@shared/generated/amosaa';
 
+export import DokumenttiDtoTilaEnum = AmosaaApi.DokumenttiDtoTilaEnum;
+export import MatalaTyyppiEnum = AmosaaApi.MatalaTyyppiEnum;
+export import OpetussuunnitelmaMuokkaustietoDtoKohdeEnum = AmosaaApi.OpetussuunnitelmaMuokkaustietoDtoKohdeEnum;
+export import OpetussuunnitelmaMuokkaustietoDtoTapahtumaEnum = AmosaaApi.OpetussuunnitelmaMuokkaustietoDtoTapahtumaEnum;
+export import OpetussuunnitelmaTilastoDtoTilaEnum = AmosaaApi.OpetussuunnitelmaTilastoDtoTilaEnum;
+export import OpetussuunnitelmaDtoTilaEnum = AmosaaApi.OpetussuunnitelmaDtoTilaEnum;
+export import PerusteDtoKoulutustyyppiEnum = AmosaaApi.PerusteDtoKoulutustyyppiEnum;
+export import SisaltoViiteKevytDtoTyyppiEnum = AmosaaApi.SisaltoViiteKevytDtoTyyppiEnum;
+export import TutkinnonOsaKevytDtoTyyppiEnum = AmosaaApi.TutkinnonOsaKevytDtoTyyppiEnum;
+export import TutkinnonosaDtoTyyppiEnum = AmosaaApi.TutkinnonosaDtoTyyppiEnum;
+export import SisaltoViiteDtoTyyppiEnum = AmosaaApi.SisaltoViiteDtoTyyppiEnum;
+export import OpetussuunnitelmaDtoTyyppiEnum = AmosaaApi.OpetussuunnitelmaDtoTyyppiEnum;
+export import NavigationNodeDtoTypeEnum = AmosaaApi.NavigationNodeDtoTypeEnum;
+export import OpetussuunnitelmaLuontiDtoTyyppiEnum = AmosaaApi.OpetussuunnitelmaLuontiDtoTyyppiEnum;
+export import OpintokokonaisuusDtoTyyppiEnum = AmosaaApi.OpintokokonaisuusDtoTyyppiEnum;
+export import KoulutuksenOsaDtoKoulutusOsanTyyppiEnum = AmosaaApi.KoulutuksenOsaDtoKoulutusOsanTyyppiEnum;
+
 const logger = createLogger('AmosaaAxios');
 const basePath = '';
 export const baseURL = '/eperusteet-amosaa-service/api';
@@ -93,23 +110,6 @@ export type JulkaisuBaseDto = AmosaaApi.JulkaisuBaseDto;
 export type PalauteDto = AmosaaApi.PalauteDto;
 export type KoulutuksenJarjestajaDto = AmosaaApi.KoulutuksenJarjestajaDto;
 export type OpetussuunnitelmaKaikkiDto = AmosaaApi.OpetussuunnitelmaKaikkiDto;
-
-export import DokumenttiDtoTilaEnum = AmosaaApi.DokumenttiDtoTilaEnum;
-export import MatalaTyyppiEnum = AmosaaApi.MatalaTyyppiEnum;
-export import OpetussuunnitelmaMuokkaustietoDtoKohdeEnum = AmosaaApi.OpetussuunnitelmaMuokkaustietoDtoKohdeEnum;
-export import OpetussuunnitelmaMuokkaustietoDtoTapahtumaEnum = AmosaaApi.OpetussuunnitelmaMuokkaustietoDtoTapahtumaEnum;
-export import OpetussuunnitelmaTilastoDtoTilaEnum = AmosaaApi.OpetussuunnitelmaTilastoDtoTilaEnum;
-export import OpetussuunnitelmaDtoTilaEnum = AmosaaApi.OpetussuunnitelmaDtoTilaEnum;
-export import PerusteDtoKoulutustyyppiEnum = AmosaaApi.PerusteDtoKoulutustyyppiEnum;
-export import SisaltoViiteKevytDtoTyyppiEnum = AmosaaApi.SisaltoViiteKevytDtoTyyppiEnum;
-export import TutkinnonOsaKevytDtoTyyppiEnum = AmosaaApi.TutkinnonOsaKevytDtoTyyppiEnum;
-export import TutkinnonosaDtoTyyppiEnum = AmosaaApi.TutkinnonosaDtoTyyppiEnum;
-export import SisaltoViiteDtoTyyppiEnum = AmosaaApi.SisaltoViiteDtoTyyppiEnum;
-export import OpetussuunnitelmaDtoTyyppiEnum = AmosaaApi.OpetussuunnitelmaDtoTyyppiEnum;
-export import NavigationNodeDtoTypeEnum = AmosaaApi.NavigationNodeDtoTypeEnum;
-export import OpetussuunnitelmaLuontiDtoTyyppiEnum = AmosaaApi.OpetussuunnitelmaLuontiDtoTyyppiEnum;
-export import OpintokokonaisuusDtoTyyppiEnum = AmosaaApi.OpintokokonaisuusDtoTyyppiEnum;
-export import KoulutuksenOsaDtoKoulutusOsanTyyppiEnum = AmosaaApi.KoulutuksenOsaDtoKoulutusOsanTyyppiEnum;
 
 export interface OpetussuunnitelmaQuery {
   perusteenDiaarinumero?: string;

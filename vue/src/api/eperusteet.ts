@@ -10,6 +10,22 @@ import * as EperusteetApi from '../generated/eperusteet';
 import Qs from 'qs';
 import { createLogger } from '../utils/logger';
 
+export import PerusteprojektiLuontiDtoTyyppiEnum = EperusteetApi.PerusteprojektiLuontiDtoTyyppiEnum;
+export import NavigationNodeDtoTypeEnum = EperusteetApi.NavigationNodeDtoTypeEnum;
+export import PerusteDtoTyyppiEnum = EperusteetApi.PerusteDtoTyyppiEnum;
+export import DokumenttiDtoTilaEnum = EperusteetApi.DokumenttiDtoTilaEnum;
+export import PerusteDtoTilaEnum = EperusteetApi.PerusteDtoTilaEnum;
+export import PerusteprojektiLuontiKuvausEnum = EperusteetApi.PerusteprojektiLuontiDtoProjektiKuvausEnum;
+export import PerusteDtoToteutusEnum = EperusteetApi.PerusteDtoToteutusEnum;
+export import KoulutuksenOsaDtoKoulutusOsanKoulutustyyppiEnum = EperusteetApi.KoulutuksenOsaDtoKoulutusOsanKoulutustyyppiEnum;
+export import StatusValidointiStatusTypeEnum = EperusteetApi.StatusValidointiStatusTypeEnum;
+export import StatusValidointiKategoriaEnum = EperusteetApi.StatusValidointiKategoriaEnum;
+export import PerusteAikatauluDtoTapahtumaEnum = EperusteetApi.PerusteAikatauluDtoTapahtumaEnum;
+export import PalauteDtoStatusEnum = EperusteetApi.PalauteDtoStatusEnum;
+export import PerusteprojektiKevytDtoTyyppiEnum = EperusteetApi.PerusteprojektiKevytDtoTyyppiEnum;
+export import PerusteprojektiDtoTilaEnum = EperusteetApi.PerusteprojektiDtoTilaEnum;
+export import KoulutuksenOsaDtoKoulutusOsanTyyppiEnum = EperusteetApi.KoulutuksenOsaDtoKoulutusOsanTyyppiEnum;
+
 const logger = createLogger('EperusteetAxios');
 const basePath = '';
 export const baseURL = '/eperusteet-service/api';
@@ -128,22 +144,6 @@ export type MaaraysDto = EperusteetApi.MaaraysDto;
 export type PerusteKaikkiDto = EperusteetApi.PerusteKaikkiDto;
 export type PerusteenJulkaisuData = EperusteetApi.PerusteenJulkaisuData;
 export type KoulutustyyppiLukumaara = EperusteetApi.KoulutustyyppiLukumaara;
-
-export import PerusteprojektiLuontiDtoTyyppiEnum = EperusteetApi.PerusteprojektiLuontiDtoTyyppiEnum;
-export import NavigationNodeDtoTypeEnum = EperusteetApi.NavigationNodeDtoTypeEnum;
-export import PerusteDtoTyyppiEnum = EperusteetApi.PerusteDtoTyyppiEnum;
-export import DokumenttiDtoTilaEnum = EperusteetApi.DokumenttiDtoTilaEnum;
-export import PerusteDtoTilaEnum = EperusteetApi.PerusteDtoTilaEnum;
-export import PerusteprojektiLuontiKuvausEnum = EperusteetApi.PerusteprojektiLuontiDtoProjektiKuvausEnum;
-export import PerusteDtoToteutusEnum = EperusteetApi.PerusteDtoToteutusEnum;
-export import KoulutuksenOsaDtoKoulutusOsanKoulutustyyppiEnum = EperusteetApi.KoulutuksenOsaDtoKoulutusOsanKoulutustyyppiEnum;
-export import StatusValidointiStatusTypeEnum = EperusteetApi.StatusValidointiStatusTypeEnum;
-export import StatusValidointiKategoriaEnum = EperusteetApi.StatusValidointiKategoriaEnum;
-export import PerusteAikatauluDtoTapahtumaEnum = EperusteetApi.PerusteAikatauluDtoTapahtumaEnum;
-export import PalauteDtoStatusEnum = EperusteetApi.PalauteDtoStatusEnum;
-export import PerusteprojektiKevytDtoTyyppiEnum = EperusteetApi.PerusteprojektiKevytDtoTyyppiEnum;
-export import PerusteprojektiDtoTilaEnum = EperusteetApi.PerusteprojektiDtoTilaEnum;
-export import KoulutuksenOsaDtoKoulutusOsanTyyppiEnum = EperusteetApi.KoulutuksenOsaDtoKoulutusOsanTyyppiEnum;
 
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
