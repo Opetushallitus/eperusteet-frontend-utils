@@ -12,16 +12,6 @@ axios.defaults.xsrfHeaderName = 'CSRF';
 
 export function axiosHandler(msg: string) {
   return async (err: any) => {
-    const error = { err: '500' };
-    if (err.response) {
-      error.err = err.response.status;
-    }
-    logger.error(msg as any, err);
-
-    if (!localhostOrigin()) {
-      Virheet.lisaaVirhe(error);
-    }
-
     throw err;
   };
 }
