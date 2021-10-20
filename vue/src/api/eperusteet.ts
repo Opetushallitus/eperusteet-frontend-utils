@@ -258,7 +258,6 @@ export async function getKaannokset(palvelu) {
     return { fi, sv, en } as any;
   }
   catch (e) {
-    throw e;
     return {};
   }
 }
