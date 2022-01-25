@@ -28,10 +28,7 @@
 import * as _ from 'lodash';
 import { Component, InjectReactive, Mixins, Prop, Watch } from 'vue-property-decorator';
 import { Editor, EditorContent } from 'tiptap';
-import { Link } from 'tiptap-extensions';
-import { delay } from '@shared/utils/delay';
-import { Kielet } from '@shared/stores/kieli';
-import {
+import { Link,
   Blockquote,
   Bold,
   Underline,
@@ -47,6 +44,8 @@ import {
   TableHeader,
   TableRow,
 } from 'tiptap-extensions';
+import { delay } from '@shared/utils/delay';
+import { Kielet } from '@shared/stores/kieli';
 
 import EpEditorMenuBar from './EpEditorMenuBar.vue';
 import Sticky from 'vue-sticky-directive';
