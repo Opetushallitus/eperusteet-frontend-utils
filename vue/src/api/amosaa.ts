@@ -69,6 +69,7 @@ export const Ulkopuoliset = initApi(AmosaaApi.UlkopuolisetApi);
 export const Kayttajaoikeudet = initApi(AmosaaApi.KayttajaoikeudetApi);
 export const Julkaisut = initApi(AmosaaApi.JulkaisutApi);
 export const Palautteet = initApi(AmosaaApi.PalautteetApi);
+export const Maintenance = initApi(AmosaaApi.MaintenanceApi);
 
 export type ArviointiasteikkoDto = AmosaaApi.ArviointiasteikkoDto;
 export type DokumenttiDto = AmosaaApi.DokumenttiDto;
