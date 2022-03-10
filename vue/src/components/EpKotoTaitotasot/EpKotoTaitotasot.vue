@@ -33,15 +33,16 @@
 
           <b-form-group :label="$t('tavoitteet')" required class="mt-4">
             <ep-content v-model="taitotaso.tavoitteet"
-                          layout="normal"
-                          :is-editable="isEditing"
-                          :kasiteHandler="kasiteHandler"
-                          :kuvaHandler="kuvaHandler"></ep-content>
+                        layout="normal"
+                        :is-editable="isEditing"
+                        :kasiteHandler="kasiteHandler"
+                        :kuvaHandler="kuvaHandler"></ep-content>
           </b-form-group>
 
-          <h5 class="mt-4">{{$t('opiskelijan-osaaminen')}}</h5>
+          <h3 class="mt-4">{{$t('opiskelijan-osaaminen')}}</h3>
 
           <b-form-group v-for="(sisalto, index) in sisalto.keskeisetsisallot" :key="'sisalto'+index" :label="$t(sisalto['otsikko'])" class="mt-4">
+            <h6>{{$t('opiskelija')}}</h6>
             <ep-content v-model="taitotaso[sisalto['object']]"
                         layout="normal"
                         :is-editable="isEditing"
@@ -80,6 +81,7 @@
         <div v-for="(keskeinenSisalto, index) in keskeisetSisallot" :key="'sisalto'+index">
           <b-form-group class="mt-3 mb-2 p-0" v-if="taitotaso[keskeinenSisalto['object']]">
             <h4 slot="label">{{$t(keskeinenSisalto['otsikko'])}}</h4>
+            <h6>{{$t('opiskelija')}}</h6>
             <ep-content v-if="kuvaHandler" :value="taitotaso[keskeinenSisalto['object']]" :kasiteHandler="kasiteHandler" :kuvaHandler="kuvaHandler"/>
             <ep-content-viewer v-else :value="$kaanna(taitotaso[keskeinenSisalto['object']])" :termit="termit" :kuvat="kuvat" />
           </b-form-group>
