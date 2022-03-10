@@ -2,10 +2,10 @@ import { mount, createLocalVue } from '@vue/test-utils';
 import EpPerusteContent from './EpPerusteContent.vue';
 import { mocks } from '../../utils/jestutils';
 
-describe.skip('EpPerusteContent', () => {
+describe('EpPerusteContent', () => {
   const localVue = createLocalVue();
 
-  const options = (data: any) => {
+  const options = (data) => {
     return {
       propsData: {
         ...data,
