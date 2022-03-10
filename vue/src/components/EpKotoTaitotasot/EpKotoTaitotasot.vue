@@ -39,7 +39,7 @@
                           :kuvaHandler="kuvaHandler"></ep-content>
           </b-form-group>
 
-          <h5 class="mt-4">{{$t('keskeiset-sisallot')}}</h5>
+          <h5 class="mt-4">{{$t('opiskelijan-osaaminen')}}</h5>
 
           <b-form-group v-for="(sisalto, index) in sisalto.keskeisetsisallot" :key="'sisalto'+index" :label="$t(sisalto['otsikko'])" class="mt-4">
             <ep-content v-model="taitotaso[sisalto['object']]"
@@ -75,7 +75,7 @@
           <ep-content-viewer v-else :value="$kaanna(taitotaso.tavoitteet)" :termit="termit" :kuvat="kuvat" />
         </b-form-group>
 
-        <h3>{{$t('keskeiset-sisallot')}}</h3>
+        <h3>{{$t('opiskelijan-osaaminen')}}</h3>
 
         <div v-for="(keskeinenSisalto, index) in keskeisetSisallot" :key="'sisalto'+index">
           <b-form-group class="mt-3 mb-2 p-0" v-if="taitotaso[keskeinenSisalto['object']]">
@@ -220,16 +220,16 @@ export default class EpKotoTaitotasot extends Vue {
         'poista-taitotaso': 'poista-kielitaitotaso',
         keskeisetsisallot: [
           {
-            otsikko: 'kielenkayttotarkoitus',
-            object: 'kielenkayttotarkoitus',
+            otsikko: 'suullinen-vastaanottaminen',
+            object: 'suullinenVastaanottaminen',
           },
           {
-            otsikko: 'aihealueet',
-            object: 'aihealueet',
+            otsikko: 'suullinen-tuottaminen',
+            object: 'suullinenTuottaminen',
           },
           {
-            otsikko: 'viestintataidot',
-            object: 'viestintataidot',
+            otsikko: 'vuorovaikutus-ja-meditaatio',
+            object: 'vuorovaikutusJaMeditaatio',
           },
         ],
       },
@@ -253,6 +253,18 @@ export default class EpKotoTaitotasot extends Vue {
       {
         otsikko: 'opiskelijan-taidot',
         object: 'opiskelijantaidot',
+      },
+      {
+        otsikko: 'suullinen-vastaanottaminen',
+        object: 'suullinenVastaanottaminen',
+      },
+      {
+        otsikko: 'suullinen-tuottaminen',
+        object: 'suullinenTuottaminen',
+      },
+      {
+        otsikko: 'vuorovaikutus-ja-meditaatio',
+        object: 'vuorovaikutusJaMeditaatio',
       },
     ];
   }
