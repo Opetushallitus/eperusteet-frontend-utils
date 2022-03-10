@@ -28,7 +28,6 @@
 import * as _ from 'lodash';
 import { Component, InjectReactive, Mixins, Prop, Watch } from 'vue-property-decorator';
 import { Editor, EditorContent } from 'tiptap';
-import { Link } from 'tiptap-extensions';
 import { delay } from '@shared/utils/delay';
 import { Kielet } from '@shared/stores/kieli';
 import {
@@ -131,14 +130,6 @@ export default class EpContent extends Mixins(EpValidation) {
   }
 
   mounted() {
-    let linkImplementation: any = null;
-    try {
-      linkImplementation = new CustomLink(this.linkkiHandler);
-    }
-    catch (err) {
-      linkImplementation = new Link();
-    }
-
     const extensions = [
       new HardBreak(),
       new History(),
@@ -146,7 +137,7 @@ export default class EpContent extends Mixins(EpValidation) {
       new Bold(),
       new Italic(),
       new Strike(),
-      linkImplementation,
+      new CustomLink(this.linkkiHandler),
       new BulletList(),
       new OrderedList(),
       new ListItem(),
