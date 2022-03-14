@@ -72,7 +72,11 @@
 
         <b-form-group class="mt-3">
           <h3 slot="label">{{$t('tavoitteet')}}</h3>
-          <ep-content v-if="kuvaHandler" :value="taitotaso.tavoitteet" :kasiteHandler="kasiteHandler" :kuvaHandler="kuvaHandler"/>
+          <ep-content v-if="kuvaHandler"
+                      :value="taitotaso.tavoitteet"
+                      :kasiteHandler="kasiteHandler"
+                      :kuvaHandler="kuvaHandler"
+                      layout="normal"/>
           <ep-content-viewer v-else :value="$kaanna(taitotaso.tavoitteet)" :termit="termit" :kuvat="kuvat" />
         </b-form-group>
 
@@ -82,7 +86,11 @@
           <b-form-group class="mt-3 mb-2 p-0" v-if="taitotaso[keskeinenSisalto['object']]">
             <h4 slot="label">{{$t(keskeinenSisalto['otsikko'])}}</h4>
             <h6>{{$t('opiskelija')}}</h6>
-            <ep-content v-if="kuvaHandler" :value="taitotaso[keskeinenSisalto['object']]" :kasiteHandler="kasiteHandler" :kuvaHandler="kuvaHandler"/>
+            <ep-content v-if="kuvaHandler"
+                        :value="taitotaso[keskeinenSisalto['object']]"
+                        :kasiteHandler="kasiteHandler"
+                        :kuvaHandler="kuvaHandler"
+                        layout="normal"/>
             <ep-content-viewer v-else :value="$kaanna(taitotaso[keskeinenSisalto['object']])" :termit="termit" :kuvat="kuvat" />
           </b-form-group>
         </div>
