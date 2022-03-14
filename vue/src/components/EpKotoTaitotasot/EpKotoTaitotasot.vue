@@ -41,7 +41,10 @@
 
           <h3 class="mt-4">{{$t('opiskelijan-osaaminen')}}</h3>
 
-          <b-form-group v-for="(sisalto, index) in sisalto.keskeisetsisallot" :key="'sisalto'+index" :label="$t(sisalto['otsikko'])" class="mt-4">
+          <b-form-group v-for="(sisalto, index) in sisalto.keskeisetsisallot"
+                        :key="'sisalto'+index"
+                        :label="sisalto['otsikko'] ? $t(sisalto['otsikko']) : ''"
+                        :label-class="sisalto['otsikko'] ? 'mt-4' : ''">
             <h6>{{$t('opiskelija')}}</h6>
             <ep-content v-model="taitotaso[sisalto['object']]"
                         layout="normal"
@@ -84,7 +87,9 @@
 
         <div v-for="(keskeinenSisalto, index) in keskeisetSisallot" :key="'sisalto'+index">
           <b-form-group class="mt-3 mb-2 p-0" v-if="taitotaso[keskeinenSisalto['object']]">
-            <h4 slot="label">{{$t(keskeinenSisalto['otsikko'])}}</h4>
+            <template v-if="keskeinenSisalto['otsikko']">
+              <h4 slot="label">{{$t(keskeinenSisalto['otsikko'])}}</h4>
+            </template>
             <h6>{{$t('opiskelija')}}</h6>
             <ep-content v-if="kuvaHandler"
                         :value="taitotaso[keskeinenSisalto['object']]"
@@ -215,12 +220,7 @@ export default class EpKotoTaitotasot extends Vue {
         'poista-taitotaso': 'poista-opintokokonaisuus',
         keskeisetsisallot: [
           {
-            otsikko: 'aihealueet',
-            object: 'aihealueet',
-          },
-          {
-            otsikko: 'opiskelijan-taidot',
-            object: 'opiskelijantaidot',
+            object: 'opiskelijanTyoelamataidot',
           },
         ],
       },
@@ -263,6 +263,9 @@ export default class EpKotoTaitotasot extends Vue {
       {
         otsikko: 'opiskelijan-taidot',
         object: 'opiskelijantaidot',
+      },
+      {
+        object: 'opiskelijanTyoelamataidot',
       },
       {
         otsikko: 'suullinen-vastaanottaminen',
