@@ -31,6 +31,23 @@
             </template>
           </EpKoodistoSelect>
 
+          <div class="d-flex align-items-center mt-4" v-if="isOpintokokonaisuus">
+            <b-form-group class="col-2" :label="$t('laajuus-vahintaan')">
+              <ep-input type="number" is-editing v-model="taitotaso.tyoelamaOpintoMinimiLaajuus">
+              </ep-input>
+            </b-form-group>
+            <div class="ml-3 mr-3 pt-3">
+              -
+            </div>
+            <b-form-group class="col-2" :label="$t('laajuus-enintaan')">
+              <ep-input type="number" is-editing v-model="taitotaso.tyoelamaOpintoMaksimiLaajuus">
+              </ep-input>
+            </b-form-group>
+            <div class="ml-3 pt-3">
+              {{$t('op')}}
+            </div>
+          </div>
+
           <b-form-group :label="$t('tavoitteet')" required class="mt-4">
             <ep-content v-model="taitotaso.tavoitteet"
                         layout="normal"
@@ -160,6 +177,10 @@ export default class EpKotoTaitotasot extends Vue {
 
   get taitotasot() {
     return this.value;
+  }
+
+  get isOpintokokonaisuus() {
+    return this.taitotasoTyyppi === TaitotasoTyyppi.opintokokonaisuus;
   }
 
   set taitotasot(value) {

@@ -975,6 +975,8 @@
     "laajuus": "Laajuus",
     "laajuus-maarita-alueella": "Määritä koulutuksen laajuus",
     "laajuus-otsikko": "Laajuus",
+    "laajuus-enintaan": "Laajuus enintään",
+    "laajuus-vahintaan": "Laajuus vähintään",
     "laajuusyksikko": "Laajuuden yksikkö",
     "ladataan-koodistoa": "Ladataan koodistoa...",
     "ladataan-tyoryhman-tietoja": "Haetaan työryhmien tietoja",
