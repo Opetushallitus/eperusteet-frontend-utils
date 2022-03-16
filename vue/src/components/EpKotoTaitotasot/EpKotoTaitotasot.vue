@@ -88,7 +88,7 @@
       <div v-for="(taitotaso, index) in taitotasot" :key="taitotaso+index">
         <hr v-if="index > 0" class="mb-4"/>
 
-        <h2 v-if="taitotaso.nimi">{{$kaanna(taitotaso.nimi.nimi)}}</h2>
+        <h2 v-if="taitotaso.nimi">{{ taitotasoOtsikko(taitotaso) }}</h2>
 
         <b-form-group class="mt-3">
           <h3 slot="label">{{$t('tavoitteet')}}</h3>
@@ -227,6 +227,14 @@ export default class EpKotoTaitotasot extends Vue {
         name: 'taitotasot',
       },
     };
+  }
+
+  taitotasoOtsikko(taitotaso) {
+    if (this.taitotasoTyyppi === TaitotasoTyyppi.kielitaitotaso){
+      return this.$kaanna(taitotaso.nimi.nimi);
+    }
+
+    return `${this.$kaanna(taitotaso.nimi.nimi)}, ${taitotaso.tyoelamaOpintoMinimiLaajuus} - ${taitotaso.tyoelamaOpintoMaksimiLaajuus} ${this.$t('op')}`;
   }
 
   get sisalto() {
