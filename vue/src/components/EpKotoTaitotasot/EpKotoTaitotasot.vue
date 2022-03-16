@@ -230,7 +230,7 @@ export default class EpKotoTaitotasot extends Vue {
   }
 
   taitotasoOtsikko(taitotaso) {
-    if (this.taitotasoTyyppi === TaitotasoTyyppi.kielitaitotaso){
+    if (this.taitotasoTyyppi === TaitotasoTyyppi.kielitaitotaso) {
       return this.$kaanna(taitotaso.nimi.nimi);
     }
 
