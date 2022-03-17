@@ -31,22 +31,24 @@
             </template>
           </EpKoodistoSelect>
 
-          <div class="d-flex align-items-center mt-4" v-if="isOpintokokonaisuus">
-            <b-form-group class="col-2" :label="$t('laajuus-vahintaan')">
-              <ep-input type="number" is-editing v-model="taitotaso.tyoelamaOpintoMinimiLaajuus">
-              </ep-input>
-            </b-form-group>
-            <div class="ml-3 mr-3 pt-3">
-              -
+          <b-form-group class="col-5 mt-2" v-if="isOpintokokonaisuus">
+            <div class="d-flex align-items-center">
+              <b-form-group :label="$t('laajuus-vahintaan')">
+                <ep-input type="number" is-editing v-model="taitotaso.tyoelamaOpintoMinimiLaajuus">
+                </ep-input>
+              </b-form-group>
+              <div class="ml-2 pt-3">
+                -
+              </div>
+              <b-form-group :label="$t('laajuus-enintaan')" class="ml-2">
+                <ep-input type="number" is-editing v-model="taitotaso.tyoelamaOpintoMaksimiLaajuus">
+                </ep-input>
+              </b-form-group>
+              <div class="ml-2 pt-3">
+                {{$t('op')}}
+              </div>
             </div>
-            <b-form-group class="col-2" :label="$t('laajuus-enintaan')">
-              <ep-input type="number" is-editing v-model="taitotaso.tyoelamaOpintoMaksimiLaajuus">
-              </ep-input>
-            </b-form-group>
-            <div class="ml-3 pt-3">
-              {{$t('op')}}
-            </div>
-          </div>
+          </b-form-group>
 
           <b-form-group :label="$t('tavoitteet')" required class="mt-4">
             <ep-content v-model="taitotaso.tavoitteet"
