@@ -50,7 +50,7 @@
             </div>
           </b-form-group>
 
-          <b-form-group :label="$t('tavoitteet')" required class="mt-4">
+          <b-form-group :label="tavoitteetOtsikko" required class="mt-4">
             <ep-content v-model="taitotaso.tavoitteet"
                         layout="normal"
                         :is-editable="isEditing"
@@ -93,7 +93,7 @@
         <h2 v-if="taitotaso.nimi">{{taitotasoOtsikko(taitotaso)}}</h2>
 
         <b-form-group class="mt-3">
-          <h3 slot="label">{{$t('tavoitteet')}}</h3>
+          <h3 slot="label">{{tavoitteetOtsikko}}</h3>
           <ep-content v-if="kuvaHandler"
                       :value="taitotaso.tavoitteet"
                       :kasiteHandler="kasiteHandler"
@@ -229,6 +229,14 @@ export default class EpKotoTaitotasot extends Vue {
         name: 'taitotasot',
       },
     };
+  }
+
+  get tavoitteetOtsikko() {
+    if (this.taitotasoTyyppi === TaitotasoTyyppi.kielitaitotaso) {
+      return this.$t('tavoitteet');
+    }
+
+    return this.$t('tavoitteet-ja-sisallot');
   }
 
   taitotasoOtsikko(taitotaso) {
