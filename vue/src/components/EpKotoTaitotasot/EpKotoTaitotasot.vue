@@ -31,24 +31,26 @@
             </template>
           </EpKoodistoSelect>
 
-          <div class="d-flex align-items-center mt-4" v-if="isOpintokokonaisuus">
-            <b-form-group class="col-2" :label="$t('laajuus-vahintaan')">
-              <ep-input type="number" is-editing v-model="taitotaso.tyoelamaOpintoMinimiLaajuus">
-              </ep-input>
-            </b-form-group>
-            <div class="ml-3 mr-3 pt-3">
-              -
+          <b-form-group class="col-5 mt-2" v-if="isOpintokokonaisuus">
+            <div class="d-flex align-items-center">
+              <b-form-group :label="$t('laajuus-vahintaan')">
+                <ep-input type="number" is-editing v-model="taitotaso.tyoelamaOpintoMinimiLaajuus">
+                </ep-input>
+              </b-form-group>
+              <div class="ml-2 pt-3">
+                -
+              </div>
+              <b-form-group :label="$t('laajuus-enintaan')" class="ml-2">
+                <ep-input type="number" is-editing v-model="taitotaso.tyoelamaOpintoMaksimiLaajuus">
+                </ep-input>
+              </b-form-group>
+              <div class="ml-2 pt-3">
+                {{$t('op')}}
+              </div>
             </div>
-            <b-form-group class="col-2" :label="$t('laajuus-enintaan')">
-              <ep-input type="number" is-editing v-model="taitotaso.tyoelamaOpintoMaksimiLaajuus">
-              </ep-input>
-            </b-form-group>
-            <div class="ml-3 pt-3">
-              {{$t('op')}}
-            </div>
-          </div>
+          </b-form-group>
 
-          <b-form-group :label="$t('tavoitteet')" required class="mt-4">
+          <b-form-group :label="tavoitteetOtsikko" required class="mt-4">
             <ep-content v-model="taitotaso.tavoitteet"
                         layout="normal"
                         :is-editable="isEditing"
@@ -91,7 +93,7 @@
         <h2 v-if="taitotaso.nimi">{{taitotasoOtsikko(taitotaso)}}</h2>
 
         <b-form-group class="mt-3">
-          <h3 slot="label">{{$t('tavoitteet')}}</h3>
+          <h3 slot="label">{{tavoitteetOtsikko}}</h3>
           <ep-content v-if="kuvaHandler"
                       :value="taitotaso.tavoitteet"
                       :kasiteHandler="kasiteHandler"
@@ -227,6 +229,14 @@ export default class EpKotoTaitotasot extends Vue {
         name: 'taitotasot',
       },
     };
+  }
+
+  get tavoitteetOtsikko() {
+    if (this.taitotasoTyyppi === TaitotasoTyyppi.kielitaitotaso) {
+      return this.$t('tavoitteet');
+    }
+
+    return this.$t('tavoitteet-ja-sisallot');
   }
 
   taitotasoOtsikko(taitotaso) {
