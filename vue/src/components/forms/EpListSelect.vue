@@ -39,7 +39,6 @@ import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import EpValidation from '../../mixins/EpValidation';
 import _ from 'lodash';
 
-
 @Component({
   components: {
     EpContent,
@@ -104,7 +103,6 @@ export default class EpListSelect extends Mixins(EpValidation) {
   private onListFocus() {
     this.hasFocus = true;
   }
-
 }
 
 </script>
@@ -140,6 +138,5 @@ export default class EpListSelect extends Mixins(EpValidation) {
     border-top: none;
   }
 }
-
 
 </style>
