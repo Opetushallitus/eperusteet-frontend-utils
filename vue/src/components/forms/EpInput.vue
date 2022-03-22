@@ -4,8 +4,8 @@
     <input class="input-style form-control"
            :class="[ inputClass ]"
            :placeholder="placeholder"
-           @focus="onFocus"
-           @blur="onBlur"
+           @focus="onInputFocus"
+           @blur="onInputBlur"
            @input="onInput($event.target.value)"
            :type="type === 'number' ? 'number' : 'text'"
            v-bind="$attrs"
@@ -166,6 +166,14 @@ export default class EpInput extends Mixins(EpValidation) {
     }
 
     // this.touch();
+  }
+
+  private onInputFocus() {
+    this.$emit('focus');
+  }
+
+  private onInputBlur() {
+    this.$emit('blur');
   }
 
   get val() {
