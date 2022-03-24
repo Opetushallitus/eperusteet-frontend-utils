@@ -90,6 +90,7 @@ export function osaToLocation(osa: OsanTyypillinen): Location {
   case 'koulutuksenosa':
   case 'opintokokonaisuus':
   case 'koto_opinto':
+  case 'koto_laajaalainenosaaminen':
   default:
     return {};
   }
@@ -315,6 +316,15 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       },
     };
     break;
+  case 'koto_laajaalainenosaaminen':
+    node.location = {
+      name: 'perusteKotoLaajaalainenOsaaminen',
+      params: {
+        kotoLaajaalainenOsaaminenId: _.toString(rawNode.id),
+      },
+    };
+    break;
+
   case 'opetuksenyleisettavoitteet':
     node.location = {
       name: 'perusteYleisettavoitteet',
