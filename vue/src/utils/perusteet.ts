@@ -20,6 +20,7 @@ export const EperusteetKoulutustyypit = Object.freeze([
   'koulutustyyppi_23', // valmistava lukiokoulutus
   'koulutustyyppi_999907', // taiteen perusopetus,
   'koulutustyyppi_10', // vapaa sivistystyo
+  'koulutustyyppi_30', // aikuisten maahanmuuttajien kotoutumiskoulutus
   'koulutustyyppi_35', // vapaa sivistystyo lukutaito
   'koulutustyyppi_40', // tutkintoon valmentava
 ]);

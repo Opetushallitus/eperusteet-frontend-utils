@@ -28,7 +28,9 @@
 import * as _ from 'lodash';
 import { Component, InjectReactive, Mixins, Prop, Watch } from 'vue-property-decorator';
 import { Editor, EditorContent } from 'tiptap';
-import { Link,
+import { delay } from '@shared/utils/delay';
+import { Kielet } from '@shared/stores/kieli';
+import {
   Blockquote,
   Bold,
   Underline,
@@ -44,8 +46,6 @@ import { Link,
   TableHeader,
   TableRow,
 } from 'tiptap-extensions';
-import { delay } from '@shared/utils/delay';
-import { Kielet } from '@shared/stores/kieli';
 
 import EpEditorMenuBar from './EpEditorMenuBar.vue';
 import Sticky from 'vue-sticky-directive';
@@ -130,14 +130,6 @@ export default class EpContent extends Mixins(EpValidation) {
   }
 
   mounted() {
-    let linkImplementation: any = null;
-    try {
-      linkImplementation = new CustomLink(this.linkkiHandler);
-    }
-    catch (err) {
-      linkImplementation = new Link();
-    }
-
     const extensions = [
       new HardBreak(),
       new History(),
@@ -145,7 +137,7 @@ export default class EpContent extends Mixins(EpValidation) {
       new Bold(),
       new Italic(),
       new Strike(),
-      linkImplementation,
+      new CustomLink(this.linkkiHandler),
       new BulletList(),
       new OrderedList(),
       new ListItem(),
