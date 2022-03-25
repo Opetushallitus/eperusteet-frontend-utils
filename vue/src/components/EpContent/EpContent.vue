@@ -130,6 +130,14 @@ export default class EpContent extends Mixins(EpValidation) {
   }
 
   mounted() {
+    let linkImplementation: any = null;
+    try {
+      linkImplementation = new CustomLink(this.linkkiHandler);
+    }
+    catch (err) {
+      linkImplementation = new Link();
+    }
+
     const extensions = [
       new HardBreak(),
       new History(),
@@ -137,7 +145,7 @@ export default class EpContent extends Mixins(EpValidation) {
       new Bold(),
       new Italic(),
       new Strike(),
-      new CustomLink(this.linkkiHandler),
+      linkImplementation,
       new BulletList(),
       new OrderedList(),
       new ListItem(),
