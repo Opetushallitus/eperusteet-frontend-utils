@@ -39,6 +39,7 @@ import {
   HardBreak,
   History,
   BulletList,
+  Link,
   ListItem,
   OrderedList,
   Table,
