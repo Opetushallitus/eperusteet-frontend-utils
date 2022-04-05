@@ -30,13 +30,14 @@ describe('EpSelect component', () => {
       data() {
         return props;
       },
-      template: '<ep-select :items="items" v-model="value" :is-editing="isEditing" :multiple="multiple" :help="help" :validation="validation" :useCheckboxes="useCheckboxes"/>',
+      template: '<ep-select :items="items" v-model="value" :is-editing="isEditing" :multiple="multiple" :help="help" :validation="validation" :useCheckboxes="useCheckboxes" :enableEmptyOption="enableEmptyOption"/>',
     }), {
       stubs: {
         fas: true,
       },
       localVue,
       i18n,
+      sync: false,
     });
   };
 
@@ -49,6 +50,7 @@ describe('EpSelect component', () => {
       help: 'apu-teksti',
       validation: '',
       useCheckboxes: false,
+      enableEmptyOption: true,
     });
 
     expect(wrapper.html()).toContain('arvo1');
@@ -67,6 +69,7 @@ describe('EpSelect component', () => {
       help: 'apu-teksti',
       validation: '',
       useCheckboxes: false,
+      enableEmptyOption: true,
     });
 
     expect(wrapper.html()).toContain('arvo1');
@@ -87,6 +90,7 @@ describe('EpSelect component', () => {
         $touch: jest.fn(),
       },
       useCheckboxes: false,
+      enableEmptyOption: true,
     });
 
     expect(wrapper.vm.value).toHaveLength(1);
@@ -109,6 +113,7 @@ describe('EpSelect component', () => {
       validation: {
         $touch: jest.fn(),
       },
+      enableEmptyOption: true,
     });
 
     expect(wrapper.vm.value).toHaveLength(1);
@@ -130,6 +135,7 @@ describe('EpSelect component', () => {
       validation: {
         $touch: jest.fn(),
       },
+      enableEmptyOption: true,
     });
 
     expect(wrapper.findAll('input[type="checkbox"]')).toHaveLength(3);
@@ -137,6 +143,7 @@ describe('EpSelect component', () => {
 
     wrapper.findAll('input[type="checkbox"]').at(2)
       .setChecked();
+    await localVue.nextTick();
     expect(wrapper.vm.value).toEqual(['arvo1', 'arvo3']);
 
     expect(wrapper.vm.value).toHaveLength(2);
@@ -145,8 +152,58 @@ describe('EpSelect component', () => {
 
     wrapper.findAll('input[type="checkbox"]').at(0)
       .setChecked(false);
+    await localVue.nextTick();
     expect(wrapper.vm.value).toHaveLength(1);
     expect(wrapper.vm.value[0]).toBe('arvo3');
+
+    expect(wrapper.vm.validation.$touch).toBeCalled();
+  });
+
+  test('Empty option disabled', async () => {
+    const singleValue = null;
+
+    const wrapper = mountWrapper({
+      isEditing: true,
+      items: itemMock,
+      value: singleValue,
+      multiple: false,
+      help: '',
+      useCheckboxes: false,
+      validation: {
+        $touch: jest.fn(),
+      },
+      enableEmptyOption: false,
+    });
+
+    await localVue.nextTick();
+    expect(wrapper.vm.value).toBe('arvo1');
+    wrapper.findAll('option').at(2)
+      .setSelected();
+    expect(wrapper.vm.value).toBe('arvo3');
+
+    expect(wrapper.vm.validation.$touch).toBeCalled();
+  });
+
+  test('Empty option disabled with default value', async () => {
+    const singleValue = 'arvo2';
+
+    const wrapper = mountWrapper({
+      isEditing: true,
+      items: itemMock,
+      value: singleValue,
+      multiple: false,
+      help: '',
+      useCheckboxes: false,
+      validation: {
+        $touch: jest.fn(),
+      },
+      enableEmptyOption: false,
+    });
+
+    expect(wrapper.vm.value).toBe('arvo2');
+    wrapper.findAll('option').at(2)
+      .setSelected();
+    expect(wrapper.vm.value).toBe('arvo3');
 
     expect(wrapper.vm.validation.$touch).toBeCalled();
   });
