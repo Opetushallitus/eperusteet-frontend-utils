@@ -53,7 +53,7 @@
 
 <script lang="ts">
 import _ from 'lodash';
-import { Component, Prop, Mixins } from 'vue-property-decorator';
+import { Component, Prop, Mixins, Watch } from 'vue-property-decorator';
 
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import EpValidation from '../../mixins/EpValidation';
@@ -124,15 +124,18 @@ export default class EpSelect extends Mixins(EpValidation) {
     if (this.value) {
       return this.value;
     }
-
-    else if (!_.isEmpty(this.items) && !this.enableEmptyOption) {
-      return _.first(this.items);
-    }
     else if (this.multiple) {
       return [];
     }
     else {
       return null;
+    }
+  }
+
+  @Watch('items', { immediate: true })
+  itemsChange() {
+    if (!this.enableEmptyOption && _.size(this.items) > 0 && this.value === null && !this.multiple) {
+      this.innerModel = _.first(this.items);
     }
   }
 }
