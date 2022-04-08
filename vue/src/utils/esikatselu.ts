@@ -9,7 +9,7 @@ export function buildLangUrl(kieli) {
 }
 
 export function buildBetaUrl() {
-  return `${buildBaseUrl()}/beta`;
+  return `${buildBaseUrl()}`;
 }
 
 export function buildBaseUrl() {
