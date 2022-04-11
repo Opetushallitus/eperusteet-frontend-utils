@@ -36,7 +36,10 @@
       <slot name="singleLabel" :option="option"></slot>
     </template>
     <template slot="option" slot-scope="{ option, search }">
-      <slot name="option" :option="option" :search="search"></slot>
+      <input type="checkbox" :checked="optionChecked(option)"/>
+      <slot name="option" :option="option" :search="search">
+        <span class="ml-2">{{getOptionLabel(option)}}</span>
+      </slot>
     </template>
     <template
       slot="tag" slot-scope="{ option, search, remove }">
@@ -51,6 +54,9 @@
       <slot name="noOptions">
         <div>{{ $t('ei-vaihtoehtoja') }}</div>
       </slot>
+    </template>
+    <template slot="selection" slot-scope="{ values, search, isOpen }">
+      <slot name="selection" :values="values" :search="search" :isOpen="isOpen"></slot>
     </template>
   </multiselect>
   <div class="valid-feedback" v-if="!validationError && validMessage">{{ $t(validMessage) }}</div>
@@ -97,8 +103,8 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
   @Prop()
   private label!: string;
 
-  @Prop()
-  private customLabel;
+  @Prop({ required: false })
+  private customLabel!: Function;
 
   @Prop({ required: true })
   private options!: any[];
@@ -163,8 +169,22 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
     return this.value;
   }
 
+  get hasValue() {
+    return !_.isEmpty(this.value);
+  }
+
   get track() {
     return this.trackBy;
+  }
+
+  optionChecked(option) {
+    return option === this.value || !_.isEmpty(_.filter(this.value, option));
+  }
+
+  getOptionLabel(option) {
+    if (_.isEmpty(option)) return '';
+    if (!_.isEmpty(this.label) && !_.isEmpty(_.get(option, this.label))) return _.get(option, this.label);
+    return option;
   }
 
   private changed(value: any) {
@@ -196,8 +216,9 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
 /deep/ .multiselect__tags {
   border: 2px solid #E0E0E1;
   border-radius: 10px;
-  font-size: 1rem;
+  // font-size: 1rem;
   background-color: $white;
+  padding-left:10px;
 }
 
 /deep/ .multiselect__tag {
@@ -266,5 +287,19 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
   background: none !important;
   color: $disabled !important;
 }
+
+::v-deep .multiselect__option--selected {
+  font-weight: 400;
+}
+
+::v-deep .multiselect__input {
+  padding-left: 0px;
+  font-size: 14px;
+}
+
+::v-deep .multiselect__option--highlight {
+    background-color: #bbb;
+    color: #fff;
+  }
 
 </style>
