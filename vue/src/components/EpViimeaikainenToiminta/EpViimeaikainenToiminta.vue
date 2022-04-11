@@ -59,7 +59,6 @@ import EpButton from '@shared/components/EpButton/EpButton.vue';
 import { muokkaustietoRoute, muokkaustietoIcon } from '@shared/utils/tapahtuma';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 import { IMuokkaustietoProvider, Muokkaustieto } from './types';
-import { PerusteDto } from '@shared/api/eperusteet';
 
 @Component({
   components: {
@@ -71,8 +70,8 @@ export default class EpViimeaikainenToiminta extends Vue {
   @Prop({ required: true })
   private muokkaustietoStore!: IMuokkaustietoProvider;
 
-  @Prop({ required: true })
-  private peruste!: PerusteDto;
+  @Prop({ required: false, default: 'ops' })
+  private tyyppi!: string;
 
   private lisahaku: boolean = false;
 
@@ -99,7 +98,7 @@ export default class EpViimeaikainenToiminta extends Vue {
       .map((muokkaustieto: Muokkaustieto) => {
         return {
           ...muokkaustieto,
-          route: muokkaustietoRoute(muokkaustieto.kohdeId, muokkaustieto.kohde, muokkaustieto.tapahtuma, this.peruste?.tyyppi),
+          route: muokkaustietoRoute(muokkaustieto.kohdeId, muokkaustieto.kohde, muokkaustieto.tapahtuma, this.tyyppi),
           icon: muokkaustietoIcon(muokkaustieto.kohde, muokkaustieto.tapahtuma),
           iconClass: this.muokkaustietoIconClass(muokkaustieto),
           kayttajaNimi: muokkaustieto.kayttajanTieto ? parsiEsitysnimi(muokkaustieto.kayttajanTieto) : muokkaustieto.muokkaaja,
