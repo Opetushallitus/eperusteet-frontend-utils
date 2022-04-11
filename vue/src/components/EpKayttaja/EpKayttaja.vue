@@ -53,6 +53,10 @@
               </div>
             </div>
           </b-dd-item-button>
+          <div class="d-flex justify-content-end" v-if="hasLukuOikeusKoulutustoimijoita">
+            <fas icon="eye" class="vain-luku mt-1 mr-2"/>
+            <ep-toggle v-model="naytaLukuoikeusKoulutustoimijat" :title="$t('lukuoikeus')"/>
+          </div>
         </div>
       </div>
     </ep-collapse>
@@ -161,12 +165,14 @@ import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import { setItem } from '@shared/utils/localstorage';
 import { SovellusOikeus } from '@shared/plugins/oikeustarkastelu';
 import EpSearch from '@shared/components/forms/EpSearch.vue';
+import EpToggle from '@shared/components/forms/EpToggle.vue';
 
 @Component({
   components: {
     EpCollapse,
     EpSpinner,
     EpSearch,
+    EpToggle,
   },
 })
 export default class EpKayttaja extends Vue {
@@ -186,6 +192,7 @@ export default class EpKayttaja extends Vue {
   private logoutHref!: string;
 
   private koulutustoimijaQuery = '';
+  private naytaLukuoikeusKoulutustoimijat = true;
 
   get esitysnimi() {
     return parsiEsitysnimi(this.tiedot);
@@ -208,9 +215,16 @@ export default class EpKayttaja extends Vue {
     }
   }
 
+  get hasLukuOikeusKoulutustoimijoita() {
+    if (this.koulutustoimijat) {
+      return !_.isEmpty(_.filter(this.koulutustoimijat, { oikeus: 'luku' }));
+    }
+  }
+
   get koulutustoimijatFilteredSorted() {
     return _.chain(this.koulutustoimijat)
       .filter(kt => Kielet.search(this.koulutustoimijaQuery, kt.nimi))
+      .filter(kt => this.naytaLukuoikeusKoulutustoimijat || kt.oikeus !== 'luku')
       .map(kt => {
         return {
           ...kt,
