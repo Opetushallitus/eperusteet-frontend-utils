@@ -36,7 +36,7 @@
       <slot name="singleLabel" :option="option"></slot>
     </template>
     <template slot="option" slot-scope="{ option, search }">
-      <input type="checkbox" :checked="optionChecked(option)"/>
+      <input type="checkbox" :checked="optionChecked(option)" v-if="multiple"/>
       <slot name="option" :option="option" :search="search">
         <span class="ml-2">{{getOptionLabel(option)}}</span>
       </slot>
