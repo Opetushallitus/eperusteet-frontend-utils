@@ -80,7 +80,7 @@
                 <ep-button id="editointi-muokkaus"
                            v-tutorial
                            variant="link"
-                           v-oikeustarkastelu="{ oikeus: 'muokkaus' }"
+                           v-oikeustarkastelu="muokkausOikeustarkastelu"
                            @click="modify()"
                            v-else-if="!isEditing && features.editable && !versiohistoriaVisible"
                            icon="kyna"
@@ -91,7 +91,7 @@
                 <ep-button id="editointi-kopiointi"
                           v-tutorial
                           variant="link"
-                          v-oikeustarkastelu="{ oikeus: 'muokkaus' }"
+                          v-oikeustarkastelu="muokkausOikeustarkastelu"
                           @click="copy()"
                           v-else-if="!isEditing && features.copyable"
                           icon="kyna"
@@ -334,6 +334,12 @@ export default class EpEditointi extends Mixins(validationMixin) {
 
   @Prop({ required: false, default: false })
   private useContainer!: boolean;
+
+  @Prop({ required: false,
+    default: () => ({
+      oikeus: 'muokkaus',
+    }) })
+  private muokkausOikeustarkastelu!: any;
 
   private sidebarState = 0;
 

@@ -24,6 +24,7 @@ export import NavigationNodeDtoTypeEnum = AmosaaApi.NavigationNodeDtoTypeEnum;
 export import OpetussuunnitelmaLuontiDtoTyyppiEnum = AmosaaApi.OpetussuunnitelmaLuontiDtoTyyppiEnum;
 export import OpintokokonaisuusDtoTyyppiEnum = AmosaaApi.OpintokokonaisuusDtoTyyppiEnum;
 export import KoulutuksenOsaDtoKoulutusOsanTyyppiEnum = AmosaaApi.KoulutuksenOsaDtoKoulutusOsanTyyppiEnum;
+export import KayttajaoikeusDtoOikeusEnum = AmosaaApi.KayttajaoikeusDtoOikeusEnum;
 
 const logger = createLogger('AmosaaAxios');
 const basePath = '';

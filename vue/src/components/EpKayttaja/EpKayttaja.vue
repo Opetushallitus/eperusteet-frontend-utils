@@ -39,6 +39,10 @@
         </template>
 
         <div class="koulutustoimijat mb-2">
+          <div class="d-flex justify-content-end" v-if="hasLukuOikeusKoulutustoimijoita">
+            <fas icon="eye" class="vain-luku mt-1 mr-2"/>
+            <ep-toggle v-model="naytaLukuoikeusKoulutustoimijat" :title="$t('lukuoikeus')"/>
+          </div>
           <b-dd-item-button @click="valitseOrganisaatio(kt)"
                             v-for="kt in koulutustoimijatFilteredSorted"
                             :key="kt.id"
@@ -53,10 +57,6 @@
               </div>
             </div>
           </b-dd-item-button>
-          <div class="d-flex justify-content-end" v-if="hasLukuOikeusKoulutustoimijoita">
-            <fas icon="eye" class="vain-luku mt-1 mr-2"/>
-            <ep-toggle v-model="naytaLukuoikeusKoulutustoimijat" :title="$t('lukuoikeus')"/>
-          </div>
         </div>
       </div>
     </ep-collapse>
@@ -217,7 +217,7 @@ export default class EpKayttaja extends Vue {
 
   get hasLukuOikeusKoulutustoimijoita() {
     if (this.koulutustoimijat) {
-      return !_.isEmpty(_.filter(this.koulutustoimijat, { oikeus: 'luku' }));
+      return !_.isEmpty(_.filter(this.koulutustoimijat, { oikeus: 'luku' })) && !_.isEmpty(_.reject(this.koulutustoimijat, { oikeus: 'luku' }));
     }
   }
 
