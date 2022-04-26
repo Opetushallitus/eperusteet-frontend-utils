@@ -166,7 +166,6 @@ import { setItem } from '@shared/utils/localstorage';
 import { SovellusOikeus } from '@shared/plugins/oikeustarkastelu';
 import EpSearch from '@shared/components/forms/EpSearch.vue';
 import EpToggle from '@shared/components/forms/EpToggle.vue';
-import { KoulutustoimijaDto } from '@shared/api/amosaa';
 
 @Component({
   components: {
@@ -181,7 +180,7 @@ export default class EpKayttaja extends Vue {
   private tiedot!: IEsitysnimi;
 
   @Prop({})
-  private koulutustoimija!: KoulutustoimijaDto | null;
+  private koulutustoimija!: any | null;
 
   @Prop({})
   private koulutustoimijat!: any[] | null;
