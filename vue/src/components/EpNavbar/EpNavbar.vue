@@ -93,6 +93,7 @@ import { Location } from 'vue-router';
 import EpKayttaja from '../../components/EpKayttaja/EpKayttaja.vue';
 import { BrowserStore } from '../../stores/BrowserStore';
 import { SovellusOikeus } from '@shared/plugins/oikeustarkastelu';
+import { KoulutustoimijaDto } from '@shared/api/amosaa';
 
 interface Breadcrumb {
   label: string;
@@ -123,6 +124,9 @@ export default class EpNavbar extends Vue {
   @Prop({ required: false })
   private koulutustoimijat!: any;
 
+  @Prop({ required: false })
+  private koulutustoimija!: KoulutustoimijaDto;
+
   @Prop({ required: false, type: Object, default: () => ({ name: 'root' }) })
   private rootNavigation!:any;
 
@@ -135,10 +139,6 @@ export default class EpNavbar extends Vue {
 
   get murut() {
     return Murupolku.murut;
-  }
-
-  get koulutustoimija() {
-    return _.toNumber(this.$route?.params?.koulutustoimijaId);
   }
 
   get sisaltoKieli() {

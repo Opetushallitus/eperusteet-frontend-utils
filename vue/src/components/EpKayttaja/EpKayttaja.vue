@@ -5,14 +5,14 @@
       <div class="d-flex flex-row">
         <div class="kayttaja-valikko d-flex flex-column">
           <span class="kielivalitsin text-right">{{ esitysnimi }}</span>
-          <small v-if="valittuKoulutustoimija" class="valittu-koulutustoimija text-right">{{ $kaanna(valittuKoulutustoimija.nimi) }}</small>
+          <small v-if="koulutustoimija" class="valittu-koulutustoimija text-right">{{ $kaanna(koulutustoimija.nimi) }}</small>
         </div>
         <fas fixed-width icon="chevron-down" class="mx-2 my-1" />
       </div>
     </template>
 
     <!-- Koulutustoimija -->
-    <ep-collapse :expanded-by-default="false" v-if="valittuKoulutustoimija" :use-padding="false" :border-bottom="false">
+    <ep-collapse :expanded-by-default="false" v-if="koulutustoimija" :use-padding="false" :border-bottom="false">
       <div slot="header">
         <div class="pl-3 pt-2 text-nowrap kieli">
           <fas fixed-width icon="ryhma" class="icon mr-3" />
@@ -20,7 +20,7 @@
         </div>
         <div class="pl-3 text-nowrap">
           <span class="icon mr-3" />
-          <small>{{ $kaanna(valittuKoulutustoimija.nimi) }}</small>
+          <small>{{ $kaanna(koulutustoimija.nimi) }}</small>
         </div>
       </div>
 
@@ -46,7 +46,7 @@
           <b-dd-item-button @click="valitseOrganisaatio(kt)"
                             v-for="kt in koulutustoimijatFilteredSorted"
                             :key="kt.id"
-                            :disabled="koulutustoimija === kt.id">
+                            :disabled="koulutustoimija.id === kt.id">
             <div class="row">
               <div class="collapse-tausta-valinta-icon col-1">
                 <fas fixed-width icon="checkmark" v-if="koulutustoimija === kt.id" class="valittu" />
@@ -166,6 +166,7 @@ import { setItem } from '@shared/utils/localstorage';
 import { SovellusOikeus } from '@shared/plugins/oikeustarkastelu';
 import EpSearch from '@shared/components/forms/EpSearch.vue';
 import EpToggle from '@shared/components/forms/EpToggle.vue';
+import { KoulutustoimijaDto } from '@shared/api/amosaa';
 
 @Component({
   components: {
@@ -180,7 +181,7 @@ export default class EpKayttaja extends Vue {
   private tiedot!: IEsitysnimi;
 
   @Prop({})
-  private koulutustoimija!: number | null;
+  private koulutustoimija!: KoulutustoimijaDto | null;
 
   @Prop({})
   private koulutustoimijat!: any[] | null;
@@ -204,15 +205,6 @@ export default class EpKayttaja extends Vue {
 
   get uiKieli() {
     return Kielet.uiKieli.value;
-  }
-
-  get valittuKoulutustoimija() {
-    if (this.koulutustoimijat && this.koulutustoimija) {
-      return _.find(this.koulutustoimijat, { id: this.koulutustoimija });
-    }
-    else {
-      return null;
-    }
   }
 
   get hasLukuOikeusKoulutustoimijoita() {
