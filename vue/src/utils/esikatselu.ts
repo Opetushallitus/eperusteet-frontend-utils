@@ -8,6 +8,10 @@ export function buildLangUrl(kieli) {
   return `${buildBetaUrl()}/#/${kieli}`;
 }
 
+export function buildVanhaUiUrl(kieli: string) {
+  return `${buildBaseUrl()}/vanha-ui/#/${kieli}`;
+}
+
 export function buildBetaUrl() {
   return `${buildBaseUrl()}`;
 }
