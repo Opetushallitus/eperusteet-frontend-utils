@@ -125,6 +125,9 @@ export interface OpetussuunnitelmaQuery {
   organisaatioRyhma?: boolean,
   oppilaitosTyyppiKoodiUri?: string,
   koulutustyyppi: Array<string>,
+  tuleva?: boolean,
+  voimassaolo?: boolean,
+  poistunut?: boolean,
 };
 
 export async function getJulkisetOpetussuunnitelmat(query: OpetussuunnitelmaQuery) {
@@ -140,5 +143,8 @@ export async function getJulkisetOpetussuunnitelmat(query: OpetussuunnitelmaQuer
     query.kieli,
     query.organisaatioRyhma,
     query.oppilaitosTyyppiKoodiUri,
+    query.tuleva,
+    query.voimassaolo,
+    query.poistunut,
   );
 }
