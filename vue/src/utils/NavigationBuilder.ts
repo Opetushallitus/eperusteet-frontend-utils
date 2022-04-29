@@ -4,11 +4,11 @@ import { Kielet } from '../stores/kieli';
 import { Location } from 'vue-router';
 
 export type NavigationType =
-    'root' | 'viite' | 'tiedot' | 'laajaalaiset'
-    | 'oppiaineet' | 'oppiaine' | 'oppimaarat' | 'poppiaine' | 'lukiooppiaine_2015' | 'lukiooppimaarat_2015' | 'lukiokurssit' | 'lukiokurssi'
-    | 'moduulit' | 'moduuli' |
-    'opintojaksot' | 'opintojakso'
-    | 'perusopetusoppiaineet' | 'perusopetusoppiaine' | 'valinnaisetoppiaineet' | 'vuosiluokkakokonaisuus';
+  'root' | 'viite' | 'tiedot' | 'laajaalaiset'
+  | 'oppiaineet' | 'oppiaine' | 'oppimaarat' | 'poppiaine' | 'lukiooppiaine_2015' | 'lukiooppimaarat_2015' | 'lukiokurssit' | 'lukiokurssi'
+  | 'moduulit' | 'moduuli' |
+  'opintojaksot' | 'opintojakso'
+  | 'perusopetusoppiaineet' | 'perusopetusoppiaine' | 'valinnaisetoppiaineet' | 'vuosiluokkakokonaisuus';
 
 export interface NavigationNode {
   key?: number; // Unique identifier
@@ -91,6 +91,7 @@ export function osaToLocation(osa: OsanTyypillinen): Location {
   case 'opintokokonaisuus':
   case 'koto_opinto':
   case 'koto_laajaalainenosaaminen':
+  case 'linkkisivu':
   default:
     return {};
   }
@@ -324,7 +325,14 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       },
     };
     break;
-
+  case 'linkkisivu':
+    node.location = {
+      name: 'linkkisivu',
+      params: {
+        linkkisivuId: _.toString(rawNode.id),
+      },
+    };
+    break;
   case 'opetuksenyleisettavoitteet':
     node.location = {
       name: 'perusteYleisettavoitteet',
