@@ -110,5 +110,11 @@ $popup-top-background: #2146a3;
 
 $handle-color: #668DEA;
 
+// ammatillisten voimassaolovärit
+$tuleva-color: $green-lighten-2;
+$voimassa-color: $green;
+$siirtyma-color: $yellow-1;
+$paattynyt-color: $red-1;
+
 // Ylikirjoitetaan muuttujien arvot palvelukohtaisilla jos määritelty
 @import "~@/styles/_variables.scss";
