@@ -10,9 +10,11 @@
       <div class="handle" v-if="isEditable && !options.disabled">
         <fas icon="grip-vertical"></fas>
       </div>
-      <div class="chapter">
-        {{ prefix }}{{ idx + 1 }}
-      </div>
+      <slot name="chapter">
+        <div class="chapter">
+          {{ prefix }}{{ idx + 1 }}
+        </div>
+      </slot>
       <div class="name">
         <slot :node="node"></slot>
       </div>
