@@ -206,6 +206,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
     };
     break;
   case 'muodostuminen':
+    node.label = 'tutkinnon-muodostuminen';
     node.location = {
       name: 'perusteenRakenne',
     };
