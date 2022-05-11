@@ -124,7 +124,7 @@ export interface OpetussuunnitelmaQuery {
   kieli?: string;
   organisaatioRyhma?: boolean,
   oppilaitosTyyppiKoodiUri?: string,
-  koulutustyyppi: Array<string>,
+  koulutustyyppi?: Array<string>,
   tuleva?: boolean,
   voimassaolo?: boolean,
   poistunut?: boolean,
@@ -132,7 +132,6 @@ export interface OpetussuunnitelmaQuery {
 
 export async function getJulkisetOpetussuunnitelmat(query: OpetussuunnitelmaQuery) {
   return JulkinenApi.findOpetussuunnitelmatJulkaisut(
-    query.koulutustyyppi,
     query.perusteenDiaarinumero,
     query.perusteId,
     query.organisaatio,
@@ -143,6 +142,7 @@ export async function getJulkisetOpetussuunnitelmat(query: OpetussuunnitelmaQuer
     query.kieli,
     query.organisaatioRyhma,
     query.oppilaitosTyyppiKoodiUri,
+    query.koulutustyyppi,
     query.tuleva,
     query.voimassaolo,
     query.poistunut,
