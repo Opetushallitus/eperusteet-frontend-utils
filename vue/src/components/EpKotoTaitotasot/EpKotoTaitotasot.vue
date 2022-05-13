@@ -254,11 +254,11 @@ export default class EpKotoTaitotasot extends Vue {
 
   private static getLaajuusteksti(minimi, maksimi) {
     if (!minimi) {
-      return maksimi ?? ''
+      return maksimi || '';
     }
 
-    if(!maksimi) {
-      return `vähintään ${minimi}`
+    if (!maksimi) {
+      return `vähintään ${minimi}`;
     }
 
     return `${minimi} - ${maksimi}`;
