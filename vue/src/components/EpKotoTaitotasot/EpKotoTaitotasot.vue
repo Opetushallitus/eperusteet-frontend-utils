@@ -245,10 +245,23 @@ export default class EpKotoTaitotasot extends Vue {
     }
 
     if (taitotaso.tyoelamaOpintoMinimiLaajuus || taitotaso.tyoelamaOpintoMaksimiLaajuus) {
-      return `${this.$kaanna(taitotaso.nimi.nimi)}, ${taitotaso.tyoelamaOpintoMinimiLaajuus} - ${taitotaso.tyoelamaOpintoMaksimiLaajuus} ${this.$t('op')}`;
+      const laajuus = EpKotoTaitotasot.getLaajuusteksti(taitotaso.tyoelamaOpintoMinimiLaajuus, taitotaso.tyoelamaOpintoMaksimiLaajuus);
+      return `${this.$kaanna(taitotaso.nimi.nimi)}, ${laajuus} ${this.$t('op')}`;
     }
 
     return this.$kaanna(taitotaso.nimi.nimi);
+  }
+
+  private static getLaajuusteksti(minimi, maksimi) {
+    if (!minimi) {
+      return maksimi ?? ''
+    }
+
+    if(!maksimi) {
+      return `vähintään ${minimi}`
+    }
+
+    return `${minimi} - ${maksimi}`;
   }
 
   get sisalto() {
