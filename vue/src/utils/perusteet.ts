@@ -432,6 +432,10 @@ export function tutkintoonvalmentava() {
   }];
 }
 
+export function koulutustyypinRyhma(koulutustyyppi) {
+  return _.find(_.keys(EperusteetKoulutustyyppiRyhmat), ryhma => _.includes(EperusteetKoulutustyyppiRyhmat[ryhma], koulutustyyppi));
+}
+
 export function colorize(topic: string) {
   const str = koulutustyyppiThemeColor(topic);
   return rgb2string(str) || 'black';
