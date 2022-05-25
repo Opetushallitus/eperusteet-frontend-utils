@@ -1,0 +1,63 @@
+name: Eperusteet-frontend-utils build
+#TODO muuta kunhan valmis
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - EP-3182-github-actions
+    # Workflow ajetaan jos jokin muu kuin markdown tiedosto muuttui
+    paths-ignore:
+      - '**.md'
+
+jobs:
+  build-and-test-eperusteet-frontend-utils:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node 10
+        uses: actions/setup-node@v3
+        with:
+          node-version: '10'
+
+      - name: Print yarn cache directory path
+        id: yarn-cache-dir-path
+        run: |
+          yarn cache dir
+          echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Cache yarn
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Print npm cache directory
+        id: npm-cache-dir
+        run: |
+          npm config get cache
+          echo "::set-output name=dir::$(npm config get cache)"
+
+      - name: Cache npm
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.npm-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Build eperusteet-frontend-utils
+        run: |
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          chmod +x ./cc-test-reporter
+          ./cc-test-reporter before-build
+          
+          cd vue
+          yarn install --silent
+          yarn run gen:api
+          yarn run lint
+          yarn run test:unit
+
+#          ./cc-test-reporter format-coverage -t lcov ./coverage/lcov.info
+#          ./cc-test-reporter upload-coverage
+#          ./cc-test-reporter after-build
