@@ -1,13 +1,5 @@
 name: Eperusteet-frontend-utils build
-#TODO muuta kunhan valmis
-on:
-  workflow_dispatch:
-  push:
-    branches:
-      - EP-3182-github-actions
-    # Workflow ajetaan jos jokin muu kuin markdown tiedosto muuttui
-    paths-ignore:
-      - '**.md'
+on: [workflow_dispatch, push]
 
 jobs:
   build-and-test-eperusteet-frontend-utils:
@@ -48,16 +40,8 @@ jobs:
 
       - name: Build eperusteet-frontend-utils
         run: |
-          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-          chmod +x ./cc-test-reporter
-          ./cc-test-reporter before-build
-          
           cd vue
           yarn install --silent
           yarn run gen:api
           yarn run lint
           yarn run test:unit
-
-#          ./cc-test-reporter format-coverage -t lcov ./coverage/lcov.info
-#          ./cc-test-reporter upload-coverage
-#          ./cc-test-reporter after-build
