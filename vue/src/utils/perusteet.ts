@@ -77,7 +77,7 @@ export const themes = {
   'koulutustyyppi_6': 'perusopetus',
   'koulutustyyppi_999907': 'taiteenperusopetus',
   'koulutustyyppi_10': 'vapaasivistystyo',
-  'koulutustyyppi_30': 'vapaasivistystyo',
+  'koulutustyyppi_30': 'kotoutumiskoulutus',
   'koulutustyyppi_35': 'vapaasivistystyo',
   'koulutustyyppi_40': 'tutkintoonvalmentava',
 };
@@ -143,6 +143,7 @@ export const EperusteetKoulutustyyppiRyhmaSort = {
   [Toteutus.LUKIOKOULUTUS]: 6,
   [Toteutus.VAPAASIVISTYSTYO]: 7,
   [Toteutus.TUTKINTOONVALMENTAVA]: 8,
+  [Toteutus.KOTOUTUMISKOULUTUS]: 9,
 };
 
 export interface KoulutustyyppiRyhma {
@@ -196,6 +197,7 @@ export const themeColors = {
   'taiteenperusopetus': [250, 204, 234],
   'vapaasivistystyo': [102, 0, 102],
   'tutkintoonvalmentava': [255, 80, 0],
+  'kotoutumiskoulutus': [0, 215, 0],
 };
 
 export const ktToState = {
