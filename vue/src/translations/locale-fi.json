@@ -87,6 +87,10 @@
     "amops-esikatselu": "Toteutussuunnitelmien esikatselu",
     "amops-esikatselu-info": "Tässä näkymässä voit tarkastella luonnosvaiheessa olevaa toteutussuunnitelmaa",
     "amosaa": "Amosaa",
+    "amosaa-koto-tervetuloa": "Hei {nimi}, tervetuloa koto-työkaluun",
+    "amosaa-koto-tervetuloa-kuvaus": "Voit hallita opetussuunnitelmia, sekä seurata siihen liittyviä asioita.",
+    "amosaa-koto-tilastot-kuvaus": "Tilastot opetussuunnitelmista.",
+    "amosaa-koto-ukk-kuvaus": "Täältä löydät usein kysytyt kysymykset ePerusteet KOTO-työkalusta.",
     "amosaa-tervetuloa": "Hei {nimi}, tervetuloa AMOSAA-työkaluun",
     "amosaa-tervetuloa-kuvaus": "Tämän työkalun avulla voit hallita toteutusprojekteja, sekä seurata siihen liittyviä asioita.",
     "amosaa-tilastot-kuvaus": "Tilastot toteutussuunnitelmista ja koulutustoimijoista.",
@@ -340,6 +344,7 @@
     "eperusteet-virkailija-linkki": "Virkailijanäkymä",
     "eperusteet-vst": "ePerusteet VST",
     "eperusteet-ylops": "LOPS",
+    "eperusteet-koto": "ePerusteet KOTO",
     "epimage-plugin-button-label": "Kuva",
     "epimage-plugin-hylatty": "Voit ladata vain jpg- tai png-tyyppisiä kuvia.",
     "epimage-plugin-koko": "Kuvan koko",
@@ -1694,6 +1699,7 @@
     "opetussuunnitelma-esikatselu-ei-mahdollista": "Suunnitelman esikatselu ei ole mahdollista. Pyydä ylläpitäjää aktivoimaan esikatselutila.",
     "opetussuunnitelma-julkaistu": "Opetussuunnitelma julkaistu",
     "opetussuunnitelma-pohja-julkaisematon": "Opetussuunnitelman pohjaa ei ole julkaistu",
+    "opetussuunnitelma-rakenne": "Opetussuunnitelman rakenne",
     "opetussuunnitelma-tiivistelma": "Tiivistelmä",
     "opetussuunnitelma-vaaran-tyyppinen": "Opetussuunnitelma on väärän tyyppinen",
     "opetussuunnitelmaa-ei-loytynt": "Opetussuunnitelma on väärän tyyppinen",
@@ -3659,5 +3665,9 @@
     "ystava-organisaatiot": "Ystäväorganisaatiot",
     "ystavien-opetussuunnitelmat": "Ystävien opetussuunnitelmat",
     "ystavien-opetussuunnitelmat-julkaistut": "Ystävien julkaistut opetussuunnitelmat",
-    "ystavien-opetussuunnitelmat-keskeneraiset": "Ystävien keskeneraiset opetussuunnitelmat"
+    "ystavien-opetussuunnitelmat-keskeneraiset": "Ystävien keskeneraiset opetussuunnitelmat",
+    "laaja-alaisen-osaamisen-paikallinen-tarkennus": "Laaja-alaisen osaamisen paikallinen tarkennus",
+    "tavoitteiden-paikallinen-tarkennus": "Tavoitteiden paikallinen tarkennus",
+    "sisaltojen-paikallinen-tarkennus": "Sisältöjen paikallinen tarkennus",
+    "koto-laaja-alainen-osaaminen-paikallinen-tarkennus-selite": "Koulutuksen järjestäjä voi lisätä laaja-alaisen osaamisen osa-alueita suunnitelmassaan koulutuksen toteuttamiseksi."
 }

@@ -100,6 +100,8 @@
                       :kuvaHandler="kuvaHandler"
                       layout="normal"/>
           <ep-content-viewer v-else :value="$kaanna(taitotaso.tavoitteet)" :termit="termit" :kuvat="kuvat" />
+
+          <slot v-bind="taitotaso" name="paikallinentarkennus"></slot>
         </b-form-group>
 
         <h3>{{$t('opiskelijan-osaaminen')}}</h3>

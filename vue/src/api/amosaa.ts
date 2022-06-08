@@ -114,6 +114,8 @@ export type PalauteDto = AmosaaApi.PalauteDto;
 export type KoulutuksenJarjestajaDto = AmosaaApi.KoulutuksenJarjestajaDto;
 export type OpetussuunnitelmaKaikkiDto = AmosaaApi.OpetussuunnitelmaKaikkiDto;
 export type SisaltoviiteOpintokokonaisuusExternalDto = AmosaaApi.SisaltoviiteOpintokokonaisuusExternalDto;
+export type PerusteenOsaDto = AmosaaApi.PerusteenOsaDto;
+export type KotoTaitotasoLaajaAlainenOsaaminenDto = AmosaaApi.KotoTaitotasoLaajaAlainenOsaaminenDto;
 
 export interface OpetussuunnitelmaQuery {
   perusteenDiaarinumero?: string;
