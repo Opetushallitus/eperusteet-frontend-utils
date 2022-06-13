@@ -5,6 +5,7 @@ import tileTaiteenperusopetus from '../../public/img/banners/tile_ops_taiteenper
 import tileVarhaiskasvatus from '../../public/img/banners/tile_ops_varhaiskasvatus.svg';
 import tileVapaasivistystyo from '../../public/img/banners/tile_ops_vapaasivistysto.svg';
 import tileTutkintoonvalmentava from '../../public/img/banners/tile_ops_tuva.svg';
+import tileKotoutumiskoulutus from '../../public/img/banners/tile_ops_koto.svg';
 import bannerLukio from '../../public/img/banners/banner_lukio.svg';
 import bannerEsiopetus from '../../public/img/banners/banner_esiopetus.svg';
 import bannerPerusopetus from '../../public/img/banners/banner_perusopetus.svg';
@@ -13,6 +14,7 @@ import bannerVarhaiskasvatus from '../../public/img/banners/banner_varhaiskasvat
 import bannerVapaasivistystyo from '../../public/img/banners/banner_vapaasivistystyo.svg';
 import bannerAmmatillinen from '../../public/img/banners/banner_ammatillinen.svg';
 import bannerTutkintoonvalmentava from '../../public/img/banners/banner_tuva.svg';
+import bannerKotoutumiskoulutus from '../../public/img/banners/banner_koto.svg';
 import { themes } from './perusteet';
 
 const koulutustyyppiRyhmaTiles = {
@@ -23,6 +25,7 @@ const koulutustyyppiRyhmaTiles = {
   'varhaiskasvatus': tileVarhaiskasvatus,
   'vapaasivistystyo': tileVapaasivistystyo,
   'tutkintoonvalmentava': tileTutkintoonvalmentava,
+  'kotoutumiskoulutus': tileKotoutumiskoulutus,
 };
 
 const koulutustyyppiRyhmaBanners = {
@@ -33,12 +36,14 @@ const koulutustyyppiRyhmaBanners = {
   'varhaiskasvatus': bannerVarhaiskasvatus,
   'vapaasivistystyo': bannerVapaasivistystyo,
   'tutkintoonvalmentava': bannerTutkintoonvalmentava,
+  'kotoutumiskoulutus': bannerKotoutumiskoulutus,
 };
 
 const toteutusBanners = {
   'ammatillinen': bannerAmmatillinen,
   'vapaasivistystyo': bannerVapaasivistystyo,
   'tutkintoonvalmentava': bannerTutkintoonvalmentava,
+  'kotoutumiskoulutus': bannerKotoutumiskoulutus,
 };
 
 export function koulutustyyppiBanner(koulutustyyppi) {
@@ -68,6 +73,7 @@ export const tileColors = {
   'vapaasivistystyo': ['#8D408D', '#660066'],
   'taiteenperusopetus': ['#fce4f4', '#f2bddf'],
   'tutkintoonvalmentava': ['#EC4900', '#D94400'],
+  'kotoutumiskoulutus': ['#7AAE7A', '#649A64'],
 };
 
 export function tileBackgroundColor(koulutustyyppi) {

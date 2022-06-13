@@ -100,6 +100,8 @@
                       :kuvaHandler="kuvaHandler"
                       layout="normal"/>
           <ep-content-viewer v-else :value="$kaanna(taitotaso.tavoitteet)" :termit="termit" :kuvat="kuvat" />
+
+          <slot v-bind="taitotaso" name="paikallinentarkennus"></slot>
         </b-form-group>
 
         <h3>{{$t('opiskelijan-osaaminen')}}</h3>
@@ -294,8 +296,8 @@ export default class EpKotoTaitotasot extends Vue {
             object: 'suullinenTuottaminen',
           },
           {
-            otsikko: 'vuorovaikutus-ja-meditaatio',
-            object: 'vuorovaikutusJaMeditaatio',
+            otsikko: 'vuorovaikutus-ja-mediaatio',
+            object: 'vuorovaikutusJaMediaatio',
           },
         ],
       },
@@ -332,8 +334,8 @@ export default class EpKotoTaitotasot extends Vue {
         object: 'suullinenTuottaminen',
       },
       {
-        otsikko: 'vuorovaikutus-ja-meditaatio',
-        object: 'vuorovaikutusJaMeditaatio',
+        otsikko: 'vuorovaikutus-ja-mediaatio',
+        object: 'vuorovaikutusJaMediaatio',
       },
     ];
   }

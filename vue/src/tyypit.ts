@@ -211,4 +211,5 @@ export enum EperusteetPalautekanava {
   vst = 'eperusteet-vst',
   ylops = 'eperusteet-ylops',
   tuva = 'eperusteet-tuva',
+  koto = 'eperusteet-koto',
 }
