@@ -296,8 +296,8 @@ export default class EpKotoTaitotasot extends Vue {
             object: 'suullinenTuottaminen',
           },
           {
-            otsikko: 'vuorovaikutus-ja-meditaatio',
-            object: 'vuorovaikutusJaMeditaatio',
+            otsikko: 'vuorovaikutus-ja-mediaatio',
+            object: 'vuorovaikutusJaMediaatio',
           },
         ],
       },
@@ -334,8 +334,8 @@ export default class EpKotoTaitotasot extends Vue {
         object: 'suullinenTuottaminen',
       },
       {
-        otsikko: 'vuorovaikutus-ja-meditaatio',
-        object: 'vuorovaikutusJaMeditaatio',
+        otsikko: 'vuorovaikutus-ja-mediaatio',
+        object: 'vuorovaikutusJaMediaatio',
       },
     ];
   }
