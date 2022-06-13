@@ -320,7 +320,6 @@ export function vapaasivistystyoKoulutustyyppiRelaatiot() {
     koulutustyyppi: 'koulutustyyppi_10',
     alityypit: [
       'koulutustyyppi_10',
-      'koulutustyyppi_30',
       'koulutustyyppi_35',
     ],
   }];
@@ -437,6 +436,19 @@ export function tutkintoonvalmentava() {
       },
     },
     alityypit: EperusteetKoulutustyyppiRyhmat.tutkintoonvalmentava,
+  }];
+}
+
+export function kotoutumiskoulutus() {
+  return [{
+    name: koulutustyyppiStateName('koulutustyyppi_30'),
+    route: {
+      name: 'kooste',
+      params: {
+        koulutustyyppi: koulutustyyppiStateName('koulutustyyppi_30'),
+      },
+    },
+    alityypit: EperusteetKoulutustyyppiRyhmat.kotoutumiskoulutus,
   }];
 }
 
