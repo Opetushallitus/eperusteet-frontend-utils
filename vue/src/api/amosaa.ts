@@ -116,6 +116,7 @@ export type OpetussuunnitelmaKaikkiDto = AmosaaApi.OpetussuunnitelmaKaikkiDto;
 export type SisaltoviiteOpintokokonaisuusExternalDto = AmosaaApi.SisaltoviiteOpintokokonaisuusExternalDto;
 export type PerusteenOsaDto = AmosaaApi.PerusteenOsaDto;
 export type KotoTaitotasoLaajaAlainenOsaaminenDto = AmosaaApi.KotoTaitotasoLaajaAlainenOsaaminenDto;
+export type SisaltoViiteExportDto = AmosaaApi.SisaltoViiteExportDto;
 
 export interface OpetussuunnitelmaQuery {
   perusteenDiaarinumero?: string;

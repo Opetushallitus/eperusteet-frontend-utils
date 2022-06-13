@@ -548,6 +548,30 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
       },
     };
     break;
+  case 'koto_kielitaitotaso':
+    node.location = {
+      name: 'toteutussuunnitelmaSisalto',
+      params: {
+        sisaltoviiteId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'koto_opinto':
+    node.location = {
+      name: 'toteutussuunnitelmaSisalto',
+      params: {
+        sisaltoviiteId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'koto_laajaalainenosaaminen':
+    node.location = {
+      name: 'toteutussuunnitelmaSisalto',
+      params: {
+        sisaltoviiteId: _.toString(rawNode.id),
+      },
+    };
+    break;
   default:
     break;
   }
