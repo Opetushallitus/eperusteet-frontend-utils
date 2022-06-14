@@ -9,6 +9,7 @@ export const julkaisupaikkaSort = {
   'lops': 3,
   'amosaa': 4,
   'vst': 5,
+  'koto': 6,
 };
 
 export const julkaisupaikka = Object.freeze({
@@ -17,6 +18,7 @@ export const julkaisupaikka = Object.freeze({
   lops: 'lops',
   amosaa: 'amosaa',
   vst: 'vst',
+  koto: 'koto',
 });
 
 export function onkoUusi(aika) {
