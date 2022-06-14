@@ -185,6 +185,9 @@ export const koulutustyyppiRyhmaSort = {
   'taiteenperusopetus': 4,
   'lukio': 5,
   'ammatillinen': 6,
+  'vapaasivistystyo': 7,
+  'tutkintoonvalmentava': 8,
+  'kotoutumiskoulutus': 9,
 };
 
 export const themeColors = {
