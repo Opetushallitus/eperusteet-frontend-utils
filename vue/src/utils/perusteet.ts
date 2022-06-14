@@ -220,7 +220,7 @@ export const ktToState = {
   'koulutustyyppi_6': 'lisaopetus',
   'koulutustyyppi_999907': 'taiteenperusopetus',
   'koulutustyyppi_10': 'vapaasivistystyo',
-  'koulutustyyppi_30': 'maahanmuuttajienkotoutumiskoulutus',
+  'koulutustyyppi_30': 'kotoutumiskoulutus',
   'koulutustyyppi_35': 'vapaasivistystyolukutaito',
   'koulutustyyppi_40': 'tutkintoonvalmentava',
 };
