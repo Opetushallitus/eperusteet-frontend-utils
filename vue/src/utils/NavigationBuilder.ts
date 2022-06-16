@@ -42,6 +42,20 @@ export function buildNavigation(
   return rakenne;
 }
 
+export function navigationNodeDtoToPerusteRoute(node: NavigationNodeDto) {
+  switch (node.type as string) {
+  case 'tutkinnonosaviite':
+    return {
+      name: 'tutkinnonosa',
+      params: {
+        tutkinnonOsaId: _.toString(node.id),
+      },
+    };
+  }
+
+  return {};
+}
+
 export function traverseNavigation(rawNode: NavigationNodeDto, isOps: boolean): NavigationNode {
   const node: NavigationNode = {
     label: rawNode.label as LokalisoituTekstiDto,
