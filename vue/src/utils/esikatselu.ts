@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 export function buildEsikatseluUrl(kieli, path) {
-  return `${buildLangUrl(kieli)}${path}`;
+  return `${buildLangUrl(kieli)}${path}?esikatselu`;
 }
 
 export function buildLangUrl(kieli) {
