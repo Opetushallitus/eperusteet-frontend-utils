@@ -56,6 +56,6 @@ describe('EpExternalLink component', () => {
 
     expect(wrapper.html()).not.toContain('google</a>');
     expect(wrapper.html()).toContain('<span>www.google.com');
-    expect(wrapper.html()).toContain('?paluuosoite');
+    expect(wrapper.html()).not.toContain('?paluuosoite');
   });
 });

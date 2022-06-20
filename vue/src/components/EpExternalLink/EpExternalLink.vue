@@ -1,7 +1,7 @@
 <template>
   <ep-linkki
       :class="styleclass"
-      :url="urlWithQueryParam"
+      :url="url"
       :label="label"
       :icon="icon"
       :only-top-level="onlyTopLevel">
