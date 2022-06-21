@@ -18,6 +18,7 @@ export const julkaisupaikka = Object.freeze({
   lops: 'lops',
   amosaa: 'amosaa',
   vst: 'vst',
+  tuva: 'tuva',
   koto: 'koto',
 });
 
