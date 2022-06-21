@@ -74,6 +74,7 @@
           <ep-toggle class="pb-2" v-model="lopsJulkaisu" :isSWitch="false" :is-editing="editing"> {{ $t('tiedote-julkaisupaikka-lops')}} </ep-toggle>
           <ep-toggle class="pb-2" v-model="amosaaJulkaisu" :isSWitch="false" :is-editing="editing"> {{ $t('tiedote-julkaisupaikka-amosaa')}} </ep-toggle>
           <ep-toggle class="pb-2" v-model="vstJulkaisu" :isSWitch="false" :is-editing="editing"> {{ $t('tiedote-julkaisupaikka-vst')}} </ep-toggle>
+          <ep-toggle class="pb-2" v-model="tuvaJulkaisu" :isSWitch="false" :is-editing="editing"> {{ $t('tiedote-julkaisupaikka-tuva')}} </ep-toggle>
           <ep-toggle class="pb-2" v-model="kotoJulkaisu" :isSWitch="false" :is-editing="editing"> {{ $t('tiedote-julkaisupaikka-koto')}} </ep-toggle>
 
         </ep-form-content>
@@ -302,6 +303,7 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
   private lopsJulkaisu: boolean = false;
   private amosaaJulkaisu: boolean = false;
   private vstJulkaisu: boolean = false;
+  private tuvaJulkaisu: boolean = false;
   private kotoJulkaisu: boolean = false;
   private muokkaavanKayttajanNimi = '';
   private muokattavaTiedote: TiedoteDto = {};
@@ -319,6 +321,7 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
     this.lopsJulkaisu = _.includes(rivi.julkaisupaikat, julkaisupaikka.lops);
     this.amosaaJulkaisu = _.includes(rivi.julkaisupaikat, julkaisupaikka.amosaa);
     this.vstJulkaisu = _.includes(rivi.julkaisupaikat, julkaisupaikka.vst);
+    this.tuvaJulkaisu = _.includes(rivi.julkaisupaikat, julkaisupaikka.tuva);
     this.kotoJulkaisu = _.includes(rivi.julkaisupaikat, julkaisupaikka.koto);
 
     this.koulutusryypiRyhmaValinnat = [
