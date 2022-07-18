@@ -39,6 +39,9 @@ export default class EpContentViewer extends Vue {
   @Prop({ required: false, type: Array })
   private kuvat!: LiiteDtoWrapper[];
 
+  @InjectReactive('isAmmatillinen')
+  private isAmmatillinen!: boolean;
+
   @InjectReactive('linkkiHandler')
   private linkkiHandler!: ILinkkiHandler;
 
@@ -70,26 +73,35 @@ export default class EpContentViewer extends Vue {
         }
 
         const datauid = img.getAttribute('data-uid');
-        if (datauid) {
-          const kuva = _.find(this.kuvat, { id: datauid }) as LiiteDtoWrapper;
+        if (!datauid) {
+          console.error('virheellinen kuva id');
+          return;
+        }
 
-          if (kuva) {
-            img.setAttribute('src', kuva.src);
-            const altteksti = img.getAttribute('alt');
-            const kuvateksti = img.getAttribute('figcaption');
-            const figcaption = document.createElement('figcaption');
-            if (!kuvateksti) {
-              figcaption.textContent = altteksti;
-              img.setAttribute('alt', this.$t('kuvituskuva') as string);
-            }
-            else {
-              figcaption.textContent = kuvateksti;
-            }
+        const kuva = _.find(this.kuvat, { id: datauid }) as LiiteDtoWrapper;
 
-            if (figcaption.textContent) {
-              wrapper.appendChild(figcaption);
-            }
-          }
+        const id = _.get(this.$route, 'params.toteutussuunnitelmaId');
+        if (!kuva && id) {
+          img.setAttribute('src', `eperusteet-amosaa-service/api/opetussuunnitelmat/${id}/kuvat/${datauid}`);
+          return;
+        }
+        else {
+          img.setAttribute('src', kuva.src);
+        }
+
+        const altteksti = img.getAttribute('alt');
+        const kuvateksti = img.getAttribute('figcaption');
+        const figcaption = document.createElement('figcaption');
+        if (!kuvateksti) {
+          figcaption.textContent = altteksti;
+          img.setAttribute('alt', this.$t('kuvituskuva') as string);
+        }
+        else {
+          figcaption.textContent = kuvateksti;
+        }
+
+        if (figcaption.textContent) {
+          wrapper.appendChild(figcaption);
         }
       });
 
