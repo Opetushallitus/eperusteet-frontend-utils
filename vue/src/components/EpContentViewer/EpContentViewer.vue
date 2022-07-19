@@ -83,25 +83,23 @@ export default class EpContentViewer extends Vue {
         const id = _.get(this.$route, 'params.toteutussuunnitelmaId');
         if (!kuva && id) {
           img.setAttribute('src', `eperusteet-amosaa-service/api/opetussuunnitelmat/${id}/kuvat/${datauid}`);
-          return;
         }
-        else {
+        else if (kuva) {
           img.setAttribute('src', kuva.src);
-        }
+          const altteksti = img.getAttribute('alt');
+          const kuvateksti = img.getAttribute('figcaption');
+          const figcaption = document.createElement('figcaption');
+          if (!kuvateksti) {
+            figcaption.textContent = altteksti;
+            img.setAttribute('alt', this.$t('kuvituskuva') as string);
+          }
+          else {
+            figcaption.textContent = kuvateksti;
+          }
 
-        const altteksti = img.getAttribute('alt');
-        const kuvateksti = img.getAttribute('figcaption');
-        const figcaption = document.createElement('figcaption');
-        if (!kuvateksti) {
-          figcaption.textContent = altteksti;
-          img.setAttribute('alt', this.$t('kuvituskuva') as string);
-        }
-        else {
-          figcaption.textContent = kuvateksti;
-        }
-
-        if (figcaption.textContent) {
-          wrapper.appendChild(figcaption);
+          if (figcaption.textContent) {
+            wrapper.appendChild(figcaption);
+          }
         }
       });
 
