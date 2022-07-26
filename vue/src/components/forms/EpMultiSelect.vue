@@ -178,7 +178,7 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
   }
 
   optionChecked(option) {
-    return option === this.value || !_.isEmpty(_.filter(this.value, option));
+    return option === this.value || !_.isEmpty(_.filter(this.value, x => x === option));
   }
 
   getOptionLabel(option) {
