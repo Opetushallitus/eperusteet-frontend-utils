@@ -591,6 +591,7 @@
     "julkaisu-validointiohje": "Julkaistaksesi opetussuunnitelman varmista, että kaikki alla olevat tarkistukset on tehty onnistuneesti.",
     "julkaisu-varmistus-modal-teksti": "Julkaistu sisältö näkyy ePerusteet-palvelussa ja samalla siitä luodaan PDF. Voit päivittää julkaistua tekemällä ensin tarvittavat muutokset ja julkaisemalla sitten uuden version.",
     "julkaisuhistoria": "Julkaisuhistoria",
+    "julkaisuvuosi": "Julkaisuvuosi",
     "julkaisukielet": "Julkaisukielet",
     "julkaisukielet-ei-maaritelty": "Julkaisukieliä ei ole määritetty",
     "julkaisun-estavat-virheet": "Julkaisun estävät virheet",
