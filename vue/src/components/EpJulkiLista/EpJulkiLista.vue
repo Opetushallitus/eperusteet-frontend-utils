@@ -9,7 +9,11 @@
             {{$kaanna(tieto.otsikko)}} <span class="uusi" v-if="tieto.uusi">{{$t('uusi')}}</span>
           </slot>
         </div>
-        <div class="muokkausaika" v-if="tieto.muokattu">{{$sdt(tieto.muokattu)}}</div>
+        <div class="muokkausaika">
+          <slot name="muokkausaika" :tieto="tieto">
+            <span v-if="tieto.muokattu">{{$sdt(tieto.muokattu)}}</span>
+          </slot>
+        </div>
       </div>
 
       <div v-if="listausTyyppi === 'lisahaku'">
