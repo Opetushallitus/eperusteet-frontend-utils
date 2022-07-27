@@ -200,7 +200,7 @@ export const themeColors = {
   'taiteenperusopetus': [250, 204, 234],
   'vapaasivistystyo': [102, 0, 102],
   'tutkintoonvalmentava': [255, 80, 0],
-  'kotoutumiskoulutus': [0, 215, 0],
+  'kotoutumiskoulutus': [122, 174, 122],
 };
 
 export const ktToState = {
