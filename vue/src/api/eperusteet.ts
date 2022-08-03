@@ -25,6 +25,7 @@ export import PalauteDtoStatusEnum = EperusteetApi.PalauteDtoStatusEnum;
 export import PerusteprojektiKevytDtoTyyppiEnum = EperusteetApi.PerusteprojektiKevytDtoTyyppiEnum;
 export import PerusteprojektiDtoTilaEnum = EperusteetApi.PerusteprojektiDtoTilaEnum;
 export import KoulutuksenOsaDtoKoulutusOsanTyyppiEnum = EperusteetApi.KoulutuksenOsaDtoKoulutusOsanTyyppiEnum;
+export import PoistettuSisaltoDtoTyyppiEnum = EperusteetApi.PoistettuSisaltoDtoTyyppiEnum;
 
 const logger = createLogger('EperusteetAxios');
 const basePath = '';
@@ -82,6 +83,7 @@ export const Tilastot = initApi(EperusteetApi.TilastotApi);
 export const Palautteet = initApi(EperusteetApi.PalautteetApi);
 export const LukioperusteenJulkisetTiedot = initApi(EperusteetApi.LukioperusteenJulkisetTiedotApi);
 export const Maaraykset = initApi(EperusteetApi.MaarayksetApi);
+export const PoistettuSisalto = initApi(EperusteetApi.PoistettuSisaltoApi);
 
 export type Ammattitaitovaatimukset2019Dto = EperusteetApi.Ammattitaitovaatimukset2019Dto;
 export type ArviointiAsteikkoDto = EperusteetApi.ArviointiAsteikkoDto;
@@ -144,6 +146,7 @@ export type MaaraysDto = EperusteetApi.MaaraysDto;
 export type PerusteKaikkiDto = EperusteetApi.PerusteKaikkiDto;
 export type PerusteenJulkaisuData = EperusteetApi.PerusteenJulkaisuData;
 export type KoulutustyyppiLukumaara = EperusteetApi.KoulutustyyppiLukumaara;
+export type PoistettuSisaltoDto = EperusteetApi.PoistettuSisaltoDto;
 
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
