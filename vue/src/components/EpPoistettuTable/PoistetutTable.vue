@@ -13,7 +13,8 @@
     <template v-slot:cell(actions)="row">
       <ep-button variant="link"
                  icon="peruuta"
-                 @click="palauta(row.item)">
+                 @click="palauta(row.item)"
+                 :showSpinner="isPalautettu(row.item)">
         {{ $t('palauta') }}
       </ep-button>
     </template>
@@ -24,16 +25,21 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 
 import EpButton from '@shared/components/EpButton/EpButton.vue';
-import { Poistettu } from './PoistetutHakuTable.vue';
+import Poistettu from './PoistetutHakuTable.vue';
+import EpSpinnerInline from '@shared/components/EpSpinner/EpSpinnerInline.vue';
+import _ from 'lodash';
 
 @Component({
   components: {
     EpButton,
+    EpSpinnerInline,
   },
 })
 export default class PoistettuTable extends Vue {
   @Prop({ required: true })
   private poistetut!: Poistettu[];
+
+  palautettu: Poistettu[] = [];
 
   get items() {
     return this.poistetut;
@@ -63,7 +69,12 @@ export default class PoistettuTable extends Vue {
     }];
   }
 
+  isPalautettu(item) {
+    return _.includes(this.palautettu, item);
+  }
+
   palauta(poistettu) {
+    this.palautettu = [...this.palautettu, poistettu];
     this.$emit('palauta', poistettu);
   }
 }

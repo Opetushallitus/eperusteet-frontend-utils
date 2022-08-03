@@ -13,7 +13,7 @@
     </span>
     <div class="teksti" :class="{'pl-3 pr-3': paddingx}">
       <slot />
-      <ep-spinner-inline v-if="showSpinner" />
+      <ep-spinner-inline v-if="showSpinner" :link="variant === 'link'"/>
     </div>
   </b-button>
   <b-tooltip v-if="help" :target="() => $refs['button-container']">{{ $t(help) }}</b-tooltip>
