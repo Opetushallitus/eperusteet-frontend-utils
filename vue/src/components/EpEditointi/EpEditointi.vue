@@ -332,8 +332,14 @@ export default class EpEditointi extends Mixins(validationMixin) {
   @Prop({ required: false })
   private postSave!: Function;
 
+  @Prop({ required: false })
+  private postRemove!: Function;
+
   @Prop({ required: false, default: false })
   private useContainer!: boolean;
+
+  @Prop({ required: false, default: true })
+  private confirmRemove!: boolean;
 
   @Prop({ required: false,
     default: () => ({
@@ -568,10 +574,14 @@ export default class EpEditointi extends Mixins(validationMixin) {
 
   async remove() {
     try {
-      if (await this.vahvista(this.$t('varmista-poisto') as string, this.$t('poista') as string)) {
+      if (!this.confirmRemove || await this.vahvista(this.$t('varmista-poisto') as string, this.$t('poista') as string)) {
         const poistoTeksti = this.$t(this.labelRemoveSuccess);
         await this.store.remove();
         this.$success(poistoTeksti as string);
+
+        if (this.postRemove) {
+          await this.postRemove();
+        }
       }
     }
     catch (err) {
