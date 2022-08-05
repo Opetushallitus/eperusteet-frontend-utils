@@ -408,6 +408,7 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
       .filter(value => value !== julkaisupaikka.lops || this.lopsJulkaisu)
       .filter(value => value !== julkaisupaikka.amosaa || this.amosaaJulkaisu)
       .filter(value => value !== julkaisupaikka.vst || this.vstJulkaisu)
+      .filter(value => value !== julkaisupaikka.tuva || this.tuvaJulkaisu)
       .filter(value => value !== julkaisupaikka.koto || this.kotoJulkaisu)
       .value() as any;
 
