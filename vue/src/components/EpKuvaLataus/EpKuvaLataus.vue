@@ -9,10 +9,32 @@
 
         <div class="justify-content-around align-items-center h-100" v-if="file">
           <div class="h-100 justify-content-around align-items-center">
-            <figure><img v-if="previewUrl" :src="previewUrl" />
+            <figure><img v-if="previewUrl" :src="previewUrl" :width="previewWidth" :height="previewHeight"/>
               <figcaption v-if="!saved">{{ $t('fu-valittu-tiedosto') }}: {{ file ? file.name : '' }}</figcaption>
             </figure>
           </div>
+
+          <div class="mb-3" v-if="!saved">
+            <div class="d-flex align-items-center">
+              <ep-form-content name="kuvan-leveys" class="mb-3">
+                <div class="d-flex align-items-center">
+                  <ep-field v-model="value.width" :is-editing="true" type="number"></ep-field>
+                  <span class="ml-1 mr-3">px</span>
+                </div>
+              </ep-form-content>
+
+              <ep-form-content name="kuvan-korkeus" class="mb-3">
+                <div class="d-flex align-items-center">
+                  <ep-field v-model="value.height" :is-editing="true" type="number"></ep-field>
+                  <span class="ml-1">px</span>
+                </div>
+              </ep-form-content>
+
+            </div>
+
+            <ep-toggle :is-switch="false" v-model="keepAspectRatio">{{$t('sailyta-mittasuhteet')}}</ep-toggle>
+          </div>
+
           <div class="justify-content-center">
             <div v-if="!saved">
               <ep-button @click="saveImage()" class="mr-3" v-if="fileValidi">
@@ -40,6 +62,9 @@ import { Vue, Component, Watch, Prop } from 'vue-property-decorator';
 import EpButton from '../EpButton/EpButton.vue';
 import { fail } from '@shared/utils/notifications';
 import _ from 'lodash';
+import EpField from '@shared/components/forms/EpField.vue';
+import EpFormContent from '@shared/components/forms/EpFormContent.vue';
+import EpToggle from '@shared/components/forms/EpToggle.vue';
 
 export interface ImageData {
   file: File ;
@@ -52,11 +77,28 @@ export interface ImageData {
 @Component({
   components: {
     EpButton,
+    EpField,
+    EpFormContent,
+    EpToggle,
   },
 })
 export default class EpKuvaLataus extends Vue {
   private fileMaxSize = 1 * 1024 * 1024;
   private fileTypes: string [] = ['image/jpeg', 'image/png'];
+  private keepAspectRatio: boolean = true;
+  private changeBlock: boolean = false;
+  private originalHeightRatio: number = 0;
+  private originalWidthRatio: number = 0;
+  private previewWidth: number = 0;
+  private previewHeight: number = 0;
+
+  mounted() {
+    if (this.value) {
+      this.originalHeightRatio = this.height / this.width;
+      this.originalWidthRatio = this.width / this.height;
+      this.recalcPreview();
+    }
+  }
 
   @Prop()
   private value!: ImageData;
@@ -130,6 +172,61 @@ export default class EpKuvaLataus extends Vue {
 
   cancel() {
     this.$emit('cancel');
+  }
+
+  get width() {
+    return this.value?.width;
+  }
+
+  get height() {
+    return this.value?.height;
+  }
+
+  @Watch('width')
+  widthChange(newVal) {
+    if (newVal && this.keepAspectRatio && !this.changeBlock) {
+      this.changeBlock = true;
+      this.value.height = this.round(this.width * this.originalHeightRatio);
+    }
+    else if (this.changeBlock) {
+      this.changeBlock = false;
+    }
+
+    this.recalcPreview();
+  }
+
+  @Watch('height')
+  heightChange(newVal) {
+    if (newVal && this.keepAspectRatio && !this.changeBlock) {
+      this.changeBlock = true;
+      this.value.width = this.round(this.height * this.originalWidthRatio);
+    }
+    else if (this.changeBlock) {
+      this.changeBlock = false;
+    }
+
+    this.recalcPreview();
+  }
+
+  recalcPreview() {
+    this.previewWidth = this.width;
+    this.previewHeight = this.height;
+    if (this.width > this.height) {
+      if (this.width > 500) {
+        this.previewWidth = 500;
+      }
+      this.previewHeight = this.round(this.previewWidth * ((this.height / this.width)));
+    }
+    else {
+      if (this.height > 500) {
+        this.previewHeight = 500;
+      }
+      this.previewWidth = this.round(this.previewHeight * (this.width / this.height));
+    }
+  }
+
+  round(number) {
+    return _.toNumber(parseFloat(number).toFixed(0));
   }
 }
 
