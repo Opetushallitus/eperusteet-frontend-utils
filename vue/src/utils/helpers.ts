@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { findDeep } from 'deepdash-es/standalone';
+import { findDeep, eachDeep } from 'deepdash-es/standalone';
 
 export function domAttrsGetter(...fields: string[]) {
   return (dom: any) => _.reduce(fields, (acc: any, field: string) => {
@@ -35,4 +35,17 @@ export function deepFind(filterObject: Object | string, searchObject: any) : any
     if (_.keys(filterObject)[0] === key && _.values(filterObject)[0] === value) return true;
     return false;
   }), 'parent');
+}
+
+export function deepFilter(filterObject: Object | string, searchObject: any) : any {
+  let objects : any[] = [];
+  eachDeep(searchObject, object => {
+    if (_.includes(_.keys(object), _.keys(filterObject)[0]) && _.get(object, _.keys(filterObject)[0]) === _.values(filterObject)[0]) {
+      objects = [
+        ...objects,
+        object,
+      ];
+    }
+  });
+  return objects;
 }
