@@ -211,6 +211,7 @@ export default class EpTreeNavibar extends Vue {
       return {
         ...item,
         ...(this.allOrQuery && { class: 'item-margin-' + (item.depth - 1) }),
+        koodi: _.get(item, 'meta.koodi.arvo') || _.get(item, 'meta.koodi'),
       };
     });
   }
