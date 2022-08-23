@@ -13,7 +13,8 @@
 
     <b-modal ref="tiedoteMuokkausModal"
         id="tiedoteMuokkausModal"
-        size="lg">
+        size="lg"
+        static lazy>
 
       <template v-slot:modal-header>
         <div class="row w-100">
