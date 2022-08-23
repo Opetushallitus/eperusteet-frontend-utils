@@ -1,5 +1,5 @@
 <template>
-<span v-b-modal.epversiomodaali>
+<div v-b-modal.epversiomodaali>
   <slot>{{ $t('muokkaushistoria') }}</slot>
   <b-modal id="epversiomodaali"
            ref="epversiomodaali"
@@ -41,7 +41,7 @@
       align="center"
       aria-controls="epversiomodaali"></b-pagination>
   </b-modal>
-</span>
+</div>
 </template>
 
 <script lang="ts">
