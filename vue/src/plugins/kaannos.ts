@@ -9,7 +9,7 @@ declare module 'vue/types/vue' {
   interface Vue {
     $suodatin: (query: string) => <T extends object>(value: T) => string;
     $filterBy: (field: string, query: string) => <T extends object>(value: T) => boolean;
-    $kaanna: <T extends object>(value: T) => string;
+    $kaanna: <T extends object>(value: T, emptyWhenNotFound?: boolean, squareBrackets?: boolean) => string;
     $kaannaOlioTaiTeksti: <T extends object>(value: T | string) => string;
   }
 }
