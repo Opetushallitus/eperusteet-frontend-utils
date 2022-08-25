@@ -314,6 +314,12 @@ export default class EpEditointi extends Mixins(validationMixin) {
   @Prop({ default: 'kopio-varmistus' })
   private labelCopyConfirm!: string;
 
+  @Prop({ default: 'varmista-kopiointi' })
+  private labelCopyTopic!: string;
+
+  @Prop({ default: 'kopioi' })
+  private labelCopyConfirmButton!: string;
+
   @Prop({ default: 'kopion-luonti-onnistui' })
   private labelCopySuccess!: string;
 
@@ -553,25 +559,6 @@ export default class EpEditointi extends Mixins(validationMixin) {
     });
   }
 
-  //  @Debounced(1000)
-  //  async onValidation(validation) {
-  //    this.onValidationImpl(validation);
-  //  }
-  //
-  //  @Watch('$v', { deep: true })
-  //  onVuelidateUpdate(validation, old) {
-  //    if (!this.isEditing || this.isValidating) {
-  //      return;
-  //    }
-  //
-  //    this.isValidating = true;
-  //    this.$v.$reset();
-  //
-  //    if (validation && old) {
-  //      this.onValidation(validation);
-  //    }
-  //  }
-
   async remove() {
     try {
       if (!this.confirmRemove || await this.vahvista(this.$t('varmista-poisto') as string, this.$t('poista') as string)) {
@@ -591,7 +578,10 @@ export default class EpEditointi extends Mixins(validationMixin) {
 
   async copy() {
     try {
-      if (await this.vahvista(this.$t('varmista-kopiointi') as string, this.$t('kopioi') as string, this.$t(this.labelCopyConfirm) as string)) {
+      if (await this.vahvista(
+          this.$t(this.labelCopyTopic) as string,
+          this.$t(this.labelCopyConfirmButton) as string,
+          this.$t(this.labelCopyConfirm) as string)) {
         await this.store.copy();
         this.$success(this.$t(this.labelCopySuccess) as string);
       }
