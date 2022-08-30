@@ -244,6 +244,7 @@ import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { KoodistoSelectStore } from '../EpKoodistoSelect/KoodistoSelectStore';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
 import { ITiedotteetProvider } from '@shared/stores/types';
+import { requiredOneLang } from '@shared/validators/required';
 
 @Component({
   components: {
@@ -262,16 +263,10 @@ import { ITiedotteetProvider } from '@shared/stores/types';
   },
   validations: {
     muokattavaTiedote: {
-      otsikko: {
-        [Kielet.getSisaltoKieli.value]: {
-          required,
-        },
-      },
+      otsikko: requiredOneLang(),
       sisalto: {
         required,
-        [Kielet.getSisaltoKieli.value]: {
-          required,
-        },
+        ...requiredOneLang(),
       },
     },
   },
