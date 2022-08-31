@@ -81,7 +81,7 @@ generate_eperusteet() {
 
   EPERUSTEET_SPECFILE=${EPERUSTEET_SPECFILE:-"https://raw.githubusercontent.com/Opetushallitus/eperusteet/master/generated/eperusteet.spec.json"}
   echo "Using EPERUSTEET_SPECFILE=${EPERUSTEET_SPECFILE}"
-  npx openapi-generator generate -c "${genconfig}" -i "${EPERUSTEET_SPECFILE}" -g typescript-axios
+  npx @openapitools/openapi-generator-cli@1.0.18-4.2.3 generate -c "${genconfig}" -i "${EPERUSTEET_SPECFILE}" -g typescript-axios
 }
 
 generate_ylops() {
@@ -102,7 +102,7 @@ generate_ylops() {
 
   EPERUSTEET_YLOPS_SPECFILE=${EPERUSTEET_YLOPS_SPECFILE:-"https://raw.githubusercontent.com/Opetushallitus/eperusteet-ylops/master/generated/ylops.spec.json"}
   echo "Using EPERUSTEET_YLOPS_SPECFILE=${EPERUSTEET_YLOPS_SPECFILE}"
-  npx openapi-generator generate -c "${genconfig}" -i "${EPERUSTEET_YLOPS_SPECFILE}" -g typescript-axios
+  npx @openapitools/openapi-generator-cli@1.0.18-4.2.3 generate -c "${genconfig}" -i "${EPERUSTEET_YLOPS_SPECFILE}" -g typescript-axios
 }
 
 generate_amosaa() {
@@ -123,7 +123,7 @@ generate_amosaa() {
 
   EPERUSTEET_AMOSAA_SPECFILE=${EPERUSTEET_AMOSAA_SPECFILE:-"https://raw.githubusercontent.com/Opetushallitus/eperusteet-amosaa/master/generated/amosaa.spec.json"}
   echo "Using EPERUSTEET_AMOSAA_SPECFILE=${EPERUSTEET_AMOSAA_SPECFILE}"
-  npx openapi-generator generate -c "${genconfig}" -i "${EPERUSTEET_AMOSAA_SPECFILE}" -g typescript-axios
+  npx @openapitools/openapi-generator-cli@1.0.18-4.2.3 generate -c "${genconfig}" -i "${EPERUSTEET_AMOSAA_SPECFILE}" -g typescript-axios
 }
 
 generate() {
