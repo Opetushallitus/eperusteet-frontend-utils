@@ -1233,6 +1233,8 @@
     "lopetus-aloituksen-jälkeen": "Toimikauden päättymispäivämäärä täytyy olla aloitusajankohdan jälkeen.",
     "loppuun": "Loppuun",
     "lops": "Lukio",
+    "lops-tyokalu-tervetuloa": "Hei {nimi}, tervetuloa ePerusteet OPS-työkaluun!",
+    "lops-tyokalu-kuvaus": "Tämän työkalun avulla voit hallita organisaatiosi opetussuunnitelmia.",
     "lops2019": "Lukio 2019",
     "loydetty-termien-maara": "Opetussuunnitelmassa käytettyjen termien määrä:",
     "loydettyjen-ohjeiden-maara": "Löydettyjen ohjeiden määrä",
