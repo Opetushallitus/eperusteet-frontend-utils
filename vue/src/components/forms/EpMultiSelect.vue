@@ -234,7 +234,6 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
 
 /deep/ .multiselect--active {
   .multiselect__tags {
-    border-bottom: 0;
     border-top: 2px solid #E0E0E1;
   }
 }
@@ -243,22 +242,19 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
   .multiselect__content-wrapper {
     border: 2px solid #E0E0E1;
     border-radius: 10px 10px 0 0;
-    border-bottom: none;
-  }
-  .multiselect__tags {
-    border-bottom: 2px solid #E0E0E1;
   }
 }
 /deep/ .multiselect--above.multiselect--active {
   .multiselect__tags {
-    border-top: 0;
+    border-top: 2px solid #E0E0E1;
   }
 }
 
 /deep/ .multiselect__content-wrapper {
   border: 2px solid #E0E0E1;
   border-radius: 0 0 10px 10px;
-  border-top: none;
+  width: fit-content;
+  margin-top: -2px;
 }
 
 /deep/ .is-invalid .multiselect__content-wrapper {
@@ -267,6 +263,10 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
 
 /deep/ .is-valid .multiselect__content-wrapper {
   border-color: $valid;
+}
+
+/deep/ .multiselect__tags {
+  border-bottom: 2px solid #E0E0E1;
 }
 
 /deep/ .is-invalid .multiselect__tags {
