@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="row justify-content-center">
+    <div class="row justify-content-center" id="tila-popover">
       <div class="col-12 progress-area">
         <ep-progress :slices="processSlices" :height="height" :width="width"/>
       </div>
@@ -13,7 +13,7 @@
       target="tila-popover"
       triggers="focus hover blur"
       size="md"
-      placement="top"
+      placement="bottom"
       :show.sync="tilaPopupVisible"
       ref="popover"
       custom-class="progress-popover"
@@ -51,11 +51,8 @@ export default class EpProgressPopover extends Vue {
   @Prop({ required: true })
   private slices!: number[];
 
-  @Prop({ required: false, default: 80 })
-  private height!: number;
-
-  @Prop({ required: false, default: 80 })
-  private width!: number;
+  private height: number = 60;
+  private width: number = 60;
 
   @Prop({
     default() {
@@ -109,7 +106,7 @@ export default class EpProgressPopover extends Vue {
   @include tile-background-shadow-selected;
   border: 0px;
   border-radius: 1rem;
-  margin-top: -95px;
+  margin-top: -155px;
 
   /deep/ .arrow {
     display:none;
