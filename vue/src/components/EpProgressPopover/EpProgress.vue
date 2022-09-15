@@ -1,8 +1,7 @@
 <template>
   <div
     class="ep-progress text-center"
-    placement="'bottom'"
-    id="tila-popover">
+    placement="'bottom'">
 
     <div v-if="!slices">
       <svg viewBox="0 0 100 100" class="vaiheet animation" :height="height" :width="width">
