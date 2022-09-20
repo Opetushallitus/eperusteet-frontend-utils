@@ -3,8 +3,8 @@
   <b-form-checkbox :disabled="!isEditing"
                    v-model="innerValue"
                    :inline="inline"
-                   :switch="isSWitch"
-                   :class="{ 'custom-checkbox-lg': !isSWitch && lgSize, 'custom-switch-lg': isSWitch && lgSize }">
+                   :switch="asSwitch"
+                   :class="{ 'custom-checkbox-lg': !asSwitch && lgSize, 'custom-switch-lg': asSwitch && lgSize }">
     <slot/>
   </b-form-checkbox>
 </div>
@@ -32,6 +32,9 @@ export default class EpToggle extends Vue {
   @Prop({ default: true })
   private isSWitch!: boolean;
 
+  @Prop({ default: false, type: Boolean })
+  private checkbox!: Boolean;
+
   @Prop({ required: false })
   private size!: string | undefined;
 
@@ -45,6 +48,10 @@ export default class EpToggle extends Vue {
 
   set innerValue(value) {
     this.$emit('input', value);
+  }
+
+  get asSwitch() {
+    return !this.checkbox && this.isSWitch;
   }
 }
 </script>
