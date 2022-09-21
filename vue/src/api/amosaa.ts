@@ -134,6 +134,7 @@ export interface OpetussuunnitelmaQuery {
   tuleva?: boolean,
   voimassaolo?: boolean,
   poistunut?: boolean,
+  jotpatyyppi?: Array<string>,
 };
 
 export async function getJulkisetOpetussuunnitelmat(query: OpetussuunnitelmaQuery) {
@@ -152,5 +153,6 @@ export async function getJulkisetOpetussuunnitelmat(query: OpetussuunnitelmaQuer
     query.tuleva,
     query.voimassaolo,
     query.poistunut,
+    query.jotpatyyppi,
   );
 }
