@@ -80,6 +80,7 @@ export const themes = {
   'koulutustyyppi_30': 'kotoutumiskoulutus',
   'koulutustyyppi_35': 'vapaasivistystyo',
   'koulutustyyppi_40': 'tutkintoonvalmentava',
+  'koulutustyyppi_muu': 'muukoulutus',
 };
 
 export enum Toteutus {
@@ -223,6 +224,7 @@ export const ktToState = {
   'koulutustyyppi_30': 'kotoutumiskoulutus',
   'koulutustyyppi_35': 'vapaasivistystyolukutaito',
   'koulutustyyppi_40': 'tutkintoonvalmentava',
+  'koulutustyyppi_muu': 'muukoulutus',
 };
 
 const ktToUrlShortParam = {
@@ -449,6 +451,19 @@ export function kotoutumiskoulutus() {
       },
     },
     alityypit: EperusteetKoulutustyyppiRyhmat.kotoutumiskoulutus,
+  }];
+}
+
+export function muuKoulutus() {
+  return [{
+    name: 'muukoulutus',
+    route: {
+      name: 'kooste',
+      params: {
+        koulutustyyppi: koulutustyyppiStateName('koulutustyyppi_muu'),
+      },
+    },
+    alityypit: ['koulutustyyppi_muu'],
   }];
 }
 
