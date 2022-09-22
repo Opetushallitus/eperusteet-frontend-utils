@@ -15,11 +15,9 @@
       <template v-slot:cell(actions)="row">
         <div class="float-right">
           <div v-if="!row.item.valittu">
-            <router-link :to="{ query: { versionumero: row.item.index } }">
-              <ep-button variant="link" icon="silma">
-                {{ $t('katsele') }}
-              </ep-button>
-            </router-link>
+            <ep-button variant="link" icon="silma" @click="changeVersion(row.item.index)">
+              {{ $t('katsele') }}
+            </ep-button>
             <ep-button variant="link"
                        icon="peruuta"
                        @click="$emit('restore', { numero: row.item.numero, modal: $refs['epversiomodaali'] })">
@@ -108,6 +106,10 @@ export default class EpVersioModaali extends Mixins(EpValidation) {
     }
     return versions;
   }
+
+  changeVersion(versionumero) {
+    this.$router.replace({ path: this.$route.path, query: { versionumero } });
+  };
 
   get rows() {
     return this.versionsFormatted.length;
