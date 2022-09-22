@@ -362,11 +362,7 @@ export default class EpEditointi extends Mixins(validationMixin) {
   private currentPage = 1;
 
   private updateVersionumero(versionumero) {
-    this.$router.push({
-      query: {
-        versionumero,
-      },
-    });
+    this.$router.replace({ path: this.$route.path, query: { versionumero } });
   }
 
   @Watch('data')
