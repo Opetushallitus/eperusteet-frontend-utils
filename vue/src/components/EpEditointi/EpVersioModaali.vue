@@ -108,7 +108,7 @@ export default class EpVersioModaali extends Mixins(EpValidation) {
   }
 
   changeVersion(versionumero) {
-    this.$router.replace({ path: this.$route.path, query: { versionumero } });
+    this.$router.push({ query: { versionumero } }).catch(() => {});
   };
 
   get rows() {
