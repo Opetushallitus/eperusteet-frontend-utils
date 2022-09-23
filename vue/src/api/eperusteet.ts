@@ -147,6 +147,8 @@ export type PerusteKaikkiDto = EperusteetApi.PerusteKaikkiDto;
 export type PerusteenJulkaisuData = EperusteetApi.PerusteenJulkaisuData;
 export type KoulutustyyppiLukumaara = EperusteetApi.KoulutustyyppiLukumaara;
 export type PoistettuSisaltoDto = EperusteetApi.PoistettuSisaltoDto;
+export type TutkinnonOsaKaikkiDto = EperusteetApi.TutkinnonOsaKaikkiDto;
+export type TutkinnonOsaViiteSuppeaDto = EperusteetApi.TutkinnonOsaViiteSuppeaDto;
 
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
