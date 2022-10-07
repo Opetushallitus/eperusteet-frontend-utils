@@ -1900,6 +1900,7 @@
     "oppilaitokset": "Oppilaitokset",
     "oppilaitos": "Oppilaitos",
     "oppilaitos-organisaatio-paikkakunta": "Oppilaitos / Organisaatio / Paikkakunta",
+    "organisaatio-valinta-oppilaitos-huomio": "Jos olet luomassa kunnan opetussuunnitelmaa, oppilaitoksia ei tarvitse lisätä. Oppilaitosten lisääminen kunnan suunnitelmaan antaa pääsyn ja muokkaus -oikeuden kaikille oppilaitoksille, jotka suunnitelman tietoihin on lisätty.",
     "oppimaara": "Oppimäärä",
     "oppimaaraa-ei-voi-siirtaa-oppiaineeksi": "Oppimäärää ei voi siirtää oppiaineeksi.",
     "oppimaaraa-ei-voi-siirtaa-toisen-oppimaaran-alle": "Oppimäärää ei voi siirtää toiseen oppiaineeseen.",
