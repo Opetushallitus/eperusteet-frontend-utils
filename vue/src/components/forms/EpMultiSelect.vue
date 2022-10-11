@@ -254,6 +254,7 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
   border: 2px solid #E0E0E1;
   border-radius: 0 0 10px 10px;
   width: fit-content;
+  min-width: 100%;
   margin-top: -2px;
 }
 
