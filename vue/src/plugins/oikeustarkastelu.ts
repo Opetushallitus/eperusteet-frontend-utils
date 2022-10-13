@@ -7,7 +7,7 @@ import { Computed } from '../utils/interfaces';
 const DisableTags = ['input', 'button'];
 
 export interface IOikeusProvider {
-  hasOikeus: (oikeus: Oikeus, kohde: any) => boolean;
+  hasOikeus: (oikeus: Oikeus, kohde?: any) => boolean;
   isAdmin?: Computed<boolean>;
   hasOphCrud?: Computed<boolean>;
   casKayttaja: Computed<any>;
@@ -20,7 +20,7 @@ export interface OikeustarkasteluConfig {
 
 declare module 'vue/types/vue' {
   interface Vue {
-    $hasOikeus: (oikeus: Oikeus, kohde: any) => boolean;
+    $hasOikeus: (oikeus: Oikeus, kohde?: any) => boolean;
     $isAdmin: () => boolean;
     $hasOphCrud: () => boolean;
   }
@@ -31,7 +31,7 @@ export class Oikeustarkastelu {
     vue.prototype.$isAdmin = () => config.oikeusProvider.isAdmin?.value || false;
     vue.prototype.$hasOphCrud = () => config.oikeusProvider.hasOphCrud?.value || false;
 
-    vue.prototype.$hasOikeus = function(oikeus: Oikeus, kohde: any) {
+    vue.prototype.$hasOikeus = function(oikeus: Oikeus, kohde?: any) {
       return config.oikeusProvider.hasOikeus(oikeus, kohde);
     };
 
