@@ -3,7 +3,7 @@
     <div v-if="model">
       {{ model }}
       <slot>
-        {{ $t('osaamispiste') }}
+        {{ laajuusYksikkoLyhenne }}
       </slot>
     </div>
     <div v-else>
@@ -17,7 +17,7 @@
       </div>
       <div class="ml-2">
         <slot>
-        {{ $t('osaamispiste') }}
+        {{ laajuusYksikkoLyhenne }}
         </slot>
       </div>
     </div>
@@ -25,10 +25,12 @@
 </template>
 
 <script lang="ts">
-import { Watch, Prop, Component, Vue } from 'vue-property-decorator';
+import { Watch, Prop, Component } from 'vue-property-decorator';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import EpValidation from '../../mixins/EpValidation';
 import EpErrorWrapper from '../forms/EpErrorWrapper.vue';
+import { LaajuusYksikkoEnum } from '@/generated/amosaa';
+import _ from 'lodash';
 
 @Component({
   components: {
@@ -43,6 +45,9 @@ export default class EpLaajuusInput extends EpValidation {
   @Prop({ default: false })
   private isEditing!: boolean;
 
+  @Prop({ required: false })
+  private laajuusYksikko?: LaajuusYksikkoEnum;
+
   private model = 0;
 
   @Watch('value', { immediate: true })
@@ -52,8 +57,20 @@ export default class EpLaajuusInput extends EpValidation {
 
   @Watch('model', { immediate: true })
   onModelUpdate(newValue: number) {
-    this.model = Math.max(Math.min(999, Number(newValue)), 0); ;
+    this.model = Math.max(Math.min(999, Number(newValue)), 0);
     this.$emit('input', this.model);
+  }
+
+  get laajuusYksikkoLyhenne() {
+    if (this.laajuusYksikko && !this.isEditing) {
+      return this.$t(_.lowerCase(this.laajuusYksikko) + '-lyhenne');
+    }
+    else if (this.laajuusYksikko && this.isEditing) {
+      return '';
+    }
+    else {
+      return this.$t('osaamispiste'); // palautetaan 'osp' niille joilla ei ole laajuusyksikköä
+    }
   }
 }
 </script>
