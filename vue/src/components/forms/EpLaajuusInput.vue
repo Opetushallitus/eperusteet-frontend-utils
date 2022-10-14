@@ -29,7 +29,7 @@ import { Watch, Prop, Component } from 'vue-property-decorator';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import EpValidation from '../../mixins/EpValidation';
 import EpErrorWrapper from '../forms/EpErrorWrapper.vue';
-import { LaajuusYksikkoEnum } from '@/generated/amosaa';
+import { LaajuusYksikkoEnum } from '@shared/api/amosaa';
 import _ from 'lodash';
 
 @Component({
@@ -65,11 +65,11 @@ export default class EpLaajuusInput extends EpValidation {
     if (this.laajuusYksikko && !this.isEditing) {
       return this.$t(_.lowerCase(this.laajuusYksikko) + '-lyhenne');
     }
-    else if (this.laajuusYksikko && this.isEditing) {
+    else if (this.laajuusYksikko || this.isEditing) {
       return '';
     }
     else {
-      return this.$t('osaamispiste'); // palautetaan 'osp' niille joilla ei ole laajuusyksikköä
+      return this.$t('osaamispiste'); // palautetaan 'osp' niille vanhoille joilla ei ole laajuusyksikköä
     }
   }
 }
