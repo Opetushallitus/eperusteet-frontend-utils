@@ -15,11 +15,6 @@
       <div class="flex-grow-1">
         <ep-input type="number" v-model="model" min="0" max="999" :is-editing="isEditing" :validation="validation" />
       </div>
-      <div class="ml-2">
-        <slot>
-        {{ laajuusYksikkoLyhenne }}
-        </slot>
-      </div>
     </div>
   </div>
 </template>
@@ -62,15 +57,7 @@ export default class EpLaajuusInput extends EpValidation {
   }
 
   get laajuusYksikkoLyhenne() {
-    if (this.laajuusYksikko && !this.isEditing) {
-      return this.$t(_.lowerCase(this.laajuusYksikko) + '-lyhenne');
-    }
-    else if (this.laajuusYksikko || this.isEditing) {
-      return '';
-    }
-    else {
-      return this.$t('osaamispiste'); // palautetaan 'osp' niille vanhoille joilla ei ole laajuusyksikköä
-    }
+    return this.$t(_.lowerCase(this.laajuusYksikko) + '-lyhenne');
   }
 }
 </script>
