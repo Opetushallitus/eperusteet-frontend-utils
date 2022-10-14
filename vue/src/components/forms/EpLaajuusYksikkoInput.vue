@@ -1,11 +1,11 @@
 <template>
   <EpMultiSelect
-    v-model="value"
+    v-model="model"
     :options="laajuusYksikot"
     :close-on-select="true"
     :clear-on-select="false"
     :placeholder="$t('valitse-laajuus-yksikko')"
-    :validation="validation.opintokokonaisuus.laajuusYksikko">
+    :validation="validation">
     <template slot="singleLabel" slot-scope="{ option }">
       {{ $t(option.toLowerCase() + '-lyhenne') }}
     </template>
@@ -16,11 +16,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop } from 'vue-property-decorator';
-import EpValidation from '@/mixins/EpValidation';
+import { Component, Mixins, Prop, Watch } from 'vue-property-decorator';
+import EpValidation from '../../mixins/EpValidation';
 import EpErrorWrapper from '../forms/EpErrorWrapper.vue';
-import { LaajuusYksikkoEnum } from '@/api/amosaa';
-import EpMultiSelect from '@/components/forms/EpMultiSelect.vue';
+import EpMultiSelect from '@shared/components/forms/EpMultiSelect.vue';
+import { LaajuusYksikkoEnum } from '@shared/api/amosaa';
 
 @Component({
   components: {
@@ -28,9 +28,21 @@ import EpMultiSelect from '@/components/forms/EpMultiSelect.vue';
     EpMultiSelect,
   },
 })
-export default class EpLaajuusYksikkoInput extends EpValidation {
+export default class EpLaajuusYksikkoInput extends Mixins(EpValidation) {
   @Prop({ required: true })
   private value!: LaajuusYksikkoEnum;
+
+  private model = LaajuusYksikkoEnum.OSAAMISPISTE;
+
+  @Watch('value', { immediate: true })
+  onValueUpdate(newValue: LaajuusYksikkoEnum) {
+    this.model = newValue;
+  }
+
+  @Watch('model', { immediate: true })
+  onModelUpdate() {
+    this.$emit('input', this.model);
+  }
 
   get laajuusYksikot() {
     return [
