@@ -328,6 +328,12 @@ export default class EpContent extends Mixins(EpValidation) {
   .content-valid /deep/ .form-control {
     border-color: $valid;
   }
+
+  // Alleviivataan editorissa oleva virheellinen linkki, jolla ei ole hreffiä.
+  /deep/ .form-control a:not([href]):not([class]) {
+    text-decoration: underline;
+    text-decoration-color: red;
+  }
 }
 
 // Piilotettu Bootstrapissa oletuksena
