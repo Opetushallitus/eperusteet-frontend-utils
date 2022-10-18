@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import { Watch, Prop, Component, Vue } from 'vue-property-decorator';
+import { Watch, Prop, Component } from 'vue-property-decorator';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import EpValidation from '../../mixins/EpValidation';
 import EpErrorWrapper from '../forms/EpErrorWrapper.vue';
@@ -52,7 +52,7 @@ export default class EpLaajuusInput extends EpValidation {
 
   @Watch('model', { immediate: true })
   onModelUpdate(newValue: number) {
-    this.model = Math.max(Math.min(999, Number(newValue)), 0); ;
+    this.model = Math.max(Math.min(999, Number(newValue)), 0);
     this.$emit('input', this.model);
   }
 }
