@@ -3,7 +3,7 @@
     <div v-if="model">
       {{ model }}
       <slot>
-        {{ laajuusYksikkoLyhenne }}
+        {{ $t('osaamispiste') }}
       </slot>
     </div>
     <div v-else>
@@ -15,6 +15,11 @@
       <div class="flex-grow-1">
         <ep-input type="number" v-model="model" min="0" max="999" :is-editing="isEditing" :validation="validation" />
       </div>
+      <div class="ml-2">
+        <slot>
+        {{ $t('osaamispiste') }}
+        </slot>
+      </div>
     </div>
   </div>
 </template>
@@ -24,8 +29,6 @@ import { Watch, Prop, Component } from 'vue-property-decorator';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import EpValidation from '../../mixins/EpValidation';
 import EpErrorWrapper from '../forms/EpErrorWrapper.vue';
-import { LaajuusYksikkoEnum } from '@shared/api/amosaa';
-import _ from 'lodash';
 
 @Component({
   components: {
@@ -40,9 +43,6 @@ export default class EpLaajuusInput extends EpValidation {
   @Prop({ default: false })
   private isEditing!: boolean;
 
-  @Prop({ required: false, default: LaajuusYksikkoEnum.OPINTOPISTE })
-  private laajuusYksikko?: LaajuusYksikkoEnum;
-
   private model = 0;
 
   @Watch('value', { immediate: true })
@@ -54,10 +54,6 @@ export default class EpLaajuusInput extends EpValidation {
   onModelUpdate(newValue: number) {
     this.model = Math.max(Math.min(999, Number(newValue)), 0);
     this.$emit('input', this.model);
-  }
-
-  get laajuusYksikkoLyhenne() {
-    return this.$t(_.lowerCase(this.laajuusYksikko) + '-lyhenne');
   }
 }
 </script>
