@@ -40,7 +40,7 @@ export default class EpLaajuusInput extends EpValidation {
   @Prop({ default: false })
   private isEditing!: boolean;
 
-  @Prop({ required: false })
+  @Prop({ required: false, default: LaajuusYksikkoEnum.OPINTOPISTE })
   private laajuusYksikko?: LaajuusYksikkoEnum;
 
   private model = 0;

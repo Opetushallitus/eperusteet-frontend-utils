@@ -32,16 +32,12 @@ export default class EpLaajuusYksikkoInput extends Mixins(EpValidation) {
   @Prop({ required: true })
   private value!: LaajuusYksikkoEnum;
 
-  private model = LaajuusYksikkoEnum.OSAAMISPISTE;
-
-  @Watch('value', { immediate: true })
-  onValueUpdate(newValue: LaajuusYksikkoEnum) {
-    this.model = newValue;
+  get model() {
+    return this.value;
   }
 
-  @Watch('model', { immediate: true })
-  onModelUpdate() {
-    this.$emit('input', this.model);
+  set model(value) {
+    this.$emit('input', value);
   }
 
   get laajuusYksikot() {
