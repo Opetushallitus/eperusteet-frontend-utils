@@ -106,7 +106,8 @@ export default class EpProgressPopover extends Vue {
   @include tile-background-shadow-selected;
   border: 0px;
   border-radius: 1rem;
-  margin-top: -155px;
+  // margin-top: -100px;
+  transform: translate3d(45px, 55px, 0px) !important;
 
   /deep/ .arrow {
     display:none;
