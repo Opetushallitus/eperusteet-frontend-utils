@@ -164,3 +164,4 @@ export type OpetussuunnitelmanJulkaisuDto = YlopsApi.OpetussuunnitelmanJulkaisuD
 export type PalauteDto = YlopsApi.PalauteDto;
 export type LukioOppiaineTiedotDto = YlopsApi.LukioOppiaineTiedotDto;
 export type OpetussuunnitelmaExportDto = YlopsApi.OpetussuunnitelmaExportDto;
+export type Validointi = YlopsApi.Validointi;

@@ -33,7 +33,7 @@
             variant="primary"
             :to="{ name: 'julkaise' }">{{ $t('siirry-julkaisunakymaan') }}
           </b-button>
-          <div class="pl-3 pt-2 pb-1 row" v-if="validoinnit.virheet === 0 && validoinnit.huomautukset === 0">
+          <div class="pl-3 pt-2 pb-1 row" v-if="validoinnit && validoinnit.virheet.length === 0 && validoinnit.huomautukset.length === 0">
             <div class="col-1">
               <fas class="text-success" icon="check-circle"/>
             </div>
