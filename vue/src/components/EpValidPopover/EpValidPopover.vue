@@ -7,31 +7,32 @@
             {{ $t(tila) }}
           </span>
 
-          <div class="text-center julkaisemattomia-muutoksia font-size-08" v-if="julkaisemattomiaMuutoksia">
-            <span><fas icon="info" class="mr-2"/>{{$t(julkaisemattomiaTeksti)}}</span>
-          </div>
+          <template v-if="!arkistoitu">
+            <div class="text-center julkaisemattomia-muutoksia font-size-08" v-if="julkaisemattomiaMuutoksia">
+              <span><fas icon="info" class="mr-2"/>{{$t(julkaisemattomiaTeksti)}}</span>
+            </div>
 
-          <b-button class="px-3 py-1" variant="primary" v-if="luonnos && !julkaistava" @click="makeReady">
-            {{$t('aseta-valmiiksi')}}
-          </b-button>
-          <b-button class="px-3 py-1" variant="primary" :to="{ name: 'julkaise' }" v-else-if="julkaistava && luonnos && !julkaistu && !arkistoitu">
-            {{ $t('siirry-julkaisunakymaan') }}
-          </b-button>
+            <b-button class="px-3 py-1" variant="primary" v-if="luonnos && !julkaistava" @click="makeReady">
+              {{$t('aseta-valmiiksi')}}
+            </b-button>
+            <b-button class="px-3 py-1" variant="primary" :to="{ name: 'julkaise' }" v-else-if="julkaistava && luonnos && !julkaistu && !arkistoitu">
+              {{ $t('siirry-julkaisunakymaan') }}
+            </b-button>
+          </template>
         </div>
       </template>
       <div class="d-flex flex-column align-items-center">
         <b-button
-          v-if="(julkaistu || valmis) && julkaistava"
+          v-if="arkistoitu"
           variant="primary"
-          :to="{ name: 'julkaise' }">{{ $t('siirry-julkaisunakymaan') }}
+          @click="restore">{{ $t('palauta') }}
         </b-button>
-        <template v-if="arkistoitu">
+        <template v-else>
           <b-button
+            v-if="(julkaistu || valmis) && julkaistava"
             variant="primary"
-            @click="restore">{{ $t('palauta') }}
+            :to="{ name: 'julkaise' }">{{ $t('siirry-julkaisunakymaan') }}
           </b-button>
-        </template>
-        <div v-if="!arkistoitu">
           <div class="pl-3 pt-2 pb-1 row" v-if="validoinnit.virheet === 0 && validoinnit.huomautukset === 0">
             <div class="col-1">
               <fas class="text-success" icon="check-circle"/>
@@ -40,15 +41,25 @@
               {{ $t('validointi-ei-virheita') }}
             </div>
           </div>
-          <div class="pl-3 pt-2 pb-1 row" v-for="virhe in validoinnit.virheet" :key="virhe">
-            <div class="col-1">
-              <fas class="text-danger" icon="info-circle"/>
+          <div class="ml-3">
+            <div class="pt-2 pb-1 row" v-for="virhe in validoinnit.virheet" :key="virhe">
+              <div class="col-1">
+                <fas class="text-danger" icon="info-circle"/>
+              </div>
+              <div class="col">
+                <span>{{ $t(virhe) }}</span>
+              </div>
             </div>
-            <div class="col">
-              <span>{{ $t(virhe) }}</span>
+            <div class="pt-2 pb-1 row" v-if="validoinnit.huomautukset.length > 0">
+              <div class="col-1">
+                <fas class="text-warning" icon="info-circle"/>
+              </div>
+              <div class="col">
+                <span>{{ $t(huomautuksia) }}</span>
+              </div>
             </div>
-          </div>
         </div>
+        </template>
       </div>
     </EpProgressPopover>
     <EpSpinner v-else />
@@ -67,14 +78,6 @@ export enum ValidoitavatTilat {
   VALMIS = 'valmis',
   POISTETTU = 'poistettu',
   JULKAISTU = 'julkaistu',
-}
-
-export enum ValidableTyypit {
-  POHJA = 'pohja',
-  OPS = 'oph',
-  OPSPOHJA = 'opspohja',
-  YLEINEN = 'yleinen',
-  YHTEINEN = 'yhteinen'
 }
 
 export interface ValidableObject {
@@ -135,7 +138,7 @@ export default class EpValidPopover extends Vue {
   }
 
   get tila() {
-    if (this.julkaistu) {
+    if (this.julkaistu && !this.arkistoitu) {
       return ValidoitavatTilat.JULKAISTU;
     }
 
@@ -143,6 +146,12 @@ export default class EpValidPopover extends Vue {
   }
 
   get popupStyle(): { background: string; } | undefined {
+    if (this.tyyppi === 'peruste') {
+      return {
+        background: '#1d7599',
+      };
+    }
+
     return tileBackgroundColor(this.validoitava?.peruste ? this.validoitava?.peruste?.koulutustyyppi : this.validoitava?.koulutustyyppi);
   }
 
@@ -173,6 +182,20 @@ export default class EpValidPopover extends Vue {
 
     if (this.tyyppi === 'opetussuunnitelma') {
       return 'opetussuunnitelmassa-on-julkaisemattomia-muutoksia';
+    }
+  }
+
+  get huomautuksia() {
+    if (this.tyyppi === 'peruste') {
+      return 'perusteessa-huomautuksia';
+    }
+
+    if (this.tyyppi === 'toteutussuunnitelma') {
+      return 'toteutussuunnitelmassa-huomautuksia';
+    }
+
+    if (this.tyyppi === 'opetussuunnitelma') {
+      return 'opetussuunnitelmassa-huomautuksia';
     }
   }
 }
