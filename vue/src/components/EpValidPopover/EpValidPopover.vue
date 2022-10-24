@@ -9,10 +9,10 @@
 
           <template v-if="!arkistoitu">
             <div class="text-center julkaisemattomia-muutoksia font-size-08" v-if="julkaisemattomiaMuutoksia">
-              <span><fas icon="info" class="mr-2"/>{{$t(julkaisemattomiaTeksti)}}</span>
+              <fas icon="info" class="mr-2"/>{{$t(julkaisemattomiaTeksti)}}
             </div>
 
-            <b-button class="px-3 py-1" variant="primary" v-if="luonnos && !julkaistava" @click="makeReady">
+            <b-button class="px-3 py-1" variant="primary" v-if="luonnos && !julkaistava" @click="asetaValmiiksi">
               {{$t('aseta-valmiiksi')}}
             </b-button>
             <b-button class="px-3 py-1" variant="primary" :to="{ name: 'julkaise' }" v-else-if="julkaistava && luonnos && !julkaistu && !arkistoitu">
@@ -25,7 +25,7 @@
         <b-button
           v-if="arkistoitu"
           variant="primary"
-          @click="restore">{{ $t('palauta') }}
+          @click="palauta">{{ $t('palauta') }}
         </b-button>
         <template v-else>
           <b-button
@@ -117,12 +117,12 @@ export default class EpValidPopover extends Vue {
   @Prop({ required: true })
   private tyyppi!: 'peruste' | 'toteutussuunnitelma' | 'opetussuunnitelma';
 
-  makeReady() {
-    this.$emit('makeReady');
+  asetaValmiiksi() {
+    this.$emit('asetaValmiiksi');
   }
 
-  restore() {
-    this.$emit('restore');
+  palauta() {
+    this.$emit('palauta');
   }
 
   get prosessi() {
