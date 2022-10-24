@@ -62,7 +62,7 @@
         </template>
       </div>
     </EpProgressPopover>
-    <EpSpinner v-else />
+    <EpSpinner v-else class="mt-4" color="#fff"/>
   </div>
 </template>
 

@@ -1,9 +1,9 @@
 <template>
 <div class="spinner" :class="{'small': small}">
   <div class="oph-spinner">
-    <div class="oph-bounce oph-bounce1"></div>
-    <div class="oph-bounce oph-bounce2"></div>
-    <div class="oph-bounce oph-bounce3"></div>
+    <div class="oph-bounce oph-bounce1" :style="style"></div>
+    <div class="oph-bounce oph-bounce2" :style="style"></div>
+    <div class="oph-bounce oph-bounce3" :style="style"></div>
   </div>
 </div>
 </template>
@@ -15,6 +15,15 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 export default class EpSpinner extends Vue {
   @Prop({ required: false, type: Boolean })
   private small!: boolean;
+
+  @Prop({ required: false })
+  private color!: string;
+
+  get style() {
+    if (this.color) {
+      return { 'background-color': this.color + ' !important' };
+    }
+  }
 }
 </script>
 
