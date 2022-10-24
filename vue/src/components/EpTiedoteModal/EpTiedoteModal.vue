@@ -84,12 +84,29 @@
           <ep-spinner v-if="!perusteet" />
           <template v-else>
             <div class="peruste-linkitys-ohje mb-2">{{$t('valitsemasi-peruste-linkitetaan-osaksi-tiedotetta')}}</div>
-            <ep-multi-list-select
+            <EpMultiListSelect
                 tyyppi="peruste"
                 :items="perusteItems"
                 v-model="muokattavaTiedote.perusteet"
                 :is-editing="editing"
-                :required="false"/>
+                :required="false">
+
+              <template slot="option" slot-scope="{ option }">
+                {{option.text}}
+                <span class="ml-3 voimassaolo" v-if="option.value.voimassaoloAlkaa || option.value.voimassaoloLoppuu">
+                  (<span v-if="option.value.voimassaoloAlkaa">{{$sd(option.value.voimassaoloAlkaa)}}</span>-
+                  <span v-if="option.value.voimassaoloLoppuu">{{$sd(option.value.voimassaoloLoppuu)}}</span>)
+                </span>
+              </template>
+              <template slot="singleLabel" slot-scope="{ option }">
+                {{option.text}}
+                <span class="ml-3 voimassaolo" v-if="option.value.voimassaoloAlkaa || option.value.voimassaoloLoppuu">
+                  (<span v-if="option.value.voimassaoloAlkaa">{{$sd(option.value.voimassaoloAlkaa)}}</span>-
+                  <span v-if="option.value.voimassaoloLoppuu">{{$sd(option.value.voimassaoloLoppuu)}}</span>)
+                </span>
+              </template>
+
+            </EpMultiListSelect>
           </template>
         </ep-form-content>
 
@@ -221,7 +238,7 @@
 
 <script lang="ts">
 import * as _ from 'lodash';
-import { Watch, Prop, Component, Vue, Mixins } from 'vue-property-decorator';
+import { Watch, Prop, Component, Mixins } from 'vue-property-decorator';
 import { TiedoteDto, Kayttajat, PerusteHakuDto, PerusteDto, PerusteKevytDto, Koodisto } from '@shared/api/eperusteet';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
@@ -239,7 +256,6 @@ import EpContent from '@shared/components/EpContent/EpContent.vue';
 import EpKielivalinta from '@shared/components/EpKielivalinta/EpKielivalinta.vue';
 import { themes, ktToState, koulutustyyppiRyhmat, KoulutustyyppiRyhma, koulutustyyppiRyhmaSort } from '@shared/utils/perusteet';
 import EpColorIndicator from '@shared/components/EpColorIndicator/EpColorIndicator.vue';
-import { Kielet } from '../../stores/kieli';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { KoodistoSelectStore } from '../EpKoodistoSelect/KoodistoSelectStore';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
@@ -445,6 +461,8 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
     return {
       id: peruste.id,
       nimi: peruste.nimi,
+      voimassaoloAlkaa: peruste.voimassaoloAlkaa,
+      voimassaoloLoppuu: peruste.voimassaoloLoppuu,
     } as PerusteKevytDto;
   }
 
@@ -594,4 +612,9 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
     font-size: 0.8rem;
     color: $gray;
   }
+
+  .voimassaolo {
+    font-size:0.9rem;
+  }
+
 </style>
