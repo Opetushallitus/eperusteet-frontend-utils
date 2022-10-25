@@ -33,7 +33,7 @@
             variant="primary"
             :to="{ name: 'julkaise' }">{{ $t('siirry-julkaisunakymaan') }}
           </b-button>
-          <div class="pl-3 pt-2 pb-1 row" v-if="validoinnit && validoinnit.virheet.length === 0 && validoinnit.huomautukset.length === 0">
+          <div class="pl-3 pt-2 pb-1 row" v-if="validointiOk">
             <div class="col-1">
               <fas class="text-success" icon="check-circle"/>
             </div>
@@ -42,15 +42,27 @@
             </div>
           </div>
           <div class="ml-3">
-            <div class="pt-2 pb-1 row" v-for="virhe in validoinnit.virheet" :key="virhe">
-              <div class="col-1">
-                <fas class="text-danger" icon="info-circle"/>
+            <template v-if="validoinnit.ok && !validointiOk">
+              <div class="pt-2 pb-1 row" v-for="ok in validoinnit.ok" :key="virhe">
+                <div class="col-1">
+                  <fas class="text-success" icon="info-circle"/>
+                </div>
+                <div class="col">
+                  <span>{{ $t(ok) }}</span>
+                </div>
               </div>
-              <div class="col">
-                <span>{{ $t(virhe) }}</span>
+            </template>
+            <template v-if="validoinnit.virheet">
+              <div class="pt-2 pb-1 row" v-for="virhe in validoinnit.virheet" :key="virhe">
+                <div class="col-1">
+                  <fas class="text-danger" icon="info-circle"/>
+                </div>
+                <div class="col">
+                  <span>{{ $t(virhe) }}</span>
+                </div>
               </div>
-            </div>
-            <div class="pt-2 pb-1 row" v-if="validoinnit.huomautukset.length > 0">
+            </template>
+            <div class="pt-2 pb-1 row" v-if="validoinnit.huomautukset && validoinnit.huomautukset.length > 0">
               <div class="col-1">
                 <fas class="text-warning" icon="info-circle"/>
               </div>
@@ -91,8 +103,9 @@ export interface ValidableObject {
 }
 
 export interface Validoinnit {
-  virheet: string[];
-  huomautukset: string[];
+  virheet?: string[];
+  huomautukset?: string[];
+  ok?: string[];
 }
 
 @Component({
@@ -197,6 +210,10 @@ export default class EpValidPopover extends Vue {
     if (this.tyyppi === 'opetussuunnitelma') {
       return 'opetussuunnitelmassa-huomautuksia';
     }
+  }
+
+  get validointiOk() {
+    return _.size(this.validoinnit.virheet) === 0 && _.size(this.validoinnit.huomautukset) === 0;
   }
 }
 </script>
