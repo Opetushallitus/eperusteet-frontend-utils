@@ -43,7 +43,7 @@
           </div>
           <div class="ml-3">
             <template v-if="validoinnit.ok && !validointiOk">
-              <div class="pt-2 pb-1 row" v-for="ok in validoinnit.ok" :key="virhe">
+              <div class="pt-2 pb-1 row" v-for="ok in validoinnit.ok" :key="ok">
                 <div class="col-1">
                   <fas class="text-success" icon="info-circle"/>
                 </div>
@@ -84,29 +84,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import EpProgressPopover from '@shared/components/EpProgressPopover/EpProgressPopover.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { tileBackgroundColor } from '@shared/utils/bannerIcons';
-
-export enum ValidoitavatTilat {
-  LUONNOS = 'luonnos',
-  VALMIS = 'valmis',
-  POISTETTU = 'poistettu',
-  JULKAISTU = 'julkaistu',
-}
-
-export interface ValidableObject {
-  tila: string,
-  koulutustyyppi?: string,
-  peruste?: {
-    koulutustyyppi? :string,
-  },
-  tyyppi: string,
-  viimeisinJulkaisuAika?: number;
-}
-
-export interface Validoinnit {
-  virheet?: string[];
-  huomautukset?: string[];
-  ok?: string[];
-}
+import { ValidableObject, Validoinnit, ValidoitavatTilat, ValidoitavatTyypit } from '@shared/components/EpValidPopover/EpValidPopoverTypes';
 
 @Component({
   components: {
@@ -128,7 +106,7 @@ export default class EpValidPopover extends Vue {
   private julkaistava!: boolean;
 
   @Prop({ required: true })
-  private tyyppi!: 'peruste' | 'toteutussuunnitelma' | 'opetussuunnitelma';
+  private tyyppi!: ValidoitavatTyypit;
 
   asetaValmiiksi() {
     this.$emit('asetaValmiiksi');
@@ -185,29 +163,29 @@ export default class EpValidPopover extends Vue {
   }
 
   get julkaisemattomiaTeksti() {
-    if (this.tyyppi === 'peruste') {
+    if (this.tyyppi === ValidoitavatTyypit.PERUSTE) {
       return 'perusteessa-on-julkaisemattomia-muutoksia';
     }
 
-    if (this.tyyppi === 'toteutussuunnitelma') {
+    if (this.tyyppi === ValidoitavatTyypit.TOTEUTUSSUUNNITELMA) {
       return 'toteutussuunnitelmassa-on-julkaisemattomia-muutoksia';
     }
 
-    if (this.tyyppi === 'opetussuunnitelma') {
+    if (this.tyyppi === ValidoitavatTyypit.OPETUSSUUNNITELMA) {
       return 'opetussuunnitelmassa-on-julkaisemattomia-muutoksia';
     }
   }
 
   get huomautuksia() {
-    if (this.tyyppi === 'peruste') {
+    if (this.tyyppi === ValidoitavatTyypit.PERUSTE) {
       return 'perusteessa-huomautuksia';
     }
 
-    if (this.tyyppi === 'toteutussuunnitelma') {
+    if (this.tyyppi === ValidoitavatTyypit.TOTEUTUSSUUNNITELMA) {
       return 'toteutussuunnitelmassa-huomautuksia';
     }
 
-    if (this.tyyppi === 'opetussuunnitelma') {
+    if (this.tyyppi === ValidoitavatTyypit.OPETUSSUUNNITELMA) {
       return 'opetussuunnitelmassa-huomautuksia';
     }
   }
