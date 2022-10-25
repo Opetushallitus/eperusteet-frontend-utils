@@ -25,6 +25,7 @@ import { Configuration,
   VuosiluokkakokonaisuudetApi,
   PalautteetApi,
   LukioOpetussuunnitelmatApi,
+  JulkaisutApi,
 } from '../generated/ylops';
 import axios, { AxiosInstance } from 'axios';
 import _ from 'lodash';
@@ -90,6 +91,7 @@ export const OppiaineenVuosiluokkakokonaisuudet = initApi(OppiaineenVuosiluokkak
 export const OppiaineenVuosiluokat = initApi(OppiaineenVuosiluokatApi);
 export const Palautteet = initApi(PalautteetApi);
 export const LukioOpetussuunnitelmat = initApi(LukioOpetussuunnitelmatApi);
+export const Julkaisut = initApi(JulkaisutApi);
 
 Dokumentit.addImage = (opsId, tyyppi, kieli, formData) => {
   return Api.post('/dokumentit/kuva', formData, {
@@ -164,3 +166,4 @@ export type OpetussuunnitelmanJulkaisuDto = YlopsApi.OpetussuunnitelmanJulkaisuD
 export type PalauteDto = YlopsApi.PalauteDto;
 export type LukioOppiaineTiedotDto = YlopsApi.LukioOppiaineTiedotDto;
 export type OpetussuunnitelmaExportDto = YlopsApi.OpetussuunnitelmaExportDto;
+export type Validointi = YlopsApi.Validointi;

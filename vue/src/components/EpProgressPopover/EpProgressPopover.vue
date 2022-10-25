@@ -15,9 +15,10 @@
       size="md"
       placement="bottom"
       :show.sync="tilaPopupVisible"
-      ref="popover"
+      ref="progresspopover"
       custom-class="progress-popover"
-      v-if="$slots.default">
+      v-if="$slots.default"
+      >
 
       <div class="popup-top row flex-column align-items-center" :style="popupStyle">
         <div class="progress-area">
@@ -93,10 +94,6 @@ export default class EpProgressPopover extends Vue {
 @import '@shared/styles/_variables.scss';
 @import '@shared/styles/_mixins.scss';
 
-.header {
-  color: $gray-lighten-4;
-}
-
 .progress-area {
   width: 100px;
 }
@@ -106,7 +103,7 @@ export default class EpProgressPopover extends Vue {
   @include tile-background-shadow-selected;
   border: 0px;
   border-radius: 1rem;
-  margin-top: -155px;
+  transform: translate3d(45px, 55px, 0px) !important;
 
   /deep/ .arrow {
     display:none;
