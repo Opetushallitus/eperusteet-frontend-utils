@@ -141,6 +141,7 @@ export type PerusteTekstiKappaleViiteMatalaDto = YlopsApi.PerusteTekstiKappaleVi
 export type PoistettuTekstiKappaleDto = YlopsApi.PoistettuTekstiKappaleDto;
 export type Puu = YlopsApi.Puu;
 export type RevisionDto = YlopsApi.RevisionDto;
+export type RevisionKayttajaDto = YlopsApi.RevisionKayttajaDto;
 export type TekstiKappaleDto = YlopsApi.TekstiKappaleDto;
 export type TekstiKappaleKevytDto = YlopsApi.TekstiKappaleKevytDto;
 export type TekstiKappaleViiteKevytDto = YlopsApi.TekstiKappaleViiteKevytDto;
