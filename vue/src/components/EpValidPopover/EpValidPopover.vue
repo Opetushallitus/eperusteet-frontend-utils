@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="ep-valid-popover">
     <EpProgressPopover v-if="validoinnit" :slices="prosessi" :popup-style="popupStyle">
       <template v-slot:header>
-        <div class="d-flex flex-column align-items-center">
+        <div class="d-flex flex-column align-items-center" :class="tyyppi">
           <span class="validation-text pb-2">
             {{ $t(tila) }}
           </span>
@@ -207,4 +207,11 @@ export default class EpValidPopover extends Vue {
   width: 15rem;
   line-height: 1.1rem;
 }
+
+.peruste {
+  .validation-text {
+    color: $white;
+  }
+}
+
 </style>
