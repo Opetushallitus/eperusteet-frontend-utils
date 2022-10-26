@@ -208,14 +208,12 @@ export default class EpValidPopover extends Vue {
   line-height: 1.1rem;
 }
 
-.peruste {
-  .validation-text {
-    color: $white;
-  }
-}
-
 ::v-deep .popover-body {
   color: inherit;
+
+  .slot-area {
+    color: $black;
+  }
 }
 
 </style>
