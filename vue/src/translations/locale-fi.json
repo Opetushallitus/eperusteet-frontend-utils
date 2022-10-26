@@ -594,6 +594,7 @@
     "julkaisu-epaonnistui-peruste-ei-muuttunut-viime-julkaisun-jalkeen": "Peruste ei ole muuttunut viime julkaisun jälkeen",
     "julkaisu-epaonnistui-peruste-koodi-arvo-liian-pitka": "Julkaisu epäonnistui: Tallennettavan koodin arvo on liian pitkä",
     "julkaisu-epaonnistui-toteutussuunnitelma-ei-muuttunut-viime-julkaisun-jalkeen": "Toteutussuunnitelma ei ole muuttunut viime julkaisun jälkeen",
+    "julkaisu-epaonnistui-opetussuunnitelma-ei-validi": "Opetussuunnitelmassa validointivirheitä",
     "julkaisu-korvaa-perusteet": "Peruste korvaa seuraavat käytössä olevat perusteet:",
     "julkaisu-on-estetty-koska-koulutustyyppi-ei-ole-tuettu": "Julkaisu on estetty, koska koulutustyyppi ei ole tuettu",
     "julkaisu-onnistui": "Julkaisu onnistui",
