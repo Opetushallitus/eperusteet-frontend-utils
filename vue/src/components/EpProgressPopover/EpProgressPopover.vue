@@ -10,6 +10,7 @@
     </div>
 
     <b-popover
+      container="tila-popover"
       target="tila-popover"
       triggers="focus hover blur"
       size="md"

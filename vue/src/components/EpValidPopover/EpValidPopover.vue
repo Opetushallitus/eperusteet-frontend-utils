@@ -214,4 +214,8 @@ export default class EpValidPopover extends Vue {
   }
 }
 
+::v-deep .popover-body {
+  color: inherit;
+}
+
 </style>
