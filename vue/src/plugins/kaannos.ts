@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { createLogger } from '../utils/logger';
 import { Kielet } from '../stores/kieli';
 import * as _ from 'lodash';
+import { unescapeStringHtml } from '@shared/utils/inputs';
 
 const logger = createLogger('Kaannos');
 
@@ -24,14 +25,14 @@ export class Kaannos {
     };
 
     vue.prototype.$kaanna = (value: any, emptyWhenNotFound = false, squareBrackets = true) => {
-      return Kielet.kaanna(value, emptyWhenNotFound, _.has(options, 'squareBrackets') ? options.squareBrackets : squareBrackets);
+      return unescapeStringHtml(Kielet.kaanna(value, emptyWhenNotFound, _.has(options, 'squareBrackets') ? options.squareBrackets : squareBrackets));
     };
 
     vue.prototype.$kaannaOlioTaiTeksti = (value: any, emptyWhenNotFound = false, squareBrackets = true) => {
-      return Kielet.kaannaOlioTaiTeksti(
+      return unescapeStringHtml(Kielet.kaannaOlioTaiTeksti(
         value,
         _.has(options, 'emptyWhenNotFound') ? options.emptyWhenNotFound : emptyWhenNotFound,
-        _.has(options, 'squareBrackets') ? options.squareBrackets : squareBrackets);
+        _.has(options, 'squareBrackets') ? options.squareBrackets : squareBrackets));
     };
   }
 }
