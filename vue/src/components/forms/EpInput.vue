@@ -43,6 +43,7 @@ import { Kielet } from '../../stores/kieli';
 import { createLogger } from '../../utils/logger';
 import EpValidation from '../../mixins/EpValidation';
 import { Debounced } from '../../utils/delay';
+import { unescapeStringHtml } from '@shared/utils/inputs';
 
 const logger = createLogger('EpInput');
 
@@ -55,16 +56,6 @@ function escapeHtml(str: string | null) {
   else {
     TextArea.textContent = str;
     return TextArea.innerHTML;
-  }
-}
-
-function unescapeHtml(str: string | null) {
-  if (!str) {
-    return '';
-  }
-  else {
-    TextArea.innerHTML = str;
-    return TextArea.textContent;
   }
 }
 
@@ -181,12 +172,7 @@ export default class EpInput extends Mixins(EpValidation) {
       ? (this.value as any)[Kielet.getSisaltoKieli.value]
       : this.value;
 
-    if (_.isString(target)) {
-      return unescapeHtml(target);
-    }
-    else {
-      return target;
-    }
+    return unescapeStringHtml(target);
   }
 }
 </script>
