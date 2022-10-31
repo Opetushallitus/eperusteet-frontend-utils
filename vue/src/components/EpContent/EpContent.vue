@@ -330,8 +330,9 @@ export default class EpContent extends Mixins(EpValidation) {
   }
 
   // Alleviivataan editorissa oleva virheellinen linkki, jolla ei ole hreffiä.
-  /deep/ .form-control a:not([href]):not([class]) {
+  /deep/ a:not([href]):not([class]) {
     text-decoration: underline;
+    text-decoration-style: dotted;
     text-decoration-color: red;
   }
 }
