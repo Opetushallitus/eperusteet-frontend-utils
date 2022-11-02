@@ -110,13 +110,6 @@ export default class EpViimeaikainenToiminta extends Vue {
       .value();
   }
 
-  muutostietoRoute(muokkaustieto) {
-    if (muokkaustieto.kohde === 'julkaisu') {
-
-    }
-    return { name: muokkaustieto.kohde, params: { sisaltoviiteId: muokkaustieto.kohdeId } };
-  }
-
   tapahtumateksti(muokkaustieto: Muokkaustieto) {
     if (muokkaustieto.lisatieto) {
       return this.$t(muokkaustieto.lisatieto);
