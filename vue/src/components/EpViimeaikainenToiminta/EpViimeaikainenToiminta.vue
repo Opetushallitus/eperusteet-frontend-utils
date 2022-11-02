@@ -15,7 +15,7 @@
         </div>
 
         <div class="col router-col text-left">
-          <div v-if="muokkaustieto.poistettu">
+          <div v-if="muokkaustieto.poistettu || muokkaustieto.tapahtuma === 'julkaisu'">
             <div class="router-box" :class="{ 'router-box-poistettu': muokkaustieto.poistettu }">
               <div class="row">
                 <div class="col nimi">{{muokkaustieto.kayttajaNimi}}</div>
@@ -24,7 +24,7 @@
               <div class="kohde">{{muokkaustieto.tapahtumateksti}}</div>
             </div>
           </div>
-          <router-link :to="muokkaustieto.route" v-else>
+          <router-link :to="{ name: muokkaustieto.kohde, params: { sisaltoviiteId: muokkaustieto.kohdeId } }" v-else>
             <div class="router-box" :class="{ 'router-box-poistettu': muokkaustieto.poistettu }">
               <div class="row">
                 <div class="col nimi">{{muokkaustieto.kayttajaNimi}}</div>
@@ -53,7 +53,7 @@
 
 <script lang="ts">
 import _ from 'lodash';
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import { muokkaustietoRoute, muokkaustietoIcon } from '@shared/utils/tapahtuma';
@@ -108,6 +108,13 @@ export default class EpViimeaikainenToiminta extends Vue {
       .sortBy('luotu')
       .reverse()
       .value();
+  }
+
+  muutostietoRoute(muokkaustieto) {
+    if (muokkaustieto.kohde === 'julkaisu') {
+
+    }
+    return { name: muokkaustieto.kohde, params: { sisaltoviiteId: muokkaustieto.kohdeId } };
   }
 
   tapahtumateksti(muokkaustieto: Muokkaustieto) {
