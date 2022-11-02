@@ -158,7 +158,7 @@ export interface PerusteprojektiQuery {
   nimi?: string;
   tila?: string[];
   koulutustyyppi?: string[];
-  tyyppi?: string;
+  tyyppi?: string[];
   jarjestysTapa?: string;
   jarjestysOrder?: boolean;
 };
