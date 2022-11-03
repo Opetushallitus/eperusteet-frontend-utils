@@ -11,7 +11,7 @@
           <div class="ikoni d-inline-block">
             <fas :icon="muokkaustieto.icon" :class="muokkaustieto.iconClass"/>
           </div>
-          <div class="aikajana" v-if="index != muokkaustiedotRouted.length - 1">&nbsp;</div>
+          <div class="aikajana" v-if="index !== muokkaustiedotRouted.length - 1">&nbsp;</div>
         </div>
 
         <div class="col router-col text-left">
@@ -39,7 +39,7 @@
        <span class="tyhja" v-if="muokkaustiedot && muokkaustiedot.length === 0">{{$t('viimeaikainen-toiminta-tyhja')}}</span>
 
       <div v-else>
-        <ep-button @click="haeLisaa" variant="link" v-if="!lisahaku && muokkaustiedotRouted.length % hakuLukumaara == 0 && muokkaustiedot && (!viimeinenHaku || viimeinenHaku.length > 0)">
+        <ep-button @click="haeLisaa" variant="link" v-if="!lisahaku && muokkaustiedotRouted.length % hakuLukumaara === 0 && muokkaustiedot && (!viimeinenHaku || viimeinenHaku.length > 0)">
           {{$t('nayta-lisaa')}}
         </ep-button>
 
@@ -98,7 +98,7 @@ export default class EpViimeaikainenToiminta extends Vue {
       .map((muokkaustieto: Muokkaustieto) => {
         return {
           ...muokkaustieto,
-          route: muokkaustietoRoute(muokkaustieto.kohdeId, muokkaustieto.kohde, muokkaustieto.tapahtuma, this.tyyppi),
+          ...(!muokkaustieto.route && { route: muokkaustietoRoute(muokkaustieto.kohdeId, muokkaustieto.kohde, muokkaustieto.tapahtuma, this.tyyppi) }),
           icon: muokkaustietoIcon(muokkaustieto.kohde, muokkaustieto.tapahtuma),
           iconClass: this.muokkaustietoIconClass(muokkaustieto),
           kayttajaNimi: muokkaustieto.kayttajanTieto ? parsiEsitysnimi(muokkaustieto.kayttajanTieto) : muokkaustieto.muokkaaja,
@@ -235,11 +235,9 @@ export default class EpViimeaikainenToiminta extends Vue {
             overflow: hidden;
             text-overflow: ellipsis;
           }
-
         }
       }
     }
-
   }
 
   .tyhja {
