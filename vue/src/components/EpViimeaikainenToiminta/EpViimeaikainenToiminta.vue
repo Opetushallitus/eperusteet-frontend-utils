@@ -24,7 +24,7 @@
               <div class="kohde">{{muokkaustieto.tapahtumateksti}}</div>
             </div>
           </div>
-          <router-link :to="{ name: muokkaustieto.kohde, params: { sisaltoviiteId: muokkaustieto.kohdeId } }" v-else>
+          <router-link :to="muokkaustieto.route" v-else>
             <div class="router-box" :class="{ 'router-box-poistettu': muokkaustieto.poistettu }">
               <div class="row">
                 <div class="col nimi">{{muokkaustieto.kayttajaNimi}}</div>
