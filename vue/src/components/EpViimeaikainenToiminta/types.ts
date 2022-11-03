@@ -20,5 +20,5 @@ export interface Muokkaustieto {
   lisatieto?: string;
   poistettu?: boolean;
   kayttajanTieto?: IEsitysnimi;
-  route: any;
+  route?: any;
 }
