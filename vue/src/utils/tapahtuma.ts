@@ -92,6 +92,9 @@ export function muokkaustietoRoute(id, kohde, tapahtuma, tyyppi = 'ops') {
     router.params[tyypinKohdereititysId[kohde]] = id;
   }
 
+  if (!router.name) {
+    return { name: kohde, params: { sisaltoviiteId: id } };
+  }
   return router;
 }
 
