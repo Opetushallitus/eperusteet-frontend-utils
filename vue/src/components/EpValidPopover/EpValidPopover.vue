@@ -147,7 +147,7 @@ export default class EpValidPopover extends Vue {
   }
 
   get julkaistu(): boolean {
-    return this.validoitava?.tila === ValidoitavatTilat.JULKAISTU || !!this.validoitava.viimeisinJulkaisuAika;
+    return this.validoitava?.tila === ValidoitavatTilat.JULKAISTU || !!this.validoitava?.viimeisinJulkaisuAika;
   }
 
   get valmis(): boolean {

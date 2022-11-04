@@ -14,6 +14,7 @@ const perusteKohdeReititys = {
   tekstikappale: 'tekstikappale',
   osaalue: 'osaalue',
   tutkinnon_muodostuminen: 'muodostuminen',
+  koulutuksenosa: 'koulutuksenosa',
 };
 
 const opasKohdeReititys = {
@@ -38,6 +39,7 @@ const perusteKohdereititysId = {
   tutkinnonosa: 'tutkinnonOsaId',
   tekstikappale: 'tekstiKappaleId',
   osaalue: 'osaalueId',
+  koulutuksenosa: 'koulutuksenosaId',
 };
 
 const tyypitettyKohdereititysId = {
