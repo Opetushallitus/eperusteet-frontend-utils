@@ -52,6 +52,7 @@ describe('EpKoodistoSelect component', () => {
     const wrapper = mountWrapper({
       tekstikappaleet: ['tekstk1', 'tekstk2'],
       paatasovalinta: false,
+      otsikkoRequired: false,
     }, {
       saveTekstikappale: (otsikko, saveTekstikappale) => {
         tekstikappale = {
@@ -67,10 +68,6 @@ describe('EpKoodistoSelect component', () => {
 
     expect(wrapper.findAll('button.btn-primary[disabled]')).toHaveLength(1);
 
-    wrapper.find('input').setValue('otsikko1');
-
-    expect(wrapper.findAll('button.btn-primary[disabled]')).toHaveLength(1);
-
     wrapper.findAll('option').at(1)
       .setSelected();
 
@@ -78,7 +75,6 @@ describe('EpKoodistoSelect component', () => {
 
     wrapper.find('button.btn-primary').trigger('click');
 
-    expect(tekstikappale.otsikko).toEqual({ 'fi': 'otsikko1' });
     expect(tekstikappale.saveTekstikappale).toEqual('tekstk1');
   });
 

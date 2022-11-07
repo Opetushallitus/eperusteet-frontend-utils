@@ -18,7 +18,7 @@
            :id="modalId"
            size="lg"
            centered
-           :ok-disabled="okDisabled && $v.otsikko.$invalid"
+           :ok-disabled="okDisabled"
            @hidden="clear"
            @ok="save">
     <template v-slot:modal-title>
@@ -118,7 +118,7 @@ export default class EpTekstikappaleLisays extends Vue {
   }
 
   get okDisabled() {
-    return this.otsikkoRequired || (this.taso === 'alataso' && _.isEmpty(this.valittuTekstikappale));
+    return (this.otsikkoRequired && this.$v.otsikko.$invalid) || (this.taso === 'alataso' && _.isEmpty(this.valittuTekstikappale));
   }
 
   async save() {
