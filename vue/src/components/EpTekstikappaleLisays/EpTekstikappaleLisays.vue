@@ -28,7 +28,7 @@
     </template>
 
     <ep-form-content name="tekstikappale-nimi-ohje" v-if="otsikkoRequired">
-      <ep-field class="mb-5" v-model="otsikko" :is-editing="true" />
+      <ep-field class="mb-5" v-model="otsikko" :is-editing="true" :validation="$v.otsikko" :showValidValidation="true"/>
     </ep-form-content>
 
     <ep-form-content>
@@ -74,7 +74,8 @@
 
 <script lang="ts">
 import _ from 'lodash';
-import { Prop, Component, Mixins, Vue } from 'vue-property-decorator';
+import { Prop, Component, Vue } from 'vue-property-decorator';
+import { requiredOneLang } from '@shared/validators/required';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpField from '@shared/components/forms/EpField.vue';
 import EpSelect from '@shared/components/forms/EpSelect.vue';
@@ -86,6 +87,9 @@ import EpFormContent from '@shared/components/forms/EpFormContent.vue';
     EpField,
     EpSelect,
     EpFormContent,
+  },
+  validations: {
+    otsikko: requiredOneLang(),
   },
 })
 export default class EpTekstikappaleLisays extends Vue {
@@ -101,7 +105,7 @@ export default class EpTekstikappaleLisays extends Vue {
   @Prop({ required: false, default: true })
   private otsikkoRequired!: boolean;
 
-   @Prop({ required: false, default: 'tekstikappalelisays' })
+  @Prop({ required: false, default: 'tekstikappalelisays' })
   private modalId!: string;
 
   private taso: 'paataso' | 'alataso' = 'paataso';
@@ -111,7 +115,7 @@ export default class EpTekstikappaleLisays extends Vue {
   }
 
   get okDisabled() {
-    return (this.otsikkoRequired && _.isEmpty(this.otsikko)) || (this.taso === 'alataso' && _.isEmpty(this.valittuTekstikappale));
+    return (this.otsikkoRequired && this.$v.otsikko.$invalid) || (this.taso === 'alataso' && _.isEmpty(this.valittuTekstikappale));
   }
 
   async save() {
