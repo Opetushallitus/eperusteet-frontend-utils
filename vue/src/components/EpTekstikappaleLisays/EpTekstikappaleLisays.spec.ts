@@ -1,12 +1,13 @@
 import { createLocalVue, mount } from '@vue/test-utils';
 import EpTekstikappaleLisays from './EpTekstikappaleLisays.vue';
 import BootstrapVue from 'bootstrap-vue';
-import _ from 'lodash';
 import { mocks } from '@shared/utils/jestutils';
+import Vuelidate from 'vuelidate';
 
 describe('EpKoodistoSelect component', () => {
   const localVue = createLocalVue();
   localVue.use(BootstrapVue);
+  localVue.use(Vuelidate);
 
   function mountWrapper(props: any, methods: any) {
     return mount(EpTekstikappaleLisays,
@@ -98,6 +99,8 @@ describe('EpKoodistoSelect component', () => {
     wrapper.find({ ref: 'tekstikappalelisaysModal' }).setProps({ static: true });
     wrapper.find('#tekstikappalelisaysBtn').trigger('click');
     await localVue.nextTick();
+
+    wrapper.find('input').setValue('otsikko1');
 
     expect(wrapper.vm.$data.taso).toBe('paataso');
     expect(wrapper.findAll('button.btn-primary[disabled]')).toHaveLength(1);

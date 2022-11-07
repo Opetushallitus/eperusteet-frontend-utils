@@ -18,7 +18,7 @@
            :id="modalId"
            size="lg"
            centered
-           :ok-disabled="okDisabled"
+           :ok-disabled="okDisabled && $v.otsikko.$invalid"
            @hidden="clear"
            @ok="save">
     <template v-slot:modal-title>
@@ -80,6 +80,7 @@ import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpField from '@shared/components/forms/EpField.vue';
 import EpSelect from '@shared/components/forms/EpSelect.vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
+import { Validations } from 'vuelidate-property-decorators';
 
 @Component({
   components: {
@@ -87,9 +88,6 @@ import EpFormContent from '@shared/components/forms/EpFormContent.vue';
     EpField,
     EpSelect,
     EpFormContent,
-  },
-  validations: {
-    otsikko: requiredOneLang(),
   },
 })
 export default class EpTekstikappaleLisays extends Vue {
@@ -110,12 +108,17 @@ export default class EpTekstikappaleLisays extends Vue {
 
   private taso: 'paataso' | 'alataso' = 'paataso';
 
+  @Validations()
+  validations = {
+    otsikko: requiredOneLang(),
+  }
+
   mounted() {
     this.taso = this.paatasovalinta ? 'paataso' : 'alataso';
   }
 
   get okDisabled() {
-    return (this.otsikkoRequired && this.$v.otsikko.$invalid) || (this.taso === 'alataso' && _.isEmpty(this.valittuTekstikappale));
+    return this.otsikkoRequired || (this.taso === 'alataso' && _.isEmpty(this.valittuTekstikappale));
   }
 
   async save() {
