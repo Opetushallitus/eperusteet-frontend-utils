@@ -1,12 +1,13 @@
 import { createLocalVue, mount } from '@vue/test-utils';
 import EpTekstikappaleLisays from './EpTekstikappaleLisays.vue';
 import BootstrapVue from 'bootstrap-vue';
-import _ from 'lodash';
 import { mocks } from '@shared/utils/jestutils';
+import Vuelidate from 'vuelidate';
 
 describe('EpKoodistoSelect component', () => {
   const localVue = createLocalVue();
   localVue.use(BootstrapVue);
+  localVue.use(Vuelidate);
 
   function mountWrapper(props: any, methods: any) {
     return mount(EpTekstikappaleLisays,
@@ -51,6 +52,7 @@ describe('EpKoodistoSelect component', () => {
     const wrapper = mountWrapper({
       tekstikappaleet: ['tekstk1', 'tekstk2'],
       paatasovalinta: false,
+      otsikkoRequired: false,
     }, {
       saveTekstikappale: (otsikko, saveTekstikappale) => {
         tekstikappale = {
@@ -66,10 +68,6 @@ describe('EpKoodistoSelect component', () => {
 
     expect(wrapper.findAll('button.btn-primary[disabled]')).toHaveLength(1);
 
-    wrapper.find('input').setValue('otsikko1');
-
-    expect(wrapper.findAll('button.btn-primary[disabled]')).toHaveLength(1);
-
     wrapper.findAll('option').at(1)
       .setSelected();
 
@@ -77,7 +75,6 @@ describe('EpKoodistoSelect component', () => {
 
     wrapper.find('button.btn-primary').trigger('click');
 
-    expect(tekstikappale.otsikko).toEqual({ 'fi': 'otsikko1' });
     expect(tekstikappale.saveTekstikappale).toEqual('tekstk1');
   });
 
@@ -98,6 +95,8 @@ describe('EpKoodistoSelect component', () => {
     wrapper.find({ ref: 'tekstikappalelisaysModal' }).setProps({ static: true });
     wrapper.find('#tekstikappalelisaysBtn').trigger('click');
     await localVue.nextTick();
+
+    wrapper.find('input').setValue('otsikko1');
 
     expect(wrapper.vm.$data.taso).toBe('paataso');
     expect(wrapper.findAll('button.btn-primary[disabled]')).toHaveLength(1);
