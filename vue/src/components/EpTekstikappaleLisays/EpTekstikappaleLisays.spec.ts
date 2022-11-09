@@ -111,4 +111,17 @@ describe('EpKoodistoSelect component', () => {
     expect(tekstikappale.otsikko).toEqual({ 'fi': 'otsikko1' });
     expect(tekstikappale.saveTekstikappale).toEqual({});
   });
+
+  test('Renders Opintokokonaisuuden nimi label', async () => {
+    const wrapper = mountWrapper({
+      tekstikappaleet: [],
+      paatasovalinta: true,
+      modalId: 'opintokokonaisuusLisays',
+    }, {
+      saveTekstikappale: () => {},
+    });
+
+    wrapper.find({ ref: 'tekstikappalelisaysModal' }).setProps({ static: true });
+    expect(wrapper.html()).toContain('opintokokonaisuuden-nimi');
+  });
 });
