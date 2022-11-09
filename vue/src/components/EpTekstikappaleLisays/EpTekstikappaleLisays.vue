@@ -27,7 +27,7 @@
       </slot>
     </template>
 
-    <ep-form-content name="tekstikappale-nimi-ohje" v-if="otsikkoRequired">
+    <ep-form-content :name="contentName" v-if="otsikkoRequired">
       <ep-field class="mb-5" v-model="otsikko" :is-editing="true" :validation="$v.otsikko" :showValidValidation="true"/>
     </ep-form-content>
 
@@ -119,6 +119,10 @@ export default class EpTekstikappaleLisays extends Vue {
 
   get okDisabled() {
     return (this.otsikkoRequired && this.$v.otsikko.$invalid) || (this.taso === 'alataso' && _.isEmpty(this.valittuTekstikappale));
+  }
+
+  get contentName() {
+    return this.modalId === 'opintokokonaisuusLisays' ? 'opintokokonaisuuden-nimi' : 'tekstikappale-nimi-ohje';
   }
 
   async save() {
