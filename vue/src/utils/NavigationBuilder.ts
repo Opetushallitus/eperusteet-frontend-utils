@@ -106,6 +106,7 @@ export function osaToLocation(osa: OsanTyypillinen): Location {
   case 'koto_opinto':
   case 'koto_laajaalainenosaaminen':
   case 'linkkisivu':
+  case 'linkki':
   default:
     return {};
   }
@@ -201,6 +202,24 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
     break;
   case 'tutkinnonosat':
     node.label = 'tutkinnonosat';
+    node.location = {
+      name: 'tutkinnonosat',
+    };
+    break;
+  case 'tutkinnonosat_pakolliset':
+    node.label = 'tutkinnonosat_pakolliset';
+    node.location = {
+      name: 'tutkinnonosat',
+    };
+    break;
+  case 'tutkinnonosat_paikalliset':
+    node.label = 'tutkinnonosat_paikalliset';
+    node.location = {
+      name: 'tutkinnonosat',
+    };
+    break;
+  case 'tutkinnonosat_tuodut':
+    node.label = 'tutkinnonosat_tuodut';
     node.location = {
       name: 'tutkinnonosat',
     };
@@ -457,6 +476,24 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
       name: 'toteutussuunnitelmaTutkinnonosat',
     };
     break;
+  case 'tutkinnonosat_paikalliset':
+    node.label = 'tutkinnonosat_paikalliset';
+    node.location = {
+      name: 'toteutussuunnitelmaTutkinnonosat',
+    };
+    break;
+  case 'tutkinnonosat_tuodut':
+    node.label = 'tutkinnonosat_tuodut';
+    node.location = {
+      name: 'toteutussuunnitelmaTutkinnonosat',
+    };
+    break;
+  case 'tutkinnonosat_pakolliset':
+    node.label = 'tutkinnonosat_pakolliset';
+    node.location = {
+      name: 'toteutussuunnitelmaTutkinnonosat',
+    };
+    break;
   case 'suorituspolut':
     node.label = 'suorituspolut';
     node.location = {
@@ -467,6 +504,14 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
     };
     break;
   case 'tekstikappale':
+    node.location = {
+      name: 'toteutussuunnitelmaSisalto',
+      params: {
+        sisaltoviiteId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'linkki':
     node.location = {
       name: 'toteutussuunnitelmaSisalto',
       params: {

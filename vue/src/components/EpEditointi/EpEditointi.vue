@@ -10,6 +10,7 @@
                 <slot name="header"
                       :isEditing="isEditing"
                       :data="inner"
+                      :support-data="innerSupport"
                       :validation="validation"/>
               </div>
               <span class="muokattu text-nowrap" v-if="!isEditing">
@@ -206,25 +207,25 @@
           <div class="actual-content">
             <div class="sisalto">
               <slot v-if="hidden" name="piilotettu">{{$t('sisalto-piilotettu')}}</slot>
-              <slot v-else :isEditing="isEditing" :data="inner" :validation="validation" :isCopyable="features.copyable"></slot>
+              <slot v-else :isEditing="isEditing" :support-data="innerSupport" :data="inner" :validation="validation" :isCopyable="features.copyable"></slot>
             </div>
           </div>
           <div class="rightbar rb-keskustelu" v-if="hasKeskusteluSlot && sidebarState === 1">
             <div class="rbheader"><b>{{ $t('keskustelu') }}</b></div>
             <div class="rbcontent">
-              <slot name="keskustelu" :isEditing="isEditing" :data="inner" :validation="validation"></slot>
+              <slot name="keskustelu" :isEditing="isEditing" :support-data="innerSupport" :data="inner" :validation="validation"></slot>
             </div>
           </div>
           <div class="rightbar rb-ohje" v-if="hasOhjeSlot && sidebarState === 2">
             <div class="rbheader"><b>{{ $t('ohje') }}</b></div>
             <div class="rbcontent">
-              <slot name="ohje" :isEditing="isEditing" :validation="validation" :data="inner"></slot>
+              <slot name="ohje" :isEditing="isEditing" :support-data="innerSupport" :validation="validation" :data="inner"></slot>
             </div>
           </div>
           <div class="rightbar rb-peruste" v-if="hasPerusteSlot && sidebarState === 3">
             <div class="rbheader"><b>{{ $t('perusteen-teksti') }}</b></div>
             <div class="rbcontent">
-              <slot name="peruste" :isEditing="isEditing" :validation="validation" :data="inner"></slot>
+              <slot name="peruste" :isEditing="isEditing" :support-data="innerSupport" :validation="validation" :data="inner"></slot>
             </div>
           </div>
         </div>
@@ -243,7 +244,6 @@ import Sticky from 'vue-sticky-directive';
 import { EditointiStore } from './EditointiStore';
 import { setItem, getItem } from '../../utils/localstorage';
 import { Revision } from '../../tyypit';
-import { Debounced } from '../../utils/delay';
 import EpVersioModaali from './EpVersioModaali.vue';
 import '@shared/stores/kieli';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
@@ -397,6 +397,13 @@ export default class EpEditointi extends Mixins(validationMixin) {
   get inner() {
     if (this.store && this.store.data) {
       return this.store.data.value;
+    }
+    return null;
+  }
+
+  get innerSupport() {
+    if (this.store && this.store.supportData) {
+      return this.store.supportData.value;
     }
     return null;
   }
