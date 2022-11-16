@@ -22,7 +22,7 @@
           </div>
           <div class="flex-grow-1" :class="{'font-weight-bold': item.isMatch}">
             <slot :name="$scopedSlots[item.type] ? item.type : 'default'" :item="item">
-            {{ $kaanna(item.label) }}
+            {{ $kaannaOlioTaiTeksti(item.label) }}
             </slot>
           </div>
           <div class="text-muted" v-if="item.children.length > 0 && item.idx !== activeIdx && !showAll">

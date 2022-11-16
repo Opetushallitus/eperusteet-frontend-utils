@@ -61,8 +61,9 @@ function mockAndWrapper(extension: Partial<IEditoitava> = {}, template?: string)
           <template v-slot:header="{ data, isEditing }">
             <h1>{{ data.name }}</h1>
           </template>
-          <template v-slot:default="{ data, isEditing }">
+          <template v-slot:default="{ data, supportData, isEditing }">
             <p>{{ data.description }}</p>
+            <pre>{{ supportData }}</pre>
           </template>
         </ep-editointi>
       </div>
@@ -103,6 +104,30 @@ describe('EpEditointi component', () => {
     await delay();
     expect(config.start).toBeCalledTimes(1);
     findContaining(wrapper, 'button', 'peruuta')!.trigger('click');
+    await delay();
+  });
+
+  test('Can add additional data', async () => {
+    const data = { name: 'name' };
+    const { store, config, wrapper } = mockAndWrapper({
+      async editAfterLoad() {
+        return true;
+      },
+      save: jest.fn(async () => { }),
+      load: jest.fn(async (supportFn) => {
+        supportFn({
+          testi: 123,
+        });
+        return {
+          name: 456,
+          description: 789
+        };
+      }),
+    });
+    await delay();
+    expect(wrapper.html()).toContain('123');
+    expect(wrapper.html()).toContain('456');
+    expect(wrapper.html()).toContain('789');
     await delay();
   });
 

@@ -22,6 +22,7 @@ const moduuliColors = {
   'pakollinen': [189, 219, 138],
   'valinnainen': [241, 102, 192],
   'paikallinen': [255, 165, 0],
+  'valittu': [128, 255, 192],
 };
 
 export type IndicatorKind = 'normaali'

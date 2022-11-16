@@ -33,7 +33,7 @@ export interface IEditoitava {
   /**
    * Loads most recent version of the data to be edited
    */
-  load: () => Promise<unknown>;
+  load: (supportDataProvider: (data: any) => void) => Promise<unknown>;
 
   /**
    * Try to acquire lock. Return true on success.
@@ -155,6 +155,7 @@ export class EditointiStore {
 
   private readonly state = reactive({
     data: null as any | null,
+    supportData: null as any | null,
     revisions: [] as Revision[],
     backup: null as string | null,
     disabled: true,
@@ -189,6 +190,7 @@ export class EditointiStore {
   }
 
   public readonly data = computed(() => this.state.data);
+  public readonly supportData = computed(() => this.state.supportData);
   public readonly revisions = computed(() => this.state.revisions);
   public readonly disabled = computed(() => this.state.disabled);
   public readonly isLoading = computed(() => !this.state.data);
@@ -484,8 +486,11 @@ export class EditointiStore {
 
   private async fetch() {
     this.state.backup = null;
-    // this.state.data = null;
-    const data = await this.config.load();
+
+    const data = await this.config.load((data: any) => {
+      this.state.supportData = data;
+    });
+
     if (_.isObject(data) || _.isArray(data)) {
       const dataStr = JSON.stringify(data);
       this.state.backup = dataStr;

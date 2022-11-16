@@ -31,7 +31,7 @@
       <ep-field class="mb-5" v-model="otsikko" :is-editing="true" :validation="$v.otsikko" :showValidValidation="true"/>
     </ep-form-content>
 
-    <ep-form-content>
+    <ep-form-content v-if="!hideTaso">
       <div slot="header">
         <h3>
           <slot name="header">
@@ -40,23 +40,25 @@
         </h3>
       </div>
 
-      <div v-if="paatasovalinta">
-        <b-form-radio v-model="taso" name="taso" value="paataso" class="mb-1">{{$t('paatasolla')}}</b-form-radio>
-        <b-form-radio v-model="taso" name="taso" value="alataso" :disabled="tekstikappaleet.length === 0">{{$t('toisen-tekstikappaleen-alla')}}</b-form-radio>
-      </div>
+      <div>
+        <div v-if="paatasovalinta">
+          <b-form-radio v-model="taso" name="taso" value="paataso" class="mb-1">{{$t('paatasolla')}}</b-form-radio>
+          <b-form-radio v-model="taso" name="taso" value="alataso" :disabled="tekstikappaleet.length === 0">{{$t('toisen-tekstikappaleen-alla')}}</b-form-radio>
+        </div>
 
-      <ep-select class="mb-5 mt-2" :class="{'ml-4': paatasovalinta}"
-                v-model="valittuTekstikappale"
-                :items="tekstikappaleet"
-                :is-editing="true"
-                :enable-empty-option="true"
-                :placeholder="'valitse-ylaotsikko'"
-                :disabled="taso === 'paataso'"
-                :emptyOptionDisabled="true">
-        <template slot-scope="{ item }">
-          <slot :tekstikappale="item">{{item}}</slot>
-        </template>
-      </ep-select>
+        <ep-select class="mb-5 mt-2" :class="{'ml-4': paatasovalinta}"
+                  v-model="valittuTekstikappale"
+                  :items="tekstikappaleet"
+                  :is-editing="true"
+                  :enable-empty-option="true"
+                  :placeholder="'valitse-ylaotsikko'"
+                  :disabled="taso === 'paataso'"
+                  :emptyOptionDisabled="true">
+          <template slot-scope="{ item }">
+            <slot :tekstikappale="item">{{item}}</slot>
+          </template>
+        </ep-select>
+      </div>
     </ep-form-content>
 
     <template v-slot:modal-cancel>
@@ -100,11 +102,17 @@ export default class EpTekstikappaleLisays extends Vue {
   @Prop({ required: false, default: false })
   private paatasovalinta!: boolean;
 
+  @Prop({ required: false, default: false })
+  private hideTaso!: boolean;
+
   @Prop({ required: false, default: true })
   private otsikkoRequired!: boolean;
 
   @Prop({ required: false, default: 'tekstikappalelisays' })
   private modalId!: string;
+
+  @Prop({ required: false })
+  private otsikkoNimi!: string;
 
   private taso: 'paataso' | 'alataso' = 'paataso';
 
@@ -122,6 +130,9 @@ export default class EpTekstikappaleLisays extends Vue {
   }
 
   get contentName() {
+    if (this.otsikkoNimi) {
+      return this.otsikkoNimi;
+    }
     return this.modalId === 'opintokokonaisuusLisays' ? 'opintokokonaisuuden-nimi' : 'tekstikappale-nimi-ohje';
   }
 
@@ -142,5 +153,7 @@ export default class EpTekstikappaleLisays extends Vue {
 </script>
 
 <style scoped lang="scss">
-
+.osaalue-piilotettu {
+  background: gray;
+}
 </style>
