@@ -25,15 +25,20 @@ export class Kaannos {
     };
 
     vue.prototype.$kaanna = (value: any, emptyWhenNotFound = false, squareBrackets = true) => {
-      return unescapeStringHtml(Kielet.kaanna(value, emptyWhenNotFound, _.has(options, 'squareBrackets') ? options.squareBrackets : squareBrackets));
+      return this.handleUnescaping(Kielet.kaanna(value, emptyWhenNotFound, _.has(options, 'squareBrackets') ? options.squareBrackets : squareBrackets));
     };
 
     vue.prototype.$kaannaOlioTaiTeksti = (value: any, emptyWhenNotFound = false, squareBrackets = true) => {
-      return unescapeStringHtml(Kielet.kaannaOlioTaiTeksti(
+      return this.handleUnescaping(Kielet.kaannaOlioTaiTeksti(
         value,
         _.has(options, 'emptyWhenNotFound') ? options.emptyWhenNotFound : emptyWhenNotFound,
         _.has(options, 'squareBrackets') ? options.squareBrackets : squareBrackets));
     };
+  }
+
+  // Ei tehdä unescapetusta, jos sisällössä oleva sisäinen linkki sisältää routenode-attribuutin, koska rikkoo tämän json-rakenteen.
+  private handleUnescaping(kaannos) {
+    return _.includes(kaannos, 'routenode') ? kaannos : unescapeStringHtml(kaannos);
   }
 }
 
