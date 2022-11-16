@@ -120,7 +120,7 @@ describe('EpEditointi component', () => {
         });
         return {
           name: 456,
-          description: 789
+          description: 789,
         };
       }),
     });
