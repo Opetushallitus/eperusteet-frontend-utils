@@ -1,5 +1,5 @@
 <template>
-  <ep-button class="mt-3" @click="suoritaJulkaisu()" :showSpinner="julkaistaan">
+  <ep-button class="mt-3" @click="suoritaJulkaisu()" :showSpinner="julkaistaan || julkaisuKesken">
     {{ $t('julkaise') }}
   </ep-button>
 </template>
@@ -17,6 +17,9 @@ import _ from 'lodash';
 export default class EpJulkaisuButton extends Vue {
   @Prop({ required: true })
   protected julkaise!: Function;
+
+  @Prop({ required: false })
+  protected julkaisuKesken!: boolean;
 
   private julkaistaan = false;
 
