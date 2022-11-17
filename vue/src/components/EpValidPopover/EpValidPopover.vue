@@ -8,6 +8,7 @@
           </span>
 
           <template v-if="!arkistoitu">
+            <EpSpinner v-if="julkaisemattomiaMuutoksia === undefined || julkaisemattomiaMuutoksia === null" color="#fff" small/>
             <div class="text-center julkaisemattomia-muutoksia font-size-08" v-if="julkaisemattomiaMuutoksia">
               <fas icon="info" class="mr-2"/>{{$t(julkaisemattomiaTeksti)}}
             </div>

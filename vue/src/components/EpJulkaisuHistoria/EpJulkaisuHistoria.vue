@@ -6,13 +6,16 @@
         <slot name="empty">{{ $t('ei-julkaisuja') }}</slot>
       </div>
       <div v-else>
-        <div v-for="(julkaisu, index) in julkaisutMapped" :key="'julkaisu'+julkaisu.revision" class="julkaisu pb-2 ml-1 px-3">
+        <div v-for="(julkaisu, index) in julkaisutMapped" :key="'julkaisu'+index" class="julkaisu pb-2 ml-1 px-3">
           <div class="d-flex justify-content-between align-items-center">
             <div>
-              <span class="font-weight-bold pr-1">{{$t('julkaisu')}} {{julkaisu.fixedRevision}}</span>
-              <span v-if="index === 0" class="julkaistu">{{$t('julkaistu-versio')}}</span>
+              <span class="font-weight-bold pr-1">{{$t('julkaisu')}} {{julkaisu.revision}}</span>
+              <span v-if="latestJulkaisuRevision && latestJulkaisuRevision.revision === julkaisu.revision" class="julkaistu">{{$t('julkaistu-versio')}}</span>
+              <span v-if ="julkaisu.tila === 'KESKEN'" class="julkaistu julkaistu--kesken">{{$t('julkaisu-kesken')}}</span>
+              <span v-if ="julkaisu.tila === 'VIRHE'" class="julkaistu julkaistu--virhe">{{$t('julkaisu-epaonnistui')}}</span>
             </div>
-            <div v-if="index > 0 && palauta">
+
+            <div v-if="latestJulkaisuRevision && latestJulkaisuRevision.revision !== julkaisu.revision && julkaisu.tila === 'JULKAISTU'">
               <EpButton
                 variant="link"
                 icon="peruuta"
@@ -22,7 +25,7 @@
               </EpButton>
             </div>
           </div>
-          <div class="my-1">{{$sdt(julkaisu.luotu)}} {{julkaisu.nimi}}</div>
+          <div class="my-1">{{$sdt(julkaisu.luotu)}} <span v-if="julkaisu.nimi">{{julkaisu.nimi}}</span></div>
           <div class="my-1" v-html="$kaanna(julkaisu.tiedote)"></div>
         </div>
       </div>
@@ -42,6 +45,7 @@ interface Julkaisu {
   luotu?: Date;
   luoja?: string;
   kayttajanTieto?: any;
+  tila?: 'JULKAISTU' | 'KESKEN' | 'VIRHE';
 }
 
 @Component({
@@ -61,13 +65,18 @@ export default class EpJulkaisuHistoria extends Vue {
       .map(julkaisu => {
         return {
           ...julkaisu,
-          nimi: parsiEsitysnimi(julkaisu.kayttajanTieto),
-          fixedRevision: '1.' + julkaisu.revision,
+          ...(julkaisu.kayttajanTieto && { nimi: parsiEsitysnimi(julkaisu.kayttajanTieto) }),
+          revision: (julkaisu.revision || 0) + 1,
+          tila: julkaisu.tila || 'JULKAISTU',
         };
       })
-      .sortBy('luotu')
+      .sortBy('revision')
       .reverse()
       .value();
+  }
+
+  get latestJulkaisuRevision() {
+    return _.find(this.julkaisutMapped, julkaisu => julkaisu.tila === 'JULKAISTU');
   }
 
   async palautaConfirm(julkaisu) {
@@ -98,6 +107,14 @@ export default class EpJulkaisuHistoria extends Vue {
     padding: 5px 10px;
     margin-left: 10px;
     color: $white;
+
+    &--kesken {
+      background-color: $yellow-1;
+    }
+
+    &--virhe {
+      background-color: $red-lighten-1;
+    }
   }
 
 </style>
