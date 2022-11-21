@@ -66,7 +66,6 @@ export default class EpJulkaisuHistoria extends Vue {
         return {
           ...julkaisu,
           ...(julkaisu.kayttajanTieto && { nimi: parsiEsitysnimi(julkaisu.kayttajanTieto) }),
-          revision: (julkaisu.revision || 0) + 1,
           tila: julkaisu.tila || 'JULKAISTU',
         };
       })
