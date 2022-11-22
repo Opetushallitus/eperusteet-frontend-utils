@@ -6,9 +6,7 @@
       :validation="validation.laajuus">
       <span></span>
     </EpLaajuusInput>
-    <div v-if="!isEditing && value.laajuusYksikko" class="ml-2">
-      <span> {{ laajuusYksikkoLyhenne }}</span>
-    </div>
+
     <EpMultiSelect
       v-if="isEditing"
       v-model="value.laajuusYksikko"
@@ -24,6 +22,9 @@
         {{ $t(option.toLowerCase() + '-partitiivi') }}
       </template>
     </EpMultiSelect>
+    <div v-if="!isEditing && value.laajuusYksikko && value.laajuus" class="ml-2">
+      <span> {{ laajuusYksikkoLyhenne }}</span>
+    </div>
   </div>
 </template>
 
