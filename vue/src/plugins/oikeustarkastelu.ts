@@ -36,30 +36,32 @@ export class Oikeustarkastelu {
     };
 
     // Sisällön kääntäminen
-    vue.directive('oikeustarkastelu', {
-      async bind(el, binding) {
-        // Hide the element before rights have been resolved
-        const old = el.style.display;
-        el.style.display = 'none';
-        let value = binding.value || 'luku';
-        let kohde: any;
-        if (_.isObject(value)) {
-          kohde = (value as any).kohde;
-          value = (value as any).oikeus;
-        }
+    vue.directive('oikeustarkastelu', (el: any, binding) => {
+      // Hide the element before rights have been resolved
+      if (!el.oldDisplayValue && el.style.display !== 'none') {
+        el.oldDisplayValue = el.style.display;
+      }
 
-        if (config.oikeusProvider.hasOikeus(value, kohde)) {
-          el.style.display = old;
+      el.style.display = 'none';
+
+      let value = binding.value || 'luku';
+      let kohde: any;
+      if (_.isObject(value)) {
+        kohde = (value as any).kohde;
+        value = (value as any).oikeus;
+      }
+
+      if (config.oikeusProvider.hasOikeus(value, kohde)) {
+        el.style.display = el.oldDisplayValue;
+      }
+      else {
+        const { tagName } = el;
+        if (_.includes(DisableTags, _.toLower(tagName))) {
+          (el as HTMLInputElement).disabled = true;
+          el.style.display = el.oldDisplayValue;
         }
-        else {
-          const { tagName } = el;
-          if (_.includes(DisableTags, _.toLower(tagName))) {
-            (el as HTMLInputElement).disabled = true;
-            el.style.display = old;
-          }
-        }
-      },
-    } as Vue.DirectiveOptions);
+      }
+    });
   }
 }
 
