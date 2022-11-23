@@ -9,16 +9,18 @@
 
           <template v-if="!arkistoitu">
             <EpSpinner v-if="julkaisemattomiaMuutoksia === undefined || julkaisemattomiaMuutoksia === null" color="#fff" small/>
-            <div class="text-center julkaisemattomia-muutoksia font-size-08" v-if="julkaisemattomiaMuutoksia">
-              <fas icon="info" class="mr-2"/>{{$t(julkaisemattomiaTeksti)}}
-            </div>
+            <template v-else>
+              <div class="text-center julkaisemattomia-muutoksia font-size-08" v-if="julkaisemattomiaMuutoksia">
+                <fas icon="info" class="mr-2"/>{{$t(julkaisemattomiaTeksti)}}
+              </div>
 
-            <b-button class="px-3 py-1" variant="primary" v-if="luonnos && !julkaistava" @click="asetaValmiiksi">
-              {{$t('aseta-valmiiksi')}}
-            </b-button>
-            <b-button class="px-3 py-1" variant="primary" :to="{ name: 'julkaise' }" v-else-if="julkaistava && luonnos && !julkaistu && !arkistoitu">
-              {{ $t('siirry-julkaisunakymaan') }}
-            </b-button>
+              <b-button class="px-3 py-1" variant="primary" v-if="luonnos && !julkaistava" @click="asetaValmiiksi">
+                {{$t('aseta-valmiiksi')}}
+              </b-button>
+              <b-button class="px-3 py-1" variant="primary" :to="{ name: 'julkaise' }" v-else-if="julkaistava && luonnos && !julkaistu && !arkistoitu">
+                {{ $t('siirry-julkaisunakymaan') }}
+              </b-button>
+            </template>
           </template>
         </div>
       </template>
