@@ -278,6 +278,7 @@ export default class EpEditorMenuBar extends Vue {
       return [
         this.history,
         this.textManipulation,
+        this.lists,
       ];
     }
     else {
