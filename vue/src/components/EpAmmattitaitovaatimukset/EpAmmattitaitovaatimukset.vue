@@ -115,7 +115,7 @@
           <slot name="koodi" :koodi="v.koodi">
             <span>{{ $kaanna(v.koodi.nimi) }}</span>
             <span class="ml-1">
-              (<a :href="'https://virkailija.opintopolku.fi/koodisto-ui/html/koodi/' + v.koodi.uri"
+              (<a :href="koodistoPalveluUrl(v.koodi.uri)"
                 target="_blank"
                 rel="nofollow noopener noreferrer">{{ v.koodi.arvo }}</a>)
             </span>
@@ -141,7 +141,7 @@
               <slot name="koodi" :koodi="v.koodi">
                 <span>{{ $kaanna(v.koodi.nimi) }}</span>
                 <span class="ml-1">
-                  (<a :href="'https://virkailija.opintopolku.fi/koodisto-ui/html/koodi/' + v.koodi.uri"
+                  (<a :href="koodistoPalveluUrl(v.koodi.uri)"
                     target="_blank"
                     rel="nofollow noopener noreferrer">{{ v.koodi.arvo }}</a>)
                 </span>
@@ -333,6 +333,10 @@ export default class EpAmmattitaitovaatimukset extends Vue {
     else {
       return this.validation?.kohdealueet?.$each?.$iter[kohdealueIdx]?.vaatimukset?.$each?.$iter[vaatimusIdx]?.vaatimus;
     }
+  }
+
+  koodistoPalveluUrl(uri) {
+    return `https://virkailija.opintopolku.fi/koodisto-app/koodi/view/${uri}/1`;
   }
 }
 </script>
