@@ -20,7 +20,7 @@
                   v-if="!value.koodi" />
                 <b-form-input
                   class="vaatimus"
-                  :value="$kaanna(value.koodi.nimi) + ' (' + value.koodi.arvo + ')'"
+                  :value="($kaanna(value.koodi.nimi) || vaatimus) + ' (' + value.koodi.arvo + ')'"
                   disabled
                   v-if="value.koodi"></b-form-input>
                 <b-input-group-append>

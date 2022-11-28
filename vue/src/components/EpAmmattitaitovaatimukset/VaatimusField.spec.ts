@@ -55,6 +55,42 @@ describe('VaatimusField', () => {
     expect(wrapper.emitted().input[0][0].vaatimus.fi).toBe('muuta');
   });
 
+  test('Render vaatimus when koodi name not present', async () => {
+    const editoitava = {
+      query: jest.fn(async (query: string, sivu = 0) => koodit as any),
+      data: computed(() => koodit),
+    };
+    const koodisto = new KoodistoSelectStore(editoitava);
+
+    const wrapper = mount(VaatimusField, {
+      localVue,
+      attachToDocument: true,
+      propsData: {
+        koodisto,
+        value: {
+          vaatimus: {
+            fi: 'vaatimuksen nimi',
+          },
+          koodi: {
+            uri: 'ammattitaitovaatimukset_1234',
+            arvo: '1234',
+          },
+        },
+      },
+      mocks: {
+        $t: x => x,
+        $kaanna: x => x && x.fi,
+      },
+      stubs: {
+        fas: '<div />',
+      },
+    });
+
+    const input = wrapper.find('input').element as any;
+    expect(input.value).toBe('vaatimuksen nimi (1234)');
+    expect(input.disabled).toBeTruthy();
+  });
+
   test('Renders koodi', async () => {
     const editoitava = {
       query: jest.fn(async (query: string, sivu = 0) => koodit as any),
@@ -79,6 +115,7 @@ describe('VaatimusField', () => {
       },
       mocks: {
         $t: x => x,
+        $kaanna: x => x && x.fi,
       },
       stubs: {
         fas: '<div />',

@@ -113,7 +113,7 @@
       <li v-for="(v, vidx) in inner.vaatimukset" :key="vidx">
         <span v-if="v.koodi">
           <slot name="koodi" :koodi="v.koodi">
-            <span>{{ $kaanna(v.koodi.nimi) }}</span>
+            <span>{{ $kaanna(v.koodi.nimi) || $kaanna(v.vaatimus) }}</span>
             <span class="ml-1">
               (<a :href="koodistoPalveluUrl(v.koodi.uri)"
                 target="_blank"
@@ -139,7 +139,7 @@
           <li v-for="(v, kvIdx) in kohdealue.vaatimukset" :key="kvIdx">
             <span v-if="v.koodi">
               <slot name="koodi" :koodi="v.koodi">
-                <span>{{ $kaanna(v.koodi.nimi) }}</span>
+                <span>{{ $kaanna(v.koodi.nimi) || $kaanna(v.vaatimus) }}</span>
                 <span class="ml-1">
                   (<a :href="koodistoPalveluUrl(v.koodi.uri)"
                     target="_blank"
