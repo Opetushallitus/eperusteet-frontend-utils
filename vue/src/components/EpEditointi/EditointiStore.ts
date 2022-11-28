@@ -33,7 +33,7 @@ export interface IEditoitava {
   /**
    * Loads most recent version of the data to be edited
    */
-  load: (supportDataProvider?: (data: any) => void) => Promise<unknown>;
+  load: (supportDataProvider: (data: any) => void) => Promise<unknown>;
 
   /**
    * Try to acquire lock. Return true on success.
