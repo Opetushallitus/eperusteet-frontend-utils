@@ -1,13 +1,14 @@
-import _ from 'lodash';
 import { NavigationNodeDto, LokalisoituTekstiDto } from '../tyypit';
+import _ from 'lodash';
 import { Kielet } from '../stores/kieli';
 import { Location } from 'vue-router';
 
 export type NavigationType =
-  'root' | 'viite' | 'tiedot' | 'laajaalaiset'
+  'root' | 'linkki' | 'viite' | 'tiedot' | 'laajaalaiset'
   | 'oppiaineet' | 'oppiaine' | 'oppimaarat' | 'poppiaine' | 'lukiooppiaine_2015' | 'lukiooppimaarat_2015' | 'lukiokurssit' | 'lukiokurssi'
-  | 'moduulit' | 'moduuli' |
-  'opintojaksot' | 'opintojakso'
+  | 'moduulit' | 'moduuli'
+  | 'suorituspolku' | 'osasuorituspolku'
+  | 'opintojaksot' | 'opintojakso'
   | 'perusopetusoppiaineet' | 'perusopetusoppiaine' | 'valinnaisetoppiaineet' | 'vuosiluokkakokonaisuus';
 
 export interface NavigationNode {
@@ -207,19 +208,19 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
     };
     break;
   case 'tutkinnonosat_pakolliset':
-    node.label = 'tutkinnonosat_pakolliset';
+    node.label = 'tutkinnonosat-pakolliset';
     node.location = {
       name: 'tutkinnonosat',
     };
     break;
   case 'tutkinnonosat_paikalliset':
-    node.label = 'tutkinnonosat_paikalliset';
+    node.label = 'tutkinnonosat-paikalliset';
     node.location = {
       name: 'tutkinnonosat',
     };
     break;
   case 'tutkinnonosat_tuodut':
-    node.label = 'tutkinnonosat_tuodut';
+    node.label = 'tutkinnonosat-tuodut';
     node.location = {
       name: 'tutkinnonosat',
     };

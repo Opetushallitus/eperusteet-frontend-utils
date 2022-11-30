@@ -110,6 +110,7 @@ export type NavigationNodeType =
   | 'oppiaineet' | 'oppimaarat' | 'oppiaine' | 'opintojakso' | 'paikallinenOppiaine' | 'poppiaine'
   | 'moduulit' | 'moduuli'
   | 'muodostuminen' | 'tutkinnonosat' | 'tutkinnonosa' | 'tutkinnonosaviite' | 'osaalue' | 'suorituspolut' | 'suorituspolku'
+  | 'tutkinnonosat_pakolliset' | 'tutkinnonosat_paikalliset' | 'tutkinnonosat_tuodut'
   | 'opintokokonaisuus' | 'tavoitesisaltoalue'
   | 'koulutuksenosa' | 'laajaalainenosaaminen' | 'koulutuksenosat'
   | 'koto_kielitaitotaso' | 'koto_opinto' | 'koto_laajaalainenosaaminen'
