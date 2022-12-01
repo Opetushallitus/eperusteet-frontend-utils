@@ -118,7 +118,7 @@ export interface IEditoitava {
   /**
    * Dynamic features that are enabled
    */
-  features?: (data: Computed<any>) => Computed<EditoitavaFeatures>;
+  features?: (data: Computed<any>, supportData: Computed<any>) => Computed<EditoitavaFeatures>;
 }
 
 export interface EditointiKontrolliRestore {
@@ -213,7 +213,7 @@ export class EditointiStore {
       copyable: false,
     };
 
-    const provided = this.config.features ? this.config.features(this.data.value).value : Default;
+    const provided = this.config.features ? this.config.features(this.data.value, this.supportData.value).value : Default;
     const features = {
       ...Default,
       ...provided,
