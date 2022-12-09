@@ -1,7 +1,8 @@
 <template>
   <div class="julkaisuhistoria">
     <h3 slot="header">{{ $t('julkaisuhistoria') }}</h3>
-    <template v-if="julkaisut">
+    <EpSpinner v-if="!julkaisut"/>
+    <template v-else>
       <div class="alert alert-info" v-if="julkaisut.length === 0">
         <slot name="empty">{{ $t('ei-julkaisuja') }}</slot>
       </div>
@@ -19,6 +20,7 @@
               <EpButton
                 variant="link"
                 icon="peruuta"
+                :showSpinner="julkaisu.palautuksessa"
                 @click="palautaConfirm(julkaisu)"
                 v-oikeustarkastelu="{ oikeus: 'muokkaus' }">
                 {{ $t('palauta') }}
@@ -38,6 +40,7 @@ import _ from 'lodash';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
+import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 
 interface Julkaisu {
   revision?: number;
@@ -51,6 +54,7 @@ interface Julkaisu {
 @Component({
   components: {
     EpButton,
+    EpSpinner,
   },
 })
 export default class EpJulkaisuHistoria extends Vue {
@@ -60,6 +64,8 @@ export default class EpJulkaisuHistoria extends Vue {
   @Prop({ required: false })
   private palauta!: Function;
 
+  private palautuksessa: any | null = null;
+
   get julkaisutMapped() {
     return _.chain(this.julkaisut)
       .map(julkaisu => {
@@ -67,6 +73,7 @@ export default class EpJulkaisuHistoria extends Vue {
           ...julkaisu,
           ...(julkaisu.kayttajanTieto && { nimi: parsiEsitysnimi(julkaisu.kayttajanTieto) }),
           tila: julkaisu.tila || 'JULKAISTU',
+          palautuksessa: this.palautuksessa === julkaisu.revision,
         };
       })
       .sortBy('revision')
@@ -88,7 +95,9 @@ export default class EpJulkaisuHistoria extends Vue {
       centered: true,
       ...{} as any,
     })) {
-      this.palauta(julkaisu);
+      this.palautuksessa = julkaisu.revision;
+      await this.palauta(julkaisu);
+      this.palautuksessa = null;
     }
   }
 }
