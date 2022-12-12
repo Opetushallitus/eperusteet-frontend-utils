@@ -16,8 +16,11 @@
               <span v-if ="julkaisu.tila === 'VIRHE'" class="julkaistu julkaistu--virhe">{{$t('julkaisu-epaonnistui')}}</span>
             </div>
 
-            <div v-if="latestJulkaisuRevision && latestJulkaisuRevision.revision !== julkaisu.revision && julkaisu.tila === 'JULKAISTU'">
+            <div class="d-flex align-items-center">
+              <slot name="katsele" :julkaisu="julkaisu"></slot>
               <EpButton
+                v-if="latestJulkaisuRevision && latestJulkaisuRevision.revision !== julkaisu.revision && julkaisu.tila === 'JULKAISTU'"
+                class="ml-4"
                 variant="link"
                 icon="peruuta"
                 :showSpinner="julkaisu.palautuksessa"
@@ -63,6 +66,9 @@ export default class EpJulkaisuHistoria extends Vue {
 
   @Prop({ required: false })
   private palauta!: Function;
+
+  @Prop({ required: false })
+  private katsele!: Function;
 
   private palautuksessa: any | null = null;
 
