@@ -1,7 +1,11 @@
 import _ from 'lodash';
 
+export function buildKatseluUrl(kieli, path, revision?) {
+  return `${buildLangUrl(kieli)}${path}${revision ? '/' + revision : ''}`;
+}
+
 export function buildEsikatseluUrl(kieli, path) {
-  return `${buildLangUrl(kieli)}${path}?esikatselu`;
+  return buildKatseluUrl(kieli, path, '0');
 }
 
 export function buildLangUrl(kieli) {
