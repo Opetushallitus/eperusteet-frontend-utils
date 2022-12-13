@@ -4,8 +4,8 @@ export function buildKatseluUrl(kieli, path, revision?) {
   return `${buildLangUrl(kieli)}${path}${revision ? '/' + revision : ''}`;
 }
 
-export function buildEsikatseluUrl(kieli, path) {
-  return buildKatseluUrl(kieli, path, '0');
+export function buildEsikatseluUrl(kieli, prePath, postPath?) {
+  return buildKatseluUrl(kieli, prePath, '0') + (postPath || '');
 }
 
 export function buildLangUrl(kieli) {
