@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
-export function buildKatseluUrl(kieli, path, revision, postPath?) {
-  return `${buildLangUrl(kieli)}${path}/${revision}` + (postPath || '');
+export function buildKatseluUrl(kieli, path, revision?, postPath?) {
+  return `${buildLangUrl(kieli)}${path}` + (revision ? `/${revision}` : '') + (postPath || '');
 }
 
 export function buildEsikatseluUrl(kieli, prePath, postPath?) {
