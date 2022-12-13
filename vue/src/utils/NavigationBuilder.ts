@@ -33,8 +33,9 @@ export function buildNavigation(
   rawNavigation: NavigationNodeDto,
   tiedot: NavigationNode,
   isOps = false,
+  revision?: string
 ) {
-  const navigation = traverseNavigation(rawNavigation, isOps);
+  const navigation = traverseNavigation(rawNavigation, isOps, revision);
   const rakenne = buildRoot([
     tiedot,
     ...navigation!.children,
@@ -57,11 +58,11 @@ export function navigationNodeDtoToPerusteRoute(node: NavigationNodeDto) {
   return {};
 }
 
-export function traverseNavigation(rawNode: NavigationNodeDto, isOps: boolean): NavigationNode {
+export function traverseNavigation(rawNode: NavigationNodeDto, isOps: boolean, revision?: string): NavigationNode {
   const node: NavigationNode = {
     label: rawNode.label as LokalisoituTekstiDto,
     type: rawNode.type as NavigationType,
-    children: _.map(rawNode.children, child => traverseNavigation(child, isOps)),
+    children: _.map(rawNode.children, child => traverseNavigation(child, isOps, revision)),
     path: [], // setParents asettaa polun
     meta: rawNode.meta,
     id: rawNode.id,
@@ -73,6 +74,14 @@ export function traverseNavigation(rawNode: NavigationNodeDto, isOps: boolean): 
   else {
     setPerusteData(node, rawNode);
   }
+
+  if (revision && !!node.location?.params) {
+    node.location.params = {
+      ...node.location.params,
+      revision,
+    };
+  }
+
   return node;
 }
 
