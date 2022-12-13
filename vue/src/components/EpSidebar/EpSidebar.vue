@@ -9,7 +9,7 @@
   <Portal v-else to="globalNavigation">
     <slot name="bar" />
   </Portal>
-  <div class="view" :id="scrollId">
+  <div class="view">
     <slot name="view" />
   </div>
 </div>
