@@ -67,9 +67,6 @@ export default class EpJulkaisuHistoria extends Vue {
   @Prop({ required: false })
   private palauta!: Function;
 
-  @Prop({ required: false })
-  private katsele!: Function;
-
   private palautuksessa: any | null = null;
 
   get julkaisutMapped() {
