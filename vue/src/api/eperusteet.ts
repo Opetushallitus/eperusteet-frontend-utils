@@ -161,8 +161,15 @@ export interface PerusteprojektiQuery {
   tila?: string[];
   koulutustyyppi?: string[];
   tyyppi?: string[];
+  tuleva: boolean,
+  voimassaolo: boolean,
+  siirtyma: boolean,
+  poistunut: boolean,
   jarjestysTapa?: string;
   jarjestysOrder?: boolean;
+  sivu?: number;
+  sivukoko?: number;
+  perusteet?: number[];
 };
 
 export async function getPerusteprojektit(query: PerusteprojektiQuery) {
