@@ -1,6 +1,6 @@
 <template>
   <div class="editointi-container">
-    <ep-spinner v-if="!store"></ep-spinner>
+    <ep-spinner class="mt-5" v-if="!store || !store.data.value"></ep-spinner>
     <div class="editointikontrolli" v-else>
       <div v-sticky sticky-offset="{ top: 0 }" sticky-z-index="500">
         <div class="ylapaneeli d-print-none">
