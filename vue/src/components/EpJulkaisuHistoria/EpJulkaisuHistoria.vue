@@ -17,7 +17,7 @@
             </div>
 
             <div class="d-flex align-items-center">
-              <slot name="katsele" :julkaisu="julkaisu"></slot>
+              <slot name="katsele" :julkaisu="julkaisu" v-if="julkaisu.tila !== 'VIRHE'"></slot>
               <EpButton
                 v-if="latestJulkaisuRevision && latestJulkaisuRevision.revision !== julkaisu.revision && julkaisu.tila === 'JULKAISTU'"
                 class="ml-4"
