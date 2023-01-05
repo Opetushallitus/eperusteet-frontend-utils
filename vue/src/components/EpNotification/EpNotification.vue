@@ -49,7 +49,7 @@ export default class EpNotification extends Vue {
   padding: 15px;
   font-size: 12px;
   color: #ffffff;
-  box-shadow: 0 3px 3px 0 #7a7a7a;
+  box-shadow: 0 3px 5px 0 #242424;
 
   // default (blue)
   background: #44A4FC;
