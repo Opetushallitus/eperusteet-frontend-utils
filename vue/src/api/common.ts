@@ -12,10 +12,14 @@ axios.defaults.xsrfHeaderName = 'CSRF';
 export function axiosHandler(msg: string) {
   return async (err: any) => {
     if (err.response.status === 500) {
-      fail('jarjestelmavirhe-ohje', undefined, 120000);
+      fail('jarjestelmavirhe-ohje', undefined, errorNotificationDuration(err));
     }
     throw err;
   };
+}
+
+function errorNotificationDuration(err) {
+  return err.response.data && _.includes(err.response.data.syy, 'localhost') ? 2000 : 120000;
 }
 
 // Apufuntio kirjautumiseen ja paluulinkin luontiin
