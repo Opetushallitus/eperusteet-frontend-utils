@@ -1,8 +1,8 @@
 <template>
   <div class="editointi-container">
-    <ep-spinner v-if="!store"></ep-spinner>
+    <ep-spinner class="mt-5" v-if="!store || !store.data.value"></ep-spinner>
     <div class="editointikontrolli" v-else>
-      <div v-sticky sticky-offset="{ top: 0 }" sticky-z-index="500">
+      <div v-sticky sticky-offset="{ top: 0 }" sticky-z-index="600">
         <div class="ylapaneeli d-print-none">
           <div class="d-flex align-items-center flex-md-row flex-column justify-content-between" :class="{ container: useContainer }">
             <div class="d-flex flex-wrap flex-xl-nowrap">
@@ -85,7 +85,7 @@
                            @click="modify()"
                            v-else-if="!isEditing && features.editable && !versiohistoriaVisible"
                            icon="kyna"
-                           :show-spinner="isSaving"
+                           :show-spinner="isSaving || loading"
                            :disabled="disabled">
                   <slot name="muokkaa">{{ $t('muokkaa') }}</slot>
                 </ep-button>
@@ -450,6 +450,10 @@ export default class EpEditointi extends Mixins(validationMixin) {
 
   get disabled() {
     return this.store.disabled?.value || false;
+  }
+
+  get loading() {
+    return this.store.isLoading.value;
   }
 
   get versions() {
