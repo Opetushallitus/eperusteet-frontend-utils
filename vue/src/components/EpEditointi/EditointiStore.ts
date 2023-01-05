@@ -159,6 +159,7 @@ export class EditointiStore {
     revisions: [] as Revision[],
     backup: null as string | null,
     disabled: true,
+    isLoading: false,
     isSaving: false,
     isEditingState: false,
     isRemoved: false,
@@ -193,7 +194,7 @@ export class EditointiStore {
   public readonly supportData = computed(() => this.state.supportData);
   public readonly revisions = computed(() => this.state.revisions);
   public readonly disabled = computed(() => this.state.disabled);
-  public readonly isLoading = computed(() => !this.state.data);
+  public readonly isLoading = computed(() => !this.state.data || this.state.isLoading);
   public readonly isSaving = computed(() => this.state.isSaving);
   public readonly isEditing = computed(() => this.state.isEditingState);
   public readonly isRemoved = computed(() => this.state.isRemoved);
@@ -280,6 +281,7 @@ export class EditointiStore {
 
   public async start() {
     this.state.disabled = true;
+    this.state.isLoading = true;
 
     // Ei editointia uudestaan
     if (this.isEditing.value) {
@@ -318,6 +320,7 @@ export class EditointiStore {
     }
     finally {
       this.state.disabled = false;
+      this.state.isLoading = false;
 
       const navbar = document.getElementById('navigation-bar');
       const navbarHeight = navbar ? (-1 * navbar.getBoundingClientRect().height) : 0;
