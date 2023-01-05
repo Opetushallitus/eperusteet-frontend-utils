@@ -66,6 +66,7 @@ export default class EpNotification extends Vue {
     color: white;
     background: none;
     float: right;
+    font-size: large;
   }
 
   // types (green, amber, red)
