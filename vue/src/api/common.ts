@@ -12,7 +12,7 @@ axios.defaults.xsrfHeaderName = 'CSRF';
 export function axiosHandler(msg: string) {
   return async (err: any) => {
     if (err.response.status === 500) {
-      fail('jarjestelmavirhe-ohje', err.response.data.syy, 120000);
+      fail('jarjestelmavirhe-ohje', undefined, 120000);
     }
     throw err;
   };
