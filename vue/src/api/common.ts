@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { createLogger } from '../utils/logger';
 import _ from 'lodash';
-import { Virheet } from '@shared/stores/virheet';
-import { localhostOrigin } from '@shared/utils/esikatselu';
+import { fail } from '@shared/utils/notifications';
 
 const logger = createLogger('AxiosCommon');
 
@@ -12,6 +11,9 @@ axios.defaults.xsrfHeaderName = 'CSRF';
 
 export function axiosHandler(msg: string) {
   return async (err: any) => {
+    if (err.response.status === 500) {
+      fail('jarjestelmavirhe-ohje', err.response.data.syy, 120000);
+    }
     throw err;
   };
 }

@@ -31,11 +31,21 @@ export function info(title: string) {
   });
 }
 
-export function fail(title: string, reason?: string) {
+export function fail(title: string, reason?: string, duration?: number) {
   (Vue as any).notify({
     title: Kielet.i18n.t(title),
     type: 'error',
     text: reason ? Kielet.i18n.t(reason) : reason,
+    duration: duration || 5000,
+  });
+}
+
+export function warning(title: string, reason?: string) {
+  (Vue as any).notify({
+    title: Kielet.i18n.t(title),
+    type: 'warn',
+    text: reason ? Kielet.i18n.t(reason) : reason,
+    duration: 5000,
   });
 }
 

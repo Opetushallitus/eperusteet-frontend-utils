@@ -17,6 +17,7 @@ declare module 'vue/types/vue' {
     $success: (title: string) => Promise<void>;
     $info: (title: string) => Promise<void>;
     $fail: (title: string, text?: string) => Promise<void>;
+    $warning: (title: string, text?: string) => Promise<void>;
   }
 }
 
@@ -53,6 +54,16 @@ export class Notifikaatiot {
         title,
         type: 'error',
         text,
+        duration: 5000,
+      });
+    };
+
+    vue.prototype.$warning = function(title: string, text: string = '') {
+      this.$notify({
+        title,
+        type: 'warn',
+        text,
+        duration: 5000,
       });
     };
   }
