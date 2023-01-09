@@ -53,6 +53,21 @@ export function navigationNodeDtoToPerusteRoute(node: NavigationNodeDto) {
         tutkinnonOsaId: _.toString(node.id),
       },
     };
+  case 'osaamiskokonaisuus':
+    return {
+      name: 'osaamiskokonaisuus',
+      params: {
+        osaamiskokonaisuusId: _.toString(node.id),
+      },
+    };
+  case 'osaamiskokonaisuus_paa_alue':
+    return {
+      name: 'osaamiskokonaisuus_paa_alue',
+      params: {
+        osaamiskokonaisuusId: '840',
+        osaamiskokonaisuusPaaAlueId: _.toString(node.id),
+      },
+    };
   }
 
   return {};
