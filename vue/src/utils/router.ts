@@ -2,7 +2,6 @@ import _ from 'lodash';
 import { Kielet } from '../stores/kieli';
 import { Kieli } from '../tyypit';
 import { createLogger } from './logger';
-import { Virheet } from '@shared/stores/virheet';
 
 /**
  * Resolves async props from route's meta object
@@ -50,7 +49,6 @@ export async function resolveRouterMetaProps(to) {
       error.err = err.response.status;
       error.path = err.response.config?.url;
     }
-    Virheet.lisaaVirhe(error);
   }
 }
 
