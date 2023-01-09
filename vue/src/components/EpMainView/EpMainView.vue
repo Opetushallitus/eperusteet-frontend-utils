@@ -18,7 +18,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 
 @Component
 export default class EpMainView extends Vue {
-  @Prop({ required: false, default: false })
+  @Prop({ required: false, default: false, type: Boolean })
   private container!: boolean;
 }
 </script>

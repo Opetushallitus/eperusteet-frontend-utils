@@ -115,7 +115,8 @@ export type NavigationNodeType =
   | 'koulutuksenosa' | 'laajaalainenosaaminen' | 'koulutuksenosat'
   | 'koto_kielitaitotaso' | 'koto_opinto' | 'koto_laajaalainenosaaminen'
   | 'vuosiluokkakokonaisuus' | 'perusopetusoppiaine' | 'valinnaisetoppiaineet'
-  | 'tutkinnonosat_tuodut'| 'tutkinnonosat_pakolliset' | 'tutkinnonosat_paikalliset';
+  | 'tutkinnonosat_tuodut'| 'tutkinnonosat_pakolliset' | 'tutkinnonosat_paikalliset'
+  | 'osaamiskokonaisuus' | 'osaamiskokonaisuus_paa_alue';
 
 export interface NavigationNodeDto {
   id?: number;

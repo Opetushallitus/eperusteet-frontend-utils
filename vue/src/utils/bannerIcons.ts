@@ -6,6 +6,7 @@ import tileVarhaiskasvatus from '../../public/img/banners/tile_ops_varhaiskasvat
 import tileVapaasivistystyo from '../../public/img/banners/tile_ops_vapaasivistysto.svg';
 import tileTutkintoonvalmentava from '../../public/img/banners/tile_ops_tuva.svg';
 import tileKotoutumiskoulutus from '../../public/img/banners/tile_ops_koto.svg';
+import tileDigitaalinenOsaaminen from '../../public/img/banners/tile_digitaalinenosaaminen.svg';
 import bannerLukio from '../../public/img/banners/banner_lukio.svg';
 import bannerEsiopetus from '../../public/img/banners/banner_esiopetus.svg';
 import bannerPerusopetus from '../../public/img/banners/banner_perusopetus.svg';
@@ -46,6 +47,10 @@ const toteutusBanners = {
   'kotoutumiskoulutus': bannerKotoutumiskoulutus,
 };
 
+const perusteTyyppiTiles = {
+  'digitaalinen_osaaminen': tileDigitaalinenOsaaminen,
+};
+
 export function koulutustyyppiBanner(koulutustyyppi) {
   const themeType = themes[koulutustyyppi!] || 'lukio';
   const imgUrl = koulutustyyppiRyhmaBanners[themeType] || bannerLukio;
@@ -80,4 +85,9 @@ export function tileBackgroundColor(koulutustyyppi) {
   const themeType = themes[koulutustyyppi];
   const tileColor = tileColors[themeType] || tileColors['lukio'];
   return { 'background': 'linear-gradient(180deg, ' + tileColor[0] + ' 0%, ' + tileColor[1] + ' 100%)' };
+}
+
+export function perusteTile(peruste) {
+  const imgUrl = perusteTyyppiTiles[peruste.tyyppi] || '';
+  return { ...(!!imgUrl && { 'background-image': `url('${imgUrl}')` }) };
 }
