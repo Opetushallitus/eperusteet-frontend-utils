@@ -158,7 +158,7 @@ import * as _ from 'lodash';
 import { Prop, Component, Vue } from 'vue-property-decorator';
 
 import { Kielet, UiKielet } from '../../stores/kieli';
-import { Kieli, SovellusVirhe } from '../../tyypit';
+import { Kieli } from '../../tyypit';
 import { IEsitysnimi, parsiEsitysnimi } from '../../utils/kayttaja';
 import EpCollapse from '../EpCollapse/EpCollapse.vue';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';

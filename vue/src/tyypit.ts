@@ -1,5 +1,4 @@
 import { Computed } from './utils/interfaces';
-import { tutkintoonvalmentava } from './utils/perusteet';
 
 export enum Kieli {
   fi = 'fi',
@@ -7,13 +6,6 @@ export enum Kieli {
   se = 'se',
   ru = 'ru',
   en = 'en',
-}
-
-export interface SovellusVirhe {
-  path?: string;
-  err?: string;
-  state?: object;
-  info?: string;
 }
 
 export enum Koulutustyyppi {
