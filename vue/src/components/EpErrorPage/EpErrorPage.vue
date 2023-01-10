@@ -11,7 +11,7 @@
       </div>
       <div class="d-flex flex-row-reverse">
         <div class="align-self-center">
-          <router-link :to="{ name: 'root'}">{{ $t('palaa-etusivulle') }}</router-link>
+          <router-link :to="{ name: paluukohde }">{{ $t('palaa-etusivulle') }}</router-link>
         </div>
       </div>
     </div>
@@ -42,8 +42,14 @@ export default class EpErrorPage extends Vue {
   @Prop({ required: false })
   private kohdeUrl?: string;
 
+  private amosaaToteutukset: any = ['kotoutumiskoulutus', 'ammatillinen', 'vapaasivistystyo', 'tutkintoonvalmentava'];
+
   get virhe() {
     return (this.virhekoodi && this.virheImage[this.virhekoodi]) || this.virheImage['500'];
+  }
+
+  get paluukohde() {
+    return this.amosaaToteutukset.includes(this.$route.params.toteutus) ? 'home' : 'root';
   }
 
   get kohde() {
