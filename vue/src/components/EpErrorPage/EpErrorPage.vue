@@ -3,7 +3,7 @@
     <div class="text-left">
       <div class="my-5">
         <h2>{{ $t('virhe-nakyma-otsikko') }}</h2>
-        <h3>{{ virheIlmoitus }}</h3>
+        <h3>{{ $t(virhe.alt) }}</h3>
         <div v-if="kohde">{{ $t(kohde + '-esikatselu-ei-mahdollista') }}</div>
       </div>
       <div class="virhekuva">
@@ -42,10 +42,6 @@ export default class EpErrorPage extends Vue {
   @Prop({ required: false })
   private kohdeUrl?: string;
 
-  get virheIlmoitus() {
-    return this.$route.query && this.$route.query.errorMessage ? this.$route.query.errorMessage : this.$t('sivua-ei-loytynyt');
-  }
-
   get virhe() {
     return (this.virhekoodi && this.virheImage[this.virhekoodi]) || this.virheImage['500'];
   }
@@ -55,7 +51,6 @@ export default class EpErrorPage extends Vue {
       if (_.includes(this.kohdeUrl, 'peruste')) {
         return 'peruste';
       }
-
       if (_.includes(this.kohdeUrl, 'opetussuunnitelma')) {
         return 'opetussuunnitelma';
       }
