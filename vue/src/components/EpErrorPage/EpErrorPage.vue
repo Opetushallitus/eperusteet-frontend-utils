@@ -1,12 +1,14 @@
 <template>
   <div class="container my-5">
-    <div class="px-3 px-md-0">
-      <h2>{{ $t('virhe-nakyma-otsikko') }}</h2>
-      <h3>{{ virheIlmoitus }}</h3>
-      <div class="virhekuva">
-        <img :src="virhekuva" :alt="$t('virhe-kuva-teksti')">
+    <div class="text-left">
+      <div class="my-5">
+        <h2>{{ $t('virhe-nakyma-otsikko') }}</h2>
+        <h3>{{ virheIlmoitus }}</h3>
+        <div v-if="kohde">{{ $t(kohde + '-esikatselu-ei-mahdollista') }}</div>
       </div>
-
+      <div class="virhekuva">
+        <img :src="virhe.img" :alt="$t(virhe.alt)" />
+      </div>
       <div class="d-flex flex-row-reverse">
         <div class="align-self-center">
           <router-link :to="{ name: 'root'}">{{ $t('palaa-etusivulle') }}</router-link>
@@ -17,12 +19,13 @@
 </template>
 
 <script lang="ts" >
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import { createLogger } from '@shared/utils/logger';
 import EpField from '@shared/components/forms/EpField.vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
-
-const virhekuva = require('@assets/img/images/virhe.png');
+import _ from 'lodash';
+import eiLoydyImage from '@assets/img/images/404.svg';
+import virhekuva from '@assets/img/images/virhe.png';
 
 const logger = createLogger('Virhe');
 
@@ -33,12 +36,47 @@ const logger = createLogger('Virhe');
   },
 })
 export default class EpErrorPage extends Vue {
+  @Prop({ required: false, default: '404' })
+  private virhekoodi?: string;
+
+  @Prop({ required: false })
+  private kohdeUrl?: string;
+
   get virheIlmoitus() {
-    return this.$route.query && this.$route.query.errorMessage ? this.$route.query.errorMessage : null;
+    return this.$route.query && this.$route.query.errorMessage ? this.$route.query.errorMessage : this.$t('sivua-ei-loytynyt');
   }
 
-  get virhekuva() {
-    return virhekuva;
+  get virhe() {
+    return (this.virhekoodi && this.virheImage[this.virhekoodi]) || this.virheImage['500'];
+  }
+
+  get kohde() {
+    if (this.kohdeUrl && this.virhekoodi === '401') {
+      if (_.includes(this.kohdeUrl, 'peruste')) {
+        return 'peruste';
+      }
+
+      if (_.includes(this.kohdeUrl, 'opetussuunnitelma')) {
+        return 'opetussuunnitelma';
+      }
+    }
+  }
+
+  get virheImage() {
+    return {
+      '500': {
+        img: virhekuva,
+        alt: 'virhe-palvelu-virhe',
+      },
+      '401': {
+        img: eiLoydyImage,
+        alt: 'virhe-sivua-ei-loytynyt',
+      },
+      '404': {
+        img: eiLoydyImage,
+        alt: 'virhe-sivua-ei-loytynyt',
+      },
+    };
   }
 }
 </script>
