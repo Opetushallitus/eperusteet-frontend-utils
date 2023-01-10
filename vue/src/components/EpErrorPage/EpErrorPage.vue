@@ -11,7 +11,7 @@
       </div>
       <div class="d-flex flex-row-reverse">
         <div class="align-self-center">
-          <router-link :to="{ name: paluukohde }">{{ $t('palaa-etusivulle') }}</router-link>
+          <router-link :to="paluuroute">{{ $t('palaa-etusivulle') }}</router-link>
         </div>
       </div>
     </div>
@@ -25,7 +25,7 @@ import EpField from '@shared/components/forms/EpField.vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import _ from 'lodash';
 import eiLoydyImage from '@assets/img/images/404.svg';
-import virhekuva from '@assets/img/images/virhe.png';
+const virhekuva = require('@assets/img/images/virhe.png');
 
 const logger = createLogger('Virhe');
 
@@ -42,14 +42,15 @@ export default class EpErrorPage extends Vue {
   @Prop({ required: false })
   private kohdeUrl?: string;
 
-  private amosaaToteutukset: any = ['kotoutumiskoulutus', 'ammatillinen', 'vapaasivistystyo', 'tutkintoonvalmentava'];
+  @Prop({ required: false, default: 'root' })
+  private paluukohde?: string;
 
   get virhe() {
     return (this.virhekoodi && this.virheImage[this.virhekoodi]) || this.virheImage['500'];
   }
 
-  get paluukohde() {
-    return this.amosaaToteutukset.includes(this.$route.params.toteutus) ? 'home' : 'root';
+  get paluuroute() {
+    return { name: this.paluukohde };
   }
 
   get kohde() {
