@@ -11,11 +11,15 @@ axios.defaults.xsrfHeaderName = 'CSRF';
 
 export function axiosHandler(msg: string) {
   return async (err: any) => {
-    if (err.response.status === 500) {
-      fail('jarjestelmavirhe-ohje', undefined, errorNotificationDuration());
+    if (err.response.status === 500 || err.response.status === 403) {
+      fail(errorMessage(err.response.status), undefined, errorNotificationDuration());
     }
     throw err;
   };
+}
+
+function errorMessage(errorCode) {
+  return errorCode === 500 ? 'jarjestelmavirhe-ohje' : 'ei-oikeutta-suorittaa';
 }
 
 function errorNotificationDuration() {

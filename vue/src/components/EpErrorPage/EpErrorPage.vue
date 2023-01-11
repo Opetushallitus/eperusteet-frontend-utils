@@ -20,21 +20,11 @@
 
 <script lang="ts" >
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { createLogger } from '@shared/utils/logger';
-import EpField from '@shared/components/forms/EpField.vue';
-import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import _ from 'lodash';
 import eiLoydyImage from '@assets/img/images/404.svg';
 const virhekuva = require('@assets/img/images/virhe.png');
 
-const logger = createLogger('Virhe');
-
-@Component({
-  components: {
-    EpField,
-    EpFormContent,
-  },
-})
+@Component
 export default class EpErrorPage extends Vue {
   @Prop({ required: false, default: '404' })
   private virhekoodi?: string;
