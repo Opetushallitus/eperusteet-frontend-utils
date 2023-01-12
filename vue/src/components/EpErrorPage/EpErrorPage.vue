@@ -22,7 +22,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import _ from 'lodash';
 import eiLoydyImage from '@assets/img/images/404.svg';
-const virhekuva = require('@assets/img/images/virhe.png');
+import virhekuva from '@assets/img/images/virhe.png';
 
 @Component
 export default class EpErrorPage extends Vue {

@@ -8,6 +8,11 @@ declare module '*.svg' {
   export = value;
 }
 
+declare module '*.png' {
+  const value: any;
+  export = value;
+}
+
 type Ref = any;
 
 declare module 'vue-loading-overlay';
