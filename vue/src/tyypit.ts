@@ -109,7 +109,7 @@ export type NavigationNodeType =
   | 'laajaalaiset' | 'laajaalainen'
   | 'oppiaineet' | 'oppimaarat' | 'oppiaine' | 'opintojakso' | 'paikallinenOppiaine' | 'poppiaine'
   | 'moduulit' | 'moduuli'
-  | 'muodostuminen' | 'tutkinnonosat' | 'tutkinnonosa' | 'tutkinnonosaviite' | 'osaalue' | 'suorituspolut' | 'suorituspolku'
+  | 'muodostuminen' | 'tutkinnonosat' | 'tutkinnonosa' | 'tutkinnonosaviite' | 'osaalue' | 'suorituspolut' | 'suorituspolku' | 'osasuorituspolku'
   | 'tutkinnonosat_pakolliset' | 'tutkinnonosat_paikalliset' | 'tutkinnonosat_tuodut'
   | 'opintokokonaisuus' | 'tavoitesisaltoalue'
   | 'koulutuksenosa' | 'laajaalainenosaaminen' | 'koulutuksenosat'

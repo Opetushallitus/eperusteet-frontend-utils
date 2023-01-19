@@ -106,10 +106,17 @@ export default class EpContent extends Mixins(EpValidation) {
   @InjectReactive('linkkiHandler')
   private linkkiHandler!: ILinkkiHandler;
 
+  @InjectReactive('kuvaHandler')
+  private injectedKuvaHandler!: IKuvaHandler;
+
   private editor: any = null;
 
   private focused = false;
   private isVisible = true;
+
+  get annettuKuvaHandler() {
+    return this.kuvaHandler || this.injectedKuvaHandler;
+  }
 
   get lang() {
     return this.locale || Kielet.getSisaltoKieli.value || 'fi';
@@ -160,8 +167,8 @@ export default class EpContent extends Mixins(EpValidation) {
       extensions.push(new TermiExtension(this.kasiteHandler));
     }
 
-    if (this.kuvaHandler) {
-      extensions.push(new ImageExtension(this.kuvaHandler));
+    if (this.annettuKuvaHandler) {
+      extensions.push(new ImageExtension(this.annettuKuvaHandler));
     }
 
     this.editor = new Editor({
