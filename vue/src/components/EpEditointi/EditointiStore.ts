@@ -25,7 +25,7 @@ export interface EditoitavaFeatures {
   validated?: boolean;
   recoverable?: boolean;
   hideable?: boolean;
-  hidden?: boolean;
+  isHidden?: boolean;
   copyable?: boolean;
 }
 
@@ -68,7 +68,7 @@ export interface IEditoitava {
   /**
    * Remove the resource
    */
-  remove?: () => Promise<void>;
+  remove?: (data?: any) => Promise<void>;
 
   /**
    * Returns true if editing is started immediately after data fetch
@@ -389,7 +389,7 @@ export class EditointiStore {
     _.remove(EditointiStore.allEditingEditors, (editor) => editor === this);
     try {
       if (this.config.remove) {
-        await this.config.remove();
+        await this.config.remove(this.state.data);
         this.logger.debug('Poistettu');
         this.state.isRemoved = true;
       }
@@ -523,7 +523,7 @@ export class EditointiStore {
     if (this.config.unHide) {
       await this.config.unHide(this.state.data);
       await this.init();
-      this.logger.debug('Poistettu');
+      this.logger.debug('palautettu');
     }
     this.state.disabled = false;
   }
