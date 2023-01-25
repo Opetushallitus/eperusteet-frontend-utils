@@ -205,6 +205,10 @@ export const themeColors = {
   'muukoulutus': [230, 8, 149],
 };
 
+export const tyyppiColors = {
+  'digitaalinen_osaaminen': [230, 246, 255],
+};
+
 export const ktToState = {
   'koulutustyyppi_1': 'ammatillinenperustutkinto',
   'koulutustyyppi_11': 'ammattitutkinto',
@@ -365,8 +369,8 @@ export function koulutustyyppiTheme(koulutustyyppi: string) {
   return themes[koulutustyyppi] || koulutustyyppi;
 }
 
-export function koulutustyyppiThemeColor(koulutustyyppi: string) {
-  return themeColors[themes[koulutustyyppi]] || themeColors[koulutustyyppi] || [47, 95, 209];
+export function koulutustyyppiThemeColor(tyyppi: string) {
+  return themeColors[themes[tyyppi]] || themeColors[tyyppi] || tyyppiColors[tyyppi] || [47, 95, 209];
 }
 
 export function isKoulutustyyppiPdfTuettu(koulutustyyppi: string | undefined) {

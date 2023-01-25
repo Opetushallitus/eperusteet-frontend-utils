@@ -4,7 +4,7 @@
   <div :class="classess" v-if="!disableHeader" :style="styles.collapse" @click="togglefull ? toggle(): null" @keyup.enter="togglefull ? toggle(): null">
     <!-- Button tagia ei voida käyttää, sillä ml-auto ei toimi.-->
     <!-- Käytetään button rolea saavutettavuuden takaamiseksi.-->
-    <div class="collapse-button d-flex"
+    <div class="collapse-button d-flex align-items-center"
          @click="!togglefull ? toggle(): null"
          @keyup.enter="!togglefull ? toggle(): null"
          role="button"
@@ -22,7 +22,7 @@
         </div>
       </div>
       <slot name="icon" :toggled="toggled" v-if="chevronLocation === 'right'  && collapsable">
-        <div class="ml-auto align-self-start">
+        <div class="ml-auto ">
           <fas fixed-width icon="chevron-up" v-if="toggled"></fas>
           <fas fixed-width icon="chevron-down" v-else></fas>
         </div>

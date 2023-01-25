@@ -31,13 +31,13 @@ export interface NavigationFilter {
 
 export function buildNavigation(
   rawNavigation: NavigationNodeDto,
-  tiedot: NavigationNode,
+  tiedot: NavigationNode | null,
   isOps = false,
   revision?: string
 ) {
   const navigation = traverseNavigation(rawNavigation, isOps, revision);
   const rakenne = buildRoot([
-    tiedot,
+    ...(tiedot ? [tiedot] : []),
     ...navigation!.children,
   ]);
   setParents(rakenne, [rakenne]);
@@ -405,6 +405,22 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       name: 'perusteAihekokonaisuudet',
       params: {
         aihekokonaisuudetId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'osaamiskokonaisuus':
+    node.location = {
+      name: 'perusteOsaamiskokonaisuus',
+      params: {
+        osaamiskokonaisuusId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'osaamiskokonaisuus_paa_alue':
+    node.location = {
+      name: 'perusteOsaamiskokonaisuusPaaAlue',
+      params: {
+        osaamiskokonaisuusPaaAlueId: _.toString(rawNode.id),
       },
     };
     break;
