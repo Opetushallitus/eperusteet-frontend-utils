@@ -15,7 +15,7 @@ exports[`EpKayttaja component Renders 1`] = `
       <div>
         <!---->
         <div class="ep-collapse">
-          <div role="button" tabindex="0" class="collapse-button d-flex">
+          <div role="button" tabindex="0" class="collapse-button d-flex align-items-center">
             <!---->
             <div class="align-self-start">
               <div class="">
@@ -44,7 +44,7 @@ exports[`EpKayttaja component Renders 1`] = `
       <div>
         <!---->
         <div class="ep-collapse">
-          <div role="button" tabindex="0" class="collapse-button d-flex" aria-expanded="true">
+          <div role="button" tabindex="0" class="collapse-button d-flex align-items-center" aria-expanded="true">
             <!---->
             <div class="align-self-start">
               <div class="header">

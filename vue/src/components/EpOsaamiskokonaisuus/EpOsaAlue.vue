@@ -68,9 +68,9 @@
     </div>
 
     <div v-else>
-      <template slot="nimi">
+      <slot name="nimi">
         <h3>{{ $kaanna(osaAlue.nimi) }}</h3>
-      </template>
+      </slot>
 
       <div v-for="(tasokuvaus, index) in osaAlue.tasokuvaukset" :key="'tasokuvaus' + index">
         <b-form-group class="mt-3 mb-0 p-0" v-if="(tasokuvaus.kuvaukset && tasokuvaus.kuvaukset.length > 0) || (tasokuvaus.edistynytOsaaminenKuvaukset && tasokuvaus.edistynytOsaaminenKuvaukset.length > 0)" :label="$t('osa-alue-otsiko-' + tasokuvaus.taso.toLowerCase())">
@@ -114,7 +114,7 @@ export default class EpOsaAlue extends Vue {
   @Prop({ required: true })
   value!: any;
 
-  @Prop({ required: true })
+  @Prop({ required: false, default: false })
   isEditing!: boolean;
 
   get osaAlue() {

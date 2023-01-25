@@ -36,7 +36,7 @@ export function buildNavigation(
   revision?: string
 ) {
   const navigation = traverseNavigation(rawNavigation, isOps, revision);
-  const rakenne = buildRoot([
+  const rakenne = buildRoot(rawNavigation, [
     ...(tiedot ? [tiedot] : []),
     ...navigation!.children,
   ]);
@@ -704,10 +704,10 @@ function setParents(node: NavigationNode, path: NavigationNode[] = []) {
   }
 }
 
-function buildRoot(children: NavigationNode[]): NavigationNode {
+function buildRoot(rawNavigation: NavigationNodeDto, children: NavigationNode[]): NavigationNode {
   return {
     type: 'root',
-    label: undefined,
+    label: rawNavigation.label,
     children: [
       ...children,
     ],
