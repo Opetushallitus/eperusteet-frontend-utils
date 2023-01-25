@@ -366,7 +366,7 @@ export function isPerusteVanhaLukio(peruste): boolean {
 }
 
 export function koulutustyyppiTheme(koulutustyyppi: string) {
-  return themes[koulutustyyppi] || koulutustyyppi;
+  return themes[koulutustyyppi] || koulutustyyppi || 'muu';
 }
 
 export function koulutustyyppiThemeColor(tyyppi: string) {
