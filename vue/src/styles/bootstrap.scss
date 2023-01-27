@@ -73,6 +73,10 @@ $tabcolor: #0041dc;
   .nav-tabs {
     border: 0;
 
+    .nav-item:first-child .nav-link {
+      margin: 8px 10px 8px 0px;
+    }
+
     .nav-item {
 
       .nav-link {
@@ -87,7 +91,7 @@ $tabcolor: #0041dc;
       }
 
       .active {
-        border-bottom: 2px;
+        border-bottom: 3px;
         border-bottom-color: $primary;
         border-bottom-style: solid;
         color: $primary;

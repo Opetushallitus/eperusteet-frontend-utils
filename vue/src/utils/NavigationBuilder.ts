@@ -31,13 +31,13 @@ export interface NavigationFilter {
 
 export function buildNavigation(
   rawNavigation: NavigationNodeDto,
-  tiedot: NavigationNode,
+  tiedot: NavigationNode | null,
   isOps = false,
   revision?: string
 ) {
   const navigation = traverseNavigation(rawNavigation, isOps, revision);
-  const rakenne = buildRoot([
-    tiedot,
+  const rakenne = buildRoot(rawNavigation, [
+    ...(tiedot ? [tiedot] : []),
     ...navigation!.children,
   ]);
   setParents(rakenne, [rakenne]);
@@ -408,6 +408,22 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       },
     };
     break;
+  case 'osaamiskokonaisuus':
+    node.location = {
+      name: 'perusteOsaamiskokonaisuus',
+      params: {
+        osaamiskokonaisuusId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'osaamiskokonaisuus_paa_alue':
+    node.location = {
+      name: 'perusteOsaamiskokonaisuusPaaAlue',
+      params: {
+        osaamiskokonaisuusPaaAlueId: _.toString(rawNode.id),
+      },
+    };
+    break;
   default:
     break;
   }
@@ -688,10 +704,10 @@ function setParents(node: NavigationNode, path: NavigationNode[] = []) {
   }
 }
 
-function buildRoot(children: NavigationNode[]): NavigationNode {
+function buildRoot(rawNavigation: NavigationNodeDto, children: NavigationNode[]): NavigationNode {
   return {
     type: 'root',
-    label: undefined,
+    label: rawNavigation.label,
     children: [
       ...children,
     ],
