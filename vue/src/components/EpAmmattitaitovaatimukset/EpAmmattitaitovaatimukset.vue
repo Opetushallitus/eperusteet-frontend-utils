@@ -336,7 +336,7 @@ export default class EpAmmattitaitovaatimukset extends Vue {
   }
 
   koodistoPalveluUrl(uri) {
-    return `https://virkailija.opintopolku.fi/koodisto-app/koodi/view/${uri}/1`;
+    return `${window.location.origin}/koodisto-app/koodi/view/${uri}/1`;
   }
 }
 </script>
