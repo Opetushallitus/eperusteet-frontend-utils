@@ -39,9 +39,6 @@ export default class EpContentViewer extends Vue {
   @Prop({ required: false, type: Array })
   private kuvat!: LiiteDtoWrapper[];
 
-  @InjectReactive('isAmmatillinen')
-  private isAmmatillinen!: boolean;
-
   @InjectReactive('linkkiHandler')
   private linkkiHandler!: ILinkkiHandler;
 
