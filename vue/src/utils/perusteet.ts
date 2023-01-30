@@ -42,10 +42,6 @@ export const AmmatillisetKoulutustyypit = [
   'koulutustyyppi_18',
 ];
 
-export const AmmatillisetOpetussuunnitelmaTyypit = [
-  'yhteinen',
-];
-
 export const VapaasivistystyoKoulutustyypit = [
   'koulutustyyppi_10',
   'koulutustyyppi_30',
@@ -342,12 +338,6 @@ export function ryhmat(koulutustyyppi: string) {
 
 export function isAmmatillinenKoulutustyyppi(kt: string | undefined): boolean {
   return _.includes(AmmatillisetKoulutustyypit, kt);
-}
-
-export function isAmmatillinenOpetussuunnitelma(opetussuunnitelma: OpetussuunnitelmaKaikkiDto): boolean {
-  return _.includes(AmmatillisetKoulutustyypit, opetussuunnitelma.koulutustyyppi)
-    || _.includes(AmmatillisetKoulutustyypit, opetussuunnitelma.peruste?.koulutustyyppi)
-    || _.includes(AmmatillisetOpetussuunnitelmaTyypit, opetussuunnitelma.tyyppi);
 }
 
 export function isVapaasivistystyoKoulutustyyppi(kt: string | undefined): boolean {
