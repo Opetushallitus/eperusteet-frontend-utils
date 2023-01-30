@@ -1,3 +1,4 @@
+import { OpetussuunnitelmaKaikkiDto } from '@shared/api/amosaa';
 import { Koulutustyyppi, KoulutustyyppiToteutus } from '@shared/tyypit';
 import _ from 'lodash';
 
@@ -39,6 +40,10 @@ export const AmmatillisetKoulutustyypit = [
   'koulutustyyppi_12',
   'koulutustyyppi_5',
   'koulutustyyppi_18',
+];
+
+export const AmmatillisetOpetussuunnitelmaTyypit = [
+  'yhteinen',
 ];
 
 export const VapaasivistystyoKoulutustyypit = [
@@ -253,14 +258,6 @@ const stateToKt = _.zipObject(
   _.keys(ktToState),
 );
 
-export const ammatillisetKoulutustyypit = [
-  'koulutustyyppi_1',
-  'koulutustyyppi_11',
-  'koulutustyyppi_12',
-  'koulutustyyppi_5',
-  'koulutustyyppi_18',
-];
-
 export const koulutustyypitPdfTuki = [
   'koulutustyyppi_1', 'koulutustyyppi_5', 'koulutustyyppi_6', 'koulutustyyppi_11',
   'koulutustyyppi_12', 'koulutustyyppi_15', 'koulutustyyppi_17', 'koulutustyyppi_18',
@@ -345,6 +342,12 @@ export function ryhmat(koulutustyyppi: string) {
 
 export function isAmmatillinenKoulutustyyppi(kt: string | undefined): boolean {
   return _.includes(AmmatillisetKoulutustyypit, kt);
+}
+
+export function isAmmatillinenOpetussuunnitelma(opetussuunnitelma: OpetussuunnitelmaKaikkiDto): boolean {
+  return _.includes(AmmatillisetKoulutustyypit, opetussuunnitelma.koulutustyyppi)
+    || _.includes(AmmatillisetKoulutustyypit, opetussuunnitelma.peruste?.koulutustyyppi)
+    || _.includes(AmmatillisetOpetussuunnitelmaTyypit, opetussuunnitelma.tyyppi);
 }
 
 export function isVapaasivistystyoKoulutustyyppi(kt: string | undefined): boolean {
