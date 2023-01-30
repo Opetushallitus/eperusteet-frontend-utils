@@ -1,4 +1,3 @@
-import { OpetussuunnitelmaKaikkiDto } from '@shared/api/amosaa';
 import { Koulutustyyppi, KoulutustyyppiToteutus } from '@shared/tyypit';
 import _ from 'lodash';
 
