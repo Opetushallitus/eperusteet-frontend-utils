@@ -518,19 +518,19 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
     };
     break;
   case 'tutkinnonosat_paikalliset':
-    node.label = 'tutkinnonosat_paikalliset';
+    node.label = 'tutkinnonosat-paikalliset';
     node.location = {
       name: 'toteutussuunnitelmaTutkinnonosat',
     };
     break;
   case 'tutkinnonosat_tuodut':
-    node.label = 'tutkinnonosat_tuodut';
+    node.label = 'tutkinnonosat-tuodut';
     node.location = {
       name: 'toteutussuunnitelmaTutkinnonosat',
     };
     break;
   case 'tutkinnonosat_pakolliset':
-    node.label = 'tutkinnonosat_pakolliset';
+    node.label = 'tutkinnonosat-pakolliset';
     node.location = {
       name: 'toteutussuunnitelmaTutkinnonosat',
     };
