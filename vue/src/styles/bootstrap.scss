@@ -129,19 +129,16 @@ $tabcolor: #0041dc;
       border-bottom: 2px solid $black !important;
     }
 
-    th {
-      border-top: none;
-    }
-
     tr {
       border: none !important;
       outline: none;
     }
 
     th {
+      border: none;
       outline: none;
       border-bottom-width: 2px;
-      border-bottom-color: $gray-lighten-3;
+      border-bottom-color: $white;
       border-bottom-style: solid;
     }
 
