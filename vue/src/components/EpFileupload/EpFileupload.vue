@@ -179,7 +179,7 @@ export default class EpFileupload extends Vue {
         margin-left: 30px;
         height: 50px;
         background-color: inherit;
-        padding-top: 10px;
+        padding-top: 0px;
         padding-left: 60px;
         position: relative;
         border-radius: 0;
