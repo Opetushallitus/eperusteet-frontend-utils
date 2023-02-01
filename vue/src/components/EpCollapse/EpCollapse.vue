@@ -18,7 +18,7 @@
       </slot>
       <div class="align-self-start">
         <div :class="{'header': toggled}" :style="styles.header">
-          <slot name="header"></slot>
+          <slot name="header" :toggled="toggled"></slot>
         </div>
       </div>
       <slot name="icon" :toggled="toggled" v-if="chevronLocation === 'right'  && collapsable">

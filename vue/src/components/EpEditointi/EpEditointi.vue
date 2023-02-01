@@ -36,7 +36,7 @@
                   <slot name="tallenna">{{ $t('tallenna') }}</slot>
                 </ep-button>
                 <b-dropdown class="mx-4"
-                            v-if="isEditing && !disabled && features.removable"
+                            v-if="isEditing && !disabled && (features.removable || features.hideable)"
                             size="md"
                             variant="link"
                             :disabled="disabled"
@@ -632,7 +632,7 @@ export default class EpEditointi extends Mixins(validationMixin) {
   async hide() {
     try {
       await this.store.hide();
-      this.$fail(this.$t(this.labelHideSuccess) as string);
+      this.$success(this.$t(this.labelHideSuccess) as string);
     }
     catch (err) {
       this.$fail(this.$t(this.labelHideFail) as string);
