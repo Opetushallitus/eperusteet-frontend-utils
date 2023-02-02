@@ -5,7 +5,7 @@
       <div v-sticky sticky-offset="{ top: 0 }" sticky-z-index="600">
         <div class="ylapaneeli d-print-none">
           <div class="d-flex align-items-center flex-md-row flex-column justify-content-between" :class="{ container: useContainer }">
-            <div class="d-flex flex-wrap flex-xl-nowrap">
+            <div class="d-flex flex-wrap flex-xl-nowrap align-items-center justify-content-between">
               <div class="headerline" v-if="inner">
                 <slot name="header"
                       :isEditing="isEditing"
@@ -13,12 +13,12 @@
                       :support-data="innerSupport"
                       :validation="validation"/>
               </div>
-              <span class="muokattu text-nowrap" v-if="!isEditing">
+              <div class="muokattu text-nowrap" v-if="!isEditing">
                 <span class="text-truncate" v-if="latest">{{ $t('muokattu') }}: {{ $sdt(latest.pvm) }}, {{ nimi }}</span>
-              </span>
+              </div>
             </div>
             <div>
-              <div class="floating-editing-buttons">
+              <div class="floating-editing-buttons d-flex" v-if="!versiohistoriaVisible">
                 <ep-button class="ml-4"
                            v-if="isEditing"
                            @click="cancel()"
@@ -89,17 +89,20 @@
                            :disabled="disabled">
                   <slot name="muokkaa">{{ $t('muokkaa') }}</slot>
                 </ep-button>
-                <ep-button id="editointi-kopiointi"
-                          v-tutorial
-                          variant="link"
-                          v-oikeustarkastelu="muokkausOikeustarkastelu"
-                          @click="copy()"
-                          v-else-if="!isEditing && features.copyable"
-                          icon="kyna"
-                          :show-spinner="isSaving"
-                          :disabled="disabled">
-                  <slot name="kopioi-teksti">{{ $t('kopioi-muokattavaksi') }}</slot>
-                </ep-button>
+                <div v-else-if="!isEditing && features.copyable" v-oikeustarkastelu="muokkausOikeustarkastelu">
+                  <slot name="kopioi" :data="inner" :support-data="innerSupport">
+                    <ep-button id="editointi-kopiointi"
+                              v-tutorial
+                              variant="link"
+                              v-oikeustarkastelu="muokkausOikeustarkastelu"
+                              @click="copy()"
+                              icon="kyna"
+                              :show-spinner="isSaving"
+                              :disabled="disabled">
+                      <slot name="kopioi-teksti">{{ $t('kopioi-muokattavaksi') }}</slot>
+                    </ep-button>
+                  </slot>
+                </div>
                 <span v-else-if="muokkausEiSallittu" class="disabled-text">
                   {{$t('muokkausta-ei-sallittu')}}
                 </span>

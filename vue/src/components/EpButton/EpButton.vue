@@ -11,6 +11,7 @@
          :class="{ 'mr-2': $slots.default, 'icon': isOutline }">
       <fas fixed-width :icon="icon"></fas>
     </span>
+    <span class="material-icons-outlined float-left mr-1" v-if="micon">{{micon}}</span>
     <div class="teksti" :class="{'pl-3 pr-3': paddingx}">
       <slot />
       <ep-spinner-inline v-if="showSpinner" :link="variant === 'link'"/>
@@ -34,6 +35,9 @@ import EpSpinnerInline from '../EpSpinner/EpSpinnerInline.vue';
 export default class EpButton extends Vue {
   @Prop({ default: '' })
   private icon!: string;
+
+  @Prop({ default: '' })
+  private micon!: string;
 
   @Prop()
   private buttonClass!: string;
