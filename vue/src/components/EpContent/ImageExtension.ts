@@ -172,6 +172,11 @@ export default class ImageExtension extends Node {
             });
           },
         },
+        tempAltText: {
+          get() {
+            return this.$t('kuvituskuva');
+          },
+        },
         url() {
           return (this as any).liitteet.url((this as any).dataUid);
         },
@@ -180,18 +185,16 @@ export default class ImageExtension extends Node {
         <div>
 
           <div v-if="view.editable" class="ep-editor-component">
-
             <figure class="text-center" v-if="dataUid">
-              <img class="content-image" @click="open()" :data-uid="dataUid" :src="url" :title="title" :alt="altText">
-              <figcaption v-if="figcaption">{{figcaption}}</figcaption>
+              <img class="content-image" @click="open()" :data-uid="dataUid" :src="url" :title="title" :alt="figcaption ? altText : tempAltText">
+              <figcaption>{{figcaption || altText}}</figcaption>
             </figure>
-
             <ep-button v-if="!dataUid" variant="outline" icon="plussa" @click="open()">{{$t('lisaa-kuva')}}</ep-button>
           </div>
 
           <figure v-if="dataUid && !view.editable" class="text-center">
-            <img class="content-image" @click="open()" :data-uid="dataUid" :src="url" :title="title" :alt="altText">
-            <figcaption v-if="figcaption">{{figcaption}}</figcaption>
+            <img class="content-image" @click="open()" :data-uid="dataUid" :src="url" :title="title" :alt="figcaption ? altText : tempAltText">
+            <figcaption>{{figcaption || altText}}</figcaption>
           </figure>
 
         </div>
