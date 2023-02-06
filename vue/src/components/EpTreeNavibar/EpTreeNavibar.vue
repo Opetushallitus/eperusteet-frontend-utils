@@ -21,14 +21,14 @@
             </div>
           </div>
           <div class="flex-grow-1" :class="{'font-weight-bold': item.isMatch}">
-            <slot :name="$scopedSlots[item.type] ? item.type : 'default'" :item="item">
-            {{ $kaannaOlioTaiTeksti(item.label) }}
-            </slot>
+            <div @click="navigate(item)" class="clickable">
+              <slot :name="$scopedSlots[item.type] ? item.type : 'default'" :item="item">
+                {{ $kaannaOlioTaiTeksti(item.label) }}
+              </slot>
+            </div>
           </div>
-          <div class="text-muted" v-if="item.children.length > 0 && item.idx !== activeIdx && !showAll">
-            <b-button variant="link" @click="navigate(item)" class="forwards">
-              <fas icon="chevron-right" />
-            </b-button>
+          <div class="text-muted mr-1" v-if="item.children.length > 0 && item.idx !== activeIdx && !showAll">
+            <fas icon="chevron-right" />
           </div>
         </div>
       </div>

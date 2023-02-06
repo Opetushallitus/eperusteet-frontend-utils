@@ -59,15 +59,6 @@
       </div>
     </ep-form-content>
 
-    <!-- <template v-slot:modal-cancel>
-      {{ $t('peruuta')}}
-    </template>
-    <template v-slot:modal-ok>
-      <slot name="footer-lisays-btn-text">
-        {{ $t('lisaa-tekstikappale')}}
-      </slot>
-    </template> -->
-
     <template v-slot:modal-footer>
       <ep-button @click="save" variant="link">
         {{ $t('peruuta')}}
