@@ -3878,5 +3878,8 @@
     "saamen-kielelle-kaannetyt-perusteet": "Saamen kielelle käännetyt perusteet",
     "kaannos-tallennettu": "Käännös tallennettu",
     "osaaminen": "Osaaminen",
-    "edelleen-kehittyva-osaaminen": "Edelleen kehittyvä osaaminen"
+    "edelleen-kehittyva-osaaminen": "Edelleen kehittyvä osaaminen",
+    "tutkinnon-osa-tuonti-modal-selite": "Hae tutkinnon osaa nimellä tai valitse mistä suunnitelmasta haluat tuoda sisältöä",
+    "toteutussuunnitelma-jaettu-tai-yhteinen-osa": "Toteutussuunnitelma, jaettu tai yhteinen osa",
+    "suunnitelma-tai-osa": "Suunnitelma tai osa"
 }
