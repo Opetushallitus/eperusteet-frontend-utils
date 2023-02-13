@@ -18,7 +18,7 @@
               </div>
             </div>
             <div>
-              <div class="floating-editing-buttons d-flex" v-if="!versiohistoriaVisible">
+              <div class="floating-editing-buttons d-flex align-items-center" v-if="!versiohistoriaVisible">
                 <ep-button class="ml-4"
                            v-if="isEditing"
                            @click="cancel()"
