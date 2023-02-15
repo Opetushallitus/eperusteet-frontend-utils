@@ -124,6 +124,18 @@
                     v-if="features.removable && !disabled">
                     <slot name="poista">{{ poistoteksti }}</slot>
                   </b-dropdown-item>
+                  <b-dropdown-item
+                    v-if="!hidden && features.hideable && !disabled"
+                    @click="hide()"
+                    key="piilota">
+                    <slot name="piilota">{{ $t('piilota') }}</slot>
+                  </b-dropdown-item>
+                  <b-dropdown-item
+                    v-if="hidden && features.hideable && !disabled"
+                    @click="unHide()"
+                    key="palauta">
+                    <slot name="palauta">{{ $t('palauta') }}</slot>
+                  </b-dropdown-item>
                   <b-dropdown-item :disabled="!features.previewable || disabled">
                     {{ $t('esikatsele-sivua') }}
                   </b-dropdown-item>
@@ -477,7 +489,7 @@ export default class EpEditointi extends Mixins(validationMixin) {
   get katseluDropDownValinnatVisible() {
     return !this.isEditing
       && !this.disabled
-      && (this.features.recoverable || this.features.removable)
+      && (this.features.recoverable || this.features.removable || this.features.hideable)
       && !this.versiohistoriaVisible;
   }
 
