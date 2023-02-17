@@ -3862,7 +3862,7 @@
     "tutkinnon-osa-kaytossa-useammassa-perustessa-ala-selite": "Jos haluat tehdä tutkinnon osan sisältöön tai nimeen muutoksia, tutkinnon osalle tulee antaa uusi koodi. Tällöin tutkinnon osa tulee kopioida muokattavaksi. Muutokset päivittyvät vain tähän avoinna olevaan tutkinnon osaan, perusteeseen <b>{perusteNimi}</b>. Muiden perusteiden vastaavat tutkinnon osat säilyvät ennallaan.",
     "kopioi-tutkinnon-osa-muokattavaksi": "Kopioi tutkinnon osa muokattavaksi",
     "perusteet-jotka-muuttuvat-kun-tutkinnon-osaa-muokataan": "Perusteet jotka muuttuvat, kun tutkinnon osaa muokataan",
-    "tutkinnon-osa-kaytossa-useammassa-perustessa-yla-selite": "Huomioithan, että tämä tutkinnon osa on käytössä useammassa perusteessa ja tekemäsi muutokset päivittyvät kaikkiin perusteisiin, joissa tutkinnon osa on käytössä. Valitse 'Muokkaa tutkinnon osaa', jos tekemäsi muutokset ovat korjauksia, ja ne pitää päivittyä kaikkiin tutkinnon osiin.",
+    "tutkinnon-osa-kaytossa-useammassa-perustessa-yla-selite": "Huomioithan, että tämä tutkinnon osa on käytössä useammassa perusteessa ja tekemäsi muutokset päivittyvät kaikkiin perusteisiin, joissa tutkinnon osa on käytössä. Valitse 'Muokkaa tutkinnon osaa', jos tekemäsi muutokset ovat korjauksia, ja ne pitää päivittyä kaikkiin perusteisiin.",
     "tutkinnon-osa-on-luotu-tassa-perusteessa": "Tutkinnon osa luotu tässä perusteessa",
     "tutkinnon-osa-kopioitu": "Tutkinnon osa kopioitu",
     "saamen-kielelle-kaannetyt-perusteet": "Saamen kielelle käännetyt perusteet",
