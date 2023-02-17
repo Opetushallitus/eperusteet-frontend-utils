@@ -27,6 +27,7 @@ export import PerusteprojektiDtoTilaEnum = EperusteetApi.PerusteprojektiDtoTilaE
 export import KoulutuksenOsaDtoKoulutusOsanTyyppiEnum = EperusteetApi.KoulutuksenOsaDtoKoulutusOsanTyyppiEnum;
 export import PoistettuSisaltoDtoTyyppiEnum = EperusteetApi.PoistettuSisaltoDtoTyyppiEnum;
 export import JulkaisuBaseDtoTilaEnum = EperusteetApi.JulkaisuBaseDtoTilaEnum;
+export import LiiteDtoTyyppiEnum = EperusteetApi.LiiteDtoTyyppiEnum;
 
 const logger = createLogger('EperusteetAxios');
 const basePath = '';
