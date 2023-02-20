@@ -3881,5 +3881,10 @@
     "edelleen-kehittyva-osaaminen": "Edelleen kehittyvä osaaminen",
     "tutkinnon-osa-tuonti-modal-selite": "Hae tutkinnon osaa nimellä tai valitse mistä suunnitelmasta haluat tuoda sisältöä",
     "toteutussuunnitelma-jaettu-tai-yhteinen-osa": "Toteutussuunnitelma, jaettu tai yhteinen osa",
-    "suunnitelma-tai-osa": "Suunnitelma tai osa"
+    "suunnitelma-tai-osa": "Suunnitelma tai osa",
+    "tallenna-oletustoteutuksena": "Tallenna oletustoteutuksena (toteutus voidaan tuoda tutkinnon osaan)",
+    "tuo-oletustoteutus": "Tuo oletustoteutus",
+    "tuo-oletustoteutus-tutkinnon-osaan": "Tuo oletustoteutus tutkinnon osaan",
+    "toteutuksen-nimi": "Toteutuksen nimi",
+    "luotu-tutkinnon-osassa": "Luotu tutkinnon osassa"
 }

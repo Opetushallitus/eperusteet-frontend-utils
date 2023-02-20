@@ -45,22 +45,16 @@
         tag="div"
         v-model="inner.kohdealueet">
         <div v-for="(kohdealue, kohdealueIdx) in inner.kohdealueet" class="kohdealue mt-2" :key="kohdealueIdx">
-          <div class="float-right">
-            <ep-button @click="poistaKohdealue(inner, kohdealue)" variant="link">
-              <fas icon="roskalaatikko" />
-              {{ $t('poista-kohdealue') }}
-            </ep-button>
-          </div>
-          <b-form-group>
+          <b-form-group class="w-100">
             <div slot="label">
               <span class="handle-kohdealue text-muted">
                 <fas icon="dragindicator" size="lg" />
               </span>
               <span class="font-weight-bold">{{ kaannokset.kohdealue }}</span>
             </div>
-            <ep-input v-model="kohdealue.kuvaus" :is-editing="true" :validation="validation && validation.kohdealueet.$each.$iter[kohdealueIdx].kuvaus" />
+            <ep-input v-model="kohdealue.kuvaus" :is-editing="true" :validation="validation && validation.kohdealueet.$each.$iter[kohdealueIdx].kuvaus" class="ml-3 mr-4"/>
           </b-form-group>
-          <b-form-group :label="kaannokset.vaatimukset" class="">
+          <b-form-group :label="kaannokset.vaatimukset" class="ml-3">
             <div class="otsikko font-italic">
               {{ $kaanna(inner.kohde) }}
             </div>
@@ -85,6 +79,7 @@
                 </div>
               </div>
             </draggable>
+
             <div class="mt-2">
               <ep-button @click="lisaaKohdealueVaatimus(kohdealue)"
                 variant="outline"
@@ -92,7 +87,14 @@
                 {{ kaannokset.lisaaAmmattitaitovaatimus }}
               </ep-button>
             </div>
+            <div class="float-right">
+              <ep-button @click="poistaKohdealue(inner, kohdealue)" variant="link">
+                <fas icon="roskalaatikko" />
+                {{ $t('poista-kohdealue') }}
+              </ep-button>
+            </div>
           </b-form-group>
+
         </div>
       </draggable>
       <div class="mt-2">
@@ -109,7 +111,7 @@
         class="otsikko font-weight-bold">
       {{ $kaanna(innerKohde) }}
     </div>
-    <ul>
+    <ul v-if="inner.vaatimukset && inner.vaatimukset.length > 0">
       <li v-for="(v, vidx) in inner.vaatimukset" :key="vidx">
         <span v-if="v.koodi">
           <slot name="koodi" :koodi="v.koodi">
@@ -128,7 +130,7 @@
       </li>
     </ul>
     <div>
-      <div v-for="(kohdealue, kaIdx) in inner.kohdealueet" class="mt-4" :key="kaIdx">
+      <div v-for="(kohdealue, kaIdx) in inner.kohdealueet" :key="kaIdx" :class="{'mt-4' : showKohde || kohdealueettomat}">
         <div class="otsikko font-weight-bold">
           {{ $kaanna(kohdealue.kuvaus) }}
         </div>
@@ -222,7 +224,7 @@ export default class EpAmmattitaitovaatimukset extends Vue {
 
   get kaannokset() {
     return {
-      kohdealueet: this.kaannosKohdealueet ? this.kaannosKohdealueet : this.$t('ammattitaito-kohdealueet'),
+      kohdealueet: !_.isNull(this.kaannosKohdealueet) ? this.kaannosKohdealueet : this.$t('ammattitaito-kohdealueet'),
       lisaaKohdealue: this.kaannosLisaaKohdealue ? this.kaannosLisaaKohdealue : this.$t('lisaa-kohdealue'),
       lisaaAmmattitaitovaatimus: this.kaannosLisaaAmmattitaitovaatimus ? this.kaannosLisaaAmmattitaitovaatimus : this.$t('lisaa-ammattitaitovaatimus'),
       kohdealue: this.kaannosKohdealue ? this.kaannosKohdealue : this.$t('kohdealueen-otsikko'),
@@ -278,16 +280,18 @@ export default class EpAmmattitaitovaatimukset extends Vue {
 
   mounted() {
     const koodisto = this.tavoitekoodisto;
-    this.koodisto = new KoodistoSelectStore({
-      async query(query: string, sivu = 0) {
-        return (await Koodisto.kaikkiSivutettuna(koodisto, query, {
-          params: {
-            sivu,
-            sivukoko: 10,
-          },
-        })).data as any;
-      },
-    });
+    if (this.tavoitekoodisto) {
+      this.koodisto = new KoodistoSelectStore({
+        async query(query: string, sivu = 0) {
+          return (await Koodisto.kaikkiSivutettuna(koodisto, query, {
+            params: {
+              sivu,
+              sivukoko: 10,
+            },
+          })).data as any;
+        },
+      });
+    }
   }
 
   async poistaKohdealue(value: any, el: any) {

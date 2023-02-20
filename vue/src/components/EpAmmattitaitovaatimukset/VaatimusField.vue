@@ -23,7 +23,7 @@
                   :value="($kaanna(value.koodi.nimi) || vaatimus) + ' (' + koodiArvo + ')'"
                   disabled
                   v-if="value.koodi"></b-form-input>
-                <b-input-group-append>
+                <b-input-group-append v-if="koodisto">
                   <b-button @click="open" icon="plus" variant="primary">
                     {{ $t('hae-koodistosta') }}
                   </b-button>
