@@ -12,54 +12,18 @@
       <hr/>
 
       <b-form-group v-for="(tasokuvaus, index) in osaAlue.tasokuvaukset" :key="'tasokuvaus' + index" :label="$t('osa-alue-otsiko-' + tasokuvaus.taso.toLowerCase())">
-        <draggable
-            v-bind="defaultDragOptions"
-            tag="div"
-            v-model="tasokuvaus.kuvaukset">
 
-            <b-row v-for="(kuvaus, kuvausIndex) in tasokuvaus.kuvaukset" :key="'kuvaus'+kuvausIndex" class="pb-2">
-              <b-col cols="11">
-                <ep-input v-model="kuvaus[sisaltokieli]" :is-editing="isEditing" type="string" class="flex-grow-1">
-                  <div class="order-handle m-2" slot="left">
-                    <fas icon="grip-vertical"></fas>
-                  </div>
-                </ep-input>
-              </b-col>
-              <b-col cols="1">
-                <fas icon="roskalaatikko" class="default-icon clickable mt-2" @click="poistaKuvaus('kuvaukset', kuvaus, tasokuvaus.taso)"/>
-              </b-col>
-            </b-row>
+          <template v-if="tasokuvaus.taso === 'ESIOPETUS' || tasokuvaus.taso === 'VUOSILUOKKA_12' || tasokuvaus.taso === 'VUOSILUOKKA_3456' || tasokuvaus.taso === 'VUOSILUOKKA_789'">
+            <div class="mt-3 mb-2">{{$t('edelleen-kehittyva-osaaminen')}}</div>
+            <EpOsaAlueSisalto :isEditing="isEditing" v-model="tasokuvaus.edelleenKehittyvatOsaamiset" />
+          </template>
 
-          </draggable>
-
-          <ep-button @click="lisaaKuvaus('kuvaukset', tasokuvaus.taso)" variant="outline" icon="plus" class="mt-2">
-            {{ $t('lisaa-kuvaus') }}
-          </ep-button>
+          <div class="mt-3 mb-2">{{$t('osaaminen')}}</div>
+          <EpOsaAlueSisalto :isEditing="isEditing" v-model="tasokuvaus.osaamiset" />
 
           <template v-if="tasokuvaus.taso === 'VUOSILUOKKA_12' || tasokuvaus.taso === 'VUOSILUOKKA_3456' || tasokuvaus.taso === 'VUOSILUOKKA_789'">
             <div class="mt-3 mb-2">{{$t('edistynyt-osaaminen')}}</div>
-            <draggable
-              v-bind="defaultDragOptions"
-              tag="div"
-              v-model="tasokuvaus.edistynytOsaaminenKuvaukset">
-
-              <b-row v-for="(kuvaus, kuvausIndex) in tasokuvaus.edistynytOsaaminenKuvaukset" :key="'kuvaus'+kuvausIndex" class="pb-2">
-                <b-col cols="11">
-                  <ep-input v-model="kuvaus[sisaltokieli]" :is-editing="isEditing" type="string" class="flex-grow-1">
-                    <div class="order-handle m-2" slot="left">
-                      <fas icon="grip-vertical"></fas>
-                    </div>
-                  </ep-input>
-                </b-col>
-                <b-col cols="1">
-                  <fas icon="roskalaatikko" class="default-icon clickable mt-2" @click="poistaKuvaus('edistynytOsaaminenKuvaukset', kuvaus, tasokuvaus.taso)"/>
-                </b-col>
-              </b-row>
-            </draggable>
-
-            <ep-button @click="lisaaKuvaus('edistynytOsaaminenKuvaukset', tasokuvaus.taso)" variant="outline" icon="plus" class="mt-1">
-            {{ $t('lisaa-kuvaus') }}
-          </ep-button>
+            <EpOsaAlueSisalto :isEditing="isEditing" v-model="tasokuvaus.edistynytOsaaminenKuvaukset" />
           </template>
 
         <hr/>
@@ -73,17 +37,28 @@
       </slot>
 
       <div v-for="(tasokuvaus, index) in osaAlue.tasokuvaukset" :key="'tasokuvaus' + index">
-        <b-form-group class="mt-3 mb-0 p-0" v-if="(tasokuvaus.kuvaukset && tasokuvaus.kuvaukset.length > 0) || (tasokuvaus.edistynytOsaaminenKuvaukset && tasokuvaus.edistynytOsaaminenKuvaukset.length > 0)" :label="$t('osa-alue-otsiko-' + tasokuvaus.taso.toLowerCase())">
-          <ul v-if="tasokuvaus.kuvaukset && tasokuvaus.kuvaukset.length > 0" class="mb-0 mt-2">
-            <li v-for="(kuvaus, kuvausIndex) in tasokuvaus.kuvaukset" :key="'kuvaus' + index + kuvausIndex">{{$kaanna(kuvaus)}}</li>
-          </ul>
+        <b-form-group class="mt-3 mb-0 p-0" v-if="(tasokuvaus.osaamiset && tasokuvaus.osaamiset.length > 0) || (tasokuvaus.edelleenKehittyvatOsaamiset && tasokuvaus.edelleenKehittyvatOsaamiset.length > 0) || (tasokuvaus.edistynytOsaaminenKuvaukset && tasokuvaus.edistynytOsaaminenKuvaukset.length > 0)" :label="$t('osa-alue-otsiko-' + tasokuvaus.taso.toLowerCase())">
 
-          <div v-if="tasokuvaus.edistynytOsaaminenKuvaukset && tasokuvaus.edistynytOsaaminenKuvaukset.length > 0">
+          <template v-if="tasokuvaus.edelleenKehittyvatOsaamiset && tasokuvaus.edelleenKehittyvatOsaamiset.length > 0">
+            <div class="ml-3 mt-3">{{$t('edelleen-kehittyva-osaaminen')}}</div>
+            <ul class="mb-0">
+              <li v-for="(edKehOsaaminen, edKehOsaamisetIndex) in tasokuvaus.edelleenKehittyvatOsaamiset" :key="'edKehOsaaminen' + index + edKehOsaamisetIndex">{{$kaanna(edKehOsaaminen)}}</li>
+            </ul>
+          </template>
+
+          <template v-if="tasokuvaus.osaamiset && tasokuvaus.osaamiset.length > 0">
+            <div class="ml-3 mt-3">{{$t('osaamiset')}}</div>
+            <ul class="mb-0">
+              <li v-for="(osaaminen, osaamisetIndex) in tasokuvaus.osaamiset" :key="'osaamiset' + index + osaamisetIndex">{{$kaanna(osaaminen)}}</li>
+            </ul>
+          </template>
+
+          <template v-if="tasokuvaus.edistynytOsaaminenKuvaukset && tasokuvaus.edistynytOsaaminenKuvaukset.length > 0">
             <div class="ml-3 mt-3">{{$t('edistynyt-osaaminen')}}</div>
             <ul class="mb-0">
               <li v-for="(edistynytKuvaus, kuvausIndex) in tasokuvaus.edistynytOsaaminenKuvaukset" :key="'edistynytkuvaus' + index + kuvausIndex">{{$kaanna(edistynytKuvaus)}}</li>
             </ul>
-          </div>
+          </template>
         </b-form-group>
 
         <slot name="tasokuvaus-postfix" />
@@ -102,12 +77,14 @@ import EpInput from '@shared/components/forms/EpInput.vue';
 import { Kielet } from '@shared/stores/kieli';
 import draggable from 'vuedraggable';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
+import EpOsaAlueSisalto from './EpOsaAlueSisalto.vue';
 
 @Component({
   components: {
     EpInput,
     draggable,
     EpButton,
+    EpOsaAlueSisalto,
   },
 })
 export default class EpOsaAlue extends Vue {
