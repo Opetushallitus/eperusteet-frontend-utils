@@ -41,14 +41,14 @@
 
           <template v-if="tasokuvaus.edelleenKehittyvatOsaamiset && tasokuvaus.edelleenKehittyvatOsaamiset.length > 0">
             <div class="ml-3 mt-3">{{$t('edelleen-kehittyva-osaaminen')}}</div>
-            <ul class="mb-0 mt-2">
+            <ul class="mb-0">
               <li v-for="(edKehOsaaminen, edKehOsaamisetIndex) in tasokuvaus.edelleenKehittyvatOsaamiset" :key="'edKehOsaaminen' + index + edKehOsaamisetIndex">{{$kaanna(edKehOsaaminen)}}</li>
             </ul>
           </template>
 
           <template v-if="tasokuvaus.osaamiset && tasokuvaus.osaamiset.length > 0">
             <div class="ml-3 mt-3">{{$t('osaamiset')}}</div>
-            <ul class="mb-0 mt-2">
+            <ul class="mb-0">
               <li v-for="(osaaminen, osaamisetIndex) in tasokuvaus.osaamiset" :key="'osaamiset' + index + osaamisetIndex">{{$kaanna(osaaminen)}}</li>
             </ul>
           </template>
