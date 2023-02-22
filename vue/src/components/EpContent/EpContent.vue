@@ -59,6 +59,7 @@ import { IKuvaHandler } from './KuvaHandler';
 import CustomLink from './CustomLink';
 import { ObserveVisibility } from 'vue-observe-visibility';
 import { ILinkkiHandler } from './LinkkiHandler';
+import { fixTipTapContent } from '@shared/utils/helpers';
 
 const striptag = document.createElement('span');
 
@@ -172,7 +173,7 @@ export default class EpContent extends Mixins(EpValidation) {
     }
 
     this.editor = new Editor({
-      content: this.localizedValue,
+      content: fixTipTapContent(this.localizedValue),
       editable: this.isEditable,
       onUpdate: () => {
         this.setUpEditorEvents();
