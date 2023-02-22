@@ -27,6 +27,7 @@ export import PerusteprojektiDtoTilaEnum = EperusteetApi.PerusteprojektiDtoTilaE
 export import KoulutuksenOsaDtoKoulutusOsanTyyppiEnum = EperusteetApi.KoulutuksenOsaDtoKoulutusOsanTyyppiEnum;
 export import PoistettuSisaltoDtoTyyppiEnum = EperusteetApi.PoistettuSisaltoDtoTyyppiEnum;
 export import JulkaisuBaseDtoTilaEnum = EperusteetApi.JulkaisuBaseDtoTilaEnum;
+export import LiiteDtoTyyppiEnum = EperusteetApi.LiiteDtoTyyppiEnum;
 
 const logger = createLogger('EperusteetAxios');
 const basePath = '';
@@ -153,6 +154,7 @@ export type TutkinnonOsaViiteSuppeaDto = EperusteetApi.TutkinnonOsaViiteSuppeaDt
 export type JulkaisuBaseDto = EperusteetApi.JulkaisuBaseDto;
 export type OsaamiskokonaisuusDto = EperusteetApi.OsaamiskokonaisuusDto;
 export type OsaamiskokonaisuusPaaAlueDto = EperusteetApi.OsaamiskokonaisuusPaaAlueDto;
+export type PerusteprojektinPerusteenosaDto = EperusteetApi.PerusteprojektinPerusteenosaDto;
 
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);

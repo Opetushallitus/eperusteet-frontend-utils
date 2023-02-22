@@ -11,15 +11,23 @@ axios.defaults.xsrfHeaderName = 'CSRF';
 
 export function axiosHandler(msg: string) {
   return async (err: any) => {
-    if (err.response.status === 500 || err.response.status === 403) {
-      fail(errorMessage(err.response.status), undefined, errorNotificationDuration());
+    if (err.response.status === 500 || err.response.status === 403 || err.response.status === 400) {
+      fail(errorMessage(err), undefined, errorNotificationDuration());
     }
     throw err;
   };
 }
 
-function errorMessage(errorCode) {
-  return errorCode === 500 ? 'jarjestelmavirhe-ohje' : 'ei-oikeutta-suorittaa';
+function errorMessage(err) {
+  if (err.response.status === 403) {
+    return 'ei-oikeutta-suorittaa';
+  }
+
+  if (err.response.status === 400 && !!err.response?.data?.syy) {
+    return err.response?.data?.syy;
+  }
+
+  return 'jarjestelmavirhe-ohje';
 }
 
 function errorNotificationDuration() {

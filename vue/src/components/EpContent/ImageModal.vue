@@ -111,7 +111,7 @@ export default class ImageModal extends Mixins(validationMixin) {
 
   async mounted() {
     this.kuvateksti = {
-      [Kielet.getSisaltoKieli.value]: this.kuvatekstiProp,
+      [Kielet.getSisaltoKieli.value]: this.kuvatekstiProp || this.vaihtoehtotekstiProp,
     };
 
     this.vaihtoehtoinenteksti = {
