@@ -49,3 +49,28 @@ export function deepFilter(filterObject: Object | string, searchObject: any) : a
   });
   return objects;
 }
+
+/**
+ * fixataan vanhoja tekstikappaleita, joissa kuva on paragraphien sisällä <p><img/></p> ja uuden kälin editorissa kuvaa ei siksi näytetä
+ */
+export function fixTipTapContent(html) {
+  let container = document.createElement('div');
+  container.innerHTML = html;
+
+  let el;
+  // Move all images out of paragraphs.
+  while ((el = container.querySelector('p > img'))) {
+    unwrap(el.parentNode);
+  }
+  return container.innerHTML;
+}
+
+/**
+ * Move all chldren out of an element, and remove the element.
+ */
+function unwrap(el) {
+  let parent = el.parentNode;
+  // Move all children to the parent element.
+  while (el.firstChild) parent.insertBefore(el.firstChild, el);
+  parent.removeChild(el);
+}
