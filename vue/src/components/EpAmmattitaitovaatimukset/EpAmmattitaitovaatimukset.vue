@@ -16,9 +16,11 @@
              :key="vaatimusIdx"
              class="d-flex mt-1">
           <div class="flex-grow-1">
-            <vaatimus-field :koodisto="koodisto"
+            <vaatimus-field v-if="koodisto"
+                            :koodisto="koodisto"
                             v-model="inner.vaatimukset[vaatimusIdx]"
                             :validation="vaatimusValidation(null, vaatimusIdx)" />
+            <EpInput v-else v-model="v.vaatimus" :isEditing="isEditing"/>
           </div>
           <div>
             <Kayttolistaus v-if="inner.vaatimukset[vaatimusIdx].koodi"
@@ -64,12 +66,14 @@
               v-model="kohdealue.vaatimukset">
               <div v-for="(v, vaatimusIdx) in kohdealue.vaatimukset" :key="vaatimusIdx" class="mt-1 d-flex align-items-center">
                 <div class="flex-grow-1">
-                  <vaatimus-field :koodisto="koodisto"
+                  <vaatimus-field v-if="koodisto"
+                                  :koodisto="koodisto"
                                   v-model="kohdealue.vaatimukset[vaatimusIdx]"
                                   :validation="vaatimusValidation(kohdealueIdx, vaatimusIdx)" />
+                  <EpInput v-else v-model="v.vaatimus" :isEditing="isEditing"/>
                 </div>
                 <div>
-                  <Kayttolistaus v-if="kohdealue.vaatimukset[vaatimusIdx].koodi"
+                  <Kayttolistaus v-if="koodisto && kohdealue.vaatimukset[vaatimusIdx].koodi"
                                 :koodi="kohdealue.vaatimukset[vaatimusIdx].koodi" />
                 </div>
                 <div>
@@ -136,6 +140,9 @@
         </div>
         <div class="otsikko" v-if="showKohde">
           {{ $kaanna(innerKohde) }}
+        </div>
+        <div class="otsikko" v-if="kaannosKohde">
+          {{ kaannosKohde }}
         </div>
         <ul>
           <li v-for="(v, kvIdx) in kohdealue.vaatimukset" :key="kvIdx">
@@ -207,6 +214,9 @@ export default class EpAmmattitaitovaatimukset extends Vue {
   @Prop({ required: false })
   private kaannosKohdealue!: string;
 
+  @Prop({ required: false })
+  private kaannosKohde!: string;
+
   @Prop({ default: true })
   private kohdealueettomat!: boolean;
 
@@ -276,7 +286,7 @@ export default class EpAmmattitaitovaatimukset extends Vue {
     };
   }
 
-  private koodisto!: KoodistoSelectStore;
+  private koodisto: KoodistoSelectStore | null = null;
 
   mounted() {
     const koodisto = this.tavoitekoodisto;

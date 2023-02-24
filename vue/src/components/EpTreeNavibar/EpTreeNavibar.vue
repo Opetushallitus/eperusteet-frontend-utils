@@ -55,6 +55,7 @@ import { FlattenedNodeDto, EpTreeNavibarStore } from '@shared/components/EpTreeN
 import { NavigationNodeType, NavigationNodeDto } from '@shared/tyypit';
 import _ from 'lodash';
 import { Kielet } from '@shared/stores/kieli';
+import VueScrollTo from 'vue-scrollto';
 
 export type ProjektiFilter = 'koulutustyyppi' | 'tila' | 'voimassaolo';
 
@@ -130,6 +131,7 @@ export default class EpTreeNavibar extends Vue {
       const node = _.find(this.navigation, matching) as IndexedNode | null;
       if (node) {
         this.navigate(node);
+        VueScrollTo.scrollTo('#scroll-anchor');
       }
     }
   }
