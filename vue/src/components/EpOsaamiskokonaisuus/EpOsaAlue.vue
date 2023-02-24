@@ -37,28 +37,28 @@
       </slot>
 
       <div v-for="(tasokuvaus, index) in osaAlue.tasokuvaukset" :key="'tasokuvaus' + index">
-        <b-form-group class="mt-3 mb-0 p-0" v-if="(tasokuvaus.osaamiset && tasokuvaus.osaamiset.length > 0) || (tasokuvaus.edelleenKehittyvatOsaamiset && tasokuvaus.edelleenKehittyvatOsaamiset.length > 0) || (tasokuvaus.edistynytOsaaminenKuvaukset && tasokuvaus.edistynytOsaaminenKuvaukset.length > 0)" :label="$t('osa-alue-otsiko-' + tasokuvaus.taso.toLowerCase())">
+        <b-form-group class="mt-3 mb-0 p-0" v-if="tasokuvaus.otsikkolkm > 0" :label="$t('osa-alue-otsiko-' + tasokuvaus.taso.toLowerCase())">
 
-          <template v-if="tasokuvaus.edelleenKehittyvatOsaamiset && tasokuvaus.edelleenKehittyvatOsaamiset.length > 0">
-            <div class="ml-3 mt-3">{{$t('edelleen-kehittyva-osaaminen')}}</div>
+          <div class="mt-3" v-if="tasokuvaus.edelleenKehittyvatOsaamiset && tasokuvaus.edelleenKehittyvatOsaamiset.length > 0">
+            <div class="ml-3" v-if="tasokuvaus.otsikkolkm > 1">{{$t('edelleen-kehittyva-osaaminen')}}</div>
             <ul class="mb-0">
               <li v-for="(edKehOsaaminen, edKehOsaamisetIndex) in tasokuvaus.edelleenKehittyvatOsaamiset" :key="'edKehOsaaminen' + index + edKehOsaamisetIndex">{{$kaanna(edKehOsaaminen)}}</li>
             </ul>
-          </template>
+          </div>
 
-          <template v-if="tasokuvaus.osaamiset && tasokuvaus.osaamiset.length > 0">
-            <div class="ml-3 mt-3">{{$t('osaamiset')}}</div>
+          <div class="mt-3" v-if="tasokuvaus.osaamiset && tasokuvaus.osaamiset.length > 0">
+            <div class="ml-3" v-if="tasokuvaus.otsikkolkm > 1">{{$t('osaaminen')}}</div>
             <ul class="mb-0">
               <li v-for="(osaaminen, osaamisetIndex) in tasokuvaus.osaamiset" :key="'osaamiset' + index + osaamisetIndex">{{$kaanna(osaaminen)}}</li>
             </ul>
-          </template>
+          </div>
 
-          <template v-if="tasokuvaus.edistynytOsaaminenKuvaukset && tasokuvaus.edistynytOsaaminenKuvaukset.length > 0">
-            <div class="ml-3 mt-3">{{$t('edistynyt-osaaminen')}}</div>
+          <div class="mt-3" v-if="tasokuvaus.edistynytOsaaminenKuvaukset && tasokuvaus.edistynytOsaaminenKuvaukset.length > 0">
+            <div class="ml-3" v-if="tasokuvaus.otsikkolkm > 1">{{$t('edistynyt-osaaminen')}}</div>
             <ul class="mb-0">
               <li v-for="(edistynytKuvaus, kuvausIndex) in tasokuvaus.edistynytOsaaminenKuvaukset" :key="'edistynytkuvaus' + index + kuvausIndex">{{$kaanna(edistynytKuvaus)}}</li>
             </ul>
-          </template>
+          </div>
         </b-form-group>
 
         <slot name="tasokuvaus-postfix" />
@@ -95,7 +95,15 @@ export default class EpOsaAlue extends Vue {
   isEditing!: boolean;
 
   get osaAlue() {
-    return this.value;
+    return {
+      ...this.value,
+      tasokuvaukset: _.map(this.value.tasokuvaukset, tasokuvaus => {
+        return {
+          ...tasokuvaus,
+          otsikkolkm: (tasokuvaus.osaamiset?.length > 0 ? 1 : 0) + (tasokuvaus.edelleenKehittyvatOsaamiset?.length > 0 ? 1 : 0) + (tasokuvaus.edistynytOsaaminenKuvaukset?.length > 0 ? 1 : 0),
+        };
+      }),
+    };
   }
 
   get defaultDragOptions() {
