@@ -1,15 +1,16 @@
 <template>
   <div>
     <b-button class="toggle" size="sm" @click="valueChange">
-      <span v-if="value" class="material-icons-outlined checked">done</span>
+      <span v-if="value" class="sr-only">{{ $t('valittu') }}</span>
+      <span class="sr-only">{{ $t('voimassaolo-filtteri') }}</span>
+      <span v-if="value" class="material-icons-outlined checked" aria-hidden="true">done</span>
       <slot />
     </b-button>
   </div>
 </template>
 
 <script lang="ts">
-import * as _ from 'lodash';
-import { Prop, Component, Vue, Watch } from 'vue-property-decorator';
+import { Prop, Component, Vue } from 'vue-property-decorator';
 
 @Component({
   components: {

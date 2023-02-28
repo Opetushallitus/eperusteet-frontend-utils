@@ -3,7 +3,7 @@
     <span class="form-control-feedback">
         <fas fixed-width :icon="icon" :spin="isLoading"></fas>
     </span>
-    <label class="sr-only" :for="id">{{ placeholderText }}</label>
+    <label class="sr-only" :for="id">{{ ariaPlaceholderText }}</label>
     <input :id="id"
            class="form-control"
            type="search"
