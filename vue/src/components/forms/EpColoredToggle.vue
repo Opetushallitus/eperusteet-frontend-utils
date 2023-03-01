@@ -1,8 +1,6 @@
 <template>
   <div>
     <b-button class="toggle" size="sm" @click="valueChange">
-      <span v-if="value" class="sr-only">{{ $t('valittu') }}</span>
-      <span class="sr-only">{{ $t('voimassaolo-filtteri') }}</span>
       <span v-if="value" class="material-icons-outlined checked" aria-hidden="true">done</span>
       <slot />
     </b-button>

@@ -47,7 +47,7 @@ export default class EpSearch extends Vue {
   }
 
   get ariaPlaceholderText() {
-    return this.placeholder || this.$t('etsi-tietoja-sivulta');
+    return this.placeholder || this.$t('etsi-tietoja-sivulta-haku');
   }
 
   public onInput(input: any) {
