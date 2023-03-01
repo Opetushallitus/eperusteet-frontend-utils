@@ -2,7 +2,6 @@
   <div>
     <b-pagination v-model="currentPage"
                   class="mt-4"
-                  @change="updatePage"
                   :total-rows="totalPages"
                   :per-page="perPage"
                   align="center"
@@ -44,6 +43,7 @@ export default class EpBPagination extends Vue {
   }
 
   set currentPage(value) {
+    this.$emit('input', value);
   }
 
   get controls() {
@@ -56,10 +56,6 @@ export default class EpBPagination extends Vue {
 
   get totalPages() {
     return this.total;
-  }
-
-  private updatePage(value) {
-    this.$emit('pageChanged', value);
   }
 }
 </script>
