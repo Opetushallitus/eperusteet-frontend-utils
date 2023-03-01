@@ -115,7 +115,12 @@ export default class EpViimeaikainenToiminta extends Vue {
       return this.$t(muokkaustieto.lisatieto);
     }
 
-    return this.$t(this.tapahtumakaannos(muokkaustieto)) + this.tapahtumakohde(muokkaustieto);
+    if (muokkaustieto.tapahtuma === 'luonti') {
+      return this.$t(this.tapahtumakaannos(muokkaustieto));
+    }
+    else {
+      return this.$t(this.tapahtumakaannos(muokkaustieto)) + this.tapahtumakohde(muokkaustieto);
+    }
   }
 
   tapahtumakaannos(muokkaustieto: Muokkaustieto) {
@@ -132,7 +137,7 @@ export default class EpViimeaikainenToiminta extends Vue {
     }
 
     if (muokkaustieto.kohde) {
-      return ': ' + (this as any).$t(_.replace(muokkaustieto.kohde, '_', '-'));
+      return ': ' + (this as any).$t(muokkaustieto.kohde.split('_').join('-'));
     }
     return '';
   }
