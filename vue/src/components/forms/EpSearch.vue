@@ -28,6 +28,9 @@ export default class EpSearch extends Vue {
   @Prop({ type: String })
   private placeholder!: string;
 
+  @Prop({ type: String })
+  private srPlaceholder!: string;
+
   @Prop({ required: false, default: false })
   private isLoading!: boolean;
 
@@ -47,7 +50,7 @@ export default class EpSearch extends Vue {
   }
 
   get ariaPlaceholderText() {
-    return this.placeholder || this.$t('etsi-tietoja-sivulta-haku');
+    return this.srPlaceholder || this.$t('etsi-tietoja-sivulta-haku');
   }
 
   public onInput(input: any) {
