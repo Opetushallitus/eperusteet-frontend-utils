@@ -3,7 +3,7 @@
     <span class="form-control-feedback">
         <fas fixed-width :icon="icon" :spin="isLoading"></fas>
     </span>
-    <label class="sr-only" :for="id">{{ placeholderText }}</label>
+    <label class="sr-only" :for="id">{{ ariaPlaceholderText }}</label>
     <input :id="id"
            class="form-control"
            type="search"
@@ -28,6 +28,9 @@ export default class EpSearch extends Vue {
   @Prop({ type: String })
   private placeholder!: string;
 
+  @Prop({ type: String })
+  private srPlaceholder!: string;
+
   @Prop({ required: false, default: false })
   private isLoading!: boolean;
 
@@ -47,7 +50,7 @@ export default class EpSearch extends Vue {
   }
 
   get ariaPlaceholderText() {
-    return this.placeholder || this.$t('etsi-tietoja-sivulta');
+    return this.srPlaceholder || this.$t('etsi-tietoja-sivulta-haku');
   }
 
   public onInput(input: any) {

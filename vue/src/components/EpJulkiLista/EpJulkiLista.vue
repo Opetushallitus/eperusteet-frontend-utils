@@ -123,7 +123,8 @@ export default class EpJulkiLista extends Vue {
         }
       }
       .muokkausaika {
-        color: $gray-lighten-1;
+        color: $gray-lighten-12;
+        font-size: 90%;
       }
     }
     ::v-deep .btn {

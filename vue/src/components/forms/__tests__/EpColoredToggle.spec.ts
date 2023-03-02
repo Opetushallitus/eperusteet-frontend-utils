@@ -1,6 +1,5 @@
-import { mount, createLocalVue, shallowMount } from '@vue/test-utils';
+import { mount, createLocalVue } from '@vue/test-utils';
 import EpColoredToggle from '../EpColoredToggle.vue';
-import { KieliStore } from '../../../stores/kieli';
 import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
 
@@ -23,7 +22,7 @@ describe('EpColoredToggle component', () => {
     }), {
       localVue,
     });
-  };
+  }
 
   test('Renders toggle and change changes value', async () => {
     const wrapper = mountWrapper();
