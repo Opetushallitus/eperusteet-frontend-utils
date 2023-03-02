@@ -21,9 +21,6 @@ describe('EpColoredToggle component', () => {
       template: '<ep-colored-toggle v-model="arvo" />',
     }), {
       localVue,
-      mocks: {
-        $t: x => x,
-      },
     });
   }
 

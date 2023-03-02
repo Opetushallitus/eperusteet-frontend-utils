@@ -1,4 +1,4 @@
-import { mount, createLocalVue, shallowMount } from '@vue/test-utils';
+import { mount, createLocalVue } from '@vue/test-utils';
 import EpSearch from '../EpSearch.vue';
 import VueI18n from 'vue-i18n';
 import { Kielet } from '../../../stores/kieli';
@@ -27,7 +27,7 @@ describe('EpFormContent component', () => {
       data() {
         return propsit;
       },
-      template: '<ep-search v-model="rajain" @input="updateSearch" :placeholder="placeholder"/>',
+      template: '<ep-search v-model="rajain" @input="updateSearch" :placeholder="placeholder" :sr-placeholder="srPlaceholder"/>',
     }), {
       localVue,
       i18n,
@@ -45,10 +45,11 @@ describe('EpFormContent component', () => {
 
   test('Renders content with content and props', async () => {
     const testMethod = jest.fn();
-    const wrapper = mountWrapper(testMethod, { placeholder: 'etsi-teksti', rajain: '' });
-    wrapper.setProps({ placeholder: 'etsi-teksti' });
+    const wrapper = mountWrapper(testMethod, { placeholder: 'etsi-teksti', rajain: '', srPlaceholder: 'etsi-tietoja-sivulta-haku' });
+    wrapper.setProps({ placeholder: 'etsi-teksti', srPlaceholder: 'etsi-tietoja-sivulta-haku' });
     await localVue.nextTick();
-    expect(wrapper.find('label').html()).toContain('etsi-teksti');
+    expect(wrapper.find('input').html()).toContain('etsi-teksti');
+    expect(wrapper.find('label').html()).toContain('etsi-tietoja-sivulta-haku');
   });
 
   test('Renders content with content and props', async () => {
