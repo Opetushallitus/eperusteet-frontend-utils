@@ -3887,5 +3887,6 @@
     "tuo-oletustoteutus-tutkinnon-osaan": "Tuo oletustoteutus tutkinnon osaan",
     "toteutuksen-nimi": "Toteutuksen nimi",
     "luotu-tutkinnon-osassa": "Luotu tutkinnon osassa",
-    "tutkinnolla-korvaava-peruste-selite": "Tutkinnolle on tehty uusi peruste: <b>{korvaavaPerusteNimi}</b>. Peruste tuodaan automaattisesti toteutussuunnitelman pohjalle, jolloin toteutussuunnitelman suorituspolut on luotava uudestaan."
+    "tutkinnolla-korvaava-peruste-selite": "Tutkinnolle on tehty uusi peruste: <b>{korvaavaPerusteNimi}</b>. Peruste tuodaan automaattisesti toteutussuunnitelman pohjalle, jolloin toteutussuunnitelman suorituspolut on luotava uudestaan.",
+    "nimeton-osa-alue": "Nimetön osa-alue"
 }

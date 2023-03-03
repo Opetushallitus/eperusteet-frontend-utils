@@ -20,7 +20,8 @@ export interface FlattenedNodeDto {
   meta?: { [key: string]: object; };
   depth: number;
   chapter: string;
-  children: NavigationNodeDto[];
+  children: NavigationNodeDto[],
+  icon?: string;
 }
 
 export class EpTreeNavibarStore {
@@ -57,6 +58,7 @@ function flattenNodes(config: NodeConfigs, root: NavigationNodeDto, depth = 0, p
     children: tconfig?.disableNesting ? [] : root.children as any,
     chapter: _.join(_.map(parents, p => p + 1), '.'),
     depth,
+    icon: root.icon,
   }, ..._.flatten(_.map(root.children, (child, idx) => flattenNodes(
     config,
     child,

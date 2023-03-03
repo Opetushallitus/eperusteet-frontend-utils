@@ -21,10 +21,11 @@
             </div>
           </div>
           <div class="flex-grow-1" :class="{'font-weight-bold': item.isMatch}">
-            <div @click="navigate(item)" class="clickable">
+            <div @click="navigate(item)" class="clickable d-flex align-items-center">
               <slot :name="$scopedSlots[item.type] ? item.type : 'default'" :item="item">
                 {{ $kaannaOlioTaiTeksti(item.label) }}
               </slot>
+              <span v-if="item.icon" class="material-icons-outlined icon">{{item.icon}}</span>
             </div>
           </div>
           <div class="text-muted mr-1" v-if="item.children.length > 0 && item.idx !== activeIdx && !showAll">
@@ -297,6 +298,11 @@ export default class EpTreeNavibar extends Vue {
         color: white;
       }
     }
+  }
+
+  .icon {
+    font-size: 1rem;
+    color: $blue-lighten-5;
   }
 }
 

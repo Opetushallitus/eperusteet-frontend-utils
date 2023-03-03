@@ -28,6 +28,7 @@ export import KayttajaoikeusDtoOikeusEnum = AmosaaApi.KayttajaoikeusDtoOikeusEnu
 export import OpetussuunnitelmaBaseDtoJotpatyyppiEnum = AmosaaApi.OpetussuunnitelmaBaseDtoJotpatyyppiEnum;
 export import LaajuusYksikkoEnum = AmosaaApi.LaajuusYksikkoEnum;
 export import JulkaisuBaseDtoTilaEnum = AmosaaApi.JulkaisuBaseDtoTilaEnum;
+export import OmaOsaAlueDtoTyyppiEnum = AmosaaApi.OmaOsaAlueDtoTyyppiEnum;
 
 const logger = createLogger('AmosaaAxios');
 const basePath = '';

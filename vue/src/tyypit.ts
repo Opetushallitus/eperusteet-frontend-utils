@@ -123,7 +123,8 @@ export interface NavigationNodeDto {
   label?: LokalisoituTekstiDto;
   type?: NavigationNodeType;
   meta?: { [key: string]: object; };
-  children?: NavigationNodeDto[];
+  children?: NavigationNodeDto[],
+  icon?: string;
 }
 
 export interface ILukko {
