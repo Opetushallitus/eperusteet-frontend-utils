@@ -22,31 +22,31 @@
               <fas icon="grip-vertical" v-if="isEditing"></fas>
             </div>
 
-            <div class="w-100">
-              <h4 v-if="isEditing">{{$t('toteutuksen-otsikko')}}</h4>
-              <ep-input v-model="toteutus.otsikko" :is-editing="isEditing" v-if="isEditing"/>
+            <EpPaikallinenToteutus v-model="model[toteutusIndex]" :isEditing="isEditing" @poista="poistaToteutus(model[toteutusIndex])">
+              <div slot="oletustoteutus">
+                {{ $t('tallenna-oletustoteutuksena-osa-alueeseen') }}
+              </div>
+            </EpPaikallinenToteutus>
 
-              <h4 class="mt-4">{{$t('tavat-ja-ymparisto')}}</h4>
-              <ep-content layout="normal" v-model="toteutus.tavatjaymparisto" :is-editable="isEditing" />
-
-              <h4 class="mt-4">{{$t('osaamisen-arvioinnista')}}</h4>
-              <ep-content layout="normal" v-model="toteutus.arvioinnista" :is-editable="isEditing"> </ep-content>
-
-              <hr v-if="toteutus.vapaat && toteutus.vapaat.length > 0" class="mt-4"/>
-              <EpVapaatTekstit v-model="toteutus.vapaat" :isEditing="isEditing" class="mt-2"/>
-
-              <ep-button class="float-right mt-4" @click="poistaToteutus(toteutus)" variant="link" icon="roskalaatikko" v-if="isEditing">
-                {{ $t('poista-toteutus') }}
-              </ep-button>
-
-            </div>
           </div>
         </EpCollapse>
     </draggable>
 
-    <ep-button @click="lisaaToteutus()" variant="outline" icon="plus" v-if="isEditing">
-      {{ $t('lisaa-toteutus') }}
-    </ep-button>
+    <div class="d-flex">
+      <ep-button @click="lisaaToteutus()" variant="outline" icon="plus" v-if="isEditing">
+        {{ $t('lisaa-toteutus') }}
+      </ep-button>
+
+      <EpOletustoteutusTuonti v-if="isEditing" @lisaaOletustoteutus="lisaaOletustoteutus" :fetch="haeOletusOsaAlueToteutukset">
+        <div slot="title">
+          {{ $t('tuo-oletustoteutus-osa-alueeseen') }}
+        </div>
+        <div slot="luotu">
+          {{ $t('luotu-osa-alueessa') }}
+        </div>
+      </EpOletustoteutusTuonti>
+
+    </div>
 
   </div>
 </template>
@@ -60,8 +60,10 @@ import draggable from 'vuedraggable';
 import EpCollapse from '@shared/components/EpCollapse/EpCollapse.vue';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
-import { OmaOsaAlueToteutusDto } from '@shared/api/amosaa';
 import { DEFAULT_DRAGGABLE_PROPERTIES } from '@shared/utils/defaults';
+import EpPaikallinenToteutus from '@/components/EpAmmatillinen/EpPaikallinenToteutus.vue';
+import { OsaAlueApi, OmaOsaAlueToteutusDto } from '@shared/api/amosaa';
+import EpOletustoteutusTuonti from '@/components/EpSisaltoLisays/EpOletustoteutusTuonti.vue';
 
 @Component({
   components: {
@@ -71,6 +73,8 @@ import { DEFAULT_DRAGGABLE_PROPERTIES } from '@shared/utils/defaults';
     EpCollapse,
     EpContent,
     EpButton,
+    EpPaikallinenToteutus,
+    EpOletustoteutusTuonti,
   },
 })
 export default class EpOsaAlueToteutukset extends Vue {
@@ -91,7 +95,11 @@ export default class EpOsaAlueToteutukset extends Vue {
   lisaaToteutus() {
     this.$emit('input', [
       ...this.value,
-      { vapaat: [] },
+      {
+        tavatjaymparisto: {},
+        arvioinnista: {},
+        vapaat: [],
+      },
     ]);
   }
 
@@ -99,11 +107,30 @@ export default class EpOsaAlueToteutukset extends Vue {
     this.$emit('input', _.filter(this.value, toteutus => toteutus !== poistettavaOsaalue));
   }
 
+  async haeOletusOsaAlueToteutukset() {
+    return (await OsaAlueApi.haeOletusOsaAlueToteutukset(this.toteutussuunnitelmaId, this.koulutustoimijaId)).data;
+  }
+
+  lisaaOletustoteutus(toteutus) {
+    this.model = [
+      ...(this.model || []),
+      toteutus,
+    ];
+  }
+
   get defaultDragOptions() {
     return {
       ...DEFAULT_DRAGGABLE_PROPERTIES,
       disabled: !this.isEditing,
     };
+  }
+
+  get toteutussuunnitelmaId() {
+    return _.toNumber(this.$route.params.toteutussuunnitelmaId);
+  }
+
+  get koulutustoimijaId() {
+    return this.$route.params.toteutussuunnitelmaId;
   }
 }
 </script>

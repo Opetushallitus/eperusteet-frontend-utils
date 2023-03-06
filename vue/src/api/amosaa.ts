@@ -77,6 +77,7 @@ export const Palautteet = initApi(AmosaaApi.PalautteetApi);
 export const Maintenance = initApi(AmosaaApi.MaintenanceApi);
 export const ExternalApi = initApi(AmosaaApi.ExternalApi);
 export const TutkinnonosaApi = initApi(AmosaaApi.TutkinnonosaApi);
+export const OsaAlueApi = initApi(AmosaaApi.OsaAlueApi);
 
 export type ArviointiasteikkoDto = AmosaaApi.ArviointiasteikkoDto;
 export type DokumenttiDto = AmosaaApi.DokumenttiDto;
@@ -123,6 +124,7 @@ export type PerusteenOsaDto = AmosaaApi.PerusteenOsaDto;
 export type KotoTaitotasoLaajaAlainenOsaaminenDto = AmosaaApi.KotoTaitotasoLaajaAlainenOsaaminenDto;
 export type SisaltoViiteExportDto = AmosaaApi.SisaltoViiteExportDto;
 export type OmaOsaAlueToteutusDto = AmosaaApi.OmaOsaAlueToteutusDto;
+export type OletusToteutusDto = AmosaaApi.OletusToteutusDto;
 
 export interface OpetussuunnitelmaQuery {
   perusteenDiaarinumero?: string;
