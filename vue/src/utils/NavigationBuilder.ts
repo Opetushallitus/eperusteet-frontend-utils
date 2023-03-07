@@ -316,6 +316,11 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       },
     };
     break;
+  case 'aipe_laajaalainenosaaminen':
+    node.location = {
+      name: 'aipeLaajaalainenOsaaminen',
+    };
+    break;
   case 'taiteenosa':
     if (!rawNode.label) {
       node.label = _.get(rawNode.meta, 'alaosa') as any;
