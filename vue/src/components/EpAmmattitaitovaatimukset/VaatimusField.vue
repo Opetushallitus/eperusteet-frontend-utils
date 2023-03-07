@@ -20,7 +20,7 @@
                   v-if="!value.koodi" />
                 <b-form-input
                   class="vaatimus"
-                  :value="($kaanna(value.koodi.nimi) || vaatimus) + ' (' + value.koodi.arvo + ')'"
+                  :value="($kaanna(value.koodi.nimi) || vaatimus) + ' (' + koodiArvo + ')'"
                   disabled
                   v-if="value.koodi"></b-form-input>
                 <b-input-group-append>
@@ -183,6 +183,10 @@ export default class VaatimusField extends Vue {
   }
 
   private readonly datalist = _.uniqueId('datalist_');
+
+  get koodiArvo() {
+    return _.size(this.value.koodi.uri?.split('_')) === 2 ? this.value.koodi.uri?.split('_')[1] : this.value.koodi.arvo;
+  }
 }
 </script>
 

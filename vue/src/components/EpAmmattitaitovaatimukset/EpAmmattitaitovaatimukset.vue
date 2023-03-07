@@ -117,7 +117,7 @@
             <span class="ml-1">
               (<a :href="koodistoPalveluUrl(v.koodi.uri)"
                 target="_blank"
-                rel="nofollow noopener noreferrer">{{ v.koodi.arvo }}</a>)
+                rel="nofollow noopener noreferrer">{{ v.koodi.uri.split('_')[1] }}</a>)
             </span>
           </slot>
         </span>
@@ -143,7 +143,7 @@
                 <span class="ml-1">
                   (<a :href="koodistoPalveluUrl(v.koodi.uri)"
                     target="_blank"
-                    rel="nofollow noopener noreferrer">{{ v.koodi.arvo }}</a>)
+                    rel="nofollow noopener noreferrer">{{ v.koodi.uri.split('_')[1] }}</a>)
                 </span>
               </slot>
             </span>
