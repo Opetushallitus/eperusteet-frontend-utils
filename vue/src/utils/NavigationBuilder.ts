@@ -22,6 +22,7 @@ export interface NavigationNode {
   isMatch?: boolean;
   isVisible?: boolean;
   id?: number;
+  icon?: string;
 }
 
 export interface NavigationFilter {
@@ -81,6 +82,7 @@ export function traverseNavigation(rawNode: NavigationNodeDto, isOps: boolean, r
     path: [], // setParents asettaa polun
     meta: rawNode.meta,
     id: rawNode.id,
+    icon: rawNode.icon,
   };
 
   if (isOps) {
