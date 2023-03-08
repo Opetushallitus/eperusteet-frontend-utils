@@ -25,8 +25,8 @@
               <slot :name="$scopedSlots[item.type] ? item.type : 'default'" :item="item">
                 {{ $kaannaOlioTaiTeksti(item.label) }}
               </slot>
-              <span :id="'item-tooltip'+item.id" class="postfix" v-if="item.meta && item.meta.postfix_label">({{$t(item.meta.postfix_label)}})</span>
-              <b-tooltip v-if="item.meta && item.meta.postfix_tooltip" custom-class="postfix-tooltip" :target="'item-tooltip'+item.id" triggers="hover" placement="right">{{$t(item.meta.postfix_tooltip)}}</b-tooltip>
+
+              <EpNavigationPostFix :node="item"/>
             </div>
           </div>
           <div class="text-muted mr-1" v-if="item.children.length > 0 && item.idx !== activeIdx && !showAll">
@@ -54,7 +54,7 @@ import EpToggle from '@shared/components/forms/EpToggle.vue';
 import EpMultiSelect from '@shared/components/forms/EpMultiSelect.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { FlattenedNodeDto, EpTreeNavibarStore } from '@shared/components/EpTreeNavibar/EpTreeNavibarStore';
-import { NavigationNodeType, NavigationNodeDto } from '@shared/tyypit';
+import EpNavigationPostFix from '@shared/components/EpTreeNavibar/EpNavigationPostFix.vue';
 import _ from 'lodash';
 import { Kielet } from '@shared/stores/kieli';
 import VueScrollTo from 'vue-scrollto';
@@ -71,6 +71,7 @@ type IndexedNode = FlattenedNodeDto & { idx: number };
     EpButton,
     EpSpinner,
     EpToggle,
+    EpNavigationPostFix,
   },
 })
 export default class EpTreeNavibar extends Vue {
@@ -301,10 +302,6 @@ export default class EpTreeNavibar extends Vue {
     }
   }
 
-  .postfix {
-    font-size: 0.9rem;
-    font-weight: 600;
-  }
 }
 
 .action-container {
@@ -316,12 +313,6 @@ export default class EpTreeNavibar extends Vue {
   border-top: 1px solid rgb(216, 216, 216);
   border-bottom: 1px solid rgb(216, 216, 216);
   padding: 10px 0px;
-}
-
-.postfix-tooltip {
-  ::v-deep .tooltip-inner {
-    max-width: none;
-  }
 }
 
 $sizes: 12;

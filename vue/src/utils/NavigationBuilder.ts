@@ -82,7 +82,6 @@ export function traverseNavigation(rawNode: NavigationNodeDto, isOps: boolean, r
     path: [], // setParents asettaa polun
     meta: rawNode.meta,
     id: rawNode.id,
-    icon: rawNode.icon,
   };
 
   if (isOps) {
