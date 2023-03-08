@@ -22,7 +22,6 @@ export interface NavigationNode {
   isMatch?: boolean;
   isVisible?: boolean;
   id?: number;
-  icon?: string;
 }
 
 export interface NavigationFilter {
