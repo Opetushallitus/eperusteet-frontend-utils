@@ -1,7 +1,19 @@
 <template>
   <div class="d-flex align-items-center">
-    <span :id="'item-tooltip'+node.id" class="postfix" v-if="node.meta && node.meta.postfix_label">({{$t(node.meta.postfix_label)}})</span>
-    <b-tooltip v-if="node.meta && node.meta.postfix_tooltip" custom-class="postfix-tooltip" :target="'item-tooltip'+node.id" triggers="hover" placement="right">{{$t(node.meta.postfix_tooltip)}}</b-tooltip>
+    <div
+      :id="'item-tooltip'+node.id"
+      class="postfix"
+      v-if="node.meta && node.meta.postfix_label">
+      ({{$t(postfixLabel)}})
+    </div>
+    <b-tooltip
+      v-if="node.meta && node.meta.postfix_tooltip"
+      custom-class="postfix-tooltip"
+      :target="'item-tooltip'+node.id"
+      triggers="hover"
+      placement="right">
+      {{$t(postfixTooltip)}}
+    </b-tooltip>
   </div>
 </template>
 
@@ -14,6 +26,14 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 export default class EpNavigationPostFix extends Vue {
   @Prop()
   node!: NavigationNodeDto
+
+  get postfixLabel(): string {
+    return _.toString(this.node.meta?.postfix_label);
+  }
+
+  get postfixTooltip(): string {
+    return _.toString(this.node.meta?.postfix_tooltip);
+  }
 }
 </script>
 
