@@ -3891,5 +3891,7 @@
     "tutkinnolla-korvaava-peruste-selite": "Tutkinnolle on tehty uusi peruste: <b>{korvaavaPerusteNimi}</b>. Peruste tuodaan automaattisesti toteutussuunnitelman pohjalle, jolloin toteutussuunnitelman suorituspolut on luotava uudestaan.",
     "nimeton-osa-alue": "Nimetön osa-alue",
     "tuo-oletustoteutus-osa-alueeseen": "Tuo oletustoteutus osa-alueeseen",
-    "luotu-osa-alueessa": "Luotu osa-alueessa"
+    "luotu-osa-alueessa": "Luotu osa-alueessa",
+    "tutkinnon-osa-paikallinen-merkki": "P",
+    "paikallisesti-luotu-tutkinnon-osa": "Paikallisesti luotu tutkinnon osa"
 }

@@ -25,7 +25,8 @@
               <slot :name="$scopedSlots[item.type] ? item.type : 'default'" :item="item">
                 {{ $kaannaOlioTaiTeksti(item.label) }}
               </slot>
-              <span v-if="item.icon" class="material-icons-outlined icon">{{item.icon}}</span>
+              <span :id="'item-tooltip'+item.id" class="postfix" v-if="item.meta && item.meta.postfix_label">({{$t(item.meta.postfix_label)}})</span>
+              <b-tooltip v-if="item.meta && item.meta.postfix_tooltip" custom-class="postfix-tooltip" :target="'item-tooltip'+item.id" triggers="hover" placement="right">{{$t(item.meta.postfix_tooltip)}}</b-tooltip>
             </div>
           </div>
           <div class="text-muted mr-1" v-if="item.children.length > 0 && item.idx !== activeIdx && !showAll">
@@ -300,9 +301,9 @@ export default class EpTreeNavibar extends Vue {
     }
   }
 
-  .icon {
-    font-size: 1rem;
-    color: $blue-lighten-5;
+  .postfix {
+    font-size: 0.9rem;
+    font-weight: 600;
   }
 }
 
@@ -315,6 +316,12 @@ export default class EpTreeNavibar extends Vue {
   border-top: 1px solid rgb(216, 216, 216);
   border-bottom: 1px solid rgb(216, 216, 216);
   padding: 10px 0px;
+}
+
+.postfix-tooltip {
+  ::v-deep .tooltip-inner {
+    max-width: none;
+  }
 }
 
 $sizes: 12;

@@ -124,7 +124,6 @@ export interface NavigationNodeDto {
   type?: NavigationNodeType;
   meta?: { [key: string]: object; };
   children?: NavigationNodeDto[],
-  icon?: string;
 }
 
 export interface ILukko {
