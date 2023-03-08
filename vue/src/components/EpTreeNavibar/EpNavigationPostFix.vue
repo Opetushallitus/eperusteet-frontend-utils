@@ -1,19 +1,18 @@
 <template>
-  <div class="d-flex align-items-center">
+  <div class="d-flex align-items-center" v-if="postfixLabel">
     <div
-      :id="'item-tooltip'+node.id"
+      :id="'item-popover'+node.id"
       class="postfix"
       v-if="node.meta && node.meta.postfix_label">
       ({{$t(postfixLabel)}})
     </div>
-    <b-tooltip
+    <b-popover
       v-if="node.meta && node.meta.postfix_tooltip"
-      custom-class="postfix-tooltip"
-      :target="'item-tooltip'+node.id"
+      :target="'item-popover'+node.id"
       triggers="hover"
       placement="right">
       {{$t(postfixTooltip)}}
-    </b-tooltip>
+    </b-popover>
   </div>
 </template>
 
@@ -43,11 +42,6 @@ export default class EpNavigationPostFix extends Vue {
 .postfix {
   font-size: 0.9rem;
   font-weight: 600;
-}
-.postfix-tooltip {
-  ::v-deep .tooltip-inner {
-    max-width: none;
-  }
 }
 
 </style>
