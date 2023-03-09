@@ -1,39 +1,26 @@
 <template>
-  <div class="mb-4">
-    <h3 class="mb-2" slot="header">{{ $t('muutoshistoria') }}</h3>
+  <div class="julkaisuhistoria">
+    <h3 slot="header">{{ $t('julkaisuhistoria') }}</h3>
     <EpSpinner v-if="!julkaisut"/>
     <template v-else>
       <div class="alert alert-info" v-if="julkaisut.length === 0">
         <slot name="empty">{{ $t('ei-julkaisuja') }}</slot>
       </div>
       <div v-else>
-        <div v-for="(julkaisu, index) in julkaisutMapped" :key="'julkaisu'+index" class="julkaisu pb-3 pt-2 px-3">
+        <div v-for="(julkaisu, index) in julkaisutMapped" :key="'julkaisu'+index" class="julkaisu pb-2 ml-1 px-3">
           <div class="d-flex justify-content-between align-items-center">
             <div>
-              <span class="font-bold font-size pr-3 ">{{ $sdt(julkaisu.luotu) }}</span>
-              <span class="pr-3">{{ $t(julkaisu.luoja) }}</span>
-              <span v-if="latestJulkaisuRevision && latestJulkaisuRevision.revision === julkaisu.revision" class="julkaistu">{{$t('uusin-versio')}}</span>
+              <span class="font-weight-bold pr-1">{{$t('julkaisu')}} {{julkaisu.revision}}</span>
+              <span v-if="latestJulkaisuRevision && latestJulkaisuRevision.revision === julkaisu.revision" class="julkaistu">{{$t('julkaistu-versio')}}</span>
               <span v-if ="julkaisu.tila === 'KESKEN'" class="julkaistu julkaistu--kesken">{{$t('julkaisu-kesken')}}</span>
               <span v-if ="julkaisu.tila === 'VIRHE'" class="julkaistu julkaistu--virhe">{{$t('julkaisu-epaonnistui')}}</span>
             </div>
 
             <div class="d-flex align-items-center">
-              <div v-if="julkaisu.julkinen" class="d-flex pr-4">
-                <div class="material-icons julkinen">check_circle</div>
-                <div class="ml-2">{{$t('nakyy-muutoshistoriassa')}}</div>
-              </div>
-              <EpButton
-                v-if="julkaisu.tila === 'JULKAISTU'"
-                variant="link"
-                icon="pen"
-                v-oikeustarkastelu="{ oikeus: 'muokkaus' }">
-                {{ $t('muokkaa') }}
-              </EpButton>
-              <div class="btn btn-link btn-md btn-link">
-                <slot name="katsele" :julkaisu="julkaisu" v-if="julkaisu.tila !== 'VIRHE'"></slot>
-              </div>
+              <slot name="katsele" :julkaisu="julkaisu" v-if="julkaisu.tila !== 'VIRHE'"></slot>
               <EpButton
                 v-if="latestJulkaisuRevision && latestJulkaisuRevision.revision !== julkaisu.revision && julkaisu.tila === 'JULKAISTU'"
+                class="ml-4"
                 variant="link"
                 icon="peruuta"
                 :showSpinner="julkaisu.palautuksessa"
@@ -43,20 +30,8 @@
               </EpButton>
             </div>
           </div>
-          <div v-if="julkaisu.muutosmaaraysVoimaan">
-            <div v-for="(muutosmaarays, index) in julkaisu.muutosmaaraykset" :key="'maarays'+index" class="maarayslinkit">
-              <a :href="muutosmaarays.url" target="_blank" rel="noopener noreferrer">{{ $kaanna(muutosmaarays.nimi) }}</a>
-            </div>
-            <span>- {{ $sd(julkaisu.muutosmaaraysVoimaan) }} {{ $t('alkaen') }}</span>
-          </div>
-          <div  v-if="julkaisu.tiedote" class="mt-2">
-            <span class="font-bold pr-1">{{ $t('tiedote') }}:</span>
-            <div v-html="$kaanna(julkaisu.tiedote)" />
-          </div>
-          <div v-if="julkaisu.julkinenTiedote">
-            <span class="font-bold pr-1">{{ $t('julkinen-tiedote') }}:</span>
-            <div v-html="$kaanna(julkaisu.julkinenTiedote)" />
-          </div>
+          <div class="my-1">{{$sdt(julkaisu.luotu)}} <span v-if="julkaisu.nimi">{{julkaisu.nimi}}</span></div>
+          <div class="my-1" v-html="$kaanna(julkaisu.tiedote)"></div>
         </div>
       </div>
     </template>
@@ -69,8 +44,6 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
-import EpToggle from '@shared/components/forms/EpToggle.vue';
-import EpExternalLink from '@shared/components/EpExternalLink/EpExternalLink.vue';
 
 interface Julkaisu {
   revision?: number;
@@ -79,15 +52,12 @@ interface Julkaisu {
   luoja?: string;
   kayttajanTieto?: any;
   tila?: 'JULKAISTU' | 'KESKEN' | 'VIRHE';
-  muutosmaaraykset?: any;
 }
 
 @Component({
   components: {
     EpButton,
     EpSpinner,
-    EpToggle,
-    EpExternalLink,
   },
 })
 export default class EpJulkaisuHistoria extends Vue {
@@ -107,7 +77,6 @@ export default class EpJulkaisuHistoria extends Vue {
           ...(julkaisu.kayttajanTieto && { nimi: parsiEsitysnimi(julkaisu.kayttajanTieto) }),
           tila: julkaisu.tila || 'JULKAISTU',
           palautuksessa: this.palautuksessa === julkaisu.revision,
-          muutosmaaraykset: this.muutosmaaraysUrl(julkaisu),
         };
       })
       .sortBy('revision')
@@ -134,21 +103,6 @@ export default class EpJulkaisuHistoria extends Vue {
       this.palautuksessa = null;
     }
   }
-
-  muutosmaaraysUrl(julkaisu) {
-    if (julkaisu.muutosmaaraykset && julkaisu.muutosmaaraykset.length > 0) {
-      julkaisu.muutosmaaraykset.forEach(muutosmaarays => {
-        let liiteId = _.get(muutosmaarays.liitteet, 'fi.id') || _.get(muutosmaarays.liitteet, 'sv.id') || _.get(muutosmaarays.liitteet, 'en.id');
-        if (liiteId) {
-          muutosmaarays.url = `/eperusteet-service/api/perusteet/${julkaisu.peruste.id!}/liitteet/${liiteId}`;
-        }
-      });
-      return julkaisu.muutosmaaraykset;
-    }
-    else {
-      return null;
-    }
-  }
 }
 </script>
 
@@ -160,10 +114,10 @@ export default class EpJulkaisuHistoria extends Vue {
 
 .julkaistu {
   border-radius: 25px;
-  background-color: $green-1;
+  background-color: $green-lighten-2;
   padding: 5px 10px;
   margin-left: 10px;
-  color: $black;
+  color: $white;
 
   &--kesken {
     background-color: $yellow-1;
@@ -172,23 +126,6 @@ export default class EpJulkaisuHistoria extends Vue {
   &--virhe {
     background-color: $red-lighten-1;
   }
-}
-
-.font-bold {
-  font-weight: 600 !important;
-}
-
-.font-size {
-  font-size: 110%;
-}
-
-.julkinen {
-  color: $green;
-}
-
-.maarayslinkit {
-  display: inline;
-  padding-right: 5px;
 }
 
 </style>
