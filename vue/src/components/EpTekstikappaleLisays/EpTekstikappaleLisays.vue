@@ -60,7 +60,7 @@
     </ep-form-content>
 
     <template v-slot:modal-footer>
-      <ep-button @click="save" variant="link">
+      <ep-button @click="cancel" variant="link">
         {{ $t('peruuta')}}
       </ep-button>
       <ep-button @click="save" :showSpinner="loading" :disabled="okDisabled">
