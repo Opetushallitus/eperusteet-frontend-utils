@@ -9,7 +9,7 @@
     <b-popover
       v-if="node.meta && node.meta.postfix_tooltip"
       :target="'item-popover'+node.id"
-      triggers="hover"
+      triggers="click hover"
       placement="right">
       {{$t(postfixTooltip)}}
     </b-popover>

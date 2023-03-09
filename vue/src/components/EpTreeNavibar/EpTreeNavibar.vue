@@ -26,7 +26,7 @@
                 {{ $kaannaOlioTaiTeksti(item.label) }}
               </slot>
 
-              <EpNavigationPostFix :node="item"/>
+              <EpNavigationPostFix :node="item" v-if="item.meta.postfix_label"/>
             </div>
           </div>
           <div class="text-muted mr-1" v-if="item.children.length > 0 && item.idx !== activeIdx && !showAll">
