@@ -18,7 +18,8 @@
                                  :kohde="{ fi: $t('opiskelija') }"
                                  :tavoitekoodisto="'osaamistavoitteet'"
                                  :show-kohde="true"
-                                 :is-editing="isEditing" />
+                                 :is-editing="isEditing"
+                                 :showKoodiArvo="showKoodiArvo" />
     </b-form-group>
   </div>
 </template>
@@ -45,6 +46,9 @@ export default class Osaamistavoite extends Vue {
 
   @Prop({ default: true })
   showLaajuus!: boolean;
+
+  @Prop({ default: true })
+  public showKoodiArvo!: boolean;
 
   get inner() {
     return this.value || {

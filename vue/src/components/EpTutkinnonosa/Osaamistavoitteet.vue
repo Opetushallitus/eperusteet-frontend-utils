@@ -51,11 +51,8 @@ import EpAmmattitaitovaatimukset from '@shared/components/EpAmmattitaitovaatimuk
   },
 })
 export default class Osaamistavoitteet extends Vue {
-  @Prop({ required: true })
+  @Prop({ required: false, default: false })
   isEditing!: boolean;
-
-  @Prop({ required: true })
-  value!: any;
 
   @Prop({ required: true })
   tyyppi!: any;

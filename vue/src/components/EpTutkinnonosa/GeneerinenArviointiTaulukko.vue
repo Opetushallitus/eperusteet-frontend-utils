@@ -1,8 +1,5 @@
 <template>
-  <div v-if="!arviointi">
-    <div class="alert alert-danger">{{ $t('virheellinen-arviointi') }}</div>
-  </div>
-  <ep-form-content v-else class="col-md-12 mb-5">
+  <ep-form-content class="col-md-12 mb-5">
     <slot name="header">
       <label>{{ $t('arviointi') }}</label>
     </slot>

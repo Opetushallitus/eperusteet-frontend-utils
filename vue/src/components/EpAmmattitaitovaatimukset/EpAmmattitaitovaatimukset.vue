@@ -134,7 +134,7 @@
       </li>
     </ul>
     <div>
-      <div v-for="(kohdealue, kaIdx) in inner.kohdealueet" :key="kaIdx" :class="{'mt-4' : showKohde || kohdealueettomat}">
+      <div v-for="(kohdealue, kaIdx) in inner.kohdealueet" :key="kaIdx" :class="{'mt-3' : showKohde || kohdealueettomat}">
         <div class="otsikko font-weight-bold">
           {{ $kaanna(kohdealue.kuvaus) }}
         </div>
@@ -149,7 +149,7 @@
             <span v-if="v.koodi">
               <slot name="koodi" :koodi="v.koodi">
                 <span>{{ $kaanna(v.koodi.nimi) || $kaanna(v.vaatimus) }}</span>
-                <span class="ml-1">
+                <span class="ml-1" v-if="showKoodiArvo">
                   (<a :href="koodistoPalveluUrl(v.koodi.uri)"
                     target="_blank"
                     rel="nofollow noopener noreferrer">{{ v.koodi.uri.split('_')[1] }}</a>)
@@ -231,6 +231,9 @@ export default class EpAmmattitaitovaatimukset extends Vue {
 
   @Prop({ default: true })
   public showKohde!: boolean;
+
+  @Prop({ default: true })
+  public showKoodiArvo!: boolean;
 
   get kaannokset() {
     return {
