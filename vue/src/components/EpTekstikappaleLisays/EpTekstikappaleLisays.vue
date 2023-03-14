@@ -18,9 +18,7 @@
            :id="modalId"
            size="lg"
            centered
-           :ok-disabled="okDisabled"
-           @hidden="clear"
-           @ok="save">
+           @hidden="clear">
     <template v-slot:modal-title>
       <slot name="modal-title">
         {{ $t('lisaa-uusi-tekstikappale') }}
@@ -61,13 +59,15 @@
       </div>
     </ep-form-content>
 
-    <template v-slot:modal-cancel>
-      {{ $t('peruuta')}}
-    </template>
-    <template v-slot:modal-ok>
-      <slot name="footer-lisays-btn-text">
-        {{ $t('lisaa-tekstikappale')}}
-      </slot>
+    <template v-slot:modal-footer>
+      <ep-button @click="cancel" variant="link">
+        {{ $t('peruuta')}}
+      </ep-button>
+      <ep-button @click="save" :showSpinner="loading" :disabled="okDisabled">
+        <slot name="footer-lisays-btn-text">
+          {{ $t('lisaa-tekstikappale')}}
+        </slot>
+      </ep-button>
     </template>
 
   </b-modal>
@@ -114,7 +114,11 @@ export default class EpTekstikappaleLisays extends Vue {
   @Prop({ required: false })
   private otsikkoNimi!: string;
 
+  @Prop({ required: true })
+  private tallenna!: Function;
+
   private taso: 'paataso' | 'alataso' = 'paataso';
+  private loading: boolean = false;
 
   @Validations()
   validations = {
@@ -140,13 +144,21 @@ export default class EpTekstikappaleLisays extends Vue {
     if (this.taso === 'paataso') {
       this.valittuTekstikappale = {};
     }
-    this.$emit('save', this.otsikko, this.valittuTekstikappale);
+
+    this.loading = true;
+    await this.tallenna(this.otsikko, this.valittuTekstikappale);
+    this.loading = false;
+    this.$bvModal.hide(this.modalId);
   }
 
   clear() {
     this.otsikko = {};
     this.valittuTekstikappale = {};
     this.taso = 'paataso';
+  }
+
+  cancel() {
+    this.$bvModal.hide(this.modalId);
   }
 }
 

@@ -677,6 +677,24 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
       },
     };
     break;
+  case 'osaalue':
+    node.location = {
+      name: 'toteutussuunnitelmaOsaAlue',
+      params: {
+        sisaltoviiteId: _.toString(rawNode.meta?.sisaltoviiteId),
+        osaalueId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'pakolliset_osaalueet':
+    node.label = 'pakolliset-osa-alueet';
+    break;
+  case 'valinnaiset_osaalueet':
+    node.label = 'valinnaiset-osa-alueet';
+    break;
+  case 'paikalliset_osaalueet':
+    node.label = 'paikalliset-osa-alueet';
+    break;
   default:
     break;
   }

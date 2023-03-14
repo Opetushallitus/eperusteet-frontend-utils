@@ -14,7 +14,7 @@
     <span class="material-icons-outlined float-left mr-1" v-if="micon">{{micon}}</span>
     <div class="teksti" :class="{'pl-3 pr-3': paddingx}">
       <slot />
-      <ep-spinner-inline v-if="showSpinner" :link="variant === 'link'"/>
+      <ep-spinner-inline v-if="showSpinner" :link="variant === 'link' || isOutline"/>
     </div>
   </b-button>
   <b-tooltip v-if="help" :target="() => $refs['button-container']">{{ $t(help) }}</b-tooltip>
