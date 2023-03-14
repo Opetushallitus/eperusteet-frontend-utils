@@ -1,5 +1,8 @@
 <template>
-  <ep-button class="mt-3" @click="suoritaJulkaisu()" :showSpinner="julkaistaan || julkaisuKesken">
+  <ep-button class="mt-3"
+             @click="suoritaJulkaisu()"
+             :showSpinner="julkaistaan || julkaisuKesken"
+             :disabled="disabled">
     {{ $t('julkaise') }}
   </ep-button>
 </template>
@@ -7,7 +10,6 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
-import _ from 'lodash';
 
 @Component({
   components: {
@@ -20,6 +22,9 @@ export default class EpJulkaisuButton extends Vue {
 
   @Prop({ required: false })
   protected julkaisuKesken!: boolean;
+
+  @Prop({ required: false, default: false })
+  protected disabled?: boolean;
 
   private julkaistaan = false;
 
