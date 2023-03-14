@@ -20,7 +20,7 @@ export interface FlattenedNodeDto {
   meta?: { [key: string]: object; };
   depth: number;
   chapter: string;
-  children: NavigationNodeDto[],
+  children: NavigationNodeDto[];
 }
 
 export class EpTreeNavibarStore {
