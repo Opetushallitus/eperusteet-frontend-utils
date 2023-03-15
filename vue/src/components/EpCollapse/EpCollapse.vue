@@ -71,11 +71,19 @@ export default class EpCollapse extends Vue {
   @Prop({ default: false })
   private first!: boolean;
 
+  @Prop({ default: false })
+  private useLinkColor?: boolean;
+
   private toggled = false;
 
   get styles() {
+    let style = {
+      header: {},
+      collapse: {},
+    };
+
     if (this.usePadding) {
-      return {
+      style = { ...style,
         header: {
           'margin-bottom': '10px',
           'margin-top': '5px',
@@ -86,10 +94,14 @@ export default class EpCollapse extends Vue {
         },
       };
     }
-    return {
-      header: {},
-      collapse: {},
-    };
+    if (this.useLinkColor) {
+      style = { ...style,
+        header: { ...style.header,
+          'color': '#3367E3',
+        },
+      };
+    }
+    return style;
   }
 
   @Prop({ required: false, default: false })

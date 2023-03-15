@@ -12,7 +12,8 @@
                     class="mt-4"
                     :expandedByDefault="false"
                     :chevronLocation="'left'"
-                    :use-padding="false">
+                    :use-padding="false"
+                    :use-link-color="true">
           <template v-slot:header>{{$t('nayta-lisaa-julkaisuja')}}</template>
           <EpJulkaisuLista :julkaisut="julkaisutMapped.slice(2)"
                            :latest-julkaisu-revision="latestJulkaisuRevision"></EpJulkaisuLista>
