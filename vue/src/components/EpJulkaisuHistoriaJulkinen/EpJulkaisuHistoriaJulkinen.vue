@@ -12,8 +12,7 @@
                     class="mt-4"
                     :expandedByDefault="false"
                     :chevronLocation="'left'"
-                    :use-padding="false"
-                    :use-link-color="true">
+                    :use-padding="false">
           <template v-slot:header>{{$t('nayta-lisaa-julkaisuja')}}</template>
           <EpJulkaisuLista :julkaisut="julkaisutMapped.slice(2)"
                            :latest-julkaisu-revision="latestJulkaisuRevision"></EpJulkaisuLista>
@@ -86,5 +85,9 @@ export default class EpJulkaisuHistoria extends Vue {
 
 <style scoped lang="scss">
 @import '@shared/styles/_variables';
+
+::v-deep .ep-collapse .header {
+  color: #3367E3;
+}
 
 </style>

@@ -7,7 +7,7 @@
       </div>
       <div v-if="julkaisu.muutosmaaraysVoimaan && julkaisu.liitteet && julkaisu.liitteet.length > 0" class="mt-2">
         <div v-for="(liiteData, index) in julkaisu.liitteet" :key="'maarays'+index" class="maarayslinkit">
-          <a :href="liiteData.url" target="_blank" rel="noopener noreferrer">{{ liiteData.liite.nimi }} ({{ $t(liiteData.kieli) }})</a>
+          <a :href="liiteData.url" target="_blank" rel="noopener noreferrer">{{ liiteData.nimi }} ({{ $t(liiteData.kieli) }})</a>
         </div>
         <span>- {{ $sd(julkaisu.muutosmaaraysVoimaan) }} {{ $t('alkaen') }}</span>
       </div>
