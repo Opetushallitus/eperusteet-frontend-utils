@@ -47,7 +47,7 @@ interface Julkaisu {
     EpCollapse,
   },
 })
-export default class EpJulkaisuHistoria extends Vue {
+export default class EpJulkaisuHistoriaJulkinen extends Vue {
   @Prop({ required: false })
   private julkaisut!: Julkaisu[];
 
