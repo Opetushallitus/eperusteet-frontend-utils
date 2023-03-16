@@ -8,7 +8,8 @@
       <div v-else>
         <EpJulkaisuLista :julkaisut="julkaisutMapped.slice(0,2)"
                           :latest-julkaisu-revision="latestJulkaisuRevision"></EpJulkaisuLista>
-        <EpCollapse :borderBottom="false"
+        <EpCollapse v-if="julkaisut.length > 2"
+                    :borderBottom="false"
                     class="mt-4"
                     :expandedByDefault="false"
                     :chevronLocation="'left'"
