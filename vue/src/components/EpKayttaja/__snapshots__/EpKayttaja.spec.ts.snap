@@ -17,7 +17,7 @@ exports[`EpKayttaja component Renders 1`] = `
         <div class="ep-collapse">
           <div role="button" tabindex="0" class="collapse-button d-flex align-items-center mb-2">
             <!---->
-            <div class="align-self-start">
+            <div class="align-self-start header">
               <div class="">
                 <div>
                   <div class="pl-3 pt-2 text-nowrap kieli">
@@ -46,8 +46,8 @@ exports[`EpKayttaja component Renders 1`] = `
         <div class="ep-collapse">
           <div role="button" tabindex="0" class="collapse-button d-flex align-items-center mb-2" aria-expanded="true">
             <!---->
-            <div class="align-self-start">
-              <div class="header">
+            <div class="align-self-start header">
+              <div class="header-toggled">
                 <div>
                   <div class="pl-3 pt-2 text-nowrap kieli">
                     <div fixed-width="" icon="ulkoinen-linkki" class="icon mr-3"></div> <span>vaihda-sovellusta</span>

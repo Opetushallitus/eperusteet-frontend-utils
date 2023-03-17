@@ -1,40 +1,40 @@
 <template>
-<div>
-  <hr v-if="first && !borderTop" />
-  <div :class="classess" v-if="!disableHeader" :style="styles.collapse" @click="togglefull ? toggle(): null" @keyup.enter="togglefull ? toggle(): null">
-    <!-- Button tagia ei voida käyttää, sillä ml-auto ei toimi.-->
-    <!-- Käytetään button rolea saavutettavuuden takaamiseksi.-->
-    <div class="collapse-button d-flex align-items-center mb-2"
-         @click="!togglefull ? toggle(): null"
-         @keyup.enter="!togglefull ? toggle(): null"
-         role="button"
-         tabindex="0"
-         :aria-expanded="toggled">
-      <slot name="icon" :toggled="toggled" v-if="chevronLocation === 'left' && collapsable">
-        <div class="align-self-start mr-2">
-          <fas fixed-width icon="chevron-up" v-if="toggled"></fas>
-          <fas fixed-width icon="chevron-down" v-else></fas>
+  <div>
+    <hr v-if="first && !borderTop" />
+    <div :class="classess" v-if="!disableHeader" :style="styles.collapse" @click="togglefull ? toggle(): null" @keyup.enter="togglefull ? toggle(): null">
+      <!-- Button tagia ei voida käyttää, sillä ml-auto ei toimi.-->
+      <!-- Käytetään button rolea saavutettavuuden takaamiseksi.-->
+      <div class="collapse-button d-flex align-items-center mb-2"
+           @click="!togglefull ? toggle(): null"
+           @keyup.enter="!togglefull ? toggle(): null"
+           role="button"
+           tabindex="0"
+           :aria-expanded="toggled">
+        <slot name="icon" :toggled="toggled" v-if="chevronLocation === 'left' && collapsable">
+          <div class="align-self-start mr-2">
+            <fas fixed-width icon="chevron-up" v-if="toggled"></fas>
+            <fas fixed-width icon="chevron-down" v-else></fas>
+          </div>
+        </slot>
+        <div class="align-self-start header">
+          <div :class="{'header-toggled': toggled}" :style="styles.header">
+            <slot name="header" :toggled="toggled"></slot>
+          </div>
         </div>
-      </slot>
-      <div class="align-self-start">
-        <div :class="{'header': toggled}" :style="styles.header">
-          <slot name="header" :toggled="toggled"></slot>
-        </div>
+        <slot name="icon" :toggled="toggled" v-if="chevronLocation === 'right'  && collapsable">
+          <div class="ml-auto ">
+            <fas fixed-width icon="chevron-up" v-if="toggled"></fas>
+            <fas fixed-width icon="chevron-down" v-else></fas>
+          </div>
+        </slot>
       </div>
-      <slot name="icon" :toggled="toggled" v-if="chevronLocation === 'right'  && collapsable">
-        <div class="ml-auto ">
-          <fas fixed-width icon="chevron-up" v-if="toggled"></fas>
-          <fas fixed-width icon="chevron-down" v-else></fas>
-        </div>
-      </slot>
+      <div v-if="toggled">
+        <slot></slot>
+      </div>
     </div>
-    <div v-if="toggled">
-      <slot></slot>
-    </div>
+    <slot v-else></slot>
+    <hr v-if="borderBottom" />
   </div>
-  <slot v-else></slot>
-  <hr v-if="borderBottom" />
-</div>
 </template>
 
 <script lang="ts">
@@ -185,7 +185,7 @@ export default class EpCollapse extends Vue {
     }
   }
 
-  .header {
+  .header-toggled {
     user-select: none;
   }
 

@@ -108,24 +108,24 @@ export default class EpJulkaisuHistoria extends Vue {
 
 <style scoped lang="scss">
 @import '@shared/styles/_variables';
-  .julkaisu:nth-of-type(even) {
-    background-color: $gray-lighten-13;
+.julkaisu:nth-of-type(even) {
+  background-color: $gray-lighten-13;
+}
+
+.julkaistu {
+  border-radius: 25px;
+  background-color: $green-lighten-2;
+  padding: 5px 10px;
+  margin-left: 10px;
+  color: $white;
+
+  &--kesken {
+    background-color: $yellow-1;
   }
 
-  .julkaistu {
-    border-radius: 25px;
-    background-color: $green-lighten-2;
-    padding: 5px 10px;
-    margin-left: 10px;
-    color: $white;
-
-    &--kesken {
-      background-color: $yellow-1;
-    }
-
-    &--virhe {
-      background-color: $red-lighten-1;
-    }
+  &--virhe {
+    background-color: $red-lighten-1;
   }
+}
 
 </style>
