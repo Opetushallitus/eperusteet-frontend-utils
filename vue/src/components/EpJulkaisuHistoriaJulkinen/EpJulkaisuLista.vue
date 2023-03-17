@@ -2,7 +2,7 @@
   <div class="mt-2">
     <div v-for="(julkaisu, index) in julkaisut" :key="'julkaisu'+index" class="julkaisu pb-2 pt-2 ml-1 px-3">
       <div class="d-flex">
-        <span class="font-bold font-size pr-3 ">{{$t('julkaisu')}} {{ $sdt(julkaisu.luotu) }}</span>
+        <span class="font-bold font-size pr-3 ">{{$t('julkaisu')}} {{ $sd(julkaisu.luotu) }}</span>
         <span v-if="latestJulkaisuRevision && latestJulkaisuRevision.revision === julkaisu.revision" class="julkaistu">{{$t('uusin-versio')}}</span>
       </div>
       <div v-if="julkaisu.muutosmaaraysVoimaan && julkaisu.liitteet && julkaisu.liitteet.length > 0" class="mt-2">

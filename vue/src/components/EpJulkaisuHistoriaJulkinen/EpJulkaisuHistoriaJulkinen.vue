@@ -14,7 +14,7 @@
                     :expandedByDefault="false"
                     :chevronLocation="'left'"
                     :use-padding="false">
-          <template v-slot:header>{{$t('nayta-lisaa-julkaisuja')}}</template>
+          <template v-slot:header>{{$t('nayta-lisaa')}}</template>
           <EpJulkaisuLista :julkaisut="julkaisutMapped.slice(2)"
                            :latest-julkaisu-revision="latestJulkaisuRevision"></EpJulkaisuLista>
         </EpCollapse>
