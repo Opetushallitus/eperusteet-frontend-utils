@@ -14,9 +14,7 @@ describe('EpKoodistoSelect component', () => {
       {
         propsData: {
           ...props,
-        },
-        listeners: {
-          save: methods.saveTekstikappale,
+          tallenna: methods.saveTekstikappale,
         },
         attachToDocument: true,
         localVue,

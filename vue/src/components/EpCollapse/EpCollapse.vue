@@ -4,7 +4,7 @@
     <div :class="classess" v-if="!disableHeader" :style="styles.collapse" @click="togglefull ? toggle(): null" @keyup.enter="togglefull ? toggle(): null">
       <!-- Button tagia ei voida käyttää, sillä ml-auto ei toimi.-->
       <!-- Käytetään button rolea saavutettavuuden takaamiseksi.-->
-      <div class="collapse-button d-flex align-items-center"
+      <div class="collapse-button d-flex align-items-center mb-2"
            @click="!togglefull ? toggle(): null"
            @keyup.enter="!togglefull ? toggle(): null"
            role="button"
@@ -78,7 +78,7 @@ export default class EpCollapse extends Vue {
       return {
         header: {
           'margin-bottom': '10px',
-          'margin-top': '5px',
+          'margin-top': '10px',
         },
         collapse: {
           'padding-top': '20px',

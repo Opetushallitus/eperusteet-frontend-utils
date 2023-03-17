@@ -316,6 +316,11 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       },
     };
     break;
+  case 'aipe_laajaalainenosaaminen':
+    node.location = {
+      name: 'aipeLaajaalainenOsaaminen',
+    };
+    break;
   case 'taiteenosa':
     if (!rawNode.label) {
       node.label = _.get(rawNode.meta, 'alaosa') as any;
@@ -671,6 +676,24 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
         sisaltoviiteId: _.toString(rawNode.id),
       },
     };
+    break;
+  case 'osaalue':
+    node.location = {
+      name: 'toteutussuunnitelmaOsaAlue',
+      params: {
+        sisaltoviiteId: _.toString(rawNode.meta?.sisaltoviiteId),
+        osaalueId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'pakolliset_osaalueet':
+    node.label = 'pakolliset-osa-alueet';
+    break;
+  case 'valinnaiset_osaalueet':
+    node.label = 'valinnaiset-osa-alueet';
+    break;
+  case 'paikalliset_osaalueet':
+    node.label = 'paikalliset-osa-alueet';
     break;
   default:
     break;

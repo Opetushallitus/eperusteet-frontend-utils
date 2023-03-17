@@ -21,14 +21,16 @@
             </div>
           </div>
           <div class="flex-grow-1" :class="{'font-weight-bold': item.isMatch}">
-            <slot :name="$scopedSlots[item.type] ? item.type : 'default'" :item="item">
-            {{ $kaannaOlioTaiTeksti(item.label) }}
-            </slot>
+            <div @click="navigate(item)" class="clickable d-flex align-items-center">
+              <slot :name="$scopedSlots[item.type] ? item.type : 'default'" :item="item">
+                {{ $kaannaOlioTaiTeksti(item.label) }}
+              </slot>
+
+              <EpNavigationPostFix :node="item" v-if="item.meta && item.meta.postfix_label"/>
+            </div>
           </div>
-          <div class="text-muted" v-if="item.children.length > 0 && item.idx !== activeIdx && !showAll">
-            <b-button variant="link" @click="navigate(item)" class="forwards">
-              <fas icon="chevron-right" />
-            </b-button>
+          <div class="text-muted mr-1" v-if="item.children.length > 0 && item.idx !== activeIdx && !showAll">
+            <fas icon="chevron-right" />
           </div>
         </div>
       </div>
@@ -52,9 +54,10 @@ import EpToggle from '@shared/components/forms/EpToggle.vue';
 import EpMultiSelect from '@shared/components/forms/EpMultiSelect.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { FlattenedNodeDto, EpTreeNavibarStore } from '@shared/components/EpTreeNavibar/EpTreeNavibarStore';
-import { NavigationNodeType, NavigationNodeDto } from '@shared/tyypit';
+import EpNavigationPostFix from '@shared/components/EpTreeNavibar/EpNavigationPostFix.vue';
 import _ from 'lodash';
 import { Kielet } from '@shared/stores/kieli';
+import VueScrollTo from 'vue-scrollto';
 
 export type ProjektiFilter = 'koulutustyyppi' | 'tila' | 'voimassaolo';
 
@@ -68,6 +71,7 @@ type IndexedNode = FlattenedNodeDto & { idx: number };
     EpButton,
     EpSpinner,
     EpToggle,
+    EpNavigationPostFix,
   },
 })
 export default class EpTreeNavibar extends Vue {
@@ -130,6 +134,7 @@ export default class EpTreeNavibar extends Vue {
       const node = _.find(this.navigation, matching) as IndexedNode | null;
       if (node) {
         this.navigate(node);
+        VueScrollTo.scrollTo('#scroll-anchor');
       }
     }
   }
@@ -296,6 +301,7 @@ export default class EpTreeNavibar extends Vue {
       }
     }
   }
+
 }
 
 .action-container {

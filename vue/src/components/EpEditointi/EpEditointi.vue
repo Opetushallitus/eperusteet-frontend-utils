@@ -221,7 +221,7 @@
         <div class="threads">
           <div class="actual-content">
             <div class="sisalto">
-              <slot v-if="hidden" name="piilotettu">{{$t('sisalto-piilotettu')}}</slot>
+              <slot v-if="hidden && !isEditing" name="piilotettu">{{$t('sisalto-piilotettu')}}</slot>
               <slot v-else :isEditing="isEditing" :support-data="innerSupport" :data="inner" :validation="validation" :isCopyable="features.copyable"></slot>
             </div>
           </div>
