@@ -21,6 +21,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import _ from 'lodash';
+import { Kielet } from '@shared/stores/kieli';
 
 @Component({
   components: {
@@ -38,16 +39,10 @@ export default class EpJulkaisuLista extends Vue {
       .map(julkaisu => {
         return {
           ...julkaisu,
-          liitteet: this.filterLiitteet(julkaisu.liitteet),
+          liitteet: _.filter(julkaisu.liitteet, liite => liite.kieli === Kielet.getSisaltoKieli.value),
         };
       })
       .value();
-  }
-
-  filterLiitteet(liitteet) {
-    return _.filter(liitteet, liite => {
-      return liite.kieli === this.$slang.value;
-    });
   }
 }
 </script>
