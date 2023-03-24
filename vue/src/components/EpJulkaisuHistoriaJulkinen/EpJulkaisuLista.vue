@@ -1,15 +1,17 @@
 <template>
   <div class="mt-2">
-    <div v-for="(julkaisu, index) in julkaisut" :key="'julkaisu'+index" class="julkaisu pb-2 pt-2 ml-1 px-3">
+    <div v-for="(julkaisu, index) in julkaisutFiltered" :key="'julkaisu'+index" class="julkaisu pb-2 pt-2 ml-1 px-3">
       <div class="d-flex">
         <span class="font-bold font-size pr-3 ">{{$t('julkaisu')}} {{ $sd(julkaisu.luotu) }}</span>
         <span v-if="latestJulkaisuRevision && latestJulkaisuRevision.revision === julkaisu.revision" class="julkaistu">{{$t('uusin-versio')}}</span>
       </div>
       <div v-if="julkaisu.muutosmaaraysVoimaan && julkaisu.liitteet && julkaisu.liitteet.length > 0" class="mt-2">
         <div v-for="(liiteData, index) in julkaisu.liitteet" :key="'maarays'+index" class="maarayslinkit">
-          <a :href="liiteData.url" target="_blank" rel="noopener noreferrer">{{ liiteData.nimi }} ({{ $t(liiteData.kieli) }})</a>
+          <a :href="liiteData.url"
+             target="_blank"
+             rel="noopener noreferrer">{{ liiteData.nimi }}</a>
         </div>
-        <span>- {{ $sd(julkaisu.muutosmaaraysVoimaan) }} {{ $t('alkaen') }}</span>
+        <span>- {{ $t('alkaen') }} {{ $sd(julkaisu.muutosmaaraysVoimaan) }}</span>
       </div>
       <div v-if="julkaisu.julkinenTiedote" class="my-1" v-html="$kaanna(julkaisu.julkinenTiedote)"></div>
     </div>
@@ -18,6 +20,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import _ from 'lodash';
 
 @Component({
   components: {
@@ -29,6 +32,23 @@ export default class EpJulkaisuLista extends Vue {
 
   @Prop({ required: true })
   private latestJulkaisuRevision!: any;
+
+  get julkaisutFiltered() {
+    return _.chain(this.julkaisut)
+      .map(julkaisu => {
+        return {
+          ...julkaisu,
+          liitteet: this.filterLiitteet(julkaisu.liitteet),
+        };
+      })
+      .value();
+  }
+
+  filterLiitteet(liitteet) {
+    return _.filter(liitteet, liite => {
+      return liite.kieli === this.$slang.value;
+    });
+  }
 }
 </script>
 
