@@ -35,6 +35,13 @@ export default class EpErrorPage extends Vue {
   @Prop({ required: false, default: 'root' })
   private paluukohde?: string;
 
+  mounted() {
+    const meta = document.createElement('meta');
+    meta.setAttribute('name', 'robots');
+    meta.setAttribute('content', 'noindex');
+    document.head.appendChild(meta);
+  }
+
   get virhe() {
     return (this.virhekoodi && this.virheImage[this.virhekoodi]) || this.virheImage['500'];
   }
