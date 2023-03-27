@@ -19,7 +19,7 @@ import bannerKotoutumiskoulutus from '../../public/img/banners/banner_koto.svg';
 import { themes } from './perusteet';
 
 const koulutustyyppiRyhmaTiles = {
-  'lukio': tileLukio,
+  'lukiokoulutus': tileLukio,
   'esiopetus': tileEsiopetus,
   'perusopetus': tilePerusopetus,
   'taiteenperusopetus': tileTaiteenperusopetus,
@@ -30,7 +30,7 @@ const koulutustyyppiRyhmaTiles = {
 };
 
 const koulutustyyppiRyhmaBanners = {
-  'lukio': bannerLukio,
+  'lukiokoulutus': bannerLukio,
   'esiopetus': bannerEsiopetus,
   'perusopetus': bannerPerusopetus,
   'taiteenperusopetus': bannerTaiteenperusopetus,
@@ -52,13 +52,13 @@ const perusteTyyppiTiles = {
 };
 
 export function koulutustyyppiBanner(koulutustyyppi) {
-  const themeType = themes[koulutustyyppi!] || 'lukio';
+  const themeType = themes[koulutustyyppi!] || 'lukiokoulutus';
   const imgUrl = koulutustyyppiRyhmaBanners[themeType] || bannerLukio;
   return { 'background-image': `url('${imgUrl}')` };
 }
 
 export function koulutusTyyppiTile(koulutustyyppi) {
-  const themeType = themes[koulutustyyppi!] || 'lukio';
+  const themeType = themes[koulutustyyppi!] || 'lukiokoulutus';
   const imgUrl = koulutustyyppiRyhmaTiles[themeType] || tileLukio;
   return { 'background-image': `url('${imgUrl}')` };
 }
@@ -72,7 +72,7 @@ export const tileColors = {
   'varhaiskasvatus': ['#FFD966', '#FFCC33'],
   'esiopetus': ['#A3DEFF', '#84D2FF'],
   'perusopetus': ['#8DD9D9', '#67CCCC'],
-  'lukio': ['#4172E4', '#0143DA'],
+  'lukiokoulutus': ['#4172E4', '#0143DA'],
   'taide': ['#FBD9EF', '#FACCEA'],
   'ammatillinen': ['#009700', '#007500'],
   'vapaasivistystyo': ['#8D408D', '#660066'],
@@ -83,7 +83,7 @@ export const tileColors = {
 
 export function tileBackgroundColor(koulutustyyppi) {
   const themeType = themes[koulutustyyppi];
-  const tileColor = tileColors[themeType] || tileColors['lukio'];
+  const tileColor = tileColors[themeType] || tileColors['lukiokoulutus'];
   return { 'background': 'linear-gradient(180deg, ' + tileColor[0] + ' 0%, ' + tileColor[1] + ' 100%)' };
 }
 

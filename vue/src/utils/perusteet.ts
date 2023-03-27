@@ -66,14 +66,14 @@ export const themes = {
   'koulutustyyppi_12': 'ammatillinen',
   'koulutustyyppi_5': 'ammatillinen',
   'koulutustyyppi_18': 'ammatillinen',
-  'koulutustyyppi_14': 'lukio',
+  'koulutustyyppi_14': 'lukiokoulutus',
   'koulutustyyppi_15': 'esiopetus',
   'koulutustyyppi_16': 'perusopetus',
   'koulutustyyppi_17': 'perusopetus',
-  'koulutustyyppi_2': 'lukio',
+  'koulutustyyppi_2': 'lukiokoulutus',
   'koulutustyyppi_20': 'varhaiskasvatus',
   'koulutustyyppi_22': 'perusopetus',
-  'koulutustyyppi_23': 'lukio',
+  'koulutustyyppi_23': 'lukiokoulutus',
   'koulutustyyppi_6': 'perusopetus',
   'koulutustyyppi_999907': 'taiteenperusopetus',
   'koulutustyyppi_10': 'vapaasivistystyo',
@@ -175,7 +175,7 @@ export const kouluturtyyppiRyhmat = [
   'esiopetus',
   'perusopetus',
   'taiteenperusopetus',
-  'lukio',
+  'lukiokoulutus',
   'ammatillinen',
 ];
 
@@ -184,7 +184,7 @@ export const koulutustyyppiRyhmaSort = {
   'esiopetus': 2,
   'perusopetus': 3,
   'taiteenperusopetus': 4,
-  'lukio': 5,
+  'lukiokoulutus': 5,
   'ammatillinen': 6,
   'vapaasivistystyo': 7,
   'tutkintoonvalmentava': 8,
@@ -195,7 +195,7 @@ export const themeColors = {
   'etusivu': [0, 0, 0],
   'ammatillinen': [0, 136, 0],
   'esiopetus': [132, 210, 255],
-  'lukio': [1, 67, 218],
+  'lukiokoulutus': [1, 67, 218],
   'perusopetus': [103, 204, 204],
   'varhaiskasvatus': [255, 204, 51],
   'taiteenperusopetus': [250, 204, 234],
@@ -241,11 +241,11 @@ const ktToUrlShortParam = {
 
 const perusteToUrlShortParam = {
   'koulutustyyppi_16': 'perusopetus',
-  'koulutustyyppi_2': 'lukio',
+  'koulutustyyppi_2': 'lukiokoulutus',
   'koulutustyyppi_999907': 'tpo',
   'koulutustyyppi_17': 'aipe',
-  'koulutustyyppi_14': 'lukio',
-  'koulutustyyppi_23': 'lukio',
+  'koulutustyyppi_14': 'lukiokoulutus',
+  'koulutustyyppi_23': 'lukiokoulutus',
 };
 
 const stateToKt = _.zipObject(
