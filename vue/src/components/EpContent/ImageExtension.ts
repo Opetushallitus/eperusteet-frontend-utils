@@ -174,12 +174,12 @@ export default class ImageExtension extends Node {
         },
         caption: {
           get() {
-            if (!!this.figcaption && this.figcaption !== 'undefined') {
-              return this.figcaption;
+            if (!!(this as any).figcaption && (this as any).figcaption !== 'undefined') {
+              return (this as any).figcaption;
             }
 
-            if (!!this.altText && this.altText !== 'undefined') {
-              return this.altText;
+            if (!!(this as any).altText && (this as any).altText !== 'undefined') {
+              return (this as any).altText;
             }
 
             return '';
