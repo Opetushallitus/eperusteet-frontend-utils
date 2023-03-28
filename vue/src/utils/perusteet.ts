@@ -81,6 +81,7 @@ export const themes = {
   'koulutustyyppi_35': 'vapaasivistystyo',
   'koulutustyyppi_40': 'tutkintoonvalmentava',
   'koulutustyyppi_muu': 'muukoulutus',
+  'koulutustyyppi_muu_digi': 'digiosaaminen',
 };
 
 export enum Toteutus {
