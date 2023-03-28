@@ -8,6 +8,7 @@
            @blur="onInputBlur"
            @input="onInput($event.target.value)"
            :type="type === 'number' ? 'number' : 'text'"
+           step="any"
            v-bind="$attrs"
            :value="val"
            :disabled="disabled">
