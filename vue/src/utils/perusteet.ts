@@ -84,6 +84,10 @@ export const themes = {
   'koulutustyyppi_muu_digi': 'digiosaaminen',
 };
 
+export const tyyppiThemes = {
+  'digitaalinen_osaaminen': 'digiosaaminen',
+};
+
 export enum Toteutus {
   VARHAISKASVATUS = 'varhaiskasvatus',
   ESIOPETUS = 'esiopetus',
@@ -360,6 +364,10 @@ export function isPerusteVanhaLukio(peruste): boolean {
 
 export function koulutustyyppiTheme(koulutustyyppi: string) {
   return themes[koulutustyyppi] || koulutustyyppi || 'muu';
+}
+
+export function tyyppiTheme(tyyppi: string) {
+  return tyyppiThemes[tyyppi] || 'muu';
 }
 
 export function koulutustyyppiThemeColor(tyyppi: string) {
