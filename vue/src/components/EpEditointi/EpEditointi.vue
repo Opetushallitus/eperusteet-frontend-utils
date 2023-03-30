@@ -119,18 +119,21 @@
                     <fas icon="menu-vaaka"></fas>
                   </template>
                   <b-dropdown-item
+                    v-oikeustarkastelu="muokkausOikeustarkastelu"
                     @click="remove()"
                     key="poista"
                     v-if="features.removable && !disabled">
                     <slot name="poista">{{ poistoteksti }}</slot>
                   </b-dropdown-item>
                   <b-dropdown-item
+                  v-oikeustarkastelu="muokkausOikeustarkastelu"
                     v-if="!hidden && features.hideable && !disabled"
                     @click="hide()"
                     key="piilota">
                     <slot name="piilota">{{ $t('piilota') }}</slot>
                   </b-dropdown-item>
                   <b-dropdown-item
+                  v-oikeustarkastelu="muokkausOikeustarkastelu"
                     v-if="hidden && features.hideable && !disabled"
                     @click="unHide()"
                     key="palauta">
