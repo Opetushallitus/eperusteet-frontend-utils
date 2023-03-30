@@ -1,5 +1,6 @@
 <template>
   <div >
+
     <ep-spinner v-if="!dokumentti" />
 
     <div v-else>
@@ -46,8 +47,6 @@ import { Kielet } from '@shared/stores/kieli';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
-import { PerusteDto } from '@shared/api/eperusteet';
-import { Computed } from '@shared/utils/interfaces';
 import { IDokumenttiStore } from '@shared/tyypit';
 
 @Component({
@@ -87,7 +86,7 @@ export default class EpPdfLuonti extends Vue {
   }
 
   get isPolling() {
-    return this.store?.polling.value != null;
+    return this.store?.polling.value;
   }
 
   get dokumenttiEpaonnistui() {
