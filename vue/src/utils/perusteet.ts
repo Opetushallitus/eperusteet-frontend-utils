@@ -60,6 +60,21 @@ export const yleissivistavatKoulutustyypit = [
   'koulutustyyppi_14',
 ];
 
+export const routeKoulutustyypit = [
+  'ammatillinen',
+  'lukiokoulutus',
+  'esiopetus',
+  'perusopetus',
+  'varhaiskasvatus',
+  'taiteenperusopetus',
+  'vapaasivistystyo',
+  'kotoutumiskoulutus',
+  'tutkintoonvalmentava',
+  'muukoulutus',
+  'digiosaaminen',
+  'opas',
+];
+
 export const themes = {
   'koulutustyyppi_1': 'ammatillinen',
   'koulutustyyppi_11': 'ammatillinen',
@@ -81,8 +96,6 @@ export const themes = {
   'koulutustyyppi_35': 'vapaasivistystyo',
   'koulutustyyppi_40': 'tutkintoonvalmentava',
   'koulutustyyppi_muu': 'muukoulutus',
-  'koulutustyyppi_muu_digi': 'digiosaaminen',
-  'koulutustyyppi_opas': 'opas',
 };
 
 export const tyyppiThemes = {
