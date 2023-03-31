@@ -155,6 +155,7 @@ export type JulkaisuBaseDto = EperusteetApi.JulkaisuBaseDto;
 export type OsaamiskokonaisuusDto = EperusteetApi.OsaamiskokonaisuusDto;
 export type OsaamiskokonaisuusPaaAlueDto = EperusteetApi.OsaamiskokonaisuusPaaAlueDto;
 export type PerusteprojektinPerusteenosaDto = EperusteetApi.PerusteprojektinPerusteenosaDto;
+export type PerusteenMuutostietoDto = EperusteetApi.PerusteenMuutostietoDto;
 
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
