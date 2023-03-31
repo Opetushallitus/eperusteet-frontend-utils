@@ -7,7 +7,7 @@
             {{ $t('muutoshistoria-' + tapahtuma.tapahtuma)}}
             <ul>
               <li v-for="(tieto, i) in tapahtuma.muokkaustiedot" :key="i">
-                <EpRouterLink :tieto="tieto"></EpRouterLink>
+                <EpRouterLink :muokkaustieto="tieto"></EpRouterLink>
               </li>
             </ul>
           </div>

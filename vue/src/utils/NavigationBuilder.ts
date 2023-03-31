@@ -256,7 +256,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       name: 'tutkinnonosat',
     };
     break;
-  // case 'tutkinnonosa':
+  case 'tutkinnonosa':
   case 'tutkinnonosaviite':
     node.location = {
       name: 'tutkinnonosa',

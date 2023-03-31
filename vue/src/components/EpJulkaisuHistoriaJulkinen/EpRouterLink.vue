@@ -1,6 +1,6 @@
 <template>
   <div v-if="!muokkaustieto.poistettu && location">
-    <router-link  :to="location">
+    <router-link :to="location">
       {{ $kaanna(muokkaustieto.nimi) }}
     </router-link>
   </div>
