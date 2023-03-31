@@ -42,8 +42,8 @@ export default class EpFooter extends Vue {
         sv: 'https://www.oph.fi/sv',
       },
       opintopolku: {
-        fi: 'https://opintopolku.fi/wp/fi',
-        sv: 'https://studieinfo.fi/wp/sv/',
+        fi: 'https://opintopolku.fi/konfo/fi',
+        sv: 'https://opintopolku.fi/konfo/sv',
       },
       eperusteet: {
         fi: 'https://eperusteet.opintopolku.fi/#/fi',
