@@ -82,6 +82,7 @@ export const themes = {
   'koulutustyyppi_40': 'tutkintoonvalmentava',
   'koulutustyyppi_muu': 'muukoulutus',
   'koulutustyyppi_muu_digi': 'digiosaaminen',
+  'koulutustyyppi_opas': 'opas',
 };
 
 export const tyyppiThemes = {
