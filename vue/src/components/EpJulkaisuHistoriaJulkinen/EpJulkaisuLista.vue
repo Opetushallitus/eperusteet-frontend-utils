@@ -19,7 +19,7 @@
                   :chevronLocation="'right'"
                   :use-padding="false">
         <template v-slot:header="{ toggled }">
-          <template v-if="!toggled">{{$t('nayta-muutokset-2')}}</template>
+          <template v-if="!toggled">{{$t('nayta-muutokset')}}</template>
           <template v-if="toggled">{{$t('piilota-muutokset')}}</template>
         </template>
         <EpMuutosvertailu :julkaisu="julkaisu"></EpMuutosvertailu>
