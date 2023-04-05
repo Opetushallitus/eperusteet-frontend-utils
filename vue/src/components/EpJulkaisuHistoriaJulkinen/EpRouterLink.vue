@@ -32,6 +32,7 @@ export default class EpRouterLink extends Vue {
     let navNode: NavigationNodeDto = {
       id: this.muokkaustieto.kohdeId,
       type: this.muokkaustieto.kohde,
+      meta: { oppiaine: this.muokkaustieto.lisatieto },
     };
     setPerusteData(node, navNode);
     return node.location;
