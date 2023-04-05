@@ -1637,7 +1637,7 @@
     "nayta-laaja-alainen-osaaminen-liitteena": "Näytä laaja-alainen osaaminen liitteenä",
     "nayta-liitteena": "Näytä tekstikappale liitteenä",
     "nayta-lisaa": "Näytä lisää",
-    "nayta-muutokset": "Muutokset",
+    "nayta-muutokset": "Näytä muutokset",
     "nayta-myos-vanhentuneet": "Näytä myös vanhentuneet",
     "nayta-opsina": "Näytä OPSina",
     "nayta-organisaatioissa": "Näytä organisaatioissa",
@@ -2403,6 +2403,7 @@
     "piilota-kaannosvirheet": "Piilota puuttuvat käännökset",
     "piilota-kurssityyppi-kuvaukset": "Piilota kurssityyppien kuvaukset",
     "piilota-kuvaukset": "Piilota kuvaukset",
+    "piilota-muutokset": "Piilota muutokset",
     "piilota-osa-alue": "Piilota osa-alue",
     "piilota-osaamiskokonaisuuden-kuvaus": "Piilota osaamiskokonaisuuden yleiskuvaus",
     "piilota-perusteen-teksti": "Piilota perusteen teksti",
@@ -3912,5 +3913,10 @@
     "paikallisesti-luotu-tutkinnon-osa": "Paikallisesti luotu tutkinnon osa",
     "koulutuksen-jarjestajan-tarkennus": "Koulutuksen järjestäjän tarkennus",
     "amosaa-pohjien-haku-epaonnistui": "Ammatillisien pohjien haku epäonnistui",
-    "peruste-rakenne-paivitys": "Päivitti rakenteen perusteelta"
+    "peruste-rakenne-paivitys": "Päivitti rakenteen perusteelta",
+    "muutoshistoria-poisto": "Poistetut",
+    "muutoshistoria-luonti": "Uudet",
+    "muutoshistoria-paivitys": "Muokatut",
+    "muutostietoja-ei-ole-saatavilla": "Muutostietoja ei ole saatavilla.",
+    "moduuli": "Moduuli"
 }

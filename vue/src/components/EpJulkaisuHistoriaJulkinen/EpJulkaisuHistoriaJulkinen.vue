@@ -7,16 +7,21 @@
       </div>
       <div v-else>
         <EpJulkaisuLista :julkaisut="julkaisutMapped.slice(0,2)"
-                          :latest-julkaisu-revision="latestJulkaisuRevision"></EpJulkaisuLista>
+                         :latest-julkaisu-revision="latestJulkaisuRevision">
+        </EpJulkaisuLista>
         <EpCollapse v-if="julkaisut.length > 2"
                     :borderBottom="false"
                     class="mt-4"
                     :expandedByDefault="false"
                     :chevronLocation="'left'"
                     :use-padding="false">
-          <template v-slot:header>{{$t('nayta-lisaa')}}</template>
+          <template v-slot:header="{ toggled }">
+            <template v-if="!toggled">{{$t('nayta-lisaa')}}</template>
+            <template v-if="toggled">{{$t('nayta-vahemman')}}</template>
+          </template>
           <EpJulkaisuLista :julkaisut="julkaisutMapped.slice(2)"
-                           :latest-julkaisu-revision="latestJulkaisuRevision"></EpJulkaisuLista>
+                           :latest-julkaisu-revision="latestJulkaisuRevision">
+          </EpJulkaisuLista>
         </EpCollapse>
       </div>
     </template>

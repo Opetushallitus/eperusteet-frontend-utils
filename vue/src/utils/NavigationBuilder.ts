@@ -142,6 +142,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
   case 'viite':
   case 'taiteenala':
   case 'liite':
+  case 'tekstikappale':
     // Route linkki
     node.location = {
       name: 'perusteTekstikappale',
@@ -183,6 +184,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
     node.label = 'kurssit';
     break;
   case 'oppiaine':
+  case 'oppimaara':
     node.location = {
       name: 'lops2019oppiaine',
       params: {
@@ -255,6 +257,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       name: 'tutkinnonosat',
     };
     break;
+  case 'tutkinnonosa':
   case 'tutkinnonosaviite':
     node.location = {
       name: 'tutkinnonosa',

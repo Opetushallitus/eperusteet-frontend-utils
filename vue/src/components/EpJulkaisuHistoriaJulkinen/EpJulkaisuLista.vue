@@ -14,6 +14,16 @@
         <span>- {{ $t('voimassaolo-alkaa') }} {{ $sd(julkaisu.muutosmaaraysVoimaan) }}</span>
       </div>
       <div v-if="julkaisu.julkinenTiedote" class="my-1" v-html="$kaanna(julkaisu.julkinenTiedote)"></div>
+      <EpCollapse :borderBottom="false"
+                  :expandedByDefault="false"
+                  :chevronLocation="'right'"
+                  :use-padding="false">
+        <template v-slot:header="{ toggled }">
+          <template v-if="!toggled">{{$t('nayta-muutokset')}}</template>
+          <template v-if="toggled">{{$t('piilota-muutokset')}}</template>
+        </template>
+        <EpMuutosvertailu :julkaisu="julkaisu"></EpMuutosvertailu>
+      </EpCollapse>
     </div>
   </div>
 </template>
@@ -22,9 +32,13 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import _ from 'lodash';
 import { Kielet } from '@shared/stores/kieli';
+import EpCollapse from '@shared/components/EpCollapse/EpCollapse.vue';
+import EpMuutosvertailu from '@shared//components/EpJulkaisuHistoriaJulkinen/EpMuutosvertailu.vue';
 
 @Component({
   components: {
+    EpCollapse,
+    EpMuutosvertailu,
   },
 })
 export default class EpJulkaisuLista extends Vue {
@@ -87,4 +101,16 @@ export default class EpJulkaisuLista extends Vue {
   padding-right: 5px;
 }
 
+::v-deep .ml-auto {
+  margin-left: 0 !important;
+}
+
+::v-deep .ep-collapse {
+  overflow: auto;
+}
+
+::v-deep .ep-collapse .header {
+  margin-left: auto !important;
+  margin-right: 5px;
+}
 </style>

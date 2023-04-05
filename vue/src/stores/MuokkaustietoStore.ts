@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueCompositionApi, { reactive, computed } from '@vue/composition-api';
-import { MuokkaustietoKayttajallaDto, Muokkaustiedot } from '@shared/api/eperusteet';
+import { MuokkaustietoKayttajallaDto, PerusteenMuutostietoDto, Muokkaustiedot } from '@shared/api/eperusteet';
 import _ from 'lodash';
 
 Vue.use(VueCompositionApi);
@@ -11,6 +11,7 @@ export class MuokkaustietoStore {
     viimeinenHaku: null as MuokkaustietoKayttajallaDto[] | null,
     perusteId: null as number | null,
     hakuLukumaara: 8 as number,
+    muutostiedot: null as PerusteenMuutostietoDto[] | null,
   });
 
   async init(perusteId: number) {
@@ -22,6 +23,7 @@ export class MuokkaustietoStore {
   public readonly muokkaustiedot = computed(() => this.state.muokkaustiedot);
   public readonly viimeinenHaku = computed(() => this.state.viimeinenHaku);
   public readonly hakuLukumaara = computed(() => this.state.hakuLukumaara);
+  public readonly muutostiedot = computed(() => this.state.muutostiedot);
 
   public async update() {
     if (this.state.perusteId) {
@@ -39,5 +41,9 @@ export class MuokkaustietoStore {
         this.state.muokkaustiedot = (await Muokkaustiedot.getPerusteenMuokkausTiedotWithLuomisaika(this.state.perusteId, undefined, this.state.hakuLukumaara) as any).data;
       }
     }
+  }
+
+  public async getVersionMuutokset(perusteId, revision) {
+    this.state.muutostiedot = (await Muokkaustiedot.getPerusteenVersionMuokkaustiedot(perusteId, revision) as any).data;
   }
 }
