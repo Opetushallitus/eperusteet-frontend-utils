@@ -13,7 +13,7 @@ exports[`EpFooter component Renders 1`] = `
       </div>
       <div class="col-md col-slot">
         <p class="linkki-kuvaus">opintopolku</p>
-        <div class="linkki"><a href="https://opintopolku.fi/wp/fi" rel="noopener noreferrer" target="_blank">
+        <div class="linkki"><a href="https://opintopolku.fi/konfo/fi" rel="noopener noreferrer" target="_blank">
             <div fixed-width="" icon="ulkoinen-linkki" class="mr-1"></div> <span>opintopolku.fi</span>
           </a></div>
       </div>
