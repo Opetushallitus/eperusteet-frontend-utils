@@ -3918,5 +3918,10 @@
     "muutoshistoria-luonti": "Uudet",
     "muutoshistoria-paivitys": "Muokatut",
     "muutostietoja-ei-ole-saatavilla": "Muutostietoja ei ole saatavilla.",
-    "moduuli": "Moduuli"
+    "moduuli": "Moduuli",
+    "pakota-julkaisu-varmistus": "Pakotetaanko perusteen julkaisun käynnistäminen? Pakottaminen ohittaa perusteen validoinnit ja virheellinen peruste tulee julkisivulle näkyviin.",
+    "pakota-julkaisu": "Pakota julkaisu",
+    "pakotettu-julkaisu-tiedote": "Ylläpidon suorittama julkaisu",
+    "julkaisu-pakotettu": "Julkaisu pakotettu",
+    "julkaisu-pakotettu-epaonnistui": "Julkaisun epäonnistui"
 }
