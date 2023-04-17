@@ -3925,5 +3925,6 @@
     "pakota-julkaisu": "Pakota julkaisu",
     "pakotettu-julkaisu-tiedote": "Ylläpidon suorittama julkaisu",
     "julkaisu-pakotettu": "Julkaisu pakotettu",
-    "julkaisu-pakotettu-epaonnistui": "Julkaisun epäonnistui"
+    "julkaisu-pakotettu-epaonnistui": "Julkaisun epäonnistui",
+    "kohteen-nimea-ei-saatavilla": "(kohteen nimeä ei saatavilla)"
 }
