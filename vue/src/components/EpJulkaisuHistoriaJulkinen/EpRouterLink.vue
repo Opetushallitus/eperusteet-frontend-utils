@@ -1,7 +1,8 @@
 <template>
   <div v-if="!muokkaustieto.poistettu && location">
     <router-link :to="location">
-      {{ $kaanna(muokkaustieto.nimi) }}
+      <span v-if="muokkaustieto.nimi">{{ $kaanna(muokkaustieto.nimi) }}</span>
+      <span v-else>{{ $t('kohteen-nimea-ei-saatavilla') }}</span>
     </router-link>
   </div>
   <div v-else>
