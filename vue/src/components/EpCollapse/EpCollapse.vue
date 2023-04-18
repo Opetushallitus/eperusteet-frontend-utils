@@ -4,7 +4,8 @@
     <div :class="classess" v-if="!disableHeader" :style="styles.collapse" @click="togglefull ? toggle(): null" @keyup.enter="togglefull ? toggle(): null">
       <!-- Button tagia ei voida käyttää, sillä ml-auto ei toimi.-->
       <!-- Käytetään button rolea saavutettavuuden takaamiseksi.-->
-      <div class="collapse-button d-flex align-items-center mb-2"
+      <div v-if="$slots.header"
+           class="collapse-button d-flex align-items-center mb-2"
            @click="!togglefull ? toggle(): null"
            @keyup.enter="!togglefull ? toggle(): null"
            role="button"
