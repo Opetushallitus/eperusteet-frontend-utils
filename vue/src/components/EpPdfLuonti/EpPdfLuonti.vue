@@ -8,8 +8,8 @@
           <img src="../../../public/img/icons/pdfkuva_lataus.svg" />
         </div>
         <div class="col-lg teksti">
-          <span v-if="dokumenttiLuotu">
-            {{ pdfTitle }}
+          <span  v-if="dokumenttiLuotu">
+            {{pdfnimi}}.pdf
           </span>
           <span v-else-if="dokumenttiEpaonnistui">
             {{$t('pdf-tiedosto-luonti-epaonnistui')}} <span v-if="dokumentti.virhekoodi">: {{$t('pdf-virhe-' + dokumentti.virhekoodi)}}</span>
@@ -59,10 +59,6 @@ export default class EpPdfLuonti extends Vue {
 
   @Prop({ required: true })
   protected pdfnimi!: string;
-
-  get pdfTitle() {
-    return this.pdfnimi + '.pdf (' + (this.dokumentti.julkaisuDokumentti ? this.$t('julkaistu') : this.$t('tyoversio')) + ')';
-  }
 
   get dokumenttiLuotu() {
     return this.dokumentti != null && this.dokumenttiHref != null;
