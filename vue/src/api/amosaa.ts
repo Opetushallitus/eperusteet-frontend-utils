@@ -82,6 +82,7 @@ export const OsaAlueApi = initApi(AmosaaApi.OsaAlueApi);
 
 export type ArviointiasteikkoDto = AmosaaApi.ArviointiasteikkoDto;
 export type DokumenttiDto = AmosaaApi.DokumenttiDto;
+export type DokumenttiKuvaDto = AmosaaApi.DokumenttiKuvaDto;
 export type EtusivuDto = AmosaaApi.EtusivuDto;
 export type KoulutustoimijaBaseDto = AmosaaApi.KoulutustoimijaBaseDto;
 export type KoulutustoimijaDto = AmosaaApi.KoulutustoimijaDto;
