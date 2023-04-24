@@ -170,3 +170,22 @@ img.content-image {
   opacity: 0.4;
 }
 
+.border-bottom-1, border-bottom {
+  border-bottom: 1px solid #dee2e6 !important;
+}
+
+.border-bottom-2 {
+  border-bottom: 2px solid #dee2e6 !important;
+}
+
+.border-bottom-3 {
+  border-bottom: 3px solid #dee2e6 !important;
+}
+
+.taulukko-rivi-varitys:nth-of-type(even) {
+  background-color: $table-even-row-bg-color;
+}
+.taulukko-rivi-varitys:nth-of-type(odd) {
+  background-color: $table-odd-row-bg-color;
+}
+
