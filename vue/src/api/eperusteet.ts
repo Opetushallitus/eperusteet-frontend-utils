@@ -340,3 +340,37 @@ export async function findAllOppaat(query: OppaatQuery) {
     query.voimassaolo,
   );
 }
+
+export interface JulkaisutQuery {
+  koulutustyyppi?: Array<string>;
+  sivu?: number;
+  sivukoko?: number;
+  nimi?: string;
+  kieli?: string;
+  koodi?: string;
+  tyyppi?: string;
+  diaarinumero?: string;
+  tulevat?: boolean;
+  voimassa?: boolean;
+  siirtyma?: boolean;
+  poistuneet?: boolean;
+  koulutusvienti?: boolean;
+}
+
+export async function findAllJulkaisut(query: JulkaisutQuery) {
+  return Julkaisut.getKoulutustyyppienJulkaisut(
+    query.koulutustyyppi,
+    query.nimi,
+    query.kieli,
+    query.tulevat,
+    query.voimassa,
+    query.siirtyma,
+    query.poistuneet,
+    query.koulutusvienti,
+    query.tyyppi,
+    query.diaarinumero,
+    query.koodi,
+    query.sivu,
+    query.sivukoko,
+  );
+}
