@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="osa-alue">
     <div v-if="isEditing">
       <b-form-group >
         <div slot="label" class="d-flex justify-content-between">
@@ -11,18 +11,18 @@
 
       <hr/>
 
-      <b-form-group v-for="(tasokuvaus, index) in osaAlue.tasokuvaukset" :key="'tasokuvaus' + index" :label="$t('osa-alue-otsiko-' + tasokuvaus.taso.toLowerCase())">
+      <b-form-group class="tasokuvaus" v-for="(tasokuvaus, index) in osaAlue.tasokuvaukset" :key="'tasokuvaus' + index" :label="$t('osa-alue-otsiko-' + tasokuvaus.taso.toLowerCase())">
 
           <template v-if="tasokuvaus.taso === 'ESIOPETUS' || tasokuvaus.taso === 'VUOSILUOKKA_12' || tasokuvaus.taso === 'VUOSILUOKKA_3456' || tasokuvaus.taso === 'VUOSILUOKKA_789'">
-            <div class="mt-3 mb-2">{{$t('edelleen-kehittyva-osaaminen')}}</div>
+            <div class="mt-3 mb-2 edelleen-kehittyva-osaaminen">{{$t('edelleen-kehittyva-osaaminen')}}</div>
             <EpOsaAlueSisalto :isEditing="isEditing" v-model="tasokuvaus.edelleenKehittyvatOsaamiset" />
           </template>
 
-          <div class="mt-3 mb-2">{{$t('osaaminen')}}</div>
+          <div class="mt-3 mb-2 osaaminen">{{$t('osaaminen')}}</div>
           <EpOsaAlueSisalto :isEditing="isEditing" v-model="tasokuvaus.osaamiset" />
 
           <template v-if="tasokuvaus.taso === 'VUOSILUOKKA_12' || tasokuvaus.taso === 'VUOSILUOKKA_3456' || tasokuvaus.taso === 'VUOSILUOKKA_789'">
-            <div class="mt-3 mb-2">{{$t('edistynyt-osaaminen')}}</div>
+            <div class="mt-3 mb-2 edistynyt-osaaminen">{{$t('edistynyt-osaaminen')}}</div>
             <EpOsaAlueSisalto :isEditing="isEditing" v-model="tasokuvaus.edistynytOsaaminenKuvaukset" />
           </template>
 
@@ -36,26 +36,26 @@
         <h3>{{ $kaanna(osaAlue.nimi) }}</h3>
       </slot>
 
-      <div v-for="(tasokuvaus, index) in osaAlue.tasokuvaukset" :key="'tasokuvaus' + index">
+      <div class="tasokuvaus" v-for="(tasokuvaus, index) in osaAlue.tasokuvaukset" :key="'tasokuvaus' + index">
         <b-form-group class="mt-3 mb-0 p-0" v-if="otsikkoLkm(tasokuvaus) > 0" :label="$t('osa-alue-otsiko-' + tasokuvaus.taso.toLowerCase())">
 
-          <div class="mt-3" v-if="tasokuvaus.edelleenKehittyvatOsaamiset && tasokuvaus.edelleenKehittyvatOsaamiset.length > 0">
-            <div class="ml-3">{{$t('edelleen-kehittyva-osaaminen')}}</div>
-            <ul class="mb-0">
+          <div class="mt-3 edelleen-kehittyva-osaaminen" v-if="tasokuvaus.edelleenKehittyvatOsaamiset && tasokuvaus.edelleenKehittyvatOsaamiset.length > 0">
+            <div class="ml-3 otsikko">{{$t('edelleen-kehittyva-osaaminen')}}</div>
+            <ul class="mb-0 sisalto">
               <li v-for="(edKehOsaaminen, edKehOsaamisetIndex) in tasokuvaus.edelleenKehittyvatOsaamiset" :key="'edKehOsaaminen' + index + edKehOsaamisetIndex">{{$kaanna(edKehOsaaminen)}}</li>
             </ul>
           </div>
 
-          <div class="mt-3" v-if="tasokuvaus.osaamiset && tasokuvaus.osaamiset.length > 0">
-            <div class="ml-3" v-if="tasokuvaus.edelleenKehittyvatOsaamiset && tasokuvaus.edelleenKehittyvatOsaamiset.length > 0">{{$t('osaaminen')}}</div>
-            <ul class="mb-0">
+          <div class="mt-3 osaaminen" v-if="tasokuvaus.osaamiset && tasokuvaus.osaamiset.length > 0">
+            <div class="ml-3 otsikko" v-if="tasokuvaus.edelleenKehittyvatOsaamiset && tasokuvaus.edelleenKehittyvatOsaamiset.length > 0">{{$t('osaaminen')}}</div>
+            <ul class="mb-0 sisalto">
               <li v-for="(osaaminen, osaamisetIndex) in tasokuvaus.osaamiset" :key="'osaamiset' + index + osaamisetIndex">{{$kaanna(osaaminen)}}</li>
             </ul>
           </div>
 
-          <div class="mt-3" v-if="tasokuvaus.edistynytOsaaminenKuvaukset && tasokuvaus.edistynytOsaaminenKuvaukset.length > 0">
-            <div class="ml-3">{{$t('edistynyt-osaaminen')}}</div>
-            <ul class="mb-0">
+          <div class="mt-3 edistynyt-osaaminen" v-if="tasokuvaus.edistynytOsaaminenKuvaukset && tasokuvaus.edistynytOsaaminenKuvaukset.length > 0">
+            <div class="ml-3 otsikko">{{$t('edistynyt-osaaminen')}}</div>
+            <ul class="mb-0 sisalto">
               <li v-for="(edistynytKuvaus, kuvausIndex) in tasokuvaus.edistynytOsaaminenKuvaukset" :key="'edistynytkuvaus' + index + kuvausIndex">{{$kaanna(edistynytKuvaus)}}</li>
             </ul>
           </div>
