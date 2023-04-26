@@ -70,7 +70,7 @@ export default class EpTiedostoLataus extends Vue {
   handleFail() {
     this.$fail((this as any).$t('tiedosto-luku-virhe'));
     this.$emit('input', null);
-    (this as any).$refs['file-input'].reset();
+    this.resetFile();
   }
 
   // Luodaan esikatselukuva kuvan valitsemisen jälkeen
@@ -123,6 +123,10 @@ export default class EpTiedostoLataus extends Vue {
 
   cancel() {
     this.$emit('input', null);
+  }
+
+  resetFile() {
+    (this as any).$refs['file-input'].reset();
   }
 }
 

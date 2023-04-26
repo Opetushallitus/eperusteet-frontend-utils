@@ -319,7 +319,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       },
     };
     break;
-  case 'aipe_laajaalainenosaaminen':
+  case 'aipe_laajaalaisetosaamiset':
     node.location = {
       name: 'aipeLaajaalainenOsaaminen',
     };
