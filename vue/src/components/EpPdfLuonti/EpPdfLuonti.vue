@@ -1,10 +1,7 @@
 <template>
   <div >
-
     <ep-spinner v-if="!dokumentti" />
-
     <div v-else>
-
       <div class="row pdf-box align-items-center justify-content-between"
           :class="{'luotu': dokumenttiLuotu, 'ei-luotu': !dokumenttiLuotu, 'polling': isPolling, 'epaonnistui': dokumenttiEpaonnistui}">
         <div class="col col-auto ikoni">
@@ -22,7 +19,9 @@
           </span>
         </div>
         <div class="col-sm-2 text-left luomisaika" v-if="dokumenttiLuotu && !isPolling">
-          {{$t('luotu')}}: {{$sd(dokumentti.valmistumisaika)}}
+          <span class="luontitiedot">{{$t('luotu')}}: {{$sd(dokumentti.valmistumisaika)}}</span>
+          <span class="luontitiedot" v-if="dokumentti.julkaisuDokumentti">{{$t('julkaistu')}}</span>
+          <span class="luontitiedot" v-else>{{$t('tyoversio')}}</span>
         </div>
         <div class="col-sm-2 text-left"  v-if="dokumenttiLuotu">
           <a class="btn btn-link pl-0" :href="dokumenttiHref" target="_blank" rel="noopener noreferrer" variant="link">
@@ -35,14 +34,12 @@
       <div class="btn-group">
         <ep-button @click="luoPdf" :disabled="isPolling" :show-spinner="isPolling" buttonClass="px-5"><span>{{ $t('luo-uusi-pdf') }}</span></ep-button>
       </div>
-
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
-import { Component, Watch, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Kielet } from '@shared/stores/kieli';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
@@ -81,16 +78,16 @@ export default class EpPdfLuonti extends Vue {
     return Kielet.getSisaltoKieli.value;
   }
 
-  luoPdf() {
-    this.store?.luoPdf();
-  }
-
   get isPolling() {
     return this.store?.polling.value;
   }
 
   get dokumenttiEpaonnistui() {
     return this.dokumentti && this.dokumentti.tila as any === 'epaonnistui';
+  }
+
+  luoPdf() {
+    this.store?.luoPdf();
   }
 }
 
@@ -99,51 +96,54 @@ export default class EpPdfLuonti extends Vue {
 <style lang="scss" scoped>
 @import "@shared/styles/_variables.scss";
 
-  .pdf-box {
-    margin: 25px 0px;
-    width: 100%;
-    border-radius: 2px;
-    padding: 25px;
+.luontitiedot {
+  display: block;
+}
+
+.pdf-box {
+  margin: 25px 0px;
+  width: 100%;
+  border-radius: 2px;
+  padding: 25px;
+
+  .ikoni {
+    font-size: 1.5rem;
+  }
+
+  &.luotu {
+    background-color: $gray-lighten-10;
 
     .ikoni {
-      font-size: 1.5rem;
+      color: $blue-lighten-6;
     }
 
-    &.luotu {
-      background-color: $gray-lighten-10;
+    @media(max-width: 575px) {
 
       .ikoni {
-        color: $blue-lighten-6;
-      }
-
-      @media(max-width: 575px) {
-
-        .ikoni {
-          display: none;
-        }
-      }
-
-      .teksti {
-        font-weight: 600;
+        display: none;
       }
     }
 
-    &.ei-luotu {
-      border: 1px solid $gray-lighten-9;
-      color: $gray-lighten-2;
-      font-style: italic;
+    .teksti {
+      font-weight: 600;
     }
-
-    &.epaonnistui {
-      border-color: $red;
-      color: $red;
-      font-style: normal;
-    }
-
-    .polling {
-      opacity: 0.5;
-    }
-
   }
+
+  &.ei-luotu {
+    border: 1px solid $gray-lighten-9;
+    color: $gray-lighten-2;
+    font-style: italic;
+  }
+
+  &.epaonnistui {
+    border-color: $red;
+    color: $red;
+    font-style: normal;
+  }
+
+  .polling {
+    opacity: 0.5;
+  }
+}
 
 </style>
