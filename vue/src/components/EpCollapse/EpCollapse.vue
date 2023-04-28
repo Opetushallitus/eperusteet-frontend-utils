@@ -4,7 +4,7 @@
     <div :class="classess" v-if="!disableHeader" :style="styles.collapse" @click="togglefull ? toggle(): null" @keyup.enter="togglefull ? toggle(): null">
       <!-- Button tagia ei voida käyttää, sillä ml-auto ei toimi.-->
       <!-- Käytetään button rolea saavutettavuuden takaamiseksi.-->
-      <div v-if="$slots.header"
+      <div v-if="hasHeaderSlot"
            class="collapse-button d-flex align-items-center mb-2"
            @click="!togglefull ? toggle(): null"
            @keyup.enter="!togglefull ? toggle(): null"
@@ -41,6 +41,7 @@
 <script lang="ts">
 import _ from 'lodash';
 import { Vue, Component, Prop } from 'vue-property-decorator';
+import { useSlots } from 'vue';
 import { setItem, getItem } from '../../utils/localstorage';
 
 @Component
@@ -73,6 +74,10 @@ export default class EpCollapse extends Vue {
   private first!: boolean;
 
   private toggled = false;
+
+  get hasHeaderSlot() {
+    return !!this.$scopedSlots.header;
+  }
 
   get styles() {
     if (this.usePadding) {
