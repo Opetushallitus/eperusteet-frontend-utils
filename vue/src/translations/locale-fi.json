@@ -1694,6 +1694,7 @@
     "nimeton-osaamiskokonaisuus_paa_alue": "Nimetön pääalue",
     "nimeton-osasuorituspolku": "Nimetön osasuorituspolku",
     "nimeton-suorituspolku": "Nimetön suorituspolku",
+    "nimeton-taiteenala": "Nimetön taiteenala",
     "nimeton-tavoite": "Nimetön tavoite",
     "nimeton-tavoitesisaltoalue": "Nimetön tavoitesisältöalue",
     "nimeton-tutkinnonosa": "Nimetön tutkinnonosa",
@@ -2694,6 +2695,7 @@
     "route-root": "Etusivu",
     "route-suorituspolku": "Suorituspolku",
     "route-suorituspolut": "Suorituspolkut",
+    "route-taiteenala": "Taiteenala",
     "route-tavoitesisaltoalue": "Tavoitesisältöalue",
     "route-tekstikappale": "Tekstikappale",
     "route-tiedote": "Tiedote",
@@ -3945,5 +3947,7 @@
     "ystava-organisaatiot": "Ystäväorganisaatiot",
     "ystavien-opetussuunnitelmat": "Ystävien opetussuunnitelmat",
     "ystavien-opetussuunnitelmat-julkaistut": "Ystävien julkaistut opetussuunnitelmat",
-    "ystavien-opetussuunnitelmat-keskeneraiset": "Ystävien keskeneraiset opetussuunnitelmat"
+    "ystavien-opetussuunnitelmat-keskeneraiset": "Ystävien keskeneraiset opetussuunnitelmat",
+    "taiteenala": "Taiteenala",
+    "uusi-taiteenala": "Uusi taiteenala"
 }
