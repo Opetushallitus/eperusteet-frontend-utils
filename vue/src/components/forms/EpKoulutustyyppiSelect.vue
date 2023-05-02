@@ -37,20 +37,14 @@
 </template>
 
 <script lang="ts">
-import { Watch, Prop, Component, Vue } from 'vue-property-decorator';
-import EpMainView from '@shared/components/EpMainView/EpMainView.vue';
+import { Prop, Component, Vue } from 'vue-property-decorator';
 import EpIcon from '@shared/components/EpIcon/EpIcon.vue';
-import EpSearch from '@shared/components/forms/EpSearch.vue';
 import EpSelect from '@shared/components/forms/EpSelect.vue';
 import EpMultiSelect from '@shared/components/forms/EpMultiSelect.vue';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
-import EpButton from '@shared/components/EpButton/EpButton.vue';
-import EpSteps from '@shared/components/EpSteps/EpSteps.vue';
-import EpAikataulu from '@shared/components/EpAikataulu/EpAikataulu.vue';
 import EpColorIndicator from '@shared/components/EpColorIndicator/EpColorIndicator.vue';
 import { EperusteetKoulutustyypit, EperusteetKoulutustyyppiRyhmat } from '../../utils/perusteet';
-import { BvTableFieldArray } from 'bootstrap-vue';
 import * as _ from 'lodash';
 
 @Component({
