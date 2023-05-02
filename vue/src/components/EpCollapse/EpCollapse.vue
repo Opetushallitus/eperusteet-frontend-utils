@@ -41,7 +41,6 @@
 <script lang="ts">
 import _ from 'lodash';
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import { useSlots } from 'vue';
 import { setItem, getItem } from '../../utils/localstorage';
 
 @Component
