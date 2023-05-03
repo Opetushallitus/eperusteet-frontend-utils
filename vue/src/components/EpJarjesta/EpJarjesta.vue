@@ -7,9 +7,6 @@
            :key="value.length">
   <div v-for="(node, idx) in value" :key="idx">
     <div class="box d-flex align-items-center" :class="{ 'new-box': node.$uusi, 'box-draggable': isEditable }" >
-      <div class="handle" v-if="isEditable && !options.disabled">
-        <fas icon="grip-vertical"></fas>
-      </div>
       <slot name="chapter">
         <div class="chapter">
           {{ prefix }}{{ idx + 1 }}
@@ -17,17 +14,23 @@
       </slot>
       <div class="name">
         <slot :node="node"></slot>
+        <fas v-if="node.liite" icon="liite"></fas>
       </div>
-      <div
-        v-if="node[childField] && node[childField] != null && node[childField].length > 0"
-        class="actions ml-auto"
-        role="button"
-        tabindex="0"
-        @click="toggle(idx)"
-        @keyup.enter="toggle(idx)"
-        :aria-expanded="!node.$closed">
-        <fas v-if="node.$closed" icon="chevron-down"></fas>
-        <fas v-else icon="chevron-up"></fas>
+      <div class="ml-auto d-flex">
+        <div
+          v-if="node[childField] && node[childField] != null && node[childField].length > 0"
+          class="actions"
+          role="button"
+          tabindex="0"
+          @click="toggle(idx)"
+          @keyup.enter="toggle(idx)"
+          :aria-expanded="!node.$closed">
+          <fas v-if="node.$closed" icon="chevron-down"></fas>
+          <fas v-else icon="chevron-up"></fas>
+        </div>
+        <div class="handle" v-if="isEditable && !options.disabled">
+          <fas icon="grip-vertical"></fas>
+        </div>
       </div>
     </div>
     <div class="children" v-if="!node.$closed && node[childField] && node[childField] != null">
@@ -155,12 +158,12 @@ export default class EpJarjesta extends Vue {
 
   .handle {
     color: #668DEA;
-    margin-right: 8px;
+    margin-left: 8px;
     cursor: grab;
+    float: right;
   }
 
   .actions {
-    float: right;
     cursor: pointer;
   }
 
