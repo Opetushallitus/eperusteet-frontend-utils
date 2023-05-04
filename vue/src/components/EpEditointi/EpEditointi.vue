@@ -14,6 +14,7 @@
                       :validation="validation"/>
               </div>
               <div class="muokattu text-nowrap" v-if="!isEditing">
+                <span v-if="inner.liite"><b>{{ $t('liite') }}. </b></span>
                 <span class="text-truncate" v-if="latest">{{ $t('muokattu') }}: {{ $sdt(latest.pvm) }}, {{ nimi }}</span>
               </div>
             </div>

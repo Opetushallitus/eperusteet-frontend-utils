@@ -7,8 +7,8 @@
            :key="value.length">
   <div v-for="(node, idx) in value" :key="idx">
     <div class="box d-flex align-items-center" :class="{ 'new-box': node.$uusi, 'box-draggable': isEditable }" >
-      <div class="handle" v-if="isEditable && !options.disabled">
-        <fas icon="grip-vertical"></fas>
+      <div class="handle">
+        <fas v-if="isEditable && !options.disabled" icon="grip-vertical"></fas>
       </div>
       <slot name="chapter">
         <div class="chapter">
@@ -154,6 +154,7 @@ export default class EpJarjesta extends Vue {
   margin-bottom: 8px;
 
   .handle {
+    width: 10px;
     color: #668DEA;
     margin-right: 8px;
     cursor: grab;
@@ -161,6 +162,9 @@ export default class EpJarjesta extends Vue {
 
   .actions {
     float: right;
+  }
+
+  .actions {
     cursor: pointer;
   }
 
