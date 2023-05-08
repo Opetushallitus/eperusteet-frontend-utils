@@ -18,8 +18,8 @@
             {{$t('pdf-tiedostoa-ei-ole-viela-luotu')}}
           </span>
         </div>
-        <div class="col-sm-2 text-left luomisaika" v-if="dokumenttiLuotu && !isPolling">
-          <span class="luontitiedot">{{$t('luotu')}}: {{$sd(dokumentti.valmistumisaika)}}</span>
+        <div class="col-sm-3 text-left luomisaika" v-if="dokumenttiLuotu && !isPolling">
+          <span class="luontitiedot">{{$t('luotu')}}: {{$sdt(dokumentti.valmistumisaika)}}</span>
           <span class="luontitiedot" v-if="dokumentti.julkaisuDokumentti">{{$t('julkaistu')}}</span>
           <span class="luontitiedot" v-else>{{$t('tyoversio')}}</span>
         </div>
