@@ -3,19 +3,19 @@
       :style="dynstyle"
       :title="$t(kind)"
       :class="spanClass">
-  <b-tooltip v-if="tooltip"
+  <b-popover v-if="tooltip"
              :target="() => $refs['ball']"
-             placement="top"
-             triggers="hover">
-    {{ $t(kind) }}
-  </b-tooltip>
+             :placement="'top'"
+             triggers="hover"
+             variant="primary">
+    <span>{{$t(kind)}}</span>
+  </b-popover>
 </span>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import { colorize, kouluturtyyppiRyhmat, themeColors, themes, rgb2string } from '../../utils/perusteet';
-import * as _ from 'lodash';
+import { themeColors, themes, rgb2string } from '../../utils/perusteet';
 
 const moduuliColors = {
   'normaali': [0, 0, 0],

@@ -91,142 +91,108 @@
       @click="showModal"
       :aria-label="$t('mita-mielta-uudesta-eperusteet-palvelusta')"
       tabindex="0">
-      <fas aria-hidden="true" icon="hymio" class="icon-hymio fa-2x fa-inverse" />
+      <fas aria-hidden="true"
+           icon="hymio"
+           class="icon-hymio fa-2x fa-inverse"
+           v-b-popover="{content: $t('anna-palautetta-eperusteista'), trigger: 'hover', placement: 'top', variant: 'primary'}"/>
     </button>
-    <b-tooltip
-      aria-hidden="true"
-      :show="showTooltip"
-      target="open-btn"
-      placement="top"
-      trigger="hover">
-      {{ $t('anna-palautetta-eperusteista') }}
-      <fas
-        class="close-btn close-btn--tooltip"
-        icon="sulje"
-        v-if="tooltipFirstShown"
-        @click="closeTooltip" />
-    </b-tooltip>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-
 import EpContent from '@shared/components/EpContent/EpContent.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
-
 import { Kielet } from '@shared/stores/kieli';
 import { ITPalauteProvider } from '@shared/stores/types';
-import { setItem, getItem } from '../../utils/localstorage';
 
-  interface Rating {
-    value: number,
-    selected: boolean,
+interface Rating {
+  value: number,
+  selected: boolean,
+}
+
+@Component({
+  components: {
+    EpContent,
+    EpButton,
+  },
+})
+export default class EpFeedbackModal extends Vue {
+  private hoveredRating = 0;
+  private selectedRating = 0;
+  private ratings = Array.from({ length: 5 }, (v, k) => ({ value: k + 1, selected: false }));
+  private feedbackMessage = '';
+  private feedbackSent = false;
+  private isSending = false;
+
+  @Prop({ required: true })
+  private palauteProvider!: ITPalauteProvider;
+
+  mounted() {
+    this.$root.$on('bv::modal::hidden', () => {
+      this.feedbackSent = false;
+      this.feedbackMessage = '';
+      this.selectedRating = 0;
+      this.ratings = this.ratings.map(rating => ({ ...rating, selected: false }));
+    });
   }
 
-  @Component({
-    components: {
-      EpContent,
-      EpButton,
-    },
-  })
-export default class EpFeedbackModal extends Vue {
-    private hoveredRating = 0;
-    private selectedRating = 0;
-    private ratings = Array.from({ length: 5 }, (v, k) => ({ value: k + 1, selected: false }));
-    private feedbackMessage = '';
-    private feedbackSent = false;
-    private isSending = false;
-    private tooltipFirstShown = true;
+  get tutkintorakennepalaute() {
+    return this.palauteProvider.tutkintorakennepalaute.value;
+  }
 
-    @Prop({ required: true })
-    private palauteProvider!: ITPalauteProvider;
+  showModal() {
+    this.$bvModal.show('feedback-modal');
+  }
 
-    mounted() {
-      this.$root.$on('bv::modal::hidden', () => {
-        this.feedbackSent = false;
-        this.feedbackMessage = '';
-        this.selectedRating = 0;
-        this.ratings = this.ratings.map(rating => ({ ...rating, selected: false }));
-      });
+  onSelectRating(selectedRating: Rating) {
+    this.selectedRating = selectedRating.value;
+    this.ratings = this.currentRatings.map(rating => ({
+      ...rating,
+      selected: rating.value === selectedRating.value,
+    })
+    );
+  }
 
-      this.$root.$on('bv::tooltip::hide', bvEvent => {
-        if (this.tooltipFirstShown) bvEvent.preventDefault();
-      });
-    }
+  onRatingHover(val: number) {
+    this.hoveredRating = val;
+  }
 
-    get tutkintorakennepalaute() {
-      return this.palauteProvider.tutkintorakennepalaute.value;
-    }
+  onRatingBlur() {
+    this.hoveredRating = 0;
+  }
 
-    get showTooltip() {
-      if (getItem('showFeedbackTooltip') === undefined || getItem('showFeedbackTooltip') === null) {
-        return true;
-      }
-      return getItem('showFeedbackTooltip');
-    }
+  async onFeedbackSubmit() {
+    this.isSending = true;
+    await this.palauteProvider.sendPalaute({
+      stars: this.selectedRating,
+      feedback: this.feedbackMessage,
+      user_agent: navigator.userAgent,
+    });
+    this.isSending = false;
+    this.feedbackSent = true;
+    (this.$refs.feedbackHeader as HTMLElement).focus();
+  }
 
-    set showTooltip(val) {
-      setItem('showFeedbackTooltip', val);
-    }
+  isActiveRating(rating: Rating) {
+    return rating.value <= this.hoveredRating || rating.selected || rating.value < this.selectedRating;
+  }
 
-    showModal() {
-      this.$bvModal.show('feedback-modal');
-    }
+  get currentRatings() {
+    return this.ratings;
+  }
 
-    closeTooltip() {
-      this.tooltipFirstShown = false;
-      this.showTooltip = false;
-    }
+  get hasSelectedRating() {
+    return this.currentRatings.some(rating => rating.selected);
+  }
 
-    onSelectRating(selectedRating: Rating) {
-      this.selectedRating = selectedRating.value;
-      this.ratings = this.currentRatings.map(rating => ({
-        ...rating,
-        selected: rating.value === selectedRating.value,
-      })
-      );
-    }
+  get sisaltokieli() {
+    return Kielet.getSisaltoKieli.value;
+  }
 
-    onRatingHover(val: number) {
-      this.hoveredRating = val;
-    }
-
-    onRatingBlur() {
-      this.hoveredRating = 0;
-    }
-
-    async onFeedbackSubmit() {
-      this.isSending = true;
-      await this.palauteProvider.sendPalaute({
-        stars: this.selectedRating,
-        feedback: this.feedbackMessage,
-        user_agent: navigator.userAgent,
-      });
-      this.isSending = false;
-      this.feedbackSent = true;
-      (this.$refs.feedbackHeader as HTMLElement).focus();
-    }
-
-    isActiveRating(rating: Rating) {
-      return rating.value <= this.hoveredRating || rating.selected || rating.value < this.selectedRating;
-    }
-
-    get currentRatings() {
-      return this.ratings;
-    }
-
-    get hasSelectedRating() {
-      return this.currentRatings.some(rating => rating.selected);
-    }
-
-    get sisaltokieli() {
-      return Kielet.getSisaltoKieli.value;
-    }
-
-    get furtherFeedbackUrl() {
-      return `https://www.oph.fi/${this.sisaltokieli}/koulutus-ja-tutkinnot/tutkintorakenne/lomake`;
-    }
+  get furtherFeedbackUrl() {
+    return `https://www.oph.fi/${this.sisaltokieli}/koulutus-ja-tutkinnot/tutkintorakenne/lomake`;
+  }
 }
 </script>
 

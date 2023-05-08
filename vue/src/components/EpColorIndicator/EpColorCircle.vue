@@ -3,17 +3,17 @@
       :style="circleStyle"
       :title="$t(help)"
       :class="circleClass">
-  <b-tooltip v-if="help"
+  <b-popover v-if="help"
              :target="() => $refs['circle']"
-             placement="top"
-             triggers="hover">
-    {{ $t(help) }}
-  </b-tooltip>
+             :placement="'top'"
+             triggers="hover"
+             variant="primary">
+    <span>{{$t(help)}}</span>
+  </b-popover>
 </span>
 </template>
 
 <script lang="ts">
-import * as _ from 'lodash';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 
 @Component
