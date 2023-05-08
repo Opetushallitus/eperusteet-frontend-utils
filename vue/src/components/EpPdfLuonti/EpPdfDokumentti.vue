@@ -39,7 +39,6 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
-import { DokumenttiDto } from '@shared/api/eperusteet';
 
 @Component({
   components: {
@@ -50,7 +49,7 @@ import { DokumenttiDto } from '@shared/api/eperusteet';
 })
 export default class EpPdfDokumentti extends Vue {
   @Prop({ required: true })
-  protected dokumentti!: DokumenttiDto;
+  protected dokumentti!: any;
 
   @Prop({ required: true })
   protected dokumenttiHref!: string;
