@@ -328,13 +328,25 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
     if (!rawNode.label) {
       node.label = _.get(rawNode.meta, 'alaosa') as any;
     }
-    node.location = {
-      name: 'tekstikappaleOsa',
-      params: {
-        osa: _.get(rawNode.meta, 'alaosa') as any,
-        viiteId: _.get(rawNode.meta, 'viiteId') as any,
-      },
-    };
+    if (_.get(rawNode.meta, 'vapaateksti_id')) {
+      node.location = {
+        name: 'tekstikappaleVapaaOsa',
+        params: {
+          vapaatekstiId: _.get(rawNode.meta, 'vapaateksti_id') as any,
+          viiteId: _.get(rawNode.meta, 'viiteId') as any,
+        },
+      };
+    }
+
+    if (_.get(rawNode.meta, 'alaosa')) {
+      node.location = {
+        name: 'tekstikappaleOsa',
+        params: {
+          osa: _.get(rawNode.meta, 'alaosa') as any,
+          viiteId: _.get(rawNode.meta, 'viiteId') as any,
+        },
+      };
+    }
     break;
   case 'opintokokonaisuus':
     node.location = {
