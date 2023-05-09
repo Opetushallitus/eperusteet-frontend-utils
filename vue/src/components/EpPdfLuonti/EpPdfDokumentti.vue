@@ -54,8 +54,8 @@ export default class EpPdfDokumentti extends Vue {
   @Prop({ required: true })
   protected dokumenttiHref!: string;
 
-  @Prop({ required: true })
-  protected isPolling!: boolean;
+  @Prop({ required: false, default: false })
+  protected polling?: boolean;
 
   @Prop({ required: true })
   protected pdfnimi!: string;
@@ -66,10 +66,6 @@ export default class EpPdfDokumentti extends Vue {
 
   get dokumenttiEpaonnistui() {
     return this.dokumentti && this.dokumentti.tila as any === 'epaonnistui';
-  }
-
-  get polling() {
-    return this.isPolling;
   }
 }
 
