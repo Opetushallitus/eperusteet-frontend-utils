@@ -26,10 +26,9 @@ describe('EpToggle component', () => {
     });
 
     expect(wrapper.html()).toContain('julkaistu');
-    expect(wrapper.html()).toContain('min-height: 20px');
-    expect(wrapper.html()).toContain('min-width: 20px');
+    expect(wrapper.html()).toContain('circle');
 
-    expect(wrapper.element.style.background).toMatchSnapshot();
+    expect(wrapper.element.style.color).toMatchSnapshot();
 
     wrapper.setProps({
       kind: 'esiopetus',
@@ -37,6 +36,6 @@ describe('EpToggle component', () => {
       size: 20,
     });
 
-    expect(wrapper.element.style.background).toMatchSnapshot();
+    expect(wrapper.element.style.color).toMatchSnapshot();
   });
 });

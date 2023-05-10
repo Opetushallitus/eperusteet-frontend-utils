@@ -18,7 +18,8 @@
     "test:unit:notz": "vue-cli-service test:unit --ci --coverage --no-cache",
     "test:unit:dev": "TZ=Europe/Helsinki vue-cli-service test:unit --watch --no-cache",
     "test:unit:report": "$BROWSER coverage/lcov-report/index.html",
-    "test:unit:dev:notz": "vue-cli-service test:unit --watch --no-cache"
+    "test:unit:dev:notz": "vue-cli-service test:unit --watch --no-cache",
+	"test": "vue-cli-service test:unit --ci --coverage --no-cache"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.12.1",
