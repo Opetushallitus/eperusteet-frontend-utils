@@ -1,5 +1,4 @@
 import { Computed } from './utils/interfaces';
-import { tutkintoonvalmentava } from './utils/perusteet';
 
 export enum Kieli {
   fi = 'fi',
@@ -204,6 +203,8 @@ export interface TiedoteDto {
 export interface IDokumenttiStore {
   dokumentti: Computed<any>,
   dokumenttiHref: Computed<string>,
+  dokumenttiJulkaisu: Computed<any>,
+  dokumenttiJulkaisuHref: Computed<string>,
   polling: Computed<any>,
   luoPdf: () => void,
 }
