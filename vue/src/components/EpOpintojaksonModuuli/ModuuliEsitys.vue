@@ -56,6 +56,10 @@ export default class ModuuliEsitys extends Vue {
   @Prop({ required: false, type: Array })
   private kuvat!: any[];
 
+  get koodi() {
+    return this.moduuli.koodi;
+  }
+
   get hasKuvaus() {
     if (this.moduuli) {
       return this.moduuli.kuvaus;
