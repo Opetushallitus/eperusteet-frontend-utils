@@ -6,7 +6,10 @@
                        :termit="termit"
                        :kuvat="kuvat" />
   </div>
-
+  <div v-if="moduuli.laajuus">
+    <h3>{{ $t('laajuus') }}</h3>
+    <p>{{ moduuli.laajuus }} {{ $t('opintopiste') }}</p>
+  </div>
   <div v-if="hasTavoitteet">
     <h3>{{ $t('yleiset-tavoitteet') }}</h3>
     <div v-if="tavoitteet.kohde">{{ $kaanna(tavoitteet.kohde) }}</div>
@@ -52,6 +55,10 @@ export default class ModuuliEsitys extends Vue {
 
   @Prop({ required: false, type: Array })
   private kuvat!: any[];
+
+  get koodi() {
+    return this.moduuli.koodi;
+  }
 
   get hasKuvaus() {
     if (this.moduuli) {
