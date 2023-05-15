@@ -23,6 +23,7 @@ export const EperusteetKoulutustyypit = Object.freeze([
   'koulutustyyppi_30', // aikuisten maahanmuuttajien kotoutumiskoulutus
   'koulutustyyppi_35', // vapaa sivistystyo lukutaito
   'koulutustyyppi_40', // tutkintoon valmentava
+  'koulutustyyppi_muu', // tällä hetkellä JOTPA (ei oikea koulutustyyppi)
 ]);
 
 export function isLukio(koulutustyyppi: string) {
@@ -97,6 +98,7 @@ export enum Toteutus {
   AMMATILLINEN = 'ammatillinen',
   TUTKINTOONVALMENTAVA = 'tutkintoonvalmentava',
   KOTOUTUMISKOULUTUS = 'kotoutumiskoulutus',
+  MUU = 'muu',
 }
 
 export const EperusteetKoulutustyyppiRyhmat = {
@@ -136,6 +138,9 @@ export const EperusteetKoulutustyyppiRyhmat = {
   ],
   [Toteutus.KOTOUTUMISKOULUTUS]: [
     'koulutustyyppi_30',
+  ],
+  [Toteutus.MUU]: [
+    'koulutustyyppi_muu',
   ],
 };
 
