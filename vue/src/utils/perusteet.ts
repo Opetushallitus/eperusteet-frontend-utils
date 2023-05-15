@@ -97,6 +97,7 @@ export enum Toteutus {
   AMMATILLINEN = 'ammatillinen',
   TUTKINTOONVALMENTAVA = 'tutkintoonvalmentava',
   KOTOUTUMISKOULUTUS = 'kotoutumiskoulutus',
+  MUU = 'muu',
 }
 
 export const EperusteetKoulutustyyppiRyhmat = {
@@ -136,6 +137,9 @@ export const EperusteetKoulutustyyppiRyhmat = {
   ],
   [Toteutus.KOTOUTUMISKOULUTUS]: [
     'koulutustyyppi_30',
+  ],
+  [Toteutus.MUU]: [
+    'koulutustyyppi_muu',
   ],
 };
 
