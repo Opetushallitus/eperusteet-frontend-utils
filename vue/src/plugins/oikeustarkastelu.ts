@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import _ from 'lodash';
-import { computed } from '@vue/composition-api';
 import { Oikeus } from '../tyypit';
 import { Computed } from '../utils/interfaces';
 
@@ -84,10 +83,10 @@ export const EPERUSTEET_SOVELLUKSET = [
     sovellus: 'APP_EPERUSTEET_YLOPS',
     url: '/eperusteet-ylops-app/uusi',
   },
-  // {
-  //   sovellus: 'APP_EPERUSTEET_AMOSAA',
-  //   url: '/eperusteet-amosaa-app/uusi/#/ammatillinen',
-  // },
+  {
+    sovellus: 'APP_EPERUSTEET_AMOSAA',
+    url: '/eperusteet-amosaa-app/uusi/#/ammatillinen',
+  },
   {
     sovellus: 'APP_EPERUSTEET_VST',
     url: '/eperusteet-amosaa-app/uusi/#/vapaasivistystyo',
