@@ -6,9 +6,20 @@
                        :termit="termit"
                        :kuvat="kuvat" />
   </div>
-  <div v-if="moduuli.laajuus">
-    <h3>{{ $t('laajuus') }}</h3>
-    <p>{{ moduuli.laajuus }} {{ $t('opintopiste') }}</p>
+  <div class="d-lg-flex justify-content-between w-60 my-4">
+    <div v-if="moduuli.koodi">
+      <span class="font-weight-bold">{{ $t('koodi') }}</span>
+      <p>{{ moduuli.koodi.arvo }}</p>
+    </div>
+    <div>
+      <span class="font-weight-bold">{{ $t('tyyppi') }}</span>
+      <p v-if="moduuli.pakollinen">{{ $t('pakollinen') }}</p>
+      <p v-if="!moduuli.pakollinen">{{ $t('valinnainen') }}</p>
+    </div>
+    <div v-if="moduuli.laajuus">
+      <span class="font-weight-bold">{{ $t('laajuus') }}</span>
+      <p>{{ moduuli.laajuus }} {{ $t('opintopiste') }}</p>
+    </div>
   </div>
   <div v-if="hasTavoitteet">
     <h3>{{ $t('yleiset-tavoitteet') }}</h3>
