@@ -83,7 +83,7 @@ export default class EpColorIndicator extends Vue {
 @import '../../styles/_variables.scss';
 
 .ball {
-  font-size: 0.85rem;
+  font-size: 0.7rem;
   color: black;
 }
 
