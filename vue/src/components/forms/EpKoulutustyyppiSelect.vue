@@ -46,6 +46,7 @@ import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import EpColorIndicator from '@shared/components/EpColorIndicator/EpColorIndicator.vue';
 import { EperusteetKoulutustyypit, EperusteetKoulutustyyppiRyhmat } from '../../utils/perusteet';
 import * as _ from 'lodash';
+import { EiTuetutKoulutustyypit } from '@/utils/perusteet';
 
 @Component({
   components: {
@@ -130,7 +131,8 @@ export default class KoulutustyyppiSelect extends Vue {
           ryhma,
           koulutustyypit: _.chain(EperusteetKoulutustyyppiRyhmat[ryhma])
             .filter(koulutustyyppi => _.isEmpty(this.koulutustyypit) || _.includes(this.koulutustyypit, koulutustyyppi))
-            .map(koulutustyyppi => ({ koulutustyyppi, $isDisabled: _.includes(this.eiTuetutKoulutustyypit, koulutustyyppi) }))
+            .reject(koulutustyyppi => _.includes(EiTuetutKoulutustyypit, koulutustyyppi))
+            .map(koulutustyyppi => ({ koulutustyyppi }))
             .value(),
         };
       })
