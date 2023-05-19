@@ -1,16 +1,18 @@
 <template>
-<span ref="ball"
-      :style="dynstyle"
-      :title="$t(kind)"
-      :class="spanClass">
-  <b-popover v-if="tooltip"
-             :target="() => $refs['ball']"
-             :placement="'top'"
-             triggers="hover"
-             variant="primary">
-    <span>{{$t(kind)}}</span>
-  </b-popover>
-</span>
+  <span ref="ball"
+        class="material-icons"
+        :style="dynstyle"
+        :title="$t(kind)"
+        :class="spanClass">
+        circle
+    <b-popover v-if="tooltip"
+               :target="() => $refs['ball']"
+               :placement="'top'"
+               triggers="hover"
+               variant="primary">
+      <span>{{$t(kind)}}</span>
+    </b-popover>
+  </span>
 </template>
 
 <script lang="ts">
@@ -69,9 +71,7 @@ export default class EpColorIndicator extends Vue {
 
   get dynstyle() {
     const result = {
-      'min-height': this.size + 'px',
-      'min-width': this.size + 'px',
-      'background': this.backgroundColor ? this.backgroundColor : rgb2string(this.background),
+      'color': this.backgroundColor ? this.backgroundColor : rgb2string(this.background),
     };
 
     return result;
@@ -83,33 +83,32 @@ export default class EpColorIndicator extends Vue {
 @import '../../styles/_variables.scss';
 
 .ball {
-  background: black;
-  border-radius: 100%;
-  display: inline-block;
+  font-size: 0.7rem;
+  color: black;
 }
 
 .ball-normaali {
-  background: #000000;
+  color: #000000;
 }
 
 .ball-pakollinen {
-  background: #bddb8a;
+  color: #bddb8a;
 }
 
 .ball-valinnainen {
-  background: #f166c0;
+  color: #f166c0;
 }
 
 .ball-paikallinen {
-  background: #ffa500;
+  color: #ffa500;
 }
 
 .ball-offline {
-  background: #DADADA;
+  color: #DADADA;
 }
 
 .ball-online {
-  background: #7CD443;
+  color: #7CD443;
 }
 
 .ball-tooltip {

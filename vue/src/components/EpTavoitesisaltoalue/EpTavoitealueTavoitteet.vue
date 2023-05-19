@@ -6,31 +6,33 @@
       v-model="tavoitteet">
       <b-row v-for="(tavoite, tavoiteIndex) in tavoitteet" :key="tavoite+tavoiteIndex" class="pb-2">
         <b-col cols="11">
-          <EpKoodistoSelect
-            :store="tavoitteetlukutaidotKoodisto"
-            v-model="tavoitteet[tavoiteIndex]"
-            :is-editing="true"
-            :naytaArvo="false">
-            <template #default="{ open }">
-              <b-input-group>
-                <EpInput
-                  v-model="tavoite.nimi"
-                  :is-editing="true"
-                  :disabled="!tavoite.uri.startsWith('temporary')"
-                  class="input-wrapper"
-                  :validation="$v.tavoitteet.$each.$iter[tavoiteIndex].nimi">
-                  <div class="order-handle m-2" slot="left">
-                    <fas icon="grip-vertical"></fas>
-                  </div>
-                </EpInput>
-                <b-input-group-append>
-                  <b-button @click="open" icon="plus" variant="primary">
-                    {{ $t('hae-koodistosta') }}
-                  </b-button>
-                </b-input-group-append>
-              </b-input-group>
-            </template>
-          </EpKoodistoSelect>
+          <slot :tavoite="tavoite" :tavoiteIndex="tavoiteIndex">
+            <EpKoodistoSelect
+              :store="tavoitteetlukutaidotKoodisto"
+              v-model="tavoitteet[tavoiteIndex]"
+              :is-editing="true"
+              :naytaArvo="false">
+              <template #default="{ open }">
+                <b-input-group>
+                  <EpInput
+                    v-model="tavoite.nimi"
+                    :is-editing="true"
+                    :disabled="!tavoite.uri.startsWith('temporary')"
+                    class="input-wrapper"
+                    :validation="$v.tavoitteet.$each.$iter[tavoiteIndex].nimi">
+                    <div class="order-handle m-2" slot="left">
+                      <fas icon="grip-vertical"></fas>
+                    </div>
+                  </EpInput>
+                  <b-input-group-append>
+                    <b-button @click="open" icon="plus" variant="primary">
+                      {{ $t('hae-koodistosta') }}
+                    </b-button>
+                  </b-input-group-append>
+                </b-input-group>
+              </template>
+            </EpKoodistoSelect>
+          </slot>
         </b-col>
         <b-col cols="1">
           <fas icon="roskalaatikko" class="default-icon clickable mt-2" @click="poistaTavoite(tavoite)"/>
@@ -38,9 +40,15 @@
       </b-row>
     </draggable>
 
-    <ep-button variant="outline" icon="plus" @click="lisaaTavoite()">
-      {{ $t('lisaa-tavoite') }}
-    </ep-button>
+    <div class="d-flex justify-content-between">
+      <ep-button variant="outline" icon="plus" @click="lisaaTavoite()">
+        <slot name="lisaaBtnText">
+          {{ $t('lisaa-tavoite') }}
+        </slot>
+      </ep-button>
+
+      <slot name="footer"></slot>
+    </div>
   </div>
 </template>
 
@@ -102,7 +110,7 @@ export default class EpTavoitealueTavoitteet extends Vue {
     this.tavoitteet = [
       ...this.tavoitteet,
       {
-        uri: generateTemporaryKoodiUri('tavoitteetlukutaidot'),
+        ...(!this.$scopedSlots['default'] && { uri: generateTemporaryKoodiUri('tavoitteetlukutaidot') }),
       },
     ];
   }
