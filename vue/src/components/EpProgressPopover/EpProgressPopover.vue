@@ -34,6 +34,14 @@
       <div class="slot-area row justify-content-center">
         <slot />
       </div>
+
+      <div class="popup-hr">
+        <hr>
+      </div>
+
+      <div class="popup-bottom row flex-column align-items-center">
+        <slot name="bottom" />
+      </div>
     </b-popover>
 
   </div>
@@ -110,24 +118,38 @@ export default class EpProgressPopover extends Vue {
     display:none;
   }
 
-  /deep/ .popover-body{
-    padding: 0px;
+  /deep/ .popover-body {
+    padding: 0;
 
     .popup-top {
       padding: 15px;
       background: $popup-top-background;
-      border-radius: 1rem 1rem 0rem 0rem;
+      border-radius: 1rem 1rem 0 0;
       font-size: 1rem;
     }
 
     .slot-area {
       padding: 15px;
       background-color: $white;
-      border-radius: 0rem 0rem 1rem 1rem;
     }
 
-  }
+    .popup-hr {
+      background-color: $white;
+      margin-right: -15px;
+      margin-left: -15px;
+      display: flow-root;
+    }
 
+    .popup-bottom {
+      padding: 5px 15px;
+      background-color: $white;
+      border-radius: 0 0 1rem 1rem;
+    }
+
+    hr {
+      margin: 0;
+    }
+  }
 }
 
 </style>
