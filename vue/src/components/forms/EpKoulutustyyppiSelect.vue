@@ -46,7 +46,6 @@ import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import EpColorIndicator from '@shared/components/EpColorIndicator/EpColorIndicator.vue';
 import { EperusteetKoulutustyypit, EperusteetKoulutustyyppiRyhmat } from '../../utils/perusteet';
 import * as _ from 'lodash';
-import { EiTuetutKoulutustyypit } from '@/utils/perusteet';
 
 @Component({
   components: {
