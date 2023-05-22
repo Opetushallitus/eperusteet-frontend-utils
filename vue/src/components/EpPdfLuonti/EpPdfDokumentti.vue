@@ -12,7 +12,7 @@
               {{pdfnimi}}.pdf
             </span>
           <span v-else-if="dokumenttiEpaonnistui">
-              {{$t('pdf-tiedosto-luonti-epaonnistui')}} <span v-if="dokumentti.virhekoodi">: {{$t('pdf-virhe-' + dokumentti.virhekoodi)}}</span>
+              {{$t('pdf-tiedosto-luonti-epaonnistui')}}
             </span>
           <span v-else>
               {{$t('pdf-tiedostoa-ei-ole-viela-luotu')}}
