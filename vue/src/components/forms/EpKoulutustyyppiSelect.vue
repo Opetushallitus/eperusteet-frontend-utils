@@ -130,7 +130,7 @@ export default class KoulutustyyppiSelect extends Vue {
           ryhma,
           koulutustyypit: _.chain(EperusteetKoulutustyyppiRyhmat[ryhma])
             .filter(koulutustyyppi => _.isEmpty(this.koulutustyypit) || _.includes(this.koulutustyypit, koulutustyyppi))
-            .reject(koulutustyyppi => _.includes(EiTuetutKoulutustyypit, koulutustyyppi))
+            .reject(koulutustyyppi => _.includes(this.eiTuetutKoulutustyypit, koulutustyyppi))
             .map(koulutustyyppi => ({ koulutustyyppi }))
             .value(),
         };
