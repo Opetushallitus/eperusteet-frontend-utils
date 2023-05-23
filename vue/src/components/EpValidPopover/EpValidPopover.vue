@@ -1,6 +1,8 @@
 <template>
   <div class="ep-valid-popover">
-    <EpProgressPopover v-if="validoinnit" :slices="prosessi" :popup-style="popupStyle">
+    <EpProgressPopover v-if="validoinnit"
+                       :slices="prosessi"
+                       :popup-style="popupStyle">
       <template v-slot:header>
         <div class="d-flex flex-column align-items-center" :class="tyyppi">
           <span class="validation-text pb-2">
@@ -24,7 +26,8 @@
           </template>
         </div>
       </template>
-      <div class="d-flex flex-column align-items-center">
+      <EpSpinner v-if="isValidating" class="mt-4"/>
+      <div v-else class="d-flex flex-column align-items-center">
         <b-button
           v-if="arkistoitu"
           variant="primary"
@@ -76,6 +79,12 @@
         </div>
         </template>
       </div>
+      <template v-slot:bottom>
+        <b-button class="btn-tarkista" variant="link" @click="validoi">
+          <span class="material-icons-outlined icon" aria-hidden="true">refresh</span>
+          <span> {{ $t('tarkista-virheet') }}</span>
+        </b-button>
+      </template>
     </EpProgressPopover>
     <EpSpinner v-else class="mt-4" color="#fff"/>
   </div>
@@ -111,12 +120,19 @@ export default class EpValidPopover extends Vue {
   @Prop({ required: true })
   private tyyppi!: ValidoitavatTyypit;
 
+  @Prop({ required: false, default: false })
+  private isValidating?: boolean;
+
   asetaValmiiksi() {
     this.$emit('asetaValmiiksi');
   }
 
   palauta() {
     this.$emit('palauta');
+  }
+
+  validoi() {
+    this.$emit('validoi');
   }
 
   get prosessi() {
@@ -213,6 +229,21 @@ export default class EpValidPopover extends Vue {
 .julkaisemattomia-muutoksia {
   width: 15rem;
   line-height: 1.1rem;
+}
+
+.btn-tarkista {
+  text-decoration: none;
+  display: flex;
+  font-size: 1.125rem;
+  font-weight: 500;
+  padding: 0;
+  align-items: center;
+}
+
+.icon {
+  margin-right: 5px;
+  font-size: 30px;
+  align-self: center;
 }
 
 ::v-deep .popover-body {
