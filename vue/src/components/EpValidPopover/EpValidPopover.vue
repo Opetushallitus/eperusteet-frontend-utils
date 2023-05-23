@@ -56,7 +56,7 @@
               </div>
             </template>
             <template v-if="validoinnit.virheet">
-              <div class="pt-2 pb-1 row" v-for="virhe in validoinnit.virheet" :key="virhe">
+              <div class="pt-2 pb-1 row" v-for="virhe in uniqueVirheet" :key="virhe">
                 <div class="col-1">
                   <fas class="text-danger" icon="info-circle"/>
                 </div>
@@ -191,6 +191,10 @@ export default class EpValidPopover extends Vue {
     if (this.tyyppi === ValidoitavatTyypit.OPETUSSUUNNITELMA) {
       return 'opetussuunnitelmassa-huomautuksia';
     }
+  }
+
+  get uniqueVirheet() {
+    return _.uniq(this.validoinnit.virheet);
   }
 
   get validointiOk() {
