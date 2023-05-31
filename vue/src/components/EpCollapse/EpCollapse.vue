@@ -10,7 +10,8 @@
            @keyup.enter="!togglefull ? toggle(): null"
            role="button"
            tabindex="0"
-           :aria-expanded="toggled">
+           :aria-expanded="toggled"
+           :style="styles.header">
         <slot name="icon" :toggled="toggled" v-if="chevronLocation === 'left' && collapsable">
           <div class="align-self-start mr-2">
             <fas fixed-width icon="chevron-up" v-if="toggled"></fas>
@@ -18,7 +19,7 @@
           </div>
         </slot>
         <div class="align-self-start header">
-          <div :class="{'header-toggled': toggled}" :style="styles.header">
+          <div :class="{'header-toggled': toggled}">
             <slot name="header" :toggled="toggled"></slot>
           </div>
         </div>
