@@ -86,6 +86,10 @@ export const Palautteet = initApi(EperusteetApi.PalautteetApi);
 export const LukioperusteenJulkisetTiedot = initApi(EperusteetApi.LukioperusteenJulkisetTiedotApi);
 export const Maaraykset = initApi(EperusteetApi.MaarayksetApi);
 export const PoistettuSisalto = initApi(EperusteetApi.PoistettuSisaltoApi);
+export const PerusopetusLaajaAlainenOsaaminenLukko = initApi(EperusteetApi.PerusopetusLaajaAlainenOsaaminenLukkoApi);
+export const PerusopetusVuosiluokkaKokonaisuusLukko = initApi(EperusteetApi.PerusopetusVuosiluokkaKokonaisuusLukkoApi);
+export const PerusopetusOppiaineLukko = initApi(EperusteetApi.PerusopetusOppiaineLukkoApi);
+export const PerusopetusOppiaineVlkLukko = initApi(EperusteetApi.PerusopetusOppiaineVlkLukkoApi);
 
 export type Ammattitaitovaatimukset2019Dto = EperusteetApi.Ammattitaitovaatimukset2019Dto;
 export type ArviointiAsteikkoDto = EperusteetApi.ArviointiAsteikkoDto;
@@ -156,6 +160,8 @@ export type OsaamiskokonaisuusDto = EperusteetApi.OsaamiskokonaisuusDto;
 export type OsaamiskokonaisuusPaaAlueDto = EperusteetApi.OsaamiskokonaisuusPaaAlueDto;
 export type PerusteprojektinPerusteenosaDto = EperusteetApi.PerusteprojektinPerusteenosaDto;
 export type PerusteenMuutostietoDto = EperusteetApi.PerusteenMuutostietoDto;
+export type OppiaineSuppeaDto = EperusteetApi.OppiaineSuppeaDto;
+export type OppiaineenVuosiluokkaKokonaisuusDto = EperusteetApi.OppiaineenVuosiluokkaKokonaisuusDto;
 
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);

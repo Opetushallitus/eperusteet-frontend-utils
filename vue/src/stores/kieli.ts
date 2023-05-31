@@ -167,7 +167,7 @@ export class KieliStore {
     }
   };
 
-  public kaanna(value: LokalisoituTeksti | undefined | null, emptyWhenNotFound = false, squareBrackets = true): string {
+  public kaanna(value?: LokalisoituTeksti | undefined | null, emptyWhenNotFound = false, squareBrackets = true): string {
     if (!value) {
       return '';
     }

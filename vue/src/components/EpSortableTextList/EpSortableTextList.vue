@@ -7,13 +7,15 @@
         v-model="innerModel">
         <b-row v-for="(model, i) in innerModel" :key="group+i" class="pb-2">
           <b-col cols="11">
-            <EpInput
-              v-model="innerModel[i]"
-              :is-editing="isEditing">
-              <div class="order-handle m-2" slot="left">
-                <fas icon="grip-vertical"/>
-              </div>
-            </EpInput>
+            <slot name="input" :model="model" :index="i">
+              <EpInput
+                v-model="innerModel[i]"
+                :is-editing="isEditing">
+                <div class="order-handle m-2" slot="left">
+                  <fas icon="grip-vertical"/>
+                </div>
+              </EpInput>
+            </slot>
           </b-col>
           <b-col cols="1" v-if="isEditing" class="text-center">
             <fas
@@ -34,7 +36,9 @@
     <template v-else-if="innerModel.length > 0">
       <ul>
         <li v-for="(model, i) in innerModel" :key="group+i">
-          {{$kaanna(model)}}
+          <slot name="li" :model="model">
+            {{$kaanna(model)}}
+          </slot>
         </li>
       </ul>
     </template>
@@ -63,6 +67,9 @@ export default class EpSortableTextList extends Vue {
   @Prop({ default: false })
   private isEditing!: boolean;
 
+  @Prop({ default: true })
+  private sortable!: boolean;
+
   @Prop({ required: false, default: 'sortableTextList' })
   private group!: string;
 
@@ -90,7 +97,7 @@ export default class EpSortableTextList extends Vue {
       animation: 300,
       emptyInsertThreshold: 10,
       handle: '.order-handle',
-      disabled: !this.isEditing,
+      disabled: !this.isEditing && this.sortable,
       ghostClass: 'dragged',
       group: {
         name: this.group,
