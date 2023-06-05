@@ -98,6 +98,10 @@ export default class EpOsaAlue extends Vue {
     return this.value;
   }
 
+  set osaAlue(val) {
+    this.$emit('input', val);
+  }
+
   otsikkoLkm(tasokuvaus) {
     return (tasokuvaus.osaamiset?.length > 0 ? 1 : 0) + (tasokuvaus.edelleenKehittyvatOsaamiset?.length > 0 ? 1 : 0) + (tasokuvaus.edistynytOsaaminenKuvaukset?.length > 0 ? 1 : 0);
   }
