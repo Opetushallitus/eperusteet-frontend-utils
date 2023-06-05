@@ -3,9 +3,9 @@
     <draggable
       v-bind="defaultDragOptions"
       tag="div"
-      v-model="value">
+      v-model="model">
 
-      <b-row v-for="(sisalto, index) in value" :key="'edKehOsaaminen'+index" class="pb-2">
+      <b-row v-for="(sisalto, index) in model" :key="'edKehOsaaminen'+index" class="pb-2">
         <b-col cols="11">
           <ep-input v-model="sisalto[sisaltokieli]" :is-editing="isEditing" type="string" class="flex-grow-1">
             <div class="order-handle m-2" slot="left">
@@ -47,6 +47,14 @@ export default class EpOsaAlueSisalto extends Vue {
 
   @Prop({ required: false, default: false })
   isEditing!: boolean;
+
+  get model() {
+    return this.value;
+  }
+
+  set model(val) {
+    this.$emit('input', val);
+  }
 
   get defaultDragOptions() {
     return {
