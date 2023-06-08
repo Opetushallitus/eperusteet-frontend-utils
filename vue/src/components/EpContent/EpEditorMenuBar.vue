@@ -121,11 +121,9 @@ export default class EpEditorMenuBar extends Vue {
     return [{
       command: 'undo',
       icon: 'palauta',
-      disabled: true,
     }, {
       command: 'redo',
       icon: 'tee-uudelleen',
-      disabled: true,
     }];
   }
 
