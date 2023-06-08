@@ -8,7 +8,7 @@
                      :to="{ name: 'perusteTiedot', params: { perusteId: julkaisu.peruste.id, revision: julkaisu.revision } }">
           {{ $t('siirry-julkaisuun') }}
         </router-link>
-        <span v-if="versio === julkaisu.revision" class="selected-version">{{ $t('katselet-tata-julkaisua') }}</span>
+        <span v-if="versio === julkaisu.revision" class="font-italic">{{ $t('katselet-tata-julkaisua') }}</span>
       </div>
       <div v-if="julkaisu.muutosmaaraysVoimaan && julkaisu.liitteet && julkaisu.liitteet.length > 0" class="mt-2">
         <div v-for="(liiteData, index) in julkaisu.liitteet" :key="'maarays'+index" class="maarayslinkit">
@@ -121,9 +121,5 @@ export default class EpJulkaisuLista extends Vue {
 ::v-deep .ep-collapse .header {
   margin-left: auto !important;
   margin-right: 5px;
-}
-
-.selected-version {
-  font-style: italic;
 }
 </style>
