@@ -35,7 +35,7 @@ export default class EpArvioinninkohteetTable extends Vue {
   get arvosanaSarake() {
     return {
       key: 'arvosana',
-      label: this.$t('osaamisen-kuvaus'),
+      label: this.$t('arviointitaulukko-arvosana-otsikko'),
       thStyle: { width: '30%' },
       formatter: (value, key, item) => {
         if (value) {
@@ -50,7 +50,7 @@ export default class EpArvioinninkohteetTable extends Vue {
   get osaamisenKuvausSarake() {
     return {
       key: 'osaamisenKuvaus',
-      label: this.$t('arvion-kuvaus'),
+      label: this.$t('arviointitaulukko-osaaminen-otsikko'),
       formatter: (value, key, item) => {
         return (this as any).$kaanna(value);
       },
