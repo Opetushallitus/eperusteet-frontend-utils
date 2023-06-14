@@ -1916,6 +1916,7 @@
     "oppiaine-koodi-header": "Koodi",
     "oppiaine-koodi-moneen-kertaan": "Sama oppiainekoodi usealla oppiaineella",
     "oppiaine-koodi-ohje": "Paikallisen oppiaineen koodiarvo",
+    "paikallinen-oppiaine-kopiointi-varmistus": "Haluatko varmasti kopioida tämän oppiaineen muokattavaksi? Tämän jälkeen oppiaine ei ole enää yhteydessä opetussuunnitelman pohjaan, eivätkä sen tiedot päivity kuten ennen.",
     "oppiaine-kopiointi-varmistus": "Haluatko varmasti kopioida tämän oppiaineen muokattavaksi? Tämän jälkeen oppiaine ei ole enää yhteydessä opetussuunnitelman pohjaan, eivätkä sen tiedot päivity kuten ennen.",
     "oppiaine-kopiointi-varmistus-hyvaksynta": "Vahvista",
     "oppiaine-kopiointi-varmistus-otsikko": "Vahvista toiminto",
