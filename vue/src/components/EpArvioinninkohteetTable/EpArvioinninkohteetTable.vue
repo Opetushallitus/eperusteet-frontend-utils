@@ -39,7 +39,7 @@ export default class EpArvioinninkohteetTable extends Vue {
       thStyle: { width: '30%' },
       formatter: (value, key, item) => {
         if (value) {
-          return (this as any).$t('arvosana') + ' ' + value;
+          return (this as any).$t('osaamisen-kuvaus-arvosanalle_' + value);
         }
 
         return '';
