@@ -81,12 +81,12 @@ describe('EpValidPopover component', () => {
       },
     });
 
-    expect(wrapper.html()).not.toContain('validointi-ei-virheita');
+    expect(wrapper.html()).not.toContain('ei-julkaisua-estavia-virheita');
     // expect(wrapper.find({ ref: 'ep-progress-popover' }).exists()).toBe(true);
     // (wrapper.vm.$refs['ep-progress-popover'] as any).show();
 
     await localVue.nextTick();
 
-    expect(wrapper.html()).toContain('validointi-ei-virheita');
+    expect(wrapper.html()).toContain('ei-julkaisua-estavia-virheita');
   });
 });

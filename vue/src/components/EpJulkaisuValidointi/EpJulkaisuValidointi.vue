@@ -1,11 +1,6 @@
 <template>
   <div>
-    <IkoniTeksti v-if="!virheita && !huomautuksia" tyyppi="kaikki-kunnossa">
-      {{$t('kaikki-kunnossa')}}
-    </IkoniTeksti>
-
     <template v-if="virheita">
-      <div class="font-weight-bold mt-4 mb-3">{{$t('julkaisun-estavat-virheet')}}</div>
       <VirheHuomautukset :virhehuomautukset="validointi.virheet" tyyppi="virhe"/>
     </template>
 
@@ -24,7 +19,7 @@
 
 <script lang="ts">
 import * as _ from 'lodash';
-import { Prop, Component, Vue, Watch } from 'vue-property-decorator';
+import { Prop, Component, Vue } from 'vue-property-decorator';
 import EpToggle from '@shared/components/forms/EpToggle.vue';
 import VirheHuomautukset from './VirheHuomautukset.vue';
 import IkoniTeksti from './IkoniTeksti.vue';

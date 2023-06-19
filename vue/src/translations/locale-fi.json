@@ -287,6 +287,7 @@
     "ei-asetettu": "Ei asetettu",
     "ei-esikatseltavissa": "Ei esikatseltavissa",
     "ei-hakutuloksia": "Ei hakutuloksia",
+    "ei-julkaisua-estavia-virheita": "Ei julkaisua estäviä virheitä",
     "ei-julkaistuja-opetussuunnitelmia": "Ei julkaistuja opetussuunnitelmia",
     "ei-julkaistuja-toteutussuunnitelmia": "Ei julkaistuja toteutussuunnitelmia",
     "ei-julkaisuja": "Ei julkaisuja",
@@ -3986,5 +3987,13 @@
     "ystavien-opetussuunnitelmat-keskeneraiset": "Ystävien keskeneraiset opetussuunnitelmat",
     "osaamiskokonaisuuden-sijainti": "Osaamiskokonaisuuden sijainti",
     "arviointitaulukko-arvosana-otsikko": "Arvosana",
-    "arviointitaulukko-osaaminen-otsikko": "Osaamisen kuvaus"
+    "arviointitaulukko-osaaminen-otsikko": "Osaamisen kuvaus",
+    "validointi-kategoria-KIELISISALTO": "Kielisisältö",
+    "validointi-kategoria-MAARITTELEMATON": "Muut virheet ja huomautukset",
+    "validointi-kategoria-PERUSTE": "Perusteen tiedot",
+    "validointi-kategoria-RAKENNE": "Perusteen rakenne",
+    "validointi-kategoria-TEKSTI": "Tekstikappaleet",
+    "validointi-kategoria-KOODISTO": "Koodisto",
+    "loytyi-julkaisun-estavia-virheita": "Löytyi julkaisun estäviä virheitä",
+    "tutkintonimikkeelta-tai-osaamisalalta-puuttuu-sisalto": "Tutkintonimikkeeltä tai osaamisalalta puuttuu sisältö"
 }

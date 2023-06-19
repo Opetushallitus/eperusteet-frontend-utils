@@ -44,7 +44,7 @@
               <fas class="text-success" icon="check-circle"/>
             </div>
             <div class="col">
-              {{ $t('validointi-ei-virheita') }}
+              {{ $t('ei-julkaisua-estavia-virheita') }}
             </div>
           </div>
           <div class="ml-3">
