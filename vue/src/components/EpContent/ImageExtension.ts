@@ -158,7 +158,7 @@ export default class ImageExtension extends Node {
           },
           set(value: any) {
             (this as any).updateAttrs({
-              'alt': value,
+              'alt': value ? value.split('"').join('”') : value,
             });
           },
         },
@@ -168,7 +168,7 @@ export default class ImageExtension extends Node {
           },
           set(value: any) {
             (this as any).updateAttrs({
-              'figcaption': value,
+              'figcaption': value ? value.split('"').join('”') : value,
             });
           },
         },
