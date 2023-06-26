@@ -10,7 +10,7 @@ declare module 'vue/types/vue' {
   interface Vue {
     $suodatin: (query: string) => <T extends object>(value: T) => string;
     $filterBy: (field: string, query: string) => <T extends object>(value: T) => boolean;
-    $kaanna: <T extends object>(value: T, emptyWhenNotFound?: boolean, squareBrackets?: boolean) => string;
+    $kaanna: <T extends object>(value?: T, emptyWhenNotFound?: boolean, squareBrackets?: boolean) => string;
     $kaannaOlioTaiTeksti: <T extends object>(value: T | string) => string;
   }
 }
@@ -24,7 +24,7 @@ export class Kaannos {
       return Kielet.filterBy(field, query);
     };
 
-    vue.prototype.$kaanna = (value: any, emptyWhenNotFound = false, squareBrackets = true) => {
+    vue.prototype.$kaanna = (value?: any, emptyWhenNotFound = false, squareBrackets = true) => {
       return this.handleUnescaping(Kielet.kaanna(value, emptyWhenNotFound, _.has(options, 'squareBrackets') ? options.squareBrackets : squareBrackets));
     };
 

@@ -113,7 +113,8 @@ export type NavigationNodeType =
   | 'opintokokonaisuus' | 'tavoitesisaltoalue'
   | 'koulutuksenosa' | 'laajaalainenosaaminen' | 'koulutuksenosat'
   | 'koto_kielitaitotaso' | 'koto_opinto' | 'koto_laajaalainenosaaminen'
-  | 'vuosiluokkakokonaisuus' | 'perusopetusoppiaine' | 'valinnaisetoppiaineet'
+  | 'vuosiluokkakokonaisuus' | 'perusopetusoppiaine' | 'valinnaisetoppiaineet' | 'perusopetusOppiaineet'
+  | 'perusopetusLaajaAlaisetOsaamiset' | 'perusopetusVuosiluokkakokonaisuudet' | 'perusopetuslaajaalainenosaaminen' | 'perusopetusVuosiluokkakokonaisuus'
   | 'tutkinnonosat_tuodut'| 'tutkinnonosat_pakolliset' | 'tutkinnonosat_paikalliset'
   | 'osaamiskokonaisuus' | 'osaamiskokonaisuus_paa_alue'
   | 'aipe_laajaalaisetosaamiset' | 'aipe_laajaalainenosaaminen' | 'aipeoppiaine' | 'aipevaihe' | 'aipekurssi';
