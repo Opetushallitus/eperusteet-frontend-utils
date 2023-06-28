@@ -4015,5 +4015,7 @@
     "route-perusopetusoppimaara": "Oppimäärä",
     "vuosiluokkakokonaisuuden-poisto-varmistus-teksti": "Poistetaanko oppiaineen vuosiluokkakokonaisuus? Kaikki vuosiluokkakokonaisuuden sisällöt poistetaan.",
     "muokkaa-sisaltoalueita": "Muokkaa sisältöalueita",
-    "muokkaa-tavoitealueita": "Muokkaa tavoitealueita"
+    "muokkaa-tavoitealueita": "Muokkaa tavoitealueita",
+    "opetussuunnitelman-vanha-tekstirakenne-palautettu": "Opetussuunnitelman vanha tekstirakenne palautettu",
+    "palauta-aiempi-tekstirakenne": "Palauta aiempi tekstirakenne"
 }
