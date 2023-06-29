@@ -148,10 +148,6 @@ export default class EpNavbar extends Vue {
     return UiKielet;
   }
 
-  // get naytettaviaTutoriaaleja() {
-  //   return !_.isEmpty(this.tutoriaalistore!.avaimet);
-  // }
-
   get routePath() {
     return _(this.$route?.matched)
       .filter('name')
@@ -167,10 +163,6 @@ export default class EpNavbar extends Vue {
       .uniqBy('muru.name')
       .value();
   }
-
-  // private kaynnistaTutoriaali() {
-  //   this.tutoriaalistore!.setActive(true);
-  // }
 
   private valitseSisaltoKieli(kieli: Kieli) {
     Kielet.setSisaltoKieli(kieli);
