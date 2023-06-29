@@ -171,7 +171,7 @@ export default class EpContent extends Mixins(EpValidation) {
       new TableRow(),
     ];
 
-    if (this.kasiteHandler) {
+    if (this.annettuKasiteHandler) {
       extensions.push(new TermiExtension(this.annettuKasiteHandler));
     }
 
