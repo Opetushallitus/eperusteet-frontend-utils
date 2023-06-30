@@ -36,10 +36,7 @@ const ax = axios.create({
   paramsSerializer: (params: any) => Qs.stringify(params, { arrayFormat: 'repeat' }),
 });
 
-ax.interceptors.request.use((config) => {
-  config.headers['referer'] = 'https://example.com'; // Set the desired referrer URL
-  return config;
-}, axiosHandler('Request error'));
+ax.interceptors.request.use(_.identity, axiosHandler('Request error'));
 ax.interceptors.response.use(successfulResponseHandler(), axiosHandler('Response error'));
 
 // https://github.com/Microsoft/TypeScript/issues/20719
