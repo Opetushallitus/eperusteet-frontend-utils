@@ -62,7 +62,7 @@ export function successfulResponseHandler() {
 
 export async function getCasKayttajaKieli() {
   try {
-    const casKayttaja = _.get(await axios.get(`${location.protocol}//${location.host}/cas/me`), 'data');
+    const casKayttaja = _.get(await axios.get(`${location.protocol}//${location.host}/kayttooikeus-service/cas/me`), 'data');
     return _.get(casKayttaja, 'lang');
   }
   catch (e) {
@@ -73,7 +73,7 @@ export async function getCasKayttajaKieli() {
 
 export async function getCasKayttaja() {
   try {
-    const casKayttaja = await successfulResponseHandler()(await axios.get(`${location.protocol}//${location.host}/cas/me`));
+    const casKayttaja = await successfulResponseHandler()(await axios.get(`${location.protocol}//${location.host}/kayttooikeus-service/cas/me`));
     return _.get(casKayttaja, 'data');
   }
   catch (e) {
