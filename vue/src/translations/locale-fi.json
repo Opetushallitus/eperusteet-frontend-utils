@@ -370,6 +370,7 @@
     "eperusteet-virkailija-linkki": "Virkailijanäkymä",
     "eperusteet-vst": "ePerusteet VST",
     "eperusteet-ylops": "LOPS",
+    "eperusteet-yllapito": "Virkailijatyökalujen ylläpitoasetukset",
     "epimage-plugin-button-label": "Kuva",
     "epimage-plugin-hylatty": "Voit ladata vain jpg- tai png-tyyppisiä kuvia.",
     "epimage-plugin-koko": "Kuvan koko",
@@ -3256,6 +3257,7 @@
     "tile-uusi-pohja": "Luo uusi opetussuunnitelmien pohja",
     "tile-uusi-pohja-kuvaus": "Voit luoda uuden opetussuunnitelmien pohjan.",
     "tile-virheelliset-kuvaus": "Ei virheellisiä perusteita",
+    "tile-yllapito": "Ylläpidon asetukset",
     "tile-wip": "Toteutus kesken...",
     "tiloittain": "Tiloittain",
     "toggle-ohjeteksti": "Näytä ohje",
@@ -4017,5 +4019,6 @@
     "muokkaa-sisaltoalueita": "Muokkaa sisältöalueita",
     "muokkaa-tavoitealueita": "Muokkaa tavoitealueita",
     "opetussuunnitelman-vanha-tekstirakenne-palautettu": "Opetussuunnitelman vanha tekstirakenne palautettu",
-    "palauta-aiempi-tekstirakenne": "Palauta aiempi tekstirakenne"
+    "palauta-aiempi-tekstirakenne": "Palauta aiempi tekstirakenne",
+    "yllapito": "Ylläpito"
 }
