@@ -16,6 +16,9 @@
             <b-row>
               <b-col cols="11">
                 <ep-koodisto-select :store="tavoitealueetKoodisto" v-model="tavoitealue.otsikko" :is-editing="isEditing" :naytaArvo="false">
+                  <template slot="koodisto">
+                    ({{ koodistoNimi }})
+                  </template>
                   <template #default="{ open }">
                     <b-input-group>
                       <b-form-input
@@ -101,7 +104,7 @@
 </template>
 
 <script lang="ts">
-import { Watch, Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import _ from 'lodash';
 import { KoodistoSelectStore } from '../EpKoodistoSelect/KoodistoSelectStore';
 import { Koodisto } from '@shared/api/eperusteet';
@@ -126,6 +129,8 @@ export default class EpTavoitesisaltoalueTavoitealueet extends Vue {
 
   @Prop({ required: false, default: false, type: Boolean })
   private isEditing!: boolean;
+
+  private koodistoNimi: string = 'tavoitealueet';
 
   get tavoitealueet() {
     return this.value;

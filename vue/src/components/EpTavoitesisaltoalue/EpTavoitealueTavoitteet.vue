@@ -12,6 +12,9 @@
               v-model="tavoitteet[tavoiteIndex]"
               :is-editing="true"
               :naytaArvo="false">
+              <template slot="koodisto">
+                ({{ koodistoNimi }})
+              </template>
               <template #default="{ open }">
                 <b-input-group>
                   <EpInput
@@ -53,7 +56,7 @@
 </template>
 
 <script lang="ts">
-import { Watch, Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import _ from 'lodash';
 import { KoodistoSelectStore } from '../EpKoodistoSelect/KoodistoSelectStore';
 import { Koodisto } from '@shared/api/eperusteet';
@@ -76,6 +79,8 @@ import { generateTemporaryKoodiUri } from '@shared/utils/koodi';
 export default class EpTavoitealueTavoitteet extends Vue {
   @Prop({ required: true })
   private value!: any[];
+
+  private koodistoNimi: string = 'tavoitteetlukutaidot';
 
   get tavoitteet() {
     return this.value;

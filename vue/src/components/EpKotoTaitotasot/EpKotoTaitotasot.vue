@@ -17,6 +17,9 @@
             v-model="taitotaso.nimi"
             :is-editing="true"
             :naytaArvo="false">
+            <template slot="koodisto">
+              ({{ koodistoNimi }})
+            </template>
             <template #default="{ open }">
               <b-input-group>
                 <b-form-input
@@ -178,6 +181,8 @@ export default class EpKotoTaitotasot extends Vue {
 
   @Prop({ required: false, type: Array })
   private kuvat!: LiiteDtoWrapper[];
+
+  private koodistoNimi: string = 'kotoutumiskoulutustavoitteet';
 
   get taitotasot() {
     return this.value;
