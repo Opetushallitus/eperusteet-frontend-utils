@@ -19,7 +19,8 @@
             <vaatimus-field v-if="koodisto"
                             :koodisto="koodisto"
                             v-model="inner.vaatimukset[vaatimusIdx]"
-                            :validation="vaatimusValidation(null, vaatimusIdx)" />
+                            :validation="vaatimusValidation(null, vaatimusIdx)"
+                            :koodisto-nimi="tavoitekoodisto"/>
             <EpInput v-else v-model="v.vaatimus" :isEditing="isEditing"/>
           </div>
           <div>
@@ -69,7 +70,8 @@
                   <vaatimus-field v-if="koodisto"
                                   :koodisto="koodisto"
                                   v-model="kohdealue.vaatimukset[vaatimusIdx]"
-                                  :validation="vaatimusValidation(kohdealueIdx, vaatimusIdx)" />
+                                  :validation="vaatimusValidation(kohdealueIdx, vaatimusIdx)"
+                                  :koodisto-nimi="tavoitekoodisto"/>
                   <EpInput v-else v-model="v.vaatimus" :isEditing="isEditing"/>
                 </div>
                 <div>
@@ -169,7 +171,7 @@
 </template>
 
 <script lang="ts">
-import { Watch, Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import EpButton from '../EpButton/EpButton.vue';
 import EpErrorWrapper from '../forms/EpErrorWrapper.vue';
 import EpInput from '../forms/EpInput.vue';
