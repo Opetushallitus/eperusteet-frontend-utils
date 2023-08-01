@@ -162,6 +162,7 @@ export type PerusteprojektinPerusteenosaDto = EperusteetApi.PerusteprojektinPeru
 export type PerusteenMuutostietoDto = EperusteetApi.PerusteenMuutostietoDto;
 export type OppiaineSuppeaDto = EperusteetApi.OppiaineSuppeaDto;
 export type OppiaineenVuosiluokkaKokonaisuusDto = EperusteetApi.OppiaineenVuosiluokkaKokonaisuusDto;
+export type YllapitoDto = EperusteetApi.YllapitoDto;
 
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
