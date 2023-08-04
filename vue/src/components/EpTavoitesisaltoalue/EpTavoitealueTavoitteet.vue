@@ -12,9 +12,6 @@
               v-model="tavoitteet[tavoiteIndex]"
               :is-editing="true"
               :naytaArvo="false">
-              <template slot="koodisto">
-                ({{ koodistoNimi }})
-              </template>
               <template #default="{ open }">
                 <b-input-group>
                   <EpInput
@@ -80,8 +77,6 @@ export default class EpTavoitealueTavoitteet extends Vue {
   @Prop({ required: true })
   private value!: any[];
 
-  private koodistoNimi: string = 'tavoitteetlukutaidot';
-
   get tavoitteet() {
     return this.value;
   }
@@ -100,8 +95,9 @@ export default class EpTavoitealueTavoitteet extends Vue {
     }
 
   private readonly tavoitteetlukutaidotKoodisto = new KoodistoSelectStore({
-    async query(query: string, sivu = 0) {
-      const { data } = (await Koodisto.kaikkiSivutettuna('tavoitteetlukutaidot', query, {
+    koodisto: 'tavoitteetlukutaidot',
+    async query(query: string, sivu = 0, koodisto: string) {
+      const { data } = (await Koodisto.kaikkiSivutettuna(koodisto, query, {
         params: {
           sivu,
           sivukoko: 10,

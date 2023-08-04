@@ -16,9 +16,6 @@
             <b-row>
               <b-col cols="11">
                 <ep-koodisto-select :store="tavoitealueetKoodisto" v-model="tavoitealue.otsikko" :is-editing="isEditing" :naytaArvo="false">
-                  <template slot="koodisto">
-                    ({{ koodistoNimi }})
-                  </template>
                   <template #default="{ open }">
                     <b-input-group>
                       <b-form-input
@@ -130,8 +127,6 @@ export default class EpTavoitesisaltoalueTavoitealueet extends Vue {
   @Prop({ required: false, default: false, type: Boolean })
   private isEditing!: boolean;
 
-  private koodistoNimi: string = 'tavoitealueet';
-
   get tavoitealueet() {
     return this.value;
   }
@@ -141,8 +136,9 @@ export default class EpTavoitesisaltoalueTavoitealueet extends Vue {
   }
 
   private readonly tavoitealueetKoodisto = new KoodistoSelectStore({
-    async query(query: string, sivu = 0) {
-      const { data } = (await Koodisto.kaikkiSivutettuna('tavoitealueet', query, {
+    koodisto: 'tavoitealueet',
+    async query(query: string, sivu = 0, koodisto: string) {
+      const { data } = (await Koodisto.kaikkiSivutettuna(koodisto, query, {
         params: {
           sivu,
           sivukoko: 10,

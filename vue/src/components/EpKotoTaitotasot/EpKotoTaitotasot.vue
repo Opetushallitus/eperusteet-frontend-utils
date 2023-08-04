@@ -17,9 +17,6 @@
             v-model="taitotaso.nimi"
             :is-editing="true"
             :naytaArvo="false">
-            <template slot="koodisto">
-              ({{ koodistoNimi }})
-            </template>
             <template #default="{ open }">
               <b-input-group>
                 <b-form-input
@@ -182,8 +179,6 @@ export default class EpKotoTaitotasot extends Vue {
   @Prop({ required: false, type: Array })
   private kuvat!: LiiteDtoWrapper[];
 
-  private koodistoNimi: string = 'kotoutumiskoulutustavoitteet';
-
   get taitotasot() {
     return this.value;
   }
@@ -197,8 +192,9 @@ export default class EpKotoTaitotasot extends Vue {
   }
 
   private readonly koodisto = new KoodistoSelectStore({
-    async query(query: string, sivu = 0) {
-      const { data } = (await Koodisto.kaikkiSivutettuna('kotoutumiskoulutustavoitteet', query, {
+    koodisto: 'kotoutumiskoulutustavoitteet',
+    async query(query: string, sivu = 0, koodisto: string) {
+      const { data } = (await Koodisto.kaikkiSivutettuna(koodisto, query, {
         params: {
           sivu,
           sivukoko: 10,

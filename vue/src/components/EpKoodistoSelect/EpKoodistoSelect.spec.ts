@@ -11,6 +11,7 @@ describe('EpKoodistoSelect component', () => {
   localVue.use(BootstrapVue);
 
   const store = new KoodistoSelectStore({
+    koodisto: 'test',
     query: jest.fn(async () => {
       return {
         data: [{

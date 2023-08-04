@@ -113,9 +113,6 @@
         <ep-form-content name="liita-tutkinnon-osa-tiedotteeseen">
           <div v-for="(tutkinnonOsa, index) in muokattavaTiedote.tutkinnonosat" :key="'tutkinnonOsa' + index" class="mb-1 d-flex justify-content-center align-items-center">
             <ep-koodisto-select :store="tutkinnonOsaKoodisto" v-model="muokattavaTiedote.tutkinnonosat[index]" class="w-100">
-              <template slot="koodisto">
-                ({{ koodistoTutkinnonosat }})
-              </template>
               <template #default="{ open }">
                 <b-input-group class="w-100 d-flex">
                   <b-form-input :value="$kaanna(tutkinnonOsa.nimi)" disabled></b-form-input>
@@ -139,9 +136,6 @@
         <ep-form-content name="liita-osaamisala-tiedotteeseen">
           <div v-for="(osaamisala, index) in muokattavaTiedote.osaamisalat" :key="'osaamisala' + index" class="mb-1 d-flex justify-content-center align-items-center">
             <ep-koodisto-select :store="osaamisalaKoodisto" v-model="muokattavaTiedote.osaamisalat[index]" class="w-100">
-              <template slot="koodisto">
-                ({{ koodistoOsaamisala }})
-              </template>
               <template #default="{ open }">
                 <b-input-group class="w-100 d-flex">
                   <b-form-input :value="$kaanna(osaamisala.nimi)" disabled></b-form-input>
@@ -326,9 +320,6 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
   private muokkaavanKayttajanNimi = '';
   private muokattavaTiedote: TiedoteDto = {};
   private editing: boolean = false;
-
-  private koodistoOsaamisala: string = 'osaamisala';
-  private koodistoTutkinnonosat: string = 'tutkinnonosat';
 
   lisaaTiedote() {
     this.muokkaa({});
@@ -554,8 +545,9 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
   }
 
   private readonly tutkinnonOsaKoodisto = new KoodistoSelectStore({
-    async query(query: string, sivu = 0) {
-      const { data } = await Koodisto.kaikkiSivutettuna('tutkinnonosat', query, {
+    koodisto: 'tutkinnonosat',
+    async query(query: string, sivu = 0, koodisto: string) {
+      const { data } = await Koodisto.kaikkiSivutettuna(koodisto, query, {
         params: {
           sivu,
           sivukoko: 10,
@@ -580,8 +572,9 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
   }
 
   private readonly osaamisalaKoodisto = new KoodistoSelectStore({
-    async query(query: string, sivu = 0) {
-      const { data } = await Koodisto.kaikkiSivutettuna('osaamisala', query, {
+    koodisto: 'osaamisala',
+    async query(query: string, sivu = 0, koodisto: string) {
+      const { data } = await Koodisto.kaikkiSivutettuna(koodisto, query, {
         params: {
           sivu,
           sivukoko: 10,

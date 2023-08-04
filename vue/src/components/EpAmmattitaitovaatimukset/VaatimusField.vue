@@ -1,9 +1,6 @@
 <template>
   <div>
     <ep-koodisto-select :store="koodisto" v-model="value.koodi" v-if="value">
-      <template slot="koodisto">
-        ({{ koodistoNimi }})
-      </template>
       <template #default="{ open }">
         <div class="d-flex flex-column">
           <div>
@@ -95,9 +92,6 @@ export default class VaatimusField extends Vue {
 
   @Prop({ required: true })
   private koodisto!: KoodistoSelectStore;
-
-  @Prop({ required: true })
-  private koodistoNimi!: string;
 
   @Prop({ default: null })
   private validation!: any;

@@ -13,7 +13,7 @@
             @hidden="alusta">
       <template #modal-header>
         <slot name="header">
-          <h2>{{ $t('hae-koodistosta') }} <slot name="koodisto"></slot></h2>
+          <h2>{{ $t('hae-koodistosta') }} ({{koodisto}})</h2>
         </slot>
       </template>
 
@@ -267,6 +267,10 @@ export default class EpKoodistoSelect extends Vue {
       }], field => _.includes(this.defaultFields, field.key)),
       ...(this.additionalFields ? this.additionalFields : []),
     ];
+  }
+
+  get koodisto() {
+    return this.store.koodisto.value;
   }
 }
 </script>
