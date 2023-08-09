@@ -192,8 +192,9 @@ export default class EpKotoTaitotasot extends Vue {
   }
 
   private readonly koodisto = new KoodistoSelectStore({
-    async query(query: string, sivu = 0) {
-      const { data } = (await Koodisto.kaikkiSivutettuna('kotoutumiskoulutustavoitteet', query, {
+    koodisto: 'kotoutumiskoulutustavoitteet',
+    async query(query: string, sivu = 0, koodisto: string) {
+      const { data } = (await Koodisto.kaikkiSivutettuna(koodisto, query, {
         params: {
           sivu,
           sivukoko: 10,

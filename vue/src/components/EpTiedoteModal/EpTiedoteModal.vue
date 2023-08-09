@@ -545,8 +545,9 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
   }
 
   private readonly tutkinnonOsaKoodisto = new KoodistoSelectStore({
-    async query(query: string, sivu = 0) {
-      const { data } = await Koodisto.kaikkiSivutettuna('tutkinnonosat', query, {
+    koodisto: 'tutkinnonosat',
+    async query(query: string, sivu = 0, koodisto: string) {
+      const { data } = await Koodisto.kaikkiSivutettuna(koodisto, query, {
         params: {
           sivu,
           sivukoko: 10,
@@ -571,8 +572,9 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
   }
 
   private readonly osaamisalaKoodisto = new KoodistoSelectStore({
-    async query(query: string, sivu = 0) {
-      const { data } = await Koodisto.kaikkiSivutettuna('osaamisala', query, {
+    koodisto: 'osaamisala',
+    async query(query: string, sivu = 0, koodisto: string) {
+      const { data } = await Koodisto.kaikkiSivutettuna(koodisto, query, {
         params: {
           sivu,
           sivukoko: 10,

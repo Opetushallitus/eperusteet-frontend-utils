@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts">
-import { Watch, Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import EpButton from '../EpButton/EpButton.vue';
 import EpInput from '../forms/EpInput.vue';
 import EpErrorWrapper from '../forms/EpErrorWrapper.vue';
@@ -70,8 +70,6 @@ import EpExternalLink from '../EpExternalLink/EpExternalLink.vue';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import EpKoodistoSelect from '../EpKoodistoSelect/EpKoodistoSelect.vue';
 import { KoodistoSelectStore } from '@shared/components/EpKoodistoSelect/KoodistoSelectStore';
-
-import { BrowserStore } from '../../stores/BrowserStore';
 import { metadataToLocalized } from '../../utils/perusteet';
 import { delay } from '../../utils/delay';
 import _ from 'lodash';

@@ -22,6 +22,7 @@ describe('VaatimusField', () => {
 
   test('Text input', async () => {
     const editoitava = {
+      koodisto: 'test',
       query: jest.fn(async (query: string, sivu = 0) => {
         return koodit as any;
       }),
@@ -57,6 +58,7 @@ describe('VaatimusField', () => {
 
   test('Render vaatimus when koodi name not present', async () => {
     const editoitava = {
+      koodisto: 'test',
       query: jest.fn(async (query: string, sivu = 0) => koodit as any),
       data: computed(() => koodit),
     };
@@ -93,6 +95,7 @@ describe('VaatimusField', () => {
 
   test('Renders koodi', async () => {
     const editoitava = {
+      koodisto: 'test',
       query: jest.fn(async (query: string, sivu = 0) => koodit as any),
       data: computed(() => koodit),
     };
@@ -129,6 +132,7 @@ describe('VaatimusField', () => {
 
   test('Autocompletion', async () => {
     const editoitava = {
+      koodisto: 'test',
       query: jest.fn(async (query: string, sivu = 0) => {
         return koodit as any;
       }),
