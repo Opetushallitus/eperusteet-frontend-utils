@@ -124,7 +124,6 @@ export type Lops2019OppiaineKaikkiDto = YlopsApi.Lops2019OppiaineKaikkiDto;
 export type Lops2019PaikallinenLaajaAlainenDto = YlopsApi.Lops2019PaikallinenLaajaAlainenDto;
 export type Lops2019PaikallinenOppiaineDto = YlopsApi.Lops2019PaikallinenOppiaineDto;
 export type Lops2019PoistettuDto = YlopsApi.Lops2019PoistettuDto;
-export type Lops2019ValidointiDto = YlopsApi.Lops2019ValidointiDto;
 export type KommenttiDto = YlopsApi.Kommentti2019Dto;
 export type Matala = YlopsApi.Matala;
 export type MuokkaustietoKayttajallaDto = YlopsApi.MuokkaustietoKayttajallaDto;

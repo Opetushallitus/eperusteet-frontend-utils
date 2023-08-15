@@ -23,11 +23,13 @@ import { Prop, Component, Vue } from 'vue-property-decorator';
 import EpToggle from '@shared/components/forms/EpToggle.vue';
 import VirheHuomautukset from './VirheHuomautukset.vue';
 import IkoniTeksti from './IkoniTeksti.vue';
+import { NavigationNodeDto } from '@shared/tyypit';
 
 export interface VirheHuomautus {
   kuvaus: string;
   nimi: { [key: string]: string; };
   route: any;
+  navigationNode: NavigationNodeDto;
 }
 
 interface Validointi {
