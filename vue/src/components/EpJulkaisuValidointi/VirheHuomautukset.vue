@@ -3,11 +3,13 @@
     <div class="validointi p-2" v-for="(virhehuomautus, index) in virhehuomautukset" :key="'virheet'+index">
       <router-link v-if="virhehuomautus.route" :to="virhehuomautus.route">
         <IkoniTeksti :tyyppi="tyyppi">
-          {{$t(virhehuomautus.kuvaus)}} <span v-if="virhehuomautus.navigationNode.label">({{$kaanna(virhehuomautus.navigationNode.label)}})</span>
+          {{$t(virhehuomautus.kuvaus)}}
+          <span v-if="virhehuomautus.navigationNode && virhehuomautus.navigationNode.label">({{$kaanna(virhehuomautus.navigationNode.label)}})</span>
         </IkoniTeksti>
       </router-link>
       <IkoniTeksti v-else :tyyppi="tyyppi">
-        {{$t(virhehuomautus.kuvaus)}} <span v-if="virhehuomautus.navigationNode.label">({{$kaanna(virhehuomautus.navigationNode.label)}})</span>
+        {{$t(virhehuomautus.kuvaus)}}
+        <span v-if="virhehuomautus.navigationNode &&  virhehuomautus.navigationNode.label">({{$kaanna(virhehuomautus.navigationNode.label)}})</span>
       </IkoniTeksti>
     </div>
   </div>
