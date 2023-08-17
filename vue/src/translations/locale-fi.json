@@ -2351,6 +2351,7 @@
     "peruste-validointi-laajaalainen-osaaminen-nimi": "Kaikkien laaja-alaisten osaamisten nimiä ei ole lokalisoitu",
     "peruste-validointi-nimi": "Perusteen nimeä ei ole lokalisoitu",
     "peruste-validointi-oppiaine-kohdealue": "Kaikkien oppiaineiden tavoitealueita ei ole lokalisoitu",
+    "peruste-validointi-oppiaine-koodi": "Kaikkien oppiaineiden koodia ei ole annettu",
     "peruste-validointi-oppiaine-nimi": "Kaikkien oppiaineiden nimiä ei ole lokalisoitu",
     "peruste-validointi-oppiaine-sisalto": "Kaikkien oppiaineiden sisältöä ei ole lokalisoitu",
     "peruste-validointi-oppiaine-sisaltoalue": "Kaikkien oppiaineiden sisältöalueita ei ole lokalisoitu",
