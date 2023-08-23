@@ -263,10 +263,10 @@ const stateToKt = _.zipObject(
 
 export const koulutustyypitPdfTukiOpintopolku = [
   'koulutustyyppi_1', 'koulutustyyppi_5', 'koulutustyyppi_6', 'koulutustyyppi_11',
-  'koulutustyyppi_12', 'koulutustyyppi_15', 'koulutustyyppi_17', 'koulutustyyppi_18',
+  'koulutustyyppi_12', 'koulutustyyppi_15', 'koulutustyyppi_18',
   'koulutustyyppi_20', 'koulutustyyppi_999907', 'koulutustyyppi_10', 'koulutustyyppi_40',
   'koulutustyyppi_35', 'koulutustyyppi_30',
-  // 'koulutustyyppi_2', 'koulutustyyppi_14', 'koulutustyyppi_16', 'koulutustyyppi_23',
+  // 'koulutustyyppi_17', 'koulutustyyppi_2', 'koulutustyyppi_14', 'koulutustyyppi_16', 'koulutustyyppi_23',
 ];
 
 export const koulutustyypitPdfTuki = [
