@@ -4033,5 +4033,11 @@
     "validointi-kategoria-pertekstiuste": "Teksti",
     "validointi-kategoria-kielisisalto": "Kielisisältö",
     "validointi-kategoria-rakenne": "Rakenne",
-    "validointi-kategoria-koodisto": "Koodisto"
+    "validointi-kategoria-koodisto": "Koodisto",
+    "poista-arvioinnin-kohdealue": "Poista arvioinnin kohdealue",
+    "lisaa-arvioinnin-kohdealue": "Lisää arvioinnin kohdealue",
+    "poista-arvioinnin-kohde": "Poista arvioinnin kohde",
+    "lisaa-arvioinnin-kohdealueen-arvioinnin-kohde": "Lisää arvioinnin kohde",
+    "lisaa-tutkinnon-osa-kohtainen-arviointi": "Lisää tutkinnon osa -kohtainen arviointi",
+    "poista-geneerinen-arviointi": "Poista geneerinen arviointi"
 }
