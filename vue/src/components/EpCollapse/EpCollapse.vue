@@ -4,6 +4,9 @@
     <div :class="classess" v-if="!disableHeader" :style="styles.collapse" @click="togglefull ? toggle(): null" @keyup.enter="togglefull ? toggle(): null">
       <!-- Button tagia ei voida käyttää, sillä ml-auto ei toimi.-->
       <!-- Käytetään button rolea saavutettavuuden takaamiseksi.-->
+      <div v-if="toggled && contentFirst">
+        <slot></slot>
+      </div>
       <div v-if="hasHeaderSlot"
            class="collapse-button d-flex align-items-center mb-2"
            @click="!togglefull ? toggle(): null"
@@ -24,13 +27,13 @@
           </div>
         </div>
         <slot name="icon" :toggled="toggled" v-if="chevronLocation === 'right'  && collapsable">
-          <div class="ml-auto ">
+          <div class="ml-auto">
             <fas fixed-width icon="chevron-up" v-if="toggled"></fas>
             <fas fixed-width icon="chevron-down" v-else></fas>
           </div>
         </slot>
       </div>
-      <div v-if="toggled">
+      <div v-if="toggled && !contentFirst">
         <slot></slot>
       </div>
     </div>
@@ -72,6 +75,9 @@ export default class EpCollapse extends Vue {
 
   @Prop({ default: false })
   private first!: boolean;
+
+  @Prop({ default: false })
+  private contentFirst!: boolean;
 
   private toggled = false;
 

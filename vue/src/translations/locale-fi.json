@@ -4039,5 +4039,11 @@
     "poista-arvioinnin-kohde": "Poista arvioinnin kohde",
     "lisaa-arvioinnin-kohdealueen-arvioinnin-kohde": "Lisää arvioinnin kohde",
     "lisaa-tutkinnon-osa-kohtainen-arviointi": "Lisää tutkinnon osa -kohtainen arviointi",
-    "poista-geneerinen-arviointi": "Poista geneerinen arviointi"
+    "poista-geneerinen-arviointi": "Poista geneerinen arviointi",
+    "lukiokoulutuksen-valtakunnalliset-perusteet": "Lukiokoulutuksen valtakunnalliset perusteet sekä koulutuksen järjestäjien julkaisemat paikalliset opetussuunnitelmat.",
+    "nayta-ei-voimassa-olevat-perusteet": "Näytä ei voimassa olevat perusteet",
+    "piilota-ei-voimassa-olevat-perusteet": "Piilota ei voimassa olevat perusteet",
+    "ei-voimassa": "Ei voimassa",
+    "voit-hakea-opetussuunnitelman": "Voit hakea opetussuunnitelman, kunnan, koulutuksen järjestäjän tai oppilaitoksen nimellä.",
+    "hae-opetussuunnitelmaa": "Hae opetussuunnitelmaa"
 }
