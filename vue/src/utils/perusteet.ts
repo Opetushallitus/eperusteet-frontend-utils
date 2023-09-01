@@ -26,12 +26,14 @@ export const EperusteetKoulutustyypit = Object.freeze([
 ]);
 
 export function isLukio(koulutustyyppi: string) {
-  return _.includes([
-    'koulutustyyppi_2',
-    'koulutustyyppi_14',
-    'koulutustyyppi_23',
-  ], koulutustyyppi);
+  return _.includes(LukioKoulutustyypit, koulutustyyppi);
 }
+
+export const LukioKoulutustyypit = [
+  'koulutustyyppi_2',
+  'koulutustyyppi_14',
+  'koulutustyyppi_23',
+];
 
 export const AmmatillisetKoulutustyypit = [
   'koulutustyyppi_1',
@@ -491,6 +493,19 @@ export function muuKoulutus() {
 
 export function koulutustyypinRyhma(koulutustyyppi) {
   return _.find(_.keys(EperusteetKoulutustyyppiRyhmat), ryhma => _.includes(EperusteetKoulutustyyppiRyhmat[ryhma], koulutustyyppi));
+}
+
+export function ryhmanKoulutustyypit(koulutustyyppi) {
+  if (_.includes(LukioKoulutustyypit, koulutustyyppi)) {
+    return LukioKoulutustyypit;
+  }
+  if (_.includes(AmmatillisetKoulutustyypit, koulutustyyppi)) {
+    return AmmatillisetKoulutustyypit;
+  }
+  if (_.includes(VapaasivistystyoKoulutustyypit, koulutustyyppi)) {
+    return VapaasivistystyoKoulutustyypit;
+  }
+  return [koulutustyyppi];
 }
 
 export function colorize(topic: string) {
