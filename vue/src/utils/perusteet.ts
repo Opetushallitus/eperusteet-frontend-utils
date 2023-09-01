@@ -49,6 +49,13 @@ export const VapaasivistystyoKoulutustyypit = [
   'koulutustyyppi_35',
 ];
 
+export const PerusopetusKoulutustyypit = [
+  'koulutustyyppi_16',
+  'koulutustyyppi_22',
+  'koulutustyyppi_6',
+  'koulutustyyppi_17',
+];
+
 export const yleissivistavatKoulutustyypit = [
   'koulutustyyppi_20',
   'koulutustyyppi_15',
@@ -109,27 +116,12 @@ export const EperusteetKoulutustyyppiRyhmat = {
   [Toteutus.ESIOPETUS]: [
     'koulutustyyppi_15',
   ],
-  [Toteutus.PERUSOPETUS]: [
-    'koulutustyyppi_16',
-    'koulutustyyppi_22',
-    'koulutustyyppi_6',
-    'koulutustyyppi_17',
-  ],
+  [Toteutus.PERUSOPETUS]: PerusopetusKoulutustyypit,
   [Toteutus.TAITEENPERUSOPETUS]: [
     'koulutustyyppi_999907',
   ],
-  [Toteutus.LUKIOKOULUTUS]: [
-    'koulutustyyppi_2',
-    'koulutustyyppi_23',
-    'koulutustyyppi_14',
-  ],
-  [Toteutus.AMMATILLINEN]: [
-    'koulutustyyppi_1',
-    'koulutustyyppi_11',
-    'koulutustyyppi_12',
-    'koulutustyyppi_5',
-    'koulutustyyppi_18',
-  ],
+  [Toteutus.LUKIOKOULUTUS]: LukioKoulutustyypit,
+  [Toteutus.AMMATILLINEN]: AmmatillisetKoulutustyypit,
   [Toteutus.VAPAASIVISTYSTYO]: [
     'koulutustyyppi_10',
     'koulutustyyppi_35',
@@ -495,7 +487,11 @@ export function koulutustyypinRyhma(koulutustyyppi) {
   return _.find(_.keys(EperusteetKoulutustyyppiRyhmat), ryhma => _.includes(EperusteetKoulutustyyppiRyhmat[ryhma], koulutustyyppi));
 }
 
+// etsitään koulutustyypillä ryhmä ja palautetaan kaikki ryhmän koulutustyypit
 export function ryhmanKoulutustyypit(koulutustyyppi) {
+  if (_.includes(PerusopetusKoulutustyypit, koulutustyyppi)) {
+    return PerusopetusKoulutustyypit;
+  }
   if (_.includes(LukioKoulutustyypit, koulutustyyppi)) {
     return LukioKoulutustyypit;
   }
