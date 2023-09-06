@@ -11,7 +11,7 @@
         </div>
         <div class="muokkausaika">
           <slot name="muokkausaika" :tieto="tieto">
-            <span v-if="tieto.muokattu">{{$sdt(tieto.muokattu)}}</span>
+            <span v-if="tieto.muokattu">{{$sd(tieto.muokattu)}}</span>
           </slot>
         </div>
       </div>
@@ -40,11 +40,12 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Mixins, Watch } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 import _ from 'lodash';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import EpButton from '../EpButton/EpButton.vue';
 import { onkoUusi } from '@shared/utils/tiedote';
+
 export interface JulkiRivi {
   otsikko?: { [key: string]: string; } | string;
   uusi: boolean;
@@ -59,23 +60,30 @@ export interface JulkiRivi {
 export default class EpJulkiLista extends Vue {
   @Prop({ required: true })
   private tiedot!: JulkiRivi[];
+
   @Prop({ required: false, default: null })
   private tietoMaara!: number;
+
   @Prop({ required: false, default: 'lisahaku' })
   private listausTyyppi!: 'sivutus' | 'lisahaku';
+
   private naytettavaTietoMaara = 3;
   private sivu = 1;
+
   mounted() {
     if (this.tietoMaara) {
       this.naytettavaTietoMaara = this.tietoMaara;
     }
   }
+
   get hasClickEvent() {
     return this.$listeners && this.$listeners.avaaTieto;
   }
+
   get tiedotSize() {
     return _.size(this.tiedot);
   }
+
   get tiedotFiltered() {
     if (this.tiedot) {
       return _.chain(this.tiedot)
@@ -90,6 +98,7 @@ export default class EpJulkiLista extends Vue {
         .value();
     }
   }
+
   avaaTieto(tieto: JulkiRivi) {
     this.$emit('avaaTieto', tieto);
   }

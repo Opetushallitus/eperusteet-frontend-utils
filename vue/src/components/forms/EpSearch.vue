@@ -79,12 +79,13 @@ export default class EpSearch extends Vue {
 
   .form-control {
     padding-left: 2.375rem;
-    border-radius: 15px;
-    background: #F3F3F3;
-    border-width: 0;
+    border-radius: 10px;
+    background: #F7F7F7;
+    border-width: 0.1rem;
+    border-color: #DDD;
 
     &::placeholder {
-      color: #aaa;
+      color: #888;
     }
 
   }
@@ -98,7 +99,7 @@ export default class EpSearch extends Vue {
     line-height: 2.375rem;
     text-align: center;
     pointer-events: none;
-    color: #aaa;
+    color: #555;
   }
 }
 

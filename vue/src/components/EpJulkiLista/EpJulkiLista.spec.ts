@@ -1,4 +1,4 @@
-import { mount, createLocalVue, shallowMount } from '@vue/test-utils';
+import { mount, createLocalVue } from '@vue/test-utils';
 import EpJulkiLista from './EpJulkiLista.vue';
 import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
@@ -14,7 +14,7 @@ describe('EpJulkiLista component', () => {
       mocks: {
         $t: x => x,
         $kaanna: x => x,
-        $sdt: x => x,
+        $sd: x => x,
       },
       propsData: {
         tiedot: [],

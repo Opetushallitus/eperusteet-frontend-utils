@@ -1,5 +1,4 @@
 import { mount, createLocalVue, RouterLinkStub } from '@vue/test-utils';
-import { findContaining } from '../../utils/jestutils';
 import EpKayttaja from './EpKayttaja.vue';
 import { Kieli } from '../../tyypit';
 import { Kaannos } from '../../plugins/kaannos';
