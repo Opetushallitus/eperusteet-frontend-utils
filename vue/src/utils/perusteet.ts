@@ -368,6 +368,10 @@ export function isPerusteVanhaLukio(peruste): boolean {
     || (peruste.koulutustyyppi === Koulutustyyppi.lukiovalmistavakoulutus && _.toLower(peruste.toteutus) !== KoulutustyyppiToteutus.lops2019);
 }
 
+export function isVstLukutaito(koulutustyyppi): boolean {
+  return koulutustyyppi === 'koulutustyyppi_35';
+}
+
 export function koulutustyyppiTheme(koulutustyyppi: string) {
   return themes[koulutustyyppi] || koulutustyyppi || 'muu';
 }

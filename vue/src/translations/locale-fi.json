@@ -4045,9 +4045,13 @@
     "esiopetuksen-valtakunnalliset-perusteet": "Esiopetuksen valtakunnalliset perusteet sekä koulutuksen järjestäjien julkaisemat paikalliset opetussuunnitelmat.",
     "perusopetuksen-valtakunnalliset-perusteet": "Perusopetuksen valtakunnalliset perusteet sekä koulutuksen järjestäjien julkaisemat paikalliset opetussuunnitelmat.",
     "taiteen-valtakunnalliset-perusteet": "Taiteen perusopetuksen valtakunnalliset perusteet sekä koulutuksen järjestäjien julkaisemat paikalliset opetussuunnitelmat.",
+    "vapaan-sivistystyon-valtakunnalliset-perusteet": "Vapaan sivistystyön valtakunnalliset perusteet sekä koulutuksen järjestäjien julkaisemat paikalliset opetussuunnitelmat.",
     "nayta-ei-voimassa-olevat-perusteet": "Näytä ei voimassa olevat perusteet",
     "piilota-ei-voimassa-olevat-perusteet": "Piilota ei voimassa olevat perusteet",
     "ei-voimassa": "Ei voimassa",
-    "voit-hakea-opetussuunnitelman": "Voit hakea opetussuunnitelman, kunnan, koulutuksen järjestäjän tai oppilaitoksen nimellä.",
-    "hae-opetussuunnitelmaa": "Hae opetussuunnitelmaa"
+    "voit-hakea-opetussuunnitelman-yleissivistava": "Voit hakea opetussuunnitelman, kunnan, koulutuksen järjestäjän tai oppilaitoksen nimellä.",
+    "voit-hakea-opetussuunnitelman-vst": "Voit hakea opetussuunnitelman tai organisaation / oppilaitoksen nimellä.",
+    "hae-opetussuunnitelmaa": "Hae opetussuunnitelmaa",
+    "valtakunnalliset-perusteet-ja-suositukset": "Valtakunnalliset perusteet ja suositukset",
+    "tulossa-voimaan": "Tulossa voimaan"
 }
