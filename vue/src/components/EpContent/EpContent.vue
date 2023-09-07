@@ -291,17 +291,17 @@ export default class EpContent extends Mixins(EpValidation) {
   padding: 0;
   word-break: break-word;
 
-  /deep/ abbr {
+  ::v-deep abbr {
     text-decoration: none !important;
     border-bottom: 1px dotted #999;
     cursor: help;
   }
 
-  /deep/ .form-control {
+  ::v-deep .form-control {
     height: auto !important;
   }
 
-  /deep/ table {
+  ::v-deep table {
     border-collapse: collapse;
     border-color: #999;
     border-spacing: 1px;
@@ -318,34 +318,34 @@ export default class EpContent extends Mixins(EpValidation) {
     }
   }
 
-  /deep/ abbr.virheellinen {
+  ::v-deep abbr.virheellinen {
     color: $invalid;
   }
 
-  /deep/ .form-control.ProseMirror {
+  ::v-deep .form-control.ProseMirror {
     border-top-right-radius: 0;
     border-top-left-radius: 0;
   }
 
-  /deep/ [contenteditable]:focus {
+  ::v-deep [contenteditable]:focus {
     outline: none !important;
     box-shadow: none !important;
   }
 
-  /deep/ .tableWrapper .selectedCell {
+  ::v-deep .tableWrapper .selectedCell {
     background-color: $gray-lighten-5;
   }
 
-  .content-invalid /deep/ .form-control {
+  .content-invalid ::v-deep .form-control {
     border-color: $invalid;
   }
 
-  .content-valid /deep/ .form-control {
+  .content-valid ::v-deep .form-control {
     border-color: $valid;
   }
 
   // Alleviivataan editorissa oleva virheellinen linkki, jolla ei ole hreffiä.
-  /deep/ a:not([href]):not([class]) {
+  ::v-deep a:not([href]):not([class]) {
     text-decoration: underline;
     text-decoration-style: dotted;
     text-decoration-color: red;
@@ -353,8 +353,8 @@ export default class EpContent extends Mixins(EpValidation) {
 }
 
 // Piilotettu Bootstrapissa oletuksena
-/deep/ .invalid-feedback,
-/deep/ .valid-feedback {
+::v-deep .invalid-feedback,
+::v-deep .valid-feedback {
   display: block;
 }
 

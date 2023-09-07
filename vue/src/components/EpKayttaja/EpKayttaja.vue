@@ -324,7 +324,7 @@ export default class EpKayttaja extends Vue {
     }
   }
 
-  /deep/ .ep-collapse {
+  ::v-deep .ep-collapse {
     padding-top: 0;
     padding-bottom: 0;
   }
@@ -335,7 +335,7 @@ export default class EpKayttaja extends Vue {
     white-space: nowrap;
     overflow: hidden;
 
-    /deep/ .dropdown-item {
+    ::v-deep .dropdown-item {
       padding: 0.25rem 1rem;
     }
 
@@ -354,16 +354,16 @@ export default class EpKayttaja extends Vue {
     font-weight: normal;
   }
 
-  /deep/ .dropdown-menu {
+  ::v-deep .dropdown-menu {
     padding: 0;
     color: #000000;
   }
 
-  /deep/ .dropdown-divider {
+  ::v-deep .dropdown-divider {
     margin: 0;
   }
 
-  /deep/ .dropdown-item {
+  ::v-deep .dropdown-item {
     padding: 0.5rem 1rem;
     color: #000000;
     white-space: nowrap;
@@ -371,15 +371,15 @@ export default class EpKayttaja extends Vue {
     text-overflow: ellipsis;
   }
 
-  /deep/ .dropdown-item:disabled {
+  ::v-deep .dropdown-item:disabled {
     color: inherit;
   }
 
-  /deep/ .dropdown-item:hover {
+  ::v-deep .dropdown-item:hover {
     background-color: inherit;
   }
 
-  /deep/ .dropdown-item:active {
+  ::v-deep .dropdown-item:active {
     color: inherit;
     background-color: inherit;
   }

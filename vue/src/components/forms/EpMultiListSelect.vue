@@ -227,64 +227,64 @@ export default class EpMultiListSelect extends Mixins(EpValidation) {
     cursor: default;
   }
 
-  /deep/ .multiselect__tags {
+  ::v-deep .multiselect__tags {
     border: 2px solid #E0E0E1;
     border-radius: 10px;
     font-size: 1rem;
     background-color: $white;
   }
 
-  /deep/ .multiselect__element {
+  ::v-deep .multiselect__element {
     margin: 0px;
     padding: 0px;
     line-height: 1rem;
   }
 
-  /deep/ .multiselect__option {
+  ::v-deep .multiselect__option {
     padding: 0px;
     margin: 0px;
     background-color: $white;
     color: $black;
   }
 
-  /deep/ .multiselect__option div {
+  ::v-deep .multiselect__option div {
     padding: 12px;
     margin: 0px;
   }
 
-  /deep/ .multiselect__option div.child {
+  ::v-deep .multiselect__option div.child {
     padding-left: 35px;
   }
 
-  /deep/ .multiselect__option--highlight div {
+  ::v-deep .multiselect__option--highlight div {
     background-color: $blue-lighten-1;
     color: $white;
   }
 
-  /deep/ .multiselect__option .unselectable {
+  ::v-deep .multiselect__option .unselectable {
     background-color: $white;
     color: $gray-lighten-1;
   }
 
-  /deep/ .is-invalid .multiselect__content-wrapper {
+  ::v-deep .is-invalid .multiselect__content-wrapper {
     border-color: #dc3545;
   }
 
-  /deep/ .is-valid .multiselect__content-wrapper {
+  ::v-deep .is-valid .multiselect__content-wrapper {
     border-color: $valid;
   }
 
-  /deep/ .is-invalid .multiselect__tags {
+  ::v-deep .is-invalid .multiselect__tags {
     border-color: #dc3545;
   }
 
-  /deep/ .is-valid .multiselect__tags {
+  ::v-deep .is-valid .multiselect__tags {
     border-color: $valid;
   }
 
   // Piilotettu Bootstrapissa oletuksena
-  /deep/ .invalid-feedback,
-  /deep/ .valid-feedback {
+  ::v-deep .invalid-feedback,
+  ::v-deep .valid-feedback {
     display: block;
   }
 
