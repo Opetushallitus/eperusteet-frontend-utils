@@ -39,6 +39,10 @@ export default class EpVoimassaoloFilter extends Vue {
   get queryData() {
     return this.value;
   }
+
+  set queryData(val) {
+    this.$emit('input', val);
+  }
 }
 </script>
 
