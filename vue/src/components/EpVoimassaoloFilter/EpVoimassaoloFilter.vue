@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 import EpToggle from '@shared/components/forms/EpToggle.vue';
 
 @Component({
@@ -34,15 +34,10 @@ import EpToggle from '@shared/components/forms/EpToggle.vue';
 })
 export default class EpVoimassaoloFilter extends Vue {
   @Prop({ required: true })
-  private query!: any;
+  private value!: any;
 
   get queryData() {
-    return this.query;
-  }
-
-  @Watch('queryData', { deep: true })
-  onQueryChanged() {
-    this.$emit('voimassaoloFilterChange', this.query);
+    return this.value;
   }
 }
 </script>
