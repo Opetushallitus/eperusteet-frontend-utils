@@ -3,7 +3,8 @@
         class="material-icons"
         :style="dynstyle"
         :title="$t(kind)"
-        :class="spanClass">
+        :class="spanClass"
+        aria-hidden="true">
         circle
     <b-popover v-if="tooltip"
                :target="() => $refs['ball']"

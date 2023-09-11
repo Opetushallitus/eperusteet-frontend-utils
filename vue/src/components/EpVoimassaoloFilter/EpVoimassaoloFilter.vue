@@ -58,6 +58,7 @@ export default class EpVoimassaoloFilter extends Vue {
       border: 1px solid $gray-lighten-8;
       border-radius: 6px;
       margin-right: 7px;
+      margin-bottom: 5px;
     }
   }
 </style>
