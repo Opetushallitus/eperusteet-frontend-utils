@@ -4046,12 +4046,17 @@
     "perusopetuksen-valtakunnalliset-perusteet": "Perusopetuksen valtakunnalliset perusteet sekä koulutuksen järjestäjien julkaisemat paikalliset opetussuunnitelmat.",
     "taiteen-valtakunnalliset-perusteet": "Taiteen perusopetuksen valtakunnalliset perusteet sekä koulutuksen järjestäjien julkaisemat paikalliset opetussuunnitelmat.",
     "vapaan-sivistystyon-valtakunnalliset-perusteet": "Vapaan sivistystyön valtakunnalliset perusteet sekä koulutuksen järjestäjien julkaisemat paikalliset opetussuunnitelmat.",
+    "tuvan-valtakunnalliset-perusteet": "TUVA:n valtakunnalliset perusteet sekä koulutuksen järjestäjien julkaisemat paikalliset toteutussuunnitelmat.",
+    "kotouttamiskoulutuksen-valtakunnalliset-perusteet": "Kotoutumiskoulutuksen valtakunnalliset perusteet sekä koulutuksen järjestäjien julkaisemat paikalliset opetussuunnitelmat.",
+    "jatkuvan-oppimisen-opetussuunnitelmat": "JOTPA:n eli Jatkuvan oppimisen ja työllisyyden palvelukeskuksen rahoittaman koulutuksen opetussuunnitelmat.",
     "nayta-ei-voimassa-olevat-perusteet": "Näytä ei voimassa olevat perusteet",
     "piilota-ei-voimassa-olevat-perusteet": "Piilota ei voimassa olevat perusteet",
     "ei-voimassa": "Ei voimassa",
     "voit-hakea-opetussuunnitelman-yleissivistava": "Voit hakea opetussuunnitelman, kunnan, koulutuksen järjestäjän tai oppilaitoksen nimellä.",
-    "voit-hakea-opetussuunnitelman-vst": "Voit hakea opetussuunnitelman tai organisaation / oppilaitoksen nimellä.",
+    "voit-hakea-opetussuunnitelman": "Voit hakea opetussuunnitelman tai organisaation / oppilaitoksen nimellä.",
+    "voit-hakea-toteutussuunnitelman": "Voit hakea toteutussuunnitelman tai organisaation / oppilaitoksen nimellä.",
     "hae-opetussuunnitelmaa": "Hae opetussuunnitelmaa",
     "valtakunnalliset-perusteet-ja-suositukset": "Valtakunnalliset perusteet ja suositukset",
-    "tulossa-voimaan": "Tulossa voimaan"
+    "tulossa-voimaan": "Tulossa voimaan",
+    "voit-hakea-tutkintoa-nimella": "Voit hakea tutkintoa nimellä, tutkintonimikkeellä, osaamisalalla tai tutkinnon osalla."
 }
