@@ -137,7 +137,6 @@ export interface OpetussuunnitelmaQuery {
   sivukoko?: number;
   nimi?: string;
   kieli?: string;
-  organisaatioRyhma?: boolean,
   oppilaitosTyyppiKoodiUri?: string,
   koulutustyyppi?: Array<string>,
   tuleva?: boolean,
@@ -156,7 +155,6 @@ export async function getJulkisetOpetussuunnitelmat(query: OpetussuunnitelmaQuer
     query.sivukoko,
     query.nimi,
     query.kieli,
-    query.organisaatioRyhma,
     query.oppilaitosTyyppiKoodiUri,
     query.koulutustyyppi,
     query.tuleva,
