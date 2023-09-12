@@ -71,7 +71,6 @@ export default class EpSearch extends Vue {
 <style scoped lang="scss">
 .filter {
   position: relative;
-  max-width: 400px;
 
   &.maxWidth {
     max-width: 100%;
@@ -87,7 +86,6 @@ export default class EpSearch extends Vue {
     &::placeholder {
       color: #888;
     }
-
   }
 
   .form-control-feedback {
