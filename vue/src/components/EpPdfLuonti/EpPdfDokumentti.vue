@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ep-spinner v-if="!dokumentti" />
+    <ep-spinner v-if="dokumenttiLataa" />
     <div v-else>
       <div class="row pdf-box align-items-center justify-content-between"
            :class="{'luotu': dokumenttiLuotu, 'ei-luotu': !dokumenttiLuotu, 'polling': polling, 'epaonnistui': dokumenttiEpaonnistui}">
@@ -66,6 +66,10 @@ export default class EpPdfDokumentti extends Vue {
 
   get dokumenttiEpaonnistui() {
     return this.dokumentti && this.dokumentti.tila as any === 'epaonnistui';
+  }
+
+  get dokumenttiLataa() {
+    return !this.dokumentti || (this.dokumentti.tila as any === 'valmis' && !this.dokumenttiHref);
   }
 }
 
