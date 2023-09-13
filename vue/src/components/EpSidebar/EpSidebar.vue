@@ -16,12 +16,10 @@
 </template>
 
 <script lang="ts">
-import { Prop, Vue, Component } from 'vue-property-decorator';
+import { Vue, Component } from 'vue-property-decorator';
 import EpToggle from '../forms/EpToggle.vue';
 import EpSidebarButtons from './EpSidebarButtons.vue';
 import Sticky from 'vue-sticky-directive';
-import { setItem, getItem, removeItem } from '../../utils/localstorage';
-import _ from 'lodash';
 import { BrowserStore } from '../../stores/BrowserStore';
 
 @Component({
@@ -68,7 +66,6 @@ export default class EpSidebar extends Vue {
       background: #fff;
       padding-top: 6px;
       border-top: 1px solid #eee;
-      position: relative;
       bottom: 0;
       position: fixed;
       width: $sidebar-width;
@@ -78,6 +75,12 @@ export default class EpSidebar extends Vue {
   @media (max-width: 767.98px) {
     .btn-group-vertical {
       flex-direction: row;
+    }
+
+    .view {
+      border-top: 2px solid #eee;
+      padding-top: 20px;
+      margin-top: 10px;
     }
   }
 
