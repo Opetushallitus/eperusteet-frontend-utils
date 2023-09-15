@@ -11,7 +11,7 @@
          :class="{ 'mr-2': $slots.default, 'icon': isOutline }">
       <fas fixed-width :icon="icon"></fas>
     </span>
-    <span class="material-icons-outlined float-left mr-1" v-if="micon">{{micon}}</span>
+    <EpMaterialIcon v-if="micon" class="float-left mr-1" icon-shape="outlined">{{micon}}</EpMaterialIcon>
     <div class="teksti" :class="{'pl-3 pr-3': paddingx}">
       <slot />
       <ep-spinner-inline v-if="showSpinner" :link="variant === 'link' || isOutline"/>
@@ -24,12 +24,13 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import _ from 'lodash';
-
+import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
 import EpSpinnerInline from '../EpSpinner/EpSpinnerInline.vue';
 
 @Component({
   components: {
     EpSpinnerInline,
+    EpMaterialIcon,
   },
 })
 export default class EpButton extends Vue {

@@ -81,7 +81,7 @@
       </div>
       <template v-slot:bottom>
         <b-button class="btn-tarkista" variant="link" @click="validoi">
-          <span class="material-icons-outlined icon" aria-hidden="true">refresh</span>
+          <EpMaterialIcon class="icon" icon-shape="outlined">refresh</EpMaterialIcon>
           <span> {{ $t('tarkista-virheet') }}</span>
         </b-button>
       </template>
@@ -97,9 +97,11 @@ import EpProgressPopover from '@shared/components/EpProgressPopover/EpProgressPo
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { tileBackgroundColor } from '@shared/utils/bannerIcons';
 import { ValidableObject, Validoinnit, ValidoitavatTilat, ValidoitavatTyypit } from '@shared/components/EpValidPopover/EpValidPopoverTypes';
+import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
 
 @Component({
   components: {
+    EpMaterialIcon,
     EpProgressPopover,
     EpSpinner,
   },
