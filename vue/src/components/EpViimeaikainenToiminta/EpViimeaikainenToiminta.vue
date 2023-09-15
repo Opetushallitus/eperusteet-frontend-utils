@@ -98,7 +98,7 @@ export default class EpViimeaikainenToiminta extends Vue {
       .map((muokkaustieto: Muokkaustieto) => {
         return {
           ...muokkaustieto,
-          ...(!muokkaustieto.route && { route: muokkaustietoRoute(muokkaustieto.kohdeId, muokkaustieto.kohde, muokkaustieto.tapahtuma, this.tyyppi) }),
+          ...(!muokkaustieto.route && { route: muokkaustietoRoute(muokkaustieto.kohdeId, muokkaustieto.kohde, muokkaustieto.tapahtuma, this.tyyppi, muokkaustieto.lisaparametrit) }),
           icon: muokkaustietoIcon(muokkaustieto.kohde, muokkaustieto.tapahtuma),
           iconClass: this.muokkaustietoIconClass(muokkaustieto),
           kayttajaNimi: muokkaustieto.kayttajanTieto ? parsiEsitysnimi(muokkaustieto.kayttajanTieto) : muokkaustieto.muokkaaja,
