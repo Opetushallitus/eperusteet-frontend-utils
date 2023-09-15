@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 const oletusKohdereititys = {
   viite: 'tekstikappale',
   opetussuunnitelma: 'opsTiedot',
@@ -15,6 +17,13 @@ const perusteKohdeReititys = {
   osaalue: 'osaalue',
   tutkinnon_muodostuminen: 'muodostuminen',
   koulutuksenosa: 'koulutuksenosa',
+  aipe_laajaalainenosaaminen: 'aipelaajaAlainenOsaaminen',
+  aipevaihe: 'aipevaihe',
+  aipekurssi: 'aipekurssi',
+  aipeoppiaine: 'aipeoppiaine',
+  oppiaine: 'perusopetusoppiaine',
+  perusopetuslaajaalainenosaaminen: 'perusopetusLaajaAlainenOsaaminen',
+  vuosiluokkakokonaisuus: 'perusopetusVuosiluokkakokonaisuus',
 };
 
 const opasKohdeReititys = {
@@ -40,6 +49,13 @@ const perusteKohdereititysId = {
   tekstikappale: 'tekstiKappaleId',
   osaalue: 'osaalueId',
   koulutuksenosa: 'koulutuksenosaId',
+  aipe_laajaalainenosaaminen: 'laoId',
+  aipevaihe: 'vaiheId',
+  aipekurssi: 'kurssiId',
+  aipeoppiaine: 'oppiaineId',
+  oppiaine: 'oppiaineId',
+  perusopetuslaajaalainenosaaminen: 'laoId',
+  vuosiluokkakokonaisuus: 'vlkId',
 };
 
 const tyypitettyKohdereititysId = {
@@ -72,7 +88,7 @@ const poistetutTabIndices = {
   viite: 2,
 };
 
-export function muokkaustietoRoute(id, kohde, tapahtuma, tyyppi = 'ops') {
+export function muokkaustietoRoute(id, kohde, tapahtuma, tyyppi = 'ops', lisaparametrit) {
   if (tapahtuma === 'poisto') {
     return {
       name: 'opsPoistetut',
@@ -92,6 +108,12 @@ export function muokkaustietoRoute(id, kohde, tapahtuma, tyyppi = 'ops') {
 
   if (tyypinKohdereititysId[kohde]) {
     router.params[tyypinKohdereititysId[kohde]] = id;
+  }
+
+  if (lisaparametrit) {
+    _.forEach(lisaparametrit, lisaparametri => {
+      router.params[tyypinKohdereititysId[lisaparametri.kohde]] = lisaparametri.kohdeId;
+    });
   }
 
   return router;

@@ -4060,5 +4060,11 @@
     "tulossa-voimaan": "Tulossa voimaan",
     "voit-hakea-tutkintoa-nimella": "Voit hakea tutkintoa nimellä, tutkintonimikkeellä, osaamisalalla tai tutkinnon osalla.",
     "arviointiasteikot-muokkaus-huomio-teksti": "Arviointiasteikkojen muokkaus päivittää arviointiasteikot myös automaattisesti Totsu-työkaluun. Arviointiasteikkojen ja sisältöjen poistoja ei suositella.",
-    "koulutustyyppi-valikko": "Koulutustyyppi-valikko"
+    "koulutustyyppi-valikko": "Koulutustyyppi-valikko",
+    "tapahtuma-luonti-aipevaihe": "Lisäsi vaiheen",
+    "tapahtuma-luonti-aipe_laajaalainenosaaminen": "Lisäsi laaja-alaisen osaamisen",
+    "tapahtuma-luonti-aipeoppiaine": "Lisäsi oppiaineen",
+    "tapahtuma-luonti-aipekurssi": "Lisäsi kurssin",
+    "tapahtuma-luonti-perusopetuslaajaalainenosaaminen": "Lisäsi laaja-alaisen osaamisen",
+    "tapahtuma-luonti-vuosiluokkakokonaisuus": "Lisäsi vuosiluokkakokonaisuuden"
 }
