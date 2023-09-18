@@ -19,11 +19,8 @@ export default class EpMaterialIcon extends Vue {
   color?: string;
 
   get shape() {
-    if (this.iconShape === 'outlined') {
-      return '-outlined';
-    }
-    else if (this.iconShape === 'rounded') {
-      return '-rounded';
+    if (this.iconShape === 'outlined' || this.iconShape === 'rounded') {
+      return '-' + this.iconShape;
     }
     else {
       // default = filled
