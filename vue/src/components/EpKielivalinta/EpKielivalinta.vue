@@ -3,7 +3,7 @@
     <template slot="button-content">
       <span>{{ $t("kieli-sisalto") }}:
         <span class="valittukieli">{{ $t(sisaltoKieli) }}</span>
-        <fas class="valintanuoli" icon="chevron-down" />
+        <EpMaterialIcon>expand_more</EpMaterialIcon>
       </span>
     </template>
     <b-dropdown-item @click="valitseSisaltoKieli(kieli)" v-for="kieli in sovelluksenKielet" :key="kieli" :disabled="kieli === sisaltoKieli">{{ $t(kieli) }}</b-dropdown-item>
@@ -12,11 +12,16 @@
 </template>
 
 <script lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import { Kielet, UiKielet } from '@shared/stores/kieli';
 import { Kieli } from '@shared/tyypit';
+import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
 
-@Component
+@Component({
+  components: {
+    EpMaterialIcon,
+  },
+})
 export default class EpKielivalinta extends Vue {
   get sisaltoKieli() {
     return Kielet.getSisaltoKieli.value;

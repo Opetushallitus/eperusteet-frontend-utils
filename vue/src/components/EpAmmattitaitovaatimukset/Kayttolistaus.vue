@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-button :id="id" variant="link">
-      <fas icon="info" />
+      <EpMaterialIcon icon-shape="outlined" size="20px">info</EpMaterialIcon>
     </b-button>
     <b-popover
       :target="id"
@@ -36,21 +36,18 @@
 </template>
 
 <script lang="ts">
-import { Watch, Component, Prop, Vue } from 'vue-property-decorator';
+import _ from 'lodash';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import EpPagination from '../EpPagination/EpPagination.vue';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
-import { Ammattitaitovaatimukset, Ammattitaitovaatimukset2019Dto, Koodisto } from '../../api/eperusteet';
-import { KoodistoSelectStore } from '@shared/components/EpKoodistoSelect/KoodistoSelectStore';
-
-import { BrowserStore } from '../../stores/BrowserStore';
-import { metadataToLocalized } from '../../utils/perusteet';
-import { delay } from '@shared/utils/delay';
-import _ from 'lodash';
+import { Ammattitaitovaatimukset } from '../../api/eperusteet';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 @Component({
   components: {
     EpPagination,
     EpSpinner,
+    EpMaterialIcon,
   },
 })
 export default class Kayttolistaus extends Vue {

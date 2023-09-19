@@ -21,7 +21,7 @@
                     class="input-wrapper"
                     :validation="$v.tavoitteet.$each.$iter[tavoiteIndex].nimi">
                     <div class="order-handle m-2" slot="left">
-                      <fas icon="grip-vertical"></fas>
+                      <EpMaterialIcon>drag_indicator</EpMaterialIcon>
                     </div>
                   </EpInput>
                   <b-input-group-append>
@@ -35,13 +35,15 @@
           </slot>
         </b-col>
         <b-col cols="1">
-          <fas icon="roskalaatikko" class="default-icon clickable mt-2" @click="poistaTavoite(tavoite)"/>
+          <div class="default-icon clickable mt-2" @click="poistaTavoite(tavoite)">
+            <EpMaterialIcon icon-shape="outlined" :color="'inherit'">delete</EpMaterialIcon>
+          </div>
         </b-col>
       </b-row>
     </draggable>
 
     <div class="d-flex justify-content-between">
-      <ep-button variant="outline" icon="plus" @click="lisaaTavoite()">
+      <ep-button variant="outline" micon="add" @click="lisaaTavoite()">
         <slot name="lisaaBtnText">
           {{ $t('lisaa-tavoite') }}
         </slot>
@@ -64,6 +66,7 @@ import EpInput from '@shared/components/forms/EpInput.vue';
 import { koodistoKoodiValidator } from '@shared/validators/required';
 import { Validations } from 'vuelidate-property-decorators';
 import { generateTemporaryKoodiUri } from '@shared/utils/koodi';
+import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
 
 @Component({
   components: {
@@ -71,6 +74,7 @@ import { generateTemporaryKoodiUri } from '@shared/utils/koodi';
     EpButton,
     draggable,
     EpInput,
+    EpMaterialIcon,
   },
 })
 export default class EpTavoitealueTavoitteet extends Vue {

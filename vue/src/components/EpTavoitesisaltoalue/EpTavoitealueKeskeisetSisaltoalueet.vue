@@ -4,38 +4,42 @@
       v-bind="keskeisetSisaltoalueetOptions"
       tag="div"
       v-model="keskeisetSisaltoalueet">
-      <b-row v-for="(keskeinenSisaltoalue, keskeinenSisaltoalueIndex) in keskeisetSisaltoalueet" :key="keskeinenSisaltoalue+keskeinenSisaltoalueIndex" class="pb-2">
+      <b-row v-for="(keskeinenSisaltoalue, keskeinenSisaltoalueIndex) in keskeisetSisaltoalueet" :key="keskeinenSisaltoalue+keskeinenSisaltoalueIndex" class="pb-2 pr-2">
         <b-col cols="11">
           <ep-input v-model="keskeisetSisaltoalueet[keskeinenSisaltoalueIndex]" :is-editing="true" class="flex-grow-1">
             <div class="order-handle m-2" slot="left">
-              <fas icon="grip-vertical"></fas>
+              <EpMaterialIcon>drag_indicator</EpMaterialIcon>
             </div>
           </ep-input>
         </b-col>
         <b-col cols="1">
-          <fas icon="roskalaatikko" class="default-icon clickable mt-2" @click="poistaKeskeinenSisaltoalue(keskeinenSisaltoalue)"/>
+          <div class="default-icon clickable mt-2" @click="poistaKeskeinenSisaltoalue(keskeinenSisaltoalue)">
+            <EpMaterialIcon icon-shape="outlined" :color="'inherit'">delete</EpMaterialIcon>
+          </div>
         </b-col>
       </b-row>
     </draggable>
 
-    <ep-button variant="outline" icon="plus" @click="lisaaKeskeinenSisaltoalue()" >
+    <ep-button variant="outline" micon="add" @click="lisaaKeskeinenSisaltoalue()" >
       {{ $t('lisaa-keskeinen-sisaltoalue') }}
     </ep-button>
   </div>
 </template>
 
 <script lang="ts">
-import { Watch, Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import _ from 'lodash';
 import draggable from 'vuedraggable';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpInput from '@shared/components/forms/EpInput.vue';
+import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
 
 @Component({
   components: {
     EpButton,
     draggable,
     EpInput,
+    EpMaterialIcon,
   },
 })
 export default class EpTavoitealueKeskeisetSisaltoalueet extends Vue {

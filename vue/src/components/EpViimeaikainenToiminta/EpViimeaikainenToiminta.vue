@@ -9,7 +9,7 @@
 
         <div class="col col-auto ikoni-col center-block">
           <div class="ikoni d-inline-block">
-            <fas :icon="muokkaustieto.icon" :class="muokkaustieto.iconClass"/>
+            <EpMaterialIcon :class="muokkaustieto.iconClass">{{ muokkaustieto.icon }}</EpMaterialIcon>
           </div>
           <div class="aikajana" v-if="index !== muokkaustiedotRouted.length - 1">&nbsp;</div>
         </div>
@@ -42,7 +42,6 @@
         <ep-button @click="haeLisaa" variant="link" v-if="!lisahaku && muokkaustiedotRouted.length % hakuLukumaara === 0 && muokkaustiedot && (!viimeinenHaku || viimeinenHaku.length > 0)">
           {{$t('nayta-lisaa')}}
         </ep-button>
-
         <ep-spinner v-if="lisahaku"></ep-spinner>
       </div>
 
@@ -56,6 +55,7 @@ import _ from 'lodash';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import { muokkaustietoRoute, muokkaustietoIcon } from '@shared/utils/tapahtuma';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 import { IMuokkaustietoProvider, Muokkaustieto } from './types';
@@ -64,6 +64,7 @@ import { IMuokkaustietoProvider, Muokkaustieto } from './types';
   components: {
     EpSpinner,
     EpButton,
+    EpMaterialIcon,
   },
 })
 export default class EpViimeaikainenToiminta extends Vue {

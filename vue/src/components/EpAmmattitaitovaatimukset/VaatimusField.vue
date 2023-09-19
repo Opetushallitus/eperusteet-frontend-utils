@@ -7,7 +7,7 @@
             <ep-error-wrapper :validation="validation">
               <b-input-group>
                 <div class="handle text-muted">
-                  <fas icon="dragindicator" size="lg"></fas>
+                  <EpMaterialIcon>drag_indicator</EpMaterialIcon>
                 </div>
                 <b-form-input
                   class="vaatimus"
@@ -70,6 +70,7 @@ import EpExternalLink from '../EpExternalLink/EpExternalLink.vue';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import EpKoodistoSelect from '../EpKoodistoSelect/EpKoodistoSelect.vue';
 import { KoodistoSelectStore } from '@shared/components/EpKoodistoSelect/KoodistoSelectStore';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import { metadataToLocalized } from '../../utils/perusteet';
 import { delay } from '../../utils/delay';
 import _ from 'lodash';
@@ -84,6 +85,7 @@ import Kayttolistaus from './Kayttolistaus.vue';
     EpKoodistoSelect,
     EpSpinner,
     Kayttolistaus,
+    EpMaterialIcon,
   },
 })
 export default class VaatimusField extends Vue {

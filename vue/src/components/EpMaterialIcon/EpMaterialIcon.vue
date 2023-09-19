@@ -1,7 +1,7 @@
 <template>
   <span :class="'material-icons' + shape"
         class="icon"
-        :style="{color: color, fontSize: size}"
+        :style="{color: color, fontSize: size, background: background}"
         aria-hidden="true">
     <slot></slot>
   </span>
@@ -17,6 +17,9 @@ export default class EpMaterialIcon extends Vue {
 
   @Prop({ required: false })
   color?: string;
+
+  @Prop({ required: false })
+  background?: string;
 
   @Prop({ required: false })
   size?: string;

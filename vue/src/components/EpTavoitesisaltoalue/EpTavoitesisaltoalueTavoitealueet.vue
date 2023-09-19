@@ -10,7 +10,7 @@
         <div v-for="(tavoitealue, tavoitealueIndex) in tavoitealueet" :key="'tavoite'+tavoitealueIndex" class="pb-2 tavoitealue editing">
           <div v-if="tavoitealue.tavoiteAlueTyyppi === 'OTSIKKO'" class="m-2">
             <div class="order-handle m-2" slot="left">
-              <fas icon="grip-vertical"></fas>
+              <EpMaterialIcon>drag_indicator</EpMaterialIcon>
               <span class="otsikko"> {{$t('tavoitealueen-otsikko')}}</span>
             </div>
             <b-row>
@@ -31,14 +31,16 @@
                 </ep-koodisto-select>
               </b-col>
               <b-col cols="1">
-                <fas icon="roskalaatikko" class="default-icon clickable mt-2" @click="poistaTavoitealue(tavoitealue)"/>
+                <div class="default-icon clickable mt-2" @click="poistaTavoitealue(tavoitealue)">
+                  <EpMaterialIcon icon-shape="outlined" :color="'inherit'">delete</EpMaterialIcon>
+                </div>
               </b-col>
             </b-row>
           </div>
 
           <div v-if="tavoitealue.tavoiteAlueTyyppi === 'TAVOITESISALTOALUE'" class="m-2 tavoitesisaltoalue">
             <div class="order-handle m-2" slot="left">
-              <fas icon="grip-vertical"></fas>
+              <EpMaterialIcon>drag_indicator</EpMaterialIcon>
               <span class="otsikko pl-1"> {{$t('tavoitteet')}}</span>
             </div>
             <div class="ml-4">
@@ -49,19 +51,20 @@
               <EpTavoitealueKeskeisetSisaltoalueet v-model="tavoitealue.keskeisetSisaltoalueet"  />
             </div>
             <div class="text-right">
-              <ep-button variant="link" icon="roskalaatikko" @click="poistaTavoitealue(tavoitealue)">
-                  {{ $t('poista-tavoitteet-ja-sisaltoalueet') }}
-                </ep-button>
+              <ep-button variant="link" @click="poistaTavoitealue(tavoitealue)">
+                <EpMaterialIcon icon-shape="outlined" :color="'inherit'" :background="'inherit'">delete</EpMaterialIcon>
+                {{ $t('poista-tavoitteet-ja-sisaltoalueet') }}
+              </ep-button>
             </div>
           </div>
         </div>
       </draggable>
 
       <div class="d-flex flex-column">
-        <ep-button variant="outline" icon="plus" @click="lisaaTavoitealue('OTSIKKO')">
+        <ep-button variant="outline" micon="add" @click="lisaaTavoitealue('OTSIKKO')">
           {{ $t('lisaa-tavoitealueen-otsikko') }}
         </ep-button>
-        <ep-button variant="outline" icon="plus" @click="lisaaTavoitealue('TAVOITESISALTOALUE')">
+        <ep-button variant="outline" micon="add" @click="lisaaTavoitealue('TAVOITESISALTOALUE')">
           {{ $t('lisaa-tavoitteet-ja-sisaltoalueet') }}
         </ep-button>
       </div>
@@ -91,10 +94,8 @@
               {{$kaanna(keskeisetSisaltoalueet)}}
             </div>
           </div>
-
         </div>
       </div>
-
     </div>
 
   </div>
@@ -110,6 +111,7 @@ import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
 import EpTavoitealueKeskeisetSisaltoalueet from './EpTavoitealueKeskeisetSisaltoalueet.vue';
 import EpTavoitealueTavoitteet from './EpTavoitealueTavoitteet.vue';
+import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
 
 @Component({
   components: {
@@ -118,6 +120,7 @@ import EpTavoitealueTavoitteet from './EpTavoitealueTavoitteet.vue';
     draggable,
     EpTavoitealueKeskeisetSisaltoalueet,
     EpTavoitealueTavoitteet,
+    EpMaterialIcon,
   },
 })
 export default class EpTavoitesisaltoalueTavoitealueet extends Vue {

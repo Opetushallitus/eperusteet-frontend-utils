@@ -16,7 +16,7 @@
       </template>
       <div class="d-flex">
         <div class="order-handle mr-3">
-          <fas icon="grip-vertical" v-if="isEditing"></fas>
+          <EpMaterialIcon v-if="isEditing">drag_indicator</EpMaterialIcon>
         </div>
         <div class="w-100">
           <slot :data="modelObject" :index="index"></slot>
@@ -28,15 +28,16 @@
 </template>
 
 <script lang="ts">
-import * as _ from 'lodash';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import EpCollapse from '@shared/components/EpCollapse/EpCollapse.vue';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import draggable from 'vuedraggable';
 import { DEFAULT_DRAGGABLE_PROPERTIES } from '@shared/utils/defaults';
 
 @Component({
   components: {
     EpCollapse,
+    EpMaterialIcon,
     draggable,
   },
 })

@@ -6,7 +6,6 @@
                @blur="onListBlur"
                @focus="onListFocus"
                v-model="search" is-editing>
-        <!-- <fas name="right" icon="chevron-down"></fas> -->
       </EpInput>
     </div>
     <div class="searchlist-wrapper">

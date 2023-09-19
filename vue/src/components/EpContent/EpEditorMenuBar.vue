@@ -14,7 +14,7 @@
                   :disabled="feature.disabled"
                   :class="{ 'active': !feature.disabled && data.isActive[feature.command] && data.isActive[feature.command]() }"
                   @click="feature.customClick ? feature.customClick(data) : data.commands[feature.command](feature.params)">
-            <fas v-if="feature.icon" :icon="feature.icon" fixed-width />
+            <EpMaterialIcon v-if="feature.icon" :color="'#444'">{{ feature.icon }}</EpMaterialIcon>
             <span v-if="feature.text">{{ $t(feature.text) }}</span>
           </b-button>
         </div>
@@ -28,13 +28,14 @@
                   :disabled="feature.disabled"
                   :class="{ 'active': !feature.disabled && data.isActive[feature.command] && data.isActive[feature.command]() }"
                   @click="feature.customClick ? feature.customClick(data) : data.commands[feature.command](feature.params)">
-            <fal v-if="feature.icon" fixed-width>
-              <fas :icon="feature.icon" fixed-width />
-              <fas v-if="feature.uppericon" fixed-width transform="up-4 left-6" :icon="feature.uppericon" :style="{ color: feature.color || 'black' }" />
-              <fas v-if="feature.righticon" fixed-width transform="right-6" :icon="feature.righticon" :style="{ color: feature.color || 'black' }" />
-              <fas v-if="feature.subicon" fixed-width transform="down-4 left-6" :icon="feature.subicon" :style="{ color: feature.color || 'black' }" class="fa-inverse" />
-              <fas v-if="feature.lefticon" fixed-width transform="left-6" :icon="feature.lefticon" :style="{ color: feature.color || 'black' }" />
-            </fal>
+            <EpMaterialIcon v-if="feature.icon">{{ feature.icon }}</EpMaterialIcon>
+<!--            näitä ei varmaan tarvi?-->
+<!--            <fal v-if="feature.icon" fixed-width>-->
+<!--              <fas v-if="feature.uppericon" fixed-width transform="up-4 left-6" :icon="feature.uppericon" :style="{ color: feature.color || 'black' }" />-->
+<!--              <fas v-if="feature.righticon" fixed-width transform="right-6" :icon="feature.righticon" :style="{ color: feature.color || 'black' }" />-->
+<!--              <fas v-if="feature.subicon" fixed-width transform="down-4 left-6" :icon="feature.subicon" :style="{ color: feature.color || 'black' }" class="fa-inverse" />-->
+<!--              <fas v-if="feature.lefticon" fixed-width transform="left-6" :icon="feature.lefticon" :style="{ color: feature.color || 'black' }" />-->
+<!--            </fal>-->
           </b-button>
         </div>
       </div>
@@ -85,12 +86,14 @@ import { Vue, Component, Prop, InjectReactive } from 'vue-property-decorator';
 import { EditorMenuBar } from 'tiptap';
 import { NavigationNodeDto } from '@shared/tyypit';
 import EpMultiSelect from '@shared/components/forms/EpMultiSelect.vue';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import { deepFind } from '@shared/utils/helpers';
 
 @Component({
   components: {
     EditorMenuBar,
     EpMultiSelect,
+    EpMaterialIcon,
   },
 })
 export default class EpEditorMenuBar extends Vue {
@@ -120,23 +123,23 @@ export default class EpEditorMenuBar extends Vue {
   get history() {
     return [{
       command: 'undo',
-      icon: 'palauta',
+      icon: 'undo',
     }, {
       command: 'redo',
-      icon: 'tee-uudelleen',
+      icon: 'redo',
     }];
   }
 
   get textManipulation() {
     return [{
       command: 'bold',
-      icon: 'lihavointi',
+      icon: 'format_bold',
     }, {
       command: 'italic',
-      icon: 'kursivointi',
+      icon: 'format_italic',
     }, {
       command: 'strike',
-      icon: 'yliviivaus',
+      icon: 'format_strikethrough',
     }];
   }
 
@@ -168,11 +171,11 @@ export default class EpEditorMenuBar extends Vue {
         (this as any).$refs['link-modal'].show();
       },
     }, ...(!_.isFunction(_.get(this.editor.commands, 'termi')) ? [] : [{
-      icon: 'kasitteet',
+      icon: 'book',
       command: 'termi',
       disabled: this.editor.selection.from === this.editor.selection.to,
     }]), ...(!_.isFunction(_.get(this.editor.commands, 'image')) ? [] : [{
-      icon: 'lisaa-kuva',
+      icon: 'add_photo_alternate',
       command: 'image',
     }]),
     ];
@@ -181,10 +184,10 @@ export default class EpEditorMenuBar extends Vue {
   get lists() {
     return [{
       command: 'bullet_list',
-      icon: 'lista-luettelo',
+      icon: 'list',
     }, {
       command: 'ordered_list',
-      icon: 'lista-numerointi',
+      icon: 'format_list_numbered_rtl',
     }];
   }
 
@@ -196,7 +199,7 @@ export default class EpEditorMenuBar extends Vue {
         colsCount: 3,
         withHeaderRow: false,
       },
-      icon: 'taulukko',
+      icon: 'grid_on',
     }];
   }
 
@@ -212,46 +215,46 @@ export default class EpEditorMenuBar extends Vue {
     const tables = [{
       color: RemoveColor,
       command: 'deleteTable',
-      icon: 'poista-taulukko',
+      icon: 'delete',
       text: 'poista-taulu',
     }];
 
     const columns = [{
       color: AddColor,
       command: 'addColumnBefore',
-      icon: 'kolumni-vasen',
+      icon: 'add',
       text: 'lisaa-sarake-ennen',
     }, {
       color: AddColor,
       command: 'addColumnAfter',
-      icon: 'kolumni-oikea',
+      icon: 'add',
       text: 'lisaa-sarake-jalkeen',
     }, {
       color: RemoveColor,
       command: 'deleteColumn',
-      icon: 'poista-kolumni',
+      icon: 'remove',
       text: 'poista-sarake',
     }];
 
     const rows = [{
       command: 'addRowBefore',
       color: AddColor,
-      icon: 'rivi-ylos',
+      icon: 'playlist_add',
       text: 'lisaa-rivi-ennen',
     }, {
       command: 'addRowAfter',
       color: AddColor,
-      icon: 'rivi-alas',
+      icon: 'playlist_add',
       text: 'lisaa-rivi-jalkeen',
     }, {
       command: 'deleteRow',
       color: RemoveColor,
-      icon: 'poista-rivi',
+      icon: 'playlist_remove',
       text: 'poista-rivi',
     }, {
       command: 'toggleCellMerge',
       color: MergeColor,
-      icon: 'yhdista-solut',
+      icon: 'join_full',
       text: 'yhdista-solut',
     }];
 

@@ -8,7 +8,7 @@
                 class="link"
                 :class="{ 'muted': leftDisabled }"
                 :disabled="leftDisabled">
-        <fas icon="chevron-left" />
+        <EpMaterialIcon>chevron_left</EpMaterialIcon>
       </b-button>
     </div>
     <div v-for="row in pages" :key="row" class="link-container">
@@ -30,7 +30,7 @@
                 @click="setValue(value + 1)"
                 :class="{ 'muted': rightDisabled }"
                 :disabled="rightDisabled">
-        <fas icon="chevron-right" />
+        <EpMaterialIcon>chevron_right</EpMaterialIcon>
       </b-button>
     </div>
   </div>
@@ -42,14 +42,15 @@
 </template>
 
 <script lang="ts">
-import { Watch, Component, Prop, Vue } from 'vue-property-decorator';
-import { Debounced } from '../../utils/delay';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import EpButton from '../EpButton/EpButton.vue';
+import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
 import _ from 'lodash';
 
 @Component({
   components: {
     EpButton,
+    EpMaterialIcon,
   },
 })
 export default class EpPagination extends Vue {

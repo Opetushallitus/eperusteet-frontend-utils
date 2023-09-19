@@ -26,7 +26,7 @@
         <span v-if="laajaAlaisetKooditByUri[lo.koodi]">
           <h5 class="d-inline">{{ $kaanna(laajaAlaisetKooditByUri[lo.koodi].nimi) }}</h5>
           <b-button variant="link" @click.stop="poistaLaaja(lo)" v-if="isEditing">
-            <fas icon="sulje" />
+            <EpMaterialIcon>close</EpMaterialIcon>
           </b-button>
         </span>
       </div>
@@ -73,12 +73,13 @@
 <script lang="ts">
 import _ from 'lodash';
 import { Vue, Component, Prop } from 'vue-property-decorator';
-
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
 
 @Component({
   components: {
     EpContent,
+    EpMaterialIcon,
   },
 })
 export default class EpOpintojaksonLaajaAlaisetOsaamiset extends Vue {

@@ -44,7 +44,9 @@
 
             <template v-slot:cell(nimi)="{ item }">
               <span v-if="multiple">
-                <fas v-if="item.selected" icon="check-square" class="checked mr-2"/>
+<!--                <EpMaterialIcon v-if="item.selected" class="checked mr-2">check_box</EpMaterialIcon>-->
+<!--                <EpMaterialIcon v-else class="checked mr-2">check_box_outline_blank</EpMaterialIcon>-->
+                <fas v-if="item.selected" icon="check-square"/>
                 <fas v-else :icon="['far', 'square']" class="checked mr-2"/>
               </span>
               <span class="btn-link">
@@ -107,6 +109,7 @@ import EpToggle from '../forms/EpToggle.vue';
 import EpSearch from '../forms/EpSearch.vue';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import { KoodistoSelectStore } from './KoodistoSelectStore';
+import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
 import _ from 'lodash';
 
 @Component({
@@ -115,6 +118,7 @@ import _ from 'lodash';
     EpSearch,
     EpSpinner,
     EpToggle,
+    EpMaterialIcon,
   },
 })
 export default class EpKoodistoSelect extends Vue {
