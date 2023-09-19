@@ -88,7 +88,7 @@ const poistetutTabIndices = {
   viite: 2,
 };
 
-export function muokkaustietoRoute(id, kohde, tapahtuma, tyyppi = 'ops', lisaparametrit) {
+export function muokkaustietoRoute(id, kohde, tapahtuma, tyyppi = 'ops', lisaparametrit?) {
   if (tapahtuma === 'poisto') {
     return {
       name: 'opsPoistetut',
