@@ -14,7 +14,7 @@
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
             <router-link id="nav-admin" :to="rootNavigation">
-              <fas fixed-width icon="koti" />
+              <EpMaterialIcon size="20px">home</EpMaterialIcon>
             </router-link>
           </li>
           <li class="breadcrumb-item" v-for="(route, idx) in routePath" :key="idx">
@@ -26,15 +26,6 @@
             </span>
             <span v-else>{{ $t('route-' + route.name) }}</span>
           </li>
-          <!-- <li class="breadcrumb-item" v-for="(bc, idx) in breadcrumbs" :key="'bc-' + idx"> -->
-          <!--   <router-link v-if="bc && bc.location" :to="bc.location">                       -->
-          <!--     {{ $kaanna(bc.label) }}                                                      -->
-          <!--   </router-link>                                                                 -->
-          <!--   <span v-else="bc.label">                                                       -->
-          <!--     {{ $kaanna(bc.label) }}                                                      -->
-          <!--   </span>                                                                        -->
-          <!--   <span v-else>{{ $t('bc' + route.name) }}</span>                                -->
-          <!-- </li>                                                                            -->
         </ol>
       </nav>
     </b-navbar-nav>
@@ -43,11 +34,6 @@
     </b-button>
 
     <b-navbar-nav class="ml-auto">
-      <!-- <b-nav-form v-if="tutoriaalistore && naytettaviaTutoriaaleja">                     -->
-      <!--   <b-button variant="primary" size="sm" @click="kaynnistaTutoriaali" class="mr-2"> -->
-      <!--     {{ $t('tutorial-avaa') }}                                                      -->
-      <!--   </b-button>                                                                      -->
-      <!-- </b-nav-form>                                                                      -->
 
       <!-- Sisällön kieli-->
       <b-nav-item-dropdown id="content-lang-selector" right no-caret>
@@ -57,7 +43,7 @@
               <span class="kielivalitsin text-right">{{ $t("kieli-sisalto") }}</span>
               <small class="valittu-kieli text-right">{{ $t(sisaltoKieli) }}</small>
             </div>
-            <fas fixed-width icon="chevron-down" class="mx-2 my-1" />
+            <EpMaterialIcon class="mx-2 my-1">expand_more</EpMaterialIcon>
           </div>
         </template>
         <div class="kielet">
@@ -65,7 +51,7 @@
             v-for="kieli in sovelluksenKielet"
             :key="kieli"
             :disabled="kieli === sisaltoKieli">
-            <fas fixed-width icon="checkmark" v-if="kieli === sisaltoKieli" class="mr-3 valittu" />
+            <EpMaterialIcon v-if="kieli === sisaltoKieli" class="mr-3 valittu">check</EpMaterialIcon>
             {{ $t(kieli) }}
           </b-dd-item>
         </div>
@@ -93,6 +79,7 @@ import { Location } from 'vue-router';
 import EpKayttaja from '../../components/EpKayttaja/EpKayttaja.vue';
 import { BrowserStore } from '../../stores/BrowserStore';
 import { SovellusOikeus } from '@shared/plugins/oikeustarkastelu';
+import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
 
 interface Breadcrumb {
   label: string;
@@ -106,6 +93,7 @@ interface Breadcrumb {
   components: {
     EpButton,
     EpKayttaja,
+    EpMaterialIcon,
   },
 })
 export default class EpNavbar extends Vue {

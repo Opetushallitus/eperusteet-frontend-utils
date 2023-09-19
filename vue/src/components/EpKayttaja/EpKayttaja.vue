@@ -15,7 +15,7 @@
     <ep-collapse :expanded-by-default="false" v-if="koulutustoimija" :use-padding="false" :border-bottom="false">
       <div slot="header">
         <div class="pl-3 pt-2 text-nowrap kieli">
-          <fas fixed-width icon="ryhma" class="icon mr-3" />
+          <EpMaterialIcon class="icon mr-3">group</EpMaterialIcon>
           <span>{{ $t('organisaatio') }}</span>
         </div>
         <div class="pl-3 text-nowrap">
@@ -40,7 +40,7 @@
 
         <div class="koulutustoimijat mb-2">
           <div class="d-flex justify-content-end" v-if="hasLukuOikeusKoulutustoimijoita">
-            <EpMaterialIcon class="vain-luku mt-1 mr-2">eye</EpMaterialIcon>
+            <EpMaterialIcon class="vain-luku mr-3">visibility</EpMaterialIcon>
             <ep-toggle v-model="naytaLukuoikeusKoulutustoimijat" :title="$t('lukuoikeus')"/>
           </div>
           <b-dd-item-button @click="valitseOrganisaatio(kt)"
@@ -53,7 +53,7 @@
               </div>
               <div class="col-10 koulutustoimija">
                 {{ $kaanna(kt.nimi) }}
-                <EpMaterialIcon v-if="kt.oikeus === 'luku'" class="vain-luku pt-1">eye</EpMaterialIcon>
+                <EpMaterialIcon v-if="kt.oikeus === 'luku'" class="vain-luku" size="16px">visibility</EpMaterialIcon>
               </div>
             </div>
           </b-dd-item-button>
