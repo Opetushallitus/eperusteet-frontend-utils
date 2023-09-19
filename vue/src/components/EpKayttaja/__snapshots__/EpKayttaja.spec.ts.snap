@@ -6,8 +6,7 @@ exports[`EpKayttaja component Renders 1`] = `
       <div class="d-flex flex-row">
         <div class="kayttaja-valikko d-flex flex-column"><span class="kielivalitsin text-right">etunimi sukunimi</span>
           <!---->
-        </div>
-        <div fixed-width="" icon="chevron-down" class="mx-2 my-1"></div>
+        </div> <span aria-hidden="true" class="icon material-icons">expand_more</span>
       </div>
     </a>
     <ul tabindex="-1" aria-labelledby="kayttaja-dropdown__BV_toggle_" class="dropdown-menu dropdown-menu-right">
@@ -20,24 +19,18 @@ exports[`EpKayttaja component Renders 1`] = `
             <div class="align-self-start header">
               <div class="">
                 <div>
-                  <div class="pl-3 pt-2 text-nowrap kieli">
-                    <div fixed-width="" icon="kielet" class="icon mr-3"></div> <span>kieli</span>
-                  </div>
+                  <div class="pl-3 pt-2 text-nowrap kieli"><span aria-hidden="true" class="icon icon mr-3 material-icons">translate</span> <span>kieli</span></div>
                   <div class="pl-3 uikieli"><span class="icon mr-3"></span> <small>sv</small></div>
                 </div>
               </div>
             </div>
-            <div class="ml-auto align-self-start" style="padding: 0.8rem 1rem;">
-              <div fixed-width="" icon="chevron-down"></div>
-            </div>
+            <div class="ml-auto align-self-start" style="padding: 0.8rem 1rem;"><span aria-hidden="true" class="icon material-icons">expand_more</span></div>
           </div>
           <!---->
         </div>
         <!---->
       </div>
-      <li role="presentation"><a role="menuitem" href="/henkilo-ui/omattiedot" target="_self" class="dropdown-item">
-          <div fixed-width="" icon="user" class="icon mr-3"></div><span>kayttajan-asetukset</span>
-        </a></li>
+      <li role="presentation"><a role="menuitem" href="/henkilo-ui/omattiedot" target="_self" class="dropdown-item"><span aria-hidden="true" class="icon icon mr-3 material-icons">person</span> <span>kayttajan-asetukset</span></a></li>
       <li role="presentation">
         <hr role="separator" aria-orientation="horizontal" class="dropdown-divider">
       </li>
@@ -49,23 +42,17 @@ exports[`EpKayttaja component Renders 1`] = `
             <div class="align-self-start header">
               <div class="header-toggled">
                 <div>
-                  <div class="pl-3 pt-2 text-nowrap kieli">
-                    <div fixed-width="" icon="ulkoinen-linkki" class="icon mr-3"></div> <span>vaihda-sovellusta</span>
-                  </div>
+                  <div class="pl-3 pt-2 text-nowrap kieli"><span aria-hidden="true" class="icon icon mr-3 material-icons">launch</span> <span>vaihda-sovellusta</span></div>
                   <div class="pl-3 valittu-sovellus pb-2"><span class="icon mr-3"></span> <small>APP_EPERUSTEET</small></div>
                 </div>
               </div>
             </div>
-            <div class="ml-auto align-self-start" style="padding: 0.8rem 1rem;">
-              <div fixed-width="" icon="chevron-up"></div>
-            </div>
+            <div class="ml-auto align-self-start" style="padding: 0.8rem 1rem;"><span aria-hidden="true" class="icon material-icons">expand_less</span></div>
           </div>
           <div>
             <div class="collapse-tausta text-left">
               <li role="presentation" class="sovellusoikeus"><a role="menuitem" href="eperuste-url" target="_self" tabindex="-1" aria-disabled="true" class="dropdown-item disabled">
-                  <div class="collapse-tausta-valinta-icon">
-                    <div fixed-width="" icon="checkmark" class="mr-3 valittu"></div>
-                  </div>
+                  <div class="collapse-tausta-valinta-icon"><span aria-hidden="true" class="icon mr-3 valittu material-icons">done</span></div>
                   APP_EPERUSTEET
                 </a></li>
               <li role="presentation" class="sovellusoikeus"><a role="menuitem" href="amosaa-url" target="_self" class="dropdown-item">
@@ -86,9 +73,7 @@ exports[`EpKayttaja component Renders 1`] = `
       <li role="presentation">
         <hr role="separator" aria-orientation="horizontal" class="dropdown-divider">
       </li>
-      <li role="presentation"><a role="menuitem" href="/service-provider-app/saml/logout" target="_self" class="dropdown-item">
-          <div fixed-width="" icon="kirjaudu-ulos" class="icon mr-3"></div><span>kirjaudu-ulos</span>
-        </a></li>
+      <li role="presentation"><a role="menuitem" href="/service-provider-app/saml/logout" target="_self" class="dropdown-item"><span aria-hidden="true" class="icon mr-3 valittu material-icons">logout</span> <span>kirjaudu-ulos</span></a></li>
     </ul>
   </li>
 </div>
