@@ -7,7 +7,7 @@
       </div>
       <div slot="right">
         <b-button variant="link" @click="poista(idx)">
-          <fas fixed-width icon="sulje"></fas>
+          <EpMaterialIcon>close</EpMaterialIcon>
         </b-button>
       </div>
     </ep-input>
@@ -34,12 +34,14 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import EpButton from '../EpButton/EpButton.vue';
 import EpInput from './EpInput.vue';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import _ from 'lodash';
 
 @Component({
   components: {
     EpButton,
     EpInput,
+    EpMaterialIcon,
   },
 })
 export default class EpList extends Vue {
