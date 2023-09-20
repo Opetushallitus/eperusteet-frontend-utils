@@ -8,14 +8,6 @@
             @click="toggle()">
     <fas fixed-width icon="bars"></fas>
   </b-button>
-  <!--
-  <b-button variant="link"
-            :aria-label="$t('lisaa-suosikkeihin')"
-            v-b-tooltip.hover
-            :title="$t('lisaa-suosikkeihin')">
-    <fas fixed-width icon="star"></fas>
-  </b-button>
-  -->
   <b-button variant="link"
             v-if="showSocial"
             :aria-label="$t('jaa-sosiaalisessa-mediassa')"
@@ -56,26 +48,6 @@
       </ul>
     </social-sharing>
   </b-popover>
-  <!--
-  <b-button variant="link"
-            :aria-label="$t('avaa-asetukset')"
-            v-b-tooltip.hover
-            :title="$t('avaa-asetukset')"
-            :id="settingsButtonId">
-    <fas fixed-width icon="cog"></fas>
-  </b-button>
-  <b-popover :target="settingsButtonId" triggers="click blur">
-    <template v-slot:title>{{ $t('lisaasetukset') }}</template>
-    <ep-toggle v-model="innerValue.autoScroll">{{ $t('automaattinen-nayton-vieritys')}}</ep-toggle>
-    <ep-toggle v-model="innerValue.showSubchapter" :is-editing="false">{{ $t('avaa-paalukujen-aliluvut-automaattisesti')}}</ep-toggle>
-  </b-popover>
-  <b-button variant="link"
-            :aria-label="$t('avaa-ohjeet')"
-            v-b-tooltip.hover
-            :title="$t('avaa-ohjeet')">
-    <fas fixed-width icon="question"></fas>
-  </b-button>
-  -->
 </div>
 </template>
 
