@@ -53,12 +53,10 @@
 
 <script lang="ts">
 import { Vue, Prop, Component } from 'vue-property-decorator';
-import EpIcon from '@shared/components/EpIcon/EpIcon.vue';
 import InnerTile from './InnerTile.vue';
 
 @Component({
   components: {
-    EpIcon,
     InnerTile,
   },
 })

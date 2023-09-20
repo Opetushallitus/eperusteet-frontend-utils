@@ -47,7 +47,6 @@
 
 <script lang="ts">
 import { Watch, Prop, Component, Vue } from 'vue-property-decorator';
-import EpIcon from '@shared/components/EpIcon/EpIcon.vue';
 import EpSearch from '@shared/components/forms/EpSearch.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpToggle from '@shared/components/forms/EpToggle.vue';
@@ -66,7 +65,6 @@ type IndexedNode = FlattenedNodeDto & { idx: number };
 
 @Component({
   components: {
-    EpIcon,
     EpMultiSelect,
     EpSearch,
     EpButton,

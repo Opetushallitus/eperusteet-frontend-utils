@@ -1,7 +1,7 @@
 <template>
 <div class="icon">
   <slot name="fas">
-    <EpMaterialIcon class="inner" :background="actualBackground" :color="color" size="40px">{{ icon }}</EpMaterialIcon>
+    <EpMaterialIcon class="inner" icon-shape="outlined" :background="actualBackground" :color="color" size="40px">{{ icon }}</EpMaterialIcon>
   </slot>
 </div>
 </template>
