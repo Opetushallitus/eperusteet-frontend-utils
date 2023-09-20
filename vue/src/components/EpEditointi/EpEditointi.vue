@@ -160,7 +160,7 @@
                                  v-tutorial
                                  v-if="hasKeskusteluSlot"
                                  @click="toggleSidebarState(1)"
-                                 icon="kommentit"
+                                 icon="comment"
                                  variant="lightblue fa-flip-horizontal" />
                 <ep-round-button class="ml-2"
                                  :disabled="disabled"
@@ -168,13 +168,13 @@
                                  v-tutorial
                                  v-if="hasOhjeSlot"
                                  @click="toggleSidebarState(2)"
-                                 icon="kysymysmerkki"
+                                 icon="question_mark"
                                  variant="green" />
                 <ep-round-button class="ml-2"
                                  :disabled="disabled"
                                  v-if="hasPerusteSlot"
                                  @click="toggleSidebarState(3)"
-                                 icon="valtakunnalliset-perusteet"
+                                 icon="account_balance"
                                  variant="pink" />
               </div>
             </div>

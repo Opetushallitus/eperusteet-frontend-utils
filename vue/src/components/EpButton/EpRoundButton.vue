@@ -4,7 +4,7 @@
           v-bind="$attrs"
           :disabled="disabled"
           @click="$emit('click')">
-    <fas :icon="icon" fixed-width />
+    <EpMaterialIcon>{{ icon }}</EpMaterialIcon>
   </button>
 </template>
 
@@ -12,10 +12,12 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 
 import EpSpinnerInline from '@shared/components/EpSpinner/EpSpinnerInline.vue';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
   @Component({
     components: {
       EpSpinnerInline,
+      EpMaterialIcon,
     },
   })
 export default class EpRoundButton extends Vue {

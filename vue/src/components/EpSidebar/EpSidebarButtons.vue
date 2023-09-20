@@ -82,10 +82,12 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import EpToggle from '../forms/EpToggle.vue';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 @Component({
   components: {
     EpToggle,
+    EpMaterialIcon,
   },
 })
 export default class EpSidebarButtons extends Vue {
