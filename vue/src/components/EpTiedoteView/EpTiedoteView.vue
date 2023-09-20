@@ -6,7 +6,7 @@
         <ep-linkki
           :url="url"
           v-oikeustarkastelu="{ oikeus: 'hallinta', kohde: 'pohja' }"
-          icon="plussa">
+          icon="add">
           <span class="ml-1 link-text">{{ $t('lisaa-tiedote') }}</span>
         </ep-linkki>
       </div>
@@ -38,7 +38,6 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
 import { Prop, Vue, Component } from 'vue-property-decorator';
 import EpMainView from '../EpMainView/EpMainView.vue';
 import EpContentReadMore from '../EpContentReadMore/EpContentReadMore.vue';
