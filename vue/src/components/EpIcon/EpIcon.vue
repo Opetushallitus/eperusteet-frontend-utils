@@ -1,13 +1,14 @@
 <template>
-<div class="icon" :style="{ background: actualBackground, color: color }">
+<div class="icon">
   <slot name="fas">
-    <fas :icon="icon"></fas>
+    <EpMaterialIcon class="inner" :background="actualBackground" :color="color" size="40px">{{ icon }}</EpMaterialIcon>
   </slot>
 </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 const ColorMap: any = {
   'arkisto': '#3367E3',
@@ -20,7 +21,9 @@ const ColorMap: any = {
 };
 
 @Component({
-  name: 'EpIcon',
+  components: {
+    EpMaterialIcon,
+  },
 })
 export default class EpIcon extends Vue {
   @Prop({ required: true })
@@ -47,10 +50,8 @@ export default class EpIcon extends Vue {
   text-align: center;
   vertical-align: middle;
 
-  svg {
-    width: 40px;
-    height: 40px;
-    margin-top: 15px;
+  .inner {
+    padding-top: 15px;
   }
 }
 </style>

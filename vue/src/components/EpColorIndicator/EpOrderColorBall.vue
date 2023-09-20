@@ -1,12 +1,19 @@
 <template>
-  <span class="pallo" :style="'color:' + kohdealueVarit[index]"><fas icon="circle"/></span>
+  <span :style="'color:' + kohdealueVarit[index]">
+    <EpMaterialIcon size="14px">circle</EpMaterialIcon>
+  </span>
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
-import { Component, Vue, Prop } from 'vue-property-decorator';
 
-@Component
+import { Component, Vue, Prop } from 'vue-property-decorator';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+
+@Component({
+  components: {
+    EpMaterialIcon,
+  },
+})
 export default class EpOrderColorBall extends Vue {
   @Prop({ required: true })
   private index!: number;
@@ -17,9 +24,4 @@ export default class EpOrderColorBall extends Vue {
 </script>
 
 <style lang="scss" scoped>
-
-  .pallo {
-    font-size: 0.8rem;
-  }
-
 </style>
