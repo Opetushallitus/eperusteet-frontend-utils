@@ -1,7 +1,7 @@
 <template>
 <div class="filter" role="search" :class="{'maxWidth': maxWidth}">
     <span class="form-control-feedback">
-        <fas fixed-width :icon="icon" :spin="isLoading"></fas>
+      <EpMaterialIcon class="icon">search</EpMaterialIcon>
     </span>
     <label class="sr-only" :for="id">{{ ariaPlaceholderText }}</label>
     <input :id="id"
@@ -17,9 +17,12 @@
 import _ from 'lodash';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Kielet } from '../../stores/kieli';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 @Component({
-  name: 'EpSearch',
+  components: {
+    EpMaterialIcon,
+  },
 })
 export default class EpSearch extends Vue {
   @Prop({ type: String })
@@ -42,7 +45,7 @@ export default class EpSearch extends Vue {
   }
 
   get icon() {
-    return this.isLoading ? 'spinner' : 'etsi';
+    return this.isLoading ? 'spinner' : 'search';
   }
 
   get placeholderText() {
@@ -69,6 +72,10 @@ export default class EpSearch extends Vue {
 </script>
 
 <style scoped lang="scss">
+.icon {
+  vertical-align: middle;
+}
+
 .filter {
   position: relative;
 
