@@ -7,8 +7,8 @@
         v-model="innerModel">
         <div v-for="(model, i) in innerModel" :key="group+i" class="pt-3 pb-2 px-3 mb-2 jarjestaja">
           <div class="d-flex">
-            <div class="order-handle mr-3" slot="left">
-              <fas icon="grip-vertical"></fas>
+            <div class="order-handle mr-3 pt-1" slot="left">
+              <EpMaterialIcon>drag_indicator</EpMaterialIcon>
             </div>
             <div class="w-100">
 
@@ -129,7 +129,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Watch, Component, Prop } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 import _ from 'lodash';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import draggable from 'vuedraggable';
@@ -139,6 +139,7 @@ import { Kielet } from '@shared/stores/kieli';
 import EpSearch from '@shared/components/forms/EpSearch.vue';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
 import EpLinkki from '@shared/components/EpLinkki/EpLinkki.vue';
+import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
 
 @Component({
   components: {
@@ -148,6 +149,7 @@ import EpLinkki from '@shared/components/EpLinkki/EpLinkki.vue';
     EpSearch,
     EpContent,
     EpLinkki,
+    EpMaterialIcon,
   },
 })
 export default class EpKoulutuksenJarjestajaSelect extends Vue {

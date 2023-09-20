@@ -44,10 +44,8 @@
 
             <template v-slot:cell(nimi)="{ item }">
               <span v-if="multiple">
-<!--                <EpMaterialIcon v-if="item.selected" class="checked mr-2">check_box</EpMaterialIcon>-->
-<!--                <EpMaterialIcon v-else class="checked mr-2">check_box_outline_blank</EpMaterialIcon>-->
-                <fas v-if="item.selected" icon="check-square"/>
-                <fas v-else :icon="['far', 'square']" class="checked mr-2"/>
+                <EpMaterialIcon v-if="item.selected" class="checked mr-2" size="20px">check_box</EpMaterialIcon>
+                <EpMaterialIcon v-else class="checked mr-2" size="20px">check_box_outline_blank</EpMaterialIcon>
               </span>
               <span class="btn-link">
                 {{ $kaanna(item.nimi) }}

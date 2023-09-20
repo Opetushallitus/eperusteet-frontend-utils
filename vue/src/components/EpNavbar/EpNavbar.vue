@@ -30,7 +30,7 @@
       </nav>
     </b-navbar-nav>
     <b-button class="text-white" v-else v-b-toggle.sisaltobar variant="icon">
-      <fas icon="bars"></fas>
+      <EpMaterialIcon>menu</EpMaterialIcon>
     </b-button>
 
     <b-navbar-nav class="ml-auto">
