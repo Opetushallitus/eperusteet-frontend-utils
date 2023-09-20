@@ -70,7 +70,8 @@
                 </b-dropdown>
                 <div v-if="currentLock && features.lockable" class="d-flex align-items-center ml-2 mr-2">
                   <div>
-                    <fas size="lg" icon="lukko" :title="$t('sivu-lukittu')" />
+                    <EpMaterialIcon class="mr-1" :color="'#555'">lock</EpMaterialIcon>
+                    {{ $t('sivu-lukittu') }}
                   </div>
                   <div class="flex-grow-1 ml-3">
                     <div>
@@ -195,31 +196,34 @@
               size="sm"
               class="mb-0">
               <template v-slot:prev-text>
-                <EpMaterialIcon>checvron_left</EpMaterialIcon>
+                <EpMaterialIcon>chevron_left</EpMaterialIcon>
               </template>
               <template v-slot:next-text>
-                <EpMaterialIcon>checvron_right</EpMaterialIcon>
+                <EpMaterialIcon>chevron_right</EpMaterialIcon>
               </template>
             </b-pagination>
           </div>
           <div class="floating-editing-buttons">
-            <ep-button variant="link" icon="lista">
+            <ep-button variant="link">
               <ep-versio-modaali :value="current"
                 :versions="historia"
                 :current="current"
                 :per-page="10"
                 @restore="restore($event)">
+                <EpMaterialIcon class="mr-1 icon" :background="'inherit'" :color="'inherit'">menu</EpMaterialIcon>
                 {{ $t('palaa-listaan') }}
               </ep-versio-modaali>
             </ep-button>
             <ep-button variant="link"
-                       icon="peruuta"
                        @click="restore({ numero: current.numero, routePushLatest: true })">
+              <EpMaterialIcon class="mr-1 icon" :background="'inherit'" :color="'inherit'">keyboard_return</EpMaterialIcon>
               {{ $t('palauta-tama-versio') }}
             </ep-button>
-            <router-link :to="{ query: {} }">
-              <ep-button variant="link" icon="sulje" />
-            </router-link>
+            <div class="btn">
+              <router-link :to="{ query: {} }">
+                <EpMaterialIcon :background="'inherit'" :color="'inherit'">close</EpMaterialIcon>
+              </router-link>
+            </div>
           </div>
         </div>
       </div>
@@ -706,6 +710,10 @@ export default class EpEditointi extends Mixins(validationMixin) {
 </script>
 <style scoped lang="scss">
 @import '../../styles/variables';
+
+.icon {
+  vertical-align: bottom;
+}
 
 .editointikontrolli {
   margin-top: 4px;
