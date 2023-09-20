@@ -21,19 +21,16 @@
           class="d-flex align-items-center justify-content-center my-2"
           role="radiogroup"
           :aria-label="$t('arviointi')">
-          <fas
-            v-for="rating in currentRatings"
-            :key="rating.value"
-            icon="tahti-taytetty"
-            class="icon-tahti fa-lg mx-3"
-            :class="{ 'icon-tahti--active': isActiveRating(rating) }"
-            role="radio"
-            aria-hidden="false"
-            :aria-checked="'' + rating.selected + ''"
-            :aria-label="$t('tahti-arvio-' + rating.value)"
-            @click="onSelectRating(rating)"
-            @mouseenter="onRatingHover(rating.value)"
-            @mouseleave="onRatingBlur" />
+          <div v-for="rating in currentRatings"
+               :key="rating.value"
+               class="icon-tahti fa-lg mx-3"
+               @click="onSelectRating(rating)"
+               @mouseenter="onRatingHover(rating.value)"
+               @mouseleave="onRatingBlur" >
+            <EpMaterialIcon :class="{ 'icon-tahti--active': isActiveRating(rating) }"
+                            aria-hidden="false"
+                            :aria-label="$t('tahti-arvio-' + rating.value)">star</EpMaterialIcon>
+          </div>
         </div>
         <b-form-group v-if="hasSelectedRating" class="mt-4 mb-0">
           <input type="hidden" v-model="selectedRating">
@@ -74,15 +71,9 @@
           :show-spinner="isSending">
           <span class="mx-3">{{ $t('laheta') }}</span>
         </ep-button>
-        <fas
-          class="close-btn"
-          aria-hidden="false"
-          :aria-label="$t('sulje')"
-          focusable="true"
-          role="button"
-          tabindex="0"
-          icon="sulje"
-          @click="hide()" />
+        <div class="close-btn" @click="hide()">
+          <EpMaterialIcon aria-hidden="false" :aria-label="$t('sulje')">close</EpMaterialIcon>
+        </div>
       </template>
     </b-modal>
     <button
@@ -91,10 +82,10 @@
       @click="showModal"
       :aria-label="$t('mita-mielta-uudesta-eperusteet-palvelusta')"
       tabindex="0">
-      <fas aria-hidden="true"
-           icon="hymio"
-           class="icon-hymio fa-2x fa-inverse"
-           v-b-popover="{content: $t('anna-palautetta-eperusteista'), trigger: 'hover', placement: 'top', variant: 'primary'}"/>
+      <EpMaterialIcon class="icon-hymio"
+                      :color="'white'"
+                      size="2.75rem"
+                      v-b-popover="{content: $t('anna-palautetta-eperusteista'), trigger: 'hover', placement: 'top', variant: 'primary'}">sentiment_satisfied_alt</EpMaterialIcon>
     </button>
   </div>
 </template>
@@ -105,6 +96,7 @@ import EpContent from '@shared/components/EpContent/EpContent.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import { Kielet } from '@shared/stores/kieli';
 import { ITPalauteProvider } from '@shared/stores/types';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 interface Rating {
   value: number,
@@ -115,6 +107,7 @@ interface Rating {
   components: {
     EpContent,
     EpButton,
+    EpMaterialIcon,
   },
 })
 export default class EpFeedbackModal extends Vue {
@@ -209,7 +202,7 @@ export default class EpFeedbackModal extends Vue {
     right: 1rem;
     background-color: $green;
     border-radius: 50%;
-    box-shadow: 0px 8px 17px 8px rgba(0,0,0,0.25);
+    box-shadow: 0 8px 17px 8px rgba(0,0,0,0.25);
     transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
     &:focus,
@@ -217,9 +210,7 @@ export default class EpFeedbackModal extends Vue {
       background-color: darken($green, 10%);
     }
   }
-  .icon-hymio {
-    font-size: 2.75rem;
-  }
+
   .icon-tahti {
     color: $gray-lighten-12;
     cursor: pointer;
