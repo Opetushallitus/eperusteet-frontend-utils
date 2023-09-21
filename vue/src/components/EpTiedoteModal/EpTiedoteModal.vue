@@ -3,7 +3,7 @@
 
     <ep-button
       v-if="editable"
-      micon="add"
+      icon="add"
       variant="outline"
       v-b-modal.tiedoteMuokkausModal
       @click="lisaaTiedote"
@@ -125,10 +125,10 @@
               </template>
             </ep-koodisto-select>
             <div class="flex-shrink pl-2">
-              <ep-button @click="poistaTutkinnonosa(index)" variant="link" micon="delete" inherit-style></ep-button>
+              <ep-button @click="poistaTutkinnonosa(index)" variant="link" icon="delete" inherit-style></ep-button>
             </div>
           </div>
-          <ep-button buttonClass="pl-0" variant="outline-primary" micon="add" @click="lisaaTutkinnonOsa" >
+          <ep-button buttonClass="pl-0" variant="outline-primary" icon="add" @click="lisaaTutkinnonOsa" >
             {{ $t('lisaa-tutkinnon-osa') }}
           </ep-button>
         </ep-form-content>
@@ -148,10 +148,10 @@
               </template>
             </ep-koodisto-select>
             <div class="flex-shrink pl-2">
-              <ep-button @click="poistaOsaamisala(index)" variant="link" micon="delete" inherit-style></ep-button>
+              <ep-button @click="poistaOsaamisala(index)" variant="link" icon="delete" inherit-style></ep-button>
             </div>
           </div>
-          <ep-button buttonClass="pl-0" variant="outline-primary" micon="add" @click="lisaaOsaamisala" >
+          <ep-button buttonClass="pl-0" variant="outline-primary" icon="add" @click="lisaaOsaamisala" >
             {{ $t('lisaa-osaamisala') }}
           </ep-button>
         </ep-form-content>
@@ -221,8 +221,8 @@
 
         <div v-else class="d-flex justify-content-between w-100">
           <div v-if="editable">
-            <ep-button micon="edit" variant="link" @click="editing = true" v-oikeustarkastelu="oikeustarkastelu" inherit-style>{{ $t('muokkaa') }}</ep-button>
-            <ep-button micon="delete" variant="link" @click="poista" v-oikeustarkastelu="oikeustarkastelu" inherit-style>{{ $t('poista') }}</ep-button>
+            <ep-button icon="edit" variant="link" @click="editing = true" v-oikeustarkastelu="oikeustarkastelu" inherit-style>{{ $t('muokkaa') }}</ep-button>
+            <ep-button icon="delete" variant="link" @click="poista" v-oikeustarkastelu="oikeustarkastelu" inherit-style>{{ $t('poista') }}</ep-button>
           </div>
           <div v-else />
 

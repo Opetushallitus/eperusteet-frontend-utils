@@ -21,7 +21,7 @@
       </b-row>
     </draggable>
 
-    <ep-button @click="lisaaKuvaus()" variant="outline" micon="add" class="mt-1">
+    <ep-button @click="lisaaKuvaus()" variant="outline" icon="add" class="mt-1">
       {{ $t('lisaa-kuvaus') }}
     </ep-button>
 

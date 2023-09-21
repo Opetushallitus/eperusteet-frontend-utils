@@ -6,12 +6,7 @@
           @click="$emit('click')"
           :size="size"
           :class="variantClass">
-<!--    <span v-if="icon"-->
-<!--         class="float-left"-->
-<!--         :class="{ 'mr-2': $slots.default, 'icon': isOutline }">-->
-<!--      <fas fixed-width :icon="icon"></fas>-->
-<!--    </span>-->
-    <EpMaterialIcon v-if="micon" class="float-left mr-1" icon-shape="outlined" :background="inherit" :color="inherit">{{micon}}</EpMaterialIcon>
+    <EpMaterialIcon v-if="icon" class="float-left mr-1" icon-shape="outlined" :background="inherit" :color="inherit">{{ icon }}</EpMaterialIcon>
     <div class="teksti" :class="{'pl-3 pr-3': paddingx}">
       <slot />
       <ep-spinner-inline v-if="showSpinner" :link="variant === 'link' || isOutline"/>
@@ -36,9 +31,6 @@ import EpSpinnerInline from '../EpSpinner/EpSpinnerInline.vue';
 export default class EpButton extends Vue {
   @Prop({ default: '' })
   private icon!: string;
-
-  @Prop({ default: '' })
-  private micon!: string;
 
   @Prop()
   private buttonClass!: string;

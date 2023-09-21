@@ -16,13 +16,13 @@
         <div class="float-right">
           <div v-if="!row.item.valittu">
             <ep-button variant="link"
-                       micon="visibility"
+                       icon="visibility"
                        @click="changeVersion(row.item.index)"
                        inherit-style>
               {{ $t('katsele') }}
             </ep-button>
             <ep-button variant="link"
-                       micon="keyboard_return"
+                       icon="keyboard_return"
                        @click="$emit('restore', { numero: row.item.numero, modal: $refs['epversiomodaali'] })"
                        inherit-style>
               {{ $t('palauta') }}

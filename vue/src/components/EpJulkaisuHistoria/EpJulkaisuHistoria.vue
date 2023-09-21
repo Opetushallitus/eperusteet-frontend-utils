@@ -19,7 +19,7 @@
             <div class="d-flex align-items-center">
               <slot name="katsele" :julkaisu="julkaisu" v-if="julkaisu.tila !== 'VIRHE'"></slot>
               <EpButton v-if="latestJulkaisuRevision && latestJulkaisuRevision.revision !== julkaisu.revision && julkaisu.tila === 'JULKAISTU'"
-                        micon="keyboard_return"
+                        icon="keyboard_return"
                         class="ml-4"
                         variant="link"
                         :showSpinner="julkaisu.palautuksessa"

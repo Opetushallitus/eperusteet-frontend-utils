@@ -22,7 +22,7 @@
       </template>
 
       <template v-slot:cell(poisto)="{ item }" v-if="isEditing">
-        <ep-button variant="link" micon="delete" @click="remove(item)" inherit-style/>
+        <ep-button variant="link" icon="delete" @click="remove(item)" inherit-style/>
       </template>
 
     </b-table>
@@ -35,7 +35,7 @@
       :multiple="true"
       :defaultFields="koodistoSelectDefaultFields">
       <template #default="{ open }">
-        <ep-button @click="open" micon="add" variant="outline">
+        <ep-button @click="open" icon="add" variant="outline">
           <slot name="button-text">lisaa-koodi</slot>
         </ep-button>
 

@@ -51,7 +51,7 @@
               <EpTavoitealueKeskeisetSisaltoalueet v-model="tavoitealue.keskeisetSisaltoalueet"  />
             </div>
             <div class="text-right">
-              <ep-button variant="link" @click="poistaTavoitealue(tavoitealue)" micon="delete" inherit-style>
+              <ep-button variant="link" @click="poistaTavoitealue(tavoitealue)" icon="delete" inherit-style>
                 {{ $t('poista-tavoitteet-ja-sisaltoalueet') }}
               </ep-button>
             </div>
@@ -60,10 +60,10 @@
       </draggable>
 
       <div class="d-flex flex-column">
-        <ep-button variant="outline" micon="add" @click="lisaaTavoitealue('OTSIKKO')">
+        <ep-button variant="outline" icon="add" @click="lisaaTavoitealue('OTSIKKO')">
           {{ $t('lisaa-tavoitealueen-otsikko') }}
         </ep-button>
-        <ep-button variant="outline" micon="add" @click="lisaaTavoitealue('TAVOITESISALTOALUE')">
+        <ep-button variant="outline" icon="add" @click="lisaaTavoitealue('TAVOITESISALTOALUE')">
           {{ $t('lisaa-tavoitteet-ja-sisaltoalueet') }}
         </ep-button>
       </div>

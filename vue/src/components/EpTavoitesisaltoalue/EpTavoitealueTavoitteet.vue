@@ -43,7 +43,7 @@
     </draggable>
 
     <div class="d-flex justify-content-between">
-      <ep-button variant="outline" micon="add" @click="lisaaTavoite()">
+      <ep-button variant="outline" icon="add" @click="lisaaTavoite()">
         <slot name="lisaaBtnText">
           {{ $t('lisaa-tavoite') }}
         </slot>

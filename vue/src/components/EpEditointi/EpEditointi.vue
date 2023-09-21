@@ -85,7 +85,7 @@
                 <ep-button id="editointi-muokkaus"
                            v-tutorial
                            variant="link"
-                           micon="edit"
+                           icon="edit"
                            v-oikeustarkastelu="muokkausOikeustarkastelu"
                            @click="modify()"
                            v-else-if="!isEditing && features.editable && !versiohistoriaVisible"
@@ -99,7 +99,7 @@
                     <ep-button id="editointi-kopiointi"
                               v-tutorial
                               variant="link"
-                              micon="edit"
+                              icon="edit"
                               v-oikeustarkastelu="muokkausOikeustarkastelu"
                               @click="copy()"
                               :show-spinner="isSaving"
@@ -207,7 +207,7 @@
           </div>
           <div class="floating-editing-buttons">
             <ep-button variant="link"
-                       micon="menu"
+                       icon="menu"
                        inherit-style>
               <ep-versio-modaali :value="current"
                 :versions="historia"
@@ -219,7 +219,7 @@
             </ep-button>
             <ep-button variant="link"
                        @click="restore({ numero: current.numero, routePushLatest: true })"
-                       micon="keyboard_return"
+                       icon="keyboard_return"
                        inherit-style>
               {{ $t('palauta-tama-versio') }}
             </ep-button>

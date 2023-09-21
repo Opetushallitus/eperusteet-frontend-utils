@@ -20,7 +20,7 @@
       </b-row>
     </draggable>
 
-    <ep-button variant="outline" micon="add" @click="lisaaKeskeinenSisaltoalue()" >
+    <ep-button variant="outline" icon="add" @click="lisaaKeskeinenSisaltoalue()" >
       {{ $t('lisaa-keskeinen-sisaltoalue') }}
     </ep-button>
   </div>

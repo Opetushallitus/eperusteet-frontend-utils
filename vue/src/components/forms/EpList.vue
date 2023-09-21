@@ -15,7 +15,7 @@
   <div style="margin-top: 20px;">
     <ep-button
       variant="outline-primary"
-      micon="add"
+      icon="add"
       @click="lisaaRivi()">
       {{ $t(lisays) }}
     </ep-button>

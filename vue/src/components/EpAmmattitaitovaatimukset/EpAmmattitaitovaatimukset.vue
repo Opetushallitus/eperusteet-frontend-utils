@@ -36,7 +36,7 @@
       <div class="mt-2">
         <ep-button variant="outline"
                    @click="lisaaVaatimus(inner)"
-                   micon="add">
+                   icon="add">
                    {{ $t('lisaa-ammattitaitovaatimus-ilman-kohdealuetta') }}
         </ep-button>
       </div>
@@ -77,7 +77,7 @@
                                 :koodi="kohdealue.vaatimukset[vaatimusIdx].koodi" />
                 </div>
                 <div>
-                  <ep-button @click="poistaVaatimus(kohdealue, v)" variant="link" micon="delete" inherit-style></ep-button>
+                  <ep-button @click="poistaVaatimus(kohdealue, v)" variant="link" icon="delete" inherit-style></ep-button>
                 </div>
               </div>
             </draggable>
@@ -85,12 +85,12 @@
             <div class="mt-2">
               <ep-button @click="lisaaKohdealueVaatimus(kohdealue)"
                          variant="outline"
-                         micon="add">
+                         icon="add">
                 {{ kaannokset.lisaaAmmattitaitovaatimus }}
               </ep-button>
             </div>
             <div class="float-right">
-              <ep-button @click="poistaKohdealue(inner, kohdealue)" variant="link" micon="delete" inherit-style>
+              <ep-button @click="poistaKohdealue(inner, kohdealue)" variant="link" icon="delete" inherit-style>
                 {{ $t('poista-kohdealue') }}
               </ep-button>
             </div>
@@ -101,7 +101,7 @@
       <div class="mt-2">
         <ep-button @click="lisaaKohdealue(inner)"
                    variant="outline"
-                   micon="add">
+                   icon="add">
           {{ kaannokset.lisaaKohdealue }}
         </ep-button>
       </div>

@@ -4,7 +4,7 @@
       @click="openModal"
       buttonClass="pr-1"
       variant="link"
-      micon="edit"
+      icon="edit"
       v-oikeustarkastelu="{ oikeus: 'muokkaus' }"
       inherit-style>
       {{ $t('muokkaa') }}

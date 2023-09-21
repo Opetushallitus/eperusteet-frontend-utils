@@ -79,14 +79,14 @@
 <!--              <EpMaterialIcon icon-shape="outlined" :color="'inherit'" :background="'inherit'">delete</EpMaterialIcon>-->
 <!--              {{ $t('poista-tavoitteet-ja-sisaltoalueet') }}-->
 <!--            </ep-button>-->
-            <ep-button variant="link" @click="poistaTaitotaso(taitotaso)" micon="delete" inherit-style>
+            <ep-button variant="link" @click="poistaTaitotaso(taitotaso)" icon="delete" inherit-style>
               {{ $t(sisalto['poista-taitotaso']) }}
             </ep-button>
           </div>
         </div>
       </draggable>
 
-      <ep-button variant="outline" micon="add" @click="lisaaTaitotaso()">
+      <ep-button variant="outline" icon="add" @click="lisaaTaitotaso()">
         {{ $t(sisalto['lisaa-taitotaso']) }}
       </ep-button>
     </template>

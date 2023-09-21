@@ -38,7 +38,7 @@
           </div>
 
           <div class="text-right">
-            <ep-button variant="link" micon="delete" @click="poista(i)" inherit-style>
+            <ep-button variant="link" icon="delete" @click="poista(i)" inherit-style>
               {{ $t('poista-koulutuksen-jarjestaja') }}
             </ep-button>
           </div>
@@ -46,7 +46,7 @@
       </draggable>
       <EpButton v-if="isEditing"
                 variant="outline"
-                micon="add"
+                icon="add"
                 @click="lisaa()">
         <slot name="default">{{ $t('lisaa-koulutuksen-jarjestaja') }}</slot>
       </EpButton>

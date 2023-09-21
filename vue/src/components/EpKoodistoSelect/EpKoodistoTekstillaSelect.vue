@@ -6,7 +6,7 @@
       <div class="d-flex w-100 justify-content-between align-items-center" v-if="kooditByUri[koodi.koodiUri]">
         <div class="font-weight-bold">{{$kaanna(kooditByUri[koodi.koodiUri].nimi)}}</div>
         <div v-if="isEditing">
-          <ep-button variant="link" micon="delete" @click="poistaKoodi(koodi)" inherit-style>
+          <ep-button variant="link" icon="delete" @click="poistaKoodi(koodi)" inherit-style>
             {{ $t('poista') }}
           </ep-button>
         </div>

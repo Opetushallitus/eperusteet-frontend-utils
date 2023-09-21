@@ -57,7 +57,7 @@
           <div class="pt-2">
             <ep-button @click="poistaTavoite(aikataulu)"
                        variant="link"
-                       micon="delete"
+                       icon="delete"
                        inherit-style>
             </ep-button>
           </div>
@@ -67,7 +67,7 @@
 
     <ep-button @click="lisaaTavoite"
                variant="outline-primary"
-               micon="add">
+               icon="add">
       {{ $t('lisaa-tavoite') }}
     </ep-button>
 

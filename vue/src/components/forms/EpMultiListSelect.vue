@@ -43,14 +43,14 @@
         <ep-button v-if="!required || (i > 0 && !isLoading)"
                    buttonClass="p-0 pt-2 roskalaatikko"
                    variant="link"
-                   micon="delete"
+                   icon="delete"
                    @click="poistaValinta(i)"
                    inherit-style/>
       </div>
     </div>
 
     <ep-spinner v-if="isLoading"/>
-    <ep-button buttonClass="pl-0 lisaa-valinta" variant="outline-primary" micon="add" @click="lisaaValinta" v-else-if="multiple" >
+    <ep-button buttonClass="pl-0 lisaa-valinta" variant="outline-primary" icon="add" @click="lisaaValinta" v-else-if="multiple" >
       <slot name="lisaaTeksti">{{ $t(lisaaTeksti) }}</slot>
     </ep-button>
 
