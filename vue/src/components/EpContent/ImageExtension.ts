@@ -202,7 +202,7 @@ export default class ImageExtension extends Node {
               <img class="content-image" @click="open()" :data-uid="dataUid" :src="url" :title="title" :alt="figcaption ? altText : tempAltText">
               <figcaption>{{caption}}</figcaption>
             </figure>
-            <ep-button v-if="!dataUid" variant="outline" icon="plussa" @click="open()">{{$t('lisaa-kuva')}}</ep-button>
+            <ep-button v-if="!dataUid" variant="outline" micon="add" @click="open()">{{$t('lisaa-kuva')}}</ep-button>
           </div>
 
           <figure v-if="dataUid && !view.editable" class="text-center">

@@ -55,20 +55,19 @@
         </div>
         <div class="col-1 text-center pt-4">
           <div class="pt-2">
-            <ep-button
-              @click="poistaTavoite(aikataulu)"
-              variant="link"
-              icon="roskalaatikko">
+            <ep-button @click="poistaTavoite(aikataulu)"
+                       variant="link"
+                       micon="delete"
+                       inherit-style>
             </ep-button>
           </div>
         </div>
       </div>
     </div>
 
-    <ep-button
-      @click="lisaaTavoite"
-      variant="outline-primary"
-      icon="plussa">
+    <ep-button @click="lisaaTavoite"
+               variant="outline-primary"
+               micon="add">
       {{ $t('lisaa-tavoite') }}
     </ep-button>
 
@@ -76,11 +75,10 @@
 </template>
 
 <script lang="ts">
-
-import { Vue, Component, Prop, Mixins, Watch } from 'vue-property-decorator';
+import { Component, Prop, Mixins, Watch } from 'vue-property-decorator';
 import _ from 'lodash';
 import EpAikataulu from './EpAikataulu.vue';
-import { minLength, required, requiredIf } from 'vuelidate/lib/validators';
+import { requiredIf } from 'vuelidate/lib/validators';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpDatepicker from '@shared/components/forms/EpDatepicker.vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';

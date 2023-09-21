@@ -23,7 +23,7 @@
                   :value="taitotaso.nimi ? $kaanna(taitotaso.nimi.nimi) : ''"
                   disabled></b-form-input>
                 <b-input-group-append>
-                  <b-button @click="open" icon="plus" variant="primary">
+                  <b-button @click="open" variant="primary">
                     {{ $t('hae-koodistosta') }}
                   </b-button>
                 </b-input-group-append>
@@ -74,12 +74,12 @@
           </b-form-group>
 
           <div class="text-right">
+<!--            funktio puuttuu...-->
 <!--            <ep-button variant="link" @click="poistaTavoitealue(tavoitealue)">-->
 <!--              <EpMaterialIcon icon-shape="outlined" :color="'inherit'" :background="'inherit'">delete</EpMaterialIcon>-->
 <!--              {{ $t('poista-tavoitteet-ja-sisaltoalueet') }}-->
 <!--            </ep-button>-->
-            <ep-button variant="link" @click="poistaTaitotaso(taitotaso)">
-              <EpMaterialIcon icon-shape="outlined" :color="'inherit'" :background="'inherit'">delete</EpMaterialIcon>
+            <ep-button variant="link" @click="poistaTaitotaso(taitotaso)" micon="delete" inherit-style>
               {{ $t(sisalto['poista-taitotaso']) }}
             </ep-button>
           </div>

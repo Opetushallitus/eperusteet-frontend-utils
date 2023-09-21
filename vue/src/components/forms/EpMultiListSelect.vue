@@ -40,12 +40,17 @@
 
       </div>
       <div class="col-1">
-        <ep-button v-if="!required || (i > 0 && !isLoading)" buttonClass="p-0 pt-2 roskalaatikko" variant="link" icon="roskalaatikko" @click="poistaValinta(i)"/>
+        <ep-button v-if="!required || (i > 0 && !isLoading)"
+                   buttonClass="p-0 pt-2 roskalaatikko"
+                   variant="link"
+                   micon="delete"
+                   @click="poistaValinta(i)"
+                   inherit-style/>
       </div>
     </div>
 
     <ep-spinner v-if="isLoading"/>
-    <ep-button buttonClass="pl-0 lisaa-valinta" variant="outline-primary" icon="plussa" @click="lisaaValinta" v-else-if="multiple" >
+    <ep-button buttonClass="pl-0 lisaa-valinta" variant="outline-primary" micon="add" @click="lisaaValinta" v-else-if="multiple" >
       <slot name="lisaaTeksti">{{ $t(lisaaTeksti) }}</slot>
     </ep-button>
 
@@ -67,11 +72,9 @@
 <script lang="ts">
 import _ from 'lodash';
 import { Component, Prop, Mixins, Watch, Vue } from 'vue-property-decorator';
-
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import EpValidation from '../../mixins/EpValidation';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
-import EpMultiSelect from '@shared/components/forms/EpMultiSelect.vue';
 import Multiselect from 'vue-multiselect';
 
 export interface InnerModelValidations {

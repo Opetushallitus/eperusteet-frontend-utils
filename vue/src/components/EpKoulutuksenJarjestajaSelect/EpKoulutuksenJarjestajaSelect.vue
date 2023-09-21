@@ -15,7 +15,7 @@
               <b-input-group :label="$t('organisaation-nimi')" class="mb-4">
                 <b-form-input :value="$kaanna(model.nimi)" :disabled="true"></b-form-input>
                 <b-input-group-append>
-                  <b-button @click="open(i)" icon="plus" variant="primary">
+                  <b-button @click="open(i)" variant="primary">
                     {{ $t('hae-organisaatio') }}
                   </b-button>
                 </b-input-group-append>
@@ -38,17 +38,16 @@
           </div>
 
           <div class="text-right">
-            <ep-button variant="link" icon="roskalaatikko" @click="poista(i)">
+            <ep-button variant="link" micon="delete" @click="poista(i)" inherit-style>
               {{ $t('poista-koulutuksen-jarjestaja') }}
             </ep-button>
           </div>
         </div>
       </draggable>
-      <EpButton
-        variant="outline"
-        icon="plus"
-        @click="lisaa()"
-        v-if="isEditing">
+      <EpButton v-if="isEditing"
+                variant="outline"
+                micon="add"
+                @click="lisaa()">
         <slot name="default">{{ $t('lisaa-koulutuksen-jarjestaja') }}</slot>
       </EpButton>
 

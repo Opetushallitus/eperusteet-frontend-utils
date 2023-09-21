@@ -85,12 +85,13 @@
                 <ep-button id="editointi-muokkaus"
                            v-tutorial
                            variant="link"
+                           micon="edit"
                            v-oikeustarkastelu="muokkausOikeustarkastelu"
                            @click="modify()"
                            v-else-if="!isEditing && features.editable && !versiohistoriaVisible"
                            :show-spinner="isSaving || loading"
-                           :disabled="disabled">
-                  <EpMaterialIcon class="mr-1" :background="'inherit'" :color="'inherit'">edit</EpMaterialIcon>
+                           :disabled="disabled"
+                           inherit-style>
                   <slot name="muokkaa">{{ $t('muokkaa') }}</slot>
                 </ep-button>
                 <div v-else-if="!isEditing && features.copyable" v-oikeustarkastelu="muokkausOikeustarkastelu">
@@ -98,11 +99,12 @@
                     <ep-button id="editointi-kopiointi"
                               v-tutorial
                               variant="link"
+                              micon="edit"
                               v-oikeustarkastelu="muokkausOikeustarkastelu"
                               @click="copy()"
                               :show-spinner="isSaving"
-                              :disabled="disabled">
-                      <EpMaterialIcon class="mr-1" :background="'inherit'" :color="'inherit'">edit</EpMaterialIcon>
+                              :disabled="disabled"
+                              inherit-style>
                       <slot name="kopioi-teksti">{{ $t('kopioi-muokattavaksi') }}</slot>
                     </ep-button>
                   </slot>
@@ -204,19 +206,21 @@
             </b-pagination>
           </div>
           <div class="floating-editing-buttons">
-            <ep-button variant="link">
+            <ep-button variant="link"
+                       micon="menu"
+                       inherit-style>
               <ep-versio-modaali :value="current"
                 :versions="historia"
                 :current="current"
                 :per-page="10"
                 @restore="restore($event)">
-                <EpMaterialIcon class="mr-1 icon" :background="'inherit'" :color="'inherit'">menu</EpMaterialIcon>
                 {{ $t('palaa-listaan') }}
               </ep-versio-modaali>
             </ep-button>
             <ep-button variant="link"
-                       @click="restore({ numero: current.numero, routePushLatest: true })">
-              <EpMaterialIcon class="mr-1 icon" :background="'inherit'" :color="'inherit'">keyboard_return</EpMaterialIcon>
+                       @click="restore({ numero: current.numero, routePushLatest: true })"
+                       micon="keyboard_return"
+                       inherit-style>
               {{ $t('palauta-tama-versio') }}
             </ep-button>
             <div class="btn">

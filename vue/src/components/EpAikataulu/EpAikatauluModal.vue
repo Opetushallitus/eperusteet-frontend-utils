@@ -4,8 +4,9 @@
       @click="openModal"
       buttonClass="pr-1"
       variant="link"
-      icon="kyna"
-      v-oikeustarkastelu="{ oikeus: 'muokkaus' }">
+      micon="edit"
+      v-oikeustarkastelu="{ oikeus: 'muokkaus' }"
+      inherit-style>
       {{ $t('muokkaa') }}
     </ep-button>
 

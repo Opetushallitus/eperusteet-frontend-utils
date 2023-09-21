@@ -22,7 +22,7 @@
                         :value="tavoitealue.otsikko ? $kaanna(tavoitealue.otsikko.nimi) : ''"
                         disabled></b-form-input>
                       <b-input-group-append>
-                        <b-button @click="open" icon="plus" variant="primary">
+                        <b-button @click="open" variant="primary">
                           {{ $t('hae-koodistosta') }}
                         </b-button>
                       </b-input-group-append>
@@ -51,8 +51,7 @@
               <EpTavoitealueKeskeisetSisaltoalueet v-model="tavoitealue.keskeisetSisaltoalueet"  />
             </div>
             <div class="text-right">
-              <ep-button variant="link" @click="poistaTavoitealue(tavoitealue)">
-                <EpMaterialIcon icon-shape="outlined" :color="'inherit'" :background="'inherit'">delete</EpMaterialIcon>
+              <ep-button variant="link" @click="poistaTavoitealue(tavoitealue)" micon="delete" inherit-style>
                 {{ $t('poista-tavoitteet-ja-sisaltoalueet') }}
               </ep-button>
             </div>

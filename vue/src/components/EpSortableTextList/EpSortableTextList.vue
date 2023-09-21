@@ -26,7 +26,7 @@
       </draggable>
       <EpButton
         variant="outline"
-        icon="plus"
+        micon="add"
         @click="lisaaTeksti()"
         v-if="isEditing">
         <slot name="default">{{ $t('lisaa-teksti') }}</slot>

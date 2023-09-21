@@ -6,12 +6,12 @@
           @click="$emit('click')"
           :size="size"
           :class="variantClass">
-    <span v-if="icon"
-         class="float-left"
-         :class="{ 'mr-2': $slots.default, 'icon': isOutline }">
+<!--    <span v-if="icon"-->
+<!--         class="float-left"-->
+<!--         :class="{ 'mr-2': $slots.default, 'icon': isOutline }">-->
 <!--      <fas fixed-width :icon="icon"></fas>-->
-    </span>
-    <EpMaterialIcon v-if="micon" class="float-left mr-1" icon-shape="outlined">{{micon}}</EpMaterialIcon>
+<!--    </span>-->
+    <EpMaterialIcon v-if="micon" class="float-left mr-1" icon-shape="outlined" :background="inherit" :color="inherit">{{micon}}</EpMaterialIcon>
     <div class="teksti" :class="{'pl-3 pr-3': paddingx}">
       <slot />
       <ep-spinner-inline v-if="showSpinner" :link="variant === 'link' || isOutline"/>
@@ -61,6 +61,9 @@ export default class EpButton extends Vue {
   @Prop({ default: true, type: Boolean })
   private paddingx!: boolean;
 
+  @Prop({ default: false, type: Boolean })
+  private inheritStyle!: boolean;
+
   get isOutline() {
     return _.startsWith(this.variant, 'outline');
   }
@@ -74,6 +77,10 @@ export default class EpButton extends Vue {
       result = this.buttonClass + ' ' + result;
     }
     return result;
+  }
+
+  get inherit() {
+    return this.inheritStyle ? 'inherit' : '';
   }
 }
 </script>
