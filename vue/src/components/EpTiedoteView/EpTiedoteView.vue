@@ -3,12 +3,11 @@
     <template slot="header">
       <div class="d-flex justify-content-between align-items-center flex-wrap">
         <h1>{{ $t('tiedotteet') }}</h1>
-        <ep-linkki
-          :url="url"
-          v-oikeustarkastelu="{ oikeus: 'hallinta', kohde: 'pohja' }"
-          icon="add">
-          <span class="ml-1 link-text">{{ $t('lisaa-tiedote') }}</span>
-        </ep-linkki>
+        <ep-button variant="link" micon="add">
+          <a :href="url" v-oikeustarkastelu="{ oikeus: 'hallinta', kohde: 'pohja' }">
+            <span class="ml-1 link-text">{{ $t('lisaa-tiedote') }}</span>
+          </a>
+        </ep-button>
       </div>
     </template>
 
@@ -45,9 +44,11 @@ import EpLinkki from '../EpLinkki/EpLinkki.vue';
 import { Kielet } from '../../stores/kieli';
 import { TiedoteDto } from '../../tyypit';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
+import EpButton from '@shared/components/EpButton/EpButton.vue';
 
 @Component({
   components: {
+    EpButton,
     EpMainView,
     EpContentReadMore,
     EpLinkki,
