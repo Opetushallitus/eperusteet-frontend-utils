@@ -9,18 +9,20 @@
         <b-col cols="11">
           <ep-input v-model="sisalto[sisaltokieli]" :is-editing="isEditing" type="string" class="flex-grow-1">
             <div class="order-handle m-2" slot="left">
-              <fas icon="grip-vertical"></fas>
+              <EpMaterialIcon>drag_indicator</EpMaterialIcon>
             </div>
           </ep-input>
         </b-col>
         <b-col cols="1">
-          <fas icon="roskalaatikko" class="default-icon clickable mt-2" @click="poistaKuvaus(sisalto)"/>
+          <div class="clickable mt-2" @click="poistaKuvaus(sisalto)">
+            <EpMaterialIcon class="default-icon">delete</EpMaterialIcon>
+          </div>
         </b-col>
       </b-row>
     </draggable>
 
     <ep-button @click="lisaaKuvaus()" variant="outline" icon="plus" class="mt-1">
-    {{ $t('lisaa-kuvaus') }}
+      {{ $t('lisaa-kuvaus') }}
     </ep-button>
 
   </div>
@@ -33,12 +35,14 @@ import EpInput from '@shared/components/forms/EpInput.vue';
 import { Kielet } from '@shared/stores/kieli';
 import draggable from 'vuedraggable';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 @Component({
   components: {
     EpInput,
     draggable,
     EpButton,
+    EpMaterialIcon,
   },
 })
 export default class EpOsaAlueSisalto extends Vue {
