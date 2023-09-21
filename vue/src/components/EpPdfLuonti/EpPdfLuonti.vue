@@ -13,7 +13,7 @@
                      :pdfnimi="pdfnimi">
     </EpPdfDokumentti>
     <div class="btn-group">
-      <ep-button @click="luoPdf" :disabled="isPolling" :show-spinner="isPolling" buttonClass="px-5"><span>{{ $t('luo-uusi-pdf') }}</span></ep-button>
+      <ep-button @click="luoPdf" :disabled="isPolling || !dokumentti" :show-spinner="isPolling" buttonClass="px-5"><span>{{ $t('luo-uusi-pdf') }}</span></ep-button>
     </div>
   </div>
 </template>
