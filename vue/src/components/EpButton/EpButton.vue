@@ -9,7 +9,7 @@
     <span v-if="icon"
          class="float-left"
          :class="{ 'mr-2': $slots.default, 'icon': isOutline }">
-      <fas fixed-width :icon="icon"></fas>
+<!--      <fas fixed-width :icon="icon"></fas>-->
     </span>
     <EpMaterialIcon v-if="micon" class="float-left mr-1" icon-shape="outlined">{{micon}}</EpMaterialIcon>
     <div class="teksti" :class="{'pl-3 pr-3': paddingx}">

@@ -33,7 +33,9 @@
         :url="opas.url"
         class="opas mb-2">
         <div class="d-flex">
-          <div class="icon mr-3"><fas icon="ohjeet" /></div>
+          <div class="icon mr-3">
+            <EpMaterialIcon>menu_book</EpMaterialIcon>
+          </div>
           <div class="pt-1 text">
             <div class="nimi">{{$kaanna(opas.nimi)}}</div>
             <div v-if="opas.voimassaoloAlkaa">{{$t('voimaantulo')}} {{$sd(opas.voimassaoloAlkaa)}}</div>
@@ -65,6 +67,7 @@ import { OppaatQuery } from '@shared/api/eperusteet';
 import { buildEsikatseluUrl } from '@shared/utils/esikatselu';
 import { Kielet } from '@shared/stores/kieli';
 import EpExternalLink from '@shared/components/EpExternalLink/EpExternalLink.vue';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 @Component({
   components: {
@@ -74,6 +77,7 @@ import EpExternalLink from '@shared/components/EpExternalLink/EpExternalLink.vue
     KoulutustyyppiSelect,
     EpPagination,
     EpExternalLink,
+    EpMaterialIcon,
   },
 })
 export default class EpOppaat extends Vue {
