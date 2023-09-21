@@ -6,11 +6,6 @@
           @click="$emit('click')"
           :size="size"
           :class="variantClass">
-<!--    <span v-if="icon"-->
-<!--         class="float-left"-->
-<!--         :class="{ 'mr-2': $slots.default, 'icon': isOutline }">-->
-<!--      <fas fixed-width :icon="icon"></fas>-->
-<!--    </span>-->
     <EpMaterialIcon v-if="micon" class="float-left mr-1" icon-shape="outlined" :background="inherit" :color="inherit">{{micon}}</EpMaterialIcon>
     <div class="teksti" :class="{'pl-3 pr-3': paddingx}">
       <slot />
