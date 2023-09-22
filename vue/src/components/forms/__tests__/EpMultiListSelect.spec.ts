@@ -1,9 +1,8 @@
-import { mount, createLocalVue, shallowMount } from '@vue/test-utils';
+import { mount, createLocalVue } from '@vue/test-utils';
 import EpMultiListSelect from '../EpMultiListSelect.vue';
 import { Kielet } from '../../../stores/kieli';
 import VueI18n from 'vue-i18n';
 import BootstrapVue from 'bootstrap-vue';
-import pretty from 'pretty';
 
 describe('EpMultiListSelect component', () => {
   const localVue = createLocalVue();
@@ -57,9 +56,6 @@ describe('EpMultiListSelect component', () => {
                   :multiple="multiple"
                   :required="required"/>`,
     }), {
-      stubs: {
-        fas: true,
-      },
       localVue,
       i18n,
       sync: false,

@@ -26,8 +26,6 @@ describe('EpDatepicker component', () => {
   });
   const i18n = Kielet.i18n;
 
-  const stubs = ['fas'];
-
   it('Render component', () => {
     const wrapper = mount(EpDatepicker, {
       localVue,
@@ -35,7 +33,6 @@ describe('EpDatepicker component', () => {
         value: 1546870463248,
       },
       i18n,
-      stubs,
     });
 
     expect(wrapper.find('div').text()).toBe('7. tammikuuta 2019');
@@ -45,7 +42,6 @@ describe('EpDatepicker component', () => {
     const wrapper = mount(EpDatepicker, {
       localVue,
       i18n,
-      stubs,
       propsData: {
         value: 1546870463248,
         isEditing: true,
@@ -58,7 +54,6 @@ describe('EpDatepicker component', () => {
   it('Test Validation fail', () => {
     const wrapper = mount(EpDatepicker, {
       localVue,
-      stubs,
       i18n,
       propsData: {
         value: null,
@@ -88,7 +83,6 @@ describe('EpDatepicker component', () => {
   it('Test validation success', () => {
     const wrapper = mount(EpDatepicker, {
       localVue,
-      stubs,
       i18n,
       propsData: {
         value: 1552946400000,

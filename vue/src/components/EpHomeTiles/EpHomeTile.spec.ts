@@ -26,7 +26,6 @@ describe('EpHomeTile component', () => {
         $t: x => x,
       },
       stubs: {
-        fas: '<div />',
         'router-link': RouterLinkStub,
       },
     });
@@ -45,9 +44,6 @@ describe('EpHomeTile component', () => {
       },
       mocks: {
         $t: x => x,
-      },
-      stubs: {
-        fas: '<div />',
       },
     });
 

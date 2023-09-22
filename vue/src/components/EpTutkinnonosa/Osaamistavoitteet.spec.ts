@@ -34,7 +34,6 @@ describe('Osaamistavoitteet', () => {
         $kaanna: x => x && x.fi,
       },
       stubs: {
-        fas: '<div />',
         PortalTarget: '<div />',
         GeneerinenArviointiTaulukko: '<div />',
         Arviointi2020Taulukko: '<div />',

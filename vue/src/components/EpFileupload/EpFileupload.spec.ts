@@ -3,7 +3,6 @@ import EpFileupload from './EpFileupload.vue';
 import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
 import { Kielet } from '../../stores/kieli';
-import { delay } from '../../utils/delay';
 import { Kaannos } from '../../plugins/kaannos';
 import VueI18n from 'vue-i18n';
 
@@ -27,7 +26,6 @@ describe('EpFileupload component', () => {
         $t: x => x,
       },
       stubs: {
-        fas: '<div />',
         'router-link': RouterLinkStub,
       },
     });

@@ -4,7 +4,6 @@ import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
 import VueRouter from 'vue-router';
 import { Kielet } from '../../stores/kieli';
-import { delay } from '../../utils/delay';
 import { Kaannos } from '../../plugins/kaannos';
 import VueI18n from 'vue-i18n';
 
@@ -27,7 +26,6 @@ describe('EpNavbar component', () => {
         $t: x => x,
       },
       stubs: {
-        fas: '<div />',
         PortalTarget: '<div />',
         'router-link': RouterLinkStub,
       },

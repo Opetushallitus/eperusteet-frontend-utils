@@ -1,10 +1,7 @@
 import { mount, createLocalVue, RouterLinkStub } from '@vue/test-utils';
-import { findContaining } from '../../utils/jestutils';
 import EpLinkki from './EpLinkki.vue';
-import { Kieli } from '../../tyypit';
 import { Kaannos } from '../../plugins/kaannos';
 import VueI18n from 'vue-i18n';
-import { delay } from '../../utils/delay';
 import { Kielet } from '../../stores/kieli';
 import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
@@ -27,7 +24,6 @@ describe('EpLinkki component', () => {
         $t: x => x,
       },
       stubs: {
-        fas: '<div />',
         'router-link': RouterLinkStub,
       },
     });

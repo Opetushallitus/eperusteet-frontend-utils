@@ -31,9 +31,6 @@ describe('EpFormContent component', () => {
     }), {
       localVue,
       i18n,
-      stubs: {
-        fas: true,
-      },
     });
   };
 

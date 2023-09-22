@@ -34,7 +34,6 @@ describe('Arviointi 2020', () => {
         $kaanna: x => x && x.fi,
       },
       stubs: {
-        fas: '<div />',
         PortalTarget: '<div />',
         'router-link': RouterLinkStub,
       },

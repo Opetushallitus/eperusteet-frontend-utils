@@ -28,7 +28,6 @@ describe('EpViimeaikainenToiminta component', () => {
         $t: x => x,
       },
       stubs: {
-        fas: '<div />',
         'router-link': RouterLinkStub,
       },
     });
