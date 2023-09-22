@@ -3,7 +3,7 @@
     <template slot="header">
       <div class="d-flex justify-content-between align-items-center flex-wrap">
         <h1>{{ $t('tiedotteet') }}</h1>
-        <ep-button variant="link" micon="add">
+        <ep-button variant="link" icon="add">
           <a :href="url" v-oikeustarkastelu="{ oikeus: 'hallinta', kohde: 'pohja' }">
             <span class="ml-1 link-text">{{ $t('lisaa-tiedote') }}</span>
           </a>
