@@ -66,11 +66,11 @@ const tyypitettyKohdereititysId = {
 };
 
 const kohdeIcon = {
-  viite: 'kyna',
-  opetussuunnitelma: 'opetussuunnitelma',
-  opetussuunnitelma_rakenne: 'jarjesta',
-  termi: 'kasitteet',
-  kommentti: 'kommentti',
+  viite: 'edit',
+  opetussuunnitelma: 'article',
+  opetussuunnitelma_rakenne: 'low_priority',
+  termi: 'book',
+  kommentti: 'comment',
 };
 
 const tapahtumaIcon = {
