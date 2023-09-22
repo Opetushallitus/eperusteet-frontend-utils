@@ -1,9 +1,7 @@
 import { mount, createLocalVue } from '@vue/test-utils';
 import EpFooter from './EpFooter.vue';
-import { Kieli } from '../../tyypit';
 import { Kaannos } from '../../plugins/kaannos';
 import VueI18n from 'vue-i18n';
-import { delay } from '../../utils/delay';
 import { Kielet } from '../../stores/kieli';
 import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
@@ -21,9 +19,6 @@ describe('EpFooter component', () => {
       localVue,
       mocks: {
         $t: x => x,
-      },
-      stubs: {
-        fas: '<div />',
       },
     });
 
