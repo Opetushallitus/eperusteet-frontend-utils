@@ -1,6 +1,5 @@
 import { mount, createLocalVue } from '@vue/test-utils';
 import { reactive, computed } from '@vue/composition-api';
-import Vue from 'vue';
 import EpEditointi from './EpEditointi.vue';
 import { IEditoitava } from './EditointiStore';
 import { Kielet } from '../../stores/kieli';
@@ -11,10 +10,8 @@ import { delay } from '../../utils/delay';
 import { tutoriaaliStore } from '../../stores/tutoriaali';
 import { findContaining, mockEditointiStore } from '../../utils/jestutils';
 import VueI18n from 'vue-i18n';
-import pretty from 'pretty';
 
 import '../../config/bootstrap';
-import '../../config/fontawesome';
 
 function mockAndWrapper(extension: Partial<IEditoitava> = {}, template?: string) {
   const localVue = createLocalVue();
