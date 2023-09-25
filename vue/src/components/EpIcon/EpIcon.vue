@@ -51,7 +51,7 @@ export default class EpIcon extends Vue {
   vertical-align: middle;
 
   .inner {
-    padding-top: 15px;
+    padding-top: 16px;
   }
 }
 </style>
