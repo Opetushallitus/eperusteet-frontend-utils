@@ -51,7 +51,7 @@
               <EpTavoitealueKeskeisetSisaltoalueet v-model="tavoitealue.keskeisetSisaltoalueet"  />
             </div>
             <div class="text-right">
-              <ep-button variant="link" @click="poistaTavoitealue(tavoitealue)" icon="delete" inherit-style>
+              <ep-button variant="link" @click="poistaTavoitealue(tavoitealue)" icon="delete">
                 {{ $t('poista-tavoitteet-ja-sisaltoalueet') }}
               </ep-button>
             </div>

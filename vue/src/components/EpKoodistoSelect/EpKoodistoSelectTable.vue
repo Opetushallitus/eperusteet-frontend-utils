@@ -22,7 +22,7 @@
       </template>
 
       <template v-slot:cell(poisto)="{ item }" v-if="isEditing">
-        <ep-button variant="link" icon="delete" @click="remove(item)" inherit-style/>
+        <ep-button variant="link" icon="delete" @click="remove(item)" />
       </template>
 
     </b-table>

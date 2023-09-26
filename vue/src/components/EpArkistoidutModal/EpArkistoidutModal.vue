@@ -1,6 +1,6 @@
 <template>
   <div>
-    <EpButton v-b-modal.arkistoidutModal variant="link" icon="folder" inherit-style>
+    <EpButton v-b-modal.arkistoidutModal variant="link" icon="folder">
       <slot name="title"><span>{{ $t('arkistoidut') }}</span></slot>
     </EpButton>
     <b-modal

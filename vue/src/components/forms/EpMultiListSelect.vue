@@ -44,8 +44,7 @@
                    buttonClass="p-0 pt-2 roskalaatikko"
                    variant="link"
                    icon="delete"
-                   @click="poistaValinta(i)"
-                   inherit-style/>
+                   @click="poistaValinta(i)"/>
       </div>
     </div>
 

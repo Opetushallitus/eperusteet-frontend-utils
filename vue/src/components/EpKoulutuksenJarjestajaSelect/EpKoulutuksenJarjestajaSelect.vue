@@ -38,7 +38,7 @@
           </div>
 
           <div class="text-right">
-            <ep-button variant="link" icon="delete" @click="poista(i)" inherit-style>
+            <ep-button variant="link" icon="delete" @click="poista(i)">
               {{ $t('poista-koulutuksen-jarjestaja') }}
             </ep-button>
           </div>

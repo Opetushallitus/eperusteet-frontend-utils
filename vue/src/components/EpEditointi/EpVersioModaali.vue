@@ -17,14 +17,12 @@
           <div v-if="!row.item.valittu">
             <ep-button variant="link"
                        icon="visibility"
-                       @click="changeVersion(row.item.index)"
-                       inherit-style>
+                       @click="changeVersion(row.item.index)">
               {{ $t('katsele') }}
             </ep-button>
             <ep-button variant="link"
                        icon="keyboard_return"
-                       @click="$emit('restore', { numero: row.item.numero, modal: $refs['epversiomodaali'] })"
-                       inherit-style>
+                       @click="$emit('restore', { numero: row.item.numero, modal: $refs['epversiomodaali'] })">
               {{ $t('palauta') }}
             </ep-button>
           </div>

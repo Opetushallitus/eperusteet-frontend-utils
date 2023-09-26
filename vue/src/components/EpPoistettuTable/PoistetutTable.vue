@@ -14,8 +14,7 @@
       <ep-button variant="link"
                  icon="keyboard_return"
                  @click="palauta(row.item)"
-                 :showSpinner="isPalautettu(row.item)"
-                 inherit-style>
+                 :showSpinner="isPalautettu(row.item)">
         {{ $t('palauta') }}
       </ep-button>
     </template>

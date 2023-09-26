@@ -77,7 +77,7 @@
                                 :koodi="kohdealue.vaatimukset[vaatimusIdx].koodi" />
                 </div>
                 <div>
-                  <ep-button @click="poistaVaatimus(kohdealue, v)" variant="link" icon="delete" inherit-style></ep-button>
+                  <ep-button @click="poistaVaatimus(kohdealue, v)" variant="link" icon="delete"></ep-button>
                 </div>
               </div>
             </draggable>
@@ -90,7 +90,7 @@
               </ep-button>
             </div>
             <div class="float-right">
-              <ep-button @click="poistaKohdealue(inner, kohdealue)" variant="link" icon="delete" inherit-style>
+              <ep-button @click="poistaKohdealue(inner, kohdealue)" variant="link" icon="delete">
                 {{ $t('poista-kohdealue') }}
               </ep-button>
             </div>

@@ -57,8 +57,7 @@
           <div class="pt-2">
             <ep-button @click="poistaTavoite(aikataulu)"
                        variant="link"
-                       icon="delete"
-                       inherit-style>
+                       icon="delete">
             </ep-button>
           </div>
         </div>

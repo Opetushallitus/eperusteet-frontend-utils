@@ -125,7 +125,7 @@
               </template>
             </ep-koodisto-select>
             <div class="flex-shrink pl-2">
-              <ep-button @click="poistaTutkinnonosa(index)" variant="link" icon="delete" inherit-style></ep-button>
+              <ep-button @click="poistaTutkinnonosa(index)" variant="link" icon="delete"></ep-button>
             </div>
           </div>
           <ep-button buttonClass="pl-0" variant="outline-primary" icon="add" @click="lisaaTutkinnonOsa" >
@@ -148,7 +148,7 @@
               </template>
             </ep-koodisto-select>
             <div class="flex-shrink pl-2">
-              <ep-button @click="poistaOsaamisala(index)" variant="link" icon="delete" inherit-style></ep-button>
+              <ep-button @click="poistaOsaamisala(index)" variant="link" icon="delete"></ep-button>
             </div>
           </div>
           <ep-button buttonClass="pl-0" variant="outline-primary" icon="add" @click="lisaaOsaamisala" >
@@ -221,8 +221,8 @@
 
         <div v-else class="d-flex justify-content-between w-100">
           <div v-if="editable">
-            <ep-button icon="edit" variant="link" @click="editing = true" v-oikeustarkastelu="oikeustarkastelu" inherit-style>{{ $t('muokkaa') }}</ep-button>
-            <ep-button icon="delete" variant="link" @click="poista" v-oikeustarkastelu="oikeustarkastelu" inherit-style>{{ $t('poista') }}</ep-button>
+            <ep-button icon="edit" variant="link" @click="editing = true" v-oikeustarkastelu="oikeustarkastelu">{{ $t('muokkaa') }}</ep-button>
+            <ep-button icon="delete" variant="link" @click="poista" v-oikeustarkastelu="oikeustarkastelu">{{ $t('poista') }}</ep-button>
           </div>
           <div v-else />
 

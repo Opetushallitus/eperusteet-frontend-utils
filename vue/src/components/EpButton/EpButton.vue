@@ -53,9 +53,6 @@ export default class EpButton extends Vue {
   @Prop({ default: true, type: Boolean })
   private paddingx!: boolean;
 
-  @Prop({ default: false, type: Boolean })
-  private inheritStyle!: boolean;
-
   get isOutline() {
     return _.startsWith(this.variant, 'outline');
   }
@@ -72,7 +69,7 @@ export default class EpButton extends Vue {
   }
 
   get inherit() {
-    return this.inheritStyle ? 'inherit' : '';
+    return this.variant === 'link' ? 'inherit' : '';
   }
 }
 </script>

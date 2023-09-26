@@ -5,8 +5,7 @@
       buttonClass="pr-1"
       variant="link"
       icon="edit"
-      v-oikeustarkastelu="{ oikeus: 'muokkaus' }"
-      inherit-style>
+      v-oikeustarkastelu="{ oikeus: 'muokkaus' }">
       {{ $t('muokkaa') }}
     </ep-button>
 

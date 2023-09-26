@@ -79,7 +79,7 @@
 <!--              <EpMaterialIcon icon-shape="outlined" :color="'inherit'" :background="'inherit'">delete</EpMaterialIcon>-->
 <!--              {{ $t('poista-tavoitteet-ja-sisaltoalueet') }}-->
 <!--            </ep-button>-->
-            <ep-button variant="link" @click="poistaTaitotaso(taitotaso)" icon="delete" inherit-style>
+            <ep-button variant="link" @click="poistaTaitotaso(taitotaso)" icon="delete">
               {{ $t(sisalto['poista-taitotaso']) }}
             </ep-button>
           </div>

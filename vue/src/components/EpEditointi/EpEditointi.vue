@@ -90,8 +90,7 @@
                            @click="modify()"
                            v-else-if="!isEditing && features.editable && !versiohistoriaVisible"
                            :show-spinner="isSaving || loading"
-                           :disabled="disabled"
-                           inherit-style>
+                           :disabled="disabled">
                   <slot name="muokkaa">{{ $t('muokkaa') }}</slot>
                 </ep-button>
                 <div v-else-if="!isEditing && features.copyable" v-oikeustarkastelu="muokkausOikeustarkastelu">
@@ -103,8 +102,7 @@
                               v-oikeustarkastelu="muokkausOikeustarkastelu"
                               @click="copy()"
                               :show-spinner="isSaving"
-                              :disabled="disabled"
-                              inherit-style>
+                              :disabled="disabled">
                       <slot name="kopioi-teksti">{{ $t('kopioi-muokattavaksi') }}</slot>
                     </ep-button>
                   </slot>
@@ -207,8 +205,7 @@
           </div>
           <div class="floating-editing-buttons">
             <ep-button variant="link"
-                       icon="menu"
-                       inherit-style>
+                       icon="menu">
               <ep-versio-modaali :value="current"
                 :versions="historia"
                 :current="current"
@@ -219,8 +216,7 @@
             </ep-button>
             <ep-button variant="link"
                        @click="restore({ numero: current.numero, routePushLatest: true })"
-                       icon="keyboard_return"
-                       inherit-style>
+                       icon="keyboard_return">
               {{ $t('palauta-tama-versio') }}
             </ep-button>
             <div class="btn">
