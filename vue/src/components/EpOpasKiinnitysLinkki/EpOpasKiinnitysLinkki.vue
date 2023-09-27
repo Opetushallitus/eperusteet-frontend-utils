@@ -8,7 +8,9 @@
       :key="opas.id"
       class="d-flex opas mb-2"
       :to="{name: 'peruste', params: {koulutustyyppi: 'opas', perusteId: opas.id}}">
-      <div class="icon mr-3"><fas icon="ohjeet" /></div>
+      <div class="icon mr-3">
+        <EpMaterialIcon size="18px">menu_book</EpMaterialIcon>
+      </div>
       <div class="nimi pt-1">{{$kaanna(opas.nimi)}}</div>
     </router-link>
   </div>
@@ -18,10 +20,12 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { PerusteDto, Perusteet } from '@shared/api/eperusteet';
+import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
 
 @Component({
   components: {
     EpSpinner,
+    EpMaterialIcon,
   },
 })
 export default class EpOpasKiinnitysLinkki extends Vue {
@@ -48,7 +52,6 @@ export default class EpOpasKiinnitysLinkki extends Vue {
   border-radius: 0.2rem;
 
   .icon {
-    font-size: 1.5rem;
     color: $blue-lighten-5;
   }
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span class="material-icons-outlined default-icon clickable" id="infopopup">info</span>
+    <EpMaterialIcon class="default-icon clickable" icon-shape="outlined" id="infopopup">info</EpMaterialIcon>
     <b-popover
       target="infopopup"
       triggers="hover click blur">
@@ -11,10 +11,14 @@
 </template>
 
 <script lang="ts">
-import * as _ from 'lodash';
 import { Component, Vue } from 'vue-property-decorator';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
-@Component
+@Component({
+  components: {
+    EpMaterialIcon,
+  },
+})
 export default class EpInfoPopover extends Vue {
 
 }

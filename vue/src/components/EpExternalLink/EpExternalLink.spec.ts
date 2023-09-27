@@ -1,4 +1,4 @@
-import { mount, createLocalVue, shallowMount } from '@vue/test-utils';
+import { mount, createLocalVue } from '@vue/test-utils';
 import EpExternalLink from './EpExternalLink.vue';
 import VueI18n from 'vue-i18n';
 import { Kielet } from '../../stores/kieli';
@@ -31,9 +31,6 @@ describe('EpExternalLink component', () => {
       },
       template: '<ep-external-link v-if="teksti" :url="url">{{ teksti }}</ep-external-link> <ep-external-link v-else :url="url"></ep-external-link>',
     }), {
-      stubs: {
-        fas: true,
-      },
       localVue,
       i18n,
     });

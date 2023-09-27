@@ -28,7 +28,7 @@ import EpIcon from '@shared/components/EpIcon/EpIcon.vue';
     EpIcon,
   },
 })
-export default class BaseInnerTile extends Vue {
+export default class InnerTile extends Vue {
   @Prop({ required: true })
   private icon!: string;
 

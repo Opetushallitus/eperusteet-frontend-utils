@@ -1,8 +1,5 @@
-import { mount, createLocalVue, RouterLinkStub } from '@vue/test-utils';
+import { mount, createLocalVue } from '@vue/test-utils';
 import { computed } from '@vue/composition-api';
-import { findContaining } from '../../utils/jestutils';
-import EpKayttaja from './EpKayttaja.vue';
-import { Kieli } from '../../tyypit';
 import { Kaannos } from '../../plugins/kaannos';
 import VueI18n from 'vue-i18n';
 import { delay } from '../../utils/delay';
@@ -43,9 +40,6 @@ describe('VaatimusField', () => {
       mocks: {
         $t: x => x,
       },
-      stubs: {
-        fas: '<div />',
-      },
     });
 
     const input = wrapper.find('input').element as any;
@@ -83,9 +77,6 @@ describe('VaatimusField', () => {
         $t: x => x,
         $kaanna: x => x && x.fi,
       },
-      stubs: {
-        fas: '<div />',
-      },
     });
 
     const input = wrapper.find('input').element as any;
@@ -120,9 +111,6 @@ describe('VaatimusField', () => {
         $t: x => x,
         $kaanna: x => x && x.fi,
       },
-      stubs: {
-        fas: '<div />',
-      },
     });
 
     const input = wrapper.find('input').element as any;
@@ -154,9 +142,6 @@ describe('VaatimusField', () => {
       },
       mocks: {
         $t: x => x,
-      },
-      stubs: {
-        fas: '<div />',
       },
     });
 

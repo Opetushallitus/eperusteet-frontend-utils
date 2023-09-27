@@ -12,22 +12,21 @@
                 v-model="innerModel[i]"
                 :is-editing="isEditing">
                 <div class="order-handle m-2" slot="left">
-                  <fas icon="grip-vertical"/>
+                  <EpMaterialIcon>drag_indicator</EpMaterialIcon>
                 </div>
               </EpInput>
             </slot>
           </b-col>
           <b-col cols="1" v-if="isEditing" class="text-center">
-            <fas
-              icon="roskalaatikko"
-              class="default-icon clickable mt-2"
-              @click="poistaTeksti(i)"/>
+            <div class="default-icon clickable mt-2" @click="poistaTeksti(i)">
+              <EpMaterialIcon icon-shape="outlined">delete</EpMaterialIcon>
+            </div>
           </b-col>
         </b-row>
       </draggable>
       <EpButton
         variant="outline"
-        icon="plus"
+        icon="add"
         @click="lisaaTeksti()"
         v-if="isEditing">
         <slot name="default">{{ $t('lisaa-teksti') }}</slot>
@@ -47,16 +46,18 @@
 </template>
 
 <script lang="ts">
-import { Vue, Watch, Component, Prop } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 import EpButton from '../EpButton/EpButton.vue';
 import _ from 'lodash';
 import EpInput from '@shared/components/forms/EpInput.vue';
+import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
 import draggable from 'vuedraggable';
 
 @Component({
   components: {
     EpButton,
     EpInput,
+    EpMaterialIcon,
     draggable,
   },
 })

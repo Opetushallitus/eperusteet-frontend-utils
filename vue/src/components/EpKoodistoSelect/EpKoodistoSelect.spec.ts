@@ -52,9 +52,6 @@ describe('EpKoodistoSelect component', () => {
           $sdt: x => x,
           $sd: x => x,
         },
-        stubs: {
-          fas: '<div />',
-        },
       });
   }
 

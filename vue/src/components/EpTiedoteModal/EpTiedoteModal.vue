@@ -3,7 +3,7 @@
 
     <ep-button
       v-if="editable"
-      icon="plussa"
+      icon="add"
       variant="outline"
       v-b-modal.tiedoteMuokkausModal
       @click="lisaaTiedote"
@@ -117,7 +117,7 @@
                 <b-input-group class="w-100 d-flex">
                   <b-form-input :value="$kaanna(tutkinnonOsa.nimi)" disabled></b-form-input>
                   <b-input-group-append>
-                    <b-button @click="open" icon="plus" variant="primary">
+                    <b-button @click="open" variant="primary">
                       {{ $t('hae') }}
                     </b-button>
                   </b-input-group-append>
@@ -125,10 +125,10 @@
               </template>
             </ep-koodisto-select>
             <div class="flex-shrink pl-2">
-              <ep-button @click="poistaTutkinnonosa(index)" variant="link" icon="roskalaatikko"></ep-button>
+              <ep-button @click="poistaTutkinnonosa(index)" variant="link" icon="delete"></ep-button>
             </div>
           </div>
-          <ep-button buttonClass="pl-0" variant="outline-primary" icon="plussa" @click="lisaaTutkinnonOsa" >
+          <ep-button buttonClass="pl-0" variant="outline-primary" icon="add" @click="lisaaTutkinnonOsa" >
             {{ $t('lisaa-tutkinnon-osa') }}
           </ep-button>
         </ep-form-content>
@@ -140,7 +140,7 @@
                 <b-input-group class="w-100 d-flex">
                   <b-form-input :value="$kaanna(osaamisala.nimi)" disabled></b-form-input>
                   <b-input-group-append>
-                    <b-button @click="open" icon="plus" variant="primary">
+                    <b-button @click="open" variant="primary">
                       {{ $t('hae') }}
                     </b-button>
                   </b-input-group-append>
@@ -148,10 +148,10 @@
               </template>
             </ep-koodisto-select>
             <div class="flex-shrink pl-2">
-              <ep-button @click="poistaOsaamisala(index)" variant="link" icon="roskalaatikko"></ep-button>
+              <ep-button @click="poistaOsaamisala(index)" variant="link" icon="delete"></ep-button>
             </div>
           </div>
-          <ep-button buttonClass="pl-0" variant="outline-primary" icon="plussa" @click="lisaaOsaamisala" >
+          <ep-button buttonClass="pl-0" variant="outline-primary" icon="add" @click="lisaaOsaamisala" >
             {{ $t('lisaa-osaamisala') }}
           </ep-button>
         </ep-form-content>
@@ -221,8 +221,8 @@
 
         <div v-else class="d-flex justify-content-between w-100">
           <div v-if="editable">
-            <ep-button icon="kyna" variant="link" @click="editing = true" v-oikeustarkastelu="oikeustarkastelu">{{ $t('muokkaa') }}</ep-button>
-            <ep-button icon="roskalaatikko" variant="link" @click="poista" v-oikeustarkastelu="oikeustarkastelu">{{ $t('poista') }}</ep-button>
+            <ep-button icon="edit" variant="link" @click="editing = true" v-oikeustarkastelu="oikeustarkastelu">{{ $t('muokkaa') }}</ep-button>
+            <ep-button icon="delete" variant="link" @click="poista" v-oikeustarkastelu="oikeustarkastelu">{{ $t('poista') }}</ep-button>
           </div>
           <div v-else />
 

@@ -7,7 +7,7 @@
           <span class="kielivalitsin text-right">{{ esitysnimi }}</span>
           <small v-if="koulutustoimija" class="valittu-koulutustoimija text-right">{{ $kaanna(koulutustoimija.nimi) }}</small>
         </div>
-        <fas fixed-width icon="chevron-down" class="mx-2 my-1" />
+        <EpMaterialIcon>expand_more</EpMaterialIcon>
       </div>
     </template>
 
@@ -15,7 +15,7 @@
     <ep-collapse :expanded-by-default="false" v-if="koulutustoimija" :use-padding="false" :border-bottom="false">
       <div slot="header">
         <div class="pl-3 pt-2 text-nowrap kieli">
-          <fas fixed-width icon="ryhma" class="icon mr-3" />
+          <EpMaterialIcon class="icon mr-3">group</EpMaterialIcon>
           <span>{{ $t('organisaatio') }}</span>
         </div>
         <div class="pl-3 text-nowrap">
@@ -26,8 +26,8 @@
 
       <template slot="icon" slot-scope="{ toggled }">
         <div class="ml-auto align-self-start" style="padding: 0.8rem 1rem;">
-          <fas fixed-width icon="chevron-up" v-if="toggled" />
-          <fas fixed-width icon="chevron-down" v-else />
+          <EpMaterialIcon v-if="toggled">expand_less</EpMaterialIcon>
+          <EpMaterialIcon v-else>expand_more</EpMaterialIcon>
         </div>
       </template>
 
@@ -40,7 +40,7 @@
 
         <div class="koulutustoimijat mb-2">
           <div class="d-flex justify-content-end" v-if="hasLukuOikeusKoulutustoimijoita">
-            <fas icon="eye" class="vain-luku mt-1 mr-2"/>
+            <EpMaterialIcon class="vain-luku mr-3">visibility</EpMaterialIcon>
             <ep-toggle v-model="naytaLukuoikeusKoulutustoimijat" :title="$t('lukuoikeus')"/>
           </div>
           <b-dd-item-button @click="valitseOrganisaatio(kt)"
@@ -49,11 +49,11 @@
                             :disabled="koulutustoimija.id === kt.id">
             <div class="row">
               <div class="collapse-tausta-valinta-icon col-1">
-                <fas fixed-width icon="checkmark" v-if="koulutustoimija === kt.id" class="valittu" />
+                <EpMaterialIcon v-if="koulutustoimija === kt.id" class="valittu">done</EpMaterialIcon>
               </div>
               <div class="col-10 koulutustoimija">
                 {{ $kaanna(kt.nimi) }}
-                <fas icon="eye" v-if="kt.oikeus === 'luku'" class="vain-luku pt-1"/>
+                <EpMaterialIcon v-if="kt.oikeus === 'luku'" class="vain-luku" size="16px">visibility</EpMaterialIcon>
               </div>
             </div>
           </b-dd-item-button>
@@ -65,7 +65,7 @@
     <ep-collapse :expanded-by-default="false" :use-padding="false" :border-bottom="false">
       <div slot="header">
         <div class="pl-3 pt-2 text-nowrap kieli">
-          <fas fixed-width icon="kielet" class="icon mr-3" />
+          <EpMaterialIcon class="icon mr-3">translate</EpMaterialIcon>
           <span>{{ $t('kieli') }}</span>
         </div>
         <div class="pl-3 uikieli">
@@ -76,8 +76,8 @@
 
       <template slot="icon" slot-scope="{ toggled }">
         <div class="ml-auto align-self-start" style="padding: 0.8rem 1rem;">
-          <fas fixed-width icon="chevron-up" v-if="toggled" />
-          <fas fixed-width icon="chevron-down" v-else />
+          <EpMaterialIcon v-if="toggled">expand_less</EpMaterialIcon>
+          <EpMaterialIcon v-else>expand_more</EpMaterialIcon>
         </div>
       </template>
 
@@ -87,7 +87,7 @@
                           :key="kieli"
                           :disabled="kieli === uiKieli">
           <div class="collapse-tausta-valinta-icon">
-            <fas fixed-width icon="checkmark" v-if="kieli === uiKieli" class="mr-3 valittu" />
+            <EpMaterialIcon v-if="kieli === uiKieli" class="mr-3 valittu">done</EpMaterialIcon>
           </div>
           {{ $t(kieli) }}
         </b-dd-item-button>
@@ -95,20 +95,22 @@
     </ep-collapse>
 
     <b-dd-item href="/henkilo-ui/omattiedot">
-      <fas fixed-width icon="user" class="icon mr-3" /><span>{{ $t('kayttajan-asetukset') }}</span>
+      <EpMaterialIcon class="icon mr-3">person</EpMaterialIcon>
+      <span>{{ $t('kayttajan-asetukset') }}</span>
     </b-dd-item>
 
     <b-dropdown-divider/>
 
     <b-dd-item href="/virkailijan-tyopoyta" v-if="!sovellusOikeudet || sovellusOikeudet.length === 1">
-      <fas fixed-width icon="ulkoinen-linkki" class="icon mr-3"/><span>{{ $t('palaa-virkailijan-tyopyodalle') }}</span>
+      <EpMaterialIcon class="icon mr-3">launch</EpMaterialIcon>
+      <span>{{ $t('palaa-virkailijan-tyopyodalle') }}</span>
     </b-dd-item>
 
     <!-- Sovellussiisrtymä  -->
     <ep-collapse :expanded-by-default="false" :use-padding="false" :border-bottom="false" v-else>
       <div slot="header">
         <div class="pl-3 pt-2 text-nowrap kieli">
-          <fas fixed-width icon="ulkoinen-linkki" class="icon mr-3" />
+          <EpMaterialIcon class="icon mr-3">launch</EpMaterialIcon>
           <span>{{ $t('vaihda-sovellusta') }}</span>
         </div>
         <div class="pl-3 valittu-sovellus pb-2" v-if="valittuSovellus">
@@ -119,8 +121,8 @@
 
       <template slot="icon" slot-scope="{ toggled }">
         <div class="ml-auto align-self-start" style="padding: 0.8rem 1rem;">
-          <fas fixed-width icon="chevron-up" v-if="toggled" />
-          <fas fixed-width icon="chevron-down" v-else />
+          <EpMaterialIcon v-if="toggled">expand_less</EpMaterialIcon>
+          <EpMaterialIcon v-else>expand_more</EpMaterialIcon>
         </div>
       </template>
 
@@ -131,7 +133,7 @@
                     :disabled="sovellusOikeus.valittu"
                     class="sovellusoikeus">
           <div class="collapse-tausta-valinta-icon">
-            <fas fixed-width icon="checkmark" v-if="sovellusOikeus.valittu" class="mr-3 valittu" />
+            <EpMaterialIcon v-if="sovellusOikeus.valittu" class="mr-3 valittu">done</EpMaterialIcon>
           </div>
           {{ $t(sovellusOikeus.eperusteSovellus.sovellus) }}
         </b-dd-item>
@@ -146,7 +148,8 @@
     <b-dropdown-divider/>
 
     <b-dd-item :href="logoutHref">
-      <fas fixed-width icon="kirjaudu-ulos" class="icon mr-3" /><span>{{ $t('kirjaudu-ulos') }}</span>
+      <EpMaterialIcon class="mr-3 valittu">logout</EpMaterialIcon>
+      <span>{{ $t('kirjaudu-ulos') }}</span>
     </b-dd-item>
 
   </b-nav-item-dropdown>
@@ -156,9 +159,8 @@
 <script lang="ts">
 import * as _ from 'lodash';
 import { Prop, Component, Vue } from 'vue-property-decorator';
-
 import { Kielet, UiKielet } from '../../stores/kieli';
-import { Kieli, SovellusVirhe } from '../../tyypit';
+import { Kieli } from '../../tyypit';
 import { IEsitysnimi, parsiEsitysnimi } from '../../utils/kayttaja';
 import EpCollapse from '../EpCollapse/EpCollapse.vue';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
@@ -166,6 +168,7 @@ import { setItem } from '@shared/utils/localstorage';
 import { SovellusOikeus } from '@shared/plugins/oikeustarkastelu';
 import EpSearch from '@shared/components/forms/EpSearch.vue';
 import EpToggle from '@shared/components/forms/EpToggle.vue';
+import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
 
 @Component({
   components: {
@@ -173,6 +176,7 @@ import EpToggle from '@shared/components/forms/EpToggle.vue';
     EpSpinner,
     EpSearch,
     EpToggle,
+    EpMaterialIcon,
   },
 })
 export default class EpKayttaja extends Vue {

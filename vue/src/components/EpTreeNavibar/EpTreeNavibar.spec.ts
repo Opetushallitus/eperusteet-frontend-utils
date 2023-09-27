@@ -1,9 +1,8 @@
 import BootstrapVue from 'bootstrap-vue';
 import EpTreeNavibar from './EpTreeNavibar.vue';
-import Vue from 'vue';
-import VueCompositionApi, { reactive, computed } from '@vue/composition-api';
+import { computed } from '@vue/composition-api';
 import VueI18n from 'vue-i18n';
-import { FlattenedNodeDto, EpTreeNavibarStore } from './EpTreeNavibarStore';
+import { EpTreeNavibarStore } from './EpTreeNavibarStore';
 import { Kaannos } from '../../plugins/kaannos';
 import { Kielet } from '../../stores/kieli';
 import { mount, createLocalVue, RouterLinkStub } from '@vue/test-utils';
@@ -22,7 +21,6 @@ describe('EpTreeNavibar component', () => {
         store: new EpTreeNavibarStore(computed(() => navipuu), () => null),
       },
       stubs: {
-        fas: '<div />',
         Portal: '<div />',
         RouterLink: RouterLinkStub,
       },

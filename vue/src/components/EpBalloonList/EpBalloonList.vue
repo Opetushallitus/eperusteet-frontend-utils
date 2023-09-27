@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <draggable
       v-bind="defaultDragOptions"
       tag="div"
@@ -9,7 +8,7 @@
       <div class="balloon-wrapper" v-for="(item, idx) in inner" :key="idx">
         <div class="balloon d-flex">
           <div class="order-handle mr-2" slot="left" v-if="draggable">
-            <fas icon="grip-vertical"></fas>
+            <EpMaterialIcon>drag_indicator</EpMaterialIcon>
           </div>
           <slot v-bind="{ item }">
           </slot>
@@ -18,15 +17,16 @@
 
     </draggable>
   </div>
-
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import draggable from 'vuedraggable';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 @Component({
   components: {
+    EpMaterialIcon,
     draggable,
   },
 })

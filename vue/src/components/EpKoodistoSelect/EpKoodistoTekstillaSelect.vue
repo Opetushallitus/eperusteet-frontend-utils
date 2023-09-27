@@ -6,7 +6,7 @@
       <div class="d-flex w-100 justify-content-between align-items-center" v-if="kooditByUri[koodi.koodiUri]">
         <div class="font-weight-bold">{{$kaanna(kooditByUri[koodi.koodiUri].nimi)}}</div>
         <div v-if="isEditing">
-          <ep-button variant="link" icon="roskalaatikko" @click="poistaKoodi(koodi)">
+          <ep-button variant="link" icon="delete" @click="poistaKoodi(koodi)">
             {{ $t('poista') }}
           </ep-button>
         </div>
@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Watch, Component, Prop } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 import EpButton from '../EpButton/EpButton.vue';
 import { KoodistoSelectStore } from './KoodistoSelectStore';
 import _ from 'lodash';

@@ -1,12 +1,10 @@
 import Vue from 'vue';
 import _ from 'lodash';
 import { computed } from '@vue/composition-api';
-
 import { Wrapper } from '@vue/test-utils';
 import { EditointiStore, IEditoitava } from '../components/EpEditointi/EditointiStore';
 
 import '../config/bootstrap';
-import '../config/fontawesome';
 
 export function mockEditointiStore<T>(config: Partial<IEditoitava> = {}) {
   const editointi = {

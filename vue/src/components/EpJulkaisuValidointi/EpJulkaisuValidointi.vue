@@ -22,7 +22,6 @@ import * as _ from 'lodash';
 import { Prop, Component, Vue } from 'vue-property-decorator';
 import EpToggle from '@shared/components/forms/EpToggle.vue';
 import VirheHuomautukset from './VirheHuomautukset.vue';
-import IkoniTeksti from './IkoniTeksti.vue';
 import { NavigationNodeDto } from '@shared/tyypit';
 
 export interface VirheHuomautus {
@@ -42,7 +41,6 @@ interface Validointi {
   components: {
     EpToggle,
     VirheHuomautukset,
-    IkoniTeksti,
   },
 })
 export default class EpJulkaisuValidointi extends Vue {

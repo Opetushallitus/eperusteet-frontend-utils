@@ -18,13 +18,11 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import EpToggle from '../forms/EpToggle.vue';
-import EpSidebarButtons from './EpSidebarButtons.vue';
 import Sticky from 'vue-sticky-directive';
 import { BrowserStore } from '../../stores/BrowserStore';
 
 @Component({
   components: {
-    EpSidebarButtons,
     EpToggle,
   },
   directives: {

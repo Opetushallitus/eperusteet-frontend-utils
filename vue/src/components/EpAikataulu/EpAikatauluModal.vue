@@ -4,7 +4,7 @@
       @click="openModal"
       buttonClass="pr-1"
       variant="link"
-      icon="kyna"
+      icon="edit"
       v-oikeustarkastelu="{ oikeus: 'muokkaus' }">
       {{ $t('muokkaa') }}
     </ep-button>

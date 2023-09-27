@@ -19,9 +19,6 @@ describe('EpKoodistoSelect component', () => {
         attachToDocument: true,
         localVue,
         mocks: mocks,
-        stubs: {
-          fas: '<div />',
-        },
       });
   }
 

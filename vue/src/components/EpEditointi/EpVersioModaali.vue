@@ -15,11 +15,13 @@
       <template v-slot:cell(actions)="row">
         <div class="float-right">
           <div v-if="!row.item.valittu">
-            <ep-button variant="link" icon="silma" @click="changeVersion(row.item.index)">
+            <ep-button variant="link"
+                       icon="visibility"
+                       @click="changeVersion(row.item.index)">
               {{ $t('katsele') }}
             </ep-button>
             <ep-button variant="link"
-                       icon="peruuta"
+                       icon="keyboard_return"
                        @click="$emit('restore', { numero: row.item.numero, modal: $refs['epversiomodaali'] })">
               {{ $t('palauta') }}
             </ep-button>
@@ -46,7 +48,6 @@
 import _ from 'lodash';
 import { Prop, Component, Mixins } from 'vue-property-decorator';
 import { Revision } from '../../tyypit';
-
 import EpButton from '../../components/EpButton/EpButton.vue';
 import EpFormContent from '../../components/forms/EpFormContent.vue';
 import EpValidation from '../../mixins/EpValidation';

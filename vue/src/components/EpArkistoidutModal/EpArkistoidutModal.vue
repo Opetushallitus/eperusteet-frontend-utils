@@ -1,7 +1,6 @@
 <template>
   <div>
-    <EpButton v-b-modal.arkistoidutModal variant="link">
-      <fas class="mr-2" :icon="['far', 'folder']"></fas>
+    <EpButton v-b-modal.arkistoidutModal variant="link" icon="folder">
       <slot name="title"><span>{{ $t('arkistoidut') }}</span></slot>
     </EpButton>
     <b-modal
@@ -49,6 +48,7 @@ import { Prop, Component, Vue } from 'vue-property-decorator';
 import { Kielet } from '@shared/stores/kieli';
 import EpSearch from '@shared/components/forms/EpSearch.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 interface Palautettava {
   nimi: any;
@@ -59,6 +59,7 @@ interface Palautettava {
   components: {
     EpButton,
     EpSearch,
+    EpMaterialIcon,
   },
 })
 export default class EpArkistoidutModal extends Vue {

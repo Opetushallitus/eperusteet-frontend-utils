@@ -28,7 +28,7 @@
           </div>
           <div>
             <b-button @click="poistaVaatimus(inner, v)" variant="link">
-              <fas icon="roskalaatikko" />
+              <EpMaterialIcon icon-shape="outlined">delete</EpMaterialIcon>
             </b-button>
           </div>
         </div>
@@ -36,7 +36,7 @@
       <div class="mt-2">
         <ep-button variant="outline"
                    @click="lisaaVaatimus(inner)"
-                   icon="plus">
+                   icon="add">
                    {{ $t('lisaa-ammattitaitovaatimus-ilman-kohdealuetta') }}
         </ep-button>
       </div>
@@ -50,7 +50,7 @@
           <b-form-group class="w-100">
             <div slot="label">
               <span class="handle-kohdealue text-muted">
-                <fas icon="dragindicator" size="lg" />
+                <EpMaterialIcon size="20px">drag_indicator</EpMaterialIcon>
               </span>
               <span class="font-weight-bold">{{ kaannokset.kohdealue }}</span>
             </div>
@@ -77,23 +77,20 @@
                                 :koodi="kohdealue.vaatimukset[vaatimusIdx].koodi" />
                 </div>
                 <div>
-                  <ep-button @click="poistaVaatimus(kohdealue, v)" variant="link">
-                    <fas icon="roskalaatikko" />
-                  </ep-button>
+                  <ep-button @click="poistaVaatimus(kohdealue, v)" variant="link" icon="delete"></ep-button>
                 </div>
               </div>
             </draggable>
 
             <div class="mt-2">
               <ep-button @click="lisaaKohdealueVaatimus(kohdealue)"
-                variant="outline"
-                icon="plus">
+                         variant="outline"
+                         icon="add">
                 {{ kaannokset.lisaaAmmattitaitovaatimus }}
               </ep-button>
             </div>
             <div class="float-right">
-              <ep-button @click="poistaKohdealue(inner, kohdealue)" variant="link">
-                <fas icon="roskalaatikko" />
+              <ep-button @click="poistaKohdealue(inner, kohdealue)" variant="link" icon="delete">
                 {{ $t('poista-kohdealue') }}
               </ep-button>
             </div>
@@ -103,8 +100,8 @@
       </draggable>
       <div class="mt-2">
         <ep-button @click="lisaaKohdealue(inner)"
-          variant="outline"
-          icon="plus">
+                   variant="outline"
+                   icon="add">
           {{ kaannokset.lisaaKohdealue }}
         </ep-button>
       </div>
@@ -178,6 +175,7 @@ import VaatimusField from './VaatimusField.vue';
 import { Ammattitaitovaatimukset2019Dto, Koodisto } from '../../api/eperusteet';
 import draggable from 'vuedraggable';
 import { KoodistoSelectStore } from '@shared/components/EpKoodistoSelect/KoodistoSelectStore';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import _ from 'lodash';
 import Kayttolistaus from './Kayttolistaus.vue';
 
@@ -189,6 +187,7 @@ import Kayttolistaus from './Kayttolistaus.vue';
     EpInput,
     Kayttolistaus,
     VaatimusField,
+    EpMaterialIcon,
     draggable,
   },
 })

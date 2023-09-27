@@ -44,7 +44,9 @@
                             toggle-class="text-decoration-none"
                             no-caret="no-caret"
                             right>
-                  <template slot="button-content"><fas icon="menu-vaaka"></fas></template>
+                  <template slot="button-content">
+                    <EpMaterialIcon>more_horiz</EpMaterialIcon>
+                  </template>
                   <b-dropdown-item
                     @click="remove()"
                     key="poista"
@@ -68,7 +70,8 @@
                 </b-dropdown>
                 <div v-if="currentLock && features.lockable" class="d-flex align-items-center ml-2 mr-2">
                   <div>
-                    <fas size="lg" icon="lukko" :title="$t('sivu-lukittu')" />
+                    <EpMaterialIcon class="mr-1" :color="'#555'">lock</EpMaterialIcon>
+                    {{ $t('sivu-lukittu') }}
                   </div>
                   <div class="flex-grow-1 ml-3">
                     <div>
@@ -82,10 +85,10 @@
                 <ep-button id="editointi-muokkaus"
                            v-tutorial
                            variant="link"
+                           icon="edit"
                            v-oikeustarkastelu="muokkausOikeustarkastelu"
                            @click="modify()"
                            v-else-if="!isEditing && features.editable && !versiohistoriaVisible"
-                           icon="kyna"
                            :show-spinner="isSaving || loading"
                            :disabled="disabled">
                   <slot name="muokkaa">{{ $t('muokkaa') }}</slot>
@@ -95,9 +98,9 @@
                     <ep-button id="editointi-kopiointi"
                               v-tutorial
                               variant="link"
+                              icon="edit"
                               v-oikeustarkastelu="muokkausOikeustarkastelu"
                               @click="copy()"
-                              icon="kyna"
                               :show-spinner="isSaving"
                               :disabled="disabled">
                       <slot name="kopioi-teksti">{{ $t('kopioi-muokattavaksi') }}</slot>
@@ -117,7 +120,7 @@
                             right
                             v-oikeustarkastelu="{ oikeus: 'luku' }">
                   <template slot="button-content">
-                    <fas icon="menu-vaaka"></fas>
+                    <EpMaterialIcon>more_horiz</EpMaterialIcon>
                   </template>
                   <b-dropdown-item
                     v-oikeustarkastelu="muokkausOikeustarkastelu"
@@ -160,7 +163,7 @@
                                  v-tutorial
                                  v-if="hasKeskusteluSlot"
                                  @click="toggleSidebarState(1)"
-                                 icon="kommentit"
+                                 icon="comment"
                                  variant="lightblue fa-flip-horizontal" />
                 <ep-round-button class="ml-2"
                                  :disabled="disabled"
@@ -168,13 +171,13 @@
                                  v-tutorial
                                  v-if="hasOhjeSlot"
                                  @click="toggleSidebarState(2)"
-                                 icon="kysymysmerkki"
+                                 icon="question_mark"
                                  variant="green" />
                 <ep-round-button class="ml-2"
                                  :disabled="disabled"
                                  v-if="hasPerusteSlot"
                                  @click="toggleSidebarState(3)"
-                                 icon="valtakunnalliset-perusteet"
+                                 icon="account_balance"
                                  variant="pink" />
               </div>
             </div>
@@ -193,15 +196,16 @@
               size="sm"
               class="mb-0">
               <template v-slot:prev-text>
-                <fas icon="vakanen-vasen" fixed-width />
+                <EpMaterialIcon>chevron_left</EpMaterialIcon>
               </template>
               <template v-slot:next-text>
-                <fas icon="vakanen-oikea" fixed-width />
+                <EpMaterialIcon>chevron_right</EpMaterialIcon>
               </template>
             </b-pagination>
           </div>
           <div class="floating-editing-buttons">
-            <ep-button variant="link" icon="lista">
+            <ep-button variant="link"
+                       icon="menu">
               <ep-versio-modaali :value="current"
                 :versions="historia"
                 :current="current"
@@ -211,13 +215,15 @@
               </ep-versio-modaali>
             </ep-button>
             <ep-button variant="link"
-                       icon="peruuta"
-                       @click="restore({ numero: current.numero, routePushLatest: true })">
+                       @click="restore({ numero: current.numero, routePushLatest: true })"
+                       icon="keyboard_return">
               {{ $t('palauta-tama-versio') }}
             </ep-button>
-            <router-link :to="{ query: {} }">
-              <ep-button variant="link" icon="sulje" />
-            </router-link>
+            <div class="btn">
+              <router-link :to="{ query: {} }">
+                <EpMaterialIcon :background="'inherit'" :color="'inherit'">close</EpMaterialIcon>
+              </router-link>
+            </div>
           </div>
         </div>
       </div>
@@ -259,7 +265,6 @@ import _ from 'lodash';
 import { Watch, Component, Mixins, Prop } from 'vue-property-decorator';
 import { validationMixin } from 'vuelidate';
 import Sticky from 'vue-sticky-directive';
-
 import { EditointiStore } from './EditointiStore';
 import { setItem, getItem } from '../../utils/localstorage';
 import { Revision } from '../../tyypit';
@@ -269,6 +274,7 @@ import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpRoundButton from '@shared/components/EpButton/EpRoundButton.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 @Component({
   validations() {
@@ -280,6 +286,7 @@ import { parsiEsitysnimi } from '@shared/utils/kayttaja';
     Sticky,
   },
   components: {
+    EpMaterialIcon,
     EpButton,
     EpRoundButton,
     EpSpinner,
@@ -703,6 +710,10 @@ export default class EpEditointi extends Mixins(validationMixin) {
 </script>
 <style scoped lang="scss">
 @import '../../styles/variables';
+
+.icon {
+  vertical-align: bottom;
+}
 
 .editointikontrolli {
   margin-top: 4px;

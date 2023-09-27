@@ -33,9 +33,6 @@ describe('EpList component', () => {
       },
       template: '<ep-list :is-editable="isEditing" kentta="kentta" v-model="value" />',
     }), {
-      stubs: {
-        fas: true,
-      },
       localVue,
       i18n,
     });

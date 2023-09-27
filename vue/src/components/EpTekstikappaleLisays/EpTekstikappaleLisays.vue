@@ -4,7 +4,7 @@
     <slot name="lisays-btn">
       <ep-button id="tekstikappalelisaysBtn" variant="link" buttonClass="text-decoration-none">
           <slot name="lisays-btn-icon">
-            <fas class="mr-2" icon="plussa" />
+            <EpMaterialIcon :color="'inherit'" :background="'inherit'" size="18px">add</EpMaterialIcon>
           </slot>
           <span>
             <slot name="lisays-btn-text">
@@ -83,6 +83,7 @@ import EpField from '@shared/components/forms/EpField.vue';
 import EpSelect from '@shared/components/forms/EpSelect.vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import { Validations } from 'vuelidate-property-decorators';
+import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
 
 @Component({
   components: {
@@ -90,6 +91,7 @@ import { Validations } from 'vuelidate-property-decorators';
     EpField,
     EpSelect,
     EpFormContent,
+    EpMaterialIcon,
   },
 })
 export default class EpTekstikappaleLisays extends Vue {

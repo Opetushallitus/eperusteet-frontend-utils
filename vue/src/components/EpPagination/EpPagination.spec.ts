@@ -26,9 +26,6 @@ describe('EpPagination', () => {
       mocks: {
         $t: x => x,
       },
-      stubs: {
-        fas: '<div />',
-      },
     });
 
     expect(wrapper.html()).toEqual('<div></div>');
@@ -44,9 +41,6 @@ describe('EpPagination', () => {
       },
       mocks: {
         $t: x => x,
-      },
-      stubs: {
-        fas: '<div />',
       },
     });
 
@@ -68,9 +62,6 @@ describe('EpPagination', () => {
       },
       mocks: {
         $t: x => x,
-      },
-      stubs: {
-        fas: '<div />',
       },
     });
 

@@ -8,16 +8,16 @@
     <template slot="body" slot-scope="{ item, close }">
       <div class="notification" :class="item.type">
         <button class="notification-close-button ml-2" @click="close">
-          <fas icon="sulje"></fas>
+          <EpMaterialIcon>close</EpMaterialIcon>
         </button>
         <p class="notification-title" v-if="item.type === 'error'">
-          <fas icon="huutomerkki-ympyra" fixed-width></fas> {{ $t('virhe-nakyma-otsikko') }}
+          <EpMaterialIcon icon-shape="outlined">info</EpMaterialIcon> {{ $t('virhe-nakyma-otsikko') }}
         </p>
         <p class="notification-title" v-if="item.type === 'warn'">
-          <fas icon="huutomerkki-ympyra" fixed-width></fas> {{ $t('huom') }}
+          <EpMaterialIcon icon-shape="outlined">info</EpMaterialIcon> {{ $t('huom') }}
         </p>
         <p>
-          <fas icon="checkmark" v-if="item.type === 'success'" fixed-width></fas>
+          <EpMaterialIcon v-if="item.type === 'success'">check</EpMaterialIcon>
           {{ item.title }}
         </p>
         <p class="notification-content">
@@ -31,10 +31,12 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import EpRoundButton from '@shared/components/EpButton/EpRoundButton.vue';
+import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
 
 @Component({
   components: {
     EpRoundButton,
+    EpMaterialIcon,
   },
 })
 export default class EpNotification extends Vue {

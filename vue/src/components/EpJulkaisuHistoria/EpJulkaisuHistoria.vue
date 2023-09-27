@@ -18,14 +18,13 @@
 
             <div class="d-flex align-items-center">
               <slot name="katsele" :julkaisu="julkaisu" v-if="julkaisu.tila !== 'VIRHE'"></slot>
-              <EpButton
-                v-if="latestJulkaisuRevision && latestJulkaisuRevision.revision !== julkaisu.revision && julkaisu.tila === 'JULKAISTU'"
-                class="ml-4"
-                variant="link"
-                icon="peruuta"
-                :showSpinner="julkaisu.palautuksessa"
-                @click="palautaConfirm(julkaisu)"
-                v-oikeustarkastelu="{ oikeus: 'muokkaus' }">
+              <EpButton v-if="latestJulkaisuRevision && latestJulkaisuRevision.revision !== julkaisu.revision && julkaisu.tila === 'JULKAISTU'"
+                        icon="keyboard_return"
+                        class="ml-4"
+                        variant="link"
+                        :showSpinner="julkaisu.palautuksessa"
+                        @click="palautaConfirm(julkaisu)"
+                        v-oikeustarkastelu="{ oikeus: 'muokkaus' }">
                 {{ $t('palauta') }}
               </EpButton>
             </div>
@@ -44,6 +43,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
+import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
 
 interface Julkaisu {
   revision?: number;
@@ -58,6 +58,7 @@ interface Julkaisu {
   components: {
     EpButton,
     EpSpinner,
+    EpMaterialIcon,
   },
 })
 export default class EpJulkaisuHistoria extends Vue {

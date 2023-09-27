@@ -14,8 +14,8 @@
            :style="styles.header">
         <slot name="icon" :toggled="toggled" v-if="chevronLocation === 'left' && collapsable">
           <div class="align-self-start mr-2">
-            <fas fixed-width icon="chevron-up" v-if="toggled"></fas>
-            <fas fixed-width icon="chevron-down" v-else></fas>
+            <EpMaterialIcon v-if="toggled" size="28px">expand_less</EpMaterialIcon>
+            <EpMaterialIcon v-else size="28px">expand_more</EpMaterialIcon>
           </div>
         </slot>
         <div class="align-self-start header">
@@ -24,9 +24,9 @@
           </div>
         </div>
         <slot name="icon" :toggled="toggled" v-if="chevronLocation === 'right'  && collapsable">
-          <div class="ml-auto ">
-            <fas fixed-width icon="chevron-up" v-if="toggled"></fas>
-            <fas fixed-width icon="chevron-down" v-else></fas>
+          <div class="ml-auto">
+            <EpMaterialIcon v-if="toggled" size="28px">expand_less</EpMaterialIcon>
+            <EpMaterialIcon v-else size="28px">expand_more</EpMaterialIcon>
           </div>
         </slot>
       </div>
@@ -43,8 +43,13 @@
 import _ from 'lodash';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { setItem, getItem } from '../../utils/localstorage';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
-@Component
+@Component({
+  components: {
+    EpMaterialIcon,
+  },
+})
 export default class EpCollapse extends Vue {
   @Prop({ default: true })
   private expandedByDefault!: boolean;

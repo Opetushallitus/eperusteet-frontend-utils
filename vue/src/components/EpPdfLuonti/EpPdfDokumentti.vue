@@ -25,7 +25,7 @@
         </div>
         <div class="col-sm-2 text-left"  v-if="dokumenttiLuotu">
           <a class="btn btn-link pl-0" :href="dokumenttiHref" target="_blank" rel="noopener noreferrer" variant="link">
-            <fas class="mr-2" icon="silma"></fas>
+            <EpMaterialIcon class="mr-1" icon-shape="outlined" size="18px">visibility</EpMaterialIcon>
             <span>{{ $t('esikatsele-ja-lataa') }}</span>
           </a>
         </div>
@@ -39,12 +39,14 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 @Component({
   components: {
     EpButton,
     EpFormContent,
     EpSpinner,
+    EpMaterialIcon,
   },
 })
 export default class EpPdfDokumentti extends Vue {

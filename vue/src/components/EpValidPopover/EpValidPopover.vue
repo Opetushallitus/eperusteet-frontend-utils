@@ -13,7 +13,8 @@
             <EpSpinner v-if="julkaisemattomiaMuutoksia === undefined || julkaisemattomiaMuutoksia === null" color="#fff" small/>
             <template v-else>
               <div class="text-center julkaisemattomia-muutoksia font-size-08" v-if="julkaisemattomiaMuutoksia">
-                <fas icon="info" class="mr-2"/>{{$t(julkaisemattomiaTeksti)}}
+                <EpMaterialIcon icon-shape="outlined" size="16px">info</EpMaterialIcon>
+                {{$t(julkaisemattomiaTeksti)}}
               </div>
 
               <b-button class="px-3 py-1" variant="primary" v-if="luonnos && !julkaistava" @click="asetaValmiiksi">
@@ -41,7 +42,7 @@
           </b-button>
           <div class="pl-3 pt-2 pb-1 row" v-if="validointiOk">
             <div class="col-1">
-              <fas class="text-success" icon="check-circle"/>
+              <EpMaterialIcon class="text-success" size="18px">check_circle</EpMaterialIcon>
             </div>
             <div class="col">
               {{ $t('ei-julkaisua-estavia-virheita') }}
@@ -51,7 +52,7 @@
             <template v-if="validoinnit.ok && !validointiOk">
               <div class="pt-2 pb-1 row" v-for="ok in validoinnit.ok" :key="ok">
                 <div class="col-1">
-                  <fas class="text-success" icon="info-circle"/>
+                  <EpMaterialIcon class="text-success" size="18px">info</EpMaterialIcon>
                 </div>
                 <div class="col">
                   <span>{{ $t(ok) }}</span>
@@ -61,7 +62,7 @@
             <template v-if="validoinnit.virheet">
               <div class="pt-2 pb-1 row" v-for="virhe in uniqueVirheet" :key="virhe">
                 <div class="col-1">
-                  <fas class="text-danger" icon="info-circle"/>
+                  <EpMaterialIcon class="text-danger" size="18px">info</EpMaterialIcon>
                 </div>
                 <div class="col">
                   <span>{{ $t(virhe) }}</span>
@@ -70,7 +71,7 @@
             </template>
             <div class="pt-2 pb-1 row" v-if="validoinnit.huomautukset && validoinnit.huomautukset.length > 0">
               <div class="col-1">
-                <fas class="text-warning" icon="info-circle"/>
+                <EpMaterialIcon class="text-warning" size="18px">info</EpMaterialIcon>
               </div>
               <div class="col">
                 <span>{{ $t(huomautuksia) }}</span>
@@ -81,7 +82,7 @@
       </div>
       <template v-slot:bottom>
         <b-button class="btn-tarkista" variant="link" @click="validoi">
-          <span class="material-icons-outlined icon" aria-hidden="true">refresh</span>
+          <EpMaterialIcon class="icon" icon-shape="outlined">refresh</EpMaterialIcon>
           <span> {{ $t('tarkista-virheet') }}</span>
         </b-button>
       </template>
@@ -97,9 +98,11 @@ import EpProgressPopover from '@shared/components/EpProgressPopover/EpProgressPo
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { tileBackgroundColor } from '@shared/utils/bannerIcons';
 import { ValidableObject, Validoinnit, ValidoitavatTilat, ValidoitavatTyypit } from '@shared/components/EpValidPopover/EpValidPopoverTypes';
+import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
 
 @Component({
   components: {
+    EpMaterialIcon,
     EpProgressPopover,
     EpSpinner,
   },

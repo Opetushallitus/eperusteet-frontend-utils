@@ -3,7 +3,7 @@
   <a :href="url"
      rel="noopener noreferrer"
      target="_blank">
-    <fas fixed-width :icon="icon" class="mr-1" v-if="icon"></fas>
+    <EpMaterialIcon v-if="icon" class="mr-1" size="18px">{{ icon }}</EpMaterialIcon>
     <slot v-if="hasSlot()"></slot>
     <span v-else>{{ cleanUrl }}</span>
   </a>
@@ -12,8 +12,13 @@
 
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
-@Component
+@Component({
+  components: {
+    EpMaterialIcon,
+  },
+})
 export default class EpLinkki extends Vue {
   @Prop({ required: true, type: String })
   private url!: string;

@@ -1,4 +1,4 @@
-import { mount, createLocalVue, shallowMount } from '@vue/test-utils';
+import { mount, createLocalVue } from '@vue/test-utils';
 import EpSelect from '../EpSelect.vue';
 import { Kielet } from '../../../stores/kieli';
 import Vue from 'vue';
@@ -32,9 +32,6 @@ describe('EpSelect component', () => {
       },
       template: '<ep-select :items="items" v-model="value" :is-editing="isEditing" :multiple="multiple" :help="help" :validation="validation" :useCheckboxes="useCheckboxes" :enableEmptyOption="enableEmptyOption"/>',
     }), {
-      stubs: {
-        fas: true,
-      },
       localVue,
       i18n,
       sync: false,

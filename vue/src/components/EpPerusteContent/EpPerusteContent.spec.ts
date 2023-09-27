@@ -11,9 +11,6 @@ describe('EpPerusteContent', () => {
         ...data,
       },
       mocks: mocks,
-      stubs: {
-        fas: '<div />',
-      },
       localVue,
     };
   };

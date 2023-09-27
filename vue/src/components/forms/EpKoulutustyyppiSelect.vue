@@ -38,7 +38,6 @@
 
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator';
-import EpIcon from '@shared/components/EpIcon/EpIcon.vue';
 import EpSelect from '@shared/components/forms/EpSelect.vue';
 import EpMultiSelect from '@shared/components/forms/EpMultiSelect.vue';
 import EpInput from '@shared/components/forms/EpInput.vue';
@@ -50,7 +49,6 @@ import * as _ from 'lodash';
 @Component({
   components: {
     EpColorIndicator,
-    EpIcon,
     EpInput,
     EpMultiSelect,
     EpSelect,

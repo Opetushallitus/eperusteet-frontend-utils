@@ -18,7 +18,7 @@ describe('EpHomeTile component', () => {
     const wrapper = mount(EpHomeTile, {
       localVue,
       propsData: {
-        icon: 'plus',
+        icon: 'add',
         color: 'red',
         route: { name: 'perusteprojektit' },
       },
@@ -26,7 +26,6 @@ describe('EpHomeTile component', () => {
         $t: x => x,
       },
       stubs: {
-        fas: '<div />',
         'router-link': RouterLinkStub,
       },
     });
@@ -38,16 +37,13 @@ describe('EpHomeTile component', () => {
     const wrapper = mount(EpHomeTile, {
       localVue,
       propsData: {
-        icon: 'plus',
+        icon: 'add',
         color: 'red',
         href: 'https://eperusteet.opintopolku.fi',
         count: 1,
       },
       mocks: {
         $t: x => x,
-      },
-      stubs: {
-        fas: '<div />',
       },
     });
 

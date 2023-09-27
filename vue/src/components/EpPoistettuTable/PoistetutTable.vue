@@ -12,7 +12,7 @@
     </template>
     <template v-slot:cell(actions)="row">
       <ep-button variant="link"
-                 icon="peruuta"
+                 icon="keyboard_return"
                  @click="palauta(row.item)"
                  :showSpinner="isPalautettu(row.item)">
         {{ $t('palauta') }}
@@ -23,7 +23,6 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import Poistettu from './PoistetutHakuTable.vue';
 import EpSpinnerInline from '@shared/components/EpSpinner/EpSpinnerInline.vue';

@@ -31,7 +31,6 @@ describe('EpAikataulu component', () => {
         $sd: x => x,
       },
       stubs: {
-        fas: '<div />',
         'router-link': RouterLinkStub,
       },
     });

@@ -42,7 +42,7 @@ export default class EpExternalLink extends Vue {
 
   get icon() {
     if (this.showIcon) {
-      return 'ulkoinen-linkki';
+      return 'launch';
     }
 
     return '';

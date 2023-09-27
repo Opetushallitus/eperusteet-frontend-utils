@@ -16,7 +16,7 @@
           <div class="backwrapper">
             <div v-if="activeIdx === item.idx && !showAll" class="back">
               <b-button size="sm" variant="link" @click="navigateUp()" class="backbtn">
-                <fas icon="chevron-left" />
+                <EpMaterialIcon>chevron_left</EpMaterialIcon>
               </b-button>
             </div>
           </div>
@@ -30,7 +30,7 @@
             </div>
           </div>
           <div class="text-muted mr-1" v-if="item.children.length > 0 && item.idx !== activeIdx && !showAll">
-            <fas icon="chevron-right" />
+            <EpMaterialIcon>chevron_right</EpMaterialIcon>
           </div>
         </div>
       </div>
@@ -47,7 +47,6 @@
 
 <script lang="ts">
 import { Watch, Prop, Component, Vue } from 'vue-property-decorator';
-import EpIcon from '@shared/components/EpIcon/EpIcon.vue';
 import EpSearch from '@shared/components/forms/EpSearch.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpToggle from '@shared/components/forms/EpToggle.vue';
@@ -55,6 +54,7 @@ import EpMultiSelect from '@shared/components/forms/EpMultiSelect.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { FlattenedNodeDto, EpTreeNavibarStore } from '@shared/components/EpTreeNavibar/EpTreeNavibarStore';
 import EpNavigationPostFix from '@shared/components/EpTreeNavibar/EpNavigationPostFix.vue';
+import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
 import _ from 'lodash';
 import { Kielet } from '@shared/stores/kieli';
 import VueScrollTo from 'vue-scrollto';
@@ -65,13 +65,13 @@ type IndexedNode = FlattenedNodeDto & { idx: number };
 
 @Component({
   components: {
-    EpIcon,
     EpMultiSelect,
     EpSearch,
     EpButton,
     EpSpinner,
     EpToggle,
     EpNavigationPostFix,
+    EpMaterialIcon,
   },
 })
 export default class EpTreeNavibar extends Vue {
@@ -291,6 +291,7 @@ export default class EpTreeNavibar extends Vue {
       width: 30px;
 
       .btn {
+        padding: 0.25rem 0.15rem;
         margin-top: -2px;
         font-size: 16px;
         font-weight: 400;

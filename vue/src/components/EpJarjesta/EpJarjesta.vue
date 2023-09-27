@@ -8,7 +8,7 @@
   <div v-for="(node, idx) in value" :key="idx">
     <div class="box d-flex align-items-center" :class="{ 'new-box': node.$uusi, 'box-draggable': isEditable }" >
       <div class="handle">
-        <fas v-if="isEditable && !options.disabled" icon="grip-vertical"></fas>
+        <EpMaterialIcon v-if="isEditable && !options.disabled">drag_indicator</EpMaterialIcon>
       </div>
       <slot name="chapter">
         <div class="chapter">
@@ -26,8 +26,8 @@
         @click="toggle(idx)"
         @keyup.enter="toggle(idx)"
         :aria-expanded="!node.$closed">
-        <fas v-if="node.$closed" icon="chevron-down"></fas>
-        <fas v-else icon="chevron-up"></fas>
+        <EpMaterialIcon v-if="node.$closed" size="28px">expand_more</EpMaterialIcon>
+        <EpMaterialIcon v-else size="28px">expand_less</EpMaterialIcon>
       </div>
     </div>
     <div class="children" v-if="!node.$closed && node[childField] && node[childField] != null">
@@ -52,11 +52,13 @@
 
 import { Vue, Prop, Component } from 'vue-property-decorator';
 import draggable from 'vuedraggable';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 @Component({
   name: 'EpJarjesta',
   components: {
     draggable,
+    EpMaterialIcon,
   },
 })
 export default class EpJarjesta extends Vue {
@@ -154,7 +156,6 @@ export default class EpJarjesta extends Vue {
   margin-bottom: 8px;
 
   .handle {
-    width: 10px;
     color: #668DEA;
     margin-right: 8px;
     cursor: grab;

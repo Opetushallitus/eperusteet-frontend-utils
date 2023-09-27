@@ -60,7 +60,6 @@ describe('EpKayttaja component', () => {
         },
       },
       stubs: {
-        fas: '<div />',
         'router-link': RouterLinkStub,
       },
     });

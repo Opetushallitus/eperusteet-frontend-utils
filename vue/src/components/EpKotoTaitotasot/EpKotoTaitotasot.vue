@@ -8,7 +8,7 @@
         <div v-for="(taitotaso, index) in taitotasot" :key="taitotaso+index" class="px-3 py-2 mb-4 taitotaso">
 
           <div class="order-handle mb-1" slot="left">
-            <fas icon="grip-vertical"></fas>
+            <EpMaterialIcon>drag_indicator</EpMaterialIcon>
             <span class="otsikko"> {{$t(sisalto['koodisto-otsikko'])}}</span>
           </div>
 
@@ -23,7 +23,7 @@
                   :value="taitotaso.nimi ? $kaanna(taitotaso.nimi.nimi) : ''"
                   disabled></b-form-input>
                 <b-input-group-append>
-                  <b-button @click="open" icon="plus" variant="primary">
+                  <b-button @click="open" variant="primary">
                     {{ $t('hae-koodistosta') }}
                   </b-button>
                 </b-input-group-append>
@@ -74,14 +74,19 @@
           </b-form-group>
 
           <div class="text-right">
-            <ep-button variant="link" icon="roskalaatikko" @click="poistaTaitotaso(taitotaso)">
+<!--            funktio puuttuu...-->
+<!--            <ep-button variant="link" @click="poistaTavoitealue(tavoitealue)">-->
+<!--              <EpMaterialIcon icon-shape="outlined" :color="'inherit'" :background="'inherit'">delete</EpMaterialIcon>-->
+<!--              {{ $t('poista-tavoitteet-ja-sisaltoalueet') }}-->
+<!--            </ep-button>-->
+            <ep-button variant="link" @click="poistaTaitotaso(taitotaso)" icon="delete">
               {{ $t(sisalto['poista-taitotaso']) }}
             </ep-button>
           </div>
         </div>
       </draggable>
 
-      <ep-button variant="outline" icon="plus" @click="lisaaTaitotaso()">
+      <ep-button variant="outline" icon="add" @click="lisaaTaitotaso()">
         {{ $t(sisalto['lisaa-taitotaso']) }}
       </ep-button>
     </template>
@@ -128,7 +133,7 @@
 </template>
 
 <script lang="ts">
-import { Watch, Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import _ from 'lodash';
 import { KoodistoSelectStore } from '../EpKoodistoSelect/KoodistoSelectStore';
 import { Koodisto, TermiDto } from '@shared/api/eperusteet';
@@ -137,10 +142,11 @@ import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import { IKasiteHandler } from '../EpContent/KasiteHandler';
-import { IKuvaHandler, ILiite } from '../EpContent/KuvaHandler';
+import { IKuvaHandler } from '../EpContent/KuvaHandler';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
 import { LiiteDtoWrapper } from '@shared/tyypit';
 import EpContentViewer from '@shared/components/EpContentViewer/EpContentViewer.vue';
+import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
 
 enum TaitotasoTyyppi {
   opintokokonaisuus = 'opintokokonaisuus',
@@ -155,6 +161,7 @@ enum TaitotasoTyyppi {
     EpInput,
     EpContent,
     EpContentViewer,
+    EpMaterialIcon,
   },
 })
 export default class EpKotoTaitotasot extends Vue {
