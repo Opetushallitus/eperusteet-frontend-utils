@@ -5,7 +5,7 @@
       <div class="row pdf-box align-items-center justify-content-between"
            :class="{'luotu': dokumenttiLuotu, 'ei-luotu': !dokumenttiLuotu, 'polling': polling, 'epaonnistui': dokumenttiEpaonnistui}">
         <div class="col col-auto ikoni">
-          <img src="../../../public/img/icons/pdfkuva_lataus.svg" />
+          <EpMaterialIcon size="48px">picture_as_pdf</EpMaterialIcon>
         </div>
         <div class="col-lg teksti">
             <span  v-if="dokumenttiLuotu">
@@ -89,10 +89,6 @@ export default class EpPdfDokumentti extends Vue {
   width: 100%;
   border-radius: 2px;
   padding: 25px;
-
-  .ikoni {
-    font-size: 1.5rem;
-  }
 
   &.luotu {
     background-color: $gray-lighten-10;
