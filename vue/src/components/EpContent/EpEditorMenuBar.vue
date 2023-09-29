@@ -28,14 +28,7 @@
                   :disabled="feature.disabled"
                   :class="{ 'active': !feature.disabled && data.isActive[feature.command] && data.isActive[feature.command]() }"
                   @click="feature.customClick ? feature.customClick(data) : data.commands[feature.command](feature.params)">
-            <EpMaterialIcon v-if="feature.icon">{{ feature.icon }}</EpMaterialIcon>
-<!--            näitä ei varmaan tarvi?-->
-<!--            <fal v-if="feature.icon" fixed-width>-->
-<!--              <fas v-if="feature.uppericon" fixed-width transform="up-4 left-6" :icon="feature.uppericon" :style="{ color: feature.color || 'black' }" />-->
-<!--              <fas v-if="feature.righticon" fixed-width transform="right-6" :icon="feature.righticon" :style="{ color: feature.color || 'black' }" />-->
-<!--              <fas v-if="feature.subicon" fixed-width transform="down-4 left-6" :icon="feature.subicon" :style="{ color: feature.color || 'black' }" class="fa-inverse" />-->
-<!--              <fas v-if="feature.lefticon" fixed-width transform="left-6" :icon="feature.lefticon" :style="{ color: feature.color || 'black' }" />-->
-<!--            </fal>-->
+            <EpPublicImage v-if="feature.icon" :image="feature.icon" class="icon-opacity"></EpPublicImage>
           </b-button>
         </div>
       </div>
@@ -88,12 +81,14 @@ import { NavigationNodeDto } from '@shared/tyypit';
 import EpMultiSelect from '@shared/components/forms/EpMultiSelect.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import { deepFind } from '@shared/utils/helpers';
+import EpPublicImage from '@shared/components/EpPublicImage/EpPublicImage.vue';
 
 @Component({
   components: {
     EditorMenuBar,
     EpMultiSelect,
     EpMaterialIcon,
+    EpPublicImage,
   },
 })
 export default class EpEditorMenuBar extends Vue {
@@ -139,13 +134,13 @@ export default class EpEditorMenuBar extends Vue {
       icon: 'format_italic',
     }, {
       command: 'strike',
-      icon: 'format_strikethrough',
+      icon: 'strikethrough_s',
     }];
   }
 
   get linking() {
     return [{
-      icon: 'link',
+      icon: 'add_link',
       command: 'link',
       disabled: this.editor.selection.from === this.editor.selection.to,
       customClick: (data) => {
@@ -215,46 +210,46 @@ export default class EpEditorMenuBar extends Vue {
     const tables = [{
       color: RemoveColor,
       command: 'deleteTable',
-      icon: 'delete',
+      icon: 'poista-taulukko.svg',
       text: 'poista-taulu',
     }];
 
     const columns = [{
       color: AddColor,
       command: 'addColumnBefore',
-      icon: 'add',
+      icon: 'kolumni-vasen.svg',
       text: 'lisaa-sarake-ennen',
     }, {
       color: AddColor,
       command: 'addColumnAfter',
-      icon: 'add',
+      icon: 'kolumni-oikea.svg',
       text: 'lisaa-sarake-jalkeen',
     }, {
       color: RemoveColor,
       command: 'deleteColumn',
-      icon: 'remove',
+      icon: 'poista-kolumni.svg',
       text: 'poista-sarake',
     }];
 
     const rows = [{
       command: 'addRowBefore',
       color: AddColor,
-      icon: 'playlist_add',
+      icon: 'rivi-alas.svg',
       text: 'lisaa-rivi-ennen',
     }, {
       command: 'addRowAfter',
       color: AddColor,
-      icon: 'playlist_add',
+      icon: 'rivi-alas.svg',
       text: 'lisaa-rivi-jalkeen',
     }, {
       command: 'deleteRow',
       color: RemoveColor,
-      icon: 'playlist_remove',
+      icon: 'poista-rivi.svg',
       text: 'poista-rivi',
     }, {
       command: 'toggleCellMerge',
       color: MergeColor,
-      icon: 'join_full',
+      icon: 'yhdista-solut.svg',
       text: 'yhdista-solut',
     }];
 
@@ -355,6 +350,10 @@ export default class EpEditorMenuBar extends Vue {
   border: 2px solid #E0E0E1;
   border-bottom: none;
   padding: 0;
+}
+
+.icon-opacity {
+  opacity: 0.7;
 }
 
 </style>
