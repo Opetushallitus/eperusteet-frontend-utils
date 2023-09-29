@@ -65,7 +65,7 @@
     <ep-collapse :expanded-by-default="false" :use-padding="false" :border-bottom="false">
       <div slot="header">
         <div class="pl-3 pt-2 text-nowrap kieli">
-          <EpMaterialIcon class="icon mr-3">translate</EpMaterialIcon>
+          <EpMaterialIcon class="icon mr-3">language</EpMaterialIcon>
           <span>{{ $t('kieli') }}</span>
         </div>
         <div class="pl-3 uikieli">

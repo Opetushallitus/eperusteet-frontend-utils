@@ -19,7 +19,7 @@ exports[`EpKayttaja component Renders 1`] = `
             <div class="align-self-start header">
               <div class="">
                 <div>
-                  <div class="pl-3 pt-2 text-nowrap kieli"><span aria-hidden="true" class="icon icon mr-3 material-icons">translate</span> <span>kieli</span></div>
+                  <div class="pl-3 pt-2 text-nowrap kieli"><span aria-hidden="true" class="icon icon mr-3 material-icons">language</span> <span>kieli</span></div>
                   <div class="pl-3 uikieli"><span class="icon mr-3"></span> <small>sv</small></div>
                 </div>
               </div>
