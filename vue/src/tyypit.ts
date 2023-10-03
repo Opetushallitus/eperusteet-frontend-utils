@@ -101,6 +101,7 @@ export type OikeusKohde = 'opetussuunnitelma' | 'pohja';
 
 export type NavigationNodeType =
   | 'root'
+  | 'opetussuunnitelma'
   | 'tiedot'
   | 'kvliite'
   | 'viite' | 'taiteenala' | 'tekstikappale'
