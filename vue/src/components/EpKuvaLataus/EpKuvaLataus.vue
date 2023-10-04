@@ -2,6 +2,7 @@
   <div>
     <h4 v-if="file">{{$t('kuva')}}</h4>
     <h4 v-else>{{$t('lataa-uusi-kuva')}}</h4>
+    <span v-if="!file">({{$t('max-koko') + ' ' + fileMaxSizeInMb + $t('megatavu-lyhenne')}})</span>
     <div class="ops-dokumentti-tiedosto-lataus" :class="file ? 'tiedosto' : 'ei-tiedosto'">
       <div class="h-100">
 
@@ -11,6 +12,9 @@
           <div class="h-100 justify-content-around align-items-center">
             <figure><img v-if="previewUrl" :src="previewUrl" :width="previewWidth" :height="previewHeight"/>
               <figcaption v-if="!saved">{{ $t('fu-valittu-tiedosto') }}: {{ file ? file.name : '' }}</figcaption>
+              <figcaption v-if="!saved && file" :class="!fileValidi ? 'error' : ''">
+                {{ $t('fu-tiedosto-koko') }}: {{ fileSize }} {{ !fileValidi ? '(' +  $t('max-koko') + ' ' + fileMaxSizeInMb + $t('megatavu-lyhenne') + ')' : '' }}
+              </figcaption>
             </figure>
           </div>
 
@@ -58,7 +62,6 @@
 
 <script lang="ts">
 import { Vue, Component, Watch, Prop } from 'vue-property-decorator';
-
 import EpButton from '../EpButton/EpButton.vue';
 import { fail } from '@shared/utils/notifications';
 import _ from 'lodash';
@@ -83,7 +86,8 @@ export interface ImageData {
   },
 })
 export default class EpKuvaLataus extends Vue {
-  private fileMaxSize = 1 * 1024 * 1024;
+  private fileMaxSizeInMb = 1;
+  private fileMaxSize = this.fileMaxSizeInMb * 1024 * 1024;
   private fileTypes: string [] = ['image/jpeg', 'image/png'];
   private keepAspectRatio: boolean = true;
   private changeBlock: boolean = false;
@@ -132,6 +136,14 @@ export default class EpKuvaLataus extends Vue {
 
   get fileValidi() {
     return this.file != null && (this.file as any).size <= this.fileMaxSize && _.includes(this.fileTypes, (this.file as any).type);
+  }
+
+  get fileSize() {
+    let size = 0;
+    if (this.file) {
+      size = this.file.size / 1024;
+    }
+    return size > 1024 ? (size / 1024).toFixed(2) + this.$t('megatavu-lyhenne') : size.toFixed(1) + this.$t('kilotavu-lyhenne');
   }
 
   // Luodaan esikatselukuva kuvan valitsemisen jälkeen
@@ -238,6 +250,10 @@ export default class EpKuvaLataus extends Vue {
 .kuvaus {
   font-size: 0.8rem;
   color: $gray;
+}
+
+.error {
+  color: $invalid;
 }
 
 .ops-dokumentti-tiedosto-lataus {

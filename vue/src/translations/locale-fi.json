@@ -469,6 +469,7 @@
     "fu-drop-placeholder": "Raahaa ja pudota tiedosto tähän",
     "fu-placeholder": "Raahaa ja pudota tiedosto tähän tai ",
     "fu-valittu-tiedosto": "Valittu kuva",
+    "fu-tiedosto-koko": "Tiedostokoko",
     "geneerinen-arviointi": "Geneerinen arviointi",
     "geneerinen-arviointi-julkaistu": "Geneerinen arviointi julkaistu",
     "geneerinen-arviointi-poistettu": "Geneerinen arviointi poistettu",
@@ -4070,5 +4071,8 @@
     "tapahtuma-luonti-perusopetuslaajaalainenosaaminen": "Lisäsi laaja-alaisen osaamisen",
     "tapahtuma-luonti-vuosiluokkakokonaisuus": "Lisäsi vuosiluokkakokonaisuuden",
     "hae-perustetta": "Hae perustetta",
-    "opetussuunnitelma-luotu-toisesta-opetussuunnitelmasta": "Opetussuunnitelma luotu toisesta opetussuunnitelmasta"
+    "opetussuunnitelma-luotu-toisesta-opetussuunnitelmasta": "Opetussuunnitelma luotu toisesta opetussuunnitelmasta",
+    "max-koko": "maksimikoko",
+    "kilotavu-lyhenne": "kt",
+    "megatavu-lyhenne": "Mt"
 }
