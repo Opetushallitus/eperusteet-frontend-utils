@@ -39,6 +39,7 @@
                @ok="editLink(data)"
                @keyup.enter="editLink(data)"
                @hidden="linkValue = null"
+               :ok-disabled="linkInvalid"
                size="xl">
 
         <b-form-group class="mx-4">
@@ -282,6 +283,10 @@ export default class EpEditorMenuBar extends Vue {
         this.history,
       ];
     }
+  }
+
+  get linkInvalid() {
+    return this.linkkiTyyppi === 'ulkoinen' && !this.linkValue?.startsWith('http');
   }
 
   private editLink(data) {
