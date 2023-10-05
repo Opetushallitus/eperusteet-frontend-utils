@@ -39,6 +39,7 @@
                @ok="editLink(data)"
                @keyup.enter="editLink(data)"
                @hidden="linkValue = null"
+               :ok-disabled="linkInvalid"
                size="xl">
 
         <b-form-group class="mx-4">
@@ -61,9 +62,12 @@
             </EpMultiSelect>
 
             <b-form-radio class="p-2 mt-3" v-model="linkkiTyyppi" value="ulkoinen" name="linkkiTyyppi" >{{ $t('ulkoinen-linkki') }}</b-form-radio>
-            <b-form-input v-if="linkkiTyyppi === 'ulkoinen'" v-model="linkValue" placeholder="https://..."></b-form-input>
+            <b-form-input v-if="linkkiTyyppi === 'ulkoinen'"
+                          v-model="linkValue"
+                          :placeholder="linkPlaceholder"
+                          :state="!linkInvalid"></b-form-input>
           </template>
-          <b-form-input v-else v-model="linkValue" placeholder="https://..."></b-form-input>
+          <b-form-input v-else v-model="linkValue" :placeholder="linkPlaceholder"></b-form-input>
 
         </b-form-group>
 
@@ -110,6 +114,7 @@ export default class EpEditorMenuBar extends Vue {
   private linkValue: string | null = null;
   private internalLink: NavigationNodeDto | null = null;
   private linkkiTyyppi: 'ulkoinen' | 'sisainen' | null = null;
+  private linkPlaceholder: string = 'https://...';
 
   get id() {
     return (this as any)._uid;
@@ -282,6 +287,10 @@ export default class EpEditorMenuBar extends Vue {
         this.history,
       ];
     }
+  }
+
+  get linkInvalid() {
+    return this.linkkiTyyppi === 'ulkoinen' && !this.linkValue?.startsWith('http');
   }
 
   private editLink(data) {
