@@ -78,3 +78,7 @@ function unwrap(el) {
 export function flattenTree(item, childFunction) {
   return _.flatMap(_.get(item, childFunction), item => [item, ...flattenTree(item, childFunction)]);
 };
+
+export function nimiSearchIdentity(obj: any) {
+  return _.toLower(this.$kaanna(obj.nimi));
+}

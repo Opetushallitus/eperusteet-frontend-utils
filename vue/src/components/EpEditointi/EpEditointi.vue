@@ -2,7 +2,7 @@
   <div class="editointi-container">
     <ep-spinner class="mt-5" v-if="!store || !store.data.value"></ep-spinner>
     <div class="editointikontrolli" v-else>
-      <div v-sticky sticky-offset="{ top: 0 }" sticky-z-index="600">
+      <div v-sticky sticky-offset="{ top: 0 }" sticky-z-index="600" v-if="!hasFooterSlot">
         <div class="ylapaneeli d-print-none">
           <div class="d-flex align-items-center flex-md-row flex-column justify-content-between" :class="{ container: useContainer }">
             <div class="d-flex flex-wrap flex-xl-nowrap align-items-center justify-content-between">
@@ -258,6 +258,19 @@
             </div>
           </div>
         </div>
+      </div>
+      <div v-if="inner && hasFooterSlot" class="alapaneeli py-3 px-2">
+        <slot name="footer"
+          :isEditing="isEditing"
+          :support-data="innerSupport"
+          :data="inner"
+          :cancel="cancel"
+          :save="save"
+          :disabled="disabled"
+          :validation="validation"
+          :isSaving="isSaving"
+          :modify="modify"
+          :remove="remove"/>
       </div>
       <EpSpinner v-else />
     </div>
@@ -537,6 +550,10 @@ export default class EpEditointi extends Mixins(validationMixin) {
     return this.$slots.info;
   }
 
+  get hasFooterSlot() {
+    return this.$scopedSlots.footer;
+  }
+
   private toggleSidebarState(val: number) {
     if (val === this.sidebarState) {
       this.sidebarState = 0;
@@ -657,6 +674,7 @@ export default class EpEditointi extends Mixins(validationMixin) {
     }
     catch (err) {
       this.$fail(this.$t(this.labelSaveFail) as string);
+      console.log(err);
     }
   }
 
@@ -760,6 +778,12 @@ export default class EpEditointi extends Mixins(validationMixin) {
           border-top: 1px solid #E7E7E7;
         }
     }
+
+  }
+
+  .alapaneeli {
+    background: #fff;
+    border-top: 1px solid #E7E7E7;
   }
 
   .versiohistoria {
@@ -799,12 +823,6 @@ export default class EpEditointi extends Mixins(validationMixin) {
   .sisalto {
     margin-bottom: 5px;
     padding: 15px;
-  }
-
-  .alapaneeli {
-
-    .lower-buttons {
-    }
   }
 
   .threads {
