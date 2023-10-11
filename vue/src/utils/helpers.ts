@@ -74,3 +74,7 @@ function unwrap(el) {
   while (el.firstChild) parent.insertBefore(el.firstChild, el);
   parent.removeChild(el);
 }
+
+export function flattenTree(item, childFunction) {
+  return _.flatMap(_.get(item, childFunction), item => [item, ...flattenTree(item, childFunction)]);
+};
