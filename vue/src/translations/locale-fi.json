@@ -4075,5 +4075,9 @@
     "max-koko": "maksimikoko",
     "kilotavu-lyhenne": "kt",
     "megatavu-lyhenne": "Mt",
-    "arvioinnin-kohteen-nimi-vapaaehtoinen": "Arvioinnin kohteen nimi (vapaaehtoinen)"
+    "ryhmittelyotsikko-vapaaehtoinen": "Ryhmittelyotsikko (vapaaehtoinen)",
+    "ryhmittelyotsikko": "Ryhmittelyotsikko",
+    "ammattitaitovaatimus-tekemisena": "Ammattitaitovaatimus tekemisenä",
+    "lisaa-ammattitaitovaatimus-tekemisena": "Lisää ammattitaitovaatimus tekemisenä",
+    "poista-ammattitaitovaatimus-tekemisena": "Poista ammattitaitovaatimus tekemisenä"
 }
