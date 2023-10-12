@@ -66,7 +66,7 @@ import EpInput from '@shared/components/forms/EpInput.vue';
 import { koodistoKoodiValidator } from '@shared/validators/required';
 import { Validations } from 'vuelidate-property-decorators';
 import { generateTemporaryKoodiUri } from '@shared/utils/koodi';
-import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 @Component({
   components: {

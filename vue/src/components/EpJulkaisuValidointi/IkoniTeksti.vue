@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator';
-import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 @Component({
   components: {

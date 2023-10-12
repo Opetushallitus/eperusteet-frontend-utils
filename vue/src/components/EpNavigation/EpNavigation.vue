@@ -66,7 +66,7 @@ import { Murupolku } from '@shared/stores/murupolku';
 import { TutoriaaliStore } from '@shared/stores/tutoriaali';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpKayttaja from '@shared/components/EpKayttaja/EpKayttaja.vue';
-import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 @Component({
   directives: {

@@ -79,7 +79,7 @@ import { Location } from 'vue-router';
 import EpKayttaja from '../../components/EpKayttaja/EpKayttaja.vue';
 import { BrowserStore } from '../../stores/BrowserStore';
 import { SovellusOikeus } from '@shared/plugins/oikeustarkastelu';
-import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 interface Breadcrumb {
   label: string;

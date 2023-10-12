@@ -138,7 +138,7 @@ import { Kielet } from '@shared/stores/kieli';
 import EpSearch from '@shared/components/forms/EpSearch.vue';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
 import EpLinkki from '@shared/components/EpLinkki/EpLinkki.vue';
-import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 @Component({
   components: {

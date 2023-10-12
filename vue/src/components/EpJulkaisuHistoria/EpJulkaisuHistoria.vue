@@ -43,7 +43,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
-import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 interface Julkaisu {
   revision?: number;

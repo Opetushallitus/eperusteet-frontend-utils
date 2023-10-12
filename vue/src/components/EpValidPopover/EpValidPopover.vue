@@ -98,7 +98,7 @@ import EpProgressPopover from '@shared/components/EpProgressPopover/EpProgressPo
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { tileBackgroundColor } from '@shared/utils/bannerIcons';
 import { ValidableObject, Validoinnit, ValidoitavatTilat, ValidoitavatTyypit } from '@shared/components/EpValidPopover/EpValidPopoverTypes';
-import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 @Component({
   components: {

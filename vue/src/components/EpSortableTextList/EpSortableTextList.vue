@@ -50,7 +50,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 import EpButton from '../EpButton/EpButton.vue';
 import _ from 'lodash';
 import EpInput from '@shared/components/forms/EpInput.vue';
-import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import draggable from 'vuedraggable';
 
 @Component({

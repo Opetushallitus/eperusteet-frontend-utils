@@ -146,7 +146,7 @@ import { IKuvaHandler } from '../EpContent/KuvaHandler';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
 import { LiiteDtoWrapper } from '@shared/tyypit';
 import EpContentViewer from '@shared/components/EpContentViewer/EpContentViewer.vue';
-import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 enum TaitotasoTyyppi {
   opintokokonaisuus = 'opintokokonaisuus',

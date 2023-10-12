@@ -110,7 +110,7 @@ import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
 import EpTavoitealueKeskeisetSisaltoalueet from './EpTavoitealueKeskeisetSisaltoalueet.vue';
 import EpTavoitealueTavoitteet from './EpTavoitealueTavoitteet.vue';
-import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 @Component({
   components: {

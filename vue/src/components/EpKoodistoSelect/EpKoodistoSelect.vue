@@ -107,7 +107,7 @@ import EpToggle from '../forms/EpToggle.vue';
 import EpSearch from '../forms/EpSearch.vue';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import { KoodistoSelectStore } from './KoodistoSelectStore';
-import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import _ from 'lodash';
 
 @Component({

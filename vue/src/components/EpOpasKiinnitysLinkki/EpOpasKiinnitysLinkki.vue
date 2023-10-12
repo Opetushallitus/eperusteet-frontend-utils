@@ -20,7 +20,7 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { PerusteDto, Perusteet } from '@shared/api/eperusteet';
-import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 @Component({
   components: {

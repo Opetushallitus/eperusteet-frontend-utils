@@ -168,7 +168,7 @@ import { setItem } from '@shared/utils/localstorage';
 import { SovellusOikeus } from '@shared/plugins/oikeustarkastelu';
 import EpSearch from '@shared/components/forms/EpSearch.vue';
 import EpToggle from '@shared/components/forms/EpToggle.vue';
-import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 @Component({
   components: {

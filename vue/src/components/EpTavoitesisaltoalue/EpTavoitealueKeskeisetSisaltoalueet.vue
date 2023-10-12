@@ -32,7 +32,7 @@ import _ from 'lodash';
 import draggable from 'vuedraggable';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpInput from '@shared/components/forms/EpInput.vue';
-import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 @Component({
   components: {

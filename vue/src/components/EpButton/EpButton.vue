@@ -19,7 +19,7 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import _ from 'lodash';
-import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import EpSpinnerInline from '../EpSpinner/EpSpinnerInline.vue';
 
 @Component({
