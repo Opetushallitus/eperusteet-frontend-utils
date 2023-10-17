@@ -209,6 +209,7 @@ export const themeColors = {
 
 export const tyyppiColors = {
   'digitaalinen_osaaminen': [230, 246, 255],
+  'maarayskokoelma': [255, 255, 255],
 };
 
 export const ktToState = {

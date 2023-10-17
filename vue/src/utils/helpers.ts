@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import { findDeep, eachDeep } from 'deepdash-es/standalone';
+import { Kielet } from '@shared/stores/kieli';
 
 export function domAttrsGetter(...fields: string[]) {
   return (dom: any) => _.reduce(fields, (acc: any, field: string) => {
@@ -80,5 +81,5 @@ export function flattenTree(item, childFunction) {
 };
 
 export function nimiSearchIdentity(obj: any) {
-  return _.toLower(this.$kaanna(obj.nimi));
+  return _.toLower(Kielet.kaanna(obj.nimi));
 }
