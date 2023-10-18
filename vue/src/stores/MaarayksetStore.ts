@@ -13,7 +13,7 @@ export interface MaaraysQueryDto {
   tuleva?: boolean,
   voimassaolo?: boolean,
   poistunut?: boolean,
-  laadinta?: boolean,
+  luonnos?: boolean,
   julkaistu?: boolean,
   sivu?: number;
   sivukoko?: number;
@@ -35,7 +35,7 @@ export class MaarayksetStore {
       query.tuleva,
       query.voimassaolo,
       query.poistunut,
-      query.laadinta,
+      query.luonnos,
       query.julkaistu,
       query.sivu,
       query.sivukoko,

@@ -22,10 +22,10 @@ export import PoistettuSisaltoDtoTyyppiEnum = EperusteetApi.PoistettuSisaltoDtoT
 export import JulkaisuBaseDtoTilaEnum = EperusteetApi.JulkaisuBaseDtoTilaEnum;
 export import LiiteDtoTyyppiEnum = EperusteetApi.LiiteDtoTyyppiEnum;
 export import MaaraysDtoTyyppiEnum = EperusteetApi.MaaraysDtoTyyppiEnum;
+export import MaaraysDtoLiittyyTyyppiEnum = EperusteetApi.MaaraysDtoLiittyyTyyppiEnum;
 export import MaaraysDtoTilaEnum = EperusteetApi.MaaraysDtoTilaEnum;
 export import MaaraysLiiteDtoTyyppiEnum = EperusteetApi.MaaraysLiiteDtoTyyppiEnum;
 export import MaaraysLiiteUploadDtoTyyppiEnum = EperusteetApi.MaaraysLiiteUploadDtoTyyppiEnum;
-export import MaaraysDtoKoulutustyyppiEnum = EperusteetApi.MaaraysDtoKoulutustyyppiEnum;
 
 const logger = createLogger('EperusteetAxios');
 const basePath = '';

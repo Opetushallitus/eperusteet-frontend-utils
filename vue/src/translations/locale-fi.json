@@ -4133,7 +4133,7 @@
     "maarays-annettu": "Määräys annettu",
     "maaraysdokumentti": "Määräysdokumentti",
     "tallenna-ja-julkaise": "Tallenna ja julkaise",
-    "ei-liity-toiseen-maaraykseen": "Ei liity toiseen määräyksee",
+    "ei-liity-toiseen-maaraykseen": "Ei liity toiseen määräykseen",
     "muuttaa-toista-maaraysta": "Muuttaa toista määräystä",
     "korvaa-toisen-maarayksen": "Korvaa toisen määräyksen",
     "liittyyko-maarays-toiseen-maaraykseen": "Liittyykö määräys toiseen määräykseen",
@@ -4150,5 +4150,8 @@
     "hae-maarayksia": "Hae määräyksiä",
     "muuttaa-maaraysta": "Muuttaa määräystä",
     "korvaa-maarayksen": "Korvaa määräyksen",
-    "avaa-maarays-pdf": "Avaa määräys (pdf)"
+    "avaa-maarays-pdf": "Avaa määräys (pdf)",
+    "lisaa-koulutustyyppi": "Lisää koulutustyyppi",
+    "poista-maarays": "Poista määräys",
+    "maarays-poisto-varmistus-teksti": "Vahvista määräyksen poisto"
 }
