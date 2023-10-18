@@ -30,8 +30,8 @@
   </EpMultiSelect>
   <div v-else>
     <span class="text-nowrap">
-      <EpColorIndicator :size="10" :kind="value" />
-      <span class="ml-2">{{ $t(value) }}</span>
+      <EpColorIndicator :size="10" :kind="value" v-if="!nocolor" class="mr-2"/>
+      <span>{{ $t(value) }}</span>
     </span>
   </div>
 </template>
@@ -64,6 +64,9 @@ export default class KoulutustyyppiSelect extends Vue {
 
   @Prop({ type: Boolean })
   required!: Boolean;
+
+  @Prop({ default: false, type: Boolean })
+  nocolor!: Boolean;
 
   @Prop({ default: () => EperusteetKoulutustyypit })
   koulutustyypit!: string[];
