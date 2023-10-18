@@ -335,9 +335,9 @@ export interface OsaamismerkitQuery {
   nimi?: string;
   tila?: string[];
   kategoria?: number;
-  voimassaolo?: boolean;
-  julkaistu?: boolean,
-  laadinta?: boolean,
+  voimassa?: boolean;
+  tuleva?: boolean,
+  poistunut?: boolean,
 }
 
 export async function findAllOppaat(query: OppaatQuery) {
