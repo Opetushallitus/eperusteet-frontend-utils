@@ -319,6 +319,9 @@ export default class EpEditointi extends Mixins(validationMixin) {
   @Prop({ default: 'poista' })
   private labelRemove!: string;
 
+  @Prop({ default: 'tata-toimintoa-ei-voida-perua' })
+  private labelRemoveConfirm!: string;
+
   @Prop({ default: 'poisto-onnistui' })
   private labelRemoveSuccess!: string;
 
@@ -684,7 +687,7 @@ export default class EpEditointi extends Mixins(validationMixin) {
 
   public async vahvista(title: string, okTitle: string, label?: string) {
     let modalContent = [
-      this.$createElement('strong', this.$t('tata-toimintoa-ei-voida-perua') as string),
+      this.$createElement('strong', this.$t(this.labelRemoveConfirm) as string),
     ];
     if (label) {
       modalContent = [
