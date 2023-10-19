@@ -13,7 +13,7 @@
 
   <template slot="singleLabel" slot-scope="{ option }">
     <span class="text-nowrap">
-      <EpColorIndicator :size="10" :kind="option.koulutustyyppi"/>
+      <EpColorIndicator :size="10" :kind="option.koulutustyyppi" v-if="!nocolor"/>
       <span class="ml-2">{{ $t(option.koulutustyyppi) }}</span>
     </span>
   </template>
@@ -21,7 +21,7 @@
     <hr class="mt-0 mb-0" v-if="option.$groupLabel" />
 
     <span v-else class="option text-nowrap">
-      <EpColorIndicator :size="10" :kind="option.koulutustyyppi" v-if="option.koulutustyyppi !== 'kaikki'"/>
+      <EpColorIndicator :size="10" :kind="option.koulutustyyppi" v-if="option.koulutustyyppi !== 'kaikki' && !nocolor"/>
       <span :class="{'font-weight-bold': option.koulutustyyppi === 'kaikki', 'ml-2': option.koulutustyyppi !== 'kaikki'}">
         {{ $t(option.koulutustyyppi) }}
       </span>

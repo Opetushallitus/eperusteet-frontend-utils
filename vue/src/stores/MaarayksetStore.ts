@@ -22,9 +22,15 @@ export interface MaaraysQueryDto {
 export class MaarayksetStore {
   private state = reactive({
     maaraykset: null as Page<MaaraysDto> | null,
+    koulutustyypit: null as string[] | null,
   })
 
   public readonly maaraykset = computed(() => this.state.maaraykset);
+  public readonly koulutustyypit = computed(() => this.state.koulutustyypit);
+
+  async init() {
+    this.state.koulutustyypit = (await Maaraykset.getMaarayksienKoulutustyypit()).data;
+  }
 
   async fetch(query: MaaraysQueryDto) {
     this.state.maaraykset = null;
