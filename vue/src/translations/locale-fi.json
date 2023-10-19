@@ -4153,5 +4153,13 @@
     "avaa-maarays-pdf": "Avaa määräys (pdf)",
     "lisaa-koulutustyyppi": "Lisää koulutustyyppi",
     "poista-maarays": "Poista määräys",
-    "maarays-poisto-varmistus-teksti": "Vahvista määräyksen poisto"
+    "maarays-poisto-varmistus-teksti": "Vahvista määräyksen poisto",
+    "maarayskirjeen-asiasana": "Määräyskirjeen asiasana",
+    "maarayskirjeen-kuvaus": "Määräyskirjeen kuvaus",
+    "julkaisuun-liittyy-muutosmaarays": "Julkaisuun liittyy muutosmääräys",
+    "muutosmaarayksen-nimi": "Muutosmääräyksen nimi",
+    "muutosmaarayksen-diaarinumero": "Muutosmääräyksen diaarinumero",
+    "lataa-uusi-muutosmaarays": "Lataa uusi muutosmääräys",
+    "peruste-validointi-maarays-kuvaus": "Määräyskirjeen kuvausta ei ole lokalisoitu",
+    "peruste-validointi-maarays-dokumentti": "Määräyskirjettä ei ole tallennettu"
 }

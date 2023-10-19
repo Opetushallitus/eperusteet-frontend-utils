@@ -504,6 +504,11 @@ export class EditointiStore {
     }
   }
 
+  public async clear() {
+    this.state.data = null;
+    this.state.supportData = null;
+  }
+
   public async hide() {
     this.state.disabled = true;
     this.state.isEditingState = false;

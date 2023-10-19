@@ -259,20 +259,23 @@
           </div>
         </div>
       </div>
-      <div v-if="inner && hasFooterSlot" class="alapaneeli py-3 px-2">
-        <slot name="footer"
-          :isEditing="isEditing"
-          :support-data="innerSupport"
-          :data="inner"
-          :cancel="cancel"
-          :save="save"
-          :disabled="disabled"
-          :validation="validation"
-          :isSaving="isSaving"
-          :modify="modify"
-          :remove="remove"/>
-      </div>
-      <EpSpinner v-else />
+      <template v-if="hasFooterSlot">
+        <div v-if="inner" class="alapaneeli py-3 px-2">
+          <slot name="footer"
+            :isEditing="isEditing"
+            :support-data="innerSupport"
+            :data="inner"
+            :cancel="cancel"
+            :save="save"
+            :disabled="disabled"
+            :validation="validation"
+            :isSaving="isSaving"
+            :modify="modify"
+            :remove="remove"
+            :editable="features.editable"/>
+        </div>
+        <EpSpinner v-else />
+      </template>
     </div>
   </div>
 </template>
@@ -426,6 +429,7 @@ export default class EpEditointi extends Mixins(validationMixin) {
       throw new Error('Store must be EditointiStore');
     }
 
+    await this.store.clear();
     await this.store.init();
     this.isInitialized = true;
     const sidebarState = await getItem('ep-editointi-sidebar-state') as any;
