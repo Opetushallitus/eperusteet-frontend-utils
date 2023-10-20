@@ -2702,7 +2702,7 @@
     "route-organisaatio": "Organisaatio",
     "route-osaalue": "Osa-alue",
     "route-osaamismerkit": "Kansalliset osaamismerkit",
-    "route-osaamismerkkiKategoria": "Kansallisten osaamismerkkien kategoriat",
+    "route-osaamismerkkikategoriat": "Kategoriat",
     "route-osasuorituspolku": "Osasuorituspolku",
     "route-paikallinenOppiaine": "Paikallinen oppiaine",
     "route-paivitettavat": "Päivitettävät ja siirrettävät toteutussuunnitelmat",
@@ -4105,11 +4105,14 @@
     "tile-osaamismerkit-kuvaus": "Kansallisten osaamismerkkien ylläpito",
     "kategorian-paivitys-onnistui": "Kategorian päivitys onnistui",
     "kategorian-paivitys-epaonnistui": "Kategorian päivitys epäonnistui",
+    "kategorian-poistaminen-onnistui": "Kategorian poistaminen onnistui",
+    "kategorian-poistaminen-epaonnistui": "Kategorian poistaminen epäonnistui",
     "osaamismerkin-paivitys-onnistui": "Osaamismerkin päivitys onnistui",
     "osaamismerkin-paivitys-epaonnistui": "Osaamismerkin päivitys epäonnistui",
     "osaamismerkin-poistaminen-onnistui": "Osaamismerkin poistaminen onnistui",
     "osaamismerkin-poistaminen-epaonnistui": "Osaamismerkin poistaminen epäonnistui",
     "muokannut-viimeksi": "Muokannut viimeksi",
     "naytetaan-julkisena": "Näytetään julkisena",
-    "sallitut-kuvaformaatit": "Sallitut kuvaformaatit"
+    "sallitut-kuvaformaatit": "Sallitut kuvaformaatit",
+    "osaamismerkkiin-liitettya-kategoriaa-ei-voi-poistaa": "Osaamismerkkiin liitettyä kategoriaa ei voi poistaa"
 }
