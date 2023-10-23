@@ -157,6 +157,7 @@ export type OppiaineenVuosiluokkaKokonaisuusDto = EperusteetApi.OppiaineenVuosil
 export type YllapitoDto = EperusteetApi.YllapitoDto;
 export type Validointi = EperusteetApi.Validointi;
 export type OsaamismerkkiDto = EperusteetApi.OsaamismerkkiDto;
+export type OsaamismerkkiBaseDto = EperusteetApi.OsaamismerkkiBaseDto;
 
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
