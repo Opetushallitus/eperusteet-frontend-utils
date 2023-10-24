@@ -4161,5 +4161,7 @@
     "muutosmaarayksen-diaarinumero": "Muutosmääräyksen diaarinumero",
     "lataa-uusi-muutosmaarays": "Lataa uusi muutosmääräys",
     "peruste-validointi-maarays-kuvaus": "Määräyskirjeen kuvausta ei ole lokalisoitu",
-    "peruste-validointi-maarays-dokumentti": "Määräyskirjettä ei ole tallennettu"
+    "peruste-validointi-maarays-dokumentti": "Määräyskirjettä ei ole tallennettu",
+    "uusimmat-ensin": "Uusimmat ensin",
+    "vanhimmat-ensin": "Vanhimmat ensin"
 }
