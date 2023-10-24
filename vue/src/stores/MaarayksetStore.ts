@@ -8,8 +8,9 @@ Vue.use(VueCompositionApi);
 
 export interface MaaraysQueryDto {
   nimi?: string;
+  kieli: string;
   tyyppi?: MaaraysDtoTyyppiEnum;
-  koulutustyyppi?: Koulutustyyppi;
+  koulutustyyppit?: Koulutustyyppi[];
   tuleva?: boolean,
   voimassaolo?: boolean,
   poistunut?: boolean,
@@ -17,6 +18,8 @@ export interface MaaraysQueryDto {
   julkaistu?: boolean,
   sivu?: number;
   sivukoko?: number;
+  jarjestysTapa?: string;
+  jarjestys: string;
 }
 
 export class MaarayksetStore {
@@ -36,8 +39,9 @@ export class MaarayksetStore {
     this.state.maaraykset = null;
     this.state.maaraykset = (await Maaraykset.getMaaraykset(
       query.nimi,
+      query.kieli,
       query.tyyppi,
-      query.koulutustyyppi,
+      query.koulutustyyppit,
       query.tuleva,
       query.voimassaolo,
       query.poistunut,
@@ -45,6 +49,8 @@ export class MaarayksetStore {
       query.julkaistu,
       query.sivu,
       query.sivukoko,
+      query.jarjestysTapa,
+      query.jarjestys,
     )).data as any;
   }
 }
