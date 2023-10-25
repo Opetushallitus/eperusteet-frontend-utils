@@ -213,44 +213,51 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
 <style scoped lang="scss">
 @import '@shared/styles/_variables.scss';
 
-/deep/ .multiselect__tags {
+::v-deep .multiselect__tags {
   border: 2px solid #E0E0E1;
   border-radius: 10px;
   // font-size: 1rem;
   background-color: $white;
   padding-left:10px;
+  padding-bottom: 8px;
 }
 
-/deep/ .multiselect__tag {
+::v-deep .multiselect__tag {
   background-color: $white;
   color: $black;
   margin: 0px;
 }
 
-/deep/ .multiselect__placeholder {
+::v-deep .multiselect__placeholder {
   margin-bottom: 0px;
   padding-top: 0px;
 }
 
-/deep/ .multiselect--active {
+::v-deep .multiselect--active {
   .multiselect__tags {
     border-top: 2px solid #E0E0E1;
+
+    .multiselect__tags-wrap {
+      margin-bottom: 10px;
+      display: block;
+      border-bottom: 1px solid $gray-lighten-4;
+    }
   }
 }
 
-/deep/ .multiselect--above {
+::v-deep .multiselect--above {
   .multiselect__content-wrapper {
     border: 2px solid #E0E0E1;
     border-radius: 10px 10px 0 0;
   }
 }
-/deep/ .multiselect--above.multiselect--active {
+::v-deep .multiselect--above.multiselect--active {
   .multiselect__tags {
     border-top: 2px solid #E0E0E1;
   }
 }
 
-/deep/ .multiselect__content-wrapper {
+::v-deep .multiselect__content-wrapper {
   border: 2px solid #E0E0E1;
   border-radius: 0 0 10px 10px;
   width: fit-content;
@@ -258,29 +265,29 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
   margin-top: -2px;
 }
 
-/deep/ .is-invalid .multiselect__content-wrapper {
+::v-deep .is-invalid .multiselect__content-wrapper {
   border-color: #dc3545;
 }
 
-/deep/ .is-valid .multiselect__content-wrapper {
+::v-deep .is-valid .multiselect__content-wrapper {
   border-color: $valid;
 }
 
-/deep/ .multiselect__tags {
+::v-deep .multiselect__tags {
   border-bottom: 2px solid #E0E0E1;
 }
 
-/deep/ .is-invalid .multiselect__tags {
+::v-deep .is-invalid .multiselect__tags {
   border-color: #dc3545;
 }
 
-/deep/ .is-valid .multiselect__tags {
+::v-deep .is-valid .multiselect__tags {
   border-color: $valid;
 }
 
 // Piilotettu Bootstrapissa oletuksena
-/deep/ .invalid-feedback,
-/deep/ .valid-feedback {
+::v-deep .invalid-feedback,
+::v-deep .valid-feedback {
   display: block;
 }
 

@@ -4139,7 +4139,7 @@
     "liittyyko-maarays-toiseen-maaraykseen": "Liittyykö määräys toiseen määräykseen",
     "paattyen": "Päättyen",
     "maarayskokoelma-otsikko": "Määräykset",
-    "maarayskokoelma-selite": "Opetushallituksen valtakunnalliset määräykset pdf-formaatissa. Peruteisiin liittyvät määräykset löydät myös kyseisen perusteen yhteydestä",
+    "maarayskokoelma-selite": "Opetushallituksen valtakunnalliset määräykset pdf-formaatissa. Perusteisiin liittyvät määräykset löydät myös kyseisen perusteen yhteydestä",
     "koulutus-tai-tutkinto": "Koulutus tai tutkinto",
     "asiasana": "Asiasana",
     "lisaa-asiasana": "Lisää asiasana",
@@ -4163,5 +4163,7 @@
     "peruste-validointi-maarays-kuvaus": "Määräyskirjeen kuvausta ei ole lokalisoitu",
     "peruste-validointi-maarays-dokumentti": "Määräyskirjettä ei ole tallennettu",
     "uusimmat-ensin": "Uusimmat ensin",
-    "vanhimmat-ensin": "Vanhimmat ensin"
+    "vanhimmat-ensin": "Vanhimmat ensin",
+    "muut-toimenpiteet": "Muut toimenpiteet",
+    "luo-maaraykset-perusteille": "Luo määräykset perusteille"
 }
