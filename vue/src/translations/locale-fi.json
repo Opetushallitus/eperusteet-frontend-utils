@@ -4114,5 +4114,6 @@
     "muokannut-viimeksi": "Muokannut viimeksi",
     "naytetaan-julkisena": "Näytetään julkisena",
     "sallitut-kuvaformaatit": "Sallitut kuvaformaatit",
-    "osaamismerkkiin-liitettya-kategoriaa-ei-voi-poistaa": "Osaamismerkkiin liitettyä kategoriaa ei voi poistaa"
+    "osaamismerkkiin-liitettya-kategoriaa-ei-voi-poistaa": "Osaamismerkkiin liitettyä kategoriaa ei voi poistaa",
+    "vahvista-tekstikappaleen-poisto" : "Vahvista tekstikappaleen poisto. Myös kaikki alakappaleet poistetaan."
 }
