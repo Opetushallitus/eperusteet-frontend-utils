@@ -4081,5 +4081,6 @@
     "lisaa-ammattitaitovaatimus-tekemisena": "Lisää ammattitaitovaatimus tekemisenä",
     "poista-ammattitaitovaatimus-tekemisena": "Poista ammattitaitovaatimus tekemisenä",
     "lisaa-ryhmittelyotsikko": "Lisää ryhmittelyotsikko",
-    "poista-ryhmittelyotsikko": "Poista ryhmittelyotsikko"
+    "poista-ryhmittelyotsikko": "Poista ryhmittelyotsikko",
+    "vahvista-tekstikappaleen-poisto" : "Vahvista tekstikappaleen poisto. Myös kaikki alakappaleet poistetaan."
 }
