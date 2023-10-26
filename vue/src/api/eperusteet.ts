@@ -1,15 +1,10 @@
 import { axiosHandler, successfulResponseHandler } from './common';
-import { Configuration,
-  DokumentitApiAxiosParamCreator,
-  LiitetiedostotApiAxiosParamCreator,
-} from '../generated/eperusteet';
+import { Configuration, DokumentitApiAxiosParamCreator, LiitetiedostotApiAxiosParamCreator } from '../generated/eperusteet';
 import axios, { AxiosInstance } from 'axios';
 import _ from 'lodash';
-
 import * as EperusteetApi from '../generated/eperusteet';
 import Qs from 'qs';
 import { createLogger } from '../utils/logger';
-
 export import PerusteprojektiLuontiDtoTyyppiEnum = EperusteetApi.PerusteprojektiLuontiDtoTyyppiEnum;
 export import NavigationNodeDtoTypeEnum = EperusteetApi.NavigationNodeDtoTypeEnum;
 export import PerusteDtoTyyppiEnum = EperusteetApi.PerusteDtoTyyppiEnum;
@@ -49,7 +44,6 @@ function initApi<T>(X: BaseAPIConstructor<T>): T {
 }
 
 export const Api = ax;
-
 export const Aikataulut = initApi(EperusteetApi.AikataulutApi);
 export const Aipeopetuksensisalto = initApi(EperusteetApi.AipeopetuksensisaltoApi);
 export const Ammattitaitovaatimukset = initApi(EperusteetApi.AmmattitaitovaatimuksetApi);
@@ -88,6 +82,7 @@ export const PerusopetusLaajaAlainenOsaaminenLukko = initApi(EperusteetApi.Perus
 export const PerusopetusVuosiluokkaKokonaisuusLukko = initApi(EperusteetApi.PerusopetusVuosiluokkaKokonaisuusLukkoApi);
 export const PerusopetusOppiaineLukko = initApi(EperusteetApi.PerusopetusOppiaineLukkoApi);
 export const PerusopetusOppiaineVlkLukko = initApi(EperusteetApi.PerusopetusOppiaineVlkLukkoApi);
+export const Osaamismerkit = initApi(EperusteetApi.OsaamismerkitApi);
 
 export type Ammattitaitovaatimukset2019Dto = EperusteetApi.Ammattitaitovaatimukset2019Dto;
 export type ArviointiAsteikkoDto = EperusteetApi.ArviointiAsteikkoDto;
@@ -161,6 +156,8 @@ export type OppiaineSuppeaDto = EperusteetApi.OppiaineSuppeaDto;
 export type OppiaineenVuosiluokkaKokonaisuusDto = EperusteetApi.OppiaineenVuosiluokkaKokonaisuusDto;
 export type YllapitoDto = EperusteetApi.YllapitoDto;
 export type Validointi = EperusteetApi.Validointi;
+export type OsaamismerkkiDto = EperusteetApi.OsaamismerkkiDto;
+export type OsaamismerkkiBaseDto = EperusteetApi.OsaamismerkkiBaseDto;
 
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
@@ -180,7 +177,7 @@ export interface PerusteprojektiQuery {
   sivu?: number;
   sivukoko?: number;
   perusteet?: number[];
-};
+}
 
 export async function getPerusteprojektit(query: PerusteprojektiQuery) {
   return Perusteprojektit.getAllPerusteprojektitKevyt({ params: query });
@@ -214,7 +211,7 @@ export interface PerusteQuery {
   julkaistu?: boolean,
   tutkinnonosaKoodit?: Array<string>,
   osaamisalaKoodit?: Array<string>,
-};
+}
 
 export async function getAllPerusteet(query: PerusteQuery) {
   return Perusteet.getAllPerusteet(
@@ -301,7 +298,7 @@ export interface TiedotteetQuery {
   jarjestys?: string;
   jarjestysNouseva?: boolean;
   koulutustyypiton?: boolean;
-};
+}
 
 export async function findTiedotteetBy(query: TiedotteetQuery) {
   return Tiedotteet.findTiedotteetBy(
@@ -331,6 +328,17 @@ export interface OppaatQuery {
   koulutustyyppi?: Array<string>;
   tuleva?: boolean;
   voimassaolo?: boolean;
+}
+
+export interface OsaamismerkitQuery {
+  sivu?: number;
+  sivukoko?: number;
+  nimi?: string;
+  tila?: string[];
+  kategoria?: number;
+  voimassa?: boolean;
+  tuleva?: boolean,
+  poistunut?: boolean,
 }
 
 export async function findAllOppaat(query: OppaatQuery) {

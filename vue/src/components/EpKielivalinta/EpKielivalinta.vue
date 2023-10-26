@@ -15,7 +15,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { Kielet, UiKielet } from '@shared/stores/kieli';
 import { Kieli } from '@shared/tyypit';
-import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 @Component({
   components: {

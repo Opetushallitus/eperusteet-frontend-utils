@@ -83,7 +83,7 @@ import EpField from '@shared/components/forms/EpField.vue';
 import EpSelect from '@shared/components/forms/EpSelect.vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import { Validations } from 'vuelidate-property-decorators';
-import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 @Component({
   components: {

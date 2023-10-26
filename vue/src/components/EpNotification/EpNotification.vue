@@ -31,7 +31,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import EpRoundButton from '@shared/components/EpButton/EpRoundButton.vue';
-import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 @Component({
   components: {

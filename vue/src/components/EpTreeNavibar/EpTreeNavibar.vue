@@ -54,7 +54,7 @@ import EpMultiSelect from '@shared/components/forms/EpMultiSelect.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { FlattenedNodeDto, EpTreeNavibarStore } from '@shared/components/EpTreeNavibar/EpTreeNavibarStore';
 import EpNavigationPostFix from '@shared/components/EpTreeNavibar/EpNavigationPostFix.vue';
-import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import _ from 'lodash';
 import { Kielet } from '@shared/stores/kieli';
 import VueScrollTo from 'vue-scrollto';
