@@ -12,7 +12,7 @@
                  :maxHeight="500">
 
   <template slot="singleLabel" slot-scope="{ option }">
-    <span class="text-nowrap">
+    <span :class="{'text-nowrap': !textWrap}">
       <EpColorIndicator :size="10" :kind="option.koulutustyyppi" v-if="!nocolor"/>
       <span class="ml-2">{{ $t(option.koulutustyyppi) }}</span>
     </span>
@@ -20,7 +20,7 @@
   <template slot="option" slot-scope="{ option }">
     <hr class="mt-0 mb-0" v-if="option.$groupLabel" />
 
-    <span v-else class="option text-nowrap">
+    <span v-else class="option text-nowrap" :class="{'text-nowrap': !textWrap}">
       <EpColorIndicator :size="10" :kind="option.koulutustyyppi" v-if="option.koulutustyyppi !== 'kaikki' && !nocolor"/>
       <span :class="{'font-weight-bold': option.koulutustyyppi === 'kaikki', 'ml-2': option.koulutustyyppi !== 'kaikki'}">
         {{ $t(option.koulutustyyppi) }}
@@ -29,7 +29,7 @@
   </template>
   </EpMultiSelect>
   <div v-else>
-    <span class="text-nowrap">
+    <span class="text-nowrap" :class="{'text-nowrap': !textWrap}">
       <EpColorIndicator :size="10" :kind="value" v-if="!nocolor" class="mr-2"/>
       <span>{{ $t(value) }}</span>
     </span>
@@ -73,6 +73,9 @@ export default class KoulutustyyppiSelect extends Vue {
 
   @Prop({ default: () => [] })
   eiTuetutKoulutustyypit!: string[];
+
+  @Prop({ default: false, type: Boolean })
+  textWrap!: Boolean;
 
   identity(tr: any) {
     return _.toLower(this.$kaanna(tr.nimi));
