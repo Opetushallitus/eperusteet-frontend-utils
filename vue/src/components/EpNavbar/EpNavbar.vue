@@ -60,7 +60,8 @@
       <ep-kayttaja :tiedot="kayttaja"
                    :koulutustoimijat="koulutustoimijat"
                    :koulutustoimija="koulutustoimija"
-                   :sovellusOikeudet="sovellusOikeudet"/>
+                   :sovellusOikeudet="sovellusOikeudet"
+                   :logoutHref="logoutHref"/>
 
     </b-navbar-nav>
   </b-navbar>
@@ -119,6 +120,9 @@ export default class EpNavbar extends Vue {
 
   @Prop({ required: false })
   private sovellusOikeudet!: SovellusOikeus[];
+
+  @Prop({ required: false })
+  private logoutHref!: string;
 
   get showNavigation() {
     return this.browserStore.navigationVisible.value;

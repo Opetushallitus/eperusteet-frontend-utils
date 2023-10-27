@@ -161,6 +161,7 @@ export type OsaamismerkkiBaseDto = EperusteetApi.OsaamismerkkiBaseDto;
 
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
+export const KayttajatParam = EperusteetApi.KayttajatApiAxiosParamCreator(configuration);
 
 export interface PerusteprojektiQuery {
   diaarinumero?: string;
