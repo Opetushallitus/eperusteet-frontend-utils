@@ -11,6 +11,7 @@ export interface IOikeusProvider {
   hasOphCrud?: Computed<boolean>;
   casKayttaja: Computed<any>;
   sovellusOikeudet: Computed<SovellusOikeus[]>;
+  logoutUrl?: Computed<string>;
 }
 
 export interface OikeustarkasteluConfig {
