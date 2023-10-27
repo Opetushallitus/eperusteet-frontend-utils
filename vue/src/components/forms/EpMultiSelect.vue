@@ -216,10 +216,8 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
 ::v-deep .multiselect__tags {
   border: 2px solid #E0E0E1;
   border-radius: 10px;
-  // font-size: 1rem;
   background-color: $white;
   padding-left:10px;
-  padding-bottom: 8px;
 }
 
 ::v-deep .multiselect__tag {
@@ -233,13 +231,20 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
   padding-top: 0px;
 }
 
+::v-deep .multiselect {
+  .multiselect__tags {
+    .multiselect__tags-wrap {
+      margin-bottom: 10px;
+      display: block;
+    }
+  }
+}
+
 ::v-deep .multiselect--active {
   .multiselect__tags {
     border-top: 2px solid #E0E0E1;
 
     .multiselect__tags-wrap {
-      margin-bottom: 10px;
-      display: block;
       border-bottom: 1px solid $gray-lighten-4;
     }
   }
