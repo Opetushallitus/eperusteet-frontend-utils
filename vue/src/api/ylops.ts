@@ -26,7 +26,7 @@ import { Configuration,
   PalautteetApi,
   LukioOpetussuunnitelmatApi,
   JulkaisutApi,
-  KayttajatApiAxiosParamCreator,
+  LogoutApiAxiosParamCreator,
 } from '../generated/ylops';
 import axios, { AxiosInstance } from 'axios';
 import _ from 'lodash';
@@ -71,7 +71,7 @@ export const Api = ax;
 export const Dokumentit = initApi(DokumentitApi);
 export const DokumentitParams = DokumentitApiAxiosParamCreator(configuration);
 export const Kayttajat = initApi(KayttajatApi);
-export const KayttajatParams = KayttajatApiAxiosParamCreator(configuration);
+export const LogoutParams = LogoutApiAxiosParamCreator(configuration);
 export const Kommentointi = initApi(KommentointiApi);
 export const Kysymykset = initApi(KysymyksetApi);
 export const Liitetiedostot = initApi(LiitetiedostotApi);
