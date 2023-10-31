@@ -4,7 +4,7 @@
     </slot>
     <div>{{$kaanna(arviointi.kohde)}}</div>
     <b-container fluid="lg" class="osaamistasot mt-3">
-      <b-row v-for="(osaamistaso, index) in arviointi.osaamistasonKriteerit" :key="'osaamistasokriteeri'+index">
+      <b-row v-for="(osaamistaso, index) in osaamistasonKriteerit" :key="'osaamistasokriteeri'+index">
         <b-col class="pt-3" md="12" lg="4">
           <span>{{$kaanna(osaamistaso.osaamistaso.otsikko)}}</span>
         </b-col>
@@ -35,6 +35,10 @@ import * as _ from 'lodash';
 export default class Arviointi2020Taulukko extends Vue {
   @Prop({ required: true })
   private arviointi!: any;
+
+  get osaamistasonKriteerit() {
+    return _.sortBy(this.arviointi.osaamistasonKriteerit, otk => _.get(otk, 'osaamistaso.koodi.arvo'));
+  }
 
   get osaamistasonKriteeritFields() {
     return [{
