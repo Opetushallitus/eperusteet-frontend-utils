@@ -3,11 +3,9 @@
     <h4 v-if="file">{{$t('kuva')}}</h4>
     <h4 v-else>{{$t('lataa-uusi-kuva')}}</h4>
     <span v-if="!file">({{$t('max-koko') + ' ' + fileMaxSizeInMb + $t('megatavu-lyhenne')}})</span>
-    <div class="ops-dokumentti-tiedosto-lataus" :class="file ? 'tiedosto' : 'ei-tiedosto'">
-      <div class="h-100">
 
-        <b-form-file v-if="!file" accept="image/jpeg, image/png" :placeholder="placeholder" :drop-placeholder="dropPlaceholder" :browse-text="browseText" @input="onInput"></b-form-file>
-
+    <EpTiedostoInput @input="onInput" :file-types="fileTypes" :file="file">
+      <slot>
         <div class="justify-content-around align-items-center h-100" v-if="file">
           <div class="h-100 justify-content-around align-items-center">
             <figure><img v-if="previewUrl" :src="previewUrl" :width="previewWidth" :height="previewHeight"/>
@@ -33,7 +31,6 @@
                   <span class="ml-1">px</span>
                 </div>
               </ep-form-content>
-
             </div>
 
             <ep-toggle :is-switch="false" v-model="keepAspectRatio">{{$t('sailyta-mittasuhteet')}}</ep-toggle>
@@ -55,8 +52,8 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </slot>
+    </EpTiedostoInput>
   </div>
 </template>
 
@@ -68,6 +65,7 @@ import _ from 'lodash';
 import EpField from '@shared/components/forms/EpField.vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import EpToggle from '@shared/components/forms/EpToggle.vue';
+import EpTiedostoInput from '@shared/components/EpTiedosto/EpTiedostoInput.vue';
 
 export interface ImageData {
   file: File ;
@@ -83,6 +81,7 @@ export interface ImageData {
     EpField,
     EpFormContent,
     EpToggle,
+    EpTiedostoInput,
   },
 })
 export default class EpKuvaLataus extends Vue {
@@ -120,18 +119,6 @@ export default class EpKuvaLataus extends Vue {
     if (this.value) {
       return this.value.file;
     }
-  }
-
-  get placeholder() {
-    return this.$t('fu-placeholder');
-  }
-
-  get dropPlaceholder() {
-    return this.$t('fu-placeholder');
-  }
-
-  get browseText() {
-    return this.$t('fu-browse-text');
   }
 
   get fileValidi() {
@@ -247,74 +234,7 @@ export default class EpKuvaLataus extends Vue {
 <style lang="scss" scoped>
 @import "@shared/styles/_variables.scss";
 
-.kuvaus {
-  font-size: 0.8rem;
-  color: $gray;
-}
-
 .error {
   color: $invalid;
 }
-
-.ops-dokumentti-tiedosto-lataus {
-  margin: 0px 0px;
-  width:100%;
-  border-width: 1px;
-  border-color: $gray-lighten-2;
-  border-style: dashed;
-  border-radius: 10px;
-  position: relative;
-
-  img {
-    max-width: 500px;
-    max-height: 500px;
-  }
-
-  &.tiedosto {
-    background-color: $white;
-    border-style: none;
-  }
-
-  &.ei-tiedosto {
-    height: 150px;
-    background-color: $gray-lighten-7;
-  }
-
-  .custom-file::v-deep{
-    height: 100%;
-    flex-direction: column;
-    justify-content: center;
-    display: flex;
-
-    input {
-      display: none;
-    }
-
-    .custom-file-label {
-      width: 90%;
-      background-image: url('../../../public/img/icons/lataus_ikoni.svg');
-      background-repeat: no-repeat;
-      background-position: left;
-      border: 0px;
-      margin-left: 30px;
-      height: 50px;
-      background-color: inherit;
-      padding-top: 0px;
-      padding-left: 60px;
-      position: relative;
-      border-radius: 0;
-    }
-
-    .custom-file-label::after {
-      padding: 60px 310px 0px 0px;
-      text-decoration: underline;
-      color: blue;
-      padding: 0;
-      display: inline;
-      position: relative;
-      background-color: $gray-lighten-7;
-    }
-  }
-}
-
 </style>
