@@ -173,7 +173,7 @@ export default class EpInput extends Mixins(EpValidation) {
       ? (this.value as any)[Kielet.getSisaltoKieli.value]
       : this.value;
 
-    return unescapeStringHtml(target);
+    return unescapeStringHtml(target, document.createElement('div'));
   }
 }
 </script>

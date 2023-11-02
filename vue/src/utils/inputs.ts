@@ -1,7 +1,6 @@
 import _ from 'lodash';
-const TextArea = document.createElement('textarea');
 
-export function unescapeStringHtml(str: string | null) {
+export function unescapeStringHtml(str: string | null, element: any = document.createElement('textarea')) {
   if (!_.isString(str)) {
     return str;
   }
@@ -10,7 +9,7 @@ export function unescapeStringHtml(str: string | null) {
     return '';
   }
   else {
-    TextArea.innerHTML = str;
-    return TextArea.textContent;
+    element.innerHTML = str;
+    return element.textContent;
   }
 }
