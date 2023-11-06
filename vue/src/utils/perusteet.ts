@@ -106,7 +106,7 @@ export enum Toteutus {
   AMMATILLINEN = 'ammatillinen',
   TUTKINTOONVALMENTAVA = 'tutkintoonvalmentava',
   KOTOUTUMISKOULUTUS = 'kotoutumiskoulutus',
-  MUU = 'muu',
+  MUU = 'muukoulutus',
 }
 
 export const EperusteetKoulutustyyppiRyhmat = {
