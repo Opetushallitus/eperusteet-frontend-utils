@@ -127,3 +127,25 @@ export const OIKEUS_KAANNOT = {
   'CRUD': 'luonti',
   'ADMIN': 'hallinta',
 };
+
+export const EPERUSTEET_KOULUTUSTYYPPI_PAIKALLISET_SOVELLUKSET = {
+  'koulutustyyppi_1': 'APP_EPERUSTEET_AMOSAA', // ammatillinen perustutkinto
+  'koulutustyyppi_2': 'APP_EPERUSTEET_YLOPS', // lukiokoulutus
+  'koulutustyyppi_5': 'APP_EPERUSTEET_AMOSAA', // telma
+  'koulutustyyppi_6': 'APP_EPERUSTEET_YLOPS', // lisaopetus
+  'koulutustyyppi_11': 'APP_EPERUSTEET_AMOSAA', // ammattitutkinto
+  'koulutustyyppi_12': 'APP_EPERUSTEET_AMOSAA', // erikoisammattitutkinto
+  'koulutustyyppi_14': 'APP_EPERUSTEET_YLOPS', // aikuisten lukiokoulutus
+  'koulutustyyppi_15': 'APP_EPERUSTEET_YLOPS', // esiopetus
+  'koulutustyyppi_16': 'APP_EPERUSTEET_YLOPS', // perusopetus
+  'koulutustyyppi_17': 'APP_EPERUSTEET_YLOPS', // aikuisten perusopetus
+  'koulutustyyppi_18': 'APP_EPERUSTEET_AMOSAA', // valma
+  'koulutustyyppi_20': 'APP_EPERUSTEET_YLOPS', // varhaiskasvatus
+  'koulutustyyppi_22': 'APP_EPERUSTEET_YLOPS', // perusopetuksen valmistava
+  'koulutustyyppi_23': 'APP_EPERUSTEET_YLOPS', // valmistava lukiokoulutus
+  'koulutustyyppi_999907': 'APP_EPERUSTEET_YLOPS', // taiteen perusopetus,
+  'koulutustyyppi_10': 'APP_EPERUSTEET_VST', // vapaa sivistystyo
+  'koulutustyyppi_30': 'APP_EPERUSTEET_KOTO', // aikuisten maahanmuuttajien kotoutumiskoulutus
+  'koulutustyyppi_35': 'APP_EPERUSTEET_VST', // vapaa sivistystyo lukutaito
+  'koulutustyyppi_40': 'APP_EPERUSTEET_TUVA', // tutkintoon valmentava
+};
