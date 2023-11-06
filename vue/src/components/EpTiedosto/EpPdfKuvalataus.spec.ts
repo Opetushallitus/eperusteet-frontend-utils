@@ -1,5 +1,5 @@
 import { mount, createLocalVue, RouterLinkStub } from '@vue/test-utils';
-import EpFileupload from './EpFileupload.vue';
+import EpFileupload from './EpPdfKuvalataus.vue';
 import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
 import { Kielet } from '../../stores/kieli';

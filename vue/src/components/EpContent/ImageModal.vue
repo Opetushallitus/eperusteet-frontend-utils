@@ -70,7 +70,7 @@ import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { validationMixin } from 'vuelidate';
 import { required } from 'vuelidate/lib/validators';
 import { Kielet } from '@shared/stores/kieli';
-import EpKuvaLataus, { ImageData } from '@shared/components/EpKuvaLataus/EpKuvaLataus.vue';
+import EpKuvaLataus, { ImageData } from '@shared/components/EpTiedosto/EpKuvaLataus.vue';
 import { IKuvaHandler, ILiite } from './KuvaHandler';
 
 @Component({
