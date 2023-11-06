@@ -44,6 +44,7 @@
 import { Vue, Component, Watch, Prop } from 'vue-property-decorator';
 import { Kielet } from '../../stores/kieli';
 import _ from 'lodash';
+import { fail } from '@/utils/notifications';
 import EpButton from '../EpButton/EpButton.vue';
 import EpFormContent from '../forms/EpFormContent.vue';
 import EpTiedostoInput from '@shared/components/EpTiedosto/EpTiedostoInput.vue';
@@ -87,11 +88,11 @@ export default class EpPdfKuvalataus extends Vue {
   // Luodaan esikatselukuva kuvan valitsemisen jälkeen
   private onInput(file: any) {
     if (file != null && file.size > this.fileMaxSize) {
-      // fail('pdf-tiedosto-kuva-liian-suuri');
+      fail('pdf-tiedosto-kuva-liian-suuri');
     }
 
     if (file != null && !_.includes(this.fileTypes, file.type)) {
-      // fail('pdf-tiedosto-kuva-vaara-tyyppi');
+      fail('pdf-tiedosto-kuva-vaara-tyyppi');
     }
 
     if (file != null) {
@@ -130,6 +131,11 @@ export default class EpPdfKuvalataus extends Vue {
   .kuvaus {
     font-size: 0.8rem;
     color: $gray;
+  }
+
+  img {
+    max-width: 500px;
+    max-height: 500px;
   }
 }
 </style>
