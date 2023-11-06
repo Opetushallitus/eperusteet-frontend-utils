@@ -44,7 +44,7 @@
 import { Vue, Component, Watch, Prop } from 'vue-property-decorator';
 import { Kielet } from '../../stores/kieli';
 import _ from 'lodash';
-import { fail } from '@/utils/notifications';
+import { fail } from '@shared/utils/notifications';
 import EpButton from '../EpButton/EpButton.vue';
 import EpFormContent from '../forms/EpFormContent.vue';
 import EpTiedostoInput from '@shared/components/EpTiedosto/EpTiedostoInput.vue';
