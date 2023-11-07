@@ -78,27 +78,27 @@ export interface EperusteSovellus {
 export const EPERUSTEET_SOVELLUKSET = [
   {
     sovellus: 'APP_EPERUSTEET',
-    url: '/eperusteet-app/uusi',
+    url: '/eperusteet-app',
   },
   {
     sovellus: 'APP_EPERUSTEET_YLOPS',
-    url: '/eperusteet-ylops-app/uusi',
+    url: '/eperusteet-ylops-app',
   },
   {
     sovellus: 'APP_EPERUSTEET_AMOSAA',
-    url: '/eperusteet-amosaa-app/uusi/#/ammatillinen',
+    url: '/eperusteet-amosaa-app/#/ammatillinen',
   },
   {
     sovellus: 'APP_EPERUSTEET_VST',
-    url: '/eperusteet-amosaa-app/uusi/#/vapaasivistystyo',
+    url: '/eperusteet-amosaa-app/#/vapaasivistystyo',
   },
   {
     sovellus: 'APP_EPERUSTEET_TUVA',
-    url: '/eperusteet-amosaa-app/uusi/#/tutkintoonvalmentava',
+    url: '/eperusteet-amosaa-app/#/tutkintoonvalmentava',
   },
   {
     sovellus: 'APP_EPERUSTEET_KOTO',
-    url: '/eperusteet-amosaa-app/uusi/#/kotoutumiskoulutus',
+    url: '/eperusteet-amosaa-app/#/kotoutumiskoulutus',
   },
 ];
 

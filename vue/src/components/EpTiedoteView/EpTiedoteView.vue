@@ -64,7 +64,7 @@ export default class EpTiedoteView extends Vue {
   }
 
   get url() {
-    return `/eperusteet-app/uusi/#/${this.sisaltoKieli}/tiedotteet`;
+    return `/eperusteet-app/#/${this.sisaltoKieli}/tiedotteet`;
   }
 }
 </script>
