@@ -230,6 +230,10 @@
       <div v-if="inner">
         <div class="threads">
           <div class="actual-content">
+            <div v-if="hasInfoSlotContent" class="info d-flex">
+              <EpMaterialIcon class="mr-1" :color="'#2a2a2a'">info</EpMaterialIcon>
+              <slot name="info"></slot>
+            </div>
             <div class="sisalto">
               <slot v-if="hidden && !isEditing" name="piilotettu">{{$t('sisalto-piilotettu')}}</slot>
               <slot v-else :isEditing="isEditing" :support-data="innerSupport" :data="inner" :validation="validation" :isCopyable="features.copyable"></slot>
@@ -529,6 +533,10 @@ export default class EpEditointi extends Mixins(validationMixin) {
     return this.$scopedSlots.ohje;
   }
 
+  get hasInfoSlotContent() {
+    return this.$slots.info;
+  }
+
   private toggleSidebarState(val: number) {
     if (val === this.sidebarState) {
       this.sidebarState = 0;
@@ -713,6 +721,12 @@ export default class EpEditointi extends Mixins(validationMixin) {
 </script>
 <style scoped lang="scss">
 @import '../../styles/variables';
+
+.info {
+  background: $blue-lighten-9;
+  border: $blue-lighten-10 solid 1px;
+  padding: 20px;
+}
 
 .icon {
   vertical-align: bottom;
