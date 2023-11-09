@@ -87,7 +87,11 @@ export default class EpPdfKuvalataus extends Vue {
 
   // Luodaan esikatselukuva kuvan valitsemisen jälkeen
   private onInput(file: any) {
-    if (file != null && !_.includes(this.fileTypes, file.type)) {
+    if (file != null && file.size > this.fileMaxSize) {
+      fail('pdf-tiedosto-kuva-liian-suuri');
+    }
+
+    else if (file != null && !_.includes(this.fileTypes, file.type)) {
       fail('pdf-tiedosto-kuva-vaara-tyyppi');
     }
 
