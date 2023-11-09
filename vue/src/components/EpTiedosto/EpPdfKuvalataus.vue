@@ -87,15 +87,16 @@ export default class EpPdfKuvalataus extends Vue {
 
   // Luodaan esikatselukuva kuvan valitsemisen jälkeen
   private onInput(file: any) {
+    this.previewUrl = null;
     if (file != null && file.size > this.fileMaxSize) {
       fail('pdf-tiedosto-kuva-liian-suuri');
     }
 
-    if (file != null && !_.includes(this.fileTypes, file.type)) {
+    else if (file != null && !_.includes(this.fileTypes, file.type)) {
       fail('pdf-tiedosto-kuva-vaara-tyyppi');
     }
 
-    if (file != null) {
+    else if (file != null) {
       // Luodaan uusi lukija ja rekisteröidään kuuntelija
       const reader = new FileReader();
       reader.onload = (e: any) => {
@@ -104,10 +105,6 @@ export default class EpPdfKuvalataus extends Vue {
 
       // Ladataan kuva Base64 muodossa
       reader.readAsDataURL(file);
-    }
-    else {
-      // Poistetaan kuvan esikatselu
-      this.previewUrl = null;
     }
   }
 

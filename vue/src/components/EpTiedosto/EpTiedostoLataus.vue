@@ -20,7 +20,6 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-
 import EpButton from '../EpButton/EpButton.vue';
 import _ from 'lodash';
 import EpTiedostoInput from '@shared/components/EpTiedosto/EpTiedostoInput.vue';
@@ -38,8 +37,6 @@ export interface FileData {
   },
 })
 export default class EpTiedostoLataus extends Vue {
-  private fileMaxSize = 1 * 1024 * 1024;
-
   @Prop({ default: null })
   private value!: FileData;
 
@@ -48,10 +45,6 @@ export default class EpTiedostoLataus extends Vue {
 
   @Prop({ default: false })
   private asBinary!: boolean;
-
-  get accept() {
-    return _.join(this.fileTypes, ', ');
-  }
 
   get file() {
     if (this.value) {
@@ -65,17 +58,12 @@ export default class EpTiedostoLataus extends Vue {
     this.resetFile();
   }
 
-  // Luodaan esikatselukuva kuvan valitsemisen jälkeen
   async onInput(file: File) {
-    if (file != null && file.size > this.fileMaxSize) {
-      this.$fail((this as any).$t('pdf-tiedosto-kuva-liian-suuri'));
-    }
-
     if (file != null && !_.includes(this.fileTypes, file.type)) {
-      this.$fail((this as any).$t('pdf-tiedosto-kuva-vaara-tyyppi'));
+      this.$fail((this as any).$t('tiedostotyyppi-ei-sallittu'));
     }
 
-    if (file != null) {
+    else if (file != null) {
       // Luodaan uusi lukija ja rekisteröidään kuuntelija
       const reader = new FileReader();
       if (this.asBinary) {
