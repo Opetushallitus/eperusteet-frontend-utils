@@ -87,6 +87,7 @@ export default class EpPdfKuvalataus extends Vue {
 
   // Luodaan esikatselukuva kuvan valitsemisen jälkeen
   private onInput(file: any) {
+    this.previewUrl = null;
     if (file != null && file.size > this.fileMaxSize) {
       fail('pdf-tiedosto-kuva-liian-suuri');
     }
@@ -104,10 +105,6 @@ export default class EpPdfKuvalataus extends Vue {
 
       // Ladataan kuva Base64 muodossa
       reader.readAsDataURL(file);
-    }
-    else {
-      // Poistetaan kuvan esikatselu
-      this.previewUrl = null;
     }
   }
 
