@@ -4116,5 +4116,6 @@
     "sallitut-kuvaformaatit": "Sallitut kuvaformaatit",
     "osaamismerkkiin-liitettya-kategoriaa-ei-voi-poistaa": "Osaamismerkkiin liitettyä kategoriaa ei voi poistaa",
     "vahvista-tekstikappaleen-poisto" : "Vahvista tekstikappaleen poisto. Myös kaikki alakappaleet poistetaan.",
-    "tiedostotyyppi-ei-sallittu": "Tiedostotyyppi ei sallittu"
+    "tiedostotyyppi-ei-sallittu": "Tiedostotyyppi ei sallittu",
+    "oppiaine-on-kopioitu-muokattavaksi": "Oppiaine on kopioitu muokattavaksi ja muutokset opetussuunnitelman pohjasta eivät päivity enää oppiaineeseen."
 }
