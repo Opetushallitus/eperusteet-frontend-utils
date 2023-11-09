@@ -4115,5 +4115,6 @@
     "naytetaan-julkisena": "Näytetään julkisena",
     "sallitut-kuvaformaatit": "Sallitut kuvaformaatit",
     "osaamismerkkiin-liitettya-kategoriaa-ei-voi-poistaa": "Osaamismerkkiin liitettyä kategoriaa ei voi poistaa",
-    "vahvista-tekstikappaleen-poisto" : "Vahvista tekstikappaleen poisto. Myös kaikki alakappaleet poistetaan."
+    "vahvista-tekstikappaleen-poisto" : "Vahvista tekstikappaleen poisto. Myös kaikki alakappaleet poistetaan.",
+    "oppiaine-on-kopioitu-muokattavaksi": "Oppiaine on kopioitu muokattavaksi ja muutokset opetussuunnitelman pohjasta eivät päivity enää oppiaineeseen."
 }
