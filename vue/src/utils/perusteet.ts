@@ -359,6 +359,10 @@ export function isAmmatillinen(statename: string): boolean {
   return themes[koulutustyyppi] === 'ammatillinen';
 }
 
+export function isAmmatillinenKoulutustyyppiOrRyhma(kt: string | undefined): boolean {
+  return isAmmatillinenKoulutustyyppi(kt) || kt === 'ammatillinen';
+}
+
 export function isKoulutustyyppiAmmatillinen(koulutustyyppi: string): boolean {
   return themes[koulutustyyppi] === 'ammatillinen';
 }
