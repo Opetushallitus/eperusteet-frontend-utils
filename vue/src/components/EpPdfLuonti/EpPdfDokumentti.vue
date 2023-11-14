@@ -8,7 +8,7 @@
           <EpMaterialIcon size="48px">picture_as_pdf</EpMaterialIcon>
         </div>
         <div class="col-lg teksti">
-            <span  v-if="dokumenttiLuotu">
+            <span v-if="dokumenttiLuotu">
               {{pdfnimi}}.pdf
             </span>
           <span v-else-if="dokumenttiEpaonnistui">
@@ -20,10 +20,10 @@
         </div>
         <div class="col-sm-3 text-left luomisaika" v-if="dokumenttiLuotu && !polling">
           <span class="luontitiedot">{{$t('luotu')}}: {{$sdt(dokumentti.valmistumisaika)}}</span>
-          <span class="luontitiedot" v-if="dokumentti.julkaisuDokumentti">{{$t('julkaistu')}}</span>
+          <span class="luontitiedot" v-if="dokumentti.julkaisuDokumentti || isKvLiite">{{$t('julkaistu')}}</span>
           <span class="luontitiedot" v-else>{{$t('tyoversio')}}</span>
         </div>
-        <div class="col-sm-2 text-left"  v-if="dokumenttiLuotu">
+        <div class="col-sm-2 text-left" v-if="dokumenttiLuotu">
           <a class="btn btn-link pl-0" :href="dokumenttiHref" target="_blank" rel="noopener noreferrer" variant="link">
             <EpMaterialIcon class="mr-1" icon-shape="outlined" size="18px">visibility</EpMaterialIcon>
             <span>{{ $t('esikatsele-ja-lataa') }}</span>
@@ -73,6 +73,10 @@ export default class EpPdfDokumentti extends Vue {
   get dokumenttiLataa() {
     return !this.dokumentti || (this.dokumentti.tila as any === 'valmis' && !this.dokumenttiHref);
   }
+
+  get isKvLiite() {
+    return this.dokumentti.generatorVersion === 'kvliite';
+  }
 }
 
 </script>
@@ -85,7 +89,7 @@ export default class EpPdfDokumentti extends Vue {
 }
 
 .pdf-box {
-  margin: 25px 0px;
+  margin: 25px 0;
   width: 100%;
   border-radius: 2px;
   padding: 25px;
