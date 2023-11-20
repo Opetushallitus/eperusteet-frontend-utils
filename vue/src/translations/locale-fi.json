@@ -4165,5 +4165,6 @@
     "uusimmat-ensin": "Uusimmat ensin",
     "vanhimmat-ensin": "Vanhimmat ensin",
     "muut-toimenpiteet": "Muut toimenpiteet",
-    "luo-maaraykset-perusteille": "Luo määräykset perusteille"
+    "luo-maaraykset-perusteille": "Luo määräykset perusteille",
+    "maarays-muokkaus-tyyppi-info-selite": "Valitse <b>Opetushallituksen muu määräys</b>, jos määräys ei koske perusteita tai ammatillisen koulutuksen määräyksiä. Tällaisia määräyksiä ovat mm. rekisterivelvoitteisiin liittyvät määräykset.<br/><br/> Valitse <b>Ammatillisen koulutuksen muu määräys</b>, jos määräys koskee ammatillista koulutusta, mutta kyse ei ole perustemääräyksestä.<br/><br/> Valitse <b>Perustemääräys</b>, jos määräys koskee perusteita, joita ei ole viety ePerusteisiin (esim. kielitutkintojen määräykset). Jos taas perusteet löytyvät ePerusteista, määräyksiä ei viedä tätä kautta). "
 }

@@ -36,13 +36,14 @@
       <slot name="singleLabel" :option="option"></slot>
     </template>
     <template slot="option" slot-scope="{ option, search }">
-      <input type="checkbox" :checked="optionChecked(option)" v-if="multiple"/>
+      <slot name="checkbox" :option="option">
+        <input type="checkbox" :checked="optionChecked(option)" v-if="multiple"/>
+      </slot>
       <slot name="option" :option="option" :search="search">
         <span class="ml-2">{{getOptionLabel(option)}}</span>
       </slot>
     </template>
-    <template
-      slot="tag" slot-scope="{ option, search, remove }">
+    <template slot="tag" slot-scope="{ option, search, remove }">
       <slot name="tag" :option="option" :search="search" :remove="remove"></slot>
     </template>
     <template slot="noResult">

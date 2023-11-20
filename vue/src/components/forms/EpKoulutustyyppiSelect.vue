@@ -1,5 +1,5 @@
 <template>
-  <EpMultiSelect :value="toValue"
+  <EpMultiSelect :value="model"
                  @input="changed($event)"
                  :placeholder="placeholder"
                  :search-identity="identity"
@@ -9,24 +9,29 @@
                  group-label="ryhma"
                  :group-select="false"
                  :searchable="false"
-                 :maxHeight="500">
+                 :maxHeight="500"
+                 :multiple="multiple">
 
-  <template slot="singleLabel" slot-scope="{ option }">
-    <span :class="{'text-nowrap': !textWrap}">
-      <EpColorIndicator :size="10" :kind="option.koulutustyyppi" v-if="!nocolor"/>
-      <span class="ml-2">{{ $t(option.koulutustyyppi) }}</span>
-    </span>
-  </template>
-  <template slot="option" slot-scope="{ option }">
-    <hr class="mt-0 mb-0" v-if="option.$groupLabel" />
-
-    <span v-else class="option text-nowrap" :class="{'text-nowrap': !textWrap}">
-      <EpColorIndicator :size="10" :kind="option.koulutustyyppi" v-if="option.koulutustyyppi !== 'kaikki' && !nocolor"/>
-      <span :class="{'font-weight-bold': option.koulutustyyppi === 'kaikki', 'ml-2': option.koulutustyyppi !== 'kaikki'}">
-        {{ $t(option.koulutustyyppi) }}
+    <template slot="singleLabel" slot-scope="{ option }">
+      <span :class="{'text-nowrap': !textWrap}">
+        <EpColorIndicator :size="10" :kind="option.koulutustyyppi" v-if="!nocolor"/>
+        <span class="ml-2">{{ $t(option.koulutustyyppi) }}</span>
       </span>
-    </span>
-  </template>
+    </template>
+    <template slot="option" slot-scope="{ option }">
+      <hr class="mt-0 mb-0" v-if="option.$groupLabel" />
+
+      <span v-else class="option text-nowrap" :class="{'text-nowrap': !textWrap}">
+        <EpColorIndicator :size="10" :kind="option.koulutustyyppi" v-if="option.koulutustyyppi !== 'kaikki' && !nocolor"/>
+        <span :class="{'font-weight-bold': option.koulutustyyppi === 'kaikki', 'ml-2': option.koulutustyyppi !== 'kaikki'}">
+          {{ $t(option.koulutustyyppi) }}
+        </span>
+      </span>
+    </template>
+    <template v-slot:checkbox="{ option }"><span/></template>
+    <!-- <template slot="tag" slot-scope="{ option }">
+      <span>{{ $t(option) }}</span>
+    </template> -->
   </EpMultiSelect>
   <div v-else>
     <span class="text-nowrap" :class="{'text-nowrap': !textWrap}">
@@ -57,7 +62,7 @@ import * as _ from 'lodash';
 })
 export default class KoulutustyyppiSelect extends Vue {
   @Prop({ required: true })
-  value!: string;
+  value!: string | string[];
 
   @Prop({ default: false })
   isEditing!: boolean;
@@ -77,24 +82,48 @@ export default class KoulutustyyppiSelect extends Vue {
   @Prop({ default: false, type: Boolean })
   textWrap!: Boolean;
 
+  @Prop({ default: false, type: Boolean })
+  multiple!: Boolean;
+
   identity(tr: any) {
     return _.toLower(this.$kaanna(tr.nimi));
   }
 
-  get toValue() {
-    return _.chain(this.vaihtoehdot)
-      .map(vaihtoehto => vaihtoehto.koulutustyypit)
-      .flatMap()
-      .find(kt => kt.koulutustyyppi === this.value)
-      .value();
+  get model() {
+    return this.value;
   }
 
+  // get toValue() {
+  //   return _.chain(this.vaihtoehdot)
+  //     .map(vaihtoehto => vaihtoehto.koulutustyypit)
+  //     .flatMap()
+  //     .find(kt => kt.koulutustyyppi === this.value)
+  //     .value();
+  // }
+
   private changed(value: any) {
+    console.log(' KoulutustyyppiSelect changed ', value);
+
     if (_.get(value, 'koulutustyyppi') === 'kaikki') {
-      this.$emit('input', undefined);
+      this.$emit('input', this.multiple ? [] : undefined);
     }
     else {
-      this.$emit('input', _.get(value, 'koulutustyyppi'));
+      if (!this.multiple) {
+        this.$emit('input', _.get(value, 'koulutustyyppi'));
+      }
+      else {
+        this.$emit('input', value);
+        // const koulutustyyppi = _.map(value, 'koulutustyyppi');
+
+        // console.log([...this.value, ...koulutustyyppi]);
+
+        // if (_.find((this.value as any), koulutustyyppi)) {
+        //   this.$emit('input', _.without(this.value as any, koulutustyyppi));
+        // }
+        // else {
+        //   this.$emit('input', [...this.value, ...koulutustyyppi]);
+        // }
+      }
     }
   }
 
