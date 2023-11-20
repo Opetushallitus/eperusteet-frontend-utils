@@ -43,7 +43,7 @@ export default class EpSidebar extends Vue {
   };
 
   get scrollAnchor() {
-    return !_.includes(['peruste', 'perusteTiedot'], this.$route.name) ? 'scroll-anchor' : 'disabled-scroll-anchor';
+    return !_.includes(['peruste', 'perusteTiedot'], this.$route?.name) ? 'scroll-anchor' : 'disabled-scroll-anchor';
   }
 }
 </script>
