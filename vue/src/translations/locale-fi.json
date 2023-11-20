@@ -4118,5 +4118,6 @@
     "vahvista-tekstikappaleen-poisto" : "Vahvista tekstikappaleen poisto. Myös kaikki alakappaleet poistetaan.",
     "tiedostotyyppi-ei-sallittu": "Tiedostotyyppi ei sallittu",
     "oppiaine-on-kopioitu-muokattavaksi": "Oppiaine on kopioitu muokattavaksi ja muutokset opetussuunnitelman pohjasta eivät päivity enää oppiaineeseen.",
-    "opintokokonaisuuden-tavoitteissa-virheita": "Opintokokonaisuuden tavoitteissa virheitä"
+    "opintokokonaisuuden-tavoitteissa-virheita": "Opintokokonaisuuden tavoitteissa virheitä",
+    "kansalliset-perustaitojen-osaamismerkit": "Kansalliset perustaitojen osaamismerkit"
 }
