@@ -340,6 +340,7 @@ export interface OsaamismerkitQuery {
   voimassa?: boolean;
   tuleva?: boolean,
   poistunut?: boolean,
+  kieli?: string;
 }
 
 export async function findAllOppaat(query: OppaatQuery) {
