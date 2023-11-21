@@ -1,6 +1,6 @@
 <template>
 <div>
-  <multiselect :value="model"
+  <multiselect v-model="model"
                :track-by="track"
                :options="filteredOptions"
                :close-on-select="closeOnSelect"
@@ -11,7 +11,6 @@
                selected-label=""
                deselect-label=""
                @search-change="onSearchChange"
-               @input="changed($event)"
                :multiple="multiple"
                :class="inputClass"
                :label="label"
@@ -25,7 +24,9 @@
                :internal-search="internalSearch"
                :disabled="disabled"
                :allowEmpty="allowEmpty"
-               :openDirection="openDirection">
+               :openDirection="openDirection"
+               @remove="remove"
+               ref="multiselect">
 
     <template slot="beforeList">
       <slot name="beforeList" />
@@ -58,6 +59,9 @@
     </template>
     <template slot="selection" slot-scope="{ values, search, isOpen }">
       <slot name="selection" :values="values" :search="search" :isOpen="isOpen"></slot>
+    </template>
+    <template slot="afterList">
+      <slot name="afterList"></slot>
     </template>
   </multiselect>
   <div class="valid-feedback" v-if="!validationError && validMessage">{{ $t(validMessage) }}</div>
@@ -170,6 +174,10 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
     return this.value;
   }
 
+  set model(value) {
+    this.$emit('input', value);
+  }
+
   get hasValue() {
     return !_.isEmpty(this.value);
   }
@@ -188,10 +196,6 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
     return option;
   }
 
-  private changed(value: any) {
-    this.$emit('input', value);
-  }
-
   @Debounced(300)
   async onSearchChange(ev) {
     if (this.searchIdentity) {
@@ -207,6 +211,14 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
       'is-invalid': this.isInvalid,
       'is-valid': this.isValid,
     };
+  }
+
+  remove(option) {
+    this.$emit('remove', option);
+  }
+
+  sulje() {
+    (this.$refs.multiselect as any)?.deactivate();
   }
 }
 </script>
@@ -232,22 +244,9 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
   padding-top: 0px;
 }
 
-::v-deep .multiselect {
-  .multiselect__tags {
-    .multiselect__tags-wrap {
-      margin-bottom: 10px;
-      display: block;
-    }
-  }
-}
-
 ::v-deep .multiselect--active {
   .multiselect__tags {
     border-top: 2px solid #E0E0E1;
-
-    .multiselect__tags-wrap {
-      border-bottom: 1px solid $gray-lighten-4;
-    }
   }
 }
 
