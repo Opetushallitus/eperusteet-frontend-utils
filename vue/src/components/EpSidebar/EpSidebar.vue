@@ -9,7 +9,7 @@
   <Portal v-else to="globalNavigation">
     <slot name="bar" />
   </Portal>
-  <div class="view">
+  <div class="view" :id="scrollAnchor">
     <slot name="view" />
   </div>
 </div>
@@ -20,6 +20,7 @@ import { Vue, Component } from 'vue-property-decorator';
 import EpToggle from '../forms/EpToggle.vue';
 import Sticky from 'vue-sticky-directive';
 import { BrowserStore } from '../../stores/BrowserStore';
+import _ from 'lodash';
 
 @Component({
   components: {
@@ -41,8 +42,8 @@ export default class EpSidebar extends Vue {
     showSubchapter: true,
   };
 
-  get scrollId() {
-    return this.settings.autoScroll ? 'scroll-anchor' : 'scroll-anchor-disabled';
+  get scrollAnchor() {
+    return !_.includes(['peruste', 'perusteTiedot'], this.$route?.name) ? 'scroll-anchor' : 'disabled-scroll-anchor';
   }
 }
 </script>
