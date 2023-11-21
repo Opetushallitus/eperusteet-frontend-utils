@@ -1,10 +1,10 @@
 <template>
 <div class="content">
   <div :class="{'container': container}">
-    <div>
+    <div v-if="hasHeaderSlot">
       <slot name="header"></slot>
     </div>
-    <div class="view-content" v-if="$slots['default']">
+    <div :class="{'view-content': hasHeaderSlot}" v-if="$slots['default']">
       <slot name="default"></slot>
     </div>
     <slot name="custom-content"></slot>
@@ -20,6 +20,10 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 export default class EpMainView extends Vue {
   @Prop({ required: false, default: false, type: Boolean })
   private container!: boolean;
+
+  get hasHeaderSlot() {
+    return this.$scopedSlots.header;
+  }
 }
 </script>
 

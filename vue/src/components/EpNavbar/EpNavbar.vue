@@ -140,6 +140,10 @@ export default class EpNavbar extends Vue {
     return UiKielet;
   }
 
+  get matched() {
+    return this.$route?.matched;
+  }
+
   get routePath() {
     return _(this.$route?.matched)
       .filter('name')

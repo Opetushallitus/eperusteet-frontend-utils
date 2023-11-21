@@ -430,7 +430,6 @@ export class EditointiStore {
         }
       }
       catch (err) {
-        fail('tallennus-epaonnistui', err?.response?.data?.syy);
         this.state.isEditingState = true;
         this.state.disabled = false;
         this.state.isSaving = false;
@@ -503,6 +502,11 @@ export class EditointiStore {
     else {
       throw new Error('Source must be an object or an array');
     }
+  }
+
+  public async clear() {
+    this.state.data = null;
+    this.state.supportData = null;
   }
 
   public async hide() {

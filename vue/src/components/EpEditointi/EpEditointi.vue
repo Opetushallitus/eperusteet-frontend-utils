@@ -2,8 +2,22 @@
   <div class="editointi-container">
     <ep-spinner class="mt-5" v-if="!store || !store.data.value"></ep-spinner>
     <div class="editointikontrolli" v-else>
-      <div v-sticky sticky-offset="{ top: 0 }" sticky-z-index="600">
-        <div class="ylapaneeli d-print-none">
+      <div v-sticky sticky-offset="{ top: 0 }" sticky-z-index="600" v-if="!hasFooterSlot">
+        <template v-if="hasCustomHeaderSlot">
+          <slot name="customheader"
+            :isEditing="isEditing"
+            :support-data="innerSupport"
+            :data="inner"
+            :cancel="cancel"
+            :save="save"
+            :disabled="disabled"
+            :validation="validation"
+            :isSaving="isSaving"
+            :modify="modify"
+            :remove="remove"
+            :editable="features.editable"/>
+        </template>
+        <div v-else class="ylapaneeli d-print-none">
           <div class="d-flex align-items-center flex-md-row flex-column justify-content-between" :class="{ container: useContainer }">
             <div class="d-flex flex-wrap flex-xl-nowrap align-items-center justify-content-between">
               <div class="headerline" v-if="inner">
@@ -259,7 +273,23 @@
           </div>
         </div>
       </div>
-      <EpSpinner v-else />
+      <template v-if="hasFooterSlot">
+        <div v-if="inner" class="alapaneeli py-3 px-2">
+          <slot name="footer"
+            :isEditing="isEditing"
+            :support-data="innerSupport"
+            :data="inner"
+            :cancel="cancel"
+            :save="save"
+            :disabled="disabled"
+            :validation="validation"
+            :isSaving="isSaving"
+            :modify="modify"
+            :remove="remove"
+            :editable="features.editable"/>
+        </div>
+        <EpSpinner v-else />
+      </template>
     </div>
   </div>
 </template>
@@ -413,6 +443,7 @@ export default class EpEditointi extends Mixins(validationMixin) {
       throw new Error('Store must be EditointiStore');
     }
 
+    await this.store.clear();
     await this.store.init();
     this.isInitialized = true;
     const sidebarState = await getItem('ep-editointi-sidebar-state') as any;
@@ -537,6 +568,14 @@ export default class EpEditointi extends Mixins(validationMixin) {
     return this.$slots.info;
   }
 
+  get hasFooterSlot() {
+    return this.$scopedSlots.footer;
+  }
+
+  get hasCustomHeaderSlot() {
+    return this.$scopedSlots.customheader;
+  }
+
   private toggleSidebarState(val: number) {
     if (val === this.sidebarState) {
       this.sidebarState = 0;
@@ -657,6 +696,7 @@ export default class EpEditointi extends Mixins(validationMixin) {
     }
     catch (err) {
       this.$fail(this.$t(this.labelSaveFail) as string);
+      console.log(err);
     }
   }
 
@@ -760,6 +800,12 @@ export default class EpEditointi extends Mixins(validationMixin) {
           border-top: 1px solid #E7E7E7;
         }
     }
+
+  }
+
+  .alapaneeli {
+    background: #fff;
+    border-top: 1px solid #E7E7E7;
   }
 
   .versiohistoria {
@@ -799,12 +845,6 @@ export default class EpEditointi extends Mixins(validationMixin) {
   .sisalto {
     margin-bottom: 5px;
     padding: 15px;
-  }
-
-  .alapaneeli {
-
-    .lower-buttons {
-    }
   }
 
   .threads {

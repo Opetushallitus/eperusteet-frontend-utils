@@ -1,6 +1,6 @@
 <template>
 <div>
-  <multiselect :value="model"
+  <multiselect v-model="model"
                :track-by="track"
                :options="filteredOptions"
                :close-on-select="closeOnSelect"
@@ -11,7 +11,6 @@
                selected-label=""
                deselect-label=""
                @search-change="onSearchChange"
-               @input="changed($event)"
                :multiple="multiple"
                :class="inputClass"
                :label="label"
@@ -25,7 +24,9 @@
                :internal-search="internalSearch"
                :disabled="disabled"
                :allowEmpty="allowEmpty"
-               :openDirection="openDirection">
+               :openDirection="openDirection"
+               @remove="remove"
+               ref="multiselect">
 
     <template slot="beforeList">
       <slot name="beforeList" />
@@ -36,13 +37,14 @@
       <slot name="singleLabel" :option="option"></slot>
     </template>
     <template slot="option" slot-scope="{ option, search }">
-      <input type="checkbox" :checked="optionChecked(option)" v-if="multiple"/>
+      <slot name="checkbox" :option="option">
+        <input type="checkbox" :checked="optionChecked(option)" v-if="multiple"/>
+      </slot>
       <slot name="option" :option="option" :search="search">
         <span class="ml-2">{{getOptionLabel(option)}}</span>
       </slot>
     </template>
-    <template
-      slot="tag" slot-scope="{ option, search, remove }">
+    <template slot="tag" slot-scope="{ option, search, remove }">
       <slot name="tag" :option="option" :search="search" :remove="remove"></slot>
     </template>
     <template slot="noResult">
@@ -57,6 +59,9 @@
     </template>
     <template slot="selection" slot-scope="{ values, search, isOpen }">
       <slot name="selection" :values="values" :search="search" :isOpen="isOpen"></slot>
+    </template>
+    <template slot="afterList">
+      <slot name="afterList"></slot>
     </template>
   </multiselect>
   <div class="valid-feedback" v-if="!validationError && validMessage">{{ $t(validMessage) }}</div>
@@ -169,6 +174,10 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
     return this.value;
   }
 
+  set model(value) {
+    this.$emit('input', value);
+  }
+
   get hasValue() {
     return !_.isEmpty(this.value);
   }
@@ -187,10 +196,6 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
     return option;
   }
 
-  private changed(value: any) {
-    this.$emit('input', value);
-  }
-
   @Debounced(300)
   async onSearchChange(ev) {
     if (this.searchIdentity) {
@@ -207,50 +212,57 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
       'is-valid': this.isValid,
     };
   }
+
+  remove(option) {
+    this.$emit('remove', option);
+  }
+
+  sulje() {
+    (this.$refs.multiselect as any)?.deactivate();
+  }
 }
 </script>
 
 <style scoped lang="scss">
 @import '@shared/styles/_variables.scss';
 
-/deep/ .multiselect__tags {
+::v-deep .multiselect__tags {
   border: 2px solid #E0E0E1;
   border-radius: 10px;
-  // font-size: 1rem;
   background-color: $white;
   padding-left:10px;
 }
 
-/deep/ .multiselect__tag {
+::v-deep .multiselect__tag {
   background-color: $white;
   color: $black;
   margin: 0px;
 }
 
-/deep/ .multiselect__placeholder {
+::v-deep .multiselect__placeholder {
   margin-bottom: 0px;
   padding-top: 0px;
 }
 
-/deep/ .multiselect--active {
+::v-deep .multiselect--active {
   .multiselect__tags {
     border-top: 2px solid #E0E0E1;
   }
 }
 
-/deep/ .multiselect--above {
+::v-deep .multiselect--above {
   .multiselect__content-wrapper {
     border: 2px solid #E0E0E1;
     border-radius: 10px 10px 0 0;
   }
 }
-/deep/ .multiselect--above.multiselect--active {
+::v-deep .multiselect--above.multiselect--active {
   .multiselect__tags {
     border-top: 2px solid #E0E0E1;
   }
 }
 
-/deep/ .multiselect__content-wrapper {
+::v-deep .multiselect__content-wrapper {
   border: 2px solid #E0E0E1;
   border-radius: 0 0 10px 10px;
   width: fit-content;
@@ -258,29 +270,29 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
   margin-top: -2px;
 }
 
-/deep/ .is-invalid .multiselect__content-wrapper {
+::v-deep .is-invalid .multiselect__content-wrapper {
   border-color: #dc3545;
 }
 
-/deep/ .is-valid .multiselect__content-wrapper {
+::v-deep .is-valid .multiselect__content-wrapper {
   border-color: $valid;
 }
 
-/deep/ .multiselect__tags {
+::v-deep .multiselect__tags {
   border-bottom: 2px solid #E0E0E1;
 }
 
-/deep/ .is-invalid .multiselect__tags {
+::v-deep .is-invalid .multiselect__tags {
   border-color: #dc3545;
 }
 
-/deep/ .is-valid .multiselect__tags {
+::v-deep .is-valid .multiselect__tags {
   border-color: $valid;
 }
 
 // Piilotettu Bootstrapissa oletuksena
-/deep/ .invalid-feedback,
-/deep/ .valid-feedback {
+::v-deep .invalid-feedback,
+::v-deep .valid-feedback {
   display: block;
 }
 
