@@ -4171,5 +4171,7 @@
     "paattyy": "Päättyy",
     "maarayksen-liittyminen-aiempaan-maaraykseen": "Määräyksen liittyminen aiempaan määräykseen",
     "maaraysta-ei-loydy-maarayskokoelmasta": "Määräystä ei löydy määräyskokoelmasta",
-    "opetushallituksen-maaraykset": "Opetushallituksen määräykset"
+    "opetushallituksen-maaraykset": "Opetushallituksen määräykset",
+    "maarays-asiasanat-placeholder": "Etsi tai lisää uusi asiasana",
+    "maarays-asiasanat-lisays-placeholder": "Lisää uusi asiasana"
 }
