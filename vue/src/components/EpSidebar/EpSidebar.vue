@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 import EpToggle from '../forms/EpToggle.vue';
 import Sticky from 'vue-sticky-directive';
 import { BrowserStore } from '../../stores/BrowserStore';
@@ -31,6 +31,9 @@ import _ from 'lodash';
   },
 })
 export default class EpSidebar extends Vue {
+  @Prop({ required: false, default: false, type: Boolean })
+  private scrollEnabled!: boolean;
+
   private browserStore = new BrowserStore();
 
   get showNavigation() {
@@ -43,7 +46,7 @@ export default class EpSidebar extends Vue {
   };
 
   get scrollAnchor() {
-    return !_.includes(['peruste', 'perusteTiedot'], this.$route?.name) ? 'scroll-anchor' : 'disabled-scroll-anchor';
+    return this.scrollEnabled && !_.includes(['peruste', 'perusteTiedot'], this.$route?.name) ? 'scroll-anchor' : 'disabled-scroll-anchor';
   }
 }
 </script>
