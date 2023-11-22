@@ -243,29 +243,11 @@ export default class KoulutustyyppiSelect extends Vue {
 
 ::v-deep .multiselect__tags {
   .multiselect__tag {
-    background-color: $gray-lighten-6;
-    border-radius: 25px;
-    margin-right: 10px;
-
     .nimi {
       margin-left: 5px;
       margin-right: 5px;
     }
-
-    .multiselect__tag-icon {
-      margin-right: 5px;
-    }
   }
-
-  .remove-all {
-    .material-icons {
-      font-size: 18px;
-    }
-  }
-}
-
-::v-deep .multiselect__tag-icon:focus, ::v-deep.multiselect__tag-icon:hover {
-    background: $gray;
 }
 
 </style>

@@ -26,7 +26,10 @@
                :allowEmpty="allowEmpty"
                :openDirection="openDirection"
                @remove="remove"
-               ref="multiselect">
+               ref="multiselect"
+               @tag="addTag"
+               :taggable="taggable"
+               :tagPlaceholder="tagPlaceholder">
 
     <template slot="beforeList">
       <slot name="beforeList" />
@@ -120,6 +123,9 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
   @Prop({ default: '' })
   private placeholder!: string;
 
+  @Prop({ default: '' })
+  private tagPlaceholder!: string;
+
   @Prop({ default: null })
   private searchIdentity!: null | ((v: any) => string | null | undefined);
 
@@ -143,6 +149,9 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
 
   @Prop({ default: true })
   private closeOnSelect!: boolean;
+
+  @Prop({ default: false })
+  private taggable!: boolean;
 
   @Prop({ default: true })
   private clearOnSelect!: boolean;
@@ -220,6 +229,10 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
   sulje() {
     (this.$refs.multiselect as any)?.deactivate();
   }
+
+  addTag(tag) {
+    this.$emit('tag', tag);
+  }
 }
 </script>
 
@@ -268,6 +281,10 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
   width: fit-content;
   min-width: 100%;
   margin-top: -2px;
+
+  .multiselect__option--highlight::after {
+    background-color: $blue-lighten-5;
+  }
 }
 
 ::v-deep .is-invalid .multiselect__content-wrapper {
@@ -314,5 +331,31 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
     background-color: #bbb;
     color: #fff;
   }
+
+::v-deep .multiselect__tags {
+  .multiselect__tag {
+    background-color: $gray-lighten-6;
+    border-radius: 25px;
+    margin-right: 10px;
+
+    .multiselect__tag-icon {
+      margin-right: 5px;
+    }
+  }
+
+  .multiselect__input {
+    // margin-top: 15px;
+  }
+
+  .remove-all {
+    .material-icons {
+      font-size: 18px;
+    }
+  }
+}
+
+::v-deep .multiselect__tag-icon:focus, ::v-deep .multiselect__tag-icon:hover {
+  background: $gray;
+}
 
 </style>
