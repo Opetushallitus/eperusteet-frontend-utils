@@ -35,7 +35,6 @@
 </template>
 
 <script lang="ts">
-
 import { Component, Prop, Mixins } from 'vue-property-decorator';
 import _ from 'lodash';
 import DatePicker from 'vue2-datepicker';
@@ -54,7 +53,7 @@ export default class EpDatepicker extends Mixins(EpValidation) {
   private value!: any;
 
   @Prop({
-    default: 'date',
+    default: 'sd',
     validator(value) {
       return _.includes(['date', 'datetime', 'sd'], value);
     },

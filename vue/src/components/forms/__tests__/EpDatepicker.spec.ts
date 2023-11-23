@@ -35,7 +35,7 @@ describe('EpDatepicker component', () => {
       i18n,
     });
 
-    expect(wrapper.find('div').text()).toBe('7. tammikuuta 2019');
+    expect(wrapper.find('div').text()).toBe('7.1.2019');
   });
 
   it('Render component in editing mode', () => {
