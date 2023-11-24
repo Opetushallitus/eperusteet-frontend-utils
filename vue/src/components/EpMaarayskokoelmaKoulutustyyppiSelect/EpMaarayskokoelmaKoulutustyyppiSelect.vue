@@ -1,5 +1,5 @@
 <template>
-  <KoulutustyyppiSelect v-model="model" :koulutustyypit="koulutustyypit" :koulutustyyppiryhmat="koulutustyyppiryhmat" :isEditing="isEditing">
+  <KoulutustyyppiSelect v-model="model" :koulutustyypit="koulutustyyppiVaihtoehdot" :koulutustyyppiryhmat="koulutustyyppiryhmat" :isEditing="isEditing">
     <template v-slot:colorindicator="{ koulutustyyppi }">
       <EpColorIndicator :size="10" :kind="koulutustyyppiColors[koulutustyyppi] || koulutustyyppi"/>
     </template>
@@ -26,6 +26,9 @@ export default class EpMaarayskokoelmaKoulutustyyppiSelect extends Vue {
   @Prop({ default: false })
   isEditing!: boolean;
 
+  @Prop()
+  koulutustyypit!: string[];
+
   get model() {
     return this.value;
   }
@@ -34,7 +37,11 @@ export default class EpMaarayskokoelmaKoulutustyyppiSelect extends Vue {
     this.$emit('input', val);
   }
 
-  get koulutustyypit() {
+  get koulutustyyppiVaihtoehdot() {
+    if (this.koulutustyypit) {
+      return this.koulutustyypit;
+    }
+
     return [
       ...EperusteetKoulutustyypit,
       'opistovuosi-oppivelvollisille',
