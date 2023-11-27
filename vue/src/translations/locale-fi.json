@@ -4173,5 +4173,11 @@
     "maaraysta-ei-loydy-maarayskokoelmasta": "Määräystä ei löydy määräyskokoelmasta",
     "opetushallituksen-maaraykset": "Opetushallituksen määräykset",
     "maarays-asiasanat-placeholder": "Etsi tai lisää uusi asiasana",
-    "maarays-asiasanat-lisays-placeholder": "Lisää uusi asiasana"
+    "maarays-asiasanat-lisays-placeholder": "Lisää uusi asiasana",
+    "tutkinnon-peruste-tai-tutkinnon-osa": "Tutkinnon peruste tai tutkinnon osa",
+    "tutkinnon-peruste-tai-tutkinnon-osa-rajaus": "Tutkinnon peruste tai tutkinnon osa -rajaus",
+    "tutkinnon-perusteet-ja-tutkinnon-osat": "Tutkinnon perusteet ja tutkinnon osat",
+    "tutkinnon-peruste": "Tutkinnon peruste",
+    "voimassaolo-rajaus": "Voimassaolorajaus",
+    "voit-hakea-tutkinnon-osia": "Voit hakea tutkinnon osia nimellä tai koodilla."
 }
