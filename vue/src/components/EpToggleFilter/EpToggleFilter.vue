@@ -2,12 +2,12 @@
   <div class="d-flex align-self-center flex-wrap flex-lg-row flex-column justify-content-between">
     <b-form-group v-if="showNaytaRajaus" :label="$t('nayta')" :aria-label="$t('tutkinnon-peruste-tai-tutkinnon-osa-rajaus')" class="group">
       <div class="d-flex flex-lg-row flex-column justify-content-between">
-        <EpToggle v-model="queryData.peruste" class="haku-toggle" :is-s-witch="false">
+        <EpToggle v-model="queryData.perusteet" class="haku-toggle" :is-s-witch="false">
           <span class="sr-only">{{ $t('valittu') }}</span>
           <span class="sr-only">{{ $t('tutkinto-filtteri') }}</span>
           {{ $t('tutkinnon-peruste') }}
         </EpToggle>
-        <EpToggle v-model="queryData.tutkinnonOsa" class="haku-toggle" :is-s-witch="false">
+        <EpToggle v-model="queryData.tutkinnonosat" class="haku-toggle" :is-s-witch="false">
           <span class="sr-only">{{ $t('valittu') }}</span>
           <span class="sr-only">{{ $t('tutkinto-filtteri') }}</span>
           {{ $t('tutkinnon-osa') }}
@@ -64,7 +64,7 @@ export default class EpToggleFilter extends Vue {
   }
 
   get showNaytaRajaus() {
-    return this.queryData.peruste != null && this.queryData.tutkinnonOsa != null;
+    return this.queryData.perusteet != null && this.queryData.tutkinnonosat != null;
   }
 }
 </script>
