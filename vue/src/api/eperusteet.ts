@@ -378,7 +378,8 @@ export interface JulkaisutQuery {
   siirtyma?: boolean;
   poistuneet?: boolean;
   koulutusvienti?: boolean;
-  sisaltotyyppi?: string;
+  perusteet?: boolean;
+  tutkinnonosat?: boolean;
 }
 
 export async function findAllJulkaisut(query: JulkaisutQuery) {
@@ -394,7 +395,8 @@ export async function findAllJulkaisut(query: JulkaisutQuery) {
     query.tyyppi,
     query.diaarinumero,
     query.koodi,
-    query.sisaltotyyppi,
+    query.perusteet,
+    query.tutkinnonosat,
     query.sivu,
     query.sivukoko,
   );
