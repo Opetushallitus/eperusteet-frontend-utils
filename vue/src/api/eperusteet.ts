@@ -29,7 +29,7 @@ export import MaaraysLiiteDtoTyyppiEnum = EperusteetApi.MaaraysLiiteDtoTyyppiEnu
 
 const logger = createLogger('EperusteetAxios');
 const basePath = '';
-export const baseURL = '/eperusteet-service/api';
+export const baseURL = '/eperusteet-service';
 
 const ax = axios.create({
   baseURL,
