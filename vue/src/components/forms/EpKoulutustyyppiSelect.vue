@@ -13,6 +13,7 @@
                  :maxHeight="500"
                  :multiple="isMultiple"
                  :closeOnSelect="!isMultiple"
+                 :openDirection="'below'"
                  ref="koulutustyyppi_multiselect">
 
     <template slot="singleLabel" slot-scope="{ option }">
