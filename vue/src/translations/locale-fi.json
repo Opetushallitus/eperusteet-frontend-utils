@@ -4178,11 +4178,13 @@
     "muu-ammatillinen-koulutus": "Muu ammatillinen koulutus",
     "opetushallituksen-maaraykset-alaotsikko": "Opetushallituksen määräykset. Määräyskokoelma on otettu käyttöön 2024. Kokoelmasta löytyy ajantasaiset voimassaolevat määräykset.",
     "navi-opetushallituksen-maaraykset": "Opetushallituksen määräykset",
-    "tutkinnon-perusteet-ja-tutkinnon-osat": "Tutkinnon perusteet ja tutkinnon osat",
+    "maarays-tyyppi-kaikki": "Kaikki",
     "tutkinnon-peruste-tai-tutkinnon-osa": "Tutkinnon peruste tai tutkinnon osa",
+    "tutkinnon-peruste-tai-tutkinnon-osa-rajaus": "Tutkinnon peruste tai tutkinnon osa -rajaus",
+    "tutkinnon-perusteet-ja-tutkinnon-osat": "Tutkinnon perusteet ja tutkinnon osat",
     "tutkinnon-peruste": "Tutkinnon peruste",
-    "voit-hakea-tutkinnon-osia": "Voit hakea tutkinnon osia nimellä ja koodilla.",
+    "voimassaolo-rajaus": "Voimassaolorajaus",
+    "voit-hakea-tutkinnon-osia": "Voit hakea tutkinnon osia nimellä tai koodilla.",
     "tutkinnot-joilla-tutkinnon-osa-on": "Tutkinnot, joilla tutkinnon osa on",
-    "tutkinto-filtteri": "Tutkinto-filtteri",
-    "maarays-tyyppi-kaikki": "Kaikki"
+    "tutkinto-filtteri": "Tutkinto-filtteri"
 }
