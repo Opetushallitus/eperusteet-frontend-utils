@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex align-self-center flex-wrap flex-lg-row flex-column justify-content-between">
-    <b-form-group v-if="showNaytaRajaus" :label="$t('nayta')" :aria-label="$t('tutkinnon-peruste-tai-tutkinnon-osa-rajaus')" class="group">
+    <b-form-group :label="$t('nayta')" :aria-label="$t('tutkinnon-peruste-tai-tutkinnon-osa-rajaus')" class="group">
       <div class="d-flex flex-lg-row flex-column justify-content-between">
         <EpToggle v-model="queryData.perusteet" class="haku-toggle" :is-s-witch="false">
           <span class="sr-only">{{ $t('valittu') }}</span>
@@ -16,28 +16,7 @@
     </b-form-group>
 
     <b-form-group :label="$t('voimassaolo')" :aria-label="$t('voimassaolo-rajaus')" class="group">
-      <div class="d-flex flex-wrap flex-lg-row flex-column justify-content-between">
-        <EpToggle v-model="queryData.tuleva" class="haku-toggle" :is-s-witch="false">
-          <span v-if="queryData.tuleva" class="sr-only">{{ $t('valittu') }}</span>
-          <span class="sr-only">{{ $t('voimassaolo-filtteri') }}</span>
-          {{ $t('tulossa-voimaan') }}
-        </EpToggle>
-        <EpToggle v-model="queryData.voimassaolo" class="haku-toggle" :is-s-witch="false">
-          <span v-if="queryData.voimassaolo" class="sr-only">{{ $t('valittu') }}</span>
-          <span class="sr-only">{{ $t('voimassaolo-filtteri') }}</span>
-          {{ $t('voimassa') }}
-        </EpToggle>
-        <EpToggle v-if="queryData.siirtyma != null" v-model="queryData.siirtyma" class="haku-toggle" :is-s-witch="false">
-          <span v-if="queryData.siirtyma" class="sr-only">{{ $t('valittu') }}</span>
-          <span class="sr-only">{{ $t('voimassaolo-filtteri') }}</span>
-          {{ $t('ajoitus-siirtyma') }}
-        </EpToggle>
-        <EpToggle v-model="queryData.poistunut" class="haku-toggle" :is-s-witch="false">
-          <span v-if="queryData.poistunut" class="sr-only">{{ $t('valittu') }}</span>
-          <span class="sr-only">{{ $t('voimassaolo-filtteri') }}</span>
-          {{ $t('ei-voimassa') }}
-        </EpToggle>
-      </div>
+      <EpVoimassaoloFilter v-model="queryData"></EpVoimassaoloFilter>
     </b-form-group>
   </div>
 </template>
@@ -45,13 +24,15 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import EpToggle from '@shared/components/forms/EpToggle.vue';
+import EpVoimassaoloFilter from '@shared/components/EpVoimassaoloFilter/EpVoimassaoloFilter.vue';
 
 @Component({
   components: {
     EpToggle,
+    EpVoimassaoloFilter,
   },
 })
-export default class EpToggleFilter extends Vue {
+export default class EpSisaltotyyppiFilter extends Vue {
   @Prop({ required: true })
   private value!: any;
 
@@ -61,10 +42,6 @@ export default class EpToggleFilter extends Vue {
 
   set queryData(val) {
     this.$emit('input', val);
-  }
-
-  get showNaytaRajaus() {
-    return this.queryData.perusteet != null && this.queryData.tutkinnonosat != null;
   }
 }
 </script>
