@@ -4186,5 +4186,6 @@
     "voimassaolo-rajaus": "Voimassaolorajaus",
     "voit-hakea-tutkinnon-osia": "Voit hakea tutkinnon osia nimellä tai koodilla.",
     "tutkinnot-joilla-tutkinnon-osa-on": "Tutkinnot, joilla tutkinnon osa on",
-    "tutkinto-filtteri": "Tutkinto-filtteri"
+    "tutkinto-filtteri": "Tutkinto-filtteri",
+    "koodiohje": "<p><b>Koodin on oltava:</b></p><ul><li>väh. 3-numeroinen</li><li>saa sisältää vain kirjaimia, numeroita, pisteitä, alaviivoja ja väliviivoja.</li></ul>"
 }
