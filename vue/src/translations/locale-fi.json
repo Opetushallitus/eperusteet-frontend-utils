@@ -4187,5 +4187,11 @@
     "voit-hakea-tutkinnon-osia": "Voit hakea tutkinnon osia nimellä tai koodilla.",
     "tutkinnot-joilla-tutkinnon-osa-on": "Tutkinnot, joilla tutkinnon osa on",
     "tutkinto-filtteri": "Tutkinto-filtteri",
-    "koodiohje": "<p><b>Koodin on oltava:</b></p><ul><li>väh. 3-numeroinen</li><li>saa sisältää vain kirjaimia, numeroita, pisteitä, alaviivoja ja väliviivoja.</li></ul>"
+    "koodiohje": "<p><b>Koodin on oltava:</b></p><ul><li>väh. 3-numeroinen</li><li>saa sisältää vain kirjaimia, numeroita, pisteitä, alaviivoja ja väliviivoja.</li></ul>",
+    "osaamisalat-ja-tutkintonimikkeet": "Osaamisalat ja tutkintonimikkeet",
+    "tallenna-muutosmaarays": "Tallenna muutosmääräys",
+    "muutosmaarays": "Muutosmääräys",
+    "muutosmaarayksia-ei-loytynyt": "Muutosmääräyksiä ei löytynyt.",
+    "voit-lisata-muutosmaarayksia": "Voit lisätä muutosmääräyksiä",
+    "perusteen-tiedoista": "perusteen tiedoista"
 }
