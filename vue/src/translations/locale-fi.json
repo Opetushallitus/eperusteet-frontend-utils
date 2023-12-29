@@ -4199,5 +4199,6 @@
     "poista-muutosmaarays": "Poista muutosmääräys",
     "poista-muutosmaarays-varmistus": "Poistetaanko muutosmääräys?",
     "muokkaa-muutosmaaraysta": "Muokkaa muutosmääräystä",
-    "muutosmaarays-tallennettu": "Muutosmääräys tallennettu"
+    "muutosmaarays-tallennettu": "Muutosmääräys tallennettu",
+    "maarays-on-kumottu-uudemmalla-maarayksella": "Määräys on kumottu uudemmalla määräyksellä"
 }
