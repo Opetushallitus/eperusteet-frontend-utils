@@ -4187,7 +4187,7 @@
     "voit-hakea-tutkinnon-osia": "Voit hakea tutkinnon osia nimellä tai koodilla.",
     "tutkinnot-joilla-tutkinnon-osa-on": "Tutkinnot, joilla tutkinnon osa on",
     "tutkinto-filtteri": "Tutkinto-filtteri",
-    "koodiohje": "<p><b>Koodin on oltava:</b></p><ul><li>väh. 3-numeroinen</li><li>saa sisältää vain kirjaimia, numeroita, pisteitä, alaviivoja ja väliviivoja.</li></ul>",
+    "koodiohje": "<p><b>Koodin on oltava:</b></p><ul><li>vähintään 3 merkkiä</li><li>saa sisältää vain kirjaimia, numeroita, pisteitä, alaviivoja ja väliviivoja.</li></ul>",
     "osaamisalat-ja-tutkintonimikkeet": "Osaamisalat ja tutkintonimikkeet",
     "tallenna-muutosmaarays": "Tallenna muutosmääräys",
     "muutosmaarays": "Muutosmääräys",
@@ -4200,5 +4200,7 @@
     "poista-muutosmaarays-varmistus": "Poistetaanko muutosmääräys?",
     "muokkaa-muutosmaaraysta": "Muokkaa muutosmääräystä",
     "muutosmaarays-tallennettu": "Muutosmääräys tallennettu",
-    "maarays-on-kumottu-uudemmalla-maarayksella": "Määräys on kumottu uudemmalla määräyksellä"
+    "maarays-on-kumottu-uudemmalla-maarayksella": "Määräys on kumottu uudemmalla määräyksellä",
+    "sisaltoa-ei-saatavilla": "Sisältöä ei saatavilla suomeksi",
+    "katselet-suunnitelman-vanhentunutta-versiota": "Katselet suunnitelman vanhentunutta versiota"
 }
