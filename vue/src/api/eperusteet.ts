@@ -24,6 +24,7 @@ export import LiiteDtoTyyppiEnum = EperusteetApi.LiiteDtoTyyppiEnum;
 export import MaaraysDtoTyyppiEnum = EperusteetApi.MaaraysDtoTyyppiEnum;
 export import MaaraysDtoLiittyyTyyppiEnum = EperusteetApi.MaaraysDtoLiittyyTyyppiEnum;
 export import MaaraysDtoTilaEnum = EperusteetApi.MaaraysDtoTilaEnum;
+export import MaaraysKevytDtoTilaEnum = EperusteetApi.MaaraysDtoTilaEnum;
 export import MaaraysLiiteDtoTyyppiEnum = EperusteetApi.MaaraysLiiteDtoTyyppiEnum;
 
 const logger = createLogger('EperusteetAxios');
