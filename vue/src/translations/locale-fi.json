@@ -4200,5 +4200,7 @@
     "poista-muutosmaarays-varmistus": "Poistetaanko muutosmääräys?",
     "muokkaa-muutosmaaraysta": "Muokkaa muutosmääräystä",
     "muutosmaarays-tallennettu": "Muutosmääräys tallennettu",
-    "maarays-on-kumottu-uudemmalla-maarayksella": "Määräys on kumottu uudemmalla määräyksellä"
+    "maarays-on-kumottu-uudemmalla-maarayksella": "Määräys on kumottu uudemmalla määräyksellä",
+    "opetussuunnitelma-pdfna": "Opetussuunnitelma pdf:nä",
+    "toteutussuunnitelma-pdfna": "Toteutussuunnitelma pdf:nä"
 }
