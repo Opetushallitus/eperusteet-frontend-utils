@@ -143,6 +143,19 @@ export default class EpEditorMenuBar extends Vue {
     }];
   }
 
+  get linkTermiKuva() {
+    return [...this.linking,
+      ...(!_.isFunction(_.get(this.editor.commands, 'termi')) ? [] : [{
+        icon: 'book',
+        command: 'termi',
+        disabled: this.editor.selection.from === this.editor.selection.to,
+      }]), ...(!_.isFunction(_.get(this.editor.commands, 'image')) ? [] : [{
+        icon: 'add_photo_alternate',
+        command: 'image',
+      }]),
+    ];
+  }
+
   get linking() {
     return [{
       icon: 'add_link',
@@ -170,15 +183,7 @@ export default class EpEditorMenuBar extends Vue {
 
         (this as any).$refs['link-modal'].show();
       },
-    }, ...(!_.isFunction(_.get(this.editor.commands, 'termi')) ? [] : [{
-      icon: 'book',
-      command: 'termi',
-      disabled: this.editor.selection.from === this.editor.selection.to,
-    }]), ...(!_.isFunction(_.get(this.editor.commands, 'image')) ? [] : [{
-      icon: 'add_photo_alternate',
-      command: 'image',
-    }]),
-    ];
+    }];
   }
 
   get lists() {
@@ -270,10 +275,18 @@ export default class EpEditorMenuBar extends Vue {
       return _.filter([
         this.history,
         this.textManipulation,
-        this.linking,
+        this.linkTermiKuva,
         this.lists,
         this.tables,
       ], v => !_.isEmpty(v));
+    }
+    else if (this.layout === 'simplified_w_links') {
+      return [
+        this.history,
+        this.textManipulation,
+        this.linking,
+        this.lists,
+      ];
     }
     else if (this.layout === 'simplified') {
       return [

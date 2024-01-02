@@ -18,6 +18,10 @@
         </div>
         <span>- {{ $t('voimassaolo-alkaa') }} {{ $sd(julkaisu.muutosmaaraysVoimaan) }}</span>
       </div>
+      <div v-if="julkaisu.muutosmaarays" class="d-flex mt-2">
+        <EpPdfLink :url="julkaisu.muutosmaarays.url">{{ $kaanna(julkaisu.muutosmaarays.nimi) }}</EpPdfLink>
+        <span class="pl-2"> - {{$t('voimassaolo-alkaa')}} {{$sd(julkaisu.muutosmaarays.voimassaoloAlkaa)}}</span>
+      </div>
       <div v-if="julkaisu.julkinenTiedote" class="my-1" v-html="$kaanna(julkaisu.julkinenTiedote)"></div>
       <EpCollapse :borderBottom="false"
                   :expandedByDefault="false"
@@ -39,6 +43,8 @@ import _ from 'lodash';
 import { Kielet } from '@shared/stores/kieli';
 import EpCollapse from '@shared/components/EpCollapse/EpCollapse.vue';
 import EpMuutosvertailu from '@shared//components/EpJulkaisuHistoriaJulkinen/EpMuutosvertailu.vue';
+import { MaaraysLiiteDtoTyyppiEnum } from '@shared/generated/eperusteet';
+import { MaarayksetParams, baseURL } from '@shared/api/eperusteet';
 
 @Component({
   components: {
@@ -59,9 +65,23 @@ export default class EpJulkaisuLista extends Vue {
         return {
           ...julkaisu,
           liitteet: _.filter(julkaisu.liitteet, liite => liite.kieli === Kielet.getSisaltoKieli.value),
+          ...(!!julkaisu.muutosmaarays && {
+            muutosmaarays: {
+              ...julkaisu.muutosmaarays,
+              url: this.muutosmaaraysUrl(julkaisu.muutosmaarays),
+            },
+          }),
         };
       })
       .value();
+  }
+
+  muutosmaaraysUrl(muutosmaarays) {
+    if (!_.find(muutosmaarays.liitteet![this.$slang.value].liitteet, liite => liite.tyyppi === MaaraysLiiteDtoTyyppiEnum.MAARAYSDOKUMENTTI)) {
+      return null;
+    }
+
+    return baseURL + MaarayksetParams.getMaaraysLiite(_.toString(_.get(_.find(muutosmaarays.liitteet![this.$slang.value].liitteet, liite => liite.tyyppi === MaaraysLiiteDtoTyyppiEnum.MAARAYSDOKUMENTTI), 'id'))).url;
   }
 
   get versio() {
