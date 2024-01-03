@@ -2,13 +2,10 @@ import { createLogger } from '../utils/logger';
 import { Kieli } from '../tyypit';
 import _ from 'lodash';
 import VueI18n from 'vue-i18n';
-import Vue, { VueConstructor } from 'vue';
+import Vue, { VueConstructor, computed, reactive } from 'vue';
 import moment from 'moment';
-import VueCompositionApi, { computed, reactive } from '@vue/composition-api';
 import { updateRelativeTime } from '../plugins/aikaleima';
 import { Computed } from '../utils/interfaces';
-
-Vue.use(VueCompositionApi);
 
 declare module 'vue/types/vue' {
   interface Vue {
@@ -224,7 +221,7 @@ export class KieliStore {
       });
       return result;
     }
-    catch (err) {
+    catch (err: any) {
       logger.error('Käännösten haku epäonnistui', err.message);
       return {};
     }

@@ -1,11 +1,8 @@
-import Vue from 'vue';
-import VueCompositionApi, { reactive, computed } from '@vue/composition-api';
+import Vue, { reactive, computed } from 'vue';
 import { Location } from 'vue-router';
 import { Computed } from '@shared/utils/interfaces';
 import { LokalisoituTekstiDto, NavigationNodeType, NavigationNodeDto } from '@shared/tyypit';
 import _ from 'lodash';
-
-Vue.use(VueCompositionApi);
 
 interface NodeConfig {
   disableNesting?: boolean;

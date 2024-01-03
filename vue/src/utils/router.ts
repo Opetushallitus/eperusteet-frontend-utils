@@ -43,7 +43,7 @@ export async function resolveRouterMetaProps(to) {
       record.props = _.merge(record.props, props);
     }
   }
-  catch (err) {
+  catch (err: any) {
     logger.error(err);
     const error = { err: '500', path: '' };
     if (err.response) {
