@@ -36,7 +36,7 @@
         </span>
       </span>
     </template>
-    <template v-slot:checkbox="{ option }"><span/></template>
+    <template v-slot:checkbox><span/></template>
     <template slot="selection" slot-scope="{ values }">
       <div class="d-flex align-items-center">
         <span class="multiselect__tag" v-for="value in values" :key="'value' + value.koulutustyyppi">

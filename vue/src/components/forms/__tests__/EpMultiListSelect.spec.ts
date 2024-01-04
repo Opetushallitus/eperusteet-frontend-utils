@@ -285,7 +285,7 @@ describe('EpMultiListSelect component', () => {
   });
 
   test('not editable', async () => {
-    let values = ['value1', 'value2'];
+    const values = ['value1', 'value2'];
     const wrapper = mountWrapper({
       items: itemMock,
       value: values,

@@ -171,7 +171,7 @@ export class KieliStore {
     else if (_.isObject(value)) {
       const locale = this.getSisaltoKieli.value;
       const kielet = [locale, ..._.pull(['fi', 'sv', 'en', 'se', 'ru'], locale)];
-      let teksti: string = '' + (value[locale] || '');
+      const teksti: string = '' + (value[locale] || '');
 
       if (teksti) {
         return teksti;

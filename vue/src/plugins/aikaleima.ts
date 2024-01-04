@@ -29,7 +29,6 @@ declare module 'vue/types/vue' {
 export class Aikaleima {
   public install(vue: typeof Vue) {
     function aikaleimaFnFactory(this: void, format: string) {
-      // eslint-disable-next-line only-arrow-functions
       const self: any = this;
       return function(this: void, value: number) {
         if (!Kielet.i18n.locale) {

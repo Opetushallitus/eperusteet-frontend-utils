@@ -3,7 +3,7 @@
   <div v-if="showPerustesisalto">
     <div class="perustesisalto" v-for="(oppiaine, idx) in opintojaksonOppiaineidenTiedot" :key="idx+'op-arviointi'">
       <div v-if="oppiaine.arviointi && oppiaine.arviointi.kuvaus">
-        <div class="moduuliotsikko"><h4 v-html="$kaanna(oppiaine.nimi)">></h4></div>
+        <div class="moduuliotsikko"><h4 v-html="$kaanna(oppiaine.nimi)"></h4></div>
         <ep-content layout="normal" :opetussuunnitelma-store="opetussuunnitelmaStore" :value="oppiaine.arviointi.kuvaus"></ep-content>
       </div>
     </div>

@@ -33,7 +33,7 @@ export function buildNavigation(
   rawNavigation: NavigationNodeDto,
   tiedot: NavigationNode | null,
   isOps = false,
-  revision?: string
+  revision?: string,
 ) {
   const navigation = traverseNavigation(rawNavigation, isOps, revision);
   const rakenne = buildRoot(rawNavigation, [
@@ -782,7 +782,7 @@ export function chapterStringSort(chapter) {
 }
 
 function numToSSColumn(num) {
-  var s = ''; var t;
+  let s = ''; let t;
 
   while (num > 0) {
     t = (num - 1) % 26;
