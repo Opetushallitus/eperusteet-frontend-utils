@@ -1,7 +1,10 @@
-import Vue, { reactive, computed } from 'vue';
+import Vue from 'vue';
+import VueCompositionApi, { reactive, computed } from '@vue/composition-api';
 import { MaaraysDto, Maaraykset, MaaraysDtoTyyppiEnum } from '@shared/api/eperusteet';
 import _ from 'lodash';
 import { Koulutustyyppi, Page } from '@shared/tyypit';
+
+Vue.use(VueCompositionApi);
 
 export interface MaaraysQueryDto {
   nimi?: string;

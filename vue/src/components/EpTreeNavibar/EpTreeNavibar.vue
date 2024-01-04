@@ -168,6 +168,7 @@ export default class EpTreeNavibar extends Vue {
     if (!this.store) {
       return null;
     }
+
     return _.map(this.store.filtered.value, (item, idx) => {
       return {
         ...item,

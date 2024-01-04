@@ -1,5 +1,8 @@
-import Vue, { reactive, computed } from 'vue';
+import Vue from 'vue';
+import VueCompositionApi, { reactive, computed } from '@vue/composition-api';
 import _ from 'lodash';
+
+Vue.use(VueCompositionApi);
 
 const state = reactive({
   window: {
