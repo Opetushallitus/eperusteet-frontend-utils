@@ -125,7 +125,7 @@ export default class EpTekstikappaleLisays extends Vue {
   @Validations()
   validations = {
     otsikko: requiredOneLang(),
-  }
+  };
 
   mounted() {
     this.taso = this.paatasovalinta ? 'paataso' : 'alataso';

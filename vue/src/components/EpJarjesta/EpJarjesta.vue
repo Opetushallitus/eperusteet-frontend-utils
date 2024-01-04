@@ -102,7 +102,7 @@ export default class EpJarjesta extends Vue {
   private uniqueChildGroups!: boolean;
 
   @Prop({ default: false })
-  private useHandle!: boolean ;
+  private useHandle!: boolean;
 
   get options() {
     return {

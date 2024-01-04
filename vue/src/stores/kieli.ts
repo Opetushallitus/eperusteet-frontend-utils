@@ -87,7 +87,7 @@ export class KieliStore {
         dateRange: this.i18n!.t('valitse-pvm-jana'),
       },
     };
-  })
+  });
 
   public setUiKieli(kieli: Kieli) {
     if (this.i18n!.locale !== kieli && _.includes(UiKielet, kieli)) {

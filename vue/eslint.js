@@ -28,6 +28,7 @@ module.exports = {
     'indent': [
       'error',
       2,
+      { 'ignoredNodes': ['PropertyDefinition'] },
     ],
     'comma-dangle': ['error', 'always-multiline'],
     'linebreak-style':

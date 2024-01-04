@@ -85,7 +85,7 @@ export default class EpTreeNavibar extends Vue {
   private query!: string;
 
   private active: IndexedNode | null = null;
-  private showAll= false;
+  private showAll = false;
 
   get depth() {
     return this.active?.depth || 1;

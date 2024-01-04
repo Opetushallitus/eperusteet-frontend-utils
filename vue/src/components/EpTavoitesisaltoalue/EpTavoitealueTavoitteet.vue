@@ -96,7 +96,7 @@ export default class EpTavoitealueTavoitteet extends Vue {
           ...koodistoKoodiValidator(),
         },
       },
-    }
+    };
 
   private readonly tavoitteetlukutaidotKoodisto = new KoodistoSelectStore({
     koodisto: 'tavoitteetlukutaidot',
