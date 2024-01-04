@@ -2093,6 +2093,7 @@
     "osaamisen-arviointi": "Osaamisen arviointi",
     "osaamisen-arviointi-tekstina": "Osaamisen arviointi tekstinä",
     "osaamisen-kuvaus": "Osaamisen kuvaus",
+    "osaamisen-kuvaus-arvosanalle_0": "Osaamisen kuvaus arvosanalle 0",
     "osaamisen-kuvaus-arvosanalle_10": "Osaamisen kuvaus arvosanalle 10",
     "osaamisen-kuvaus-arvosanalle_1": "Osaamisen kuvaus hyväksytylle osaamiselle",
     "osaamisen-kuvaus-arvosanalle_5": "Osaamisen kuvaus arvosanalle 5",
@@ -4227,5 +4228,7 @@
     "sisallon-tuonti": "Sisällön tuonti",
     "tuo-pohjan-organisaation-opintojaksot": "Tuo opintojaksot pohjan organisaatiosta",
     "poistetaanko-opintojakso": "Oletko varma että haluat poistaa opintojakson?",
-    "luo-uusi-paikallinen-oppiaine": "Luo paikallinen oppiaine"
+    "luo-uusi-paikallinen-oppiaine": "Luo paikallinen oppiaine",
+    "hae-paikallisista-toteutussuunnitelmista": "Hae paikallisista toteutussuunnitelmista",
+    "perusteella-ei-paikallisia-toteutussuunnitelmia": "Perusteelle ei löytynyt paikallisia toteutuksia"
 }
