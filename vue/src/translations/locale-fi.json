@@ -4215,5 +4215,17 @@
     "nimeton-tutkinnon-osa": "Nimetön tutkinnon osa",
     "perusteella-ei-julkaisuja": "Perusteella ei julkaisuja",
     "tutkinnon-osia-ei-luotu": "Tutkinnon osia ei ole vielä luotu",
-    "julkaisun-paivitys-onnistui": "Julkaisun päivitys onnistui"
+    "julkaisun-paivitys-onnistui": "Julkaisun päivitys onnistui",
+    "lisaa-valinnainen-oppiaine": "Lisää valinnainen oppiaine",
+    "sisaltoa-ei-maaritelty":"Sisältöä ei määritelty",
+    "valinnaisen-oppiaineen-nimi": "Valinnaisen oppiaineen nimi",
+    "valinnaisen-oppiaineen-tyyppi": "Valinnaisen oppiaineen tyyppi",
+    "vuosiluokat-joilla-esintyy": "Vuosiluokat joilla esintyy",
+    "vvt": "vvt",
+    "valitse-oppiaine": "Valitse...",
+    "ei-lisattyja-kommentteja": "Sisältöihin ei ole liitetty kommentteja. Lisää kommentti maalaamalla paikallista tekstisisältöä ja paina 'Lisää komentti'.",
+    "sisallon-tuonti": "Sisällön tuonti",
+    "tuo-pohjan-organisaation-opintojaksot": "Tuo opintojaksot pohjan organisaatiosta",
+    "poistetaanko-opintojakso": "Oletko varma että haluat poistaa opintojakson?",
+    "luo-uusi-paikallinen-oppiaine": "Luo paikallinen oppiaine"
 }
