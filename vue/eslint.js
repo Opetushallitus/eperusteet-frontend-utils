@@ -17,7 +17,7 @@ module.exports = {
     'operator-linebreak': ['error', 'before'],
     'newline-per-chained-call': 'error',
     'brace-style': ['error', 'stroustrup'],
-    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
     'no-use-before-define': 'off',
     'no-unused-expressions': 'off',
     'space-before-function-paren': ['error', {

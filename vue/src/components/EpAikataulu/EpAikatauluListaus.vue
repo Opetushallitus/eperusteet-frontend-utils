@@ -133,7 +133,7 @@ export default class EpAikatauluListaus extends Mixins(validationMixin) {
           },
         },
       },
-    }
+    };
 
   get kaikkiAikataulut() {
     return [
