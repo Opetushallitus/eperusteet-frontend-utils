@@ -4206,5 +4206,14 @@
     "lisaa-paikallinen-tarkennus": "Lisää paikallinen tarkennus",
     "poista-paikallinen-tarkennus": "Poista paikallinen tarkennus",
     "sisaltoa-ei-saatavilla": "Sisältöä ei saatavilla suomeksi",
-    "katselet-suunnitelman-vanhentunutta-versiota": "Katselet suunnitelman vanhentunutta versiota"
+    "katselet-suunnitelman-vanhentunutta-versiota": "Katselet suunnitelman vanhentunutta versiota",
+    "lisaa-valitut": "Lisää valitut",
+    "arviointia-ei-asetettu": "Arviointia ei asetettu",
+    "ei-eperusteissa": "Ei toteutusta ePerusteissa",
+    "liitteet-ja-maaraykset": "Liitteet ja määräykset",
+    "nimeton-tekstikappale": "Nimetön tekstikappale",
+    "nimeton-tutkinnon-osa": "Nimetön tutkinnon osa",
+    "perusteella-ei-julkaisuja": "Perusteella ei julkaisuja",
+    "tutkinnon-osia-ei-luotu": "Tutkinnon osia ei ole vielä luotu",
+    "julkaisun-paivitys-onnistui": "Julkaisun päivitys onnistui"
 }
