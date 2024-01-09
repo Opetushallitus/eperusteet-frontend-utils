@@ -66,6 +66,7 @@ export const mocks = Object.freeze({
 
 export const stubs = Object.freeze({
   RouterLink: true,
+  EpPdfLink: true,
 }) as any;
 
 export function wrap<T extends object>(original: T, value: T) {
