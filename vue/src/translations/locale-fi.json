@@ -4230,5 +4230,8 @@
     "poistetaanko-opintojakso": "Oletko varma että haluat poistaa opintojakson?",
     "luo-uusi-paikallinen-oppiaine": "Luo paikallinen oppiaine",
     "hae-paikallisista-toteutussuunnitelmista": "Hae paikallisista toteutussuunnitelmista",
-    "perusteella-ei-paikallisia-toteutussuunnitelmia": "Perusteelle ei löytynyt paikallisia toteutuksia"
+    "perusteella-ei-paikallisia-toteutussuunnitelmia": "Perusteelle ei löytynyt paikallisia toteutuksia",
+    "kopioi-yhteisen-osuuden-tiedot": "Tuo yhteisen osuuden sisällöt muokattavaksi uuteen yhteiseen osaan",
+    "yhteisen-osan-nimi": "Yhteisen osan nimi",
+    "luo-yhteinen-osa": "Luo yhteinen osa"
 }
