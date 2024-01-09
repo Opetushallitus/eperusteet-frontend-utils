@@ -78,8 +78,8 @@ export default class EpCollapse extends Vue {
   @Prop({ default: false })
   private first!: boolean;
 
-  @Prop({ default: false })
-  private useBlueTheme!: boolean;
+  @Prop({ default: false, type: Boolean })
+  private blue!: Boolean;
 
   @Prop({ required: false, default: false })
   private shadow!: boolean;
@@ -99,13 +99,13 @@ export default class EpCollapse extends Vue {
       collapse: {},
     };
 
-    if (this.useBlueTheme) {
+    if (this.blue) {
       style = {
         header: {
           'color': '#001A58',
         },
         collapse: {
-          'padding': '15px 20px 0px 20px',
+          'padding': '20px 20px 0px 20px',
           'border-radius': '30px',
           'border': '1px solid #C8F1FF',
           'background': '#E6F6FF',
