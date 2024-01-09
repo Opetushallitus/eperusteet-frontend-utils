@@ -78,6 +78,15 @@ export default class EpCollapse extends Vue {
   @Prop({ default: false })
   private first!: boolean;
 
+  @Prop({ default: false, type: Boolean })
+  private blue!: Boolean;
+
+  @Prop({ required: false, default: false })
+  private shadow!: boolean;
+
+  @Prop({ required: false, default: false })
+  private togglefull!: boolean;
+
   private toggled = false;
 
   get hasHeaderSlot() {
@@ -85,29 +94,42 @@ export default class EpCollapse extends Vue {
   }
 
   get styles() {
-    if (this.usePadding) {
-      return {
+    let style = {
+      header: {},
+      collapse: {},
+    };
+
+    if (this.blue) {
+      style = {
         header: {
+          'color': '#001A58',
+        },
+        collapse: {
+          'padding': '20px 20px 0px 20px',
+          'border-radius': '30px',
+          'border': '1px solid #C8F1FF',
+          'background': '#E6F6FF',
+        },
+      };
+    }
+
+    if (this.usePadding) {
+      style = {
+        header: {
+          ...style.header,
           'margin-bottom': '10px',
           'margin-top': '10px',
         },
         collapse: {
+          ...style.collapse,
           'padding-top': '20px',
           'padding-bottom': '20px',
         },
       };
     }
-    return {
-      header: {},
-      collapse: {},
-    };
+
+    return style;
   }
-
-  @Prop({ required: false, default: false })
-  private shadow!: boolean;
-
-  @Prop({ required: false, default: false })
-  private togglefull!: boolean;
 
   get classess() {
     let result = 'ep-collapse';
@@ -209,6 +231,21 @@ export default class EpCollapse extends Vue {
   padding-left: 20px;
   padding-right: 20px;
   border-radius: 0.7rem;
+}
+
+::v-deep .osaamistasot {
+  .row:nth-of-type(even) {
+    background-color: $table-even-row-blue !important;
+  }
+  .row:nth-of-type(odd) {
+    background-color: $table-odd-row-blue !important;
+  }
+}
+
+::v-deep .table-responsive {
+  tr:first-child td {
+    background: $table-header-color !important;
+  }
 }
 
 </style>
