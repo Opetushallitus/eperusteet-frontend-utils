@@ -14,6 +14,7 @@
     </ep-collapse>
 
     <div v-if="object && (naytaSisaltoTyhjana || hasContent)">
+      <slot name="otsikko"></slot>
       <h4>{{ $t('paikallinen-teksti') }}</h4>
       <ep-content-viewer v-if="!isEditing && hasContent" :value="$kaanna(object[teksti])" :kuvat="kuvat" :termit="termit"/>
       <ep-content v-else-if="isEditing || hasContent" v-model="object[teksti]"
