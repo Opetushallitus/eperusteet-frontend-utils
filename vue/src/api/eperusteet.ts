@@ -370,6 +370,7 @@ export interface JulkaisutQuery {
   sivu?: number;
   sivukoko?: number;
   nimi?: string;
+  nimiTaiKoodi?: string;
   kieli?: string;
   koodi?: string;
   tyyppi?: string;
@@ -387,6 +388,7 @@ export async function findAllJulkaisut(query: JulkaisutQuery) {
   return Julkaisut.getKoulutustyyppienJulkaisut(
     query.koulutustyyppi,
     query.nimi,
+    query.nimiTaiKoodi,
     query.kieli,
     query.tulevat,
     query.voimassa,
