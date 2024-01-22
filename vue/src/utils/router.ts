@@ -43,7 +43,7 @@ export async function resolveRouterMetaProps(to) {
       record.props = _.merge(record.props, props);
     }
   }
-  catch (err) {
+  catch (err: any) {
     logger.error(err);
     const error = { err: '500', path: '' };
     if (err.response) {
@@ -58,8 +58,8 @@ export async function resolveRouterMetaProps(to) {
  * Change language changes
  */
 export function changeLang(to, from) {
-  let fromKieli = from.params.lang || Kieli.fi;
-  let toKieli = to.params.lang || Kieli.fi;
+  const fromKieli = from.params.lang || Kieli.fi;
+  const toKieli = to.params.lang || Kieli.fi;
 
   if (fromKieli !== toKieli) {
     Kielet.setUiKieli(toKieli);

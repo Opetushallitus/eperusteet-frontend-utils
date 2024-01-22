@@ -55,7 +55,7 @@ export function deepFilter(filterObject: Object | string, searchObject: any) : a
  * fixataan vanhoja tekstikappaleita, joissa kuva on paragraphien sisällä <p><img/></p> ja uuden kälin editorissa kuvaa ei siksi näytetä
  */
 export function fixTipTapContent(html) {
-  let container = document.createElement('div');
+  const container = document.createElement('div');
   container.innerHTML = html;
 
   let el;
@@ -70,7 +70,7 @@ export function fixTipTapContent(html) {
  * Move all chldren out of an element, and remove the element.
  */
 function unwrap(el) {
-  let parent = el.parentNode;
+  const parent = el.parentNode;
   // Move all children to the parent element.
   while (el.firstChild) parent.insertBefore(el.firstChild, el);
   parent.removeChild(el);

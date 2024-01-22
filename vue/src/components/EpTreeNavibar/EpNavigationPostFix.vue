@@ -24,7 +24,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
 export default class EpNavigationPostFix extends Vue {
   @Prop()
-  node!: NavigationNodeDto
+  node!: NavigationNodeDto;
 
   get postfixLabel(): string {
     return _.toString(this.node.meta?.postfix_label);

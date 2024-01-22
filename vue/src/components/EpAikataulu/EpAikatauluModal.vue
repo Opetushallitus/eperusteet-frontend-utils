@@ -80,7 +80,7 @@ export default class EpAikatauluModal extends Vue {
   private pakollisetTapahtumat!: string[];
 
   private invalid: boolean = false;
-  private aikataulutClone: any[]= [];
+  private aikataulutClone: any[] = [];
 
   openModal() {
     if (_.size(this.aikataulut) === 0) {

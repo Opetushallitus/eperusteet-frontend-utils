@@ -238,7 +238,7 @@ input {
   }
 }
 
-/deep/ .invalid-feedback, /deep/ .valid-feedback {
+::v-deep .invalid-feedback, ::v-deep .valid-feedback {
 }
 
 // Piilotettu Bootstrapissa oletuksena

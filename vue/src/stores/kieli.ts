@@ -90,7 +90,7 @@ export class KieliStore {
         dateRange: this.i18n!.t('valitse-pvm-jana'),
       },
     };
-  })
+  });
 
   public setUiKieli(kieli: Kieli) {
     if (this.i18n!.locale !== kieli && _.includes(UiKielet, kieli)) {
@@ -174,7 +174,7 @@ export class KieliStore {
     else if (_.isObject(value)) {
       const locale = this.getSisaltoKieli.value;
       const kielet = [locale, ..._.pull(['fi', 'sv', 'en', 'se', 'ru'], locale)];
-      let teksti: string = '' + (value[locale] || '');
+      const teksti: string = '' + (value[locale] || '');
 
       if (teksti) {
         return teksti;
@@ -224,7 +224,7 @@ export class KieliStore {
       });
       return result;
     }
-    catch (err) {
+    catch (err: any) {
       logger.error('Käännösten haku epäonnistui', err.message);
       return {};
     }

@@ -152,18 +152,18 @@ select {
   background-position-y: calc(100% - 2px);
 }
 
-/deep/ label.custom-control-label::before {
+::v-deep label.custom-control-label::before {
   border: 2px solid #E0E0E1;
   border-radius: 0.2rem;
 }
 
-/deep/ input.custom-control-input {
+::v-deep input.custom-control-input {
   appearance: none;
 }
 
 // Piilotettu Bootstrapissa oletuksena
-/deep/ .invalid-feedback,
-/deep/ .valid-feedback {
+::v-deep .invalid-feedback,
+::v-deep .valid-feedback {
   display: block;
 }
 

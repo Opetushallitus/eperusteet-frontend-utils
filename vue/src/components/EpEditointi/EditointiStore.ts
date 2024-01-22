@@ -394,7 +394,7 @@ export class EditointiStore {
         this.state.isRemoved = true;
       }
     }
-    catch (err) {
+    catch (err: any) {
       const syy = _.get(err, 'response.data.syy');
       if (syy) {
         fail('poisto-epaonnistui', err.response.data.syy);
@@ -461,7 +461,7 @@ export class EditointiStore {
       await this.fetch();
       await this.fetchRevisions();
     }
-    catch (err) {
+    catch (err: any) {
       const syy = _.get(err, 'response.data.syy');
       if (syy) {
         fail('palautus-epaonnistui', err.response.data.syy);

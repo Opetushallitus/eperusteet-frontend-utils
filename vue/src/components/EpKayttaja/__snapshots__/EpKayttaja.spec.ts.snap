@@ -2,20 +2,15 @@
 
 exports[`EpKayttaja component Renders 1`] = `
 <div class="kayttaja">
-  <li id="kayttaja-dropdown" class="nav-item b-nav-dropdown dropdown"><a id="kayttaja-dropdown__BV_toggle_" role="button" aria-haspopup="true" aria-expanded="false" href="#kayttaja-dropdown" target="_self" class="nav-link dropdown-toggle dropdown-toggle-no-caret">
+  <li id="kayttaja-dropdown" class="nav-item b-nav-dropdown dropdown"><a id="kayttaja-dropdown__BV_toggle_" role="button" aria-haspopup="true" aria-expanded="false" aria-controls="kayttaja-dropdown__BV_toggle_menu_" href="#kayttaja-dropdown" target="_self" class="nav-link dropdown-toggle dropdown-toggle-no-caret">
       <div class="d-flex flex-row">
-        <div class="kayttaja-valikko d-flex flex-column"><span class="kielivalitsin text-right">etunimi sukunimi</span>
-          <!---->
-        </div> <span aria-hidden="true" class="icon material-icons">expand_more</span>
+        <div class="kayttaja-valikko d-flex flex-column"><span class="kielivalitsin text-right">etunimi sukunimi</span> <!----></div> <span aria-hidden="true" class="icon material-icons">expand_more</span>
       </div>
     </a>
-    <ul tabindex="-1" aria-labelledby="kayttaja-dropdown__BV_toggle_" class="dropdown-menu dropdown-menu-right">
-      <!---->
-      <div>
-        <!---->
+    <ul tabindex="-1" aria-labelledby="kayttaja-dropdown__BV_toggle_" id="kayttaja-dropdown__BV_toggle_menu_" class="dropdown-menu dropdown-menu-right"> <!---->
+      <div><!---->
         <div class="ep-collapse">
-          <div role="button" tabindex="0" class="collapse-button d-flex align-items-center mb-2">
-            <!---->
+          <div role="button" tabindex="0" class="collapse-button d-flex align-items-center mb-2"><!---->
             <div class="align-self-start header">
               <div class="">
                 <div>
@@ -25,20 +20,16 @@ exports[`EpKayttaja component Renders 1`] = `
               </div>
             </div>
             <div class="ml-auto align-self-start" style="padding: 0.8rem 1rem;"><span aria-hidden="true" class="icon material-icons">expand_more</span></div>
-          </div>
-          <!---->
-        </div>
-        <!---->
+          </div> <!---->
+        </div> <!---->
       </div>
       <li role="presentation"><a role="menuitem" href="/henkilo-ui/omattiedot" target="_self" class="dropdown-item"><span aria-hidden="true" class="icon icon mr-3 material-icons">person</span> <span>kayttajan-asetukset</span></a></li>
       <li role="presentation">
         <hr role="separator" aria-orientation="horizontal" class="dropdown-divider">
       </li>
-      <div>
-        <!---->
+      <div><!---->
         <div class="ep-collapse">
-          <div role="button" tabindex="0" class="collapse-button d-flex align-items-center mb-2" aria-expanded="true">
-            <!---->
+          <div role="button" tabindex="0" class="collapse-button d-flex align-items-center mb-2" aria-expanded="true"><!---->
             <div class="align-self-start header">
               <div class="header-toggled">
                 <div>
@@ -56,9 +47,7 @@ exports[`EpKayttaja component Renders 1`] = `
                   APP_EPERUSTEET
                 </a></li>
               <li role="presentation" class="sovellusoikeus"><a role="menuitem" href="amosaa-url" target="_self" class="dropdown-item">
-                  <div class="collapse-tausta-valinta-icon">
-                    <!---->
-                  </div>
+                  <div class="collapse-tausta-valinta-icon"><!----></div>
                   APP_EPERUSTEET_AMOSAA
                 </a></li>
               <li role="presentation"><a role="menuitem" href="/virkailijan-tyopoyta" target="_self" class="dropdown-item">
@@ -67,8 +56,7 @@ exports[`EpKayttaja component Renders 1`] = `
                 </a></li>
             </div>
           </div>
-        </div>
-        <!---->
+        </div> <!---->
       </div>
       <li role="presentation">
         <hr role="separator" aria-orientation="horizontal" class="dropdown-divider">

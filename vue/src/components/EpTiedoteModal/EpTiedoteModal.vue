@@ -379,7 +379,7 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
       ],
       filteredJulkaisusovellukset: [
         ..._.chain([julkaisupaikka.ops, julkaisupaikka.lops, julkaisupaikka.amosaa])
-          .filter(julkaisupaikka => _.includes(this.muokattavaTiedote.julkaisupaikat, julkaisupaikka))
+          .filter(julkaisupaikka => _.includes(_.map(this.muokattavaTiedote.julkaisupaikat, _.toLower), _.toLower(julkaisupaikka)))
           .map(julkaisupaikka => this.$t('tiedote-julkaisupaikka-' + julkaisupaikka))
           .value(),
       ],
@@ -482,7 +482,7 @@ export default class EpTiedoteModal extends Mixins(validationMixin) {
         this.$createElement('div', '"' + (this as any).$kaanna(this.muokattavaTiedote.otsikko) + '"'),
         this.$createElement('br', ''),
         this.$createElement('div', this.$t('poista-tiedote-varmistus') as string),
-      ]
+      ],
     ).children;
 
     return this.$bvModal.msgBoxConfirm((vahvistusSisalto as any), {

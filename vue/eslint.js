@@ -17,6 +17,10 @@ module.exports = {
     'operator-linebreak': ['error', 'before'],
     'newline-per-chained-call': 'error',
     'brace-style': ['error', 'stroustrup'],
+    '@typescript-eslint/no-unused-vars': 'off',
+    'vue/multi-word-component-names': 'off',
+    'no-use-before-define': 'off',
+    'no-unused-expressions': 'off',
     'space-before-function-paren': ['error', {
       'anonymous': 'never',
       'named': 'never',
@@ -25,6 +29,7 @@ module.exports = {
     'indent': [
       'error',
       2,
+      { 'ignoredNodes': ['PropertyDefinition'] },
     ],
     'comma-dangle': ['error', 'always-multiline'],
     'linebreak-style':

@@ -114,11 +114,11 @@ export default class EpProgressPopover extends Vue {
   border-radius: 1rem;
   transform: translate3d(45px, 55px, 0px) !important;
 
-  /deep/ .arrow {
+  ::v-deep .arrow {
     display:none;
   }
 
-  /deep/ .popover-body {
+  ::v-deep .popover-body {
     padding: 0;
 
     .popup-top {

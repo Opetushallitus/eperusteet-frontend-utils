@@ -242,7 +242,7 @@ export default class ImageModal extends Mixins(validationMixin) {
     width: 100%;
   }
 
-  /deep/ #fileInput {
+  ::v-deep #fileInput {
     display: none;
   }
 }

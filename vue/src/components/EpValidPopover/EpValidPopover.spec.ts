@@ -45,7 +45,7 @@ describe('EpValidPopover component', () => {
         ...wrapper.props,
         julkaisemattomiaMuutoksia: true,
         julkaistava: true,
-      }
+      },
     );
 
     expect(wrapper.html()).toContain('perusteessa-on-julkaisemattomia-muutoksia');

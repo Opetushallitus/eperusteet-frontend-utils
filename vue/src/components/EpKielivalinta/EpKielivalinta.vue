@@ -40,21 +40,21 @@ export default class EpKielivalinta extends Vue {
 <style scoped lang="scss">
 @import "@shared/styles/_variables.scss";
 
-  /deep/ .dropdown-toggle::after {
+  ::v-deep .dropdown-toggle::after {
     display:none;
   }
 
-  /deep/ .btn {
+  ::v-deep .btn {
     background-color: $white !important;
     color: $black  !important;
     border-color: $white !important;
     box-shadow: 0;
   }
 
-  /deep/ .btn-secondary,
-  /deep/ .btn-secondary:not(:disabled):not(.disabled):active:focus,
-  /deep/ .btn-secondary:not(:disabled):not(.disabled).active:focus,
-  /deep/ .show > .btn-secondary.dropdown-toggle:focus {
+  ::v-deep .btn-secondary,
+  ::v-deep .btn-secondary:not(:disabled):not(.disabled):active:focus,
+  ::v-deep .btn-secondary:not(:disabled):not(.disabled).active:focus,
+  ::v-deep .show > .btn-secondary.dropdown-toggle:focus {
     box-shadow: none;
   }
 

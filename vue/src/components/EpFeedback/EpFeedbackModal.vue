@@ -143,7 +143,7 @@ export default class EpFeedbackModal extends Vue {
     this.ratings = this.currentRatings.map(rating => ({
       ...rating,
       selected: rating.value === selectedRating.value,
-    })
+    }),
     );
   }
 

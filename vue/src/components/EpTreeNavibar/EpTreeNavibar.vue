@@ -85,7 +85,7 @@ export default class EpTreeNavibar extends Vue {
   private query!: string;
 
   private active: IndexedNode | null = null;
-  private showAll= false;
+  private showAll = false;
 
   get depth() {
     return this.active?.depth || 1;
@@ -168,6 +168,7 @@ export default class EpTreeNavibar extends Vue {
     if (!this.store) {
       return null;
     }
+
     return _.map(this.store.filtered.value, (item, idx) => {
       return {
         ...item,
