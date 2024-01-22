@@ -4237,5 +4237,6 @@
     "kopioi-yhteisen-osuuden-tiedot": "Tuo yhteisen osuuden sisällöt muokattavaksi uuteen yhteiseen osaan",
     "yhteisen-osan-nimi": "Yhteisen osan nimi",
     "luo-yhteinen-osa": "Luo yhteinen osa",
-    "maaraykseen-liittyvat-uudemmat-maaraykset": "Määräykseen liittyvät uudemmat määräykset"
+    "maaraykseen-liittyvat-uudemmat-maaraykset": "Määräykseen liittyvät uudemmat määräykset",
+    "osaamismerkin-osaamisen-arviointi": "Osaamismerkin suorittajan osaaminen arvioidaan vapaan sivistystyön oppilaitoksessa. Osaaminen arvioidaan asteikolla hyväksytty/hylätty. Arvioinnissa osaamismerkin suorittajan osaamista verrataan osaamismerkin osaamistavoitteisiin ja arviointikriteereihin. Suoritus katsotaan hyväksytyksi, kun osaamismerkille asetetut tavoitteet on saavutettu."
 }
