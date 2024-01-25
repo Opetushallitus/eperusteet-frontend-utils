@@ -1,17 +1,15 @@
 <template>
   <div>
-    <EpMaterialIcon class="default-icon clickable" icon-shape="outlined" id="infopopup">info</EpMaterialIcon>
-    <b-popover
-      target="infopopup"
-      triggers="hover click blur">
+    <EpMaterialIcon class="default-icon clickable" icon-shape="outlined" :id="'infopopup-' + uniqueId">info</EpMaterialIcon>
+    <b-popover :target="'infopopup-' + uniqueId"
+               triggers="hover click blur">
       <slot/>
     </b-popover>
   </div>
-
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 @Component({
@@ -20,7 +18,9 @@ import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue
   },
 })
 export default class EpInfoPopover extends Vue {
-
+  // Käytä komponentin proppina uniqueId:tä, jos EpInfoPopover on käytössä useamman kerran samassa komponentissa, jotta popover näytetään oikeassa ikonissa.
+  @Prop({ required: false, default: '0' })
+  uniqueId!: string;
 }
 </script>
 
