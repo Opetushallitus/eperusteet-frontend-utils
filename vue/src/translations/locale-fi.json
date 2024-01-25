@@ -4239,5 +4239,6 @@
     "luo-yhteinen-osa": "Luo yhteinen osa",
     "maaraykseen-liittyvat-uudemmat-maaraykset": "Määräykseen liittyvät uudemmat määräykset",
     "osaamismerkin-osaamisen-arviointi": "Osaamismerkin suorittajan osaaminen arvioidaan vapaan sivistystyön oppilaitoksessa. Osaaminen arvioidaan asteikolla hyväksytty/hylätty. Arvioinnissa osaamismerkin suorittajan osaamista verrataan osaamismerkin osaamistavoitteisiin ja arviointikriteereihin. Suoritus katsotaan hyväksytyksi, kun osaamismerkille asetetut tavoitteet on saavutettu.",
-    "poista-valitut": "Poista valitut"
+    "poista-valitut": "Poista valitut",
+    "kentat-tulostetaan-kv-liitteelle": "Kentät tulostetaan kv-liitteelle. Muista lisätä tekstit myös muille perusteelle määritellyille kielille."
 }
