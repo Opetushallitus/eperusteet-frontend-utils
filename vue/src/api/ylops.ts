@@ -46,7 +46,7 @@ export import OpetussuunnitelmanJulkaisuDtoTilaEnum = YlopsApi.Opetussuunnitelma
 
 const logger = createLogger('YlopsAxios');
 const basePath = '';
-export const baseURL = '/eperusteet-ylops-service/api';
+export const baseURL = '/eperusteet-ylops-service';
 
 axios.defaults.headers.common['Caller-Id'] = '1.2.246.562.10.00000000001.eperusteet';
 
