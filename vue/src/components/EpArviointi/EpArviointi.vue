@@ -86,7 +86,15 @@ export default class EpArviointi extends Vue {
   private arviointiasteikkoRef!: any;
 
   get arvioinninKohdeAlue() {
-    return this.value;
+    return {
+      ...this.value,
+      arvioinninKohteet: _.map(this.value.arvioinninKohteet, ak => {
+        return {
+          ...ak,
+          osaamistasonKriteerit: _.sortBy(ak.osaamistasonKriteerit, '_osaamistaso'),
+        };
+      }),
+    };
   }
 
   set arvioinninKohdeAlue(val) {
