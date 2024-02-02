@@ -111,31 +111,40 @@ export default class EpArviointi extends Vue {
   }
 
   lisaaArvionninkohde() {
-    this.arvioinninKohdeAlue.arvioinninKohteet = [
-      ...this.arvioinninKohdeAlue.arvioinninKohteet,
-      {},
-    ];
+    this.arvioinninKohdeAlue = {
+      ...this.arvioinninKohdeAlue,
+      arvioinninKohteet: [
+        ...this.arvioinninKohdeAlue.arvioinninKohteet,
+        {},
+      ],
+    };
   }
 
   poistaArvioinninKohde(poistettavaKohde) {
-    this.arvioinninKohdeAlue.arvioinninKohteet = _.filter(this.arvioinninKohdeAlue.arvioinninKohteet, arvioinninKohde => arvioinninKohde !== poistettavaKohde);
+    this.arvioinninKohdeAlue = {
+      ...this.arvioinninKohdeAlue,
+      arvioinninKohteet: _.filter(this.arvioinninKohdeAlue.arvioinninKohteet, arvioinninKohde => arvioinninKohde !== poistettavaKohde),
+    };
   }
 
   arviointiVaihdos(muokattavaArvioinninKohde) {
-    this.arvioinninKohdeAlue.arvioinninKohteet = _.map(this.arvioinninKohdeAlue.arvioinninKohteet, arvioinninKohde => {
-      if (arvioinninKohde === muokattavaArvioinninKohde) {
-        const arviointiasteikko = this.arviointiasteikotKeyById[arvioinninKohde[this.arviointiasteikkoRef]];
-        return {
-          ...arvioinninKohde,
-          osaamistasonKriteerit: _.map(arviointiasteikko.osaamistasot, osaamistaso => ({
-            _osaamistaso: _.toString(osaamistaso.id),
-            kriteerit: [],
-          })),
-        };
-      }
+    this.arvioinninKohdeAlue = {
+      ...this.arvioinninKohdeAlue,
+      arvioinninKohteet: _.map(this.arvioinninKohdeAlue.arvioinninKohteet, arvioinninKohde => {
+        if (arvioinninKohde === muokattavaArvioinninKohde) {
+          const arviointiasteikko = this.arviointiasteikotKeyById[arvioinninKohde[this.arviointiasteikkoRef]];
+          return {
+            ...arvioinninKohde,
+            osaamistasonKriteerit: _.map(arviointiasteikko.osaamistasot, osaamistaso => ({
+              _osaamistaso: _.toString(osaamistaso.id),
+              kriteerit: [],
+            })),
+          };
+        }
 
-      return arvioinninKohde;
-    });
+        return arvioinninKohde;
+      }),
+    };
   }
 }
 </script>
