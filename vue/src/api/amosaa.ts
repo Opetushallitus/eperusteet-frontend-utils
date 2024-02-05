@@ -33,7 +33,7 @@ export import OpetussuunnitelmaKaikkiDtoJulkaisukieletEnum = AmosaaApi.Opetussuu
 
 const logger = createLogger('AmosaaAxios');
 const basePath = '';
-export const baseURL = '/eperusteet-amosaa-service/api';
+export const baseURL = '/eperusteet-amosaa-service';
 
 const ax = axios.create({
   baseURL,
