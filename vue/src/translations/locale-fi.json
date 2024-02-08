@@ -4245,5 +4245,9 @@
     "piilota-osa-alue-julkisesta-suunnitelmasta": "Piilota osa-alue julkisesta suunnitelmasta",
     "osa-alue-piilotettu-julkisesta-suunnitelmasta": "Osa-alue piilotettu julkisesta suunnitelmasta",
     "nayta-kaikki-pohjat": "Näytä kaikki pohjat",
-    "piilota-kaikki-pohjat": "Piilota kaikki pohjat"
+    "piilota-kaikki-pohjat": "Piilota kaikki pohjat",
+    "aikavertailu": "Aikavertailu",
+    "aikavali": "Aikaväli",
+    "ensijulkaisu": "Ensijulkaisu",
+    "paatospaivamaara-lyhyt": "Päätöspvm"
 }
