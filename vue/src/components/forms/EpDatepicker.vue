@@ -69,6 +69,9 @@ export default class EpDatepicker extends Mixins(EpValidation) {
   @Prop({ default: true, required: false })
   private showValidValidation!: boolean;
 
+  @Prop({ default: false, type: Boolean })
+  private endOfDay!: boolean;
+
   get modelValue() {
     if (_.isNumber(this.value)) {
       return new Date(this.value);
@@ -109,6 +112,11 @@ export default class EpDatepicker extends Mixins(EpValidation) {
   }
 
   private onInput(event: any) {
+    if (this.endOfDay) {
+      event.setHours(23);
+      event.setMinutes(59);
+      event.setSeconds(59);
+    }
     this.$emit('input', event);
     if (this.validation) {
       (this.validation as any).$touch();
