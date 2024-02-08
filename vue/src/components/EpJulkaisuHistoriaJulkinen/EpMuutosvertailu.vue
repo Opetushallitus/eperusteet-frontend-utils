@@ -30,6 +30,7 @@ import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import { MuokkaustietoStore } from '@shared/stores/MuokkaustietoStore';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import EpRouterLink from '@shared/components/EpJulkaisuHistoriaJulkinen/EpRouterLink.vue';
+import _ from 'lodash';
 
 @Component({
   components: {
@@ -53,7 +54,35 @@ export default class EpMuutosvertailu extends Vue {
   }
 
   get muutostiedot() {
-    return this.muokkaustietoStore.muutostiedot.value;
+    if (this.muokkaustietoStore.muutostiedot.value) {
+      return _.map(this.muokkaustietoStore.muutostiedot.value, tieto => {
+        return {
+          ...tieto,
+          tapahtumat: _.map(tieto.tapahtumat, tapahtuma => {
+            return {
+              ...tapahtuma,
+              muokkaustiedot: _.map(tapahtuma.muokkaustiedot, muokkaustieto => {
+                return {
+                  ...muokkaustieto,
+                  kohde: this.solveTapahtuma(muokkaustieto),
+                };
+              }),
+            };
+          }),
+        };
+      });
+    }
+  }
+
+  solveTapahtuma(muokkaustieto) {
+    console.log(muokkaustieto);
+    if (this.julkaisu?.peruste?.toteutus === 'perusopetus') {
+      if (muokkaustieto.kohde === 'oppiaine') {
+        return 'perusopetusoppiaine';
+      }
+    }
+
+    return muokkaustieto.kohde;
   }
 }
 </script>
