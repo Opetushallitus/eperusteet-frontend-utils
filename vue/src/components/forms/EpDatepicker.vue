@@ -112,7 +112,7 @@ export default class EpDatepicker extends Mixins(EpValidation) {
   }
 
   private onInput(event: any) {
-    if (this.endOfDay) {
+    if (event && this.endOfDay) {
       event.setHours(23);
       event.setMinutes(59);
       event.setSeconds(59);
