@@ -1,5 +1,10 @@
 import { axiosHandler, successfulResponseHandler } from './common';
-import { Configuration, DokumentitApiAxiosParamCreator, LiitetiedostotApiAxiosParamCreator, LogoutApiAxiosParamCreator } from '../generated/eperusteet';
+import {
+  Configuration,
+  DokumentitApiAxiosParamCreator,
+  LiitetiedostotApiAxiosParamCreator,
+  LogoutApiAxiosParamCreator,
+} from '../generated/eperusteet';
 import axios, { AxiosInstance } from 'axios';
 import _ from 'lodash';
 import * as EperusteetApi from '../generated/eperusteet';
@@ -57,6 +62,7 @@ export const Dokumentit = initApi(EperusteetApi.DokumentitApi);
 export const DokumentitParams = DokumentitApiAxiosParamCreator(configuration);
 export const GeneerinenArviointiasteikko = initApi(EperusteetApi.GeneerinenArviointiasteikkoApi);
 export const Julkaisut = initApi(EperusteetApi.JulkaisutApi);
+export const Julkinen = initApi(EperusteetApi.JulkinenApi);
 export const Kayttajat = initApi(EperusteetApi.KayttajatApi);
 export const Koodisto = initApi(EperusteetApi.KoodistoApi);
 export const Liitetiedostot = initApi(EperusteetApi.LiitetiedostotApi);
