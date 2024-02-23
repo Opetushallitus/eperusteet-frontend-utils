@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { findDeep, eachDeep } from 'deepdash-es/standalone';
+import { findDeep, eachDeep, findPathDeep, filterDeep } from 'deepdash-es/standalone';
 import { Kielet } from '@shared/stores/kieli';
 
 export function domAttrsGetter(...fields: string[]) {
@@ -36,6 +36,21 @@ export function deepFind(filterObject: Object | string, searchObject: any) : any
     if (_.keys(filterObject)[0] === key && _.values(filterObject)[0] === value) return true;
     return false;
   }), 'parent');
+}
+
+export function findObjectDeepReturnParentToRoot(filterObject: string, searchObject: any, kieli: string) {
+  // console.log('findObjectDeepReturnParentToRoot');
+  // console.log(filterObject);
+  // console.log(searchObject);
+
+  return filterDeep(searchObject, (value, key) => {
+    // console.log('value', value);
+    // console.log('key', key);
+    // console.log('kieli ', kieli);
+    // console.log('kieli === key ', kieli === key, ' _.includes(_.toLower(value), filterObject) ', _.includes(_.toLower(value), filterObject));
+    if (kieli === key && _.includes(_.toLower(value), filterObject)) return true;
+    return false;
+  });
 }
 
 export function deepFilter(filterObject: Object | string, searchObject: any) : any {
