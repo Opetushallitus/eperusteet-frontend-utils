@@ -249,8 +249,7 @@
               <slot name="info"></slot>
             </div>
             <div class="sisalto">
-              <slot v-if="hidden && !isEditing" name="piilotettu">{{$t('sisalto-piilotettu')}}</slot>
-              <slot v-else :isEditing="isEditing" :support-data="innerSupport" :data="inner" :validation="validation" :isCopyable="features.copyable"></slot>
+              <slot :isEditing="isEditing" :support-data="innerSupport" :data="inner" :validation="validation" :isCopyable="features.copyable"></slot>
             </div>
           </div>
           <div class="rightbar rb-keskustelu" v-if="hasKeskusteluSlot && sidebarState === 1">

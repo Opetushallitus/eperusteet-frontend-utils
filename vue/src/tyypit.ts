@@ -166,6 +166,7 @@ export interface SideMenuItem {
   prefix?: string,
   hideChevron?: boolean,
   order?: string,
+  piilotettu?: boolean,
 }
 
 export interface SideMenuRoute {

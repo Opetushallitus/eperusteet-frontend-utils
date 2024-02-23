@@ -238,6 +238,11 @@ export default class EpTreeNavibar extends Vue {
   navigateUp() {
     this.active = _.last(this.activeParents) || null;
   }
+
+  @Watch('navigation')
+  onNavigationChange() {
+    this.active = null;
+  }
 }
 </script>
 
