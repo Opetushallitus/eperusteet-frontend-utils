@@ -493,6 +493,23 @@ export function muuKoulutus() {
   }];
 }
 
+export function digitaalinenOsaaminen(id) {
+  if (!id) {
+    return [];
+  }
+  return [{
+    name: 'digitaalinen-osaaminen',
+    route: {
+      name: 'peruste',
+      params: {
+        perusteId: id,
+        koulutustyyppi: tyyppiTheme('digitaalinen_osaaminen'),
+      },
+    },
+    alityypit: ['koulutustyyppi_digi'],
+  }];
+}
+
 export function koulutustyypinRyhma(koulutustyyppi) {
   return _.find(_.keys(EperusteetKoulutustyyppiRyhmat), ryhma => _.includes(EperusteetKoulutustyyppiRyhmat[ryhma], koulutustyyppi));
 }
