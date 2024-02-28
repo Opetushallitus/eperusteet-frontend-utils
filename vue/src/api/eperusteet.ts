@@ -1,5 +1,5 @@
 import { axiosHandler, successfulResponseHandler } from './common';
-import { Configuration, DokumentitApiAxiosParamCreator, LiitetiedostotApiAxiosParamCreator, LogoutApiAxiosParamCreator } from '../generated/eperusteet';
+import { Configuration, DokumentitApiAxiosParamCreator, LiitetiedostotApiAxiosParamCreator } from '../generated/eperusteet';
 import axios, { AxiosInstance } from 'axios';
 import _ from 'lodash';
 import * as EperusteetApi from '../generated/eperusteet';
@@ -170,7 +170,6 @@ export type MaaraysKevytDto = EperusteetApi.MaaraysKevytDto;
 
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
-export const LogoutParam = LogoutApiAxiosParamCreator(configuration);
 
 export interface PerusteprojektiQuery {
   diaarinumero?: string;
