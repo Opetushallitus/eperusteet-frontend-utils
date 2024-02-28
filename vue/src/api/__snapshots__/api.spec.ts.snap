@@ -5,18 +5,13 @@ Object {
   "common": Object {
     "Accept": "application/json, text/plain, */*",
     "Caller-Id": "1.2.246.562.10.00000000001.eperusteet",
+    "Content-Type": undefined,
   },
   "delete": Object {},
   "get": Object {},
   "head": Object {},
-  "patch": Object {
-    "Content-Type": "application/x-www-form-urlencoded",
-  },
-  "post": Object {
-    "Content-Type": "application/x-www-form-urlencoded",
-  },
-  "put": Object {
-    "Content-Type": "application/x-www-form-urlencoded",
-  },
+  "patch": Object {},
+  "post": Object {},
+  "put": Object {},
 }
 `;
