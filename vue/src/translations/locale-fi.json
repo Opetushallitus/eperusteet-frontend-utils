@@ -4283,5 +4283,12 @@
     "sisallonhallinta": "Sisällön hallinta",
     "tietoa-palvelusta-etusivu-teksti": "Tieto palvelusta -noston sisältö ePerusteiden etusivulla",
     "oppaan-tyyppi-tietoapalvelusta": "Opas toimii 'Tietoa palvelusta' -näkymän sisältönä",
-    "route-opas": "Opas"
+    "route-opas": "Opas",
+    "palvelu-info": "Mitä ovat opetussuunnitelmien perusteet? Entäpä opetussuunnitelmat tai toteutussuunnitelmat? Lue lisää opetushallituksen tarjoamasta palvelusta.",
+    "rajapinnat-info": "Kaikki ePerusteiden sisältö on vapaasti saatavilla sovelluskehitystyöhön avointen rajapintojen kautta.",
+    "tutustu-palveluun": "Tutustu palveluun",
+    "tutustu-rajapintoihin": "Tutustu rajapintoihin",
+    "tietoa-palvelusta": "Tietoa palvelusta",
+    "rajapinnat": "Rajapinnat",
+    "valikko": "Valikko"
 }
