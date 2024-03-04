@@ -7,6 +7,7 @@ import EpMultiSelect from '@shared/components/forms/EpMultiSelect.vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
+import EpExternalLink from '@shared/components/EpExternalLink/EpExternalLink.vue';
 
 Vue.component('EpMaterialIcon', EpMaterialIcon);
 Vue.component('EpToggle', EpToggle);
@@ -16,3 +17,4 @@ Vue.component('EpMultiSelect', EpMultiSelect);
 Vue.component('EpFormContent', EpFormContent);
 Vue.component('EpButton', EpButton);
 Vue.component('EpSpinner', EpSpinner);
+Vue.component('EpExternalLink', EpExternalLink);
