@@ -399,7 +399,11 @@ export function isKoulutustyyppiPdfTuettuOpintopolku(koulutustyyppi: string | un
 }
 
 export function rgb2string(color: number[]) {
-  return `rgb(${color[0]},${color[1]},${color[2]})`;
+  return `rgb(${rgbCode(color)})`;
+}
+
+export function rgbCode(color: number[]) {
+  return `${color[0]},${color[1]},${color[2]}`;
 }
 
 export function calculateVisibleColor(bgRGBColor = [0, 0, 0], limit = 125): string {
