@@ -128,6 +128,7 @@ export type KotoTaitotasoLaajaAlainenOsaaminenDto = AmosaaApi.KotoTaitotasoLaaja
 export type SisaltoViiteExportDto = AmosaaApi.SisaltoViiteExportDto;
 export type OmaOsaAlueToteutusDto = AmosaaApi.OmaOsaAlueToteutusDto;
 export type OletusToteutusDto = AmosaaApi.OletusToteutusDto;
+export type OsaamisenArvioinninToteutussuunnitelmaDto = AmosaaApi.OsaamisenArvioinninToteutussuunnitelmaDto;
 
 export interface OpetussuunnitelmaQuery {
   perusteenDiaarinumero?: string;
