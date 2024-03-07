@@ -4286,10 +4286,13 @@
     "route-opas": "Opas",
     "palvelu-info": "Mitä ovat opetussuunnitelmien perusteet? Entäpä opetussuunnitelmat tai toteutussuunnitelmat? Lue lisää opetushallituksen tarjoamasta palvelusta.",
     "rajapinnat-info": "Kaikki ePerusteiden sisältö on vapaasti saatavilla sovelluskehitystyöhön avointen rajapintojen kautta.",
+    "koulutuksiin-haku-info": "Oletko hakeutumassa koulutukseen? Voit tutustua ja hakea koulutuksiin opintopolku.fi -palvelussa.",
     "tutustu-palveluun": "Tutustu palveluun",
     "tutustu-rajapintoihin": "Tutustu rajapintoihin",
     "tietoa-palvelusta": "Tietoa palvelusta",
     "rajapinnat": "Rajapinnat",
     "valikko": "Valikko",
-    "palvelusta-loydat-myos-ajantasaiset-maaraykset": "Palvelusta löydät myös ajantasaiset opetushallituksen määräykset"
+    "palvelusta-loydat-myos-ajantasaiset-maaraykset": "Palvelusta löydät myös ajantasaiset opetushallituksen määräykset",
+    "siirry-opintopolkuun": "Siirry opintopolku.fi:hin",
+    "koulutuksiin-haku": "Koulutuksiin haku"
 }

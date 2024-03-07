@@ -28,6 +28,7 @@
           </slot>
         </span>
       </div>
+      <div v-else-if="listausTyyppi === 'none'"></div>
       <div v-else>
         <b-pagination align="center"
                       no-local-sorting
@@ -65,7 +66,7 @@ export default class EpJulkiLista extends Vue {
   private tietoMaara!: number;
 
   @Prop({ required: false, default: 'lisahaku' })
-  private listausTyyppi!: 'sivutus' | 'lisahaku';
+  private listausTyyppi!: 'sivutus' | 'lisahaku' | 'none';
 
   private naytettavaTietoMaara = 3;
   private sivu = 1;

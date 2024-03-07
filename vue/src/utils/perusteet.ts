@@ -205,6 +205,7 @@ export const themeColors = {
   'tutkintoonvalmentava': [255, 80, 0],
   'kotoutumiskoulutus': [122, 174, 122],
   'muukoulutus': [230, 8, 149],
+  'digiosaaminen': [217, 193, 242],
 };
 
 export const tyyppiColors = {
