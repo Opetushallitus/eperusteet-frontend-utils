@@ -11,7 +11,8 @@
         </div>
         <div class="muokkausaika">
           <slot name="muokkausaika" :tieto="tieto">
-            <span v-if="tieto.muokattu">{{$sd(tieto.muokattu)}}</span>
+            <span v-if="tieto.muokattu" class="mr-2">{{$sd(tieto.muokattu)}}</span>
+            <span v-if="tieto.perusteNimi">{{tieto.perusteNimi}}</span>
           </slot>
         </div>
       </div>
@@ -51,6 +52,7 @@ export interface JulkiRivi {
   otsikko?: { [key: string]: string; } | string;
   uusi: boolean;
   muokattu?: Date;
+  perusteNimi?: string;
 }
 @Component({
   components: {
