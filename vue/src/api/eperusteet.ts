@@ -32,7 +32,6 @@ export import MaaraysDtoTilaEnum = EperusteetApi.MaaraysDtoTilaEnum;
 export import MaaraysKevytDtoTilaEnum = EperusteetApi.MaaraysDtoTilaEnum;
 export import MaaraysLiiteDtoTyyppiEnum = EperusteetApi.MaaraysLiiteDtoTyyppiEnum;
 export import JulkiEtusivuDtoEtusivuTyyppiEnum = EperusteetApi.JulkiEtusivuDtoEtusivuTyyppiEnum;
-export import JulkiEtusivuDto = EperusteetApi.JulkiEtusivuDto;
 
 const logger = createLogger('EperusteetAxios');
 const basePath = '';
@@ -175,6 +174,7 @@ export type Validointi = EperusteetApi.Validointi;
 export type OsaamismerkkiDto = EperusteetApi.OsaamismerkkiDto;
 export type OsaamismerkkiBaseDto = EperusteetApi.OsaamismerkkiBaseDto;
 export type MaaraysKevytDto = EperusteetApi.MaaraysKevytDto;
+export type JulkiEtusivuDto = EperusteetApi.JulkiEtusivuDto;
 
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
