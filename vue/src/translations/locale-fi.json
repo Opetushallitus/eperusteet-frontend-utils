@@ -4254,7 +4254,6 @@
     "hae-suunnitelmia-tai-perusteita": "Hae suunnitelmia tai perusteita",
     "hae-opetus-ja-toteutussuunnitelmia-tai-valtakunnallisia-perusteita": "Hae opetus- ja toteutussuunnitelmia tai valtakunnallisia perusteita",
     "hakutulosta": "hakutulosta",
-    "jotpa-rahoitteinen-koulutus": "Jotka-rahoitteinen koulutus",
     "opetussuunnitelmat-ja-perusteet": "Opetussuunnitelmat ja perusteet",
     "osaaminen-ja-maaraykset": "Osaaminen ja määräykset",
     "osaamisen-arvioinnin-toteutussuunnitelma": "Osaamisen arvioinnin toteutussuunnitelma",
@@ -4262,5 +4261,9 @@
     "valitse-osaamisen-arvioinnin-toteutussuunnitelma": "Valitse osaamisen arvioinnin toteutussuunnitelma",
     "poista-osaamisen-arvioinnin-toteutussuunnitelma-kysymys": "Poista osaamisen arvioinnin toteutussuunnitelma?",
     "oat-nimi": "Osaamisen arvioinnin toteutussuunnitelman nimi",
-    "linkki": "Linkki"
+    "linkki": "Linkki",
+    "jotpan-rahoittamat-koulutukset": "Jotpan rahoittamat koulutukset",
+    "etusivu-opetussuunnitelmat-ja-perusteet": "Valtakunnalliset perusteet ja paikalliset opetussuunnitelmat",
+    "etusivu-osaaminen-ja-maaraykset": "Opetushallituksen suositukset ja määräykset",
+    "etusivu-osaamismerkit": "Kansalliset perustaitojen osaamismerkit"
 }
