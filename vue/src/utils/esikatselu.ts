@@ -34,3 +34,7 @@ export function localhostOrigin() {
   const origin = window.location.origin;
   return _.includes(origin, 'localhost');
 }
+
+export function osaamismerkkiUrl(kieli, koodi) {
+  return `${buildBaseUrl()}/#/${kieli}/osaamismerkki/${koodi}`;
+}
