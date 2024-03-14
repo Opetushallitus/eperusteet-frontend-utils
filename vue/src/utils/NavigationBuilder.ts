@@ -644,6 +644,15 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
       },
     };
     break;
+  case 'osaamismerkki':
+    node.label = 'kansalliset-perustaitojen-osaamismerkit';
+    node.location = {
+      name: 'toteutussuunnitelmaSisalto',
+      params: {
+        sisaltoviiteId: _.toString(rawNode.id),
+      },
+    };
+    break;
   case 'laajaalainenosaaminen':
     node.location = {
       name: 'toteutussuunnitelmaSisalto',
