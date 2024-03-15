@@ -111,5 +111,14 @@ export default class EpButton extends Vue {
       }
     }
   }
+
+  &.no-padding {
+    ::v-deep .btn-link, .btn {
+      padding-left: 0 !important;
+      .teksti{
+        padding-left: 0 !important;
+      }
+    }
+  }
 }
 </style>
