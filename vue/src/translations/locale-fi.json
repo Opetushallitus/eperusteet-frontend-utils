@@ -4274,5 +4274,12 @@
     "uusi-osaamismerkki-kappale": "Uusi osaamismerkkikappale",
     "osaamismerkki-kappaleen-sijainti": "Osaamismerkkikappaleen sijainti",
     "lisaa-osaamismerkki-kappale": "Lisää osaamismerkkikappale",
-    "osaamismerkkien-suorittaminen": "Osaamismerkkien suorittaminen"
+    "osaamismerkkien-suorittaminen": "Osaamismerkkien suorittaminen",
+    "kirjoita-oppaan-nimi": "Oppaan nimi",
+    "toinen-opas": "Toinen opas",
+    "lisaa-koulutus-tutkintotyyppi": "Lisää koulutustyyppi / tutkintotyyppi",
+    "opastyoryhma": "Oppaan työryhmä",
+    "sisallonhallinta": "Sisällön hallinta",
+    "tietoa-palvelusta-etusivu-teksti": "Tieto palvelusta -noston sisältö ePerusteiden etusivulla",
+    "oppaan-tyyppi-tietoapalvelusta": "Opas toimii 'Tietoa palvelusta' -näkymän sisältönä"
 }
