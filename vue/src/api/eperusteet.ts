@@ -353,6 +353,7 @@ export interface OsaamismerkitQuery {
   sivukoko?: number;
   nimi?: string;
   tila?: string[];
+  koodit?: number[];
   kategoria?: number;
   voimassa?: boolean;
   tuleva?: boolean,

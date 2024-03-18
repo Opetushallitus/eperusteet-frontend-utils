@@ -4254,6 +4254,7 @@
     "hae-suunnitelmia-tai-perusteita": "Hae suunnitelmia tai perusteita",
     "hae-opetus-ja-toteutussuunnitelmia-tai-valtakunnallisia-perusteita": "Hae opetus- ja toteutussuunnitelmia tai valtakunnallisia perusteita",
     "hakutulosta": "hakutulosta",
+    "jotpa-rahoitteinen-koulutus": "Jotpa-rahoitteinen koulutus",
     "opetussuunnitelmat-ja-perusteet": "Opetussuunnitelmat ja perusteet",
     "osaaminen-ja-maaraykset": "Osaaminen ja määräykset",
     "osaamisen-arvioinnin-toteutussuunnitelma": "Osaamisen arvioinnin toteutussuunnitelma",
@@ -4267,5 +4268,11 @@
     "etusivu-osaaminen-ja-maaraykset": "Opetushallituksen suositukset ja määräykset",
     "etusivu-osaamismerkit": "Kansalliset perustaitojen osaamismerkit",
     "paivita-opetussuunnitelma-perustetekstikappaleet-pohjasta-peruste-selvennys": "Voit tarkastella perusteen muutoksia eperusteet.fi -sivulta perusteen muutoshistoriasta.",
-    "muutosmaarays-poistettu": "Muutosmääräys poistettu"
+    "muutosmaarays-poistettu": "Muutosmääräys poistettu",
+    "lisaa-osaamismerkkeja": "Lisää osaamismerkkejä",
+    "ei-lisattyja-osaamismerkkeja": "Ei lisättyjä osaamismerkkejä",
+    "uusi-osaamismerkki-kappale": "Uusi osaamismerkkikappale",
+    "osaamismerkki-kappaleen-sijainti": "Osaamismerkkikappaleen sijainti",
+    "lisaa-osaamismerkki-kappale": "Lisää osaamismerkkikappale",
+    "osaamismerkkien-suorittaminen": "Osaamismerkkien suorittaminen"
 }

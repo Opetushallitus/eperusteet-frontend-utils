@@ -110,7 +110,6 @@ export type NavigationNodeType =
   | 'oppiaineet' | 'oppimaarat' | 'oppiaine' | 'opintojakso' | 'paikallinenOppiaine' | 'poppiaine' | 'lukio_oppiaine' | 'lukio_oppiaineet' |'lukio_laajaAlaisetOsaamiset'
   | 'moduulit' | 'moduuli'
   | 'muodostuminen' | 'tutkinnonosat' | 'tutkinnonosa' | 'tutkinnonosaviite' | 'osaalue' | 'suorituspolut' | 'suorituspolku' | 'osasuorituspolku'
-  | 'tutkinnonosat_pakolliset' | 'tutkinnonosat_paikalliset' | 'tutkinnonosat_tuodut'
   | 'opintokokonaisuus' | 'tavoitesisaltoalue'
   | 'koulutuksenosa' | 'laajaalainenosaaminen' | 'koulutuksenosat'
   | 'koto_kielitaitotaso' | 'koto_opinto' | 'koto_laajaalainenosaaminen'
@@ -118,7 +117,7 @@ export type NavigationNodeType =
   | 'perusopetusLaajaAlaisetOsaamiset' | 'perusopetusVuosiluokkakokonaisuudet' | 'perusopetuslaajaalainenosaaminen' | 'perusopetusVuosiluokkakokonaisuus'
   | 'tutkinnonosat_tuodut'| 'tutkinnonosat_pakolliset' | 'tutkinnonosat_paikalliset'
   | 'osaamiskokonaisuus' | 'osaamiskokonaisuus_paa_alue'
-  | 'aipe_laajaalaisetosaamiset' | 'aipe_laajaalainenosaaminen' | 'aipeoppiaine' | 'aipevaihe' | 'aipekurssi';
+  | 'aipe_laajaalaisetosaamiset' | 'aipe_laajaalainenosaaminen' | 'aipeoppiaine' | 'aipevaihe' | 'aipekurssi' | 'osaamismerkkikappale';
 
 export interface NavigationNodeDto {
   id?: number;
