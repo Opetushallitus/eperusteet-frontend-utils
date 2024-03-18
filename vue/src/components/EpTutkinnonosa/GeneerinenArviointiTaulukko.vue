@@ -4,7 +4,8 @@
       <label>{{ $t('arviointi') }}</label>
     </slot>
     <div>{{$kaanna(arviointi.kohde)}}</div>
-    <b-container fluid="lg" class="osaamistasot mt-3">
+    <div v-if="kriteeriton">{{$kaanna(osaamistasonOtsikko)}}</div>
+    <b-container v-else fluid="lg" class="osaamistasot mt-3">
       <b-row v-for="(osaamistasonKriteeri,index) in arviointi.osaamistasonKriteerit" :key="'osaamistasokriteeri'+index">
         <b-col class="pt-3" md="12" lg="4">
           <span>{{$kaanna(arviointi.arviointiAsteikko.osaamistasot[index].otsikko)}}</span>
@@ -47,6 +48,19 @@ export default class GeneerinenArviointiTaulukko extends Vue {
       label: this.$t('kriteerit') as string,
       thStyle: { display: 'none' },
     }] as any[];
+  }
+
+  get kriteeriton() {
+    return this.arviointi?.osaamistasonKriteerit?.length === 1
+      && _.chain(this.arviointi.osaamistasonKriteerit)
+        .map('kriteerit')
+        .flatten()
+        .isEmpty()
+        .value();
+  }
+
+  get osaamistasonOtsikko() {
+    return _.get(this.arviointi, 'osaamistasonKriteerit[0].osaamistaso.otsikko');
   }
 }
 </script>
