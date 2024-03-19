@@ -29,7 +29,6 @@ export import MaaraysLiiteDtoTyyppiEnum = EperusteetApi.MaaraysLiiteDtoTyyppiEnu
 export import JulkiEtusivuDtoEtusivuTyyppiEnum = EperusteetApi.JulkiEtusivuDtoEtusivuTyyppiEnum;
 export import PerusteKaikkiDtoTyyppiEnum = EperusteetApi.PerusteKaikkiDtoTyyppiEnum;
 export import PerusteBaseDtoOpasTyyppiEnum = EperusteetApi.PerusteBaseDtoOpasTyyppiEnum;
-export import PerusteKaikkiDtoTyyppiEnum = EperusteetApi.PerusteKaikkiDtoTyyppiEnum;
 
 const logger = createLogger('EperusteetAxios');
 const basePath = '';
