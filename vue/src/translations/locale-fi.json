@@ -4281,5 +4281,6 @@
     "opastyoryhma": "Oppaan työryhmä",
     "sisallonhallinta": "Sisällön hallinta",
     "tietoa-palvelusta-etusivu-teksti": "Tieto palvelusta -noston sisältö ePerusteiden etusivulla",
-    "oppaan-tyyppi-tietoapalvelusta": "Opas toimii 'Tietoa palvelusta' -näkymän sisältönä"
+    "oppaan-tyyppi-tietoapalvelusta": "Opas toimii 'Tietoa palvelusta' -näkymän sisältönä",
+    "route-opas": "Opas"
 }
