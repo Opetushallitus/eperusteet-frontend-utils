@@ -11,7 +11,8 @@
         </div>
         <div class="muokkausaika">
           <slot name="muokkausaika" :tieto="tieto">
-            <span v-if="tieto.muokattu">{{$sd(tieto.muokattu)}}</span>
+            <span v-if="tieto.muokattu" class="mr-2">{{$sd(tieto.muokattu)}}</span>
+            <span v-if="tieto.perusteNimi">{{tieto.perusteNimi}}</span>
           </slot>
         </div>
       </div>
@@ -28,6 +29,7 @@
           </slot>
         </span>
       </div>
+      <div v-else-if="listausTyyppi === 'none'"></div>
       <div v-else>
         <b-pagination align="center"
                       no-local-sorting
@@ -50,6 +52,7 @@ export interface JulkiRivi {
   otsikko?: { [key: string]: string; } | string;
   uusi: boolean;
   muokattu?: Date;
+  perusteNimi?: string;
 }
 @Component({
   components: {
@@ -65,7 +68,7 @@ export default class EpJulkiLista extends Vue {
   private tietoMaara!: number;
 
   @Prop({ required: false, default: 'lisahaku' })
-  private listausTyyppi!: 'sivutus' | 'lisahaku';
+  private listausTyyppi!: 'sivutus' | 'lisahaku' | 'none';
 
   private naytettavaTietoMaara = 3;
   private sivu = 1;

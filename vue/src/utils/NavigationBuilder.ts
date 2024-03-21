@@ -2,6 +2,7 @@ import { NavigationNodeDto, LokalisoituTekstiDto } from '../tyypit';
 import _ from 'lodash';
 import { Kielet } from '../stores/kieli';
 import { Location } from 'vue-router';
+import { PerusteBaseDtoOpasTyyppiEnum, PerusteKaikkiDtoTyyppiEnum } from '@shared/api/eperusteet';
 
 export type NavigationType =
   'root' | 'linkki' | 'viite' | 'tiedot' | 'laajaalaiset'
@@ -799,4 +800,8 @@ function numToSSColumn(num) {
     num = (num - t) / 26 | 0;
   }
   return s || undefined;
+}
+
+export function naytaPerusteTiedotNaviMenussa(peruste) {
+  return peruste.tyyppi !== _.toLower(PerusteKaikkiDtoTyyppiEnum.DIGITAALINENOSAAMINEN) && peruste.opasTyyppi !== _.toLower(PerusteBaseDtoOpasTyyppiEnum.TIETOAPALVELUSTA);
 }
