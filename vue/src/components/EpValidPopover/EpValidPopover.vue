@@ -20,7 +20,7 @@
               <b-button class="px-3 py-1" variant="primary" v-if="luonnos && !julkaistava" @click="asetaValmiiksi">
                 {{$t('aseta-valmiiksi')}}
               </b-button>
-              <b-button class="px-3 py-1" variant="primary" :to="{ name: 'julkaise' }" v-else-if="julkaistava && luonnos && !julkaistu && !arkistoitu">
+              <b-button class="px-3 py-1" variant="primary" :to="julkaisuRoute" v-else-if="julkaistava && luonnos && !julkaistu && !arkistoitu">
                 {{ $t('siirry-julkaisunakymaan') }}
               </b-button>
             </template>
@@ -38,7 +38,7 @@
           <b-button
             v-if="(julkaistu || valmis) && julkaistava"
             variant="primary"
-            :to="{ name: 'julkaise' }">{{ $t('siirry-julkaisunakymaan') }}
+            :to="julkaisuRoute">{{ $t('siirry-julkaisunakymaan') }}
           </b-button>
           <div class="pl-3 pt-2 pb-1 row" v-if="validointiOk">
             <div class="col-1">
@@ -125,6 +125,9 @@ export default class EpValidPopover extends Vue {
 
   @Prop({ required: false, default: false })
   private isValidating?: boolean;
+
+  @Prop({ required: false, type: Object, default: () => ({ name: 'julkaise' }) })
+  private julkaisuRoute!: { name: string };
 
   asetaValmiiksi() {
     this.$emit('asetaValmiiksi');
