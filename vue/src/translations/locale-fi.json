@@ -2706,6 +2706,7 @@
     "route-opsTiedot": "Opetussuunnitelman tiedot",
     "route-organisaatio": "Organisaatio",
     "route-osaalue": "Osa-alue",
+    "route-osaamismerkkikappale": "Kansalliset perustaitojen osaamismerkit",
     "route-osaamismerkit": "Kansalliset osaamismerkit",
     "route-osaamismerkkiteemat": "Teemat",
     "route-osasuorituspolku": "Osasuorituspolku",
@@ -4276,5 +4277,10 @@
     "lisaa-osaamismerkki-kappale": "Lisää osaamismerkkikappale",
     "osaamismerkkien-suorittaminen": "Osaamismerkkien suorittaminen",
     "englanninkieliset-sisallot": "Englanninkieliset sisällöt",
-    "katso-tutkinnon-englanninkieliset-sisallot": "Katso tutkinnon englanninkieliset sisällöt"
+    "katso-tutkinnon-englanninkieliset-sisallot": "Katso tutkinnon englanninkieliset sisällöt",
+    "muutosmaarayksen-kieliversioiden-yhteiset-tiedot": "Muutosmääräyksen kieliversioiden yhteiset tiedot",
+    "translatiivi-fi": "Suomeksi",
+    "translatiivi-sv": "Ruotsiksi",
+    "translatiivi-en": "Englanniksi",
+    "lisaa-muutosmaarayksen-kieliversiot-samaan-muutosmaaraykseen": "Lisää muutosmääräyksen kieliversiot samaan muutosmääräykseen"
 }
