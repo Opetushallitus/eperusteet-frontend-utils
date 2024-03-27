@@ -2,8 +2,8 @@
 <div class="form-group form-content">
     <div v-if="showHeader">
       <div v-if="name">
-        <h3 :class="headerClass" v-if="headerType === 'h3'">{{ $t(name) }}</h3>
-        <label v-else>{{ $t(name) }}</label>
+        <h3 :class="headerClass" v-if="headerType === 'h3'">{{ $t(name, kieli) }}</h3>
+        <label v-else>{{ $t(name, kieli) }}</label>
       </div>
       <slot name="header"></slot>
     </div>
@@ -13,6 +13,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Kielet } from '@shared/stores/kieli';
 
 /**
  * Tämän komponentin tehtävä on ainoastaan esittää label lomakekentälle
@@ -30,6 +31,13 @@ export default class EpFormContent extends Vue {
 
   @Prop({ required: false, default: true })
   private showHeader!:boolean;
+
+  @Prop({ required: false, type: String })
+  private forcedLang?: string;
+
+  get kieli() {
+    return this.forcedLang ? this.forcedLang : Kielet.getSisaltoKieli.value;
+  }
 }
 </script>
 
