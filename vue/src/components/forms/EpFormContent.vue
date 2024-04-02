@@ -32,12 +32,8 @@ export default class EpFormContent extends Vue {
   @Prop({ required: false, default: true })
   private showHeader!:boolean;
 
-  @Prop({ required: false, type: String })
-  private forcedLang?: string;
-
-  get kieli() {
-    return this.forcedLang ? this.forcedLang : Kielet.getSisaltoKieli.value;
-  }
+  @Prop({ required: false, type: String, default: Kielet.getSisaltoKieli.value })
+  private kieli!: string;
 }
 </script>
 
