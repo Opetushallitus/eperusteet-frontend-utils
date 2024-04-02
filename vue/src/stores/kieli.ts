@@ -167,14 +167,22 @@ export class KieliStore {
     }
   };
 
-  public kaanna(value?: LokalisoituTeksti | undefined | null, emptyWhenNotFound = false, squareBrackets = true): string {
+  public kaanna(value?: LokalisoituTeksti | undefined | null, emptyWhenNotFound = false, squareBrackets = true, forcedLang = null): string {
     if (!value) {
       return '';
     }
     else if (_.isObject(value)) {
       const locale = this.getSisaltoKieli.value;
-      const kielet = [locale, ..._.pull(['fi', 'sv', 'en', 'se', 'ru'], locale)];
-      const teksti: string = '' + (value[locale] || '');
+      let kielet;
+      let teksti: string;
+      if (forcedLang) {
+        kielet = [forcedLang];
+        teksti = '' + (value[forcedLang] || '');
+      }
+      else {
+        kielet = [locale, ..._.pull(['fi', 'sv', 'en', 'se', 'ru'], locale)];
+        teksti = '' + (value[locale] || '');
+      }
 
       if (teksti) {
         return teksti;
