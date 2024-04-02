@@ -4276,5 +4276,10 @@
     "osaamismerkki-kappaleen-sijainti": "Osaamismerkkikappaleen sijainti",
     "lisaa-osaamismerkki-kappale": "Lisää osaamismerkkikappale",
     "osaamismerkkien-suorittaminen": "Osaamismerkkien suorittaminen",
-    "vanhentunut": "Vanhentunut"
+    "vanhentunut": "Vanhentunut",
+    "muutosmaarayksen-kieliversioiden-yhteiset-tiedot": "Muutosmääräyksen kieliversioiden yhteiset tiedot",
+    "translatiivi-fi": "Suomeksi",
+    "translatiivi-sv": "Ruotsiksi",
+    "translatiivi-en": "Englanniksi",
+    "lisaa-muutosmaarayksen-kieliversiot-samaan-muutosmaaraykseen": "Lisää muutosmääräyksen kieliversiot samaan muutosmääräykseen"
 }
