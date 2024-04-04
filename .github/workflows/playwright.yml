@@ -15,12 +15,10 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: '21'
-        
-    - name: Install dependencies
-      run: npm install -g yarn && yarn
       
-    - name: Install Playwright Browsers
-      run: yarn playwright install --with-deps
-      
-    - name: Run Playwright tests
-      run: yarn playwright test
+    - name: install playwright and run tests
+        run: |          
+          cd smoketests
+          npm install -g yarn && yarn
+          yarn playwright install --with-deps
+          yarn playwright test
