@@ -10,13 +10,13 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
     
-    - uses: actions/setup-node@v4
-      with:
-        node-version: '21'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '21'
       
-    - name: install playwright and run tests
+      - name: install playwright and run tests
         run: |          
           cd smoketests
           npm install -g yarn && yarn
