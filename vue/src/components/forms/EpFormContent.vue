@@ -2,8 +2,8 @@
 <div class="form-group form-content">
     <div v-if="showHeader">
       <div v-if="name">
-        <h3 :class="headerClass" v-if="headerType === 'h3'">{{ $t(name, kieli) }}</h3>
-        <label v-else>{{ $t(name, kieli) }}</label>
+        <h3 :class="headerClass" v-if="headerType === 'h3'">{{ $t(name, lang) }}</h3>
+        <label v-else>{{ $t(name, lang) }}</label>
       </div>
       <slot name="header"></slot>
     </div>
@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { Kielet } from '@shared/stores/kieli';
 
 /**
@@ -32,8 +32,19 @@ export default class EpFormContent extends Vue {
   @Prop({ required: false, default: true })
   private showHeader!:boolean;
 
-  @Prop({ required: false, type: String, default: Kielet.getSisaltoKieli.value })
-  private kieli!: string;
+  @Prop({ required: false, type: String })
+  private kieli?: string;
+
+  private lang: string = this.kieli ? this.kieli : this.sisaltoKieli;
+
+  @Watch('sisaltoKieli')
+  async kieliChanged() {
+    this.lang = this.kieli ? this.kieli : this.sisaltoKieli;
+  }
+
+  get sisaltoKieli() {
+    return Kielet.getSisaltoKieli.value;
+  }
 }
 </script>
 
