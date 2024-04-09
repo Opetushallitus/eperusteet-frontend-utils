@@ -26,7 +26,6 @@ import { Configuration,
   PalautteetApi,
   LukioOpetussuunnitelmatApi,
   JulkaisutApi,
-  LogoutApiAxiosParamCreator,
 } from '../generated/ylops';
 import axios, { AxiosInstance } from 'axios';
 import _ from 'lodash';
@@ -46,7 +45,7 @@ export import OpetussuunnitelmanJulkaisuDtoTilaEnum = YlopsApi.Opetussuunnitelma
 
 const logger = createLogger('YlopsAxios');
 const basePath = '';
-export const baseURL = '/eperusteet-ylops-service/api';
+export const baseURL = '/eperusteet-ylops-service';
 
 axios.defaults.headers.common['Caller-Id'] = '1.2.246.562.10.00000000001.eperusteet';
 
@@ -71,7 +70,6 @@ export const Api = ax;
 export const Dokumentit = initApi(DokumentitApi);
 export const DokumentitParams = DokumentitApiAxiosParamCreator(configuration);
 export const Kayttajat = initApi(KayttajatApi);
-export const LogoutParams = LogoutApiAxiosParamCreator(configuration);
 export const Kommentointi = initApi(KommentointiApi);
 export const Kysymykset = initApi(KysymyksetApi);
 export const Liitetiedostot = initApi(LiitetiedostotApi);
