@@ -2,9 +2,11 @@
 <draggable v-bind="options"
            tag="div"
            class="tree-container"
+           :class="draggableClass"
            :value="value"
            @input="emitter"
-           :key="value.length">
+           :key="value.length"
+           :move="move">
   <div v-for="(node, idx) in value" :key="idx">
     <div class="box d-flex align-items-center" :class="{ 'new-box': node.$uusi, 'box-draggable': isEditable }" >
       <div class="handle">
@@ -37,7 +39,8 @@
           :prefix="prefix + (idx + 1) + '.'"
           :child-field="childField"
           :sortable="node.sortable"
-          :group="node.group ? node.group + idx : (uniqueChildGroups ? group + idx : group)">
+          :group="node.group ? node.group + idx : (uniqueChildGroups ? group + idx : group)"
+          :allowMove="allowMove">
         <slot v-for="(_, name) in $slots" :name="name" :slot="name"></slot>
         <template v-for="(_, name) in $scopedSlots" :slot="name" slot-scope="data">
           <slot :name="name" v-bind="data" />
@@ -104,6 +107,12 @@ export default class EpJarjesta extends Vue {
   @Prop({ default: false })
   private useHandle!: boolean;
 
+  @Prop({ default: null })
+  private draggableClass!: string | null;
+
+  @Prop({ required: false })
+  private allowMove!: Function;
+
   get options() {
     return {
       animation: 300,
@@ -122,6 +131,14 @@ export default class EpJarjesta extends Vue {
 
   emitter(value) {
     this.$emit('input', value);
+  }
+
+  move(event) {
+    if (this.allowMove) {
+      return this.allowMove(event);
+    }
+
+    return true;
   }
 }
 </script>
