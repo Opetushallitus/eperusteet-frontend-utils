@@ -1,10 +1,5 @@
 import { axiosHandler, successfulResponseHandler } from './common';
-import {
-  Configuration,
-  DokumentitApiAxiosParamCreator,
-  LiitetiedostotApiAxiosParamCreator,
-  LogoutApiAxiosParamCreator,
-} from '../generated/eperusteet';
+import { Configuration, DokumentitApiAxiosParamCreator, LiitetiedostotApiAxiosParamCreator } from '../generated/eperusteet';
 import axios, { AxiosInstance } from 'axios';
 import _ from 'lodash';
 import * as EperusteetApi from '../generated/eperusteet';
@@ -35,7 +30,7 @@ export import JulkiEtusivuDtoEtusivuTyyppiEnum = EperusteetApi.JulkiEtusivuDtoEt
 
 const logger = createLogger('EperusteetAxios');
 const basePath = '';
-export const baseURL = '/eperusteet-service/api';
+export const baseURL = '/eperusteet-service';
 
 const ax = axios.create({
   baseURL,
@@ -178,7 +173,6 @@ export type JulkiEtusivuDto = EperusteetApi.JulkiEtusivuDto;
 
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
-export const LogoutParam = LogoutApiAxiosParamCreator(configuration);
 
 export interface PerusteprojektiQuery {
   diaarinumero?: string;
