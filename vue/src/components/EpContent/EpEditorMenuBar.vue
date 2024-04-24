@@ -82,7 +82,6 @@ import _ from 'lodash';
 import { Vue, Component, Prop, InjectReactive } from 'vue-property-decorator';
 import { EditorMenuBar } from 'tiptap';
 import { NavigationNodeDto } from '@shared/tyypit';
-import EpMultiSelect from '@shared/components/forms/EpMultiSelect.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import { deepFind } from '@shared/utils/helpers';
 import EpPublicImage from '@shared/components/EpPublicImage/EpPublicImage.vue';
@@ -90,7 +89,6 @@ import EpPublicImage from '@shared/components/EpPublicImage/EpPublicImage.vue';
 @Component({
   components: {
     EditorMenuBar,
-    EpMultiSelect,
     EpMaterialIcon,
     EpPublicImage,
   },

@@ -1,5 +1,5 @@
 import { axiosHandler, successfulResponseHandler } from './common';
-import { Configuration, JulkinenApiAxiosParamCreator, LiitetiedostotApiAxiosParamCreator, LogoutApiAxiosParamCreator } from '../generated/amosaa';
+import { Configuration, JulkinenApiAxiosParamCreator, LiitetiedostotApiAxiosParamCreator } from '../generated/amosaa';
 import axios, { AxiosInstance } from 'axios';
 import _ from 'lodash';
 
@@ -33,7 +33,7 @@ export import OpetussuunnitelmaKaikkiDtoJulkaisukieletEnum = AmosaaApi.Opetussuu
 
 const logger = createLogger('AmosaaAxios');
 const basePath = '';
-export const baseURL = '/eperusteet-amosaa-service/api';
+export const baseURL = '/eperusteet-amosaa-service';
 
 const ax = axios.create({
   baseURL,
@@ -61,7 +61,6 @@ export const DokumentitParams = DokumentitApiAxiosParamCreator(configuration);
 export const JulkinenApi = initApi(AmosaaApi.JulkinenApi);
 export const JulkinenApiParams = JulkinenApiAxiosParamCreator(configuration);
 export const KayttajaApi = initApi(AmosaaApi.KayttajaApi);
-export const LogoutParams = LogoutApiAxiosParamCreator(configuration);
 export const Koodistot = initApi(AmosaaApi.KoodistotApi);
 export const Koulutustoimijat = initApi(AmosaaApi.KoulutustoimijatApi);
 export const Liitetiedostot = initApi(AmosaaApi.LiitetiedostotApi);
