@@ -143,4 +143,5 @@ export default class EpJulkiLista extends Vue {
       padding: 0px;
     }
   }
+
 </style>
