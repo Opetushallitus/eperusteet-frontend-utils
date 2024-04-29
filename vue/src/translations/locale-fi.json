@@ -4307,5 +4307,8 @@
     "palvelusta-loydat-myos-ajantasaiset-maaraykset": "Palvelusta löydät myös ajantasaiset opetushallituksen määräykset.",
     "siirry-opintopolkuun": "Siirry opintopolku.fi:hin",
     "koulutuksiin-haku": "Koulutuksiin haku",
-    "koulutuksenjarjestajan-tyyppi": "Koulutuksen järjestäjän tyyppi"
+    "koulutuksenjarjestajan-tyyppi": "Koulutuksen järjestäjän tyyppi",
+    "siirry-virkailijanakymaan": "Siirry virkailijanäkymään",
+    "footer-eperusteet-palvelu": "ePerusteet-palvelusta löytyvät kaikki valtakunnalliset opetussuunnitelmien, tutkintojen ja koulutusten perusteet. Palvelussa on myös paikallisia opetussuunnitelmia ja tutkintojen toteutussuunnitelmia.",
+    "footer-oph": "ePerusteet-palvelua ylläpitää Opetushallitus. Koulutuksen järjestäjät ja oppilaitokset ylläpitävät palvelussa tietoja koulutuksistaan. Tietojen oikeellisuuden voi tarkistaa kyseisestä oppilaitoksesta."
 }
