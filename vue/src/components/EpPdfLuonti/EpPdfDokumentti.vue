@@ -12,8 +12,13 @@
               {{pdfnimi}}.pdf
             </span>
           <span v-else-if="dokumenttiEpaonnistui">
+            <span v-if="dokumentti.julkaisuDokumentti">
+              {{$t('julkaisu-pdf-tiedosto-luonti-epaonnistui')}}
+            </span>
+            <span v-else>
               {{$t('pdf-tiedosto-luonti-epaonnistui')}}
             </span>
+          </span>
           <span v-else>
               {{$t('pdf-tiedostoa-ei-ole-viela-luotu')}}
             </span>
