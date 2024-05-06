@@ -93,20 +93,6 @@ export const OppiaineenVuosiluokat = initApi(OppiaineenVuosiluokatApi);
 export const Palautteet = initApi(PalautteetApi);
 export const LukioOpetussuunnitelmat = initApi(LukioOpetussuunnitelmatApi);
 export const Julkaisut = initApi(JulkaisutApi);
-
-Dokumentit.addImage = (opsId, tyyppi, kieli, formData) => {
-  return Api.post('/dokumentit/kuva', formData, {
-    params: {
-      opsId,
-      tyyppi,
-      kieli,
-    },
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
-};
-
 export const DokumenttiDtoTilaEnum = YlopsApi.DokumenttiDtoTilaEnum;
 export type DokumenttiDto = YlopsApi.DokumenttiDto;
 export type EtusivuDto = YlopsApi.EtusivuDto;
