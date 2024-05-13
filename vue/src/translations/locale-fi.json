@@ -4292,5 +4292,8 @@
     "julkaisun-muutosmaaraysta-ei-voi-poistaa": "Julkaisun muutosmääräystä ei voi poistaa",
     "maarittelematon": "Määrittelemätön",
     "opas-pdfna": "Opas pdf:nä",
-    "avaa-opas-pdfna": "Avaa opas pdf:nä"
+    "avaa-opas-pdfna": "Avaa opas pdf:nä",
+    "tallenna-liitteen-diaarinumero": "Tallenna liitteen diaarinumero",
+    "diaarinumero-tallennettu": "Diaarinumero tallennettu",
+    "diaarinumeron-tallennus-epaonnistui": "Diaarinumeron tallennus epäonnistui"
 }
