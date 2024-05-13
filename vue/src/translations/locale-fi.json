@@ -4290,5 +4290,7 @@
     "koulutuksenjarjestajan-tyyppi": "Koulutuksen järjestäjän tyyppi",
     "julkaisu-pdf-tiedosto-luonti-epaonnistui": "Julkaisun pdf-tiedoston luonti epäonnistui",
     "julkaisun-muutosmaaraysta-ei-voi-poistaa": "Julkaisun muutosmääräystä ei voi poistaa",
-    "maarittelematon": "Määrittelemätön"
+    "maarittelematon": "Määrittelemätön",
+    "opas-pdfna": "Opas pdf:nä",
+    "avaa-opas-pdfna": "Avaa opas pdf:nä"
 }
