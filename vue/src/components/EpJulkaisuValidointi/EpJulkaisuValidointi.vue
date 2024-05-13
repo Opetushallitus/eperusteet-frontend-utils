@@ -5,14 +5,8 @@
     </template>
 
     <template v-if="huomautuksia">
-      <EpToggle v-model="naytaHuomautukset" class="mt-4">
-        {{$t('nayta-huomautukset')}}
-      </EpToggle>
-
-      <template v-if="naytaHuomautukset">
-        <div class="font-weight-bold mt-4 mb-3">{{$t('huomautukset')}}</div>
-        <VirheHuomautukset :virhehuomautukset="validointi.huomautukset" tyyppi="huomautus"/>
-      </template>
+      <div class="font-weight-bold mt-3 mb-3">{{$t('huomautukset')}}</div>
+      <VirheHuomautukset :virhehuomautukset="validointi.huomautukset" tyyppi="huomautus"/>
     </template>
   </div>
 </template>
@@ -46,8 +40,6 @@ interface Validointi {
 export default class EpJulkaisuValidointi extends Vue {
   @Prop({ required: true })
   private validointi!: Validointi;
-
-  private naytaHuomautukset: boolean = false;
 
   get virheita() {
     return !_.isEmpty(this.validointi.virheet);
