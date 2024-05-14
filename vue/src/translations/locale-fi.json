@@ -4320,5 +4320,7 @@
     "siirry-ajankohtaista-sivulle": "Siirry Ajankohtaista -sivulle",
     "tervetuloa-palveluun": "Tervetuloa ePerusteet-palveluun!",
     "kansikuva-suositus": "Kansikuvan on suositeltavaa olla pituudeltaan ja leveydeltään saman mittainen sekä yli {mitta}px.",
-    "suositellut-mitat": "Suositeltu maksimikorkeus {korkeus}px ja maksimileveys {leveys}px."
+    "suositellut-mitat": "Suositeltu maksimikorkeus {korkeus}px ja maksimileveys {leveys}px.",
+    "tekstikappale-poisto-vahvistus-ala-ops": "Tekstikappale on käytössä {alaOpsLkm} opetussuunnitelmassa. Poistetaanko tekstikappale?",
+    "kopioi-sisallot": "Kopioi sisällöt"
 }
