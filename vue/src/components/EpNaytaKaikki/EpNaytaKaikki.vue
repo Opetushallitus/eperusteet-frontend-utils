@@ -1,6 +1,8 @@
 <template>
   <div>
-    <slot></slot>
+    <div class="p-2" :class="striped ? 'striped' : ''" v-for="(modelObject, index) in model" :key="'item'+index">
+      <slot :data="modelObject" :index="index"></slot>
+    </div>
     <div v-if="totalListLength > collapsedSize"
          @click="toggleNaytaKaikki()"
          class="nayta-btn">
@@ -17,20 +19,22 @@ import { Prop, Component, Vue } from 'vue-property-decorator';
 })
 export default class EpNaytaKaikki extends Vue {
   @Prop({ required: true })
-  private value!: boolean;
+  private value!: any[];
 
-  @Prop({ required: true })
-  private totalListLength!: number;
-
-  @Prop({ required: true })
+  @Prop({ required: false, default: 3 })
   private collapsedSize!: number;
 
-  get naytaKaikki() {
-    return this.value;
+  @Prop({ required: false, default: false, type: Boolean })
+  private striped!: boolean;
+
+  private naytaKaikki: boolean = false;
+
+  get model() {
+    return this.naytaKaikki ? this.value : this.value.slice(0, this.collapsedSize);
   }
 
-  set naytaKaikki(val) {
-    this.$emit('input', val);
+  get totalListLength() {
+    return this.value.length;
   }
 
   toggleNaytaKaikki() {
@@ -42,7 +46,7 @@ export default class EpNaytaKaikki extends Vue {
 <style scoped lang="scss">
 @import '@shared/styles/_variables.scss';
 
-.validointi {
+.striped {
   &:nth-of-type(even) {
     background-color: $table-even-row-bg-color;
   }
