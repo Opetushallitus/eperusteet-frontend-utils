@@ -1,28 +1,29 @@
 <template>
-  <div>
-    <div class="validointi p-2" v-for="(virhehuomautus, index) in virhehuomautukset" :key="'virheet'+index">
-      <router-link v-if="virhehuomautus.route" :to="virhehuomautus.route">
+  <EpNaytaKaikki v-model="virhehuomautukset" striped>
+    <template #default="{ data }">
+      <router-link v-if="data.route" :to="data.route">
         <IkoniTeksti :tyyppi="tyyppi">
-          {{$t(virhehuomautus.kuvaus)}}
-          <span v-if="virhehuomautus.navigationNode && virhehuomautus.navigationNode.label">({{$kaanna(virhehuomautus.navigationNode.label)}})</span>
+          {{$t(data.kuvaus)}}
+          <span v-if="data.navigationNode && data.navigationNode.label">({{$kaanna(data.navigationNode.label)}})</span>
         </IkoniTeksti>
       </router-link>
       <IkoniTeksti v-else :tyyppi="tyyppi">
-        {{$t(virhehuomautus.kuvaus)}}
-        <span v-if="virhehuomautus.navigationNode &&  virhehuomautus.navigationNode.label">({{$kaanna(virhehuomautus.navigationNode.label)}})</span>
+        {{$t(data.kuvaus)}}
+        <span v-if="data.navigationNode &&  data.navigationNode.label">({{$kaanna(data.navigationNode.label)}})</span>
       </IkoniTeksti>
-    </div>
-  </div>
+    </template>
+  </EpNaytaKaikki>
 </template>
 
 <script lang="ts">
-import * as _ from 'lodash';
-import { Prop, Component, Vue, Watch } from 'vue-property-decorator';
+import { Prop, Component, Vue } from 'vue-property-decorator';
 import { VirheHuomautus } from './EpJulkaisuValidointi.vue';
 import IkoniTeksti from './IkoniTeksti.vue';
+import EpNaytaKaikki from '@shared/components//EpNaytaKaikki/EpNaytaKaikki.vue';
 
 @Component({
   components: {
+    EpNaytaKaikki,
     IkoniTeksti,
   },
 })
@@ -37,14 +38,5 @@ export default class VirheHuomautukset extends Vue {
 
 <style scoped lang="scss">
 @import '@shared/styles/_variables.scss';
-
-  .validointi {
-    &:nth-of-type(even) {
-      background-color: $table-even-row-bg-color;
-    }
-    &:nth-of-type(odd) {
-      background-color: $table-odd-row-bg-color;
-    }
-  }
 
 </style>
