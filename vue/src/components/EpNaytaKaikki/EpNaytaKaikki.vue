@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="p-2" :class="striped ? 'striped' : ''" v-for="(modelObject, index) in model" :key="'item'+index">
+    <div class="row" :class="striped ? 'striped' : ''" v-for="(modelObject, index) in model" :key="'item'+index">
       <slot :data="modelObject" :index="index"></slot>
     </div>
     <div v-if="totalListLength > collapsedSize"
@@ -53,6 +53,9 @@ export default class EpNaytaKaikki extends Vue {
   &:nth-of-type(odd) {
     background-color: $table-odd-row-bg-color;
   }
+}
+.row {
+  padding: 0.5rem;
 }
 
 .nayta-btn {
