@@ -4368,5 +4368,7 @@
     "salli-esikatselu-opetussuunnitelma": "Salli opetussuunnitelman esikatselu",
     "salli-esikatselu-toteutussuunnitelma": "Salli toteutussuunnitelman esikatselu",
     "et-ole-sallinut-esikatselua": "Et ole sallinut esikatselua",
-    "lisatoiminnot": "Lisätoiminnot"
+    "lisatoiminnot": "Lisätoiminnot",
+    "tekstikappale-poisto-vahvistus-ala-ops": "Tekstikappale on käytössä {alaOpsLkm} opetussuunnitelmassa. Poistetaanko tekstikappale?",
+    "kopioi-sisallot": "Kopioi sisällöt"
 }
