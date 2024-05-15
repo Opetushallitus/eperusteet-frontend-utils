@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="ml-3 mr-3">
     <template v-if="virheita">
       <VirheHuomautukset :virhehuomautukset="validointi.virheet" tyyppi="virhe"/>
     </template>
