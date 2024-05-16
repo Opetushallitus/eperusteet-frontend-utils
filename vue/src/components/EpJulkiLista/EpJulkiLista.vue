@@ -12,6 +12,7 @@
         <div class="muokkausaika">
           <slot name="muokkausaika" :tieto="tieto">
             <span v-if="tieto.muokattu" class="mr-2">{{$sd(tieto.muokattu)}}</span>
+            <span v-if="tieto.koulutustyyppi" class="mr-2">{{tieto.koulutustyyppi}}</span>
             <span v-if="tieto.perusteNimi">{{tieto.perusteNimi}}</span>
           </slot>
         </div>
@@ -53,6 +54,7 @@ export interface JulkiRivi {
   uusi: boolean;
   muokattu?: Date;
   perusteNimi?: string;
+  koulutustyyppi?: string;
 }
 @Component({
   components: {

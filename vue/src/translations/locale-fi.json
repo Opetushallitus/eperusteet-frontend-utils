@@ -4258,8 +4258,8 @@
     "hakutulosta": "hakutulosta",
     "jotpa-rahoitteinen-koulutus": "Jotpa-rahoitteinen koulutus",
     "opetussuunnitelmat-ja-perusteet": "Opetussuunnitelmat ja perusteet",
-    "valtakunnalliset-perusteet-ja-paikalliset-opetussuunnitelmat": "Valtakunnalliset perusteet ja paikalliset opetussuunnitelmat",
-    "osaaminen-ja-maaraykset": " Opetushallituksen linjaukset ja määräykset",
+    "valtakunnalliset-perusteet-ja-paikalliset-opetussuunnitelmat": "Valtakunnalliset perusteet ja paikalliset suunnitelmat",
+    "osaaminen-ja-maaraykset": "Opetushallituksen määräykset ja suositukset",
     "osaamisen-arvioinnin-toteutussuunnitelma": "Osaamisen arvioinnin toteutussuunnitelma",
     "lisaa-osaamisen-arvioinnin-toteutussuunnitelma": "Lisää osaamisen arvioinnin toteutussuunnitelma",
     "valitse-osaamisen-arvioinnin-toteutussuunnitelma": "Valitse osaamisen arvioinnin toteutussuunnitelma",
@@ -4316,5 +4316,7 @@
     "koulutuksiin-haku": "Koulutuksiin haku",
     "siirry-virkailijanakymaan": "Siirry virkailijanäkymään",
     "footer-eperusteet-palvelu": "ePerusteet-palvelusta löytyvät kaikki valtakunnalliset opetussuunnitelmien, tutkintojen ja koulutusten perusteet. Palvelussa on myös paikallisia opetussuunnitelmia ja tutkintojen toteutussuunnitelmia.",
-    "footer-oph": "ePerusteet-palvelua ylläpitää Opetushallitus. Koulutuksen järjestäjät ja oppilaitokset ylläpitävät palvelussa tietoja koulutuksistaan. Tietojen oikeellisuuden voi tarkistaa kyseisestä oppilaitoksesta."
+    "footer-oph": "ePerusteet-palvelua ylläpitää Opetushallitus. Koulutuksen järjestäjät ja oppilaitokset ylläpitävät palvelussa tietoja koulutuksistaan. Tietojen oikeellisuuden voi tarkistaa kyseisestä oppilaitoksesta.",
+    "siirry-ajankohtaista-sivulle": "Siirry Ajankohtaista -sivulle",
+    "tervetuloa-palveluun": "Tervetuloa ePerusteet-palveluun!"
 }
