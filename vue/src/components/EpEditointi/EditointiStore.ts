@@ -103,7 +103,7 @@ export interface IEditoitava {
   /**
    * Get all revisions of the resource
    */
-  revisions?: () => Promise<Revision[]>;
+  revisions?: (data?: any) => Promise<Revision[]>;
 
   /**
    * copy the resource
@@ -146,9 +146,7 @@ export class EditointiStore {
     if (!config.router) {
       throw new Error('vue-router missing');
     }
-    if (!config.kayttajaProvider) {
-      throw new Error('kayttajaProvider missing');
-    }
+
     EditointiStore.router = config.router;
     EditointiStore.kayttajaProvider = config.kayttajaProvider;
   }
@@ -250,7 +248,7 @@ export class EditointiStore {
   public async updateRevisions() {
     if (this.config.revisions) {
       this.logger.debug('Haetaan historia');
-      this.state.revisions = await this.config.revisions();
+      this.state.revisions = await this.config.revisions(this.state.data);
     }
   }
 
@@ -474,7 +472,7 @@ export class EditointiStore {
 
   private async fetchRevisions() {
     if (this.config.revisions) {
-      this.state.revisions = await this.config.revisions();
+      this.state.revisions = await this.config.revisions(this.state.data);
     }
   }
 
