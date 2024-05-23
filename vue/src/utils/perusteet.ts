@@ -328,6 +328,41 @@ export function yleissivastavatKoulutustyyppiRelaatiot() {
   }];
 }
 
+export function esiJaPerusasteRelaatiot() {
+  return [{
+    koulutustyyppi: 'koulutustyyppi_20',
+    alityypit: ['koulutustyyppi_20'],
+  }, {
+    koulutustyyppi: 'koulutustyyppi_15',
+    alityypit: ['koulutustyyppi_15'],
+  }, {
+    koulutustyyppi: 'koulutustyyppi_16',
+    alityypit: [
+      'koulutustyyppi_6',
+      'koulutustyyppi_16',
+      'koulutustyyppi_17',
+      'koulutustyyppi_22',
+    ],
+  }];
+}
+
+export function lukioJaTaideRelaatiot() {
+  return [{
+    koulutustyyppi: 'koulutustyyppi_2',
+    alityypit: [
+      'koulutustyyppi_2',
+      'koulutustyyppi_14',
+      'koulutustyyppi_23',
+    ],
+  },
+  {
+    koulutustyyppi: 'koulutustyyppi_999907',
+    alityypit: [
+      'koulutustyyppi_999907',
+    ],
+  }];
+}
+
 export function vapaasivistystyoKoulutustyyppiRelaatiot() {
   return [{
     koulutustyyppi: 'koulutustyyppi_10',
@@ -433,6 +468,36 @@ export function ammatilliset() {
 
 export function yleissivistavat() {
   return _.map(yleissivastavatKoulutustyyppiRelaatiot(), kt => {
+    return {
+      ...kt,
+      name: koulutustyyppiStateName(kt.koulutustyyppi),
+      route: {
+        name: 'kooste',
+        params: {
+          koulutustyyppi: koulutustyyppiStateName(kt.koulutustyyppi),
+        },
+      },
+    };
+  });
+}
+
+export function esiJaPerusaste() {
+  return _.map(esiJaPerusasteRelaatiot(), kt => {
+    return {
+      ...kt,
+      name: koulutustyyppiStateName(kt.koulutustyyppi),
+      route: {
+        name: 'kooste',
+        params: {
+          koulutustyyppi: koulutustyyppiStateName(kt.koulutustyyppi),
+        },
+      },
+    };
+  });
+}
+
+export function lukioJaTaide() {
+  return _.map(lukioJaTaideRelaatiot(), kt => {
     return {
       ...kt,
       name: koulutustyyppiStateName(kt.koulutustyyppi),
