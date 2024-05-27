@@ -10,17 +10,25 @@
         </router-link>
         <span v-if="versio === julkaisu.revision" class="font-italic">{{ $t('katselet-tata-julkaisua') }}</span>
       </div>
-      <div v-if="julkaisu.muutosmaaraysVoimaan && julkaisu.liitteet && julkaisu.liitteet.length > 0" class="mt-2">
+      <div v-if="julkaisu.muutosmaaraysVoimaan && julkaisu.liitteet && julkaisu.liitteet.length > 0" class="mt-2 d-flex">
         <div v-for="(liiteData, index) in julkaisu.liitteet" :key="'maarays'+index" class="maarayslinkit">
           <a :href="liiteData.url"
              target="_blank"
              rel="noopener noreferrer">{{ liiteData.nimi }}</a>
         </div>
-        <span>- {{ $t('voimassaolo-alkaa') }} {{ $sd(julkaisu.muutosmaaraysVoimaan) }}</span>
+        <div class="voimassaolo-alkaa">
+          <span class="pl-2">{{$t('voimassaolo-alkaa')}}</span>
+          <span class="ml-1 font-bold">{{ $sd(julkaisu.muutosmaaraysVoimaan) }}</span>
+        </div>
       </div>
       <div v-if="julkaisu.muutosmaarays" class="d-flex mt-2">
-        <EpPdfLink :url="julkaisu.muutosmaarays.url">{{ $kaanna(julkaisu.muutosmaarays.nimi) }}</EpPdfLink>
-        <span class="pl-2"> - {{$t('voimassaolo-alkaa')}} {{$sd(julkaisu.muutosmaarays.voimassaoloAlkaa)}}</span>
+        <div class="pdf-url">
+          <EpPdfLink :url="julkaisu.muutosmaarays.url">{{ $kaanna(julkaisu.muutosmaarays.nimi) }}</EpPdfLink>
+        </div>
+        <div class="voimassaolo-alkaa">
+          <span class="pl-2">{{$t('voimassaolo-alkaa')}}</span>
+          <span class="ml-1 font-bold">{{$sd(julkaisu.muutosmaarays.voimassaoloAlkaa)}}</span>
+        </div>
       </div>
       <div v-if="julkaisu.julkinenTiedote" class="my-1" v-html="$kaanna(julkaisu.julkinenTiedote)"></div>
       <EpCollapse :borderBottom="false"
@@ -128,6 +136,17 @@ export default class EpJulkaisuLista extends Vue {
 .maarayslinkit {
   display: inline;
   padding-right: 5px;
+  width: 70%;
+  margin-right: 15px;
+  overflow: auto;
+}
+
+.pdf-url {
+  width: 70%;
+}
+
+.voimassaolo-alkaa {
+  width: 30%;
 }
 
 ::v-deep .ml-auto {
