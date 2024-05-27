@@ -3002,7 +3002,7 @@
     "tallennus-onnistui-opetussuunnitelma": "Opetussuunnitelman tallentaminen onnistui",
     "tallennus-onnistui-opintojakson": "Opintojakson tallennus onnistui",
     "tallennus-onnistui-oppiaine": "Oppiaineen tallennus onnistui",
-    "tallennus-onnistui-tekstikappale": "Tekstikappaleen tallennus onnistui",
+    "tallennus-onnistui-tekstikappale": "Tekstikappale tallennettu",
     "tallentamattomia-muutoksia": "Sinulla on tallentamattomia muutoksia. Jos poistut sivulta muutokset menetetään.",
     "tallentaminen-epaonnistui": "Tallentaminen epäonnistui",
     "tapahtuma-jarjestetty": "Muutti järjestystä",
@@ -4370,5 +4370,7 @@
     "et-ole-sallinut-esikatselua": "Et ole sallinut esikatselua",
     "lisatoiminnot": "Lisätoiminnot",
     "tekstikappale-poisto-vahvistus-ala-ops": "Tekstikappale on käytössä {alaOpsLkm} opetussuunnitelmassa. Poistetaanko tekstikappale?",
-    "kopioi-sisallot": "Kopioi sisällöt"
+    "kopioi-sisallot": "Kopioi sisällöt",
+    "route-perusopetuspaikallinenoppiaine": "Valinnainen oppiaine",
+    "tekstikappale-poistettu": "Tekstikappale poistettu"
 }
