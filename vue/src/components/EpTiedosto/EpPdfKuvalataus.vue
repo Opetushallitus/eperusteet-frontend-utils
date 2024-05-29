@@ -1,7 +1,12 @@
 <template>
-  <ep-form-content :name="tyyppi">
+  <ep-form-content>
+    <slot name="header">
+      <div class="d-flex">
+        <span class="kuvatyyppi mr-1">{{$t(tyyppi)}}</span>
+        <EpInfoPopover :unique-id="tyyppi">{{ kuvatyyppiInfo }}</EpInfoPopover>
+      </div>
+    </slot>
 
-    <div class="kuvaus">{{$t('pdf-tiedosto-kuvaus')}}</div>
     <EpTiedostoInput @input="onInput"
                      v-model="file"
                      :file-types="fileTypes"
@@ -48,9 +53,11 @@ import { fail } from '@shared/utils/notifications';
 import EpButton from '../EpButton/EpButton.vue';
 import EpFormContent from '../forms/EpFormContent.vue';
 import EpTiedostoInput from '@shared/components/EpTiedosto/EpTiedostoInput.vue';
+import EpInfoPopover from '@shared/components/EpInfoPopover/EpInfoPopover.vue';
 
 @Component({
   components: {
+    EpInfoPopover,
     EpTiedostoInput,
     EpButton,
     EpFormContent,
@@ -83,6 +90,17 @@ export default class EpPdfKuvalataus extends Vue {
 
   get fileValidi() {
     return this.file != null && (this.file as any).size <= this.fileMaxSize && _.includes(this.fileTypes, (this.file as any).type);
+  }
+
+  get kuvatyyppiInfo() {
+    let secondaryInfo;
+    if (this.tyyppi === 'kansikuva') {
+      secondaryInfo = this.$t('kansikuva-suositus', { mitta: 400 });
+    }
+    else {
+      secondaryInfo = this.$t('suositellut-mitat', { korkeus: 200, leveys: 2500 });
+    }
+    return this.$t('pdf-tiedosto-kuvaus') + ' ' + secondaryInfo;
   }
 
   // Luodaan esikatselukuva kuvan valitsemisen jälkeen
@@ -125,9 +143,9 @@ export default class EpPdfKuvalataus extends Vue {
 
 .dokumentit {
 
-  .kuvaus {
-    font-size: 0.8rem;
-    color: $gray;
+  .kuvatyyppi {
+    font-size: 1rem;
+    font-weight: 600;
   }
 
   img {

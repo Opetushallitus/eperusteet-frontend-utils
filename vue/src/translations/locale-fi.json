@@ -4318,5 +4318,7 @@
     "footer-eperusteet-palvelu": "ePerusteet-palvelusta löytyvät kaikki valtakunnalliset opetussuunnitelmien, tutkintojen ja koulutusten perusteet. Palvelussa on myös paikallisia opetussuunnitelmia ja tutkintojen toteutussuunnitelmia.",
     "footer-oph": "ePerusteet-palvelua ylläpitää Opetushallitus. Koulutuksen järjestäjät ja oppilaitokset ylläpitävät palvelussa tietoja koulutuksistaan. Tietojen oikeellisuuden voi tarkistaa kyseisestä oppilaitoksesta.",
     "siirry-ajankohtaista-sivulle": "Siirry Ajankohtaista -sivulle",
-    "tervetuloa-palveluun": "Tervetuloa ePerusteet-palveluun!"
+    "tervetuloa-palveluun": "Tervetuloa ePerusteet-palveluun!",
+    "kansikuva-suositus": "Kansikuvan on suositeltavaa olla pituudeltaan ja leveydeltään saman mittainen sekä yli {mitta}px.",
+    "suositellut-mitat": "Suositeltu maksimikorkeus {korkeus}px ja maksimileveys {leveys}px."
 }
