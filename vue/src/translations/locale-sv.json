@@ -1,4 +1,3 @@
-
 {
     "aihekokonaisuuden-poisto-onnistui": "Raderingen av temaområdet lyckades.",
     "aihekokonaisuuden-tallentaminen-onnistui": "Temaområdet har sparats. ",
@@ -38,8 +37,8 @@
     "ammatillinenkoulutus": "Yrkesutbildning",
     "ammatillinenperuskoulutus": "Grundläggande yrkesutbildning",
     "ammatillisten-tutkintojen-tiedotteet": "Aktuellt",
-    "ammattitaidon-osoittamistavat": "Sätt att påvisa yrkeskunnande",
-    "ammattitaidonOsoittamistavat": "Sätt att påvisa yrkeskunnande",
+    "ammattitaidon-osoittamistavat": "Sätt att visa yrkesskickligheten",
+    "ammattitaidonOsoittamistavat": "Sätt att visa yrkesskickligheten",
     "ammattitaito-uusi-kohde-placeholder": "Föremålets namn (inte obligatoriskt)",
     "ammattitaitovaatimukset": "Krav på yrkeskunnande",
     "ammattitutkinto": "Yrkesexamen",
