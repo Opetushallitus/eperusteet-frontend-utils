@@ -4320,5 +4320,10 @@
     "siirry-ajankohtaista-sivulle": "Siirry Ajankohtaista -sivulle",
     "tervetuloa-palveluun": "Tervetuloa ePerusteet-palveluun!",
     "kansikuva-suositus": "Kansikuvan on suositeltavaa olla pituudeltaan ja leveydeltään saman mittainen sekä yli {mitta}px.",
-    "suositellut-mitat": "Suositeltu maksimikorkeus {korkeus}px ja maksimileveys {leveys}px."
+    "suositellut-mitat": "Suositeltu maksimikorkeus {korkeus}px ja maksimileveys {leveys}px.",
+    "katselet-voimaantulevaa": "Katselet {date} voimaantulevaa perustetta.",
+    "katselet-voimassaolevaa": "Katselet tällä hetkellä voimassaolevaa perustetta.",
+    "katselet-vanhaa": "Katselet perusteen aiempaa julkaisua ({date}).",
+    "siirry-talla-hetkella-voimassaolevaan-perusteeseen": "Siirry tällä hetkellä voimassaolevaan perusteeseen.",
+    "siirry-voimaantulevaan-perusteeseen": "Siirry voimaantulevaan perusteeseen."
 }
