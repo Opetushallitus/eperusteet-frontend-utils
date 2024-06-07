@@ -9,6 +9,8 @@ import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import EpExternalLink from '@shared/components/EpExternalLink/EpExternalLink.vue';
 import EpInfoBanner from '@shared/components/EpInfoBanner/EpInfoBanner.vue';
+import EpInput from '@shared/components/forms/EpInput.vue';
+import EpInfoPopover from '@shared/components/EpInfoPopover/EpInfoPopover.vue';
 
 Vue.component('EpMaterialIcon', EpMaterialIcon);
 Vue.component('EpToggle', EpToggle);
@@ -20,3 +22,5 @@ Vue.component('EpButton', EpButton);
 Vue.component('EpSpinner', EpSpinner);
 Vue.component('EpExternalLink', EpExternalLink);
 Vue.component('EpInfoBanner', EpInfoBanner);
+Vue.component('EpInput', EpInput);
+Vue.component('EpInfoPopover', EpInfoPopover);

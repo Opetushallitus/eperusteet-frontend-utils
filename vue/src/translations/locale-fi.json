@@ -4322,5 +4322,11 @@
     "kansikuva-suositus": "Kansikuvan on suositeltavaa olla pituudeltaan ja leveydeltään saman mittainen sekä yli {mitta}px.",
     "suositellut-mitat": "Suositeltu maksimikorkeus {korkeus}px ja maksimileveys {leveys}px.",
     "tiedosto-liian-suuri": "Tiedosto liian suuri. Maksimikoko {koko}Mt.",
-    "pdf-tiedoston-maksimikoko": "Pdf-tiedoston maksimikoko on {koko}Mt."
+    "pdf-tiedoston-maksimikoko": "Pdf-tiedoston maksimikoko on {koko}Mt.",
+    "sina": "Sinä",
+    "valittu-lahde-ei-tue-opsai": "Valittu lähde ei tue OpsAI-tietomallia",
+    "kirjoita-viestisi-tahan": "Kirjoita viestisi tähän...",
+    "opsai-keskustelun-avaus": "Moi! Olen Ops.AI, opetussuunnitelmarobotti.\nVoit kysyä minulta opetussuunnitelman sisällöstä. Vastaan parhaiten, kun kirjoitat lyhyen ja selkeän kysymyksen.\nMitä haluaisit tietää?",
+    "opsai-keskustele-opetussuunnitelma": "Keskustele opetussuunnitelmasta tekoälyn kanssa",
+    "opsai-keskustele-peruste": "Keskustele perusteesta tekoälyn kanssa"
 }
