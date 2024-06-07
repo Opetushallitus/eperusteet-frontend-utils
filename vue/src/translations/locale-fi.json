@@ -4473,5 +4473,11 @@
     "sijaintisi-sivustolla": "Sijaintisi sivustolla",
     "perusteen-tiedot-yleissivistava": "Perusteen tiedot",
     "perusteen-nimi-yleissivistava": "Perusteen nimi",
-    "korvattavat-perusteet-yleissivistava": "Korvattavat perusteet"
+    "korvattavat-perusteet-yleissivistava": "Korvattavat perusteet",
+    "sina": "Sinä",
+    "valittu-lahde-ei-tue-opsai": "Valittu lähde ei tue OpsAI-tietomallia",
+    "kirjoita-viestisi-tahan": "Kirjoita viestisi tähän...",
+    "opsai-keskustelun-avaus": "Moi! Olen Ops.AI, opetussuunnitelmarobotti.\nVoit kysyä minulta opetussuunnitelman sisällöstä. Vastaan parhaiten, kun kirjoitat lyhyen ja selkeän kysymyksen.\nMitä haluaisit tietää?",
+    "opsai-keskustele-opetussuunnitelma": "Keskustele opetussuunnitelmasta tekoälyn kanssa",
+    "opsai-keskustele-peruste": "Keskustele perusteesta tekoälyn kanssa"
 }
