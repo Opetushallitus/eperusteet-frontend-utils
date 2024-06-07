@@ -4320,5 +4320,11 @@
     "siirry-ajankohtaista-sivulle": "Siirry Ajankohtaista -sivulle",
     "tervetuloa-palveluun": "Tervetuloa ePerusteet-palveluun!",
     "kansikuva-suositus": "Kansikuvan on suositeltavaa olla pituudeltaan ja leveydeltään saman mittainen sekä yli {mitta}px.",
-    "suositellut-mitat": "Suositeltu maksimikorkeus {korkeus}px ja maksimileveys {leveys}px."
+    "suositellut-mitat": "Suositeltu maksimikorkeus {korkeus}px ja maksimileveys {leveys}px.",
+    "sina": "Sinä",
+    "valittu-lahde-ei-tue-opsai": "Valittu lähde ei tue OpsAI-tietomallia",
+    "kirjoita-viestisi-tahan": "Kirjoita viestisi tähän...",
+    "opsai-keskustelun-avaus": "Moi! Olen Ops.AI, opetussuunnitelmarobotti.\nVoit kysyä minulta opetussuunnitelman sisällöstä. Vastaan parhaiten, kujn kirjoitat lyhyen ja selkeän kysymyksen.\nMitä haluaisit tietää?",
+    "opsai-keskustele-opetussuunnitelma": "Keskustele opetussuunnitelmasta tekoälyn kanssa",
+    "opsai-keskustele-peruste": "Keskustele perusteesta tekoälyn kanssa"
 }
