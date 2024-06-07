@@ -3,7 +3,7 @@
 usage="$(basename "$0") [-g] [-h] [-s n] -- program to generate backend API
 
 where:
-    -s  set service: eperusteet, ylops, amosaa or all (default)
+    -s  set service: eperusteet, ylops, amosaa, ai or all (default)
     -g  generate spec file
     -h  show this help text"
 
@@ -63,17 +63,28 @@ show_amosaa_missing_env_warn() {
   fi
 }
 
+show_ai_missing_env_warn() {
+  if [[ -z $AI_SERVICE_DIR ]]
+  then
+    printf "\x1b[1mAI_SERVICE_DIR\x1b[0m is not set.\n"
+    printf "For example, call export \x1b[1mAI_SERVICE_DIR="
+    printf "%s" "$HOME"
+    printf "/eperusteet-ai\x1b[0m\n"
+    exit 1
+  fi
+}
+
 generate_eperusteet() {
-	
+
   eperusteetgen="${rootdir}/src/generated/eperusteet"
 
   mkdir -p "${eperusteetgen}"
   cd "${eperusteetgen}" || exit 1
-	
+
   if [[ $generateSpecFile = "yes" ]]
   then
     show_eperusteet_missing_env_warn
-		
+
     cd "$EPERUSTEET_SERVICE_DIR" \
       && mvn clean compile --batch-mode -B -Pgenerate-openapi \
 	  && cd "${eperusteetgen}"
@@ -94,7 +105,7 @@ generate_ylops() {
   if [[ $generateSpecFile = "yes" ]]
   then
 	show_ylops_missing_env_warn
-		
+
 	cd "$YLOPS_SERVICE_DIR" \
       && mvn clean compile --batch-mode -B -Pgenerate-openapi \
 	  && cd "${ylopsgen}"
@@ -115,7 +126,7 @@ generate_amosaa() {
   if [[ $generateSpecFile = "yes" ]]
   then
 	show_amosaa_missing_env_warn
-		
+
 	cd "$AMOSAA_SERVICE_DIR" \
       && mvn clean compile --batch-mode -B -Pgenerate-openapi \
 	  && cd "${amosaagen}"
@@ -126,6 +137,27 @@ generate_amosaa() {
   npx @openapitools/openapi-generator-cli@1.0.18-4.2.3 generate -c "${genconfig}" -i "${EPERUSTEET_AMOSAA_SPECFILE}" -g typescript-axios
 }
 
+generate_ai() {
+
+  aigen="${rootdir}/src/generated/ai"
+
+  mkdir -p "${aigen}"
+  cd "${aigen}" || exit 1
+
+  if [[ $generateSpecFile = "yes" ]]
+  then
+	show_ai_missing_env_warn
+
+	cd "$AI_SERVICE_DIR" \
+      && mvn clean compile --batch-mode -B -Pgenerate-openapi \
+	  && cd "${aigen}"
+  fi
+
+  EPERUSTEET_AI_SPECFILE=${EPERUSTEET_AI_SPECFILE:-"https://raw.githubusercontent.com/Opetushallitus/eperusteet-ai/master/generated/eperusteet-ai.spec.json"}
+  echo "Using EPERUSTEET_AI_SPECFILE=${EPERUSTEET_AI_SPECFILE}"
+  npx @openapitools/openapi-generator-cli@1.0.18-4.2.3 generate -c "${genconfig}" -i "${EPERUSTEET_AI_SPECFILE}" -g typescript-axios
+}
+
 generate() {
   rootdir=$(pwd)
   genconfig="${rootdir}/generator.config.json"
@@ -134,6 +166,7 @@ generate() {
     generate_eperusteet
     generate_ylops
     generate_amosaa
+    generate_ai
   elif [[ $service = "eperusteet" ]]
   then
     generate_eperusteet
@@ -143,6 +176,9 @@ generate() {
   elif [[ $service = "amosaa" ]]
   then
     generate_amosaa
+  elif [[ $service = "ai" ]]
+  then
+    generate_ai
   else
     echo invalid service: $service
     exit 1

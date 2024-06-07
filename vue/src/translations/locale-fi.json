@@ -4394,5 +4394,11 @@
     "avaa-peruste-info": "Aseta peruste Laadinta-tilaan, jolloin rakennemuutokset ovat sallittuja.",
     "koodita-peruste-info": "Lisää perusteen koodittamattomat sisällöt koodistoon.",
     "nollaa-julkaisu-tila-info": "Tyhjennä virheellinen julkaisun tila.",
-    "pakota-julkaisu-info": "Tee uusi julkaisu ohittaen validoinnit."
+    "pakota-julkaisu-info": "Tee uusi julkaisu ohittaen validoinnit.",
+    "sina": "Sinä",
+    "valittu-lahde-ei-tue-opsai": "Valittu lähde ei tue OpsAI-tietomallia",
+    "kirjoita-viestisi-tahan": "Kirjoita viestisi tähän...",
+    "opsai-keskustelun-avaus": "Moi! Olen Ops.AI, opetussuunnitelmarobotti.\nVoit kysyä minulta opetussuunnitelman sisällöstä. Vastaan parhaiten, kun kirjoitat lyhyen ja selkeän kysymyksen.\nMitä haluaisit tietää?",
+    "opsai-keskustele-opetussuunnitelma": "Keskustele opetussuunnitelmasta tekoälyn kanssa",
+    "opsai-keskustele-peruste": "Keskustele perusteesta tekoälyn kanssa"
 }

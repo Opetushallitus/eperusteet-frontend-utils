@@ -12,6 +12,7 @@ import EpInfoBanner from '@shared/components/EpInfoBanner/EpInfoBanner.vue';
 import EpCollapse from '@shared/components/EpCollapse/EpCollapse.vue';
 import EpPaikallinenTarkennus from '@shared/components/EpPaikallinenTarkennus/EpPaikallinenTarkennus.vue';
 import EpLinkki from '@shared/components/EpLinkki/EpLinkki.vue';
+import EpInput from '@shared/components/forms/EpInput.vue';
 import EpInfoPopover from '@shared/components/EpInfoPopover/EpInfoPopover.vue';
 
 Vue.component('EpMaterialIcon', EpMaterialIcon);
@@ -27,4 +28,5 @@ Vue.component('EpInfoBanner', EpInfoBanner);
 Vue.component('EpCollapse', EpCollapse);
 Vue.component('EpPaikallinenTarkennus', EpPaikallinenTarkennus);
 Vue.component('EpLinkki', EpLinkki);
+Vue.component('EpInput', EpInput);
 Vue.component('EpInfoPopover', EpInfoPopover);
