@@ -46,6 +46,8 @@ export default class EpTiedostoLataus extends Vue {
   @Prop({ default: false })
   private asBinary!: boolean;
 
+  private fileMaxSize = 10 * 1024 * 1024; // 10Mt
+
   get file() {
     if (this.value) {
       return this.value.file;
@@ -59,10 +61,12 @@ export default class EpTiedostoLataus extends Vue {
   }
 
   async onInput(file: File) {
-    if (file != null && !_.includes(this.fileTypes, file.type)) {
+    if (file != null && file.size > this.fileMaxSize) {
+      this.$fail((this as any).$t('tiedosto-liian-suuri', { koko: 10 }));
+    }
+    else if (file != null && !_.includes(this.fileTypes, file.type)) {
       this.$fail((this as any).$t('tiedostotyyppi-ei-sallittu'));
     }
-
     else if (file != null) {
       // Luodaan uusi lukija ja rekisteröidään kuuntelija
       const reader = new FileReader();
