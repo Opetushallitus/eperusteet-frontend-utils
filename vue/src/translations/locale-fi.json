@@ -4320,5 +4320,7 @@
     "siirry-ajankohtaista-sivulle": "Siirry Ajankohtaista -sivulle",
     "tervetuloa-palveluun": "Tervetuloa ePerusteet-palveluun!",
     "kansikuva-suositus": "Kansikuvan on suositeltavaa olla pituudeltaan ja leveydeltään saman mittainen sekä yli {mitta}px.",
-    "suositellut-mitat": "Suositeltu maksimikorkeus {korkeus}px ja maksimileveys {leveys}px."
+    "suositellut-mitat": "Suositeltu maksimikorkeus {korkeus}px ja maksimileveys {leveys}px.",
+    "tiedosto-liian-suuri": "Tiedosto liian suuri. Maksimikoko {koko}Mt.",
+    "pdf-tiedoston-maksimikoko": "Pdf-tiedoston maksimikoko on {koko}Mt."
 }
