@@ -5,39 +5,16 @@ jobs:
   build-and-test-eperusteet-frontend-utils:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Set up Node 16
-        uses: actions/setup-node@v3
+      - name: Set up Node 21
+        uses: actions/setup-node@v4
         with:
-          node-version: '16'
-
-      - name: Print yarn cache directory path
-        id: yarn-cache-dir-path
-        run: |
-          yarn cache dir
-          echo "::set-output name=dir::$(yarn cache dir)"
-
-      - name: Cache yarn
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-
-      - name: Print npm cache directory
-        id: npm-cache-dir
-        run: |
-          npm config get cache
-          echo "::set-output name=dir::$(npm config get cache)"
-
-      - name: Cache npm
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.npm-cache-dir.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-        
+          node-version: '21.7.3'  
+       
+      - name: Enable corepack for nodejs
+        run: corepack enable 
+       
       - name: Get backend eperusteet branch file http status
         id: spec_file_http_status_eperusteet
         run: |
@@ -71,11 +48,10 @@ jobs:
             echo spec file not found
           fi
 
-
       - name: Build eperusteet-frontend-utils
         run: |
           cd vue
           yarn install --silent
-          yarn run gen:api
-          yarn run lint
-          yarn run test:unit
+          yarn gen:api
+          yarn lint
+          yarn test:unit
