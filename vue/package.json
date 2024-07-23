@@ -19,7 +19,7 @@
     "test:unit:dev": "TZ=Europe/Helsinki vue-cli-service test:unit --watch --no-cache",
     "test:unit:report": "$BROWSER coverage/lcov-report/index.html",
     "test:unit:dev:notz": "vue-cli-service test:unit --watch --no-cache",
-	"test": "vue-cli-service test:unit --ci --coverage --no-cache"
+    "test": "vue-cli-service test:unit --ci --coverage --no-cache"
   },
   "dependencies": {
     "@openapitools/openapi-generator-cli": "1.0.10-4.2.3",
@@ -95,9 +95,10 @@
     "xlsx": "0.17.0"
   },
   "engines": {
-    "node": "^16"
+    "node": "^21"
   },
   "resolutions": {
     "dot-prop": "^5.2.0"
-  }
+  },
+  "packageManager": "yarn@4.3.1"
 }
