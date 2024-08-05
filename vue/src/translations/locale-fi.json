@@ -4322,5 +4322,8 @@
     "kansikuva-suositus": "Kansikuvan on suositeltavaa olla pituudeltaan ja leveydeltään saman mittainen sekä yli {mitta}px.",
     "suositellut-mitat": "Suositeltu maksimikorkeus {korkeus}px ja maksimileveys {leveys}px.",
     "tiedosto-liian-suuri": "Tiedosto liian suuri. Maksimikoko {koko}Mt.",
-    "pdf-tiedoston-maksimikoko": "Pdf-tiedoston maksimikoko on {koko}Mt."
+    "pdf-tiedoston-maksimikoko": "Pdf-tiedoston maksimikoko on {koko}Mt.",
+    "nayta-laaja-alaisen-osaamisen-alueen-yleiskuvaus": "Näytä laaja-alaisen osaamisen alueen yleiskuvaus",
+    "laaja-alaisen-osaamisen-alueen-yleiskuvaus": "Laaja-alaisen osaamisen alueen yleiskuvaus",
+    "nayta-laaja-alaisen-osaamisen-vuosluokan-yleiskuvaus": "Näytä laaja-alaisen osaamisen vuosiluokan yleiskuvaus"
 }
