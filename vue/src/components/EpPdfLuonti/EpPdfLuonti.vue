@@ -1,6 +1,6 @@
 <template>
   <div>
-    <EpSpinner v-if="!dokumenttiJulkaisu || !dokumentti" />
+    <EpSpinner v-if="!dokumentti" />
     <EpPdfDokumentti v-if="dokumenttiJulkaisu"
                      :dokumentti="dokumenttiJulkaisu"
                      :dokumentti-href="dokumenttiJulkaisuHref"
