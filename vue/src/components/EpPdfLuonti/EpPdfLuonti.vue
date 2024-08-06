@@ -6,11 +6,13 @@
                      :is-polling="false"
                      :pdfnimi="pdfnimi">
     </EpPdfDokumentti>
-    <hr v-if="dokumenttiJulkaisu">
-    <EpPdfDokumentti :dokumentti="dokumentti"
-                     :dokumentti-href="dokumenttiHref"
-                     :is-polling="isPolling"
-                     :pdfnimi="pdfnimi">
+    <hr v-if="!julkaisudokumenttiJaDokumenttiSamat">
+    <EpPdfDokumentti
+      v-if="!julkaisudokumenttiJaDokumenttiSamat"
+      :dokumentti="dokumentti"
+      :dokumentti-href="dokumenttiHref"
+      :is-polling="isPolling"
+      :pdfnimi="pdfnimi">
     </EpPdfDokumentti>
     <div class="btn-group">
       <ep-button @click="luoPdf" :disabled="isPolling || !dokumentti" :show-spinner="isPolling" buttonClass="px-5"><span>{{ $t('luo-uusi-pdf') }}</span></ep-button>
@@ -68,6 +70,10 @@ export default class EpPdfLuonti extends Vue {
 
   luoPdf() {
     this.store?.luoPdf();
+  }
+
+  get julkaisudokumenttiJaDokumenttiSamat() {
+    return this.dokumenttiJulkaisu && this.dokumentti?.id === this.dokumenttiJulkaisu?.id;
   }
 }
 
