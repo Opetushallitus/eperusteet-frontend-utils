@@ -68,7 +68,7 @@ export default class EpPdfDokumentti extends Vue {
   protected pdfnimi!: string;
 
   get dokumenttiLuotu() {
-    return this.dokumentti != null && this.dokumenttiHref != null;
+    return this.dokumentti != null && this.dokumenttiHref != null && this.dokumentti.tila as any === 'valmis';
   }
 
   get dokumenttiEpaonnistui() {
