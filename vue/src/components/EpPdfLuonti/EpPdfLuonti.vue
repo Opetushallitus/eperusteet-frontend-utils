@@ -1,15 +1,14 @@
 <template>
   <div>
-    <EpSpinner v-if="!dokumentti" />
     <EpPdfDokumentti v-if="dokumenttiJulkaisu"
                      :dokumentti="dokumenttiJulkaisu"
                      :dokumentti-href="dokumenttiJulkaisuHref"
                      :is-polling="false"
                      :pdfnimi="pdfnimi">
     </EpPdfDokumentti>
-    <hr v-if="dokumenttiJulkaisu && dokumenttiJulkaisuHref !== dokumenttiHref">
+    <hr v-if="!julkaisudokumenttiJaDokumenttiSamat">
     <EpPdfDokumentti
-      v-if="dokumenttiJulkaisuHref !== dokumenttiHref"
+      v-if="!julkaisudokumenttiJaDokumenttiSamat"
       :dokumentti="dokumentti"
       :dokumentti-href="dokumenttiHref"
       :is-polling="isPolling"
@@ -71,6 +70,10 @@ export default class EpPdfLuonti extends Vue {
 
   luoPdf() {
     this.store?.luoPdf();
+  }
+
+  get julkaisudokumenttiJaDokumenttiSamat() {
+    return this.dokumenttiJulkaisu && this.dokumentti?.id === this.dokumenttiJulkaisu?.id;
   }
 }
 
