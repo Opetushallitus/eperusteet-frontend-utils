@@ -1,16 +1,19 @@
 <template>
   <div>
+    <EpSpinner v-if="!dokumenttiJulkaisu || !dokumentti" />
     <EpPdfDokumentti v-if="dokumenttiJulkaisu"
                      :dokumentti="dokumenttiJulkaisu"
                      :dokumentti-href="dokumenttiJulkaisuHref"
                      :is-polling="false"
                      :pdfnimi="pdfnimi">
     </EpPdfDokumentti>
-    <hr v-if="dokumenttiJulkaisu">
-    <EpPdfDokumentti :dokumentti="dokumentti"
-                     :dokumentti-href="dokumenttiHref"
-                     :is-polling="isPolling"
-                     :pdfnimi="pdfnimi">
+    <hr v-if="dokumenttiJulkaisu && dokumenttiJulkaisuHref !== dokumenttiHref">
+    <EpPdfDokumentti
+      v-if="dokumenttiJulkaisuHref !== dokumenttiHref"
+      :dokumentti="dokumentti"
+      :dokumentti-href="dokumenttiHref"
+      :is-polling="isPolling"
+      :pdfnimi="pdfnimi">
     </EpPdfDokumentti>
     <div class="btn-group">
       <ep-button @click="luoPdf" :disabled="isPolling || !dokumentti" :show-spinner="isPolling" buttonClass="px-5"><span>{{ $t('luo-uusi-pdf') }}</span></ep-button>
