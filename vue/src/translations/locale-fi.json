@@ -2214,6 +2214,8 @@
     "paivita-opetussuunnitelma-huomioteksti": "<p>Päivittämällä opetussuunnitelmasi lisäät uusimmat perusteen tekstikappaleet suunnitelmaasi.</p> <p>Tuota sitten paikalliset tekstit uusiin tekstikappaleisiin esimerkiksi siirtämällä ne vanhoista kappaleista. Muista lopulta poistaa vanhan rakenteen mukaiset tekstikappaleet ja julkaise uudistunut opetussuunnitelma.</p>",
     "paivita-opetussuunnitelma-perustetekstikappaleet-pohjasta-huomioteksti": "<p>Päivittämällä opetussuunnitelmasi lisäät uusimmat perusteen tekstikappaleet suunnitelmaasi.</p>",
     "paivita-opetussuunnitelman-tekstirakenne": "Perusteen rakenteeseen on tullut muutoksia - päivitä opetussuunnitelmasi",
+    "paivita-opetussuunnitelman-tekstirakenne-koulun-ops": "Perusteen rakenteeseen on tullut muutoksia",
+    "paivita-opetussuunnitelma-perustetekstikappaleet-pohjasta-huomioteksti-koulun-ops": "Opetussuunnitelman perusteen tekstikappaleet ovat päivittymässä. Muutokset näkyvät opetussuunnitelmassasi päivityksen jälkeen.",
     "paivita-peruste": "Päivitä peruste",
     "paivita-perusteet-opetussuunnitelmiisi": "Päivitä perusteet opetussuunnitelmiisi",
     "paivita-perusteet-opetussuunnitelmiisi-huomioteksti": "Opetussuunnitelman peruste on päivittynyt. Muutokset näkyvät opetussuunnitelmassasi päivityksen jälkeen.",
