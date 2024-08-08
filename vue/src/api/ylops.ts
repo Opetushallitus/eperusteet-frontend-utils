@@ -44,6 +44,7 @@ export import OpetussuunnitelmaKevytDtoToteutusEnum = YlopsApi.Opetussuunnitelma
 export import OpetussuunnitelmanJulkaisuDtoTilaEnum = YlopsApi.OpetussuunnitelmanJulkaisuDtoTilaEnum;
 export import OpetussuunnitelmaInfoDtoTilaEnum = YlopsApi.OpetussuunnitelmaInfoDtoTilaEnum;
 export import OpetussuunnitelmaLuontiDtoLuontityyppiEnum = YlopsApi.OpetussuunnitelmaLuontiDtoLuontityyppiEnum;
+export import MuokkaustietoKayttajallaDtoTapahtumaEnum = YlopsApi.MuokkaustietoKayttajallaDtoTapahtumaEnum;
 
 const logger = createLogger('YlopsAxios');
 const basePath = '';
@@ -122,6 +123,8 @@ export type OpetussuunnitelmaJulkinenDto = YlopsApi.OpetussuunnitelmaJulkinenDto
 export type OpetussuunnitelmaKevytDto = YlopsApi.OpetussuunnitelmaKevytDto;
 export type OpetussuunnitelmaLuontiDto = YlopsApi.OpetussuunnitelmaLuontiDto;
 export type OpetussuunnitelmanAikatauluDto = YlopsApi.OpetussuunnitelmanAikatauluDto;
+export type OpetussuunnitelmaNimiDto = YlopsApi.OpetussuunnitelmaNimiDto;
+export type OpetussuunnitelmanMuokkaustietoDto = YlopsApi.OpetussuunnitelmanMuokkaustietoDto;
 export type PerusteInfoDto = YlopsApi.PerusteInfoDto;
 export type TekstiKappaleViiteDto = YlopsApi.TekstiKappaleViiteDto;
 export type PoistettuTekstiKappaleDto = YlopsApi.PoistettuTekstiKappaleDto;
