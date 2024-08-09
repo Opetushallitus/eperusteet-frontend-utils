@@ -2214,6 +2214,8 @@
     "paivita-opetussuunnitelma-huomioteksti": "<p>Päivittämällä opetussuunnitelmasi lisäät uusimmat perusteen tekstikappaleet suunnitelmaasi.</p> <p>Tuota sitten paikalliset tekstit uusiin tekstikappaleisiin esimerkiksi siirtämällä ne vanhoista kappaleista. Muista lopulta poistaa vanhan rakenteen mukaiset tekstikappaleet ja julkaise uudistunut opetussuunnitelma.</p>",
     "paivita-opetussuunnitelma-perustetekstikappaleet-pohjasta-huomioteksti": "<p>Päivittämällä opetussuunnitelmasi lisäät uusimmat perusteen tekstikappaleet suunnitelmaasi.</p>",
     "paivita-opetussuunnitelman-tekstirakenne": "Perusteen rakenteeseen on tullut muutoksia - päivitä opetussuunnitelmasi",
+    "paivita-opetussuunnitelman-tekstirakenne-koulun-ops": "Perusteen rakenteeseen on tullut muutoksia",
+    "paivita-opetussuunnitelma-perustetekstikappaleet-pohjasta-huomioteksti-koulun-ops": "Opetussuunnitelman perusteen tekstikappaleet ovat päivittymässä. Muutokset näkyvät opetussuunnitelmassasi päivityksen jälkeen.",
     "paivita-peruste": "Päivitä peruste",
     "paivita-perusteet-opetussuunnitelmiisi": "Päivitä perusteet opetussuunnitelmiisi",
     "paivita-perusteet-opetussuunnitelmiisi-huomioteksti": "Opetussuunnitelman peruste on päivittynyt. Muutokset näkyvät opetussuunnitelmassasi päivityksen jälkeen.",
@@ -3002,7 +3004,7 @@
     "tallennus-onnistui-opetussuunnitelma": "Opetussuunnitelman tallentaminen onnistui",
     "tallennus-onnistui-opintojakson": "Opintojakson tallennus onnistui",
     "tallennus-onnistui-oppiaine": "Oppiaineen tallennus onnistui",
-    "tallennus-onnistui-tekstikappale": "Tekstikappaleen tallennus onnistui",
+    "tallennus-onnistui-tekstikappale": "Tekstikappale tallennettu",
     "tallentamattomia-muutoksia": "Sinulla on tallentamattomia muutoksia. Jos poistut sivulta muutokset menetetään.",
     "tallentaminen-epaonnistui": "Tallentaminen epäonnistui",
     "tapahtuma-jarjestetty": "Muutti järjestystä",
@@ -3024,6 +3026,7 @@
     "tapahtuma-luonti-tutkinnonosa": "Lisäsi tutkinnon osan",
     "tapahtuma-luonti-viite": "Lisäsi tekstikappaleen",
     "tapahtuma-opetussuunnitelma-pohja-teksti-synkronointi": "Päivitti perusteen tekstikappaleet",
+    "tapahtuma-opetussuunnitelma-pohja-teksti-synkronointi-virhe": "Virhe perusteen tekstikappaleiden päivittämisessä",
     "tapahtuma-opetussuunnitelma-tila-julkaistu": "Julkaisi opetussuunnitelman",
     "tapahtuma-opetussuunnitelma-tila-poistettu": "Arkistoi opetussuunnitelman",
     "tapahtuma-opetussuunnitelma-tila-valmis": "Opetussuunnitelma asetettu valmiiksi",
@@ -4326,5 +4329,9 @@
     "nayta-laaja-alaisen-osaamisen-alueen-yleiskuvaus": "Näytä laaja-alaisen osaamisen alueen yleiskuvaus",
     "laaja-alaisen-osaamisen-alueen-yleiskuvaus": "Laaja-alaisen osaamisen alueen yleiskuvaus",
     "nayta-laaja-alaisen-osaamisen-alueen-vuosiluokkakokonaisuuden-kuvaus": "Näytä laaja-alaisen osaamisen alueen vuosiluokkakokonaisuuden kuvaus",
-    "laaja-alaisen-osaamisen-alueen-vuosiluokkakokonaisuuden-kuvaus": "Laaja-alaisen osaamisen alueen vuosiluokkakokonaisuuden kuvaus"
+    "laaja-alaisen-osaamisen-alueen-vuosiluokkakokonaisuuden-kuvaus": "Laaja-alaisen osaamisen alueen vuosiluokkakokonaisuuden kuvaus",
+    "tekstikappale-poisto-vahvistus-ala-ops": "Tekstikappale on käytössä {alaOpsLkm} opetussuunnitelmassa. Poistetaanko tekstikappale?",
+    "kopioi-sisallot": "Kopioi sisällöt",
+    "route-perusopetuspaikallinenoppiaine": "Valinnainen oppiaine",
+    "tekstikappale-poistettu": "Tekstikappale poistettu"
 }

@@ -409,6 +409,9 @@ export default class EpEditointi extends Mixins(validationMixin) {
   @Prop({ required: false, default: true })
   private confirmRemove!: boolean;
 
+  @Prop({ required: false, default: true })
+  private confirmCopy!: boolean;
+
   @Prop({ required: false,
     default: () => ({
       oikeus: 'muokkaus',
@@ -660,12 +663,14 @@ export default class EpEditointi extends Mixins(validationMixin) {
 
   async copy() {
     try {
-      if (await this.vahvista(
+      if (!this.confirmCopy || await this.vahvista(
           this.$t(this.labelCopyTopic) as string,
           this.$t(this.labelCopyConfirmButton) as string,
           this.$t(this.labelCopyConfirm) as string)) {
         await this.store.copy();
-        this.$success(this.$t(this.labelCopySuccess) as string);
+        if (this.confirmCopy) {
+          this.$success(this.$t(this.labelCopySuccess) as string);
+        }
       }
     }
     catch (err) {
