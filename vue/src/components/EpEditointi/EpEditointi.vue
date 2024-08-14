@@ -29,6 +29,7 @@
               </div>
               <div class="muokattu text-nowrap" v-if="!isEditing">
                 <slot name="postHeader" :data="inner"></slot>
+                <slot name="additionalInfo" :data="inner"></slot>
                 <span class="text-truncate" v-if="latest">{{ $t('muokattu') }}: {{ $sdt(latest.pvm) }}, {{ nimi }}</span>
               </div>
             </div>
