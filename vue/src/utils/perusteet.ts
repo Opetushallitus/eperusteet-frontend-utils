@@ -191,6 +191,7 @@ export const koulutustyyppiRyhmaSort = {
   'vapaasivistystyo': 7,
   'tutkintoonvalmentava': 8,
   'kotoutumiskoulutus': 9,
+  'muukoulutus': 10,
 };
 
 export const themeColors = {
