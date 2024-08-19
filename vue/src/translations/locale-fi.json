@@ -4333,5 +4333,12 @@
     "kaikki-yhteensa": "Kaikki yhteensä",
     "suunnitelmien-lukumaarat-selite": "Julkaistut, luonnokset ja arkistoidut suunnitelmat päättymispäivän mukaan. Uudet suunnitelmat valitulla aikavälillä.",
     "uusia-aikavalilla": "Uusia aikavälillä",
-    "piilotettu-julkisesta-opetussuunnitelmasta": "Piilotettu julkisesta opetussuunnitelmasta"
+    "piilotettu-julkisesta-opetussuunnitelmasta": "Piilotettu julkisesta opetussuunnitelmasta",
+    "graafi": "Graafi",
+    "taulukko": "Taulukko",
+    "ajanjakso": "Ajanjakso",
+    "vuosi": "Vuosi",
+    "kuukausittain": "Kuukausittain",
+    "vuosittain": "Vuosittain",
+    "suunnitelmien-lukumaarat-graafi-selite": "Kuukausittaiset tilastot laskettu kuukauden viimeisen päivän mukaan, vuosittain vuoden viimeisen päivän mukaan."
 }
