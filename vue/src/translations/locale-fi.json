@@ -4341,5 +4341,16 @@
     "kuukausittain": "Kuukausittain",
     "vuosittain": "Vuosittain",
     "suunnitelmien-lukumaarat-graafi-selite": "Kuukausittaiset tilastot laskettu kuukauden viimeisen päivän mukaan, vuosittain vuoden viimeisen päivän mukaan.",
-    "esikatselua-ei-ole-sallittu": "Esikatselua ei ole sallittu"
+    "esikatselua-ei-ole-sallittu": "Esikatselua ei ole sallittu",
+    "vuosiluokka_1-luokka": "1. luokka",
+    "vuosiluokka_2-luokka": "2. luokka",
+    "vuosiluokka_3-luokka": "3. luokka",
+    "vuosiluokka_4-luokka": "4. luokka",
+    "vuosiluokka_5-luokka": "5. luokka",
+    "vuosiluokka_6-luokka": "6. luokka",
+    "vuosiluokka_7-luokka": "7. luokka",
+    "vuosiluokka_8-luokka": "8. luokka",
+    "vuosiluokka_9-luokka": "9. luokka",
+    "tavoitteet-sisallot-ja-arviointi": "Tavoitteet, sisällöt ja arviointi",
+    "tavoitteen-osiot": "Tavoitteen osiot"
 }
