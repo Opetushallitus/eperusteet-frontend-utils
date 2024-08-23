@@ -137,5 +137,8 @@ $voimassa-color: $green;
 $siirtyma-color: $yellow-1;
 $paattynyt-color: $red-1;
 
+// yleissivistava
+$ylops-paikallinen-color: #eaf6fe;
+
 // Ylikirjoitetaan muuttujien arvot palvelukohtaisilla jos määritelty
 @import "~@/styles/_variables.scss";

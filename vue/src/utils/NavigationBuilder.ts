@@ -91,10 +91,13 @@ export function traverseNavigation(rawNode: NavigationNodeDto, isOps: boolean, r
     setPerusteData(node, rawNode);
   }
 
-  if (revision && !!node.location?.params) {
-    node.location.params = {
-      ...node.location.params,
-      revision,
+  if (node.location) {
+    node.location = {
+      ...node.location,
+      params: {
+        ...(!!node.location?.params && node.location.params),
+        ...(revision && { revision }),
+      },
     };
   }
 
@@ -452,6 +455,12 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
 
 export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: NavigationNodeDto) {
   switch (rawNode.type as string) {
+  case 'tiedot':
+    node.label = 'opetussuunnitelman-tiedot';
+    node.location = {
+      name: 'opetussuunnitelmaTiedot',
+    };
+    break;
   case 'viite':
   case 'liite':
     // Route linkki
@@ -719,6 +728,12 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
     break;
   case 'paikalliset_osaalueet':
     node.label = 'paikalliset-osa-alueet';
+    break;
+  case 'tavoitteet_sisallot_arviointi':
+    node.label = 'tavoitteet-sisallot-ja-arviointi';
+    node.location = {
+      name: 'tavoitteetSisallotArviointi',
+    };
     break;
   default:
     break;
