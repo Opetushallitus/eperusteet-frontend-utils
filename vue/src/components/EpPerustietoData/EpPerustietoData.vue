@@ -5,7 +5,7 @@
     </div>
     <div>
       <div class="topic">
-        <h4 class="mb-0">
+        <h4 class="mb-1">
           <slot name="header">
             {{ topic }}
           </slot>

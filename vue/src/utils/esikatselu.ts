@@ -1,4 +1,6 @@
+import { Kielet } from '@shared/stores/kieli';
 import _ from 'lodash';
+import { koulutustyyppiTheme, tyyppiTheme } from './perusteet';
 
 export function buildKatseluUrl(kieli, path, revision?, postPath?) {
   return `${buildLangUrl(kieli)}${path}` + (revision ? `/${revision}` : '') + (postPath || '');
@@ -37,4 +39,16 @@ export function localhostOrigin() {
 
 export function osaamismerkkiUrl(kieli, koodi) {
   return `${buildBaseUrl()}/#/${kieli}/osaamismerkki/${koodi}`;
+}
+
+export function buildPerusteEsikatseluUrl(peruste) {
+  return buildEsikatseluUrl(Kielet.getSisaltoKieli.value, `/${perusteTheme(peruste)}/${peruste.id}`);
+}
+
+function perusteTheme(peruste) {
+  if (peruste.koulutustyyppi) {
+    return koulutustyyppiTheme(peruste.koulutustyyppi);
+  }
+
+  return tyyppiTheme(peruste.tyyppi);
 }
