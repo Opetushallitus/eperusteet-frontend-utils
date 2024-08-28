@@ -40,15 +40,3 @@ export function localhostOrigin() {
 export function osaamismerkkiUrl(kieli, koodi) {
   return `${buildBaseUrl()}/#/${kieli}/osaamismerkki/${koodi}`;
 }
-
-export function buildPerusteEsikatseluUrl(peruste) {
-  return buildEsikatseluUrl(Kielet.getSisaltoKieli.value, `/${perusteTheme(peruste)}/${peruste.id}`);
-}
-
-function perusteTheme(peruste) {
-  if (peruste.koulutustyyppi) {
-    return koulutustyyppiTheme(peruste.koulutustyyppi);
-  }
-
-  return tyyppiTheme(peruste.tyyppi);
-}
