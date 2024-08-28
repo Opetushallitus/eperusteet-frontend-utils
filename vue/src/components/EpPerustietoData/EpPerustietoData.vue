@@ -1,13 +1,19 @@
 <template>
-<div class="data-content d-flex flex-row">
-  <div class="pr-3">
-    <EpMaterialIcon>{{ icon }}</EpMaterialIcon>
+  <div class="data-content d-flex">
+    <div class="pr-3">
+      <EpMaterialIcon>{{ icon }}</EpMaterialIcon>
+    </div>
+    <div>
+      <div class="topic">
+        <h4 class="mb-0">
+          <slot name="header">
+            {{ topic }}
+          </slot>
+        </h4>
+      </div>
+      <div><slot></slot></div>
+    </div>
   </div>
-  <div>
-    <div class="topic"><h4 class="mb-0">{{ topic }}</h4></div>
-    <div><slot></slot></div>
-  </div>
-</div>
 </template>
 
 <script lang="ts">
@@ -33,6 +39,8 @@ export default class EpPerustietoData extends Vue {
 
   .icon {
     color: $blue-lighten-6;
+    vertical-align: top;
+    font-size: 22px;
   }
 
 </style>
