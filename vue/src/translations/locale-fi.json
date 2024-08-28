@@ -4340,5 +4340,6 @@
     "vuosi": "Vuosi",
     "kuukausittain": "Kuukausittain",
     "vuosittain": "Vuosittain",
-    "suunnitelmien-lukumaarat-graafi-selite": "Kuukausittaiset tilastot laskettu kuukauden viimeisen päivän mukaan, vuosittain vuoden viimeisen päivän mukaan."
+    "suunnitelmien-lukumaarat-graafi-selite": "Kuukausittaiset tilastot laskettu kuukauden viimeisen päivän mukaan, vuosittain vuoden viimeisen päivän mukaan.",
+    "esikatselua-ei-ole-sallittu": "Esikatselua ei ole sallittu"
 }
