@@ -29,7 +29,7 @@ export default class EpPerustietoData extends Vue {
   @Prop({ required: true })
   private icon!: string;
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   private topic!: string;
 }
 </script>
