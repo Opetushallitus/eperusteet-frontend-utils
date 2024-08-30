@@ -4352,5 +4352,6 @@
     "vuosiluokka_8-luokka": "8. luokka",
     "vuosiluokka_9-luokka": "9. luokka",
     "tavoitteet-sisallot-ja-arviointi": "Tavoitteet, sisällöt ja arviointi",
-    "nayta-vain-seuraavat-tavoitteen-osiot": "Näytä vain seuraavat tavoitteen osiot"
+    "nayta-vain-seuraavat-tavoitteen-osiot": "Näytä vain seuraavat tavoitteen osiot",
+    "tutkinnon-osa-liitetty-rakenteeseen": "Tutkinnon osa on tutkinnon muodostumisen rakenteessa, tutkinnon osaa ei voi poistaa. Tutkinnon osa pitää ottaa ensin irti tutkinnon muodostumisen rakenteesta."
 }
