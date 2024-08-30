@@ -395,14 +395,6 @@ export class EditointiStore {
       }
     }
     catch (err: any) {
-      const syy = _.get(err, 'response.data.syy');
-      if (syy) {
-        fail('poisto-epaonnistui', err.response.data.syy);
-      }
-      else {
-        this.logger.error('poisto-epaonnistui', err);
-        fail('poisto-epaonnistui');
-      }
       this.state.isRemoved = false;
       throw err;
     }
