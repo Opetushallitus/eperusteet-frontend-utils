@@ -171,7 +171,7 @@ export default class EpCollapse extends Vue {
 
   toggle(toggle: boolean | null = null) {
     if (this.collapsable) {
-      if (!toggle) {
+      if (_.isNil(toggle)) {
         this.toggled = !this.toggled;
       }
       else {
