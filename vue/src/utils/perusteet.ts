@@ -194,6 +194,29 @@ export const koulutustyyppiRyhmaSort = {
   'muukoulutus': 10,
 };
 
+export const koulutustyyppiSort = {
+  'koulutustyyppi_1': 60,
+  'koulutustyyppi_11': 61,
+  'koulutustyyppi_12': 62,
+  'koulutustyyppi_5': 64,
+  'koulutustyyppi_18': 63,
+  'koulutustyyppi_14': 51,
+  'koulutustyyppi_15': 20,
+  'koulutustyyppi_16': 30,
+  'koulutustyyppi_17': 31,
+  'koulutustyyppi_2': 50,
+  'koulutustyyppi_20': 10,
+  'koulutustyyppi_22': 32,
+  'koulutustyyppi_23': 52,
+  'koulutustyyppi_6': 34,
+  'koulutustyyppi_999907': 40,
+  'koulutustyyppi_10': 70,
+  'koulutustyyppi_30': 90,
+  'koulutustyyppi_35': 71,
+  'koulutustyyppi_40': 80,
+  'koulutustyyppi_muu': 100,
+};
+
 export const themeColors = {
   'etusivu': [0, 0, 0],
   'ammatillinen': [0, 136, 0],
