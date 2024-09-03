@@ -4352,10 +4352,11 @@
     "vuosiluokka_8-luokka": "8. luokka",
     "vuosiluokka_9-luokka": "9. luokka",
     "tavoitteet-sisallot-ja-arviointi": "Tavoitteet, sisällöt ja arviointi",
-    "nayta-vain-seuraavat-tavoitteen-osiot": "Näytä vain seuraavat tavoitteen osiot",
+    "tavoitteen-osiot": "Tavoitteen osiot",
     "tutkinnon-osa-liitetty-rakenteeseen": "Tutkinnon osa on tutkinnon muodostumisen rakenteessa, tutkinnon osaa ei voi poistaa. Tutkinnon osa pitää ottaa ensin irti tutkinnon muodostumisen rakenteesta.",
     "tavoitteet-sisallot-ja-arviointi-ei-vuosiluokkia": "Opetussuunnitelman vuosiluokille ei ole lisätty oppiaineiden tavoitteita",
     "vapaatavoitteiset_ei_jotpa": "Vapaatavoitteiset (ei Jotpa)",
     "kops": "KOPS",
-    "osaamisen_arvioinnin_toteutussuunnitelma": "Osaamisen arvioinnin toteutussuunnitelma"
+    "osaamisen_arvioinnin_toteutussuunnitelma": "Osaamisen arvioinnin toteutussuunnitelma",
+    "tavoitteet-sisallot-ja-arviointi-ohje": "Valitse vuosiluokka, jonka tavoitteita ja sisältöjä haluat tarkastella. <br/>Katso tarkemmat tavoitekohtaiset sisällöt ja arviointikriteerit valitsemalla oppiaine tai oppimäärä."
 }

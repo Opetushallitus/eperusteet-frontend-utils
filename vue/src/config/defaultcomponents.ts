@@ -10,6 +10,7 @@ import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import EpExternalLink from '@shared/components/EpExternalLink/EpExternalLink.vue';
 import EpInfoBanner from '@shared/components/EpInfoBanner/EpInfoBanner.vue';
 import EpCollapse from '@shared/components/EpCollapse/EpCollapse.vue';
+import EpPaikallinenTarkennus from '@shared/components/EpPaikallinenTarkennus/EpPaikallinenTarkennus.vue';
 
 Vue.component('EpMaterialIcon', EpMaterialIcon);
 Vue.component('EpToggle', EpToggle);
@@ -22,3 +23,4 @@ Vue.component('EpSpinner', EpSpinner);
 Vue.component('EpExternalLink', EpExternalLink);
 Vue.component('EpInfoBanner', EpInfoBanner);
 Vue.component('EpCollapse', EpCollapse);
+Vue.component('EpPaikallinenTarkennus', EpPaikallinenTarkennus);
