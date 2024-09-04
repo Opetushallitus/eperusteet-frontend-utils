@@ -17,7 +17,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Kielet } from '@shared/stores/kieli';
 import { PerusteDto } from '@shared/api/eperusteet';
 import { koulutustyyppiTheme } from '@shared/utils/perusteet';
-import { buildPerusteEsikatseluUrl, buildEsikatseluUrl } from '@shared/utils/esikatselu';
+import { buildPerusteEsikatseluUrl, buildEsikatseluUrl, buildToteutussuunnitelmaEsikatseluUrl } from '@shared/utils/esikatselu';
 
 interface Esikatseltavissa {
   id: number;
@@ -95,20 +95,12 @@ export default class EpEsikatselu extends Vue {
     }
 
     if (this.toteutussuunnitelma) {
-      return buildEsikatseluUrl(Kielet.getSisaltoKieli.value, `/toteutussuunnitelma/${this.value.id}`, `/${this.toteutussuunnitelmaToteutus(this.value, this.amosaaToteutustyyppi)}`);
+      return buildToteutussuunnitelmaEsikatseluUrl(this.value, this.amosaaToteutustyyppi);
     }
-  }
-
-  toteutussuunnitelmaToteutus(toteutussuunnitelma, toteutus) {
-    if (toteutussuunnitelma.jotpatyyppi === 'MUU') {
-      return 'muukoulutus';
-    }
-
-    return toteutus;
   }
 
   get amosaaToteutustyyppi() {
-    return (this.$router as any).params.toteutus;
+    return (this.$route as any).params.toteutus;
   }
 }
 </script>
