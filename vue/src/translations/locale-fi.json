@@ -4358,5 +4358,14 @@
     "vapaatavoitteiset_ei_jotpa": "Vapaatavoitteiset (ei Jotpa)",
     "kops": "KOPS",
     "osaamisen_arvioinnin_toteutussuunnitelma": "Osaamisen arvioinnin toteutussuunnitelma",
-    "tavoitteet-sisallot-ja-arviointi-ohje": "Valitse vuosiluokka, jonka tavoitteita ja sisältöjä haluat tarkastella. <br/>Katso tarkemmat tavoitekohtaiset sisällöt ja arviointikriteerit valitsemalla oppiaine tai oppimäärä."
+    "tavoitteet-sisallot-ja-arviointi-ohje": "Valitse vuosiluokka, jonka tavoitteita ja sisältöjä haluat tarkastella. <br/>Katso tarkemmat tavoitekohtaiset sisällöt ja arviointikriteerit valitsemalla oppiaine tai oppimäärä.",
+    "esikatsele-peruste": "Esikatsele perustetta",
+    "esikatsele-opas": "Esikatsele opasta",
+    "esikatsele-opetussuunnitelma": "Esikatsele opetussuunnitelmaa",
+    "esikatsele-toteutussuunnitelma": "Esikatsele toteutussuunnitelmaa",
+    "salli-esikatselu-peruste": "Salli perusteen esikatselu",
+    "salli-esikatselu-opas": "Salli oppaan esikatselu",
+    "salli-esikatselu-opetussuunnitelma": "Salli opetussuunnitelman esikatselu",
+    "salli-esikatselu-toteutussuunnitelma": "Salli toteutussuunnitelman esikatselu",
+    "et-ole-sallinut-esikatselua": "Et ole sallinut esikatselua"
 }
