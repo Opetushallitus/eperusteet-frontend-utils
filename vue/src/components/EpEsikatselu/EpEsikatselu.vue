@@ -1,6 +1,6 @@
 <template>
   <div >
-    <h3>{{$t(header)}}</h3>
+    <label class="font-weight-600">{{$t(header)}}</label>
     <ep-toggle v-model="model.esikatseltavissa" :is-editing="isEditing" v-if="isEditing" :class="{'disabled-events': model.tila === 'poistettu'}">
       {{$t(toggleText)}}
     </ep-toggle>
@@ -14,11 +14,10 @@
 <script lang="ts">
 import * as _ from 'lodash';
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { buildEsikatseluUrl } from '@shared/utils/esikatselu';
 import { Kielet } from '@shared/stores/kieli';
 import { PerusteDto } from '@shared/api/eperusteet';
-import { koulutustyyppiTheme, tyyppiTheme } from '@shared/utils/perusteet';
-import { buildPerusteEsikatseluUrl } from '@shared/utils/esikatselu';
+import { koulutustyyppiTheme } from '@shared/utils/perusteet';
+import { buildPerusteEsikatseluUrl, buildEsikatseluUrl } from '@shared/utils/esikatselu';
 
 interface Esikatseltavissa {
   id: number;
