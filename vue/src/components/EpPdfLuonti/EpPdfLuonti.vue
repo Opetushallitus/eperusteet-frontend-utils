@@ -80,10 +80,6 @@ export default class EpPdfLuonti extends Vue {
   get julkaisudokumenttiJaDokumenttiSamat() {
     return this.dokumenttiJulkaisu && this.dokumentti?.id === this.dokumenttiJulkaisu?.id;
   }
-
-  get hasKvLiite() {
-    return this.dokumentti?.generatorVersion === 'kvliite';
-  }
 }
 
 </script>
