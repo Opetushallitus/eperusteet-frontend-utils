@@ -1,21 +1,23 @@
 <template>
   <div>
-    <EpPdfDokumentti v-if="dokumenttiJulkaisu"
+    <EpPdfDokumentti v-if="dokumenttiJulkaisu && !hasKvLiite"
                      :dokumentti="dokumenttiJulkaisu"
                      :dokumentti-href="dokumenttiJulkaisuHref"
                      :is-polling="false"
                      :pdfnimi="pdfnimi">
     </EpPdfDokumentti>
-    <hr v-if="!julkaisudokumenttiJaDokumenttiSamat">
-    <EpPdfDokumentti
-      v-if="!julkaisudokumenttiJaDokumenttiSamat"
-      :dokumentti="dokumentti"
-      :dokumentti-href="dokumenttiHref"
-      :is-polling="isPolling"
-      :pdfnimi="pdfnimi">
+    <hr v-if="!julkaisudokumenttiJaDokumenttiSamat && !hasKvLiite">
+    <EpPdfDokumentti v-if="!julkaisudokumenttiJaDokumenttiSamat"
+                     :dokumentti="dokumentti"
+                     :dokumentti-href="dokumenttiHref"
+                     :is-polling="isPolling"
+                     :pdfnimi="pdfnimi">
     </EpPdfDokumentti>
     <div class="btn-group">
-      <ep-button @click="luoPdf" :disabled="isPolling || !dokumentti" :show-spinner="isPolling" buttonClass="px-5"><span>{{ $t('luo-uusi-pdf') }}</span></ep-button>
+      <ep-button @click="luoPdf"
+                 :disabled="isPolling || !dokumentti"
+                 :show-spinner="isPolling"
+                 buttonClass="px-5"><span>{{ $t('luo-uusi-pdf') }}</span></ep-button>
     </div>
   </div>
 </template>
@@ -74,6 +76,10 @@ export default class EpPdfLuonti extends Vue {
 
   get julkaisudokumenttiJaDokumenttiSamat() {
     return this.dokumenttiJulkaisu && this.dokumentti?.id === this.dokumenttiJulkaisu?.id;
+  }
+
+  get hasKvLiite() {
+    return this.dokumentti?.generatorVersion === 'kvliite';
   }
 }
 
