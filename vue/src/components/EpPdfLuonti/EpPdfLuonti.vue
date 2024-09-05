@@ -1,12 +1,12 @@
 <template>
   <div>
-    <EpPdfDokumentti v-if="dokumenttiJulkaisu && !hasKvLiite"
+    <EpPdfDokumentti v-if="dokumenttiJulkaisu && naytaJulkaistu"
                      :dokumentti="dokumenttiJulkaisu"
                      :dokumentti-href="dokumenttiJulkaisuHref"
                      :is-polling="false"
                      :pdfnimi="pdfnimi">
     </EpPdfDokumentti>
-    <hr v-if="!julkaisudokumenttiJaDokumenttiSamat && !hasKvLiite">
+    <hr v-if="!julkaisudokumenttiJaDokumenttiSamat && naytaJulkaistu">
     <EpPdfDokumentti v-if="!julkaisudokumenttiJaDokumenttiSamat"
                      :dokumentti="dokumentti"
                      :dokumentti-href="dokumenttiHref"
@@ -41,6 +41,9 @@ export default class EpPdfLuonti extends Vue {
 
   @Prop({ required: true })
   protected pdfnimi!: string;
+
+  @Prop({ required: false, default: true })
+  protected naytaJulkaistu!: boolean;
 
   get dokumentti() {
     if (this.store) {
