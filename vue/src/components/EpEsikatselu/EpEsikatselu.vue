@@ -1,8 +1,14 @@
 <template>
   <div >
-    <label class="font-weight-600">{{$t(header)}}</label>
+    <label class="font-weight-600">
+      <slot name="header">
+        {{$t(header)}}
+      </slot>
+    </label>
     <ep-toggle v-model="model.esikatseltavissa" :is-editing="isEditing" v-if="isEditing" :class="{'disabled-events': model.tila === 'poistettu'}">
-      {{$t(toggleText)}}
+      <slot name="toggle-text">
+        {{$t(toggleText)}}
+      </slot>
     </ep-toggle>
     <ep-external-link :url="externalUrl" v-if="!isEditing && model.esikatseltavissa"/>
     <div v-if="!isEditing && !model.esikatseltavissa">
