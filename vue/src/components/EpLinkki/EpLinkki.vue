@@ -3,9 +3,10 @@
   <a :href="url"
      rel="noopener noreferrer"
      target="_blank">
-    <EpMaterialIcon v-if="icon" class="mr-1" size="18px">{{ icon }}</EpMaterialIcon>
+    <EpMaterialIcon v-if="icon && !iconRight" class="mr-1" size="18px">{{ icon }}</EpMaterialIcon>
     <slot v-if="hasSlot()"></slot>
     <span v-else>{{ cleanUrl }}</span>
+    <EpMaterialIcon v-if="icon && iconRight" class="ml-1" size="18px">{{ icon }}</EpMaterialIcon>
   </a>
 </div>
 </template>
@@ -37,6 +38,12 @@ export default class EpLinkki extends Vue {
     type: Boolean,
   })
   private onlyTopLevel!: boolean;
+
+  @Prop({
+    default: false,
+    type: Boolean,
+  })
+  private iconRight!: boolean;
 
   hasSlot() {
     return !!this.$slots.default;
