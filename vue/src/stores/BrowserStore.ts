@@ -50,4 +50,10 @@ export class BrowserStore {
   public readonly activeElement = computed(() => state.focused?.target);
   public readonly latestKeypress = computed(() => state.latestKeypress);
   public readonly navigationVisible = computed(() => state.window.width > 991);
+
+  public static location = Vue.observable({ href: '' });
+
+  public static changeLocation(href: string) {
+    BrowserStore.location.href = href;
+  }
 }

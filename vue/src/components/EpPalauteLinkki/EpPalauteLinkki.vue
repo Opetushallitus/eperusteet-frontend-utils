@@ -11,6 +11,7 @@
 import * as _ from 'lodash';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Maintenance } from '@shared/api/eperusteet';
+import { BrowserStore } from '@shared/stores/BrowserStore';
 
 @Component
 export default class EpPalauteLinkki extends Vue {
@@ -29,7 +30,11 @@ export default class EpPalauteLinkki extends Vue {
   }
 
   get url() {
-    return this.yllapitoValue + '/?ref=' + encodeURIComponent(location.href);
+    return this.yllapitoValue + '/?ref=' + encodeURIComponent(this.browserLocationHref);
+  }
+
+  get browserLocationHref() {
+    return BrowserStore.location.href;
   }
 }
 </script>
