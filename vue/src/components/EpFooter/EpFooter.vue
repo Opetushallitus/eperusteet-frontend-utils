@@ -1,6 +1,6 @@
 <template>
 <footer>
-  <div class="footer-content">
+  <div class="footer-content link-style">
     <div class="row">
       <div class="col-lg col-slot">
         <img src="@assets/img/banners/oph_logo.svg" slot="footer-logo" :alt="$t('oph')" />
@@ -17,7 +17,20 @@
         <p class="linkki-kuvaus">{{ $t('eperusteet') }}</p>
         <ep-linkki :url="$kaanna(linkit.eperusteet)" icon="launch"></ep-linkki>
       </div>
-      <div class="col-md col-slot"><a :href="$kaanna(linkit.seloste)">{{ $t('tietosuojaseloste') }}</a></div>
+      <div class="col-md col-slot">
+        <slot name="palaute" />
+        <div class="d-flex link-style">
+          <EpMaterialIcon>chevron_right</EpMaterialIcon>
+          <EpExternalLink :url="$kaanna(linkit.yhteystiedot)" :showIcon="false">
+            {{ $t('yhteystiedot') }}: {{ yhteystiedotMail }}</EpExternalLink>
+        </div>
+        <div class="d-flex link-style">
+          <EpMaterialIcon>chevron_right</EpMaterialIcon>
+          <EpExternalLink :url="$kaanna(linkit.seloste)" :showIcon="false">
+            {{ $t('tietosuojaseloste') }}
+          </EpExternalLink>
+        </div>
+      </div>
     </div>
   </div>
 </footer>
@@ -27,6 +40,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 import EpLinkki from '@shared/components/EpLinkki/EpLinkki.vue';
+import EpExternalLink from '../EpExternalLink/EpExternalLink.vue';
 
 @Component({
   name: 'EpFooter',
@@ -53,7 +67,15 @@ export default class EpFooter extends Vue {
         fi: 'https://opintopolku.fi/wp/tietosuojaseloste',
         sv: 'https://studieinfo.fi/wp/dataskyddsbeskrivning/',
       },
+      yhteystiedot: {
+        fi: 'mailto:' + this.yhteystiedotMail,
+        sv: 'mailto:' + this.yhteystiedotMail,
+      },
     };
+  }
+
+  get yhteystiedotMail() {
+    return 'eperusteet@opintopolku.fi';
   }
 }
 </script>

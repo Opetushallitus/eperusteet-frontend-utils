@@ -4,7 +4,8 @@
       :url="url"
       :label="label"
       :icon="icon"
-      :only-top-level="onlyTopLevel">
+      :only-top-level="onlyTopLevel"
+      :iconRight="iconRight">
     <slot></slot>
   </ep-linkki>
 </template>
@@ -39,6 +40,12 @@ export default class EpExternalLink extends Vue {
     type: Boolean,
   })
   private onlyTopLevel!: boolean;
+
+  @Prop({
+    default: false,
+    type: Boolean,
+  })
+  private iconRight!: boolean;
 
   get icon() {
     if (this.showIcon) {

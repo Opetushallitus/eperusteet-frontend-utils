@@ -10,6 +10,7 @@ module.exports = {
     },
   },
   setupFiles: [
+    '<rootDir>/src/config/defaultcomponents.ts',
   ],
   coverageReporters: [
     'text-summary',
