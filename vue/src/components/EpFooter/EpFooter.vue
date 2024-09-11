@@ -18,9 +18,7 @@
         <ep-linkki :url="$kaanna(linkit.eperusteet)" icon="launch"></ep-linkki>
       </div>
       <div class="col-md col-slot">
-        <div>
-          <slot name="palaute" />
-        </div>
+        <slot name="palaute" />
         <div class="d-flex link-style">
           <EpMaterialIcon>chevron_right</EpMaterialIcon>
           <EpExternalLink :url="$kaanna(linkit.yhteystiedot)" :showIcon="false">
