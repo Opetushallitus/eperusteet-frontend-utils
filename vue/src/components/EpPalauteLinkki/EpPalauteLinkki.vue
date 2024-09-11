@@ -29,7 +29,7 @@ export default class EpPalauteLinkki extends Vue {
   }
 
   get url() {
-    return this.yllapitoValue + '?ref=' + encodeURIComponent(location.href);
+    return this.yllapitoValue + '/?ref=' + encodeURIComponent(location.href);
   }
 }
 </script>
