@@ -4479,5 +4479,10 @@
     "kirjoita-viestisi-tahan": "Kirjoita viestisi tähän...",
     "opsai-keskustelun-avaus": "Moi! Olen Ops.AI, opetussuunnitelmarobotti.\nVoit kysyä minulta opetussuunnitelman sisällöstä. Vastaan parhaiten, kun kirjoitat lyhyen ja selkeän kysymyksen.\nMitä haluaisit tietää?",
     "opsai-keskustele-opetussuunnitelma": "Keskustele opetussuunnitelmasta tekoälyn kanssa",
-    "opsai-keskustele-peruste": "Keskustele perusteesta tekoälyn kanssa"
+    "opsai-keskustele-peruste": "Keskustele perusteesta tekoälyn kanssa",
+    "kerro-mita-pidit-vastauksesta": "Kerro, mitä pidit vastauksesta",
+    "opsai-tekstipalaute": "Kiitos! Voit halutessasi vielä antaa vapaamuotoisen palautteen",
+    "opsai-palaute-kiitos": "Kiitos palautteestasi!",
+    "kirjoita-palaute-tahan": "Kirjoita palaute tähän...",
+    "anna-vapaamuotoinen-palaute": "Anna vapaamuotoinen palaute"
 }

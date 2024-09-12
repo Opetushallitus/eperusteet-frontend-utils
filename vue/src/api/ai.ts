@@ -28,16 +28,20 @@ function initApi<T>(X: BaseAPIConstructor<T>): T {
   return new X(configuration, basePath, ax);
 }
 
+export import FeedbackDtoResultEnum = AiApi.FeedbackDtoResultEnum;
+
 export const Api = ax;
 
 export const AssistantApi = initApi(AiApi.AssistantApi);
 export const ChatApi = initApi(AiApi.ChatApi);
 export const FileApi = initApi(AiApi.FileApi);
 export const ModelApi = initApi(AiApi.ModelApi);
-export const HistoryApi = initApi(AiApi.HistoryApi);
+export const MessageApi = initApi(AiApi.MessageApi);
 
 export type Thread = AiApi.Thread;
 export type Assistant = AiApi.Assistant;
-export type Message = AiApi.Message;
+export type OpenaiMessage = AiApi.OpenaiMessage;
 export type Run = AiApi.Run;
 export type Model = AiApi.Model;
+export type MessageDto = AiApi.MessageDto;
+export type FeedbackDto = AiApi.FeedbackDto;
