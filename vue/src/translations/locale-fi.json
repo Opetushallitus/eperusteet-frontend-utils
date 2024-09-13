@@ -4368,5 +4368,10 @@
     "salli-esikatselu-opetussuunnitelma": "Salli opetussuunnitelman esikatselu",
     "salli-esikatselu-toteutussuunnitelma": "Salli toteutussuunnitelman esikatselu",
     "et-ole-sallinut-esikatselua": "Et ole sallinut esikatselua",
-    "lisatoiminnot": "Lisätoiminnot"
+    "lisatoiminnot": "Lisätoiminnot",
+    "aseta-peruste-valmiiksi-info": "Aseta peruste Valmis-tilaan (YTO-perusteet).",
+    "avaa-peruste-info": "Aseta peruste Laadinta-tilaan, jolloin rakennemuutokset ovat sallittuja.",
+    "koodita-peruste-info": "Lisää perusteen koodittamattomat sisällöt koodistoon.",
+    "nollaa-julkaisu-tila-info": "Tyhjennä virheellinen julkaisun tila.",
+    "pakota-julkaisu-info": "Tee uusi julkaisu ohittaen validoinnit."
 }
