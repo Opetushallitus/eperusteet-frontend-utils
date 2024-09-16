@@ -4375,5 +4375,17 @@
     "tekstikappale-poisto-vahvistus-ala-ops": "Tekstikappale on käytössä {alaOpsLkm} opetussuunnitelmassa. Poistetaanko tekstikappale?",
     "kopioi-sisallot": "Kopioi sisällöt",
     "route-perusopetuspaikallinenoppiaine": "Valinnainen oppiaine",
-    "tekstikappale-poistettu": "Tekstikappale poistettu"
+    "tekstikappale-poistettu": "Tekstikappale poistettu",
+    "valittu-kunta-kopio-huomio": "Pohjan sisällöt kopioidaan uuteen opetussuunnitelmaan. Pohjaan tämän jälkeen tehdyt muutokset eivät enää päivity uuteen opetussuunnitelmaasi.",
+    "valittu-oppilaitos-kopio-huomio": "Olet valinnut pohjaksi oppilaitoksen opetussuunnitelman. Pohjan sisällöt kopioidaan uuteen opetussuunnitelmaan. Valittuun pohjaan tämän jälkeen tehdyt muutokset eivät enää päivity uuteen opetussuunnitelmaasi. ",
+    "valittu-oppilaitos-viitteilla-huomio": "Olet valinnut pohjaksi kunnan opetussuunnitelman. Valtakunnallisen perusteen ja pohjan muutokset päivittyvät automaattisesti opetussuunnitelmaasi kunnan opetussuunnitelmasta.",
+    "valittu-opetussuunnitelma-kopio-huomio": "Huom! Valitulla oppilaitoksen opetussuunnitelmalla on kunnan pohja. Valtakunnallisen perusteen ja kunnan pohjan muutokset päivittyvät automaattisesti opetussuunnitelmaasi kunnan opetussuunnitelmasta: ",
+    "mita-haluat-luoda": "Mitä haluat luoda",
+    "kunnan-tai-koulutuksen-jarjestajan-opetussuunnitelman": "Kunnan tai koulutuksen järjestäjän opetussuunnitelman",
+    "oppilaitoksen-opetussuunnitelman": "Oppilaitoksen opetussuunnitelman",
+    "vain-perustetta": "Vain perustetta",
+    "valitse-opetussuunnitelma": "Valitse opetussuunnitelma",
+    "ylops-tervetuloa-kuvaus": "Tämän työkalun avulla voit hallita organisaatiosi varhaiskasvatussuunnitelmia ja opetussuunnitelmia esiopetukseen, perusopetukseen, lukioon ja taiteen perusopetukseen.",
+    "ylops-uusi-opetussuunnitelma-ohje": "<p>Voit luoda varhaiskasvatussuunnitelman tai opetussuunnitelman esiopetukseen, perusopetukseen, lukioon tai taiteen perusopetukseen joko kunnalle tai oppilaitokselle.</p><p>Uuden suunnitelman pohjana voit käyttää valtakunnallista perustetta tai toista suunnitelmaa.</p> ",
+    "organisaatio-valinta-organisaatio-huomio": "<p>Kunnat -valinta rajaa kuntien koulutuksen järjestäjien ja oppilaitosten listausta. Valittujen koulutuksenjärjestäjien ja oppilaitosten virkailijat saavat oikeuksiensa mukaisesti käyttöoikeuden opetussuunnitelmaan. Tiedot näytetään julkisella puolella opetussuunnitelman tiedoissa.</p><p>Jos olet luomassa kunnan suunnitelmaa, voit olla valitsematta yhtään oppilaitosta tai useamman kuin oppilaitoksen. Jos olet luomassa oppilaitoksen suunnitelmaa voi valita vain yhden oppilaitoksen.</p>"
 }
