@@ -71,6 +71,7 @@
   <div class="invalid-feedback" v-else-if="validationError && invalidMessage ">{{ $t(invalidMessage) }}</div>
   <div class="invalid-feedback" v-else-if="validationError && !invalidMessage">{{ $t('validation-error-' + validationError, validation.$params[validationError]) }}</div>
   <small class="form-text text-muted" v-if="help">{{ $t(help) }}</small>
+  <slot name="helptext"></slot>
 </div>
 </template>
 
