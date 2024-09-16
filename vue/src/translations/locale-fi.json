@@ -4484,5 +4484,11 @@
     "opsai-tekstipalaute": "Kiitos! Voit halutessasi vielä antaa vapaamuotoisen palautteen",
     "opsai-palaute-kiitos": "Kiitos palautteestasi!",
     "kirjoita-palaute-tahan": "Kirjoita palaute tähän...",
-    "anna-vapaamuotoinen-palaute": "Anna vapaamuotoinen palaute"
+    "anna-vapaamuotoinen-palaute": "Anna vapaamuotoinen palaute",
+    "ops.ai": "Ops.Ai",
+    "keskustelun-aikavali": "Keskustelun aikaväli",
+    "sisaltotyyppi": "Sisältötyyppi",
+    "nayta-vain-palautteita-sisaltavat-keskustelut": "Näytä vain palautteita sisältävät keskustelut",
+    "naytetaan-x-keskustelua": "Näytetään {kpl} keskustelua",
+    "ops-tai-totsu": "Ops tai totsu"
 }
