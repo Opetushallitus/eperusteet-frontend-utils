@@ -45,5 +45,4 @@ export type Run = AiApi.Run;
 export type Model = AiApi.Model;
 export type MessageDto = AiApi.MessageDto;
 export type FeedbackDto = AiApi.FeedbackDto;
-export const HistoryApi = initApi(AiApi.HistoryApi);
-
+export type ThreadMessagesDto = AiApi.ThreadMessagesDto;
