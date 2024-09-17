@@ -4490,5 +4490,8 @@
     "sisaltotyyppi": "Sisältötyyppi",
     "nayta-vain-palautteita-sisaltavat-keskustelut": "Näytä vain palautteita sisältävät keskustelut",
     "naytetaan-x-keskustelua": "Näytetään {kpl} keskustelua",
-    "ops-tai-totsu": "Ops tai totsu"
+    "ops-tai-totsu": "Ops tai totsu",
+    "tile-opsai": "Ops.Ai",
+    "tile-opsai-kuvaus": "Ops.Ai keskusteluhistoria",
+    "route-opsai": "Ops.Ai"
 }

@@ -46,3 +46,4 @@ export type Model = AiApi.Model;
 export type MessageDto = AiApi.MessageDto;
 export type FeedbackDto = AiApi.FeedbackDto;
 export type ThreadMessagesDto = AiApi.ThreadMessagesDto;
+export type PageThreadMessagesDto = AiApi.PageThreadMessagesDto;
