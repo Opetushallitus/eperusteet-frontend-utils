@@ -4387,5 +4387,10 @@
     "valitse-opetussuunnitelma": "Valitse opetussuunnitelma",
     "ylops-tervetuloa-kuvaus": "Tämän työkalun avulla voit hallita organisaatiosi varhaiskasvatussuunnitelmia ja opetussuunnitelmia esiopetukseen, perusopetukseen, lukioon ja taiteen perusopetukseen.",
     "ylops-uusi-opetussuunnitelma-ohje": "<p>Voit luoda varhaiskasvatussuunnitelman tai opetussuunnitelman esiopetukseen, perusopetukseen, lukioon tai taiteen perusopetukseen joko kunnalle tai oppilaitokselle.</p><p>Uuden suunnitelman pohjana voit käyttää valtakunnallista perustetta tai toista suunnitelmaa.</p> ",
-    "organisaatio-valinta-organisaatio-huomio": "<p>Kunnat -valinta rajaa kuntien koulutuksen järjestäjien ja oppilaitosten listausta. Valittujen koulutuksenjärjestäjien ja oppilaitosten virkailijat saavat oikeuksiensa mukaisesti käyttöoikeuden opetussuunnitelmaan. Tiedot näytetään julkisella puolella opetussuunnitelman tiedoissa.</p><p>Jos olet luomassa kunnan suunnitelmaa, voit olla valitsematta yhtään oppilaitosta tai useamman kuin oppilaitoksen. Jos olet luomassa oppilaitoksen suunnitelmaa voi valita vain yhden oppilaitoksen.</p>"
+    "organisaatio-valinta-organisaatio-huomio": "<p>Kunnat -valinta rajaa kuntien koulutuksen järjestäjien ja oppilaitosten listausta. Valittujen koulutuksenjärjestäjien ja oppilaitosten virkailijat saavat oikeuksiensa mukaisesti käyttöoikeuden opetussuunnitelmaan. Tiedot näytetään julkisella puolella opetussuunnitelman tiedoissa.</p><p>Jos olet luomassa kunnan suunnitelmaa, voit olla valitsematta yhtään oppilaitosta tai useamman kuin oppilaitoksen. Jos olet luomassa oppilaitoksen suunnitelmaa voi valita vain yhden oppilaitoksen.</p>",
+    "aseta-peruste-valmiiksi-info": "Aseta peruste Valmis-tilaan (YTO-perusteet).",
+    "avaa-peruste-info": "Aseta peruste Laadinta-tilaan, jolloin rakennemuutokset ovat sallittuja.",
+    "koodita-peruste-info": "Lisää perusteen koodittamattomat sisällöt koodistoon.",
+    "nollaa-julkaisu-tila-info": "Tyhjennä virheellinen julkaisun tila.",
+    "pakota-julkaisu-info": "Tee uusi julkaisu ohittaen validoinnit."
 }
