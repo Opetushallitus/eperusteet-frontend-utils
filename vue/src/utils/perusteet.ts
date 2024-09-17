@@ -45,7 +45,6 @@ export const AmmatillisetKoulutustyypit = [
 
 export const VapaasivistystyoKoulutustyypit = [
   'koulutustyyppi_10',
-  'koulutustyyppi_30',
   'koulutustyyppi_35',
 ];
 

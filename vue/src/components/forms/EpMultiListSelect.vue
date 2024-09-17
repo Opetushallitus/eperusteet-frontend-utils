@@ -128,6 +128,13 @@ export default class EpMultiListSelect extends Mixins(EpValidation) {
   @Prop({ required: false, default: () => _.isEqual })
   private equality!: Function;
 
+  @Watch('value', { immediate: true })
+  valueChange(value: any) {
+    if ((_.isArray(value) && _.isEmpty(value))) {
+      this.innerModels = [];
+    }
+  }
+
   private updateValue() {
     if (this.multiple) {
       this.$emit('input', [...this.innerModelsValues]);
