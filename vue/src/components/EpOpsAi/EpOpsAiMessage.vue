@@ -1,7 +1,7 @@
 <template>
   <div
     class="message"
-    :class="'role-'+message.role"
+    :class="{['role-' + message.role]: true, 'no-edit': !isEditing}"
     :ref="message.lastMessage ? 'lastMessage' : message.messageId">
     <EpSpinner v-if="prosessingMessage && message.lastMessage" class="mr-auto"/>
     <div class="d-flex" v-else>
@@ -21,39 +21,46 @@
     <div v-html="message.content"></div>
     <div class="mt-1 d-flex align-items-center" v-if="message.createdAt">
       <span class="message-sent">{{$t('lahetetty')}}: {{$sdt(message.createdAt)}}</span>
-      <template v-if="message.threadId && message.role !== 'user' && !feedbackDisabled">
-        <span class="ml-2">|</span>
-        <span class="ml-2">{{$t('kerro-mita-pidit-vastauksesta')}}:</span>
-        <div class="d-inline-block ml-2 link-style clickable" @click="feedbackResult(message, positiveFeedback)">
-          <EpMaterialIcon class="thumb" :outlined="message.feedback?.result !== positiveFeedback">thumb_up</EpMaterialIcon>
-        </div>
-        <div class="d-inline-block ml-2 link-style clickable" @click="feedbackResult(message, negativeFeedback)">
-          <EpMaterialIcon class="thumb" :outlined="message.feedback?.result !== negativeFeedback">thumb_down</EpMaterialIcon>
-        </div>
+      <template v-if="isEditing">
+        <template v-if="message.threadId && message.role !== 'user'">
+          <span class="ml-2">|</span>
+          <span class="ml-2">{{$t('kerro-mita-pidit-vastauksesta')}}:</span>
+          <div class="d-inline-block ml-2 link-style clickable" @click="sendFeedbackResult(positiveFeedback)">
+            <EpMaterialIcon class="thumb" :outlined="feedbackResult !== positiveFeedback">thumb_up</EpMaterialIcon>
+          </div>
+          <div class="d-inline-block ml-2 link-style clickable" @click="sendFeedbackResult(negativeFeedback)">
+            <EpMaterialIcon class="thumb" :outlined="feedbackResult !== negativeFeedback">thumb_down</EpMaterialIcon>
+          </div>
+        </template>
+        <EpButton
+          v-if="feedbackResult && !feedbackOpen && !message.feedback.comment"
+          class="ml-3 vapaa-palaute-link"
+          variant="link"
+          size="sm"
+          @click="openFeedback()"
+          :paddingx="false">
+          {{ $t('anna-vapaamuotoinen-palaute') }}
+        </EpButton>
       </template>
-      <EpButton
-        v-if="message.feedback?.result && !feedbackOpen && !message.feedback?.comment"
-        class="ml-3 vapaa-palaute-link"
-        variant="link"
-        size="sm"
-        @click="openFeedback()"
-        :paddingx="false">
-        {{ $t('anna-vapaamuotoinen-palaute') }}
-      </EpButton>
     </div>
-    <div class="mt-2" v-if="message.feedback?.result">
-      <div class="font-weight-600">
+    <div class="mt-2" v-if="feedbackResult">
+      <div class="font-weight-600" v-if="isEditing">
         <template v-if="feedbackOpen">
           {{ $t('opsai-tekstipalaute') }}:
           <div class="d-flex w-100 mt-1">
             <b-form-input class="mr-auto" v-model="message.feedback.comment" :placeholder="$t('kirjoita-palaute-tahan')"></b-form-input>
-            <EpButton class="ml-2" @click="feedback(message)" variant="primary">{{$t('laheta')}}</EpButton>
+            <EpButton class="ml-2" @click="sendFeedback()" variant="primary">{{$t('laheta')}}</EpButton>
             <EpButton variant="link" @click="closeFeedback()" :paddingx="false">{{$t('sulje')}}</EpButton>
           </div>
         </template>
         <template v-else>
           {{ $t('opsai-palaute-kiitos') }}
         </template>
+      </div>
+      <div v-else class="d-flex no-edit feedback p-2">
+        <EpMaterialIcon v-if="feedbackResult === positiveFeedback" class="feedback-thumb" >thumb_up</EpMaterialIcon>
+        <EpMaterialIcon v-if="feedbackResult === negativeFeedback" class="feedback-thumb" >thumb_down</EpMaterialIcon>
+        <div class="font-weight-600 ml-2 feedback-comment">{{message.feedback.comment}}</div>
       </div>
     </div>
   </div>
@@ -77,7 +84,7 @@ export default class EpOpsAiMessage extends Vue {
   private prosessingMessage!: boolean;
 
   @Prop({ required: false, default: false, type: Boolean })
-  private feedbackDisabled!: boolean;
+  private isEditing!: boolean;
 
   positiveFeedback = FeedbackDtoResultEnum.POSITIVE;
   negativeFeedback = FeedbackDtoResultEnum.NEGATIVE;
@@ -91,14 +98,18 @@ export default class EpOpsAiMessage extends Vue {
     return this.value;
   }
 
-  feedbackResult(message: any, result: FeedbackDtoResultEnum) {
+  sendFeedbackResult(result: FeedbackDtoResultEnum) {
     this.openFeedback();
-    this.$emit('feedbackResult', { message, result });
+    this.message.feedback = {
+      ...(this.message.feedback && this.message.feedback),
+      result: result,
+    };
+    this.$emit('sendFeedback', this.message);
   }
 
-  feedback(message: any) {
+  sendFeedback() {
     this.closeFeedback();
-    this.$emit('feedback', message);
+    this.$emit('sendFeedback', this.message);
   }
 
   closeFeedback() {
@@ -107,6 +118,10 @@ export default class EpOpsAiMessage extends Vue {
 
   openFeedback() {
     this.feedbackOpen = true;
+  }
+
+  get feedbackResult() {
+    return this.message?.feedback?.result;
   }
 }
 </script>
@@ -125,6 +140,10 @@ export default class EpOpsAiMessage extends Vue {
     background-color: #C1EAFF;
     margin-left: auto !important;
     border-bottom-right-radius: 0;
+    &.no-edit {
+      width: 50%;
+      max-width: 50%;
+    }
   }
 
   &.role-assistant {
@@ -133,11 +152,28 @@ export default class EpOpsAiMessage extends Vue {
     margin-right: auto !important;
     background-color: $white;
     border-top-left-radius: 0;
+
+    &.no-edit {
+      background-color: #EDEDED;
+      width: 80%;
+      max-width: 80%;
+    }
   }
 
   .message-sent {
     font-size: 0.8rem;
     color: #999;
+  }
+
+  .feedback-thumb {
+    color: $blue-lighten-5;
+  }
+
+  .no-edit {
+    &.feedback {
+      background-color: $white;
+      border-radius: 0.5rem;
+    }
   }
 }
 
