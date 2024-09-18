@@ -25,22 +25,26 @@
         <template v-if="message.threadId && message.role !== 'user'">
           <span class="ml-2">|</span>
           <span class="ml-2">{{$t('kerro-mita-pidit-vastauksesta')}}:</span>
-          <div class="d-inline-block ml-2 link-style clickable" @click="sendFeedbackResult(positiveFeedback)">
-            <EpMaterialIcon class="thumb" :outlined="feedbackResult !== positiveFeedback">thumb_up</EpMaterialIcon>
-          </div>
-          <div class="d-inline-block ml-2 link-style clickable" @click="sendFeedbackResult(negativeFeedback)">
-            <EpMaterialIcon class="thumb" :outlined="feedbackResult !== negativeFeedback">thumb_down</EpMaterialIcon>
+          <div class="d-flex flex-column flex-lg-row">
+            <div class="d-flex">
+              <div class="d-inline-block ml-2 link-style clickable" @click="sendFeedbackResult(positiveFeedback)">
+                <EpMaterialIcon class="thumb" :outlined="feedbackResult !== positiveFeedback">thumb_up</EpMaterialIcon>
+              </div>
+              <div class="d-inline-block ml-2 link-style clickable" @click="sendFeedbackResult(negativeFeedback)">
+                <EpMaterialIcon class="thumb" :outlined="feedbackResult !== negativeFeedback">thumb_down</EpMaterialIcon>
+              </div>
+            </div>
+            <EpButton
+              v-if="feedbackResult && !feedbackOpen && !message.feedback.comment"
+              class="ml-3 vapaa-palaute-link"
+              variant="link"
+              size="sm"
+              @click="openFeedback()"
+              :paddingx="false">
+              {{ $t('anna-vapaamuotoinen-palaute') }}
+            </EpButton>
           </div>
         </template>
-        <EpButton
-          v-if="feedbackResult && !feedbackOpen && !message.feedback.comment"
-          class="ml-3 vapaa-palaute-link"
-          variant="link"
-          size="sm"
-          @click="openFeedback()"
-          :paddingx="false">
-          {{ $t('anna-vapaamuotoinen-palaute') }}
-        </EpButton>
       </template>
     </div>
     <div class="mt-2" v-if="feedbackResult">
