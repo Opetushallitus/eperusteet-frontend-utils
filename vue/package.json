@@ -8,6 +8,8 @@
     "gen:api": "./scripts/buildapi.sh",
     "gen:api:eperusteet": "./scripts/buildapi.sh -s eperusteet",
     "gen:api:ylops": "./scripts/buildapi.sh -s ylops",
+    "gen:api:amosaa": "./scripts/buildapi.sh -s amosaa",
+    "gen:api:ai": "./scripts/buildapi.sh -s ai",
     "lint": "vue-cli-service lint --no-fix",
     "lint:fix": "vue-cli-service lint",
     "styleguide": "vue-cli-service styleguidist",
