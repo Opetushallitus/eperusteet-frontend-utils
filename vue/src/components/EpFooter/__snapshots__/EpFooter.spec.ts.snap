@@ -23,7 +23,7 @@ exports[`EpFooter component Renders 1`] = `
               yhteystiedot: eperusteet@opintopolku.fi <!----></a></div>
         </div>
         <div class="d-flex link-style"><span aria-hidden="true" class="icon material-icons">chevron_right</span>
-          <div class="linkki medium"><a href="https://opintopolku.fi/wp/tietosuojaseloste" rel="noopener noreferrer" target="_blank"><!---->
+          <div class="linkki medium"><a href="https://opintopolku.fi/konfo/fi/sivu/tietosuojaselosteet-ja-evasteet" rel="noopener noreferrer" target="_blank"><!---->
               tietosuojaseloste
               <!----></a></div>
         </div>
