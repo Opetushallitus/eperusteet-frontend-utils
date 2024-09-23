@@ -64,8 +64,8 @@ export default class EpFooter extends Vue {
         sv: 'https://eperusteet.opintopolku.fi/#/sv',
       },
       seloste: {
-        fi: 'https://opintopolku.fi/wp/tietosuojaseloste',
-        sv: 'https://studieinfo.fi/wp/dataskyddsbeskrivning/',
+        fi: 'https://opintopolku.fi/konfo/fi/sivu/tietosuojaselosteet-ja-evasteet',
+        sv: 'https://opintopolku.fi/konfo/sv/sivu/dataskyddsbeskrivningar-och-webbkakor',
       },
       yhteystiedot: {
         fi: 'mailto:' + this.yhteystiedotMail,
