@@ -26,6 +26,11 @@ describe('EpPerusteContent', () => {
           fi: '<p>teksti1</p>',
         },
       },
+      pohjaObject: {
+        teksti: {
+          fi: '<p>pohjan tekstia</p>',
+        },
+      },
       object: {
         teksti: {
           fi: 'teksti2',
@@ -36,6 +41,9 @@ describe('EpPerusteContent', () => {
     await localVue.nextTick();
     expect(wrapper.html()).toContain('otsikko1');
     expect(wrapper.html()).toContain('teksti1');
+    expect(wrapper.html()).toContain('pohjan tekstia');
+
+    expect(wrapper.html()).toContain('paikallinen-teksti');
     expect(wrapper.html()).toContain('teksti2');
   });
 
@@ -72,8 +80,6 @@ describe('EpPerusteContent', () => {
     await localVue.nextTick();
     expect(wrapper.html()).toContain('otsikko1');
     expect(wrapper.html()).toContain('teksti1');
-
-    expect(wrapper.html()).toContain('paikallista-sisaltoa-ei-maaritetty');
   });
 
   it('No local text - editing', async () => {
@@ -95,7 +101,5 @@ describe('EpPerusteContent', () => {
     await localVue.nextTick();
     expect(wrapper.html()).toContain('otsikko1');
     expect(wrapper.html()).toContain('teksti1');
-
-    expect(wrapper.html()).not.toContain('paikallista-sisaltoa-ei-maaritetty');
   });
 });

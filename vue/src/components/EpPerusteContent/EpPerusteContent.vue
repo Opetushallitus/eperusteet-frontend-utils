@@ -15,12 +15,17 @@
 
     <div v-if="object && (naytaSisaltoTyhjana || hasContent)">
       <slot name="otsikko"></slot>
-      <h4>{{ $t('paikallinen-teksti') }}</h4>
-      <ep-content-viewer v-if="!isEditing && hasContent" :value="$kaanna(object[teksti])" :kuvat="kuvat" :termit="termit"/>
-      <ep-content v-else-if="isEditing || hasContent" v-model="object[teksti]"
-                    layout="normal"
-                    :is-editable="isEditing"></ep-content>
-      <ep-alert v-if="!isEditing && !hasContent" :text="$t('paikallista-sisaltoa-ei-maaritetty')" />
+      <template v-if="isEditing">
+        <h4>{{ $t('paikallinen-teksti') }}</h4>
+        <ep-content v-if="isEditing || hasContent" v-model="object[teksti]"
+                      layout="normal"
+                      :is-editable="isEditing"></ep-content>
+      </template>
+
+      <EpPaikallinenTarkennus v-if="!isEditing" headerh4>
+        <ep-content-viewer v-if="hasContent" :value="$kaanna(object[teksti])" :kuvat="kuvat" :termit="termit"/>
+      </EpPaikallinenTarkennus>
+
     </div>
   </div>
 </template>
@@ -62,7 +67,7 @@ export default class EpPerusteContent extends Vue {
   @Prop({ default: false })
   private perusteTekstiAvattu!: boolean;
 
-  @Prop({ default: true })
+  @Prop({ default: false })
   private naytaSisaltoTyhjana!: boolean;
 
   @Prop({ required: false })
