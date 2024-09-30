@@ -3,7 +3,7 @@
     class="message"
     :class="{['role-' + message.role]: true, 'no-edit': !isEditing}"
     :ref="message.lastMessage ? 'lastMessage' : message.messageId">
-    <EpSpinner v-if="prosessingMessage && message.lastMessage" class="mr-auto"/>
+    <EpSpinner v-if="!message.createdAt && message.lastMessage" class="mr-auto"/>
     <div class="d-flex" v-else>
       <template v-if="message.role ==='user'">
         <EpMaterialIcon outlined class="mr-1">person</EpMaterialIcon>
@@ -83,9 +83,6 @@ import { FeedbackDtoResultEnum } from '@shared/api/ai';
 export default class EpOpsAiMessage extends Vue {
   @Prop({ required: true })
   private value!: any;
-
-  @Prop({ required: false, default: false })
-  private prosessingMessage!: boolean;
 
   @Prop({ required: false, default: false, type: Boolean })
   private isEditing!: boolean;
