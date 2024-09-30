@@ -4493,5 +4493,8 @@
     "ops-tai-totsu": "Ops tai totsu",
     "tile-opsai": "Ops.Ai",
     "tile-opsai-kuvaus": "Ops.Ai keskusteluhistoria",
-    "route-opsai": "Ops.Ai"
+    "route-opsai": "Ops.Ai",
+    "avaa-peruste-htmlna": "Avaa peruste HTML:nä",
+    "avaa-opetussuunnitelma-htmlna": "Avaa opetussuunnitelma HTML:nä",
+    "avaa-toteutussuunnitelma-htmlna": "Avaa toteutussuunnitelma HTML:nä"
 }

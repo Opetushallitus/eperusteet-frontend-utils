@@ -1,6 +1,8 @@
 <template>
   <div>
-    <EpMaterialIcon class="default-icon clickable" icon-shape="outlined" :id="'infopopup-' + uniqueId">info</EpMaterialIcon>
+    <EpMaterialIcon class="default-icon clickable" icon-shape="outlined" :id="'infopopup-' + uniqueId">
+      {{ icon }}
+    </EpMaterialIcon>
     <b-popover :target="'infopopup-' + uniqueId"
                triggers="hover click blur">
       <slot/>
@@ -21,6 +23,9 @@ export default class EpInfoPopover extends Vue {
   // Käytä komponentin proppina uniqueId:tä, jos EpInfoPopover on käytössä useamman kerran samassa komponentissa, jotta popover näytetään oikeassa ikonissa.
   @Prop({ required: false, default: '0' })
   uniqueId!: string;
+
+  @Prop({ required: false, default: 'info' })
+  icon!: string;
 }
 </script>
 

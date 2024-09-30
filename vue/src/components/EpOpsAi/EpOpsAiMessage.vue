@@ -12,6 +12,9 @@
             {{$t('sina')}}
           </slot>
         </strong>
+        <EpInfoPopover class="ml-2" icon="settings" :uniqueId="message.messageId" v-if="!isEditing && message.meta">
+          <EpOpsAiMessageMeta :meta="message.meta" />
+        </EpInfoPopover>
       </template>
       <template v-else>
         <EpMaterialIcon outlined class="mr-1">smart_toy</EpMaterialIcon>
@@ -74,10 +77,11 @@
 import * as _ from 'lodash';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { FeedbackDtoResultEnum } from '@shared/api/ai';
+import EpOpsAiMessageMeta from './EpOpsAiMessageMeta.vue';
 
 @Component({
   components: {
-
+    EpOpsAiMessageMeta,
   },
 })
 export default class EpOpsAiMessage extends Vue {
