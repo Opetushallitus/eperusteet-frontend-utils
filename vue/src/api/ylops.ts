@@ -23,7 +23,6 @@ import { Configuration,
   TermistoApi,
   UlkopuolisetApi,
   VuosiluokkakokonaisuudetApi,
-  PalautteetApi,
   LukioOpetussuunnitelmatApi,
   JulkaisutApi,
 } from '../generated/ylops';
@@ -93,7 +92,6 @@ export const Vuosiluokkakokonaisuudet = initApi(VuosiluokkakokonaisuudetApi);
 export const Oppiaineet = initApi(OppiaineetApi);
 export const OppiaineenVuosiluokkakokonaisuudet = initApi(OppiaineenVuosiluokkakokonaisuudetApi);
 export const OppiaineenVuosiluokat = initApi(OppiaineenVuosiluokatApi);
-export const Palautteet = initApi(PalautteetApi);
 export const LukioOpetussuunnitelmat = initApi(LukioOpetussuunnitelmatApi);
 export const Julkaisut = initApi(JulkaisutApi);
 export const DokumenttiDtoTilaEnum = YlopsApi.DokumenttiDtoTilaEnum;
@@ -153,7 +151,6 @@ export type OppiaineenVuosiluokkakokonaisuusDto = YlopsApi.OppiaineenVuosiluokka
 export type Lops2019OppiaineJarjestysDto = YlopsApi.Lops2019OppiaineJarjestysDto;
 export type OppiaineDto = YlopsApi.OppiaineDto;
 export type OpetussuunnitelmanJulkaisuDto = YlopsApi.OpetussuunnitelmanJulkaisuDto;
-export type PalauteDto = YlopsApi.PalauteDto;
 export type LukioOppiaineTiedotDto = YlopsApi.LukioOppiaineTiedotDto;
 export type OpetussuunnitelmaExportDto = YlopsApi.OpetussuunnitelmaExportDto;
 export type Validointi = YlopsApi.Validointi;
