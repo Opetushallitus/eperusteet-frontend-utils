@@ -6,7 +6,7 @@
       <template v-slot:header>
         <div class="d-flex flex-column align-items-center" :class="tyyppi">
           <span class="validation-text pb-2">
-            {{ $t(tila) }}
+            {{ $t(tila) }}<span v-if="muokattavissa">, {{$t('muokattavissa')}}</span>
           </span>
 
           <template v-if="!arkistoitu">
@@ -181,6 +181,10 @@ export default class EpValidPopover extends Vue {
 
   get luonnos(): boolean | undefined {
     return this.tila === ValidoitavatTilat.LUONNOS;
+  }
+
+  get muokattavissa() {
+    return this.julkaistu && this.validoitava?.tila === ValidoitavatTilat.LUONNOS;
   }
 
   get arkistoitu(): boolean {
