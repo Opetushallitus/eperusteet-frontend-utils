@@ -26,8 +26,6 @@ describe('EpPaikallinenTarkennus', () => {
 
     await localVue.nextTick();
 
-    console.log(wrapper.html());
-
     expect(wrapper.html()).toContain('ep-collapse');
     expect(wrapper.html()).toContain('paikallinen-teksti');
     expect(wrapper.html()).toContain('paikallinen tarkennus');
