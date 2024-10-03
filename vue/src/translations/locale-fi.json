@@ -4394,5 +4394,8 @@
     "avaa-peruste-info": "Aseta peruste Laadinta-tilaan, jolloin rakennemuutokset ovat sallittuja.",
     "koodita-peruste-info": "Lisää perusteen koodittamattomat sisällöt koodistoon.",
     "nollaa-julkaisu-tila-info": "Tyhjennä virheellinen julkaisun tila.",
-    "pakota-julkaisu-info": "Tee uusi julkaisu ohittaen validoinnit."
+    "pakota-julkaisu-info": "Tee uusi julkaisu ohittaen validoinnit.",
+    "palauta-luonnokseksi": "Palauta luonnokseksi",
+    "palauta-julkaistuksi": "Palauta julkaistuksi",
+    "palauta-julkaistu-ops-kuvaus": "Palautetaanko opetussuunnitelma julkaistuksi vai luonnokseksi? Opetussuunnitelman palautus luonnokseksi poistaa kaikki opetussuunnitelman julkaisut."
 }
