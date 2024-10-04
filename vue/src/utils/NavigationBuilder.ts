@@ -106,6 +106,8 @@ export function traverseNavigation(rawNode: NavigationNodeDto, isOps: boolean, r
 
 interface OsanTyypillinen {
   id?: number | string;
+  tutkinnonosaViiteId?: number;
+  oppiaine?: { id: number};
   perusteenOsa: {
     osanTyyppi?: string;
     id?: number | string;
@@ -115,7 +117,6 @@ interface OsanTyypillinen {
 
 export function osaToLocation(osa: OsanTyypillinen): Location {
   switch (osa.perusteenOsa.osanTyyppi) {
-  case 'taiteenala':
   case 'tekstikappale':
     return {
       name: 'perusteTekstikappale',
@@ -123,19 +124,104 @@ export function osaToLocation(osa: OsanTyypillinen): Location {
         viiteId: String(osa.id),
       },
     };
-  case 'rakenne':
+  case 'opintokokonaisuus':
+    return {
+      name: 'perusteOpintokokonaisuus',
+      params: {
+        opintokokonaisuusId: String(osa.id),
+      },
+    };
+  case 'laajaalainenosaaminen':
+    return {
+      name: 'perusteLaajaalainenOsaaminen',
+      params: {
+        laajaalainenosaaminenId: String(osa.id),
+      },
+    };
+  case 'koto_kielitaitotaso':
+    return {
+      name: 'perusteKotoKielitaitotaso',
+      params: {
+        kotokielitaitotasoId: String(osa.id),
+      },
+    };
+  case 'koulutuksenosa':
+    return {
+      name: 'perusteKoulutuksenOsa',
+      params: {
+        koulutuksenosaId: String(osa.id),
+      },
+    };
+  case 'koto_opinto':
+    return {
+      name: 'perusteKotoOpinto',
+      params: {
+        kotoOpintoId: String(osa.id),
+      },
+    };
+  case 'koto_laajaalainenosaaminen':
+    return {
+      name: 'perusteKotoLaajaalainenOsaaminen',
+      params: {
+        kotoLaajaalainenOsaaminenId: String(osa.id),
+      },
+    };
+  case 'osaamiskokonaisuus':
+    return {
+      name: 'perusteOsaamiskokonaisuus',
+      params: {
+        osaamiskokonaisuusId: String(osa.id),
+      },
+    };
+  case 'osaamiskokonaisuus_paa_alue':
+    return {
+      name: 'perusteOsaamiskokonaisuusPaaAlue',
+      params: {
+        osaamiskokonaisuusPaaAlueId: String(osa.id),
+      },
+    };
+  case 'tavoitesisaltoalue':
+    return {
+      name: 'perusteTavoitesisaltoalue',
+      params: {
+        tavoitesisaltoalueId: String(osa.id),
+      },
+    };
+  case 'taiteenala': // fixme: ongelmia alakappaleissa
+    return {
+      name: 'tekstikappaleOsa',
+      params: {
+        osa: String(osa.id),
+      },
+    };
+  case 'tutkinnon_muodostuminen':
+    return {
+      name: 'perusteenRakenne',
+    };
   case 'tutkinnonosa':
+    return {
+      name: 'tutkinnonosa',
+      params: {
+        tutkinnonOsaViiteId: String(osa.tutkinnonosaViiteId),
+      },
+    };
+  case 'vuosiluokkakokonaisuus':
+    return {
+      name: 'vuosiluokkakokonaisuus',
+      params: {
+        vlkId: String(osa.id),
+      },
+    };
+  case 'oppiaineen_vuosiluokkakokonaisuus':
+    return {
+      name: 'vuosiluokanoppiaine',
+      params: {
+        vlkId: String(osa.id),
+        oppiaineId: String(osa.oppiaine?.id),
+      },
+    };
   case 'opetuksenyleisettavoitteet':
   case 'aihekokonaisuudet':
-  case 'laajaalainenosaaminen':
-  case 'koto_kielitaitotaso':
-  case 'tavoitesisaltoalue':
-  case 'koulutuksenosa':
-  case 'opintokokonaisuus':
-  case 'koto_opinto':
-  case 'koto_laajaalainenosaaminen':
-  case 'linkkisivu':
-  case 'linkki':
   default:
     return {};
   }

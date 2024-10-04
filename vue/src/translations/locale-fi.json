@@ -4397,5 +4397,14 @@
     "pakota-julkaisu-info": "Tee uusi julkaisu ohittaen validoinnit.",
     "palauta-luonnokseksi": "Palauta luonnokseksi",
     "palauta-julkaistuksi": "Palauta julkaistuksi",
-    "palauta-julkaistu-ops-kuvaus": "Palautetaanko opetussuunnitelma julkaistuksi vai luonnokseksi? Opetussuunnitelman palautus luonnokseksi poistaa kaikki opetussuunnitelman julkaisut."
+    "palauta-julkaistu-ops-kuvaus": "Palautetaanko opetussuunnitelma julkaistuksi vai luonnokseksi? Opetussuunnitelman palautus luonnokseksi poistaa kaikki opetussuunnitelman julkaisut.",
+    "etsi-sisalloista": "Etsi sisällöistä",
+    "palaa-rakenteeseen": "Palaa rakenteeseen",
+    "koto_laajaalainenosaaminen": "Laaja-alainen osaaminen",
+    "koto_kielitaitotaso": "Kielitaitotaso",
+    "koto_opinto": "Opinto",
+    "osaamiskokonaisuus_paa_alue": "Osaamiskokonaisuuden pääalue",
+    "tavoitesisaltoalue": "Tavoitesisältöalue",
+    "tutkinnon_muodostuminen": "Tutkinnon muodostuminen",
+    "oppiaineen_vuosiluokkakokonaisuus": "Oppiaineen vuosiluokkakokonaisuus"
 }
