@@ -1,13 +1,13 @@
 <template>
 <div class="ep-button d-print-none" ref="button-container">
-  <b-button :variant="variant"
+  <b-button :variant="resolvedVariant"
           v-bind="$attrs"
           :disabled="disabled || showSpinner"
           @click="$emit('click')"
           :size="size"
           :class="variantClass">
     <EpMaterialIcon v-if="icon" class="float-left mr-1" icon-shape="outlined" :background="inherit" :color="inherit">{{ icon }}</EpMaterialIcon>
-    <div class="teksti" :class="{'pl-3 pr-3': paddingx}">
+    <div class="teksti" :class="{'pl-3 pr-3': paddingx && !noPadding}">
       <slot />
       <ep-spinner-inline v-if="showSpinner" :link="variant === 'link' || isOutline"/>
     </div>
@@ -53,23 +53,42 @@ export default class EpButton extends Vue {
   @Prop({ default: true, type: Boolean })
   private paddingx!: boolean;
 
+  @Prop({ default: false, type: Boolean })
+  private link!: boolean;
+
+  @Prop({ default: false, type: Boolean })
+  private noPadding!: boolean;
+
+  get resolvedVariant() {
+    if (this.link) {
+      return 'link';
+    }
+
+    return this.variant;
+  }
+
   get isOutline() {
-    return _.startsWith(this.variant, 'outline');
+    return _.startsWith(this.resolvedVariant, 'outline');
   }
 
   get variantClass() {
-    let result = 'btn-' + this.variant;
+    let result = 'btn-' + this.resolvedVariant;
     if (this.isOutline) {
       result = 'no-outline ' + result;
     }
     if (this.buttonClass) {
       result = this.buttonClass + ' ' + result;
     }
+
+    if (this.noPadding) {
+      result = 'no-padding ' + result;
+    }
+
     return result;
   }
 
   get inherit() {
-    return this.variant === 'link' ? 'inherit' : '';
+    return this.resolvedVariant === 'link' ? 'inherit' : '';
   }
 }
 </script>
@@ -114,6 +133,15 @@ export default class EpButton extends Vue {
 
   &.no-padding {
     ::v-deep .btn-link, .btn {
+      padding-left: 0 !important;
+      .teksti{
+        padding-left: 0 !important;
+      }
+    }
+  }
+
+  .no-padding {
+    ::v-deep &.btn-link, &.btn {
       padding-left: 0 !important;
       .teksti{
         padding-left: 0 !important;

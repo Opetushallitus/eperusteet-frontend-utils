@@ -9,7 +9,8 @@
            type="search"
            :placeholder="placeholderText"
            @input="onInput($event.target.value)"
-           :value="val">
+           :value="val"
+           :maxlength="maxlength">
 </div>
 </template>
 
@@ -18,6 +19,7 @@ import _ from 'lodash';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Kielet } from '../../stores/kieli';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import { maxLength } from 'vuelidate/lib/validators';
 
 @Component({
   components: {
@@ -39,6 +41,9 @@ export default class EpSearch extends Vue {
 
   @Prop({ required: false, default: false, type: Boolean })
   private maxWidth!: boolean;
+
+  @Prop()
+  private maxlength!: number;
 
   get id() {
     return 'search-' + _.uniqueId();
