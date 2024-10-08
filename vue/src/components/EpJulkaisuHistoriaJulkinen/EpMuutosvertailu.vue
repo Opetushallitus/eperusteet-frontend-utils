@@ -75,7 +75,6 @@ export default class EpMuutosvertailu extends Vue {
   }
 
   solveTapahtuma(muokkaustieto) {
-    console.log(muokkaustieto);
     if (this.julkaisu?.peruste?.toteutus === 'perusopetus') {
       if (muokkaustieto.kohde === 'oppiaine') {
         return 'perusopetusoppiaine';

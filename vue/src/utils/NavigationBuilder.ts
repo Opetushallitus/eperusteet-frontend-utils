@@ -312,6 +312,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       name: 'aipeoppiaine',
       params: {
         oppiaineId: _.toString(rawNode.id),
+        ...(_.get(rawNode, 'meta.vaiheId') && { vaiheId: rawNode.meta!.vaiheId }) as any,
       },
     };
     break;
@@ -320,6 +321,8 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       name: 'aipekurssi',
       params: {
         kurssiId: _.toString(rawNode.id),
+        ...(_.get(rawNode, 'meta.vaiheId') && { vaiheId: rawNode.meta!.vaiheId }) as any,
+        ...(_.get(rawNode, 'meta.oppiaineId') && { oppiaineId: rawNode.meta!.oppiaineId }) as any,
       },
     };
     break;
