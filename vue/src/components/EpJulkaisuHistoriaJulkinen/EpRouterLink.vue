@@ -23,6 +23,11 @@ export default class EpRouterLink extends Vue {
   @Prop({ required: true })
   private muokkaustieto!: any;
 
+  private kohdeToAvain = {
+    aipevaihe: 'vaiheId',
+    aipeoppiaine: 'oppiaineId',
+  };
+
   get location() {
     let node: NavigationNode = {
       type: this.muokkaustieto.kohde,
@@ -33,10 +38,19 @@ export default class EpRouterLink extends Vue {
     let navNode: NavigationNodeDto = {
       id: this.muokkaustieto.kohdeId,
       type: this.muokkaustieto.kohde,
-      meta: { oppiaine: this.muokkaustieto.lisatieto },
+      ...(this.muokkaustieto.lisaparametrit && { meta: this.lisaparaParametritToMeta(this.muokkaustieto.lisaparametrit) }),
     };
     setPerusteData(node, navNode);
     return node.location;
+  }
+
+  lisaparaParametritToMeta(lisaparametrit: any[]) {
+    return lisaparametrit.reduce((acc, param) => {
+      if (this.kohdeToAvain[param.kohde]) {
+        acc[this.kohdeToAvain[param.kohde]] = param.kohdeId;
+      }
+      return acc;
+    }, {});
   }
 }
 </script>
