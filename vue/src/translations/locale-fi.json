@@ -4397,5 +4397,6 @@
     "pakota-julkaisu-info": "Tee uusi julkaisu ohittaen validoinnit.",
     "palauta-luonnokseksi": "Palauta luonnokseksi",
     "palauta-julkaistuksi": "Palauta julkaistuksi",
-    "palauta-julkaistu-ops-kuvaus": "<p>Palautetaanko opetussuunnitelma julkaistuksi vai luonnokseksi?</p> <p>Opetussuunnitelman palautus luonnokseksi poistaa suunnitelman muutoshistorian ja kaikki tiedot siitä, että suunnitelma on ollut aiemmin julkaistu.</p>"
+    "palauta-julkaistu-ops-kuvaus": "<p>Palautetaanko opetussuunnitelma julkaistuksi vai luonnokseksi?</p> <p>Opetussuunnitelman palautus luonnokseksi poistaa suunnitelman muutoshistorian ja kaikki tiedot siitä, että suunnitelma on ollut aiemmin julkaistu.</p>",
+    "muokattavissa": "muokattavissa"
 }
