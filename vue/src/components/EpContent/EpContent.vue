@@ -46,6 +46,7 @@ import {
   TableCell,
   TableHeader,
   TableRow,
+  Placeholder,
 } from 'tiptap-extensions';
 
 import EpEditorMenuBar from './EpEditorMenuBar.vue';
@@ -132,7 +133,7 @@ export default class EpContent extends Mixins(EpValidation) {
 
   get localizedValue() {
     if (!this.value) {
-      return '';
+      return null;
     }
     else if (this.isPlainString) {
       return this.value || '';
@@ -169,6 +170,9 @@ export default class EpContent extends Mixins(EpValidation) {
       new TableHeader(),
       new TableCell(),
       new TableRow(),
+      new Placeholder({
+        emptyNodeText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
+      }),
     ];
 
     if (this.annettuKasiteHandler) {
@@ -356,6 +360,18 @@ export default class EpContent extends Mixins(EpValidation) {
 ::v-deep .invalid-feedback,
 ::v-deep .valid-feedback {
   display: block;
+}
+
+::v-deep .ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-empty-text);
+  // float: left;
+  color: #adb5bd;
+  pointer-events: none;
+  // height: 0;
+
+  br {
+    display: none;
+  }
 }
 
 </style>
