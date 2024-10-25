@@ -2,6 +2,7 @@ import axios from 'axios';
 import { createLogger } from '../utils/logger';
 import _ from 'lodash';
 import { fail } from '@shared/utils/notifications';
+import { Kielet } from '../stores/kieli';
 
 const logger = createLogger('AxiosCommon');
 
@@ -24,7 +25,7 @@ function errorMessage(err) {
   }
 
   if (err.response.status === 400 && !!err.response?.data?.syy) {
-    return err.response?.data?.syy;
+    return Kielet.kaannaOlioTaiTeksti(err.response?.data?.syy);
   }
 
   return 'jarjestelmavirhe-ohje';
