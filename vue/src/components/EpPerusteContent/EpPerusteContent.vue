@@ -9,7 +9,7 @@
     </ep-collapse>
 
     <ep-collapse class="mb-4" :use-padding="false" tyyppi="pohjateksti" :border-bottom="false" :border-top="false" :expanded-by-default="perusteTekstiAvattu" v-if="pohjaObject && pohjaObject[teksti]">
-      <template v-slot:header><h4>{{$t('pohjan-teksti')}}</h4></template>
+      <template v-slot:header><h4>{{ $kaanna(pohjaNimi) }}</h4></template>
       <span v-html="$kaanna(pohjaObject[teksti])"></span>
     </ep-collapse>
 
@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, InjectReactive } from 'vue-property-decorator';
 import EpCollapse from '@shared/components/EpCollapse/EpCollapse.vue';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
 import EpAlert from '@shared/components/EpAlert/EpAlert.vue';
@@ -76,8 +76,15 @@ export default class EpPerusteContent extends Vue {
   @Prop({ required: false })
   private termit!: any[];
 
+  @InjectReactive('opetussuunnitelma')
+  private opetussuunnitelma!: any;
+
   get hasContent() {
     return this.object != null && this.object[this.teksti] != null;
+  }
+
+  get pohjaNimi() {
+    return this.opetussuunnitelma?.pohja?.nimi;
   }
 }
 </script>
