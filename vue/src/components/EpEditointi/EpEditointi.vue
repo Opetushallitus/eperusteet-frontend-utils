@@ -98,7 +98,6 @@
                   </div>
                 </div>
                 <ep-button id="editointi-muokkaus"
-                           v-tutorial
                            variant="link"
                            icon="edit"
                            v-oikeustarkastelu="muokkausOikeustarkastelu"
@@ -111,7 +110,6 @@
                 <div v-else-if="!isEditing && features.copyable" v-oikeustarkastelu="muokkausOikeustarkastelu">
                   <slot name="kopioi" :data="inner" :support-data="innerSupport">
                     <ep-button id="editointi-kopiointi"
-                              v-tutorial
                               variant="link"
                               icon="edit"
                               v-oikeustarkastelu="muokkausOikeustarkastelu"
@@ -175,7 +173,6 @@
                 <ep-round-button class="ml-2"
                                  :disabled="disabled"
                                  id="editointi-muokkaus-comments"
-                                 v-tutorial
                                  v-if="hasKeskusteluSlot"
                                  @click="toggleSidebarState(1)"
                                  icon="comment"
@@ -183,7 +180,6 @@
                 <ep-round-button class="ml-2"
                                  :disabled="disabled"
                                  id="editointi-muokkaus-question"
-                                 v-tutorial
                                  v-if="hasOhjeSlot"
                                  @click="toggleSidebarState(2)"
                                  icon="question_mark"
