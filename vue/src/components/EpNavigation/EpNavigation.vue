@@ -27,11 +27,6 @@
       </nav>
     </b-navbar-nav>
     <b-navbar-nav class="ml-auto">
-      <b-nav-form v-if="tutoriaalistore && naytettaviaTutoriaaleja">
-        <b-button variant="primary" size="sm" @click="kaynnistaTutoriaali" class="mr-2">
-          {{ $t('tutorial-avaa') }}
-        </b-button>
-      </b-nav-form>
 
       <!-- Sisällön kieli-->
       <b-nav-item-dropdown id="content-lang-selector" right>
@@ -63,7 +58,6 @@ import Sticky from 'vue-sticky-directive';
 import { Kieli } from '@shared/tyypit';
 import { Kielet, UiKielet } from '@shared/stores/kieli';
 import { Murupolku } from '@shared/stores/murupolku';
-import { TutoriaaliStore } from '@shared/stores/tutoriaali';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpKayttaja from '@shared/components/EpKayttaja/EpKayttaja.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
@@ -86,9 +80,6 @@ export default class EpNavigation extends Vue {
   private tyyli!: string;
 
   @Prop({ required: false })
-  private tutoriaalistore!: TutoriaaliStore | undefined;
-
-  @Prop({ required: false })
   private tiedot!: string | undefined;
 
   get murut() {
@@ -101,10 +92,6 @@ export default class EpNavigation extends Vue {
 
   get sovelluksenKielet() {
     return UiKielet;
-  }
-
-  get naytettaviaTutoriaaleja() {
-    return !_.isEmpty(this.tutoriaalistore!.avaimet);
   }
 
   get routePath() {
@@ -120,10 +107,6 @@ export default class EpNavigation extends Vue {
         return result;
       })
       .value();
-  }
-
-  private kaynnistaTutoriaali() {
-    this.tutoriaalistore!.setActive(true);
   }
 
   private valitseSisaltoKieli(kieli: Kieli) {
