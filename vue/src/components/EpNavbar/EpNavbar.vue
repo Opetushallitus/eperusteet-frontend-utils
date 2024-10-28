@@ -1,5 +1,5 @@
 <template>
-<div class="topbar">
+<div class="topbar" >
   <b-sidebar id="sisaltobar">
     <PortalTarget ref="innerPortal" name="globalNavigation"></PortalTarget>
   </b-sidebar>
@@ -9,7 +9,7 @@
             type="dark"
             toggleable="lg">
 
-    <b-navbar-nav v-if="showNavigation">
+    <b-navbar-nav v-if="showNavigation" class="ml-2">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
@@ -39,11 +39,11 @@
       <b-nav-item-dropdown id="content-lang-selector" right no-caret>
         <template slot="button-content">
           <div class="d-flex flex-row">
-            <div class="kieli-valikko d-flex flex-column">
-              <span class="kielivalitsin text-right">{{ $t("kieli-sisalto") }}</span>
-              <small class="valittu-kieli text-right">{{ $t(sisaltoKieli) }}</small>
+            <div class="kieli-valikko d-flex">
+              <span class="kielivalitsin text-left">{{ $t("kieli-sisalto") }}: </span>
+              <span class="valittu-kieli text-right ml-2">{{ $t(sisaltoKieli) }}</span>
+              <EpMaterialIcon>expand_more</EpMaterialIcon>
             </div>
-            <EpMaterialIcon class="mx-2 my-1">expand_more</EpMaterialIcon>
           </div>
         </template>
         <div class="kielet">
@@ -182,6 +182,7 @@ export default class EpNavbar extends Vue {
     .breadcrumb {
       margin-bottom: 0;
       background: rgba(0, 0, 0, 0);
+      padding: 0;
 
       .breadcrumb-item {
         color: white;
@@ -197,6 +198,10 @@ export default class EpNavbar extends Vue {
 
   .kieli-valikko {
     color: white;
+
+    .valittu-kieli {
+      font-weight: 400;
+    }
   }
 
   .valittu-koulutustoimija {
@@ -226,7 +231,7 @@ export default class EpNavbar extends Vue {
     }
 
     ::v-deep .dropdown-item {
-      padding: 0.5rem 1rem;
+      // padding: 0.5rem 1rem;
       color: #000000;
     }
 

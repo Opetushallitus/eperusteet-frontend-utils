@@ -3,6 +3,7 @@ import EpList from '../EpList.vue';
 import VueI18n from 'vue-i18n';
 import { Kielet } from '../../../stores/kieli';
 import BootstrapVue from 'bootstrap-vue';
+import { mocks } from '@shared/utils/jestutils';
 
 describe('EpList component', () => {
   const localVue = createLocalVue();
@@ -35,6 +36,7 @@ describe('EpList component', () => {
     }), {
       localVue,
       i18n,
+      mocks: mocks,
     });
   };
 

@@ -4422,5 +4422,10 @@
     "julkaistun-opetussuunnitelman-vuosiluokkakokonaisuuksia-ei-voi-poistaa": "Julkaisun opetussuunnitelman vuosiluokkakokonaisuuksia ei voi poistaa",
     "peruste-validointi-muutosmaarays-dokumentti-kieli-puute": "Muutosmääräyksen dokumenttia ei ole lisätty kaikille perusteen kielille",
     "oppimaara-lisays-modal-selite": "Oppimäärä lisätään samalla jokaiselle opetussuunnitelman vuosiluokkakokonaisuudelle. Mikäli oppimäärää ei ole tarkoitus käsitellä muissa vuosiluokkakokonaisuuksissa, pitää oppimäärä erikseen piilottaa muista vuosiluokkakokonaisuuksista.",
-    "oppimaara-poisto-modal-selite": "Oppimäärän poisto poistaa oppimäärän kaikista opetussuunnitelman vuosiluokkakokonaisuuksista. Mikäli oppimäärää ei ole tarkoitus käsitellä muissa vuosiluokkakokonaisuuksissa, pitää oppimäärä erikseen piilottaa muista vuosiluokkakokonaisuuksista."
+    "oppimaara-poisto-modal-selite": "Oppimäärän poisto poistaa oppimäärän kaikista opetussuunnitelman vuosiluokkakokonaisuuksista. Mikäli oppimäärää ei ole tarkoitus käsitellä muissa vuosiluokkakokonaisuuksissa, pitää oppimäärä erikseen piilottaa muista vuosiluokkakokonaisuuksista.",
+    "muista-lisata-julkaisun-kuvauksesta-myos-kieliversio": "Muista lisätä julkaisun kuvauksesta myös kieliversio",
+    "lyhyt-kuvaus-muutoksesta-hallintanakymaan": "Lyhyt kuvaus muutoksesta hallintanäkymään",
+    "kuvaus-naytetaan-taman-sivun-muutoshistoriassa": "Kuvaus näytetään tämän sivun muutoshistoriassa",
+    "lyhyt-kuvaus-muutoksesta-julkisella-sivustolla": "Lyhyt kuvaus muutoksesta julkisella sivustolla",
+    "kuvaus-naytetaan-perusteen-tiedot-nakyman-muutoshistoriassa": "Kuvaus näytetään Perusteen tiedot -näkymän muutoshistoriassa"
 }

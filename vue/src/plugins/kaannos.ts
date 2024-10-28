@@ -12,6 +12,7 @@ declare module 'vue/types/vue' {
     $filterBy: (field: string, query: string) => <T extends object>(value: T) => boolean;
     $kaanna: <T extends object>(value?: T, emptyWhenNotFound?: boolean, squareBrackets?: boolean, forcedLang?: string) => string;
     $kaannaOlioTaiTeksti: <T extends object>(value: T | string) => string;
+    $kaannaPlaceholder: <T extends object>(value: T | string) => string;
   }
 }
 
@@ -33,6 +34,10 @@ export class Kaannos {
         value,
         _.has(options, 'emptyWhenNotFound') ? options.emptyWhenNotFound : emptyWhenNotFound,
         _.has(options, 'squareBrackets') ? options.squareBrackets : squareBrackets));
+    };
+
+    vue.prototype.$kaannaPlaceholder = (value?: any) => {
+      return Kielet.kaannaPlaceholder(value);
     };
   }
 

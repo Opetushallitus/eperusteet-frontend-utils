@@ -204,6 +204,20 @@ export class KieliStore {
     }
   };
 
+  public kaannaPlaceholder(value?: LokalisoituTeksti | undefined | null) {
+    if (!value) {
+      return '';
+    }
+    else if (_.isObject(value)) {
+      if (value[this.getSisaltoKieli.value]) {
+        return '';
+      }
+
+      const kielet = _.reject(['fi', 'sv', 'en', 'se', 'ru'], kieli => kieli === this.getSisaltoKieli.value);
+      return _.find(_.map(kielet, kieli => value[kieli] as string));
+    }
+  }
+
   public kaannaOlioTaiTeksti(value: LokalisoituTeksti | string, emptyWhenNotFound = false, squareBrackets = true): string {
     if (_.isObject(value)) {
       return this.kaanna(value, emptyWhenNotFound, squareBrackets);

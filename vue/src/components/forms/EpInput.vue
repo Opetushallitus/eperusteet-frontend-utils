@@ -3,7 +3,7 @@
   <div class="input-container d-flex align-items-center">
     <input class="input-style form-control"
            :class="[ inputClass ]"
-           :placeholder="placeholder"
+           :placeholder="placeholderValue"
            @focus="onInputFocus"
            @blur="onInputBlur"
            @input="onInput($event.target.value)"
@@ -97,6 +97,8 @@ export default class EpInput extends Mixins(EpValidation) {
   @Prop({ required: false })
   private change!: Function;
 
+  private focus = false;
+
   get hasLeftSlot() {
     return !!this.$slots.left;
   }
@@ -161,10 +163,12 @@ export default class EpInput extends Mixins(EpValidation) {
   }
 
   private onInputFocus() {
+    this.focus = true;
     this.$emit('focus');
   }
 
   private onInputBlur() {
+    this.focus = false;
     this.$emit('blur');
   }
 
@@ -174,6 +178,16 @@ export default class EpInput extends Mixins(EpValidation) {
       : this.value;
 
     return unescapeStringHtml(target);
+  }
+
+  get placeholderValue() {
+    if (!this.focus && this.isEditing) {
+      if (this.placeholder) {
+        return this.placeholder;
+      }
+
+      return this.$kaannaPlaceholder(this.value as any);
+    }
   }
 }
 </script>
@@ -230,6 +244,10 @@ input {
   &.is-valid:focus {
     border-color: $valid;
   }
+}
+
+input::placeholder {
+  color: #adb5bd;
 }
 
 .is-warning {
