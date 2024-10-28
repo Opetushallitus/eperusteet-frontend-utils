@@ -4419,5 +4419,6 @@
     "aipe_oppiaine": "Oppiaine",
     "aipe_kurssi": "Kurssi",
     "taiteenala_taiteenosa": "Taiteenalan osa",
-    "julkaistun-opetussuunnitelman-vuosiluokkakokonaisuuksia-ei-voi-poistaa": "Julkaisun opetussuunnitelman vuosiluokkakokonaisuuksia ei voi poistaa"
+    "julkaistun-opetussuunnitelman-vuosiluokkakokonaisuuksia-ei-voi-poistaa": "Julkaisun opetussuunnitelman vuosiluokkakokonaisuuksia ei voi poistaa",
+    "peruste-validointi-muutosmaarays-dokumentti-kieli-puute": "Muutosmääräyksen dokumenttia ei ole lisätty kaikille perusteen kielille"
 }
