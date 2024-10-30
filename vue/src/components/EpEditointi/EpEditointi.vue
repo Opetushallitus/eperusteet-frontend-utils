@@ -349,6 +349,9 @@ export default class EpEditointi extends Mixins(validationMixin) {
   @Prop({ default: 'poista' })
   private labelRemove!: string;
 
+  @Prop({ required: false })
+  private labelRemoveClarification!: string;
+
   @Prop({ default: 'tata-toimintoa-ei-voida-perua' })
   private labelRemoveConfirm!: string;
 
@@ -643,7 +646,7 @@ export default class EpEditointi extends Mixins(validationMixin) {
 
   async remove() {
     try {
-      if (!this.confirmRemove || await this.vahvista(this.$t('varmista-poisto') as string, this.$t('poista') as string)) {
+      if (!this.confirmRemove || await this.vahvista(this.$t('varmista-poisto') as string, this.$t('poista') as string, this.labelRemoveClarification ? this.$t(this.labelRemoveClarification) as string : undefined)) {
         const poistoTeksti = this.$t(this.labelRemoveSuccess);
         await this.store.remove();
         this.$success(poistoTeksti as string);
