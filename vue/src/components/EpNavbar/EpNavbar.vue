@@ -1,5 +1,5 @@
 <template>
-<div class="topbar" >
+<div class="topbar" v-sticky="sticky" sticky-z-index="600">
   <b-sidebar id="sisaltobar">
     <PortalTarget ref="innerPortal" name="globalNavigation"></PortalTarget>
   </b-sidebar>
@@ -170,6 +170,8 @@ export default class EpNavbar extends Vue {
 @import '../../styles/_variables.scss';
 
 .topbar {
+  background-image: inherit;
+  background-size: cover;
 
   .navbar {
     top: 0;
