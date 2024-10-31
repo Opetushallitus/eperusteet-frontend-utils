@@ -2,7 +2,7 @@
   <div class="editointi-container">
     <ep-spinner class="mt-5" v-if="!store || !store.data.value"></ep-spinner>
     <div class="editointikontrolli" v-else>
-      <div v-sticky sticky-offset="{ top: 56 }" sticky-z-index="600" v-if="!hasFooterSlot">
+      <div v-sticky sticky-offset="{ top: 56 }" sticky-z-index="500" v-if="!hasFooterSlot">
         <template v-if="hasCustomHeaderSlot">
           <slot name="customheader"
             :isEditing="isEditing"
