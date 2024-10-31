@@ -2,7 +2,7 @@
   <div class="editointi-container">
     <ep-spinner class="mt-5" v-if="!store || !store.data.value"></ep-spinner>
     <div class="editointikontrolli" v-else>
-      <div v-sticky sticky-offset="{ top: 0 }" sticky-z-index="600" v-if="!hasFooterSlot">
+      <div v-sticky sticky-offset="{ top: 56 }" sticky-z-index="600" v-if="!hasFooterSlot">
         <template v-if="hasCustomHeaderSlot">
           <slot name="customheader"
             :isEditing="isEditing"
@@ -777,12 +777,10 @@ export default class EpEditointi extends Mixins(validationMixin) {
 }
 
 .editointikontrolli {
-  margin-top: 4px;
-
   .ylapaneeli {
     background: #fff;
     border-bottom: 1px solid #E7E7E7;
-    padding: 5px 15px 5px 15px;
+    padding: 10px 15px 5px 15px;
 
     .headerline {
       padding-right: 50px;

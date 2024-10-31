@@ -29,6 +29,7 @@ import {
 import CustomLink from './CustomLink';
 import { IKuvaHandler } from './KuvaHandler';
 import ImageExtension from './ImageExtension';
+import { Kieli } from '@shared/tyypit';
 
 function createEditor(config: any) {
   return new Editor({
@@ -135,6 +136,35 @@ describe('EpContent component', () => {
     expect((wrapper.vm as any).localizedValue).toEqual('sv');
     expect(wrapper.html()).not.toContain('teksti1234');
     expect(wrapper.html()).toContain('sv');
+  });
+
+  test('Renders with language placeholder', async () => {
+    wrapper.setProps({
+      value: {
+        fi: 'teksti1234',
+      },
+      locale: null,
+    });
+
+    Kielet.setSisaltoKieli(Kieli.fi);
+    expect(wrapper.html()).toContain('teksti1234');
+
+    Kielet.setSisaltoKieli(Kieli.sv);
+    expect(wrapper.html()).not.toContain('teksti1234');
+
+    wrapper.setProps({ isEditable: true });
+
+    await localVue.nextTick();
+    expect(wrapper.html()).toContain('teksti1234');
+    expect(wrapper.html()).toContain('placeholder');
+
+    wrapper.setProps({ value: {
+      fi: 'teksti1234',
+      sv: 'testi',
+    } },
+    );
+
+    expect(wrapper.html()).not.toContain('placeholder');
   });
 });
 

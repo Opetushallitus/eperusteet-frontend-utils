@@ -39,7 +39,7 @@ export default class EpTestiymparisto extends Vue {
     left: -35px;
     width: 120px;
     padding: 5px;
-    z-index: 101;
+    z-index: 5000;
     font-size: 12px;
     text-align: center;
     color: rgb(255, 255, 255);

@@ -23,7 +23,7 @@ export default class EpInfoBanner extends Vue {
  }
 
  .icon {
-  color: $gray-lighten-12;
+  color: $paletti-blue;
  }
 
 </style>

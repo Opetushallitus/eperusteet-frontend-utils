@@ -7,13 +7,13 @@
     :editor="editor"
     :help="toolbarHelp"
     v-sticky="isSticky"
-    sticky-offset="{ top: 50 }"
+    sticky-offset="{ top: 114 }"
     sticky-z-index="500"
     />
   <editor-content
     ref="content"
     :editor="editor"
-    :class="{ 'content-invalid': validation && validationError, 'content-valid': validation && !validationError }"
+    :class="{ 'content-invalid': validation && validationError, 'content-valid': validation && !validationError, 'placeholder': placeholder }"
     v-observe-visibility="visibilityChanged"/>
   <div class="valid-feedback" v-if="!validationError && validMessage && isEditable">{{ $t(validMessage) }}</div>
   <div class="invalid-feedback" v-else-if="validationError && invalidMessage && isEditable">{{ $t(invalidMessage) }}</div>
@@ -46,6 +46,7 @@ import {
   TableCell,
   TableHeader,
   TableRow,
+  Placeholder,
 } from 'tiptap-extensions';
 
 import EpEditorMenuBar from './EpEditorMenuBar.vue';
@@ -60,6 +61,7 @@ import CustomLink from './CustomLink';
 import { ObserveVisibility } from 'vue-observe-visibility';
 import { ILinkkiHandler } from './LinkkiHandler';
 import { fixTipTapContent } from '@shared/utils/helpers';
+import { unescapeStringHtml } from '@shared/utils/inputs';
 
 const striptag = document.createElement('span');
 
@@ -132,16 +134,22 @@ export default class EpContent extends Mixins(EpValidation) {
 
   get localizedValue() {
     if (!this.value) {
-      return '';
+      return null;
     }
     else if (this.isPlainString) {
       return this.value || '';
     }
     else if (_.isObject(this.value)) {
-      return (this.value as any)[this.lang] || '';
+      return this.placeholder || (this.value as any)[this.lang] || '';
     }
     else {
       return this.value;
+    }
+  }
+
+  get placeholder() {
+    if (!this.focused && this.isEditable) {
+      return this.$kaannaPlaceholder(this.value);
     }
   }
 
@@ -187,6 +195,7 @@ export default class EpContent extends Mixins(EpValidation) {
       },
       onFocus: () => {
         this.focused = true;
+        this.editor.setContent(fixTipTapContent(this.localizedValue));
       },
       onBlur: () => {
         this.focused = false;
@@ -254,14 +263,17 @@ export default class EpContent extends Mixins(EpValidation) {
     striptag.innerHTML = data;
     const isValid = !_.isEmpty(striptag.innerText || striptag.textContent) || striptag.getElementsByTagName('img').length > 0;
     const stripped = isValid ? data : null;
-    if (this.isPlainString) {
-      this.$emit('input', stripped);
-    }
-    else {
-      this.$emit('input', {
-        ...this.value,
-        [Kielet.getSisaltoKieli.value as unknown as string]: stripped,
-      });
+
+    if (!this.placeholder) {
+      if (this.isPlainString) {
+        this.$emit('input', stripped);
+      }
+      else {
+        this.$emit('input', {
+          ...this.value,
+          [Kielet.getSisaltoKieli.value as unknown as string]: stripped,
+        });
+      }
     }
   }
 
@@ -350,12 +362,30 @@ export default class EpContent extends Mixins(EpValidation) {
     text-decoration-style: dotted;
     text-decoration-color: red;
   }
+
+  .placeholder {
+    ::v-deep .form-control {
+      color: #adb5bd !important;
+    }
+  }
 }
 
 // Piilotettu Bootstrapissa oletuksena
 ::v-deep .invalid-feedback,
 ::v-deep .valid-feedback {
   display: block;
+}
+
+::v-deep .ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-empty-text);
+  // float: left;
+  color: #adb5bd;
+  pointer-events: none;
+  // height: 0;
+
+  br {
+    display: none;
+  }
 }
 
 </style>

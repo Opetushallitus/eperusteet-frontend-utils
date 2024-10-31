@@ -2,10 +2,13 @@ import { mount, createLocalVue } from '@vue/test-utils';
 import EpInput from '../EpInput.vue';
 import VueI18n from 'vue-i18n';
 import { Kielet } from '../../../stores/kieli';
+import { Kieli } from '@shared/tyypit';
+import { Kaannos } from '@shared/plugins/kaannos';
 
 describe('EpInput component', () => {
   const localVue = createLocalVue();
   localVue.use(VueI18n);
+  localVue.use(new Kaannos());
 
   Kielet.install(localVue, {
     messages: {
@@ -71,5 +74,33 @@ describe('EpInput component', () => {
 
     expect(wrapper.text()).toContain('321');
     expect(wrapper.text()).not.toContain('123');
+  });
+
+  test('Renders input with non current lang', async () => {
+    const wrapper = mount(EpInput, {
+      propsData: {
+        value: {
+          fi: 'arvo',
+        },
+      },
+      localVue,
+      i18n,
+    });
+
+    await localVue.nextTick();
+
+    expect(wrapper.html()).toContain('arvo');
+    Kielet.setSisaltoKieli(Kieli.sv);
+
+    await localVue.nextTick();
+    expect(wrapper.html()).not.toContain('arvo');
+
+    wrapper.setProps({ isEditing: true });
+    await localVue.nextTick();
+    expect(wrapper.html()).toContain('arvo');
+
+    wrapper.find('input[type="text"]').trigger('focus');
+    await localVue.nextTick();
+    expect(wrapper.html()).not.toContain('arvo');
   });
 });
