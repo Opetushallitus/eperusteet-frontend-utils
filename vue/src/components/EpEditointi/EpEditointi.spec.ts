@@ -7,7 +7,6 @@ import _ from 'lodash';
 import { Oikeustarkastelu } from '../../plugins/oikeustarkastelu';
 import { VueTutorial } from '../../plugins/tutoriaali';
 import { delay } from '../../utils/delay';
-import { tutoriaaliStore } from '../../stores/tutoriaali';
 import { findContaining, mockEditointiStore } from '../../utils/jestutils';
 import VueI18n from 'vue-i18n';
 
@@ -24,7 +23,6 @@ function mockAndWrapper(extension: Partial<IEditoitava> = {}, template?: string)
       },
     },
   });
-  localVue.use(VueTutorial, { tutoriaaliStore });
   localVue.use(Oikeustarkastelu, {
     oikeusProvider: {
       async hasOikeus() {
