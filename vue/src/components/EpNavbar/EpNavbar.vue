@@ -172,6 +172,7 @@ export default class EpNavbar extends Vue {
 .topbar {
   background-image: inherit;
   background-size: cover;
+  height: 56px;
 
   .navbar {
     top: 0;
