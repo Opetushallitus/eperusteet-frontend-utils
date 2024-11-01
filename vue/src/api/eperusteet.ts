@@ -380,7 +380,6 @@ export interface JulkaisutQuery {
   voimassa?: boolean;
   siirtyma?: boolean;
   poistuneet?: boolean;
-  koulutusvienti?: boolean;
   perusteet?: boolean;
   tutkinnonosat?: boolean;
 }
@@ -395,7 +394,6 @@ export async function findAllJulkaisut(query: JulkaisutQuery) {
     query.voimassa,
     query.siirtyma,
     query.poistuneet,
-    query.koulutusvienti,
     query.tyyppi,
     query.diaarinumero,
     query.koodi,
