@@ -27,6 +27,7 @@
               </slot>
 
               <EpNavigationPostFix :node="item" v-if="item.meta && item.meta.postfix_label"/>
+              <EpMaterialIcon v-if="item.meta.piilotettu" class="ml-2" size="16px">visibility_off</EpMaterialIcon>
             </div>
           </div>
           <div class="text-muted mr-1" v-if="item.children.length > 0 && item.idx !== activeIdx && !showAll">
@@ -297,7 +298,7 @@ export default class EpTreeNavibar extends Vue {
       width: 30px;
 
       .btn {
-        padding: 0.25rem 0.15rem;
+        padding: 0.25rem 0.1rem;
         margin-top: -2px;
         font-size: 16px;
         font-weight: 400;
