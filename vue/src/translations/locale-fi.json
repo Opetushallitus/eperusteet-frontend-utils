@@ -4427,5 +4427,7 @@
     "lyhyt-kuvaus-muutoksesta-hallintanakymaan": "Lyhyt kuvaus muutoksesta hallintanäkymään",
     "kuvaus-naytetaan-taman-sivun-muutoshistoriassa": "Kuvaus näytetään tämän sivun muutoshistoriassa",
     "lyhyt-kuvaus-muutoksesta-julkisella-sivustolla": "Lyhyt kuvaus muutoksesta julkisella sivustolla",
-    "kuvaus-naytetaan-perusteen-tiedot-nakyman-muutoshistoriassa": "Kuvaus näytetään Perusteen tiedot -näkymän muutoshistoriassa"
+    "kuvaus-naytetaan-perusteen-tiedot-nakyman-muutoshistoriassa": "Kuvaus näytetään Perusteen tiedot -näkymän muutoshistoriassa",
+    "route-opas-yleisnakyma": "Opas",
+    "route-peruste-yleisnakyma": "Peruste"
 }
