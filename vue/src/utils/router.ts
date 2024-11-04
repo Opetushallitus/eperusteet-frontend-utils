@@ -48,7 +48,6 @@ export async function resolveRouterMetaProps(to) {
     const error = { err: '500', path: '' };
     if (err.response) {
       error.err = err.response.status;
-      error.path = err.response.config?.url;
     }
     Virheet.lisaaVirhe(error);
   }
