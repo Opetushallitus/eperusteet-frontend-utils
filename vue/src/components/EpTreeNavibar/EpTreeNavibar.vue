@@ -25,9 +25,6 @@
               <slot :name="$scopedSlots[item.type] ? item.type : 'default'" :item="item">
                 {{ $kaannaOlioTaiTeksti(item.label) }}
               </slot>
-
-              <EpNavigationPostFix :node="item" v-if="item.meta && item.meta.postfix_label"/>
-              <EpMaterialIcon v-if="item.meta.piilotettu" class="ml-2" size="16px">visibility_off</EpMaterialIcon>
             </div>
           </div>
           <div class="text-muted mr-1" v-if="item.children.length > 0 && item.idx !== activeIdx && !showAll">
@@ -54,11 +51,11 @@ import EpToggle from '@shared/components/forms/EpToggle.vue';
 import EpMultiSelect from '@shared/components/forms/EpMultiSelect.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { FlattenedNodeDto, EpTreeNavibarStore } from '@shared/components/EpTreeNavibar/EpTreeNavibarStore';
-import EpNavigationPostFix from '@shared/components/EpTreeNavibar/EpNavigationPostFix.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import _ from 'lodash';
 import { Kielet } from '@shared/stores/kieli';
 import VueScrollTo from 'vue-scrollto';
+import EpNavigationLabel from '@shared/components/EpTreeNavibar/EpNavigationLabel.vue';
 
 export type ProjektiFilter = 'koulutustyyppi' | 'tila' | 'voimassaolo';
 
@@ -71,8 +68,8 @@ type IndexedNode = FlattenedNodeDto & { idx: number };
     EpButton,
     EpSpinner,
     EpToggle,
-    EpNavigationPostFix,
     EpMaterialIcon,
+    EpNavigationLabel,
   },
 })
 export default class EpTreeNavibar extends Vue {
