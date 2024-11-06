@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="to">
+  <component :is="component">
     <span>
       <slot />
       <EpMaterialIcon v-if="piilotettu" class="ml-2" size="16px">visibility_off</EpMaterialIcon>
@@ -19,7 +19,7 @@
         </b-popover>
       </template>
     </span>
-  </router-link>
+  </component>
 </template>
 
 <script lang="ts">
@@ -34,6 +34,10 @@ export default class EpNavigationLabel extends Vue {
 
   @Prop()
   to!: any;
+
+  get component() {
+    return this.to ? 'router-link' : 'div';
+  }
 
   get postfixLabel(): string {
     return _.toString(this.node.meta?.postfix_label);
