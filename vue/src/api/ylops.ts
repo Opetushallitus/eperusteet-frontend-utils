@@ -13,7 +13,6 @@ import { Configuration,
   Lops2019OppiaineetApi,
   Lops2019PerusteControllerApi,
   MuokkaustietoApi,
-  OhjeetApi,
   OpetussuunnitelmanSisaltoApi,
   OpetussuunnitelmatApi,
   OpetussuunnitelmatJulkisetApi,
@@ -78,7 +77,6 @@ export const Liitetiedostot = initApi(LiitetiedostotApi);
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
 export const Lops2019 = initApi(Lops2019Api);
 export const Lops2019Perusteet = initApi(Lops2019PerusteControllerApi);
-export const Ohjeet = initApi(OhjeetApi);
 export const OpetussuunnitelmanSisalto = initApi(OpetussuunnitelmanSisaltoApi);
 export const Opetussuunnitelmat = initApi(OpetussuunnitelmatApi);
 export const OpetussuunnitelmatJulkiset = initApi(OpetussuunnitelmatJulkisetApi);
@@ -114,7 +112,6 @@ export type Lops2019PoistettuDto = YlopsApi.Lops2019PoistettuDto;
 export type KommenttiDto = YlopsApi.Kommentti2019Dto;
 export type Matala = YlopsApi.Matala;
 export type MuokkaustietoKayttajallaDto = YlopsApi.MuokkaustietoKayttajallaDto;
-export type OhjeDto = YlopsApi.OhjeDto;
 export type OpetussuunnitelmaDto = YlopsApi.OpetussuunnitelmaDto;
 export type OpetussuunnitelmaInfoDto = YlopsApi.OpetussuunnitelmaInfoDto;
 export type OpetussuunnitelmaJulkinenDto = YlopsApi.OpetussuunnitelmaJulkinenDto;
