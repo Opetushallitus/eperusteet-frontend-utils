@@ -195,7 +195,9 @@ export default class EpContent extends Mixins(EpValidation) {
       },
       onFocus: () => {
         this.focused = true;
-        this.editor.setContent(fixTipTapContent(this.localizedValue));
+        if (!this.localizedValue) {
+          this.editor.setContent(fixTipTapContent(this.localizedValue));
+        }
       },
       onBlur: () => {
         this.focused = false;
