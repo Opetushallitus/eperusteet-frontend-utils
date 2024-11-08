@@ -1,5 +1,5 @@
 <template>
-  <component :is="component">
+  <component :is="component" :to="to">
     <span>
       <slot />
       <EpMaterialIcon v-if="piilotettu" class="ml-2" size="16px">visibility_off</EpMaterialIcon>
@@ -32,7 +32,7 @@ export default class EpNavigationLabel extends Vue {
   @Prop()
   node!: NavigationNodeDto;
 
-  @Prop()
+  @Prop({ required: false })
   to!: any;
 
   get component() {
