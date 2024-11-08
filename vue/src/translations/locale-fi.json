@@ -4438,5 +4438,14 @@
     "voimassaolevaan-perusteeseen": "voimassaolevaan perusteeseen",
     "katselet-talla-hetkella-voimassaolevaa-perustetta": "Katselet tällä hetkellä voimassaolevaa perustetta",
     "uusimpaan-perusteeseen": "uusimpaan perusteeseen",
-    "joka-on-tulossa-voimaan": "joka on tulossa voimaan {voimaantulo}"
+    "joka-on-tulossa-voimaan": "joka on tulossa voimaan {voimaantulo}",
+    "peruste-julkaisun-vaikutukset-1": "Julkaisussa uusi peruste tai perusteeseen tehdyt muutokset tulevat julkiseksi.",
+    "peruste-julkaisun-vaikutukset-2": "Julkaistusta perusteesta luodaan PDF-tiedosto. Myös tutkinnon perusteiden kv-liitteistä luodaan PDF-tiedostot suomeksi, ruotsiksi ja englanniksi.",
+    "peruste-julkaisun-vaikutukset-3": "Vanhat julkaisut näkyvät muutoshistoriassa.",
+    "peruste-julkaisun-vaikutukset-4": "Esikatselunäkymä estetään julkaisun yhteydessä. Sen voi aktivoida uudestaan Tiedot-näkymästä.",
+    "peruste-julkaisun-vaikutukset-ammatillinen-1": "Tutkinnon perusteiden muodostumisessa lisätyt uudet osaamisalat ja tutkintonimikkeet sekä uudet tutkinnon osat viedään koodistoon.",
+    "opetussuunnitelma-julkaisun-vaikutukset-1": "Julkaisussa uusi paikallinen suunnitelma tai niihin tehdyt muutokset tulevat julkiseksi.",
+    "opetussuunnitelma-julkaisun-vaikutukset-2": "Julkaistusta suunnitelmasta luodaan PDF-tiedosto.",
+    "opetussuunnitelma-julkaisun-vaikutukset-3": "Vanhat julkaisut näkyvät muutoshistoriassa.",
+    "opetussuunnitelma-julkaisun-vaikutukset-4": "Esikatselunäkymä estetään julkaisun yhteydessä. Sen voi aktivoida uudestaan Tiedot-näkymästä."
 }
