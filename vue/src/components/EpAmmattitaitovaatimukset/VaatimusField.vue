@@ -16,6 +16,7 @@
                   @resize="onResize"
                   @focus="focused = true"
                   @blur="onBlur"
+                  :placeholder="placeholder"
                   ref="input"
                   v-if="!value.koodi" />
                 <b-form-input
@@ -186,6 +187,12 @@ export default class VaatimusField extends Vue {
 
   get koodiArvo() {
     return _.size(this.value.koodi.uri?.split('_')) === 2 ? this.value.koodi.uri?.split('_')[1] : this.value.koodi.arvo;
+  }
+
+  get placeholder() {
+    if (!this.focused && this.value?.vaatimus) {
+      return this.$kaannaPlaceholder(this.value.vaatimus as any);
+    }
   }
 }
 </script>
