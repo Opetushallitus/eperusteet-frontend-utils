@@ -6,10 +6,10 @@
         <slot name="empty">{{ $t('ei-julkaisuja') }}</slot>
       </div>
       <div v-else>
-        <EpJulkaisuLista :julkaisut="julkaisutMapped.slice(0,2)"
+        <EpJulkaisuLista :julkaisut="julkaisutMapped.slice(0,sliceSize)"
                          :latest-julkaisu-revision="latestJulkaisuRevision">
         </EpJulkaisuLista>
-        <EpCollapse v-if="julkaisut.length > 2"
+        <EpCollapse v-if="!naytaKaikki && julkaisut.length > sliceSize"
                     :borderBottom="false"
                     class="mt-4"
                     :expandedByDefault="false"
@@ -56,6 +56,13 @@ interface Julkaisu {
 export default class EpJulkaisuHistoriaJulkinen extends Vue {
   @Prop({ required: false })
   private julkaisut!: Julkaisu[];
+
+  @Prop({ required: false, type: Boolean, default: false })
+  private naytaKaikki!: boolean;
+
+  get sliceSize() {
+    return this.naytaKaikki ? this.julkaisut.length : 2;
+  }
 
   get julkaisutMapped() {
     return _.chain(this.julkaisut)

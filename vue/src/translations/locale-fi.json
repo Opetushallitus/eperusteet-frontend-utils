@@ -4448,5 +4448,7 @@
     "opetussuunnitelma-julkaisun-vaikutukset-1": "Julkaisussa uusi paikallinen suunnitelma tai niihin tehdyt muutokset tulevat julkiseksi.",
     "opetussuunnitelma-julkaisun-vaikutukset-2": "Julkaistusta suunnitelmasta luodaan PDF-tiedosto.",
     "opetussuunnitelma-julkaisun-vaikutukset-3": "Vanhat julkaisut näkyvät muutoshistoriassa.",
-    "opetussuunnitelma-julkaisun-vaikutukset-4": "Esikatselunäkymä estetään julkaisun yhteydessä. Sen voi aktivoida uudestaan Tiedot-näkymästä."
+    "opetussuunnitelma-julkaisun-vaikutukset-4": "Esikatselunäkymä estetään julkaisun yhteydessä. Sen voi aktivoida uudestaan Tiedot-näkymästä.",
+    "uusin-voimassaoleva": "Uusin voimassaoleva",
+    "peruste-saatavilla-opetushallituksen-arkistosta": "Peruste saatavilla Opetushallituksen arkistosta."
 }

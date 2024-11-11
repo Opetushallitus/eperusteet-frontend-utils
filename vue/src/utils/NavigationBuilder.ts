@@ -5,7 +5,7 @@ import { Location } from 'vue-router';
 import { PerusteBaseDtoOpasTyyppiEnum, PerusteKaikkiDtoTyyppiEnum } from '@shared/api/eperusteet';
 
 export type NavigationType =
-  'root' | 'linkki' | 'viite' | 'tiedot' | 'laajaalaiset'
+  'root' | 'linkki' | 'viite' | 'tiedot' | 'laajaalaiset' | 'muutoshistoria'
   | 'oppiaineet' | 'oppiaine' | 'oppimaarat' | 'poppiaine' | 'lukiooppiaine_2015' | 'lukiooppimaarat_2015' | 'lukiokurssit' | 'lukiokurssi'
   | 'moduulit' | 'moduuli'
   | 'suorituspolku' | 'osasuorituspolku'
@@ -32,13 +32,13 @@ export interface NavigationFilter {
 
 export function buildNavigation(
   rawNavigation: NavigationNodeDto,
-  tiedot: NavigationNode | null,
+  tiedot: NavigationNode | NavigationNode[] | null,
   isOps = false,
   revision?: string,
 ) {
   const navigation = traverseNavigation(rawNavigation, isOps, revision);
   const rakenne = buildRoot(rawNavigation, [
-    ...(tiedot ? [tiedot] : []),
+    ...(_.isArray(tiedot) ? tiedot : _.isObject(tiedot) ? [tiedot] : []),
     ...navigation!.children,
   ]);
   setParents(rakenne, [rakenne]);
@@ -933,9 +933,13 @@ function buildRoot(rawNavigation: NavigationNodeDto, children: NavigationNode[])
 }
 
 export function buildTiedot(routeName: string, params: object): NavigationNode {
+  return buildNavigationNode('tiedot', 'tiedot', routeName, params);
+}
+
+export function buildNavigationNode(type: NavigationType, label: string, routeName: string, params?: object): NavigationNode {
   return {
-    type: 'tiedot',
-    label: 'tiedot',
+    type: type,
+    label: label,
     path: [],
     location: {
       name: routeName,
