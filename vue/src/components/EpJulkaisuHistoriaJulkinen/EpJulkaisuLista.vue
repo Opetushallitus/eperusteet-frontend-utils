@@ -2,19 +2,20 @@
   <div class="mt-2">
     <div v-for="(julkaisu, index) in julkaisutFiltered" :key="'julkaisu'+index" class="julkaisu pb-2 pt-2 ml-1 px-3">
       <div class="d-flex">
-        <span class="font-bold font-size pr-3">{{$t('julkaisu')}} {{ $sd(julkaisu.luotu) }}</span>
-        <span v-if="latestJulkaisuRevision && latestJulkaisuRevision.revision === julkaisu.revision" class="julkaistu">{{$t('uusin')}}</span>
+        <span class="font-bold font-size pr-4">{{$t('julkaisu')}} {{ $sd(julkaisu.luotu) }}</span>
+        <span v-if="versio === julkaisu.revision" class="pr-4">
+          <EpMaterialIcon size="18px" class="pr-1">visibility</EpMaterialIcon>
+          <span class="font-italic">{{ $t('katselet-tata-julkaisua') }}</span>
+        </span>
+        <span v-if="latestJulkaisuRevision && latestJulkaisuRevision.revision === julkaisu.revision" class="julkaistu">{{$t('uusin-voimassaoleva')}}</span>
         <router-link v-if="latestJulkaisuRevision && latestJulkaisuRevision.revision !== julkaisu.revision && versio !== julkaisu.revision"
                      :to="{ name: 'perusteTiedot', params: { perusteId: julkaisu.peruste.id, revision: julkaisu.revision } }">
           {{ $t('siirry-julkaisuun') }}
         </router-link>
-        <span v-if="versio === julkaisu.revision" class="font-italic">{{ $t('katselet-tata-julkaisua') }}</span>
       </div>
       <div v-if="julkaisu.muutosmaaraysVoimaan && julkaisu.liitteet && julkaisu.liitteet.length > 0" class="mt-2 d-flex">
-        <div v-for="(liiteData, index) in julkaisu.liitteet" :key="'maarays'+index" class="maarayslinkit">
-          <a :href="liiteData.url"
-             target="_blank"
-             rel="noopener noreferrer">{{ liiteData.nimi }}</a>
+        <div v-for="(liiteData, index) in julkaisu.liitteet" :key="'maarays'+index" class="pdf-url">
+          <EpPdfLink :url="liiteData.url">{{ $kaanna(liiteData.nimi) }}</EpPdfLink>
         </div>
         <div class="voimassaolo-alkaa">
           <span class="pl-2">{{$t('voimassaolo-alkaa')}}</span>
@@ -93,7 +94,7 @@ export default class EpJulkaisuLista extends Vue {
   }
 
   get versio() {
-    return _.toNumber(this.$route.params?.revision);
+    return _.toNumber(this.$route.params?.revision) || _.max(_.map(this.julkaisut, 'revision'));
   }
 }
 </script>
@@ -143,6 +144,7 @@ export default class EpJulkaisuLista extends Vue {
 
 .pdf-url {
   width: 70%;
+  word-break: break-word;
 }
 
 .voimassaolo-alkaa {
