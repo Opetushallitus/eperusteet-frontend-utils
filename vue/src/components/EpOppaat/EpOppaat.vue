@@ -64,7 +64,7 @@ import KoulutustyyppiSelect from '@shared/components/forms/EpKoulutustyyppiSelec
 import { EperusteetKoulutustyypit } from '@shared/utils/perusteet';
 import EpPagination from '@shared/components/EpPagination/EpPagination.vue';
 import { OppaatQuery } from '@shared/api/eperusteet';
-import { buildEsikatseluUrl } from '@shared/utils/esikatselu';
+import { buildKatseluUrl } from '@shared/utils/esikatselu';
 import { Kielet } from '@shared/stores/kieli';
 import EpExternalLink from '@shared/components/EpExternalLink/EpExternalLink.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
@@ -118,7 +118,7 @@ export default class EpOppaat extends Vue {
     return _.map(this.oppaat, opas => {
       return {
         ...opas,
-        url: buildEsikatseluUrl(Kielet.getSisaltoKieli.value, `/opas/${_.get(opas, 'id')}`),
+        url: buildKatseluUrl(Kielet.getSisaltoKieli.value, `/opas/${_.get(opas, 'id')}`),
       };
     });
   }
