@@ -11,6 +11,7 @@
                 </div>
                 <b-form-input
                   class="vaatimus"
+                  :class="{ 'placeholder': placeholder }"
                   :value="vaatimus"
                   @input="onInput"
                   @resize="onResize"

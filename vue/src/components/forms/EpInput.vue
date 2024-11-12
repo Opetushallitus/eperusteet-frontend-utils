@@ -33,7 +33,8 @@
 </div>
 <div v-else v-bind="$attrs">
   <h2 v-if="isHeader">{{ val }}</h2>
-  <span v-else>{{ val }}{{ unit ? ' ' + $kaannaOlioTaiTeksti(unit) : '' }}</span>
+  <span v-else-if="val">{{ val }}{{ unit ? ' ' + $kaannaOlioTaiTeksti(unit) : '' }}</span>
+  <span class="placeholder" v-else-if="placeholderValue">{{ placeholderValue }}</span>
 </div>
 </template>
 
@@ -181,12 +182,12 @@ export default class EpInput extends Mixins(EpValidation) {
   }
 
   get placeholderValue() {
-    if (!this.focus && this.isEditing) {
-      if (this.placeholder) {
+    if (!this.focus) {
+      if (this.placeholder && this.isEditing) {
         return this.placeholder;
       }
 
-      return this.$kaannaPlaceholder(this.value as any);
+      return this.$kaannaPlaceholder(this.value as any, !this.isEditing);
     }
   }
 }

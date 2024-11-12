@@ -10,6 +10,8 @@ import { Computed } from '../utils/interfaces';
 
 Vue.use(VueCompositionApi);
 
+const TextArea = document.createElement('textarea');
+
 declare module 'vue/types/vue' {
   interface Vue {
     $locale: Computed<string>;
@@ -204,7 +206,7 @@ export class KieliStore {
     }
   };
 
-  public kaannaPlaceholder(value?: LokalisoituTeksti | undefined | null) {
+  public kaannaPlaceholder(value?: LokalisoituTeksti | undefined | null, squareBrackets = false) {
     if (!value) {
       return '';
     }
@@ -214,7 +216,20 @@ export class KieliStore {
       }
 
       const kielet = _.reject(['fi', 'sv', 'en', 'se', 'ru'], kieli => kieli === this.getSisaltoKieli.value);
-      return _.find(_.map(kielet, kieli => value[kieli] as string));
+      const result = _.find(_.map(kielet, kieli => value[kieli] as string));
+
+      if (squareBrackets) {
+        const pCount = (result?.match(/<p>/g) || []).length;
+        if (pCount === 1) {
+          return result?.replace(/<p>(.*?)<\/p>/g, (match, p1) => `<p>[${p1}]</p>`);
+        }
+
+        if (pCount === 0) {
+          return `[${result}]`;
+        }
+      }
+
+      return result;
     }
   }
 
