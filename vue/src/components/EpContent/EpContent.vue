@@ -146,7 +146,7 @@ export default class EpContent extends Mixins(EpValidation) {
   }
 
   get placeholder() {
-    if (!this.focused || !this.isEditable) {
+    if (!this.focused) {
       return this.$kaannaPlaceholder(this.value, !this.isEditable);
     }
   }
@@ -192,9 +192,11 @@ export default class EpContent extends Mixins(EpValidation) {
         this.setUpEditorEvents();
       },
       onFocus: () => {
-        this.focused = true;
-        if (!this.localizedValue && this.isEditable) {
-          this.editor.setContent(fixTipTapContent(this.localizedValue));
+        if (this.isEditable) {
+          this.focused = true;
+          if (!this.localizedValue) {
+            this.editor.setContent(fixTipTapContent(this.localizedValue));
+          }
         }
       },
       onBlur: () => {

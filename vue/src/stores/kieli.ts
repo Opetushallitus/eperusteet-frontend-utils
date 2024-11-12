@@ -10,8 +10,6 @@ import { Computed } from '../utils/interfaces';
 
 Vue.use(VueCompositionApi);
 
-const TextArea = document.createElement('textarea');
-
 declare module 'vue/types/vue' {
   interface Vue {
     $locale: Computed<string>;

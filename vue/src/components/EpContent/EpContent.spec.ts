@@ -150,12 +150,13 @@ describe('EpContent component', () => {
     expect(wrapper.html()).toContain('teksti1234');
 
     Kielet.setSisaltoKieli(Kieli.sv);
-    expect(wrapper.html()).not.toContain('teksti1234');
+    expect(wrapper.html()).toContain('[teksti1234]');
 
     wrapper.setProps({ isEditable: true });
 
     await localVue.nextTick();
     expect(wrapper.html()).toContain('teksti1234');
+    expect(wrapper.html()).not.toContain('[teksti1234]');
     expect(wrapper.html()).toContain('placeholder');
 
     wrapper.setProps({ value: {
@@ -165,6 +166,24 @@ describe('EpContent component', () => {
     );
 
     expect(wrapper.html()).not.toContain('placeholder');
+
+    wrapper.setProps({ value: {
+      fi: '<p>teksti1234</p>',
+    },
+    isEditable: false,
+    });
+
+    await localVue.nextTick();
+    expect(wrapper.html()).toContain('[teksti1234]');
+
+    wrapper.setProps({ value: {
+      fi: '<p>teksti1234</p><p>teksti1234</p>',
+    },
+    isEditable: false,
+    });
+
+    await localVue.nextTick();
+    expect(wrapper.html()).not.toContain('[teksti1234]');
   });
 });
 

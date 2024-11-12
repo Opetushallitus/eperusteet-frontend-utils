@@ -183,7 +183,7 @@ export default class EpInput extends Mixins(EpValidation) {
 
   get placeholderValue() {
     if (!this.focus) {
-      if (this.placeholder && this.isEditing) {
+      if (this.placeholder) {
         return this.placeholder;
       }
 
