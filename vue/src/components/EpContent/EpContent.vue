@@ -305,6 +305,10 @@ export default class EpContent extends Mixins(EpValidation) {
   padding: 0;
   word-break: break-word;
 
+  .placeholder {
+    opacity: 0.5;
+  }
+
   ::v-deep abbr {
     text-decoration: none !important;
     border-bottom: 1px dotted #999;

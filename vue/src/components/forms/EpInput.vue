@@ -265,4 +265,8 @@ input::placeholder {
   display: block;
 }
 
+.placeholder {
+  opacity: 0.5;
+}
+
 </style>
