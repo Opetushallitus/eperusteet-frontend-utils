@@ -1,26 +1,24 @@
 <template>
-
-<div class="ep-content">
-  <ep-editor-menu-bar
-    :layout="layout"
-    :is-editable="isEditable"
-    :editor="editor"
-    :help="toolbarHelp"
-    v-sticky="isSticky"
-    sticky-offset="{ top: 114 }"
-    sticky-z-index="500"
-    />
-  <editor-content
-    ref="content"
-    :editor="editor"
-    :class="{ 'content-invalid': validation && validationError, 'content-valid': validation && !validationError, 'placeholder': placeholder }"
-    v-observe-visibility="visibilityChanged"/>
-  <div class="valid-feedback" v-if="!validationError && validMessage && isEditable">{{ $t(validMessage) }}</div>
-  <div class="invalid-feedback" v-else-if="validationError && invalidMessage && isEditable">{{ $t(invalidMessage) }}</div>
-  <div class="invalid-feedback" v-else-if="validationError && !invalidMessage && isEditable">{{ $t('validation-error-' + validationError, validation.$params[validationError]) }}</div>
-  <small class="form-text text-muted" v-if="help && isEditable">{{ $t(help) }}</small>
-</div>
-
+  <div class="ep-content">
+    <ep-editor-menu-bar
+      :layout="layout"
+      :is-editable="isEditable"
+      :editor="editor"
+      :help="toolbarHelp"
+      v-sticky="isSticky"
+      sticky-offset="{ top: 114 }"
+      sticky-z-index="500"
+      />
+    <editor-content
+      ref="content"
+      :editor="editor"
+      :class="{ 'content-invalid': validation && validationError, 'content-valid': validation && !validationError, 'placeholder': placeholder }"
+      v-observe-visibility="visibilityChanged"/>
+    <div class="valid-feedback" v-if="!validationError && validMessage && isEditable">{{ $t(validMessage) }}</div>
+    <div class="invalid-feedback" v-else-if="validationError && invalidMessage && isEditable">{{ $t(invalidMessage) }}</div>
+    <div class="invalid-feedback" v-else-if="validationError && !invalidMessage && isEditable">{{ $t('validation-error-' + validationError, validation.$params[validationError]) }}</div>
+    <small class="form-text text-muted" v-if="help && isEditable">{{ $t(help) }}</small>
+  </div>
 </template>
 
 <script lang="ts">
@@ -148,8 +146,8 @@ export default class EpContent extends Mixins(EpValidation) {
   }
 
   get placeholder() {
-    if (!this.focused && this.isEditable) {
-      return this.$kaannaPlaceholder(this.value);
+    if (!this.focused) {
+      return this.$kaannaPlaceholder(this.value, !this.isEditable);
     }
   }
 
@@ -194,9 +192,11 @@ export default class EpContent extends Mixins(EpValidation) {
         this.setUpEditorEvents();
       },
       onFocus: () => {
-        this.focused = true;
-        if (!this.localizedValue) {
-          this.editor.setContent(fixTipTapContent(this.localizedValue));
+        if (this.isEditable) {
+          this.focused = true;
+          if (!this.localizedValue) {
+            this.editor.setContent(fixTipTapContent(this.localizedValue));
+          }
         }
       },
       onBlur: () => {
@@ -363,12 +363,6 @@ export default class EpContent extends Mixins(EpValidation) {
     text-decoration: underline;
     text-decoration-style: dotted;
     text-decoration-color: red;
-  }
-
-  .placeholder {
-    ::v-deep .form-control {
-      color: #adb5bd !important;
-    }
   }
 }
 

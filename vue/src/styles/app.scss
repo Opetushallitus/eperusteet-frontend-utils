@@ -195,3 +195,11 @@ img.content-image {
 .taulukko-rivi-varitys:nth-of-type(odd) {
   background-color: $table-odd-row-bg-color;
 }
+
+.placeholder {
+  opacity: 0.5;
+}
+
+.placeholder ::v-deep .form-control {
+  opacity: 0.5;
+}

@@ -93,11 +93,12 @@ describe('EpInput component', () => {
     Kielet.setSisaltoKieli(Kieli.sv);
 
     await localVue.nextTick();
-    expect(wrapper.html()).not.toContain('arvo');
+    expect(wrapper.html()).toContain('[arvo]');
 
     wrapper.setProps({ isEditing: true });
     await localVue.nextTick();
     expect(wrapper.html()).toContain('arvo');
+    expect(wrapper.html()).not.toContain('[arvo]');
 
     wrapper.find('input[type="text"]').trigger('focus');
     await localVue.nextTick();
