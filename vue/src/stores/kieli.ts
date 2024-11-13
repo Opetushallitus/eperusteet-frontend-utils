@@ -216,18 +216,7 @@ export class KieliStore {
       const kielet = _.reject(['fi', 'sv', 'en', 'se', 'ru'], kieli => kieli === this.getSisaltoKieli.value);
       const result = _.find(_.map(kielet, kieli => value[kieli] as string));
 
-      if (squareBrackets) {
-        const pCount = (result?.match(/<p>/g) || []).length;
-        if (pCount === 1) {
-          return result?.replace(/<p>(.*?)<\/p>/g, (match, p1) => `<p>[${p1}]</p>`);
-        }
-
-        if (pCount === 0) {
-          return `[${result}]`;
-        }
-      }
-
-      return result;
+      return squareBrackets ? `[${result}]` : result;
     }
   }
 

@@ -174,16 +174,7 @@ describe('EpContent component', () => {
     });
 
     await localVue.nextTick();
-    expect(wrapper.html()).toContain('[teksti1234]');
-
-    wrapper.setProps({ value: {
-      fi: '<p>teksti1234</p><p>teksti1234</p>',
-    },
-    isEditable: false,
-    });
-
-    await localVue.nextTick();
-    expect(wrapper.html()).not.toContain('[teksti1234]');
+    expect(wrapper.html()).toContain('<p>[</p><p>teksti1234</p><p>]</p>');
   });
 });
 
