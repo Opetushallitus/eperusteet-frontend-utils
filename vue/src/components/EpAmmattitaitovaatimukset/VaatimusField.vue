@@ -105,7 +105,7 @@ export default class VaatimusField extends Vue {
   private isLoading = false;
 
   get vaatimus() {
-    return this.value?.vaatimus ? this.value.vaatimus[this.$slang.value] : '';
+    return this.value?.vaatimus ? _.unescape(this.value.vaatimus[this.$slang.value]) : '';
   }
 
   get isDatalistVisible() {
@@ -152,7 +152,7 @@ export default class VaatimusField extends Vue {
       ...this.value,
       vaatimus: {
         ...this.value.vaatimus,
-        [this.$slang.value]: ev,
+        [this.$slang.value]: _.escape(ev),
       },
     });
     await this.fetchKoodisto(ev);
