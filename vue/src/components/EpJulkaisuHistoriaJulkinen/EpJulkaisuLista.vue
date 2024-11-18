@@ -7,7 +7,7 @@
           <EpMaterialIcon size="18px" class="pr-1">visibility</EpMaterialIcon>
           <span class="font-italic">{{ $t('katselet-tata-julkaisua') }}</span>
         </span>
-        <span v-if="latestJulkaisuRevision && latestJulkaisuRevision.revision === julkaisu.revision" class="julkaistu">{{$t('uusin-voimassaoleva')}}</span>
+        <!-- <span v-if="latestJulkaisuRevision && latestJulkaisuRevision.revision === julkaisu.revision" class="julkaistu">{{$t('uusin-voimassaoleva')}}</span> -->
         <router-link v-if="latestJulkaisuRevision && latestJulkaisuRevision.revision !== julkaisu.revision && versio !== julkaisu.revision"
                      :to="{ name: 'perusteTiedot', params: { perusteId: julkaisu.peruste.id, revision: julkaisu.revision } }">
           {{ $t('siirry-julkaisuun') }}
