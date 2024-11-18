@@ -1,7 +1,7 @@
 <template>
   <div class="mt-2">
-    <div v-for="(julkaisu, index) in julkaisutFiltered" :key="'julkaisu'+index" class="julkaisu pb-2 pt-2 ml-1 px-3">
-      <div class="d-flex">
+    <div v-for="(julkaisu, index) in julkaisutFiltered" :key="'julkaisu'+index" class="julkaisu taulukko-rivi-varitys pb-2 pt-2 px-2">
+      <div class="d-flex align-items-end">
         <span class="font-bold font-size pr-4">{{$t('julkaisu')}} {{ $sd(julkaisu.luotu) }}</span>
         <span v-if="versio === julkaisu.revision" class="pr-4">
           <EpMaterialIcon size="18px" class="pr-1">visibility</EpMaterialIcon>
@@ -102,23 +102,21 @@ export default class EpJulkaisuLista extends Vue {
 <style scoped lang="scss">
 @import '@shared/styles/_variables';
 
-.julkaisu:nth-of-type(even) {
-  background-color: $gray-lighten-13;
-}
-
 .julkaistu {
   border-radius: 25px;
   background-color: $green-1;
   padding: 1px 10px;
   margin-left: 10px;
-  color: $black;
+  color: $white;
 
   &--kesken {
     background-color: $yellow-1;
+    color: $black;
   }
 
   &--virhe {
     background-color: $red-lighten-1;
+    color: $black;
   }
 }
 

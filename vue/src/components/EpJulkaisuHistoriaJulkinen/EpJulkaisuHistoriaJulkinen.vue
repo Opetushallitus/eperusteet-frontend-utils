@@ -34,7 +34,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import EpCollapse from '@shared/components/EpCollapse/EpCollapse.vue';
-import EpJulkaisuLista from '@shared//components/EpJulkaisuHistoriaJulkinen/EpJulkaisuLista.vue';
+import EpJulkaisuLista from '@shared/components/EpJulkaisuHistoriaJulkinen/EpJulkaisuLista.vue';
 
 interface Julkaisu {
   muutosmaaraysVoimaan?: Date;
