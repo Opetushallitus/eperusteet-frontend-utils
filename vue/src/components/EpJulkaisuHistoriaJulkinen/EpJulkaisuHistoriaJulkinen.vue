@@ -6,23 +6,8 @@
         <slot name="empty">{{ $t('ei-julkaisuja') }}</slot>
       </div>
       <div v-else>
-        <EpJulkaisuLista :julkaisut="julkaisutMapped.slice(0,sliceSize)"
-                         :latest-julkaisu-revision="latestJulkaisuRevision">
-        </EpJulkaisuLista>
-        <EpCollapse v-if="!naytaKaikki && julkaisut.length > sliceSize"
-                    :borderBottom="false"
-                    class="mt-4"
-                    :expandedByDefault="false"
-                    :chevronLocation="'left'"
-                    :use-padding="false">
-          <template v-slot:header="{ toggled }">
-            <template v-if="!toggled">{{$t('nayta-lisaa')}}</template>
-            <template v-if="toggled">{{$t('nayta-vahemman')}}</template>
-          </template>
-          <EpJulkaisuLista :julkaisut="julkaisutMapped.slice(2)"
-                           :latest-julkaisu-revision="latestJulkaisuRevision">
-          </EpJulkaisuLista>
-        </EpCollapse>
+        <EpJulkaisuLista
+          :julkaisut="julkaisutMapped"/>
       </div>
     </template>
   </div>
@@ -76,10 +61,6 @@ export default class EpJulkaisuHistoriaJulkinen extends Vue {
       .sortBy('revision')
       .reverse()
       .value();
-  }
-
-  get latestJulkaisuRevision() {
-    return _.find(this.julkaisutMapped, julkaisu => julkaisu.tila === 'JULKAISTU');
   }
 
   muutosmaaraysLiite(julkaisu) {

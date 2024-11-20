@@ -1,35 +1,34 @@
 <template>
   <div class="mt-2">
-    <div v-for="(julkaisu, index) in julkaisutFiltered" :key="'julkaisu'+index" class="julkaisu taulukko-rivi-varitys pb-2 pt-2 px-2">
-      <div class="d-flex align-items-end">
-        <span class="font-bold font-size pr-4">{{$t('julkaisu')}} {{ $sd(julkaisu.luotu) }}</span>
-        <span v-if="versio === julkaisu.revision" class="pr-4">
-          <EpMaterialIcon size="18px" class="pr-1">visibility</EpMaterialIcon>
-          <span class="font-italic">{{ $t('katselet-tata-julkaisua') }}</span>
-        </span>
-        <!-- <span v-if="latestJulkaisuRevision && latestJulkaisuRevision.revision === julkaisu.revision" class="julkaistu">{{$t('uusin-voimassaoleva')}}</span> -->
-        <router-link v-if="latestJulkaisuRevision && latestJulkaisuRevision.revision !== julkaisu.revision && versio !== julkaisu.revision"
-                     :to="{ name: 'perusteTiedot', params: { perusteId: julkaisu.peruste.id, revision: julkaisu.revision } }">
-          {{ $t('siirry-julkaisuun') }}
-        </router-link>
-      </div>
-      <div v-if="julkaisu.muutosmaaraysVoimaan && julkaisu.liitteet && julkaisu.liitteet.length > 0" class="mt-2 d-flex">
-        <div v-for="(liiteData, index) in julkaisu.liitteet" :key="'maarays'+index" class="pdf-url">
-          <EpPdfLink :url="liiteData.url">{{ $kaanna(liiteData.nimi) }}</EpPdfLink>
+    <div v-for="(julkaisu, index) in julkaisutMapped" :key="'julkaisu'+index" class="julkaisu taulukko-rivi-varitys pb-2 pt-2 px-2">
+      <div class="d-flex align-items-end justify-content-between">
+        <div>
+          <span class="font-bold font-size pr-4">{{$t('julkaisu')}} {{ $sd(julkaisu.luotu) }}</span>
+          <span v-if="versio === julkaisu.revision" class="pr-4">
+            <EpMaterialIcon size="18px" class="pr-1">visibility</EpMaterialIcon>
+            <span class="font-italic">{{ $t('katselet-tata-julkaisua') }}</span>
+          </span>
+          <router-link
+            v-if="versio !== julkaisu.revision"
+            :to="{ name: 'perusteTiedot', params: { perusteId: julkaisu.peruste.id, revision: julkaisu.revision } }">
+            {{ $t('siirry-julkaisuun') }}
+          </router-link>
         </div>
-        <div class="voimassaolo-alkaa">
-          <span class="pl-2">{{$t('voimassaolo-alkaa')}}</span>
-          <span class="ml-1 font-bold">{{ $sd(julkaisu.muutosmaaraysVoimaan) }}</span>
-        </div>
-      </div>
-      <div v-if="julkaisu.muutosmaarays" class="d-flex mt-2">
-        <div class="pdf-url">
-          <EpPdfLink :url="julkaisu.muutosmaarays.url">{{ $kaanna(julkaisu.muutosmaarays.nimi) }}</EpPdfLink>
-        </div>
-        <div class="voimassaolo-alkaa">
+        <div v-if="julkaisu.revision === uusinVoimassaolevaJulkaisu.revision" class="julkaistu">{{$t('voimassaoleva')}}</div>
+        <div class="voimassaolo-alkaa text-right" v-else-if="julkaisu.muutosmaarays">
           <span class="pl-2">{{$t('voimassaolo-alkaa')}}</span>
           <span class="ml-1 font-bold">{{$sd(julkaisu.muutosmaarays.voimassaoloAlkaa)}}</span>
         </div>
+      </div>
+      <div v-if="julkaisu.muutosmaarays" class="d-flex mt-2">
+        <div class="pdf-url" v-if="julkaisu.muutosmaarays.url">
+          <EpPdfLink :url="julkaisu.muutosmaarays.url">{{ $kaanna(julkaisu.muutosmaarays.nimi) }}</EpPdfLink>
+        </div>
+        <template v-if="julkaisu.liitteet && julkaisu.liitteet.length > 0">
+          <div v-for="(liiteData, index) in julkaisu.liitteet" :key="'maarays'+index" class="pdf-url">
+            <EpPdfLink :url="liiteData.url">{{ $kaanna(liiteData.nimi) }}</EpPdfLink>
+          </div>
+        </template>
       </div>
       <div v-if="julkaisu.julkinenTiedote" class="my-1" v-html="$kaanna(julkaisu.julkinenTiedote)"></div>
       <EpCollapse :borderBottom="false"
@@ -65,10 +64,7 @@ export default class EpJulkaisuLista extends Vue {
   @Prop({ required: true })
   private julkaisut!: any[];
 
-  @Prop({ required: true })
-  private latestJulkaisuRevision!: any;
-
-  get julkaisutFiltered() {
+  get julkaisutMapped() {
     return _.chain(this.julkaisut)
       .map(julkaisu => {
         return {
@@ -80,6 +76,14 @@ export default class EpJulkaisuLista extends Vue {
               url: this.muutosmaaraysUrl(julkaisu.muutosmaarays),
             },
           }),
+        };
+      })
+      .map(julkaisu => {
+        return {
+          ...julkaisu,
+          muutosmaarays: (!julkaisu.muutosmaarays && julkaisu.muutosmaaraysVoimaan && {
+            voimassaoloAlkaa: julkaisu.muutosmaaraysVoimaan,
+          }) || julkaisu.muutosmaarays,
         };
       })
       .value();
@@ -95,6 +99,26 @@ export default class EpJulkaisuLista extends Vue {
 
   get versio() {
     return _.toNumber(this.$route.params?.revision) || _.max(_.map(this.julkaisut, 'revision'));
+  }
+
+  get julkaisutSorted() {
+    return _.sortBy(this.julkaisut, 'revision');
+  }
+
+  get julkaisutReversed() {
+    return _.clone(this.julkaisutSorted).reverse();
+  }
+
+  get ensimmainenTulevaMuutosmaarays() {
+    return _.find(this.julkaisutSorted, julkaisu => julkaisu.muutosmaarays && julkaisu.muutosmaarays.voimassaoloAlkaa > Date.now());
+  }
+
+  get uusinTulevaMuutosmaarays() {
+    return _.find(this.julkaisutReversed, julkaisu => julkaisu.muutosmaarays && julkaisu.muutosmaarays.voimassaoloAlkaa > Date.now());
+  }
+
+  get uusinVoimassaolevaJulkaisu() {
+    return _.find(this.julkaisutReversed, julkaisu => julkaisu.revision < this.ensimmainenTulevaMuutosmaarays?.revision) || _.first(this.julkaisutReversed);
   }
 }
 </script>
