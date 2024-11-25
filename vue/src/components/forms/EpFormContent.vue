@@ -1,5 +1,5 @@
 <template>
-<div class="form-group form-content">
+  <div class="form-group form-content">
     <div v-if="showHeader">
       <div v-if="name">
         <h3 :class="headerClass" v-if="headerType === 'h3'">{{ $t(name, lang) }}</h3>
@@ -7,8 +7,10 @@
       </div>
       <slot name="header"></slot>
     </div>
-    <slot></slot>
-</div>
+    <div>
+      <slot></slot>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
