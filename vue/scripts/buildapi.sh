@@ -75,13 +75,14 @@ generate_eperusteet() {
     show_eperusteet_missing_env_warn
 		
     cd "$EPERUSTEET_SERVICE_DIR" \
-      && mvn clean compile --batch-mode -B -Pgenerate-openapi \
+      && mvn verify -Pspringdoc \
 	  && cd "${eperusteetgen}"
   fi
 
   EPERUSTEET_SPECFILE=${EPERUSTEET_SPECFILE:-"https://raw.githubusercontent.com/Opetushallitus/eperusteet/master/generated/eperusteet.spec.json"}
   echo "Using EPERUSTEET_SPECFILE=${EPERUSTEET_SPECFILE}"
-  npx @openapitools/openapi-generator-cli@1.0.18-4.2.3 generate -c "${genconfig}" -i "${EPERUSTEET_SPECFILE}" -g typescript-axios
+  #npx @openapitools/openapi-generator-cli@2.15.3 generate -c "${genconfig}" -i "${EPERUSTEET_SPECFILE}" -g typescript-axios
+  npx --yes @openapitools/openapi-generator-cli@1.0.18-4.2.3 generate -c "${genconfig}" -i "${EPERUSTEET_SPECFILE}" -g typescript-axios
 }
 
 generate_ylops() {
