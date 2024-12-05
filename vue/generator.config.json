@@ -1,4 +1,5 @@
 {
   "supportsES6": true,
-  "modelPropertyNaming": "original"
+  "modelPropertyNaming": "original",
+  "enumPropertyNaming" : "original"
 }
