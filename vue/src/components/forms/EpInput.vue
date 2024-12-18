@@ -57,8 +57,14 @@ function escapeHtml(str: string | null) {
   }
   else {
     TextArea.textContent = str;
-    return TextArea.innerHTML;
+    return removeHiddenCharacters(TextArea.innerHTML);
   }
+}
+
+function removeHiddenCharacters(input: string): string {
+  // Regular expression to match common hidden or invisible characters
+  const hiddenCharactersRegex = /[\u00AD\u200B\u200C\u200D\u2060\uFEFF\u2028\u2029\u00A0\u2009\u200A\u2003\u2002\u202A\u202B\u202C\u202D\u202E]/g;
+  return input.replace(hiddenCharactersRegex, '');
 }
 
 @Component({
