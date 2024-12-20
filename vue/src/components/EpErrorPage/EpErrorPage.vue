@@ -38,7 +38,7 @@ export default class EpErrorPage extends Vue {
   mounted() {
     const meta = document.createElement('meta');
     meta.setAttribute('name', 'robots');
-    meta.setAttribute('content', 'noindex');
+    meta.setAttribute('content', 'noindex,nofollow');
     document.head.appendChild(meta);
   }
 
