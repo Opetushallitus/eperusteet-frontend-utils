@@ -64,18 +64,18 @@ show_amosaa_missing_env_warn() {
 }
 
 generate_eperusteet() {
-	
+
   eperusteetgen="${rootdir}/src/generated/eperusteet"
 
   mkdir -p "${eperusteetgen}"
   cd "${eperusteetgen}" || exit 1
-	
+
   if [[ $generateSpecFile = "yes" ]]
   then
     show_eperusteet_missing_env_warn
-		
+
     cd "$EPERUSTEET_SERVICE_DIR" \
-      && mvn verify -Pspringdoc \
+    && mvn verify -Pspringdoc \
 	  && cd "${eperusteetgen}"
   fi
 
@@ -94,10 +94,10 @@ generate_ylops() {
 
   if [[ $generateSpecFile = "yes" ]]
   then
-	show_ylops_missing_env_warn
-		
-	cd "$YLOPS_SERVICE_DIR" \
-      && mvn clean compile --batch-mode -B -Pgenerate-openapi \
+	  show_ylops_missing_env_warn
+
+	  cd "$YLOPS_SERVICE_DIR" \
+    && mvn verify -Pspringdoc \
 	  && cd "${ylopsgen}"
   fi
 
@@ -115,10 +115,10 @@ generate_amosaa() {
 
   if [[ $generateSpecFile = "yes" ]]
   then
-	show_amosaa_missing_env_warn
-		
-	cd "$AMOSAA_SERVICE_DIR" \
-      && mvn clean compile --batch-mode -B -Pgenerate-openapi \
+	  show_amosaa_missing_env_warn
+
+	  cd "$AMOSAA_SERVICE_DIR" \
+    && mvn clean compile --batch-mode -B -Pgenerate-openapi \
 	  && cd "${amosaagen}"
   fi
 
