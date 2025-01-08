@@ -23,6 +23,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import _ from 'lodash';
 import eiLoydyImage from '@assets/img/images/404.svg';
 import virhekuva from '@assets/img/images/virhe.png';
+import { Meta } from '@shared/utils/decorators';
 
 @Component
 export default class EpErrorPage extends Vue {
@@ -35,11 +36,17 @@ export default class EpErrorPage extends Vue {
   @Prop({ required: false, default: 'root' })
   private paluukohde?: string;
 
-  mounted() {
-    const meta = document.createElement('meta');
-    meta.setAttribute('name', 'robots');
-    meta.setAttribute('content', 'noindex');
-    document.head.appendChild(meta);
+  @Meta
+  getMetaInfo() {
+    return {
+      meta: [
+        {
+          vmid: 'robots',
+          name: 'robots',
+          content: 'none',
+        },
+      ],
+    };
   }
 
   get virhe() {
