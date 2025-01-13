@@ -76,12 +76,11 @@ generate_eperusteet() {
 
     cd "$EPERUSTEET_SERVICE_DIR" \
     && mvn verify -Pspringdoc \
-	  && cd "${eperusteetgen}"
+	&& cd "${eperusteetgen}"
   fi
 
   EPERUSTEET_SPECFILE=${EPERUSTEET_SPECFILE:-"https://raw.githubusercontent.com/Opetushallitus/eperusteet/master/generated/eperusteet.spec.json"}
   echo "Using EPERUSTEET_SPECFILE=${EPERUSTEET_SPECFILE}"
-  #npx @openapitools/openapi-generator-cli@2.15.3 generate -c "${genconfig}" -i "${EPERUSTEET_SPECFILE}" -g typescript-axios
   npx --yes @openapitools/openapi-generator-cli@1.0.18-4.2.3 generate -c "${genconfig}" -i "${EPERUSTEET_SPECFILE}" -g typescript-axios
 }
 
@@ -98,7 +97,7 @@ generate_ylops() {
 
 	  cd "$YLOPS_SERVICE_DIR" \
     && mvn verify -Pspringdoc \
-	  && cd "${ylopsgen}"
+	&& cd "${ylopsgen}"
   fi
 
   EPERUSTEET_YLOPS_SPECFILE=${EPERUSTEET_YLOPS_SPECFILE:-"https://raw.githubusercontent.com/Opetushallitus/eperusteet-ylops/master/generated/ylops.spec.json"}
@@ -118,8 +117,8 @@ generate_amosaa() {
 	  show_amosaa_missing_env_warn
 
 	  cd "$AMOSAA_SERVICE_DIR" \
-    && mvn clean compile --batch-mode -B -Pgenerate-openapi \
-	  && cd "${amosaagen}"
+    && mvn verify -Pspringdoc \
+	&& cd "${amosaagen}"
   fi
 
   EPERUSTEET_AMOSAA_SPECFILE=${EPERUSTEET_AMOSAA_SPECFILE:-"https://raw.githubusercontent.com/Opetushallitus/eperusteet-amosaa/master/generated/amosaa.spec.json"}
