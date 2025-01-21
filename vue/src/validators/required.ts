@@ -13,6 +13,7 @@ export function notNull() {
 const ValidoitavatKielet = ['fi', 'sv', 'se', 'en', 'ru'];
 
 const onlyCharacterOrNumber = helpers.regex('onlyLetterNumbers', /^[a-zA-Z0-9äöåÄÖÅ._-]*$/);
+const onlyNumbers = helpers.regex('onlyNumbers', /^[0-9._-]*$/);
 
 function exists(value: any, kieli: Kieli) {
   return _.has(value, kieli) && !_.isEmpty(value[kieli])
@@ -90,12 +91,13 @@ export function nimiValidator(kielet: Kieli[]) {
   };
 }
 
-export function koodiValidator(min = 3) {
+export function koodiValidator(min = 3, allowEmpty = false, allowOnlyNumbers = false) {
   return {
     koodi: {
-      required,
+      ...(!allowEmpty && { required }),
       'min-length': minLength(min),
-      onlyCharacterOrNumber,
+      ...(!allowOnlyNumbers && { onlyCharacterOrNumber }),
+      ...(allowOnlyNumbers && { onlyNumbers }),
     },
   };
 }
