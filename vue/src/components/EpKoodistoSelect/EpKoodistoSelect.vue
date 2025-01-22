@@ -199,7 +199,7 @@ export default class EpKoodistoSelect extends Vue {
 
   async initStoreQuery(query, sivu, vanhentuneet) {
     this.isLoading = true;
-    await this.store.query(query, sivu, !vanhentuneet);
+    await this.store.query(query, _.max([sivu, 0]), !vanhentuneet);
     this.isLoading = false;
   }
 
