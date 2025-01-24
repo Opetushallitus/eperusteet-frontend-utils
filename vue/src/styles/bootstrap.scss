@@ -17,6 +17,7 @@ $tabcolor: #0041dc;
 @import '~bootstrap/scss/bootstrap.scss';
 @import '~bootstrap-vue/src/index.scss';
 @import './_variables.scss';
+@import './_mixins.scss';
 
 .modal-content {
 
@@ -284,3 +285,9 @@ button.navbar-toggler {
     overflow-x: visible;
   }
 }
+
+.pagination li.page-item .page-link, .btn-link, .custom-checkbox .custom-control-input  {
+  @include focus;
+}
+
+

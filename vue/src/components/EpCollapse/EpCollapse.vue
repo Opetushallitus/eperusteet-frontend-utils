@@ -5,7 +5,7 @@
       <!-- Button tagia ei voida käyttää, sillä ml-auto ei toimi.-->
       <!-- Käytetään button rolea saavutettavuuden takaamiseksi.-->
       <div v-if="hasHeaderSlot"
-           class="collapse-button d-flex align-items-center mb-2"
+           class="collapse-button d-flex align-items-center my-2 mr-1"
            @click="!togglefull ? toggle(): null"
            @keyup.enter="!togglefull ? toggle(): null"
            role="button"
@@ -30,7 +30,7 @@
           </div>
         </slot>
       </div>
-      <div v-if="toggled">
+      <div v-if="toggled" class="content">
         <slot></slot>
       </div>
     </div>
@@ -189,8 +189,8 @@ export default class EpCollapse extends Vue {
 </script>
 
 <style scoped lang="scss">
-@import '../../styles/_variables.scss';
-@import '../../styles/_mixins.scss';
+@import '@shared/styles/_variables.scss';
+@import '@shared/styles/_mixins.scss';
 
 @include shadow-tile;
 
@@ -211,11 +211,16 @@ export default class EpCollapse extends Vue {
 
   .collapse-button {
     cursor: pointer;
-    outline: none;
 
     label {
       cursor: pointer;
     }
+
+    .header {
+      margin-top: 2px;
+    }
+
+    @include focus;
   }
 
   .header-toggled {
@@ -225,6 +230,11 @@ export default class EpCollapse extends Vue {
   &.togglefull {
     cursor: pointer;
   }
+
+  .content {
+    text-align: left;
+  }
+
 }
 
 .shadow-tile {
