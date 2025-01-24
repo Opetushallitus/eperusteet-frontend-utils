@@ -3,11 +3,13 @@
     <ep-spinner v-if="!tiedot" />
 
     <div v-else>
-      <div v-for="(tieto, index) in tiedotFiltered" :key="index" class="tieto p-2 pl-3" :class="{clickable: hasClickEvent}" @click="avaaTieto(tieto)">
+      <div v-for="(tieto, index) in tiedotFiltered" :key="index" class="tieto p-2 pl-3" :class="{clickable: hasClickEvent}">
         <div class="otsikko" :class="{'uusi': tieto.uusi}">
-          <slot name="otsikko" :item="tieto">
-            {{$kaanna(tieto.otsikko)}} <span class="uusi" v-if="tieto.uusi">{{$t('uusi')}}</span>
-          </slot>
+          <a href="javascript:;" @click="avaaTieto(tieto)">
+            <slot name="otsikko" :item="tieto">
+              {{$kaanna(tieto.otsikko)}} <span class="uusi" v-if="tieto.uusi">{{$t('uusi')}}</span>
+            </slot>
+          </a>
         </div>
         <div class="muokkausaika">
           <slot name="muokkausaika" :tieto="tieto">
