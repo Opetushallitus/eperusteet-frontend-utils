@@ -75,7 +75,6 @@ export const Ulkopuoliset = initApi(AmosaaApi.UlkopuolisetApi);
 export const Kayttajaoikeudet = initApi(AmosaaApi.KayttajaoikeudetApi);
 export const Julkaisut = initApi(AmosaaApi.JulkaisutApi);
 export const Maintenance = initApi(AmosaaApi.MaintenanceApi);
-export const ExternalApi = initApi(AmosaaApi.ExternalApi);
 export const TutkinnonosaApi = initApi(AmosaaApi.TutkinnonosaApi);
 export const OsaAlueApi = initApi(AmosaaApi.OsaAlueApi);
 
@@ -119,7 +118,6 @@ export type Validointi = AmosaaApi.Validointi;
 export type JulkaisuBaseDto = AmosaaApi.JulkaisuBaseDto;
 export type KoulutuksenJarjestajaDto = AmosaaApi.KoulutuksenJarjestajaDto;
 export type OpetussuunnitelmaKaikkiDto = AmosaaApi.OpetussuunnitelmaKaikkiDto;
-export type SisaltoviiteOpintokokonaisuusExternalDto = AmosaaApi.SisaltoviiteOpintokokonaisuusExternalDto;
 export type PerusteenOsaDto = AmosaaApi.PerusteenOsaDto;
 export type KotoTaitotasoLaajaAlainenOsaaminenDto = AmosaaApi.KotoTaitotasoLaajaAlainenOsaaminenDto;
 export type SisaltoViiteExportDto = AmosaaApi.SisaltoViiteExportDto;
