@@ -146,6 +146,15 @@ export default class EpJarjesta extends Vue {
 <style scoped lang="scss">
 @import '../../styles/_variables.scss';
 
+.tree-container {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently */
+}
+
 .flip-move {
   transition: transform 0.5s;
 }
