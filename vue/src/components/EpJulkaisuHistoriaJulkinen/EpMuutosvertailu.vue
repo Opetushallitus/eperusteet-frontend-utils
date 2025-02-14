@@ -3,14 +3,22 @@
     <div v-if="muutostiedot.length > 0">
       <div v-for="(kohdeTapahtumat, index) in muutostiedot" :key="index">
         <ep-form-content :name="kohdeTapahtumat.kohde" headerType="h3" headerClass="h6">
-          <div v-for="(tapahtuma, index) in kohdeTapahtumat.tapahtumat" :key="index">
-            {{ $t('muutoshistoria-' + tapahtuma.tapahtuma)}}
-            <ul>
-              <li v-for="(tieto, i) in tapahtuma.muokkaustiedot" :key="i">
-                <EpRouterLink :muokkaustieto="tieto"></EpRouterLink>
-              </li>
-            </ul>
+          <div v-if="yhteenvetoTapahtumat.includes(kohdeTapahtumat.kohde)">
+            <div v-for="(tapahtuma, index) in kohdeTapahtumat.tapahtumat" :key="index">
+              {{ $t(kohdeTapahtumat.kohde + '-muutoshistoria-' + tapahtuma.tapahtuma, {kpl: tapahtuma.muokkaustiedot.length})}}
+            </div>
           </div>
+          <template v-else>
+            <div v-for="(tapahtuma, index) in kohdeTapahtumat.tapahtumat" :key="index">
+              {{ $t('muutoshistoria-' + tapahtuma.tapahtuma)}}
+
+              <ul v-if="tapahtuma.muokkaustiedot && tapahtuma.muokkaustiedot.length > 0">
+                <li v-for="(tieto, i) in tapahtuma.muokkaustiedot" :key="i">
+                  <EpRouterLink :muokkaustieto="tieto"></EpRouterLink>
+                </li>
+              </ul>
+            </div>
+          </template>
         </ep-form-content>
         <hr v-if="index !== muutostiedot.length - 1">
       </div>
@@ -46,11 +54,7 @@ export default class EpMuutosvertailu extends Vue {
   private muokkaustietoStore = new MuokkaustietoStore();
 
   async mounted() {
-    await this.muokkaustietoStore.getVersionMuutokset(this.julkaisuData.peruste.id, this.julkaisuData.revision);
-  }
-
-  get julkaisuData() {
-    return this.julkaisu;
+    await this.muokkaustietoStore.getVersionMuutokset(this.julkaisu.peruste.id, this.julkaisu.revision);
   }
 
   get muutostiedot() {
@@ -82,6 +86,10 @@ export default class EpMuutosvertailu extends Vue {
     }
 
     return muokkaustieto.kohde;
+  }
+
+  get yhteenvetoTapahtumat() {
+    return ['termi'];
   }
 }
 </script>

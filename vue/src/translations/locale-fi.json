@@ -4457,5 +4457,8 @@
     "ystava-organisaatiot": "Ystäväorganisaatiot",
     "ystavien-opetussuunnitelmat": "Ystävien opetussuunnitelmat",
     "ystavien-opetussuunnitelmat-julkaistut": "Ystävien julkaistut opetussuunnitelmat",
-    "ystavien-opetussuunnitelmat-keskeneraiset": "Ystävien keskeneraiset opetussuunnitelmat"
+    "ystavien-opetussuunnitelmat-keskeneraiset": "Ystävien keskeneraiset opetussuunnitelmat",
+    "termi-muutoshistoria-luonti": "{kpl} uutta käsitettä",
+    "termi-muutoshistoria-paivitys": "{kpl} käsitettä muokattu",
+    "termi-muutoshistoria-poisto": "{kpl} käsitettä poistettu"
 }
