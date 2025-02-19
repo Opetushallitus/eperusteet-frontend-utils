@@ -1,6 +1,7 @@
 process.env.BOOTSTRAP_VUE_NO_WARN = true; // MutationObserver warnings
 
 module.exports = {
+  testEnvironment: 'jsdom',
   globals: {
     'ts-jest': {
       tsoConfig: 'tsconfig.json',
@@ -35,7 +36,7 @@ module.exports = {
     'json',
   ],
   transform: {
-    '^.+\\.vue$': 'vue-jest',
+    '^.+\\.vue$': '@vue/vue2-jest',
     '.+\\.(css|styl|less|sass|scss|svg|png|jpg|ttf|woff|woff2)$': 'jest-transform-stub',
     '^.+\\.tsx?$': 'ts-jest',
     '^.+\\.jsx?$': 'babel-jest',

@@ -29,11 +29,10 @@ describe('EpToggle component', () => {
     const wrapper = mountWrapper();
     expect(wrapper.vm.arvo).toBe(false);
 
-    wrapper.find('input[type=checkbox]').trigger('click');
+    wrapper.find('input[type=checkbox]').setChecked(true);
     expect(wrapper.vm.arvo).toBe(true);
 
-    wrapper.find('input[type=checkbox]').trigger('click');
-
+    wrapper.find('input[type=checkbox]').setChecked(false);
     expect(wrapper.vm.arvo).toBe(false);
   });
 });
