@@ -34,11 +34,8 @@
         </b-form-radio-group>
       </template>
 
-      <OsaamistasonKriteeri
-        class="mb-3 ml-0 p-1 taulukko-rivi-varitys"
-        v-for="(osaamistasonkriteeri, osaamistasoIndex) in arvioinninKohde.osaamistasonKriteerit"
-        :key="'osaamistasonkriteeri'+osaamistasonkriteeri._osaamistaso"
-        v-model="arvioinninKohde.osaamistasonKriteerit[osaamistasoIndex]"
+      <OsaamistasonKriteerit
+        v-model="arvioinninKohde.osaamistasonKriteerit"
         :isEditing="isEditing"
         :arviointiasteikko="arviointiasteikotKeyById[arvioinninKohde[arviointiasteikkoRef]]"
       />
@@ -63,13 +60,13 @@ import * as _ from 'lodash';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
-import OsaamistasonKriteeri from '@shared/components/EpArviointi/OsaamistasonKriteeri.vue';
+import OsaamistasonKriteerit from '@shared/components/EpArviointi/OsaamistasonKriteerit.vue';
 
 @Component({
   components: {
     EpInput,
     EpButton,
-    OsaamistasonKriteeri,
+    OsaamistasonKriteerit,
   },
 })
 export default class EpArviointi extends Vue {
@@ -86,15 +83,7 @@ export default class EpArviointi extends Vue {
   private arviointiasteikkoRef!: any;
 
   get arvioinninKohdeAlue() {
-    return {
-      ...this.value,
-      arvioinninKohteet: _.map(this.value.arvioinninKohteet, ak => {
-        return {
-          ...ak,
-          osaamistasonKriteerit: _.sortBy(ak.osaamistasonKriteerit, '_osaamistaso'),
-        };
-      }),
-    };
+    return this.value;
   }
 
   set arvioinninKohdeAlue(val) {
