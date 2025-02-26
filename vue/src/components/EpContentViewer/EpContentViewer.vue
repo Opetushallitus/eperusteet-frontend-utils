@@ -10,11 +10,6 @@
       <template v-slot:title v-if="viite.termi.selitys">{{ $kaanna(viite.termi.termi) }}</template>
       <div v-if="!viite.termi.selitys">{{ $kaanna(viite.termi.termi) }}</div>
       <div v-if="viite.termi.selitys" v-html="$kaanna(viite.termi.selitys)"></div>
-      <!-- Ei toimi production buildissa -->
-      <!--<ep-content-viewer v-if="viite.termi.selitys"
-                         :value="$kaanna(viite.termi.selitys)"
-                         :termit="termit"
-                         :kuvat="kuvat" />-->
     </b-popover>
   </div>
 </div>
@@ -131,9 +126,8 @@ export default class EpContentViewer extends Vue {
       if (dataviite) {
         const termi: any = _.find(this.termit, { 'avain': dataviite });
         if (termi) {
-          el.setAttribute('tabindex', '0');
-          el.setAttribute('role', 'button');
           el.setAttribute('title', Kielet.kaanna(termi.termi));
+          el.setAttribute('aria-label', Kielet.kaanna(termi.termi));
           return {
             el,
             termi,
@@ -151,7 +145,12 @@ export default class EpContentViewer extends Vue {
       this.termiElements = [];
       const abbrs = this.$el.querySelectorAll('abbr');
       _.each(abbrs, abbr => {
-        this.termiElements.push(abbr);
+        const termi = document.createElement('button');
+        termi.setAttribute('class', 'termi');
+        termi.setAttribute('data-viite', abbr.getAttribute('data-viite') || '');
+        termi.textContent = abbr.textContent;
+        abbr.parentNode!.replaceChild(termi, abbr);
+        this.termiElements.push(termi);
       });
     }
   }
@@ -159,9 +158,21 @@ export default class EpContentViewer extends Vue {
 </script>
 
 <style lang="scss" scoped>
-@import '../../styles/_mixins.scss';
+@import '@shared/styles/_mixins.scss';
+@import '@shared/styles/_variables.scss';
 
 .teksti {
   @include teksti-sisalto;
 }
+
+::v-deep button.termi {
+  text-decoration: dotted underline;
+  border: 0;
+  background: none;
+  padding: 0;
+  margin: 0;
+  color: $link;
+  cursor: help;
+}
+
 </style>
