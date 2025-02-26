@@ -1,5 +1,6 @@
 <template>
 <div>
+  <label :for="id" v-if="labelSlot" class="label"><slot name="label"/></label>
   <multiselect v-model="model"
                :track-by="track"
                :options="filteredOptions"
@@ -29,7 +30,8 @@
                ref="multiselect"
                @tag="addTag"
                :taggable="taggable"
-               :tagPlaceholder="tagPlaceholder">
+               :tagPlaceholder="tagPlaceholder"
+               :id="id">
 
     <template slot="beforeList">
       <slot name="beforeList" />
@@ -196,6 +198,10 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
     return this.trackBy;
   }
 
+  get id() {
+    return _.uniqueId('multiselect-');
+  }
+
   optionChecked(option) {
     return option === this.value || !_.isEmpty(_.filter(this.value, x => x === option));
   }
@@ -233,6 +239,10 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
 
   addTag(tag) {
     this.$emit('tag', tag);
+  }
+
+  get labelSlot() {
+    return this.$slots.label;
   }
 }
 </script>

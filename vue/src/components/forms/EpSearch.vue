@@ -1,16 +1,19 @@
 <template>
 <div class="filter" role="search" :class="{'maxWidth': maxWidth}">
+    <label :for="id" v-if="labelSlot"><slot name="label"/></label>
+    <label :for="id" class="sr-only" v-if="srOnlyLabelText">{{srOnlyLabelText}}</label>
     <span class="form-control-feedback">
       <EpMaterialIcon class="icon">search</EpMaterialIcon>
     </span>
-    <label class="sr-only" :for="id">{{ ariaPlaceholderText }}</label>
     <input :id="id"
            class="form-control"
            type="search"
            :placeholder="placeholderText"
+           aria-describedby="hakuohje"
            @input="onInput($event.target.value)"
            :value="val"
            :maxlength="maxlength">
+    <p class="sr-only" id="hakuohje">{{ $t('saavutettavuus-hakuohje')}}</p>
 </div>
 </template>
 
@@ -19,7 +22,6 @@ import _ from 'lodash';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Kielet } from '../../stores/kieli';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
-import { maxLength } from 'vuelidate/lib/validators';
 
 @Component({
   components: {
@@ -45,8 +47,11 @@ export default class EpSearch extends Vue {
   @Prop()
   private maxlength!: number;
 
+  @Prop()
+  private srOnlyLabelText!: string;
+
   get id() {
-    return 'search-' + _.uniqueId();
+    return _.uniqueId('search-');
   }
 
   get icon() {
@@ -54,7 +59,11 @@ export default class EpSearch extends Vue {
   }
 
   get placeholderText() {
-    return this.placeholder || this.$t('etsi');
+    if (this.placeholder) {
+      return this.placeholder;
+    }
+
+    return this.$t('etsi');
   }
 
   get ariaPlaceholderText() {
@@ -72,6 +81,10 @@ export default class EpSearch extends Vue {
     else {
       return this.value;
     }
+  }
+
+  get labelSlot() {
+    return this.$slots.label;
   }
 }
 </script>
