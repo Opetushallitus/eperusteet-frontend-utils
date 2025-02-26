@@ -4460,5 +4460,12 @@
     "ystavien-opetussuunnitelmat-keskeneraiset": "Ystävien keskeneraiset opetussuunnitelmat",
     "termi-muutoshistoria-luonti": "{kpl} uutta käsitettä",
     "termi-muutoshistoria-paivitys": "{kpl} käsitettä muokattu",
-    "termi-muutoshistoria-poisto": "{kpl} käsitettä poistettu"
+    "termi-muutoshistoria-poisto": "{kpl} käsitettä poistettu",
+    "saavutettavuus-hakuohje": "Haku käynnistyy automaattisesti, kun olet kirjoittanut vähintään kolme kirjainta.",
+    "voit-hakea-toteutussuunnitelmaa-nimella-tutkinnon-osalla-tai-organisaatiolla": "Voit hakea toteutussuunnitelmaa nimellä, tutkinnon osalla tai organisaatiolla.",
+    "hae-toteutussuunnitelmaa": "Hae toteutussuunnitelmaa",
+    "hae-digitaalisten-osaamisten-kuvauksista": "Hae digitaalisten osaamisten kuvauksista",
+    "hae-perusteen-sisallosta": "Hae perusteen sisällöstä",
+    "hae-sisallysluettelosta": "Hae sisällysluettelosta",
+    "hae-suunnitelman-sisallysluettelosta": "Hae suunnitelman sisällysluettelosta"
 }

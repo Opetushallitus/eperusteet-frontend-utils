@@ -1,6 +1,7 @@
 <template>
   <div class="d-flex align-self-center flex-wrap flex-lg-row flex-column justify-content-between">
-    <b-form-group :label="$t('nayta')" :aria-label="$t('tutkinnon-peruste-tai-tutkinnon-osa-rajaus')" class="group">
+    <div class="group">
+      <label class="font-weight-600" :aria-label="$t('tutkinnon-peruste-tai-tutkinnon-osa-rajaus')">{{$t('nayta')}}</label>
       <div class="d-flex flex-lg-row flex-column justify-content-between">
         <EpToggle v-model="queryData.perusteet" class="haku-toggle" :is-s-witch="false">
           <span class="sr-only">{{ $t('valittu') }}</span>
@@ -13,11 +14,12 @@
           {{ $t('tutkinnon-osa') }}
         </EpToggle>
       </div>
-    </b-form-group>
+    </div>
 
-    <b-form-group :label="$t('voimassaolo')" :aria-label="$t('voimassaolo-rajaus')" class="group">
+    <div class="group">
+      <label class="font-weight-600" :aria-label="$t('voimassaolo-rajaus')">{{$t('voimassaolo')}}</label>
       <EpVoimassaoloFilter v-model="queryData"></EpVoimassaoloFilter>
-    </b-form-group>
+    </div>
   </div>
 </template>
 
