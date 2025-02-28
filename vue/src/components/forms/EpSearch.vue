@@ -35,9 +35,6 @@ export default class EpSearch extends Vue {
   @Prop({ type: String })
   private placeholder!: string;
 
-  @Prop({ type: String })
-  private srPlaceholder!: string;
-
   @Prop({ required: false, default: false })
   private isLoading!: boolean;
 
@@ -47,7 +44,7 @@ export default class EpSearch extends Vue {
   @Prop()
   private maxlength!: number;
 
-  @Prop()
+  @Prop({ required: false, default: '', type: String })
   private srOnlyLabelText!: string;
 
   get id() {
@@ -64,10 +61,6 @@ export default class EpSearch extends Vue {
     }
 
     return this.$t('etsi');
-  }
-
-  get ariaPlaceholderText() {
-    return this.srPlaceholder || this.$t('etsi-tietoja-sivulta-haku');
   }
 
   public onInput(input: any) {
