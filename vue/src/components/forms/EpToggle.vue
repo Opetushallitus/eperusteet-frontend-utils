@@ -58,7 +58,8 @@ export default class EpToggle extends Vue {
 
 <style scoped lang="scss">
 
-@import "@shared/styles/bootstrap.scss";ß
+@import '@shared/styles/bootstrap.scss';
+@import '@shared/styles/_mixins.scss';
 
 ::v-deep .custom-checkbox label.custom-control-label::before {
   border-radius: 0.2rem;
@@ -135,6 +136,10 @@ export default class EpToggle extends Vue {
 
 ::v-deep .custom-switch .custom-control-input:checked ~ .custom-control-label::after {
   transform: translateX(1.125rem)
+}
+
+::v-deep .custom-checkbox {
+  @include focus-within;
 }
 
 </style>

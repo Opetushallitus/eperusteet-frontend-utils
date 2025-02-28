@@ -179,6 +179,11 @@ export default class EpJulkaisuLista extends Vue {
 
 ::v-deep .ep-collapse {
   overflow: auto;
+  text-align: right;
+
+  .collapse-button {
+    display: inline-flex !important;
+  }
 }
 
 ::v-deep .ep-collapse .header {

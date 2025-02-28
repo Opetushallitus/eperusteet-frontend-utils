@@ -67,3 +67,20 @@
     }
   }
 }
+
+@mixin focus {
+  &:focus {
+    outline-offset: 2px;
+    outline-color: black;
+    outline-width: 2px;
+  }
+}
+
+@mixin focus-within {
+  &:focus-within {
+    outline-offset: 2px;
+    outline-color: black;
+    outline-width: 2px;
+    outline-style: solid;
+  }
+}

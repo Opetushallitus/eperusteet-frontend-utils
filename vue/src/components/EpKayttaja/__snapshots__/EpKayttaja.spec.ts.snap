@@ -10,7 +10,7 @@ exports[`EpKayttaja component Renders 1`] = `
     <ul tabindex="-1" aria-labelledby="kayttaja-dropdown__BV_toggle_" id="kayttaja-dropdown__BV_toggle_menu_" class="dropdown-menu dropdown-menu-right"> <!---->
       <div><!---->
         <div class="ep-collapse">
-          <div role="button" tabindex="0" class="collapse-button d-flex align-items-center mb-2"><!---->
+          <div role="button" tabindex="0" class="collapse-button d-flex align-items-center my-2 mr-1"><!---->
             <div class="align-self-start header">
               <div class="">
                 <div>
@@ -29,7 +29,7 @@ exports[`EpKayttaja component Renders 1`] = `
       </li>
       <div><!---->
         <div class="ep-collapse">
-          <div role="button" tabindex="0" class="collapse-button d-flex align-items-center mb-2" aria-expanded="true"><!---->
+          <div role="button" tabindex="0" class="collapse-button d-flex align-items-center my-2 mr-1" aria-expanded="true"><!---->
             <div class="align-self-start header">
               <div class="header-toggled">
                 <div>
@@ -40,7 +40,7 @@ exports[`EpKayttaja component Renders 1`] = `
             </div>
             <div class="ml-auto align-self-start" style="padding: 0.8rem 1rem;"><span aria-hidden="true" class="icon material-icons">expand_less</span></div>
           </div>
-          <div>
+          <div class="content">
             <div class="collapse-tausta text-left">
               <li role="presentation" class="sovellusoikeus"><a role="menuitem" href="eperuste-url" target="_self" tabindex="-1" aria-disabled="true" class="dropdown-item disabled">
                   <div class="collapse-tausta-valinta-icon"><span aria-hidden="true" class="icon mr-3 valittu material-icons">done</span></div>
