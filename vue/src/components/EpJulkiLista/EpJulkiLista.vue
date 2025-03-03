@@ -21,7 +21,7 @@
       </div>
 
       <div v-if="listausTyyppi === 'lisahaku'">
-        <ep-button variant="link" @click="naytettavaTietoMaara += 3" v-if="naytettavaTietoMaara < tiedotSize" class="mt-2">
+        <ep-button variant="link" @click="naytaLisaa" v-if="naytettavaTietoMaara < tiedotSize" class="mt-2">
           <slot name="lisaaBtnText">
             {{$t('katso-lisaa-tiedotteita')}}
           </slot>
@@ -108,6 +108,15 @@ export default class EpJulkiLista extends Vue {
 
   avaaTieto(tieto: JulkiRivi) {
     this.$emit('avaaTieto', tieto);
+  }
+
+  async naytaLisaa() {
+    this.naytettavaTietoMaara += 3;
+    await this.$nextTick();
+    const linkit = this.$el.querySelectorAll('.otsikko a');
+    if (linkit.length >= this.naytettavaTietoMaara) {
+      (linkit[this.naytettavaTietoMaara - 3] as any).focus();
+    }
   }
 }
 </script>

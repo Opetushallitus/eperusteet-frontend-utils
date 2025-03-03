@@ -33,7 +33,7 @@ img.content-image {
     }
   }
 
-  a {
+  a, ::v-deep a {
     &:hover {
       text-decoration: none;
     }
