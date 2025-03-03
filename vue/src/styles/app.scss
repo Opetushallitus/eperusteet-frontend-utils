@@ -33,11 +33,17 @@ img.content-image {
     }
   }
 
-  a, ::v-deep a {
+  ::v-deep a {
     &:hover {
       text-decoration: none;
     }
     @include focus;
+  }
+
+  a {
+    &:hover {
+      text-decoration: none;
+    }
   }
 
   body {
