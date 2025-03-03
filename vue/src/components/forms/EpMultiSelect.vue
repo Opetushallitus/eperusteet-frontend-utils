@@ -43,7 +43,7 @@
     </template>
     <template slot="option" slot-scope="{ option, search }">
       <div class="d-flex align-items-center">
-        <div class="w-100">
+        <div class="w-100" role="option" :aria-selected="optionChecked(option)">
           <slot name="checkbox" :option="option">
             <input type="checkbox" :checked="optionChecked(option)" v-if="multiple"/>
           </slot>
@@ -199,15 +199,7 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
     const options = this.$el.querySelectorAll('.multiselect li[role="option"]');
     if (options) {
       options.forEach((option) => {
-        const optionSelectOption = option.querySelector('.multiselect__option');
-        option?.setAttribute('aria-selected', 'false');
-
-        const optionsObserver = new MutationObserver((mutations) => {
-          mutations.forEach((mutation) => {
-            option?.setAttribute('aria-selected', optionSelectOption?.classList.contains('multiselect__option--selected') + '');
-          });
-        });
-        optionsObserver.observe(option, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
+        option.removeAttribute('role');
       });
     }
   }

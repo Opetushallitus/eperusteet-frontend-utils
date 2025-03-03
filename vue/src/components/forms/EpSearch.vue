@@ -56,7 +56,7 @@ export default class EpSearch extends Vue {
   }
 
   get placeholderText() {
-    if (this.placeholder) {
+    if (this.placeholder != null) {
       return this.placeholder;
     }
 

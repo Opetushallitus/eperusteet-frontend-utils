@@ -1,16 +1,26 @@
 <template>
 <div v-if="valueFormatted">
   <div class="teksti" v-html="valueFormatted" />
-  <div v-for="(viite, idx) in termitWrapped"
-       :key="idx">
-    <b-popover v-if="viite && viite.el && viite.termi"
-               :target="viite.el"
-               triggers="click blur"
-               placement="bottom">
-      <template v-slot:title v-if="viite.termi.selitys">{{ $kaanna(viite.termi.termi) }}</template>
-      <div v-if="!viite.termi.selitys">{{ $kaanna(viite.termi.termi) }}</div>
-      <div v-if="viite.termi.selitys" v-html="$kaanna(viite.termi.selitys)"></div>
-    </b-popover>
+  <div v-for="(viite, idx) in termitWrapped" :key="idx">
+    <template v-if="viite">
+      <b-popover v-if="viite.el && viite.termi"
+                 :target="viite.el"
+                 triggers="click blur"
+                 placement="bottom"
+                 @shown="termiAriaNakyviin(viite.termi.avain)"
+                 @hidden="termiAriaPiiloon(viite.termi.avain)">
+        <template v-slot:title v-if="viite.termi.selitys">
+          {{ $kaanna(viite.termi.termi) }}
+        </template>
+        <div v-if="!viite.termi.selitys">{{ $kaanna(viite.termi.termi) }}</div>
+        <div v-if="viite.termi.selitys" v-html="$kaanna(viite.termi.selitys)"></div>
+      </b-popover>
+      <div class="sr-only" aria-live="polite">
+        <span v-if="nakyvatTermit.includes(viite.termi.avain)">
+          {{ $kaanna(viite.termi.selitys) }}
+        </span>
+      </div>
+    </template>
   </div>
 </div>
 </template>
@@ -38,6 +48,7 @@ export default class EpContentViewer extends Vue {
   private linkkiHandler!: ILinkkiHandler;
 
   private termiElements: Element[] = [];
+  private nakyvatTermit: string[] = [];
 
   get valueFormatted() {
     if (this.value) {
@@ -145,14 +156,23 @@ export default class EpContentViewer extends Vue {
       this.termiElements = [];
       const abbrs = this.$el.querySelectorAll('abbr');
       _.each(abbrs, abbr => {
-        const termi = document.createElement('button');
+        const termi = document.createElement('a');
         termi.setAttribute('class', 'termi');
+        termi.setAttribute('href', 'javascript:void(0)');
         termi.setAttribute('data-viite', abbr.getAttribute('data-viite') || '');
         termi.textContent = abbr.textContent;
         abbr.parentNode!.replaceChild(termi, abbr);
         this.termiElements.push(termi);
       });
     }
+  }
+
+  termiAriaNakyviin(termiAvain) {
+    this.nakyvatTermit.push(termiAvain);
+  }
+
+  termiAriaPiiloon(termiAvain) {
+    this.nakyvatTermit = _.filter(this.nakyvatTermit, t => t !== termiAvain);
   }
 }
 </script>
@@ -165,7 +185,7 @@ export default class EpContentViewer extends Vue {
   @include teksti-sisalto;
 }
 
-::v-deep button.termi {
+::v-deep .termi {
   text-decoration: dotted underline;
   border: 0;
   background: none;
@@ -173,6 +193,8 @@ export default class EpContentViewer extends Vue {
   margin: 0;
   color: $link;
   cursor: help;
+
+  @include focus;
 }
 
 </style>
