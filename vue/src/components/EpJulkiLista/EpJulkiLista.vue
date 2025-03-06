@@ -3,11 +3,13 @@
     <ep-spinner v-if="!tiedot" />
 
     <div v-else>
-      <div v-for="(tieto, index) in tiedotFiltered" :key="index" class="tieto p-2 pl-3" :class="{clickable: hasClickEvent}" @click="avaaTieto(tieto)">
+      <div v-for="(tieto, index) in tiedotFiltered" :key="index" class="tieto p-2 pl-3" :class="{clickable: hasClickEvent}">
         <div class="otsikko" :class="{'uusi': tieto.uusi}">
-          <slot name="otsikko" :item="tieto">
-            {{$kaanna(tieto.otsikko)}} <span class="uusi" v-if="tieto.uusi">{{$t('uusi')}}</span>
-          </slot>
+          <a href="javascript:;" @click="avaaTieto(tieto)">
+            <slot name="otsikko" :item="tieto">
+              {{$kaanna(tieto.otsikko)}} <span class="uusi" v-if="tieto.uusi">{{$t('uusi')}}</span>
+            </slot>
+          </a>
         </div>
         <div class="muokkausaika">
           <slot name="muokkausaika" :tieto="tieto">
@@ -19,12 +21,12 @@
       </div>
 
       <div v-if="listausTyyppi === 'lisahaku'">
-        <ep-button variant="link" @click="naytettavaTietoMaara += 3" v-if="naytettavaTietoMaara < tiedotSize">
+        <ep-button variant="link" @click="naytaLisaa" v-if="naytettavaTietoMaara < tiedotSize" class="mt-2">
           <slot name="lisaaBtnText">
             {{$t('katso-lisaa-tiedotteita')}}
           </slot>
         </ep-button>
-        <span v-if="tiedotSize === 0">
+        <span v-if="tiedotSize === 0" class="mt-2">
           <slot name="eiTietoja">
             {{$t('ei-tuloksia')}}
           </slot>
@@ -106,6 +108,15 @@ export default class EpJulkiLista extends Vue {
 
   avaaTieto(tieto: JulkiRivi) {
     this.$emit('avaaTieto', tieto);
+  }
+
+  async naytaLisaa() {
+    this.naytettavaTietoMaara += 3;
+    await this.$nextTick();
+    const linkit = this.$el.querySelectorAll('.otsikko a');
+    if (linkit.length >= this.naytettavaTietoMaara) {
+      (linkit[this.naytettavaTietoMaara - 3] as any).focus();
+    }
   }
 }
 </script>

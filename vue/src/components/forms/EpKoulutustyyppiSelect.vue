@@ -27,7 +27,7 @@
     <template slot="option" slot-scope="{ option }">
       <hr class="mt-0 mb-0" v-if="option.$groupLabel" />
 
-      <span v-else class="option text-nowrap" :class="{'text-nowrap': !textWrap}">
+      <span v-else class="option text-nowrap">
         <slot name="colorindicator" :koulutustyyppi="option.koulutustyyppi" v-if="option.koulutustyyppi !== 'kaikki' && !nocolor">
           <EpColorIndicator :size="10" :kind="option.koulutustyyppi" v-if="option.koulutustyyppi !== 'kaikki' && !nocolor"/>
         </slot>
@@ -39,22 +39,24 @@
     <template v-slot:checkbox><span/></template>
     <template slot="selection" slot-scope="{ values }">
       <div class="d-flex align-items-center">
-        <span class="multiselect__tag" v-for="value in values" :key="'value' + value.koulutustyyppi">
-          <slot name="colorindicator" :koulutustyyppi="value.koulutustyyppi" v-if="!nocolor">
-            <EpColorIndicator :size="10" :kind="value.koulutustyyppi" v-if="!nocolor"/>
-          </slot>
-          <span class="nimi ml-2">{{ $t(value.koulutustyyppi) }}</span>
-          <span class="multiselect__tag-icon clickable" @click.prevent @mousedown.prevent.stop="remove(value)"/>
+
+        <template v-if="values.length === 1">
+          <span class="multiselect__tag" v-for="value in values" :key="'value' + value.koulutustyyppi">
+            <slot name="colorindicator" :koulutustyyppi="value.koulutustyyppi" v-if="!nocolor">
+              <EpColorIndicator :size="10" :kind="value.koulutustyyppi" v-if="!nocolor"/>
+            </slot>
+            <span class="nimi ml-2">{{ $t(value.koulutustyyppi) }}</span>
+            <span class="multiselect__tag-icon clickable" @click.prevent @mousedown.prevent.stop="remove(value)"/>
+          </span>
+        </template>
+
+        <span v-if="values.length > 1">
+          {{ $t('valittu-x-koulutustyyppia', { kpl: values.length }) }}
         </span>
 
         <span v-if="values.length > 0" class="ml-auto clickable border-right pr-2 remove-all" @click.prevent @mousedown.prevent.stop="removeAll()">
           <ep-material-icon>close</ep-material-icon>
         </span>
-      </div>
-    </template>
-    <template v-slot:afterList>
-      <div v-if="isMultiple" class="p-2 d-flex justify-content-end sulje border-top">
-        <EpButton @click="sulje">{{ $t('valmis') }}</EpButton>
       </div>
     </template>
   </EpMultiSelect>

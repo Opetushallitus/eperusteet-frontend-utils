@@ -1,12 +1,12 @@
 <template>
 <div>
+  <label :for="id" v-if="labelSlot" class="label"><slot name="label"/></label>
   <multiselect v-model="model"
                :track-by="track"
                :options="filteredOptions"
                :close-on-select="closeOnSelect"
                :clear-on-select="clearOnSelect"
                :placeholder="placeholder"
-               :internalSearch="false"
                select-label=""
                selected-label=""
                deselect-label=""
@@ -29,7 +29,9 @@
                ref="multiselect"
                @tag="addTag"
                :taggable="taggable"
-               :tagPlaceholder="tagPlaceholder">
+               :tagPlaceholder="tagPlaceholder"
+               :id="id"
+               :aria-controls="id">
 
     <template slot="beforeList">
       <slot name="beforeList" />
@@ -40,12 +42,17 @@
       <slot name="singleLabel" :option="option"></slot>
     </template>
     <template slot="option" slot-scope="{ option, search }">
-      <slot name="checkbox" :option="option">
-        <input type="checkbox" :checked="optionChecked(option)" v-if="multiple"/>
-      </slot>
-      <slot name="option" :option="option" :search="search">
-        <span class="ml-2">{{getOptionLabel(option)}}</span>
-      </slot>
+      <div class="d-flex align-items-center">
+        <div class="w-100" role="option" :aria-selected="optionChecked(option)">
+          <slot name="checkbox" :option="option">
+            <input type="checkbox" :checked="optionChecked(option)" v-if="multiple"/>
+          </slot>
+          <slot name="option" :option="option" :search="search">
+            <span class="ml-2">{{getOptionLabel(option)}}</span>
+          </slot>
+        </div>
+        <EpMaterialIcon v-if="optionChecked(option)" class="mr-2">check</EpMaterialIcon>
+      </div>
     </template>
     <template slot="tag" slot-scope="{ option, search, remove }">
       <slot name="tag" :option="option" :search="search" :remove="remove"></slot>
@@ -171,6 +178,32 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
 
   private search = '';
 
+  async mounted() {
+    const multiselect = this.$el.querySelector('.multiselect');
+
+    if (multiselect) {
+      multiselect.setAttribute('aria-expanded', 'false');
+      multiselect.removeAttribute('aria-owns');
+      multiselect.querySelector('input')?.setAttribute('aria-autocomplete', 'list');
+
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.attributeName === 'class') {
+            multiselect?.setAttribute('aria-expanded', multiselect?.classList.contains('multiselect--active') + '');
+          }
+        });
+      });
+      observer.observe(multiselect, { attributes: true, attributeFilter: ['class'] });
+    }
+
+    const options = this.$el.querySelectorAll('.multiselect li[role="option"]');
+    if (options) {
+      options.forEach((option) => {
+        option.removeAttribute('role');
+      });
+    }
+  }
+
   get filteredOptions() {
     if (this.search && this.searchIdentity) {
       return _.filter(this.options, x => _.includes(
@@ -194,6 +227,10 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
 
   get track() {
     return this.trackBy;
+  }
+
+  get id() {
+    return _.uniqueId('multiselect-');
   }
 
   optionChecked(option) {
@@ -234,11 +271,16 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
   addTag(tag) {
     this.$emit('tag', tag);
   }
+
+  get labelSlot() {
+    return this.$slots.label;
+  }
 }
 </script>
 
 <style scoped lang="scss">
 @import '@shared/styles/_variables.scss';
+@import '@shared/styles/_mixins.scss';
 
 ::v-deep .multiselect__tags {
   border: 2px solid #E0E0E1;
@@ -333,6 +375,13 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
     color: #fff;
   }
 
+::v-deep .multiselect__option--selected {
+  &.multiselect__option--highlight{
+    background:$green;
+    color:#fff
+  }
+}
+
 ::v-deep .multiselect__tags {
   .multiselect__tag {
     background-color: $gray-lighten-6;
@@ -357,6 +406,10 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
 
 ::v-deep .multiselect__tag-icon:focus, ::v-deep .multiselect__tag-icon:hover {
   background: $gray;
+}
+
+::v-deep .multiselect {
+  @include focus-within;
 }
 
 </style>

@@ -1,5 +1,9 @@
 <template>
-  <KoulutustyyppiSelect v-model="model" :koulutustyypit="koulutustyyppiVaihtoehdot" :koulutustyyppiryhmat="koulutustyyppiryhmat" :isEditing="isEditing">
+  <KoulutustyyppiSelect
+    v-model="model"
+    :koulutustyypit="koulutustyyppiVaihtoehdot"
+    :koulutustyyppiryhmat="koulutustyyppiryhmat"
+    :isEditing="isEditing">
     <template v-slot:colorindicator="{ koulutustyyppi }">
       <EpColorIndicator :size="10" :kind="koulutustyyppiColors[koulutustyyppi] || koulutustyyppi"/>
     </template>
