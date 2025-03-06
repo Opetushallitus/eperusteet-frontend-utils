@@ -152,7 +152,7 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
   @Prop({ default: false })
   private loading!: boolean;
 
-  @Prop({ default: true })
+  @Prop({ default: false })
   private internalSearch!: boolean;
 
   @Prop({ default: true })
