@@ -1,8 +1,7 @@
 <template>
   <span :class="'material-icons' + shape"
         class="icon"
-        :style="{color: color, fontSize: size, background: background}"
-        aria-hidden="true">
+        :style="{color: color, fontSize: size, background: background}">
     <slot></slot>
   </span>
 </template>

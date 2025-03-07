@@ -1,14 +1,26 @@
 <template>
-<div class="linkki">
-  <a :href="url"
-     rel="noopener noreferrer"
-     target="_blank">
-    <EpMaterialIcon v-if="icon && !iconRight" class="mr-1" size="18px">{{ icon }}</EpMaterialIcon>
-    <slot v-if="hasSlot()"></slot>
-    <span v-else>{{ cleanUrl }}</span>
-    <EpMaterialIcon v-if="icon && iconRight" class="ml-1" size="18px">{{ icon }}</EpMaterialIcon>
-  </a>
-</div>
+  <div class="linkki">
+    <a :href="url"
+      rel="noopener noreferrer"
+      target="_blank">
+      <EpMaterialIcon
+        v-if="icon && !iconRight"
+        class="mr-1"
+        size="18px"
+        :alt="$t('avautuu-uuteen-valilehteen')">
+        {{ icon }}
+      </EpMaterialIcon>
+      <slot v-if="hasSlot()"></slot>
+      <span v-else>{{ cleanUrl }}</span>
+      <EpMaterialIcon
+        v-if="icon && iconRight"
+        class="ml-1"
+        size="18px"
+        :alt="$t('avautuu-uuteen-valilehteen')">
+        {{ icon }}
+      </EpMaterialIcon>
+    </a>
+  </div>
 </template>
 
 <script lang="ts">
@@ -70,8 +82,6 @@ export default class EpLinkki extends Vue {
 <style scoped lang="scss">
 
 .linkki {
-  font-size: 0.875rem;
-
   a {
     display: inline;
   }
