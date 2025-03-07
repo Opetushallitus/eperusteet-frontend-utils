@@ -62,12 +62,12 @@ export default class EpToggle extends Vue {
 @import '@shared/styles/_mixins.scss';
 
 ::v-deep .custom-checkbox label.custom-control-label::before {
-  border-radius: 0.2rem;
-  border: 2px solid #E0E0E1;
+  // border-radius: 0.2rem;
+  // border: 2px solid #E0E0E1;
 }
 
 ::v-deep .custom-checkbox .custom-control-input:enabled:checked ~ .custom-control-label::before {
-  border-color: $primary;
+  // border-color: $primary;
 }
 
 ::v-deep .custom-checkbox .custom-control-input:disabled:checked ~ .custom-control-label::before {
@@ -75,8 +75,8 @@ export default class EpToggle extends Vue {
 }
 
 ::v-deep .custom-switch label.custom-control-label::before {
-  border-radius: 0.625rem;
-  border: 2px solid #E0E0E1;
+  // border-radius: 0.625rem;
+  // border: 2px solid #E0E0E1;
 }
 
 // large checkbox
@@ -90,7 +90,7 @@ export default class EpToggle extends Vue {
 }
 
 ::v-deep .custom-checkbox-lg label.custom-control-label::before {
-  border-radius: 0.3125rem;
+  // border-radius: 0.3125rem;
   top: 0rem;
   left: -2rem;
   width: 1.5rem;
@@ -119,7 +119,7 @@ export default class EpToggle extends Vue {
 }
 
 ::v-deep .custom-switch-lg label.custom-control-label::before {
-  border-radius: 1rem;
+  // border-radius: 1rem;
   top: 0rem;
   left: -3.125rem;
   width: 2.625rem;
@@ -127,7 +127,7 @@ export default class EpToggle extends Vue {
 }
 
 ::v-deep .custom-switch-lg label.custom-control-label::after {
-  border-radius: 1rem;
+  // border-radius: 1rem;
   top: 0.125rem;
   left: -3rem;
   width: 1.25rem;
