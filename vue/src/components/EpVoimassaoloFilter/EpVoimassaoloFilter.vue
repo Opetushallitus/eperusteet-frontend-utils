@@ -54,9 +54,7 @@ export default class EpVoimassaoloFilter extends Vue {
   padding-bottom: 10px;
 
   .haku-toggle {
-    padding: 2px 7px;
-    border: 1px solid $gray-lighten-8;
-    border-radius: 6px;
+    padding: 2px 7px 2px 0px;
     margin-right: 7px;
     margin-bottom: 5px;
 

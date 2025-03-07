@@ -96,10 +96,7 @@ export default class EpSearch extends Vue {
 
   .form-control {
     padding-left: 2.375rem;
-    border-radius: 10px;
-    background: #F7F7F7;
-    border-width: 0.1rem;
-    border-color: #DDD;
+    border-width: 1px;
 
     &::placeholder {
       color: #888;
