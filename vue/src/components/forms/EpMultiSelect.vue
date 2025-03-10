@@ -283,10 +283,10 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
 @import '@shared/styles/_mixins.scss';
 
 ::v-deep .multiselect__tags {
-  border: 2px solid #E0E0E1;
-  border-radius: 10px;
+  border: 1px solid $black;
   background-color: $white;
   padding-left:10px;
+  border-radius: 0;
 }
 
 ::v-deep .multiselect__tag {
@@ -302,25 +302,24 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
 
 ::v-deep .multiselect--active {
   .multiselect__tags {
-    border-top: 2px solid #E0E0E1;
+    border-top: 2px solid $black;
   }
 }
 
 ::v-deep .multiselect--above {
   .multiselect__content-wrapper {
-    border: 2px solid #E0E0E1;
-    border-radius: 10px 10px 0 0;
+    border: 1px solid $black;
+    border-bottom: 0;
   }
 }
 ::v-deep .multiselect--above.multiselect--active {
   .multiselect__tags {
-    border-top: 2px solid #E0E0E1;
+    border-top: 2px solid $black;
   }
 }
 
 ::v-deep .multiselect__content-wrapper {
-  border: 2px solid #E0E0E1;
-  border-radius: 0 0 10px 10px;
+  border: 1px solid $black;
   width: fit-content;
   min-width: 100%;
   margin-top: -2px;
@@ -336,10 +335,6 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
 
 ::v-deep .is-valid .multiselect__content-wrapper {
   border-color: $valid;
-}
-
-::v-deep .multiselect__tags {
-  border-bottom: 2px solid #E0E0E1;
 }
 
 ::v-deep .is-invalid .multiselect__tags {
@@ -384,17 +379,12 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
 
 ::v-deep .multiselect__tags {
   .multiselect__tag {
-    background-color: $gray-lighten-6;
-    border-radius: 25px;
+    background-color: $black;
     margin-right: 10px;
 
     .multiselect__tag-icon {
       margin-right: 5px;
     }
-  }
-
-  .multiselect__input {
-    // margin-top: 15px;
   }
 
   .remove-all {

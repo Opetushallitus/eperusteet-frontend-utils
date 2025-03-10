@@ -1,6 +1,8 @@
 // https://bootstrap-vue.js.org/docs/reference/theming/
 // https://github.com/twbs/bootstrap-sass/blob/master/assets/stylesheets/bootstrap/_variables.scss
 
+@import './_variables.scss';
+
 $primary: #3367E3;
 
 $input-border: #E0E0E1;
@@ -13,10 +15,12 @@ $btn-border-radius: 1.25rem; // 20px
 $border-radius: .625rem; // 5px
 $tabcolor: #0041dc;
 
+$link-color: $green;
+$input-border: $green;
+
 // Include Bootstrap and BootstrapVue SCSS files
 @import '~bootstrap/scss/bootstrap.scss';
 @import '~bootstrap-vue/src/index.scss';
-@import './_variables.scss';
 @import './_mixins.scss';
 
 .modal-content {
@@ -113,7 +117,16 @@ $tabcolor: #0041dc;
 }
 
 .form-control {
-  border: 2px solid $input-border;
+  border: 1px solid $black;
+  border-radius: 0;
+  background-color: $white;
+
+  &:focus {
+    border-color: $black;
+    box-shadow: none;
+
+    @include focus;
+  }
 }
 
 .b-table {
@@ -249,16 +262,42 @@ fieldset.form-group {
 }
 
 .custom-checkbox label.custom-control-label::before {
-  border-radius: 0.2rem;
+  border-width: 2px;
+  border-color: $green;
+  border-radius: 0;
 }
+
+.custom-control-input:checked ~ .custom-control-label::before {
+  border-color: $green;
+  border-width: 2px;
+  background-color: $white;
+}
+
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::after {
+  font-size: 1.5rem;
+  background-image: url('~@assets/img/icons/checkbox_green.svg');
+}
+
+.custom-control-input:focus ~ .custom-control-label::before {
+  box-shadow: none;
+}
+
+.custom-control-input:active:not(:checked) ~ .custom-control-label::before,
+.custom-control-input:active:checked ~ .custom-control-label::before,
+.custom-control-input:focus:not(:checked) ~ .custom-control-label::before,
+.custom-control-input:focus:checked ~ .custom-control-label::before {
+  background-color: $white;
+  border-color: $green;
+}
+
 
 .switch label.custom-control-label::before {
   border-radius: 10px;
-  border: 2px solid #E0E0E1;
+  border: 2px solid $black;
 }
 
 button.navbar-toggler {
-  color: rgba(255, 255, 255, 1) !important;
+  color: #00f92e !important;
   border-color: white !important;
   border: none;
   padding: 0;
