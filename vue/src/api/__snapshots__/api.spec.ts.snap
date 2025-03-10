@@ -1,17 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Api Has caller id 1`] = `
-Object {
-  "common": Object {
+{
+  "common": {
     "Accept": "application/json, text/plain, */*",
     "Caller-Id": "1.2.246.562.10.00000000001.eperusteet",
     "Content-Type": undefined,
   },
-  "delete": Object {},
-  "get": Object {},
-  "head": Object {},
-  "patch": Object {},
-  "post": Object {},
-  "put": Object {},
+  "delete": {},
+  "get": {},
+  "head": {},
+  "patch": {},
+  "post": {},
+  "put": {},
 }
 `;
