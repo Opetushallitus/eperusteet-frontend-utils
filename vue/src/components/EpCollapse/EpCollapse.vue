@@ -30,7 +30,7 @@
           </div>
         </slot>
       </div>
-      <div v-if="toggled" class="content">
+      <div v-if="toggled" class="collapse-content">
         <slot></slot>
       </div>
     </div>
@@ -231,7 +231,7 @@ export default class EpCollapse extends Vue {
     cursor: pointer;
   }
 
-  .content {
+  .collapse-content {
     text-align: left;
   }
 
