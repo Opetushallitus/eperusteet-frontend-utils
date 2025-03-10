@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { findDeep, eachDeep } from 'deepdash-es/standalone';
+import { findDeep, eachDeep } from 'deepdash/standalone';
 import { Kielet } from '@shared/stores/kieli';
 
 export function domAttrsGetter(...fields: string[]) {
