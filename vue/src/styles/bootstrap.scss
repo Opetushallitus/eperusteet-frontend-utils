@@ -5,7 +5,6 @@
 
 $primary: #3367E3;
 
-$input-border: #E0E0E1;
 $input-border-radius: .625rem; // 10px
 
 $input-btn-padding-y: .4375rem;
@@ -15,8 +14,7 @@ $btn-border-radius: 1.25rem; // 20px
 $border-radius: .625rem; // 5px
 $tabcolor: #0041dc;
 
-$link-color: $green;
-$input-border: $green;
+$input-border: $blue;
 
 // Include Bootstrap and BootstrapVue SCSS files
 @import '~bootstrap/scss/bootstrap.scss';
@@ -263,12 +261,12 @@ fieldset.form-group {
 
 .custom-checkbox label.custom-control-label::before {
   border-width: 2px;
-  border-color: $green;
+  border-color: $input-border;
   border-radius: 0;
 }
 
-.custom-control-input:checked ~ .custom-control-label::before {
-  border-color: $green;
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+  border-color: $input-border;
   border-width: 2px;
   background-color: $white;
 }
@@ -287,7 +285,7 @@ fieldset.form-group {
 .custom-control-input:focus:not(:checked) ~ .custom-control-label::before,
 .custom-control-input:focus:checked ~ .custom-control-label::before {
   background-color: $white;
-  border-color: $green;
+  border-color: $input-border;
 }
 
 
