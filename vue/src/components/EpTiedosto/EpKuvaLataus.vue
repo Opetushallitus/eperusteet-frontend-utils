@@ -37,7 +37,7 @@
           </div>
 
           <div class="justify-content-center">
-            <div v-if="!saved">
+            <!-- <div v-if="!saved">
               <ep-button @click="saveImage()" class="mr-3" v-if="fileValidi">
                 <slot name="tallenna">{{ $t('tallenna') }}</slot>
               </ep-button>
@@ -45,11 +45,11 @@
                 <slot name="peruuta">{{ $t('peruuta') }}</slot>
               </ep-button>
             </div>
-            <div v-else>
+            <div v-else> -->
               <ep-button @click="cancel" variant="link">
                 {{ $t('valitse-toinen-kuva') }}
               </ep-button>
-            </div>
+            <!-- </div> -->
           </div>
         </div>
       </slot>
