@@ -36,21 +36,9 @@
             <ep-toggle :is-switch="false" v-model="keepAspectRatio">{{$t('sailyta-mittasuhteet')}}</ep-toggle>
           </div>
 
-          <div class="justify-content-center">
-            <div v-if="!saved">
-              <ep-button @click="saveImage()" class="mr-3" v-if="fileValidi">
-                <slot name="tallenna">{{ $t('tallenna') }}</slot>
-              </ep-button>
-              <ep-button @click="cancel" variant="link">
-                <slot name="peruuta">{{ $t('peruuta') }}</slot>
-              </ep-button>
-            </div>
-            <div v-else>
-              <ep-button @click="cancel" variant="link">
-                {{ $t('valitse-toinen-kuva') }}
-              </ep-button>
-            </div>
-          </div>
+          <ep-button @click="cancel" variant="link" noPadding>
+            {{ $t('valitse-toinen-kuva') }}
+          </ep-button>
         </div>
       </slot>
     </EpTiedostoInput>

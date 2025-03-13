@@ -54,7 +54,7 @@
 
     <div class="d-flex justify-content-end mt-3">
       <b-button class="mr-3" variant="link" @click="close(false)">{{$t('peruuta')}}</b-button>
-      <b-button variant="primary" squared @click="close(true)">{{$t('lisaa-kuva')}}</b-button>
+      <b-button variant="primary" squared @click="close(true)" :disabled="invalid">{{$t('lisaa-kuva')}}</b-button>
     </div>
   </div>
 </template>
@@ -86,6 +86,9 @@ import { IKuvaHandler, ILiite } from './KuvaHandler';
       [Kielet.getSisaltoKieli.value]: {
         required,
       },
+    },
+    kuvaValittu: {
+      required,
     },
   },
 } as any)
@@ -141,7 +144,11 @@ export default class ImageModal extends Mixins(validationMixin) {
     return this.files;
   }
 
-  close(save) {
+  async close(save) {
+    if (save && !this.imageSaved) {
+      await this.saveImage();
+    }
+
     this.$emit('onClose', save);
   }
 
@@ -205,6 +212,14 @@ export default class ImageModal extends Mixins(validationMixin) {
     this.imageData = null;
     this.selected = null;
     this.imageSaved = false;
+  }
+
+  get kuvaValittu() {
+    return this.selected || this.imageData;
+  }
+
+  get invalid() {
+    return this.$v.$invalid;
   }
 }
 
