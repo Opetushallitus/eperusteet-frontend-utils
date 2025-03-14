@@ -379,7 +379,7 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
 
 ::v-deep .multiselect__tags {
   .multiselect__tag {
-    background-color: $black;
+    border: 1px solid $black;
     margin-right: 10px;
 
     .multiselect__tag-icon {
