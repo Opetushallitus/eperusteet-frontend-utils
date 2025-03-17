@@ -86,15 +86,9 @@ export default class EpOpintojaksonModuuli extends Vue {
 
 .moduulibox {
   background-color: #E6F6FF;
-  // height: 161px;
-  // margin: 0;
-  // padding: 20px 10px 44px 20px;
-  // position: relative;
-  // width: 158px;
   color: $blue-darken-1;
   user-select: none;
   border-radius: 5px;
-  // outline: none;
 
   &.selectable {
     cursor: pointer;
@@ -105,10 +99,7 @@ export default class EpOpintojaksonModuuli extends Vue {
   }
 
   .name {
-    // text-overflow: ellipsis;
-    // overflow: hidden;
     font-weight: bold;
-    // height: 100px;
 
     &::-webkit-scrollbar {
       width: 0.5em;
@@ -123,15 +114,7 @@ export default class EpOpintojaksonModuuli extends Vue {
   }
 
   .bottom {
-    // width: 100%;
-    // padding: 10px;
-    // position: absolute;
-    // left: 0;
-    // bottom: 0;
-
     .icon {
-      // display: inline-block;
-      // outline: none;
       color: #3367E3;
     }
 

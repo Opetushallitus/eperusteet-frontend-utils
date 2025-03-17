@@ -259,35 +259,36 @@ fieldset.form-group {
   margin-left: 0;
 }
 
-.custom-checkbox label.custom-control-label::before {
-  border-width: 2px;
-  border-color: $input-border;
-  border-radius: 0;
-}
+.custom-checkbox {
+  label.custom-control-label::before {
+    border-width: 2px;
+    border-color: $input-border;
+    border-radius: 0;
+  }
 
-.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
-  border-color: $input-border;
-  border-width: 2px;
-  background-color: $white;
-}
+  .custom-control-input:checked ~ .custom-control-label::before {
+    border-color: $input-border;
+    border-width: 2px;
+    background-color: $white;
+  }
 
-.custom-checkbox .custom-control-input:checked ~ .custom-control-label::after {
-  font-size: 1.5rem;
-  background-image: url('~@assets/img/icons/checkbox_green.svg');
+  .custom-control-input:checked ~ .custom-control-label::after {
+    font-size: 1.5rem;
+    background-image: url('~@assets/img/icons/checkbox_green.svg');
+  }
+
+  .custom-control-input:active:not(:checked) ~ .custom-control-label::before,
+  .custom-control-input:active:checked ~ .custom-control-label::before,
+  .custom-control-input:focus:not(:checked) ~ .custom-control-label::before,
+  .custom-control-input:focus:checked ~ .custom-control-label::before {
+    background-color: $white;
+    border-color: $input-border;
+  }
 }
 
 .custom-control-input:focus ~ .custom-control-label::before {
   box-shadow: none;
 }
-
-.custom-control-input:active:not(:checked) ~ .custom-control-label::before,
-.custom-control-input:active:checked ~ .custom-control-label::before,
-.custom-control-input:focus:not(:checked) ~ .custom-control-label::before,
-.custom-control-input:focus:checked ~ .custom-control-label::before {
-  background-color: $white;
-  border-color: $input-border;
-}
-
 
 .switch label.custom-control-label::before {
   border-radius: 10px;
