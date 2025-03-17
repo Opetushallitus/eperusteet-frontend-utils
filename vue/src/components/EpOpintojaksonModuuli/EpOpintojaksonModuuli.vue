@@ -1,16 +1,18 @@
 <template>
-<div class="moduulibox" role="button" :class="{'moduulibox-valittu': valittu, 'selectable': isEditing}" @click="toggle()" @keyup.enter="toggle()" tabindex="0" :title="moduuliNimi">
-  <div class="name">{{ moduuliNimi }} ({{ moduuli.koodi.arvo }})</div>
-  <div class="bottom">
-    <div class="d-flex bd-highlight justify-content-end">
-      <div class="px-2 info">
-        <span class="op">{{ moduuli.laajuus }} {{ $t('opintopiste') }}</span>
-        <ep-color-indicator :kind="moduuli.pakollinen ? 'pakollinen' : 'valinnainen'">
-        </ep-color-indicator>
-      </div>
+  <div
+    class="moduulibox d-flex justify-content-between p-2"
+    :class="{'moduulibox-valittu': valittu, 'selectable': isEditing}"
+    role="button"
+    @click="toggle()"
+    @keyup.enter="toggle()"
+    tabindex="0"
+    :title="moduuliNimi">
+    <div class="name">{{ moduuliNimi }} ({{ moduuli.koodi.arvo }})</div>
+    <div class="d-flex bd-highlight align-items-center">
+      <span class="pr-2">{{ moduuli.laajuus }} {{ $t('opintopiste') }}</span>
+      <ep-color-indicator :kind="moduuli.pakollinen ? 'pakollinen' : 'valinnainen'"/>
     </div>
   </div>
-</div>
 </template>
 
 <script lang="ts">
@@ -84,15 +86,15 @@ export default class EpOpintojaksonModuuli extends Vue {
 
 .moduulibox {
   background-color: #E6F6FF;
-  height: 161px;
-  margin: 0;
-  padding: 20px 10px 44px 20px;
-  position: relative;
-  width: 158px;
+  // height: 161px;
+  // margin: 0;
+  // padding: 20px 10px 44px 20px;
+  // position: relative;
+  // width: 158px;
   color: $blue-darken-1;
   user-select: none;
-  border-radius: 10px;
-  outline: none;
+  border-radius: 5px;
+  // outline: none;
 
   &.selectable {
     cursor: pointer;
@@ -103,10 +105,10 @@ export default class EpOpintojaksonModuuli extends Vue {
   }
 
   .name {
-    text-overflow: ellipsis;
-    overflow: hidden;
+    // text-overflow: ellipsis;
+    // overflow: hidden;
     font-weight: bold;
-    height: 100px;
+    // height: 100px;
 
     &::-webkit-scrollbar {
       width: 0.5em;
@@ -121,26 +123,20 @@ export default class EpOpintojaksonModuuli extends Vue {
   }
 
   .bottom {
-    width: 100%;
-    padding: 10px;
-    position: absolute;
-    left: 0;
-    bottom: 0;
+    // width: 100%;
+    // padding: 10px;
+    // position: absolute;
+    // left: 0;
+    // bottom: 0;
 
     .icon {
-      display: inline-block;
-      outline: none;
+      // display: inline-block;
+      // outline: none;
       color: #3367E3;
     }
 
     .icon-editing {
       cursor: pointer;
-    }
-
-    .info {
-      .op {
-        padding: 0 5px 0 0;
-      }
     }
   }
 }
@@ -160,12 +156,6 @@ export default class EpOpintojaksonModuuli extends Vue {
     }
     &::-webkit-scrollbar-thumb {
       background-color: $dark-blue;
-    }
-  }
-
-  .bottom {
-    .icon {
-      color: white;
     }
   }
 }
