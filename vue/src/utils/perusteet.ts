@@ -57,16 +57,16 @@ export const PerusopetusKoulutustyypit = [
 ];
 
 export const yleissivistavatKoulutustyypit = [
-  'koulutustyyppi_20',
+  'koulutustyyppi_14',
   'koulutustyyppi_15',
   'koulutustyyppi_16',
-  'koulutustyyppi_22',
-  'koulutustyyppi_6',
   'koulutustyyppi_17',
-  'koulutustyyppi_999907',
   'koulutustyyppi_2',
+  'koulutustyyppi_20',
+  'koulutustyyppi_22',
   'koulutustyyppi_23',
-  'koulutustyyppi_14',
+  'koulutustyyppi_6',
+  'koulutustyyppi_999907',
 ];
 
 export const themes = {
@@ -410,6 +410,10 @@ export function ryhmat(koulutustyyppi: string) {
 
 export function isAmmatillinenKoulutustyyppi(kt: string | undefined): boolean {
   return _.includes(AmmatillisetKoulutustyypit, kt);
+}
+
+export function isYleissivistavaKoulutustyyppi(kt: string | undefined): boolean {
+  return _.includes(yleissivistavatKoulutustyypit, kt);
 }
 
 export function isVapaasivistystyoKoulutustyyppi(kt: string | undefined): boolean {
