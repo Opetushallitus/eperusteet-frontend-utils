@@ -72,6 +72,7 @@ import { required } from 'vuelidate/lib/validators';
 import { Kielet } from '@shared/stores/kieli';
 import EpKuvaLataus, { ImageData } from '@shared/components/EpTiedosto/EpKuvaLataus.vue';
 import { IKuvaHandler, ILiite } from './KuvaHandler';
+import { Validations } from 'vuelidate-property-decorators';
 
 @Component({
   components: {
@@ -81,17 +82,7 @@ import { IKuvaHandler, ILiite } from './KuvaHandler';
     EpField,
     EpKuvaLataus,
   },
-  validations: {
-    vaihtoehtoinenteksti: {
-      [Kielet.getSisaltoKieli.value]: {
-        required,
-      },
-    },
-    kuvaValittu: {
-      required,
-    },
-  },
-} as any)
+})
 export default class ImageModal extends Mixins(validationMixin) {
   @Prop({ required: true })
   private loader!: IKuvaHandler;
@@ -221,6 +212,18 @@ export default class ImageModal extends Mixins(validationMixin) {
   get invalid() {
     return this.$v.$invalid;
   }
+
+  @Validations()
+    validations = {
+      vaihtoehtoinenteksti: {
+        [Kielet.getSisaltoKieli.value]: {
+          required,
+        },
+      },
+      kuvaValittu: {
+        required,
+      },
+    };
 }
 
 </script>
