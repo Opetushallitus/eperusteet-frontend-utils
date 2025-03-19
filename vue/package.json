@@ -22,7 +22,7 @@
     "test": "vue-cli-service test:unit --ci --coverage --no-cache"
   },
   "dependencies": {
-    "@babel/core": "^7.12.16",
+    "@babel/core": "^7.26.10",
     "@types/jest": "^27.5.2",
     "@types/lodash": "4.14.202",
     "@types/qs": "^6.9.1",
