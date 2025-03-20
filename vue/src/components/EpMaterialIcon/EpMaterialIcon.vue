@@ -23,14 +23,21 @@ export default class EpMaterialIcon extends Vue {
   @Prop({ required: false })
   size?: string;
 
+  @Prop({ required: false, type: Boolean })
+  private outlined!: boolean;
+
+  @Prop({ required: false, type: Boolean })
+  private rounded!: boolean;
+
   get shape() {
-    if (this.iconShape === 'outlined' || this.iconShape === 'rounded') {
-      return '-' + this.iconShape;
+    if (this.outlined || this.iconShape === 'outlined') {
+      return '-outlined';
     }
-    else {
-      // default = filled
-      return '';
+    else if (this.rounded || this.iconShape === 'rounded') {
+      return '-rounded';
     }
+
+    return '';
   }
 };
 </script>
@@ -40,6 +47,9 @@ export default class EpMaterialIcon extends Vue {
 .icon {
   display: inline-block !important;
   vertical-align: sub;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
 }
 
 </style>

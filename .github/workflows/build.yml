@@ -47,6 +47,17 @@ jobs:
           else
             echo spec file not found
           fi
+          
+      - name: Get backend eperusteet-ai branch file http status
+        id: spec_file_http_status_ai
+        run: |
+          if [ "$(curl -s -o /dev/null -I -w '%{http_code}' https://raw.githubusercontent.com/Opetushallitus/eperusteet-ai/${{ github.ref_name }}/generated/eperusteet-ai.spec.json)" == "200" ] 
+          then
+            echo spec file found
+            echo "EPERUSTEET_AI_SPECFILE=https://raw.githubusercontent.com/Opetushallitus/eperusteet-ai/${{ github.ref_name }}/generated/eperusteet-ai.spec.json" >> $GITHUB_ENV
+          else
+            echo spec file not found
+          fi    
 
       - name: Build eperusteet-frontend-utils
         run: |
