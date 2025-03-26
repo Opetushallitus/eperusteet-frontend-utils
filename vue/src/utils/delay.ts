@@ -4,6 +4,8 @@ import VueCompositionApi, { computed } from '@vue/composition-api';
 
 Vue.use(VueCompositionApi);
 
+export const DEFAULT_PUBLIC_WAIT_TIME_MS = 300;
+
 /**
  * Asyncronic debounce that supports awaiting. Useful when need to wait
  * for the actual event to happen.
