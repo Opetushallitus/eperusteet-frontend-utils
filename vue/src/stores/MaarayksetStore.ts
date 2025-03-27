@@ -3,6 +3,7 @@ import VueCompositionApi, { reactive, computed } from '@vue/composition-api';
 import { MaaraysDto, Maaraykset, MaaraysDtoTyyppiEnum } from '@shared/api/eperusteet';
 import _ from 'lodash';
 import { Koulutustyyppi, Page } from '@shared/tyypit';
+import { Debounced, DEFAULT_PUBLIC_WAIT_TIME_MS } from '@shared/utils/delay';
 
 Vue.use(VueCompositionApi);
 
@@ -35,6 +36,7 @@ export class MaarayksetStore {
     this.state.koulutustyypit = (await Maaraykset.getMaarayksienKoulutustyypit()).data;
   }
 
+  @Debounced(DEFAULT_PUBLIC_WAIT_TIME_MS)
   async fetch(query: MaaraysQueryDto) {
     this.state.maaraykset = null;
     this.state.maaraykset = (await Maaraykset.getMaaraykset(
