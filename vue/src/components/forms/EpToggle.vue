@@ -65,7 +65,7 @@ export default class EpToggle extends Vue {
   border-width: 0;
 }
 
-// large checkbox
+large checkbox
 ::v-deep .custom-checkbox-lg {
   padding-left: 2rem;
   .custom-control-input {
@@ -77,20 +77,16 @@ export default class EpToggle extends Vue {
 
 ::v-deep .custom-checkbox-lg label.custom-control-label::before {
   top: 0rem;
-  left: -2rem;
+  left: -1.7rem;
   width: 1.5rem;
   height: 1.5rem;
 }
 
 ::v-deep .custom-checkbox-lg label.custom-control-label::after {
   top: 0rem;
-  left: -2rem;
+  left: -1.7rem;
   width: 1.5rem;
   height: 1.5rem;
-}
-
-::v-deep .custom-checkbox-lg .custom-control-input:checked ~ .custom-control-label::after {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='20' height='15' viewBox='0 0 20 15'%3e%3cpath fill='%23fff' d='M6.333 11.915L1.427 6.923 0 8.325l6.308 6.419L19.86 1.427 18.458 0z'/%3e%3c/svg%3e");
 }
 
 // Large switch

@@ -259,7 +259,7 @@ fieldset.form-group {
   margin-left: 0;
 }
 
-.custom-checkbox {
+.custom-checkbox, .custom-checkbox-lg {
   label.custom-control-label::before {
     border-width: 2px;
     border-color: $input-border;
