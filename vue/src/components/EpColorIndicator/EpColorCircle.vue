@@ -1,16 +1,20 @@
 <template>
-<span ref="circle"
-      :style="circleStyle"
-      :title="$t(help)"
-      :class="circleClass">
-  <b-popover v-if="help"
-             :target="() => $refs['circle']"
-             :placement="'top'"
-             triggers="hover"
-             variant="primary">
-    <span>{{$t(help)}}</span>
-  </b-popover>
-</span>
+  <span
+    ref="circle"
+    :style="circleStyle"
+    :title="$t(help)"
+    :class="circleClass"
+  >
+    <b-popover
+      v-if="help"
+      :target="() => $refs['circle']"
+      :placement="'top'"
+      triggers="hover"
+      variant="primary"
+    >
+      <span>{{ $t(help) }}</span>
+    </b-popover>
+  </span>
 </template>
 
 <script lang="ts">

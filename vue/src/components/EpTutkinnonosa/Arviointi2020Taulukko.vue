@@ -1,17 +1,36 @@
 <template>
-  <ep-form-content class="col-md-12 mb-5" v-if="arviointi">
-    <slot name="header">
-    </slot>
-    <div>{{$kaanna(arviointi.kohde)}}</div>
-    <b-container fluid="lg" class="osaamistasot mt-3">
-      <b-row v-for="(osaamistaso, index) in osaamistasonKriteerit" :key="'osaamistasokriteeri'+index">
-        <b-col class="pt-3" md="12" lg="4">
-          <span>{{$kaanna(osaamistaso.osaamistaso.otsikko)}}</span>
+  <ep-form-content
+    v-if="arviointi"
+    class="col-md-12 mb-5"
+  >
+    <slot name="header" />
+    <div>{{ $kaanna(arviointi.kohde) }}</div>
+    <b-container
+      fluid="lg"
+      class="osaamistasot mt-3"
+    >
+      <b-row
+        v-for="(osaamistaso, index) in osaamistasonKriteerit"
+        :key="'osaamistasokriteeri'+index"
+      >
+        <b-col
+          class="pt-3"
+          md="12"
+          lg="4"
+        >
+          <span>{{ $kaanna(osaamistaso.osaamistaso.otsikko) }}</span>
         </b-col>
-        <b-col class="pt-3" md="12" lg="8">
+        <b-col
+          class="pt-3"
+          md="12"
+          lg="8"
+        >
           <ul class="pl-3">
-            <li v-for="(kriteeri, index) in osaamistaso.kriteerit" :key="'kriteeri'+index">
-              {{$kaanna(kriteeri)}}
+            <li
+              v-for="(kriteeri, index) in osaamistaso.kriteerit"
+              :key="'kriteeri'+index"
+            >
+              {{ $kaanna(kriteeri) }}
             </li>
           </ul>
         </b-col>

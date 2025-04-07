@@ -1,16 +1,19 @@
 <template>
-<div class="content">
-  <div :class="{'container': container}">
-    <div v-if="hasHeaderSlot">
-      <slot name="header"></slot>
+  <div class="content">
+    <div :class="{'container': container}">
+      <div v-if="hasHeaderSlot">
+        <slot name="header" />
+      </div>
+      <div
+        v-if="$slots['default']"
+        :class="{'view-content': hasHeaderSlot}"
+      >
+        <slot name="default" />
+      </div>
+      <slot name="custom-content" />
     </div>
-    <div :class="{'view-content': hasHeaderSlot}" v-if="$slots['default']">
-      <slot name="default"></slot>
-    </div>
-    <slot name="custom-content"></slot>
+    <slot name="after" />
   </div>
-  <slot name="after"></slot>
-</div>
 </template>
 
 <script lang="ts">

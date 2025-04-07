@@ -1,23 +1,42 @@
 <template>
   <div class="ep-content">
     <ep-editor-menu-bar
+      v-sticky="isSticky"
       :layout="layout"
       :is-editable="isEditable"
       :editor="editor"
       :help="toolbarHelp"
-      v-sticky="isSticky"
       sticky-offset="{ top: 114 }"
       sticky-z-index="500"
-      />
+    />
     <editor-content
       ref="content"
+      v-observe-visibility="visibilityChanged"
       :editor="editor"
       :class="{ 'content-invalid': validation && validationError, 'content-valid': validation && !validationError, 'placeholder': placeholder }"
-      v-observe-visibility="visibilityChanged"/>
-    <div class="valid-feedback" v-if="!validationError && validMessage && isEditable">{{ $t(validMessage) }}</div>
-    <div class="invalid-feedback" v-else-if="validationError && invalidMessage && isEditable">{{ $t(invalidMessage) }}</div>
-    <div class="invalid-feedback" v-else-if="validationError && !invalidMessage && isEditable">{{ $t('validation-error-' + validationError, validation.$params[validationError]) }}</div>
-    <small class="form-text text-muted" v-if="help && isEditable">{{ $t(help) }}</small>
+    />
+    <div
+      v-if="!validationError && validMessage && isEditable"
+      class="valid-feedback"
+    >
+      {{ $t(validMessage) }}
+    </div>
+    <div
+      v-else-if="validationError && invalidMessage && isEditable"
+      class="invalid-feedback"
+    >
+      {{ $t(invalidMessage) }}
+    </div>
+    <div
+      v-else-if="validationError && !invalidMessage && isEditable"
+      class="invalid-feedback"
+    >
+      {{ $t('validation-error-' + validationError, validation.$params[validationError]) }}
+    </div>
+    <small
+      v-if="help && isEditable"
+      class="form-text text-muted"
+    >{{ $t(help) }}</small>
   </div>
 </template>
 

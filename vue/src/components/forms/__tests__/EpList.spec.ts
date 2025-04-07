@@ -59,6 +59,8 @@ describe('EpList component', () => {
     wrapper.findAll('button.btn-link').at(0)
       .trigger('click');
 
+    await localVue.nextTick();
+
     expect(wrapper.vm.value).toHaveLength(1);
     expect(wrapper.findAll('div.arvo')).toHaveLength(1);
   });
@@ -73,6 +75,8 @@ describe('EpList component', () => {
     expect(wrapper.findAll('div.arvo')).toHaveLength(2);
 
     wrapper.find('.ep-button button').trigger('click');
+
+    await localVue.nextTick();
 
     expect(wrapper.vm.value).toHaveLength(3);
     expect(wrapper.findAll('div.arvo')).toHaveLength(3);

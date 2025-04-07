@@ -1,54 +1,118 @@
 <template>
-<div v-if="isEditable">
-  <div class="alue" v-for="(alue, alueIdx) in internal" :key="alueIdx">
-    <div class="alue-editing">
-      <div class="header">
-        <div class="row">
-          <div class="col-sm-6">
-            <ep-input v-model="alue.nimi" :help="arvot + '-nimi'" :placeholder="$t(arvot + '-nimi')" :is-editing="true" />
-          </div>
-          <div class="col-sm-6">
-            <div class="actions">
-              <ep-button variant="danger" icon="close" @click="poistaIndeksi(internal, alueIdx)">{{ $t('poista-alue-' + arvot) }}</ep-button>
+  <div v-if="isEditable">
+    <div
+      v-for="(alue, alueIdx) in internal"
+      :key="alueIdx"
+      class="alue"
+    >
+      <div class="alue-editing">
+        <div class="header">
+          <div class="row">
+            <div class="col-sm-6">
+              <ep-input
+                v-model="alue.nimi"
+                :help="arvot + '-nimi'"
+                :placeholder="$t(arvot + '-nimi')"
+                :is-editing="true"
+              />
+            </div>
+            <div class="col-sm-6">
+              <div class="actions">
+                <ep-button
+                  variant="danger"
+                  icon="close"
+                  @click="poistaIndeksi(internal, alueIdx)"
+                >
+                  {{ $t('poista-alue-' + arvot) }}
+                </ep-button>
+              </div>
             </div>
           </div>
         </div>
+        <div class="kohde">
+          <ep-input
+            v-model="alue[kohde]"
+            :help="kohde"
+            :is-editing="true"
+          />
+        </div>
+        <div class="arvot">
+          <draggable
+            class="arvot-group"
+            v-bind="options"
+            :list="alue[arvot]"
+          >
+            <div
+              v-for="(item, idx) in alue[arvot]"
+              :key="idx"
+              class="arvo arvot-group-item"
+            >
+              <div class="text">
+                <ep-input
+                  v-model="item[arvo]"
+                  :is-editing="true"
+                />
+              </div>
+              <div class="actions">
+                <ep-button
+                  variant="danger"
+                  icon="close"
+                  @click="poistaIndeksi(alue[arvot], idx)"
+                >
+                  {{ $t('poista') }}
+                </ep-button>
+              </div>
+            </div>
+          </draggable>
+          <ep-button
+            icon="add"
+            @click="lisaaArvo(alue)"
+          >
+            {{ $t('lisaa-arvo-' + arvo) }}
+          </ep-button>
+        </div>
+      </div>
+    </div>
+    <ep-button
+      v-if="hasMultiple"
+      icon="add"
+      @click="lisaaAlue()"
+    >
+      {{ $t('lisaa-alue-' + arvot) }}
+    </ep-button>
+  </div>
+  <div v-else>
+    <div
+      v-for="(alue, alueIdx) in internal"
+      :key="alueIdx"
+      class="alue"
+    >
+      <div class="header">
+        <ep-input
+          v-model="alue.nimi"
+          :is-editing="isEditable"
+        />
       </div>
       <div class="kohde">
-        <ep-input v-model="alue[kohde]" :help="kohde" :is-editing="true" />
+        <ep-input
+          v-model="alue[kohde]"
+          :is-editing="isEditable"
+        />
       </div>
-      <div class="arvot">
-        <draggable class="arvot-group" v-bind="options" :list="alue[arvot]">
-          <div class="arvo arvot-group-item" v-for="(item, idx) in alue[arvot]" :key="idx">
-            <div class="text">
-              <ep-input v-model="item[arvo]" :is-editing="true" />
-            </div>
-            <div class="actions">
-              <ep-button variant="danger" icon="close" @click="poistaIndeksi(alue[arvot], idx)">{{ $t('poista') }}</ep-button>
-            </div>
-          </div>
-        </draggable>
-        <ep-button icon="add" @click="lisaaArvo(alue)">{{ $t('lisaa-arvo-' + arvo) }}</ep-button>
-      </div>
+      <ul class="arvot">
+        <li
+          v-for="(item, idx) in alue[arvot]"
+          :key="idx"
+          class="arvo"
+        >
+          <ep-input
+            :value="arvo ? item[arvo] : item"
+            :is-editing="false"
+          />
+        </li>
+      </ul>
     </div>
   </div>
-  <ep-button v-if="hasMultiple" icon="add" @click="lisaaAlue()">{{ $t('lisaa-alue-' + arvot) }}</ep-button>
-</div>
-<div v-else>
-  <div class="alue" v-for="(alue, alueIdx) in internal" :key="alueIdx">
-    <div class="header">
-      <ep-input v-model="alue.nimi" :is-editing="isEditable" />
-    </div>
-    <div class="kohde">
-      <ep-input v-model="alue[kohde]" :is-editing="isEditable" />
-    </div>
-    <ul class="arvot">
-      <li class="arvo" v-for="(item, idx) in alue[arvot]" :key="idx">
-        <ep-input :value="arvo ? item[arvo] : item" :is-editing="false" />
-      </li>
-    </ul>
-  </div>
-</div>
 </template>
 
 <script lang="ts">

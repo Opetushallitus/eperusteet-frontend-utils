@@ -4,14 +4,21 @@
       <div class="my-5">
         <h2>{{ $t('virhe-nakyma-otsikko') }}</h2>
         <h3>{{ $t(virhe.alt) }}</h3>
-        <div v-if="kohde">{{ $t(kohde + '-esikatselu-ei-mahdollista') }}</div>
+        <div v-if="kohde">
+          {{ $t(kohde + '-esikatselu-ei-mahdollista') }}
+        </div>
       </div>
       <div class="virhekuva">
-        <img :src="virhe.img" :alt="$t(virhe.alt)" />
+        <img
+          :src="virhe.img"
+          :alt="$t(virhe.alt)"
+        >
       </div>
       <div class="d-flex flex-row-reverse">
         <div class="align-self-center">
-          <router-link :to="paluuroute">{{ $t('palaa-etusivulle') }}</router-link>
+          <router-link :to="paluuroute">
+            {{ $t('palaa-etusivulle') }}
+          </router-link>
         </div>
       </div>
     </div>

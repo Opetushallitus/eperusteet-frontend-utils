@@ -1,54 +1,96 @@
 <template>
-    <div v-if="isEditing">
-        <div v-if="items && (!multiple || innerModel)">
-            <select v-if="!useCheckboxes"
-                    class="form-control"
-                    v-model="innerModel"
-                    :multiple="multiple"
-                    :class="{ 'is-invalid': isInvalid, 'is-valid': isValid }"
-                    :disabled="disabled">
-                <option :value="null" v-if="enableEmptyOption" :disabled="emptyOptionDisabled" :hidden="emptyOptionDisabled">{{ $t(placeholder) }}</option>
-                <option v-for="(item, idx) in items" :value="item" :key="idx">
-                    <slot name="default" :item="item">{{ item }}</slot>
-                </option>
-            </select>
-            <b-form-group v-else>
-              <b-form-checkbox-group
-                v-model="innerModel"
-                name="kielivalinta"
-                stacked
-                :class="{ 'is-invalid': isInvalid, 'is-valid': isValid }">
-                <b-form-checkbox
-                  v-for="item in items"
-                  :key="item"
-                  :value="item">
-                  <slot name="default" :item="item">
-                    <span>{{ item }}</span>
-                  </slot>
-                </b-form-checkbox>
-              </b-form-checkbox-group>
-            </b-form-group>
-            <div class="valid-feedback"
-                 v-if="!validationError && validMessage">{{ $t(validMessage) }}</div>
-            <div class="invalid-feedback"
-                 v-else-if="validationError && invalidMessage">{{ $t(invalidMessage) }}</div>
-            <div class="invalid-feedback"
-                 v-else-if="validationError && !invalidMessage">{{ $t('validation-error-' + validationError, validation.$params[validationError]) }}</div>
-            <small class="form-text text-muted"
-                   v-if="help && isEditing">{{ $t(help) }}</small>
-        </div>
-        <ep-spinner v-else></ep-spinner>
+  <div v-if="isEditing">
+    <div v-if="items && (!multiple || innerModel)">
+      <select
+        v-if="!useCheckboxes"
+        v-model="innerModel"
+        class="form-control"
+        :multiple="multiple"
+        :class="{ 'is-invalid': isInvalid, 'is-valid': isValid }"
+        :disabled="disabled"
+      >
+        <option
+          v-if="enableEmptyOption"
+          :value="null"
+          :disabled="emptyOptionDisabled"
+          :hidden="emptyOptionDisabled"
+        >
+          {{ $t(placeholder) }}
+        </option>
+        <option
+          v-for="(item, idx) in items"
+          :key="idx"
+          :value="item"
+        >
+          <slot
+            name="default"
+            :item="item"
+          >
+            {{ item }}
+          </slot>
+        </option>
+      </select>
+      <b-form-group v-else>
+        <b-form-checkbox-group
+          v-model="innerModel"
+          name="kielivalinta"
+          stacked
+          :class="{ 'is-invalid': isInvalid, 'is-valid': isValid }"
+        >
+          <b-form-checkbox
+            v-for="item in items"
+            :key="item"
+            :value="item"
+          >
+            <slot
+              name="default"
+              :item="item"
+            >
+              <span>{{ item }}</span>
+            </slot>
+          </b-form-checkbox>
+        </b-form-checkbox-group>
+      </b-form-group>
+      <div
+        v-if="!validationError && validMessage"
+        class="valid-feedback"
+      >
+        {{ $t(validMessage) }}
+      </div>
+      <div
+        v-else-if="validationError && invalidMessage"
+        class="invalid-feedback"
+      >
+        {{ $t(invalidMessage) }}
+      </div>
+      <div
+        v-else-if="validationError && !invalidMessage"
+        class="invalid-feedback"
+      >
+        {{ $t('validation-error-' + validationError, validation.$params[validationError]) }}
+      </div>
+      <small
+        v-if="help && isEditing"
+        class="form-text text-muted"
+      >{{ $t(help) }}</small>
     </div>
-    <div v-else>
-        <ul>
-            <li v-for="(item, idx) in displayValue" :key="idx">
-                <slot name="default"
-                      :item="item">
-                    <span>{{ item }}</span>
-                </slot>
-            </li>
-        </ul>
-    </div>
+    <ep-spinner v-else />
+  </div>
+  <div v-else>
+    <ul>
+      <li
+        v-for="(item, idx) in displayValue"
+        :key="idx"
+      >
+        <slot
+          name="default"
+          :item="item"
+        >
+          <span>{{ item }}</span>
+        </slot>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script lang="ts">

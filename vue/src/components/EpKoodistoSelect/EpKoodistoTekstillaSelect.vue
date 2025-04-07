@@ -1,39 +1,58 @@
 <template>
   <div v-if="koodit">
-
-    <div v-for="(koodi, index) in innerModel" :key="'lao'+index" class="mb-4">
-
-      <div class="d-flex w-100 justify-content-between align-items-center" v-if="kooditByUri[koodi.koodiUri]">
-        <div class="font-weight-bold">{{$kaanna(kooditByUri[koodi.koodiUri].nimi)}}</div>
+    <div
+      v-for="(koodi, index) in innerModel"
+      :key="'lao'+index"
+      class="mb-4"
+    >
+      <div
+        v-if="kooditByUri[koodi.koodiUri]"
+        class="d-flex w-100 justify-content-between align-items-center"
+      >
+        <div class="font-weight-bold">
+          {{ $kaanna(kooditByUri[koodi.koodiUri].nimi) }}
+        </div>
         <div v-if="isEditing">
-          <ep-button variant="link" icon="delete" @click="poistaKoodi(koodi)">
+          <ep-button
+            variant="link"
+            icon="delete"
+            @click="poistaKoodi(koodi)"
+          >
             {{ $t('poista') }}
           </ep-button>
         </div>
       </div>
 
-      <slot name="lisateksti" :item="koodi"/>
+      <slot
+        name="lisateksti"
+        :item="koodi"
+      />
 
       <EpContent
-          v-model="koodi[tekstiField]"
-          layout="normal"
-          :is-editable="isEditing"
-          :kuvaHandler="kuvaHandler"/>
+        v-model="koodi[tekstiField]"
+        layout="normal"
+        :is-editable="isEditing"
+        :kuva-handler="kuvaHandler"
+      />
     </div>
 
-    <b-dropdown v-if="isEditing" variant="primary" class="mb-4">
+    <b-dropdown
+      v-if="isEditing"
+      variant="primary"
+      class="mb-4"
+    >
       <span slot="button-content">
         <slot name="default">Painike puuttuu</slot>
       </span>
       <b-dropdown-item-button
-        @click="addKoodi(koodi)"
         v-for="(koodi, index) in koodit"
-        :key="index+'addKoodiTekstilla'">
+        :key="index+'addKoodiTekstilla'"
+        @click="addKoodi(koodi)"
+      >
         {{ $kaanna(koodi.nimi) }}
       </b-dropdown-item-button>
     </b-dropdown>
   </div>
-
 </template>
 
 <script lang="ts">

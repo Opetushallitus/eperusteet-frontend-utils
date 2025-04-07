@@ -1,9 +1,10 @@
 import { Notifikaatiot } from './notifikaatiot';
+import { vi } from 'vitest';
 
 describe('Notifikaatiot plugin', () => {
   const v = {
     prototype: {
-      $notify: jest.fn(),
+      $notify: vi.fn(),
     },
   } as any;
 

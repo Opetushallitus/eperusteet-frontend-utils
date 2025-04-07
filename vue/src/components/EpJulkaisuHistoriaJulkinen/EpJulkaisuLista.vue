@@ -1,45 +1,88 @@
 <template>
   <div class="mt-2">
-    <div v-for="(julkaisu, index) in julkaisutMapped" :key="'julkaisu'+index" class="julkaisu taulukko-rivi-varitys pb-2 pt-2 px-2">
+    <div
+      v-for="(julkaisu, index) in julkaisutMapped"
+      :key="'julkaisu'+index"
+      class="julkaisu taulukko-rivi-varitys pb-2 pt-2 px-2"
+    >
       <div class="d-flex align-items-end justify-content-between">
         <div>
-          <span class="font-bold font-size pr-4">{{$t('julkaisu')}} {{ $sd(julkaisu.luotu) }}</span>
-          <span v-if="versio === julkaisu.revision" class="pr-4">
-            <EpMaterialIcon size="18px" class="pr-1">visibility</EpMaterialIcon>
+          <span class="font-bold font-size pr-4">{{ $t('julkaisu') }} {{ $sd(julkaisu.luotu) }}</span>
+          <span
+            v-if="versio === julkaisu.revision"
+            class="pr-4"
+          >
+            <EpMaterialIcon
+              size="18px"
+              class="pr-1"
+            >visibility</EpMaterialIcon>
             <span class="font-italic">{{ $t('katselet-tata-julkaisua') }}</span>
           </span>
           <router-link
             v-if="versio !== julkaisu.revision"
-            :to="{ name: 'perusteTiedot', params: { perusteId: julkaisu.peruste.id, revision: julkaisu.revision } }">
+            :to="{ name: 'perusteTiedot', params: { perusteId: julkaisu.peruste.id, revision: julkaisu.revision } }"
+          >
             {{ $t('siirry-julkaisuun') }}
           </router-link>
         </div>
-        <div v-if="julkaisu.revision === uusinVoimassaolevaJulkaisu.revision" class="julkaistu">{{$t('voimassaoleva')}}</div>
-        <div class="voimassaolo-alkaa text-right" v-else-if="julkaisu.muutosmaarays">
-          <span class="pl-2">{{$t('voimassaolo-alkaa')}}</span>
-          <span class="ml-1 font-bold">{{$sd(julkaisu.muutosmaarays.voimassaoloAlkaa)}}</span>
+        <div
+          v-if="julkaisu.revision === uusinVoimassaolevaJulkaisu.revision"
+          class="julkaistu"
+        >
+          {{ $t('voimassaoleva') }}
+        </div>
+        <div
+          v-else-if="julkaisu.muutosmaarays"
+          class="voimassaolo-alkaa text-right"
+        >
+          <span class="pl-2">{{ $t('voimassaolo-alkaa') }}</span>
+          <span class="ml-1 font-bold">{{ $sd(julkaisu.muutosmaarays.voimassaoloAlkaa) }}</span>
         </div>
       </div>
-      <div v-if="julkaisu.muutosmaarays" class="d-flex mt-2">
-        <div class="pdf-url" v-if="julkaisu.muutosmaarays.url">
-          <EpPdfLink :url="julkaisu.muutosmaarays.url">{{ $kaanna(julkaisu.muutosmaarays.nimi) }}</EpPdfLink>
+      <div
+        v-if="julkaisu.muutosmaarays"
+        class="d-flex mt-2"
+      >
+        <div
+          v-if="julkaisu.muutosmaarays.url"
+          class="pdf-url"
+        >
+          <EpPdfLink :url="julkaisu.muutosmaarays.url">
+            {{ $kaanna(julkaisu.muutosmaarays.nimi) }}
+          </EpPdfLink>
         </div>
         <template v-if="julkaisu.liitteet && julkaisu.liitteet.length > 0">
-          <div v-for="(liiteData, index) in julkaisu.liitteet" :key="'maarays'+index" class="pdf-url">
-            <EpPdfLink :url="liiteData.url">{{ $kaanna(liiteData.nimi) }}</EpPdfLink>
+          <div
+            v-for="(liiteData, index) in julkaisu.liitteet"
+            :key="'maarays'+index"
+            class="pdf-url"
+          >
+            <EpPdfLink :url="liiteData.url">
+              {{ $kaanna(liiteData.nimi) }}
+            </EpPdfLink>
           </div>
         </template>
       </div>
-      <div v-if="julkaisu.julkinenTiedote" class="my-1" v-html="$kaanna(julkaisu.julkinenTiedote)"></div>
-      <EpCollapse :borderBottom="false"
-                  :expandedByDefault="false"
-                  :chevronLocation="'right'"
-                  :use-padding="false">
-        <template v-slot:header="{ toggled }">
-          <template v-if="!toggled">{{$t('nayta-muutokset')}}</template>
-          <template v-if="toggled">{{$t('piilota-muutokset')}}</template>
+      <div
+        v-if="julkaisu.julkinenTiedote"
+        class="my-1"
+        v-html="$kaanna(julkaisu.julkinenTiedote)"
+      />
+      <EpCollapse
+        :border-bottom="false"
+        :expanded-by-default="false"
+        :chevron-location="'right'"
+        :use-padding="false"
+      >
+        <template #header="{ toggled }">
+          <template v-if="!toggled">
+            {{ $t('nayta-muutokset') }}
+          </template>
+          <template v-if="toggled">
+            {{ $t('piilota-muutokset') }}
+          </template>
         </template>
-        <EpMuutosvertailu :julkaisu="julkaisu"></EpMuutosvertailu>
+        <EpMuutosvertailu :julkaisu="julkaisu" />
       </EpCollapse>
     </div>
   </div>

@@ -2,19 +2,25 @@
   <div>
     <draggable
       v-bind="defaultDragOptions"
+      v-model="inner"
       tag="div"
-      v-model="inner">
-
-      <div class="balloon-wrapper" v-for="(item, idx) in inner" :key="idx">
+    >
+      <div
+        v-for="(item, idx) in inner"
+        :key="idx"
+        class="balloon-wrapper"
+      >
         <div class="balloon d-flex">
-          <div class="order-handle mr-2" slot="left" v-if="draggable">
+          <div
+            v-if="draggable"
+            slot="left"
+            class="order-handle mr-2"
+          >
             <EpMaterialIcon>drag_indicator</EpMaterialIcon>
           </div>
-          <slot v-bind="{ item }">
-          </slot>
+          <slot v-bind="{ item }" />
         </div>
       </div>
-
     </draggable>
   </div>
 </template>

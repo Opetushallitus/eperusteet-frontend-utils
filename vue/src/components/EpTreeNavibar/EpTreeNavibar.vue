@@ -2,42 +2,73 @@
   <div>
     <EpSpinner v-if="!navigation" />
     <div v-else>
-      <div class="structure-toggle" v-if="showAllToggle">
+      <div
+        v-if="showAllToggle"
+        class="structure-toggle"
+      >
         <ep-toggle v-model="showAll">
-          {{$t('nayta-koko-rakenne')}}
+          {{ $t('nayta-koko-rakenne') }}
         </ep-toggle>
       </div>
 
       <div class="header">
-        <slot name="header" :data="showAll"></slot>
+        <slot
+          name="header"
+          :data="showAll"
+        />
       </div>
-      <div v-for="item in menuStyled" :key="item.idx">
-        <div class="d-flex align-items-center item" :class="item.class">
+      <div
+        v-for="item in menuStyled"
+        :key="item.idx"
+      >
+        <div
+          class="d-flex align-items-center item"
+          :class="item.class"
+        >
           <div class="backwrapper">
-            <div v-if="activeIdx === item.idx && !showAll" class="back">
-              <b-button size="sm" variant="link" @click="navigateUp()" class="backbtn">
+            <div
+              v-if="activeIdx === item.idx && !showAll"
+              class="back"
+            >
+              <b-button
+                size="sm"
+                variant="link"
+                class="backbtn"
+                @click="navigateUp()"
+              >
                 <EpMaterialIcon>chevron_left</EpMaterialIcon>
               </b-button>
             </div>
           </div>
-          <div class="flex-grow-1" :class="{'font-weight-bold': item.isMatch}">
-            <div @click="navigate(item)" class="clickable d-flex align-items-center">
-              <slot :name="$scopedSlots[item.type] ? item.type : 'default'" :item="item">
+          <div
+            class="flex-grow-1"
+            :class="{'font-weight-bold': item.isMatch}"
+          >
+            <div
+              class="clickable d-flex align-items-center"
+              @click="navigate(item)"
+            >
+              <slot
+                :name="$scopedSlots[item.type] ? item.type : 'default'"
+                :item="item"
+              >
                 {{ $kaannaOlioTaiTeksti(item.label) }}
               </slot>
             </div>
           </div>
-          <div class="text-muted mr-1" v-if="item.children.length > 0 && item.idx !== activeIdx && !showAll">
+          <div
+            v-if="item.children.length > 0 && item.idx !== activeIdx && !showAll"
+            class="text-muted mr-1"
+          >
             <EpMaterialIcon>chevron_right</EpMaterialIcon>
           </div>
         </div>
       </div>
 
-      <Portal to="breadcrumbs">
-      </Portal>
+      <Portal to="breadcrumbs" />
 
       <div class="action-container">
-        <slot name="new"></slot>
+        <slot name="new" />
       </div>
     </div>
   </div>
@@ -167,7 +198,7 @@ export default class EpTreeNavibar extends Vue {
       return null;
     }
 
-    return _.map(this.store.filtered.value, (item, idx) => {
+    return _.map(this.store.filtered?.value, (item, idx) => {
       return {
         ...item,
         idx,

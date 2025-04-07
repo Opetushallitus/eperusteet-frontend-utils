@@ -1,25 +1,33 @@
 <template>
   <div v-if="inner">
-    <b-form-group :label="$t('laajuus')" v-if="showLaajuus">
-      <ep-laajuus-input v-model="inner.laajuus" :is-editing="isEditing" />
+    <b-form-group
+      v-if="showLaajuus"
+      :label="$t('laajuus')"
+    >
+      <ep-laajuus-input
+        v-model="inner.laajuus"
+        :is-editing="isEditing"
+      />
     </b-form-group>
     <b-form-group class="m-0 p-0">
       <slot name="osaamistavoitteet">
         <h4>{{ $t('osaamistavoitteet') }}</h4>
       </slot>
-      <EpAmmattitaitovaatimukset v-model="tavoitteet"
-                                 :kohdealueettomat="false"
-                                 :kaannos-tavoiteet="$t('tavoitteet')"
-                                 :kaannos-lisaa-kohdealue="$t('lisaa-tavoiteryhma')"
-                                 :kaannos-lisaa-ammattitaitovaatimus="$t('lisaa-tavoite')"
-                                 kaannos-kohdealueet=""
-                                 :kaannos-kohdealue="$t('tavoitteiden-otsikko')"
-                                 :kaannos-vaatimukset="$t('tavoitteet')"
-                                 :kohde="{ fi: $t('opiskelija') }"
-                                 :tavoitekoodisto="'osaamistavoitteet'"
-                                 :show-kohde="true"
-                                 :is-editing="isEditing"
-                                 :showKoodiArvo="showKoodiArvo" />
+      <EpAmmattitaitovaatimukset
+        v-model="tavoitteet"
+        :kohdealueettomat="false"
+        :kaannos-tavoiteet="$t('tavoitteet')"
+        :kaannos-lisaa-kohdealue="$t('lisaa-tavoiteryhma')"
+        :kaannos-lisaa-ammattitaitovaatimus="$t('lisaa-tavoite')"
+        kaannos-kohdealueet=""
+        :kaannos-kohdealue="$t('tavoitteiden-otsikko')"
+        :kaannos-vaatimukset="$t('tavoitteet')"
+        :kohde="{ fi: $t('opiskelija') }"
+        :tavoitekoodisto="'osaamistavoitteet'"
+        :show-kohde="true"
+        :is-editing="isEditing"
+        :show-koodi-arvo="showKoodiArvo"
+      />
     </b-form-group>
   </div>
 </template>

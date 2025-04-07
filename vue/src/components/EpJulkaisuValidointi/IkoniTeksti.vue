@@ -1,6 +1,8 @@
 <template>
   <div>
-    <EpMaterialIcon :class="tyyppi">{{ icon }}</EpMaterialIcon>
+    <EpMaterialIcon :class="tyyppi">
+      {{ icon }}
+    </EpMaterialIcon>
     <span class="pl-2"><slot /></span>
   </div>
 </template>

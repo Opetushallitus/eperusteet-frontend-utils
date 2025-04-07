@@ -6,23 +6,26 @@
       v-if="route"
       :to="route && route"
       tag="a"
+      style="outline: none;"
       @mouseover.native="effects.hover = true"
       @mouseleave.native="effects.hover = false"
       @focus.native="effects.focus = true"
       @blur.native="effects.focus = false"
-      style="outline: none;">
-      <InnerTile :icon="icon"
-                 :color="color"
-                 :effects="effects"
-                 :count="count">
+    >
+      <InnerTile
+        :icon="icon"
+        :color="color"
+        :effects="effects"
+        :count="count"
+      >
         <template slot="fas">
-          <slot name="fas"></slot>
+          <slot name="fas" />
         </template>
         <template slot="header">
-          <slot name="header"></slot>
+          <slot name="header" />
         </template>
         <template slot="content">
-          <slot name="content"></slot>
+          <slot name="content" />
         </template>
       </InnerTile>
     </router-link>
@@ -31,20 +34,23 @@
       :href="href && href"
       rel="noopener noreferrer"
       target="_blank"
+      style="outline: none;"
       @mouseover="effects.hover = true"
       @mouseleave="effects.hover = false"
       @focus="effects.focus = true"
       @blur="effects.focus = false"
-      style="outline: none;">
-      <InnerTile :icon="icon"
-                 :color="color"
-                 :effects="effects"
-                 :count="count">
+    >
+      <InnerTile
+        :icon="icon"
+        :color="color"
+        :effects="effects"
+        :count="count"
+      >
         <template slot="header">
-          <slot name="header"></slot>
+          <slot name="header" />
         </template>
         <template slot="content">
-          <slot name="content"></slot>
+          <slot name="content" />
         </template>
       </InnerTile>
     </a>

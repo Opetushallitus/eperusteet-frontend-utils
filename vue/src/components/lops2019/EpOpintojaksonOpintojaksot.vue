@@ -1,24 +1,37 @@
 <template>
-<div>
-  <div class="oppiaineet">
-    <div v-if="isEditing">
-      <div v-for="(oppiaineOpintojakso, idx) in paikallistenOppiaineidenOpintojaksot" :key="idx">
-        <div v-if="oppiaineetMap[oppiaineOpintojakso.oppiaine.koodi]">
-          {{ $kaanna(oppiaineetMap[oppiaineOpintojakso.oppiaine.koodi].nimi) }}
-          <ep-opintojakso-select :options="oppiaineOpintojakso.opintojaksot" v-model="value.paikallisetOpintojaksot" :is-editing="isEditing"/>
+  <div>
+    <div class="oppiaineet">
+      <div v-if="isEditing">
+        <div
+          v-for="(oppiaineOpintojakso, idx) in paikallistenOppiaineidenOpintojaksot"
+          :key="idx"
+        >
+          <div v-if="oppiaineetMap[oppiaineOpintojakso.oppiaine.koodi]">
+            {{ $kaanna(oppiaineetMap[oppiaineOpintojakso.oppiaine.koodi].nimi) }}
+            <ep-opintojakso-select
+              v-model="value.paikallisetOpintojaksot"
+              :options="oppiaineOpintojakso.opintojaksot"
+              :is-editing="isEditing"
+            />
+          </div>
         </div>
       </div>
-    </div>
-    <div v-else>
-      <div v-for="(oppiaineOpintojakso, idx) in esitettavaPaikallistenOppiaineidenOpintojaksot" :key="idx">
-        <div v-if="oppiaineetMap[oppiaineOpintojakso.oppiaine.koodi]">
-          {{ $kaanna(oppiaineetMap[oppiaineOpintojakso.oppiaine.koodi].nimi) }}
-          <ep-opintojakso-select v-model="oppiaineOpintojakso.opintojaksot" :is-editing="isEditing"/>
+      <div v-else>
+        <div
+          v-for="(oppiaineOpintojakso, idx) in esitettavaPaikallistenOppiaineidenOpintojaksot"
+          :key="idx"
+        >
+          <div v-if="oppiaineetMap[oppiaineOpintojakso.oppiaine.koodi]">
+            {{ $kaanna(oppiaineetMap[oppiaineOpintojakso.oppiaine.koodi].nimi) }}
+            <ep-opintojakso-select
+              v-model="oppiaineOpintojakso.opintojaksot"
+              :is-editing="isEditing"
+            />
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </template>
 
 <script lang="ts">

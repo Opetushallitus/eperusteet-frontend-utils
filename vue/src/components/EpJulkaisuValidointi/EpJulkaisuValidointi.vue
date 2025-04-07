@@ -1,12 +1,20 @@
 <template>
   <div class="ml-3 mr-3">
     <template v-if="virheita">
-      <VirheHuomautukset :virhehuomautukset="validointi.virheet" tyyppi="virhe"/>
+      <VirheHuomautukset
+        :virhehuomautukset="validointi.virheet"
+        tyyppi="virhe"
+      />
     </template>
 
     <template v-if="huomautuksia">
-      <div class="font-weight-bold mt-3 mb-3">{{$t('huomautukset')}}</div>
-      <VirheHuomautukset :virhehuomautukset="validointi.huomautukset" tyyppi="huomautus"/>
+      <div class="font-weight-bold mt-3 mb-3">
+        {{ $t('huomautukset') }}
+      </div>
+      <VirheHuomautukset
+        :virhehuomautukset="validointi.huomautukset"
+        tyyppi="huomautus"
+      />
     </template>
   </div>
 </template>

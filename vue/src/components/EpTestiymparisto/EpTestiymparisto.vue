@@ -1,5 +1,8 @@
 <template>
-  <div v-if="testiymparisto" class="testiymparisto">
+  <div
+    v-if="testiymparisto"
+    class="testiymparisto"
+  >
     {{ testiymparisto }}
   </div>
 </template>

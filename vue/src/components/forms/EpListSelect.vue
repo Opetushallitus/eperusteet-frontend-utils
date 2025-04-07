@@ -1,30 +1,56 @@
 <template>
-<div>
   <div>
     <div>
-      <EpInput type="string"
-               @blur="onListBlur"
-               @focus="onListFocus"
-               v-model="search" is-editing>
-      </EpInput>
-    </div>
-    <div class="searchlist-wrapper">
-      <div class="searchlist" v-if="search">
-        <!-- <pre>{{ value }}</pre> -->
-        <!-- <pre>{{ options }}</pre> -->
-        <div class="searchitem" v-for="option in options" :key="option[identity]">
-          <slot v-bind:option="option">
-          </slot>
+      <div>
+        <EpInput
+          v-model="search"
+          type="string"
+          is-editing
+          @blur="onListBlur"
+          @focus="onListFocus"
+        />
+      </div>
+      <div class="searchlist-wrapper">
+        <div
+          v-if="search"
+          class="searchlist"
+        >
+          <!-- <pre>{{ value }}</pre> -->
+          <!-- <pre>{{ options }}</pre> -->
+          <div
+            v-for="option in options"
+            :key="option[identity]"
+            class="searchitem"
+          >
+            <slot :option="option" />
+          </div>
         </div>
       </div>
+      <span class="clear" />
     </div>
-    <span class="clear"></span>
+    <div
+      v-if="!validationError && validMessage"
+      class="valid-feedback"
+    >
+      {{ $t(validMessage) }}
+    </div>
+    <div
+      v-else-if="validationError && invalidMessage "
+      class="invalid-feedback"
+    >
+      {{ $t(invalidMessage) }}
+    </div>
+    <div
+      v-else-if="validationError && !invalidMessage"
+      class="invalid-feedback"
+    >
+      {{ $t('validation-error-' + validationError, validation.$params[validationError]) }}
+    </div>
+    <small
+      v-if="help"
+      class="form-text text-muted"
+    >{{ $t(help) }}</small>
   </div>
-  <div class="valid-feedback" v-if="!validationError && validMessage">{{ $t(validMessage) }}</div>
-  <div class="invalid-feedback" v-else-if="validationError && invalidMessage ">{{ $t(invalidMessage) }}</div>
-  <div class="invalid-feedback" v-else-if="validationError && !invalidMessage">{{ $t('validation-error-' + validationError, validation.$params[validationError]) }}</div>
-  <small class="form-text text-muted" v-if="help">{{ $t(help) }}</small>
-</div>
 </template>
 
 <script lang="ts">

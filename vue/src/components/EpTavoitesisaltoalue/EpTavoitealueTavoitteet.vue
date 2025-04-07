@@ -2,16 +2,25 @@
   <div>
     <draggable
       v-bind="tavoitteetOptions"
+      v-model="tavoitteet"
       tag="div"
-      v-model="tavoitteet">
-      <b-row v-for="(tavoite, tavoiteIndex) in tavoitteet" :key="tavoite+tavoiteIndex" class="pb-2">
+    >
+      <b-row
+        v-for="(tavoite, tavoiteIndex) in tavoitteet"
+        :key="tavoite+tavoiteIndex"
+        class="pb-2"
+      >
         <b-col cols="11">
-          <slot :tavoite="tavoite" :tavoiteIndex="tavoiteIndex">
+          <slot
+            :tavoite="tavoite"
+            :tavoite-index="tavoiteIndex"
+          >
             <EpKoodistoSelect
-              :store="tavoitteetlukutaidotKoodisto"
               v-model="tavoitteet[tavoiteIndex]"
+              :store="tavoitteetlukutaidotKoodisto"
               :is-editing="true"
-              :naytaArvo="false">
+              :nayta-arvo="false"
+            >
               <template #default="{ open }">
                 <b-input-group>
                   <EpInput
@@ -19,13 +28,20 @@
                     :is-editing="true"
                     :disabled="!tavoite.uri.startsWith('temporary')"
                     class="input-wrapper"
-                    :validation="$v.tavoitteet.$each.$iter[tavoiteIndex].nimi">
-                    <div class="order-handle m-2" slot="left">
+                    :validation="$v.tavoitteet.$each.$iter[tavoiteIndex].nimi"
+                  >
+                    <div
+                      slot="left"
+                      class="order-handle m-2"
+                    >
                       <EpMaterialIcon>drag_indicator</EpMaterialIcon>
                     </div>
                   </EpInput>
                   <b-input-group-append>
-                    <b-button @click="open" variant="primary">
+                    <b-button
+                      variant="primary"
+                      @click="open"
+                    >
                       {{ $t('hae-koodistosta') }}
                     </b-button>
                   </b-input-group-append>
@@ -35,21 +51,33 @@
           </slot>
         </b-col>
         <b-col cols="1">
-          <div class="default-icon clickable mt-2" @click="poistaTavoite(tavoite)">
-            <EpMaterialIcon icon-shape="outlined" :color="'inherit'">delete</EpMaterialIcon>
+          <div
+            class="default-icon clickable mt-2"
+            @click="poistaTavoite(tavoite)"
+          >
+            <EpMaterialIcon
+              icon-shape="outlined"
+              :color="'inherit'"
+            >
+              delete
+            </EpMaterialIcon>
           </div>
         </b-col>
       </b-row>
     </draggable>
 
     <div class="d-flex justify-content-between">
-      <ep-button variant="outline" icon="add" @click="lisaaTavoite()">
+      <ep-button
+        variant="outline"
+        icon="add"
+        @click="lisaaTavoite()"
+      >
         <slot name="lisaaBtnText">
           {{ $t('lisaa-tavoite') }}
         </slot>
       </ep-button>
 
-      <slot name="footer"></slot>
+      <slot name="footer" />
     </div>
   </div>
 </template>

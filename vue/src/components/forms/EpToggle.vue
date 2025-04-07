@@ -1,13 +1,15 @@
 <template>
-<div>
-  <b-form-checkbox :disabled="!isEditing"
-                   v-model="innerValue"
-                   :inline="inline"
-                   :switch="asSwitch"
-                   :class="{ 'custom-checkbox-lg': !asSwitch && lgSize, 'custom-switch-lg': asSwitch && lgSize }">
-    <slot/>
-  </b-form-checkbox>
-</div>
+  <div>
+    <b-form-checkbox
+      v-model="innerValue"
+      :disabled="!isEditing"
+      :inline="inline"
+      :switch="asSwitch"
+      :class="{ 'custom-checkbox-lg': !asSwitch && lgSize, 'custom-switch-lg': asSwitch && lgSize }"
+    >
+      <slot />
+    </b-form-checkbox>
+  </div>
 </template>
 
 <script lang="ts">
@@ -33,7 +35,7 @@ export default class EpToggle extends Vue {
   private isSWitch!: boolean;
 
   @Prop({ default: false, type: Boolean })
-  private checkbox!: Boolean;
+  private checkbox!: boolean;
 
   @Prop({ required: false })
   private size!: string | undefined;

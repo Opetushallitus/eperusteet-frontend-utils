@@ -1,75 +1,107 @@
 <template>
   <div>
-
-    <ep-aikataulu :aikataulut="kaikkiAikataulut" class="pt-3" :showPopover="false">
-      <template v-slot:luomispaiva-topic><slot name="luomispaiva-topic"></slot></template>
-      <template v-slot:julkaisupaiva-topic><slot name="julkaisupaiva-topic"></slot></template>
+    <ep-aikataulu
+      :aikataulut="kaikkiAikataulut"
+      class="pt-3"
+      :show-popover="false"
+    >
+      <template #luomispaiva-topic>
+        <slot name="luomispaiva-topic" />
+      </template>
+      <template #julkaisupaiva-topic>
+        <slot name="julkaisupaiva-topic" />
+      </template>
     </ep-aikataulu>
 
     <div class="pt-5">
-      <div class="row paatavoite" v-for="(aikataulu, i) in paatavoitteet" :key="'paatavoite'+i">
+      <div
+        v-for="(aikataulu, i) in paatavoitteet"
+        :key="'paatavoite'+i"
+        class="row paatavoite"
+      >
         <div class="col">
           <ep-form-content class="mb-3">
-            <label v-if="aikataulu.tapahtuma !== 'julkaisu'">{{$kaanna(aikataulu.tavoite)}}</label>
-            <slot name="aikataululistaus-julkaisu-header" v-else>
-              <label>{{$t('suunniteltu-julkaisupaiva')}}</label>
+            <label v-if="aikataulu.tapahtuma !== 'julkaisu'">{{ $kaanna(aikataulu.tavoite) }}</label>
+            <slot
+              v-else
+              name="aikataululistaus-julkaisu-header"
+            >
+              <label>{{ $t('suunniteltu-julkaisupaiva') }}</label>
             </slot>
             <ep-datepicker
               v-model="aikataulu.tapahtumapaiva"
               :is-editing="true"
-              :showValidValidation="true" >
-            </ep-datepicker>
-            <ep-toggle v-model="aikataulu.julkinen" v-if="julkinenValinta" class="mb-2">
-              {{$t('julkinen')}}
+              :show-valid-validation="true"
+            />
+            <ep-toggle
+              v-if="julkinenValinta"
+              v-model="aikataulu.julkinen"
+              class="mb-2"
+            >
+              {{ $t('julkinen') }}
             </ep-toggle>
           </ep-form-content>
         </div>
-        <div class="col"></div>
-        <div class="col-1"></div>
+        <div class="col" />
+        <div class="col-1" />
       </div>
 
-      <hr class="mb-4"/>
+      <hr class="mb-4">
 
-      <div class="row yleistavoite" v-for="(aikataulu, i) in yleistavoitteet" :key="'yleistavoite'+i">
+      <div
+        v-for="(aikataulu, i) in yleistavoitteet"
+        :key="'yleistavoite'+i"
+        class="row yleistavoite"
+      >
         <div class="col">
           <ep-form-content class="mb-3">
-            <label >{{$t('tavoitteen-paivamaara')}}</label>
+            <label>{{ $t('tavoitteen-paivamaara') }}</label>
             <ep-datepicker
               v-model="aikataulu.tapahtumapaiva"
               :is-editing="true"
               :validation="$v.aikataulut.$each.$iter[i+1].tapahtumapaiva"
-              :showValidValidation="true" >
-            </ep-datepicker>
-            <ep-toggle v-model="aikataulu.julkinen" v-if="julkinenValinta" class="mb-2">
-              {{$t('julkinen')}}
+              :show-valid-validation="true"
+            />
+            <ep-toggle
+              v-if="julkinenValinta"
+              v-model="aikataulu.julkinen"
+              class="mb-2"
+            >
+              {{ $t('julkinen') }}
             </ep-toggle>
           </ep-form-content>
         </div>
         <div class="col">
           <div>
             <ep-form-content name="tavoitteen-kuvaus">
-              <ep-field :is-editing="true" v-model="aikataulu.tavoite" :validation="$v.aikataulut.$each.$iter[i+1].tavoite" :showValidValidation="false">
-              </ep-field>
+              <ep-field
+                v-model="aikataulu.tavoite"
+                :is-editing="true"
+                :validation="$v.aikataulut.$each.$iter[i+1].tavoite"
+                :show-valid-validation="false"
+              />
             </ep-form-content>
           </div>
         </div>
         <div class="col-1 text-center pt-4">
           <div class="pt-2">
-            <ep-button @click="poistaTavoite(aikataulu)"
-                       variant="link"
-                       icon="delete">
-            </ep-button>
+            <ep-button
+              variant="link"
+              icon="delete"
+              @click="poistaTavoite(aikataulu)"
+            />
           </div>
         </div>
       </div>
     </div>
 
-    <ep-button @click="lisaaTavoite"
-               variant="outline-primary"
-               icon="add">
+    <ep-button
+      variant="outline-primary"
+      icon="add"
+      @click="lisaaTavoite"
+    >
       {{ $t('lisaa-tavoite') }}
     </ep-button>
-
   </div>
 </template>
 
