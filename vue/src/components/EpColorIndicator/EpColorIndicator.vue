@@ -1,17 +1,21 @@
 <template>
-  <span ref="ball"
-        class="material-icons"
-        :style="dynstyle"
-        :title="$t(kind)"
-        :class="spanClass"
-        aria-hidden="true">
-        circle
-    <b-popover v-if="tooltip"
-               :target="() => $refs['ball']"
-               :placement="'top'"
-               triggers="hover"
-               variant="primary">
-      <span>{{$t(kind)}}</span>
+  <span
+    ref="ball"
+    class="material-icons"
+    :style="dynstyle"
+    :title="$t(kind)"
+    :class="spanClass"
+    aria-hidden="true"
+  >
+    circle
+    <b-popover
+      v-if="tooltip"
+      :target="() => $refs['ball']"
+      :placement="'top'"
+      triggers="hover"
+      variant="primary"
+    >
+      <span>{{ $t(kind) }}</span>
     </b-popover>
   </span>
 </template>

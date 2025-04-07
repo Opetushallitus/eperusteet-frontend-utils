@@ -1,41 +1,81 @@
 <template>
-<div v-if="isEditing">
-  <div class="input-container d-flex align-items-center">
-    <input class="input-style form-control"
-           :class="[ inputClass ]"
-           :placeholder="placeholderValue"
-           @focus="onInputFocus"
-           @blur="onInputBlur"
-           @input="onInput($event.target.value)"
-           :type="type === 'number' ? 'number' : 'text'"
-           step="any"
-           v-bind="$attrs"
-           :value="val"
-           :disabled="disabled">
-    <div v-if="hasLeftSlot" class="addon addon-left">
-      <slot name="left" />
+  <div v-if="isEditing">
+    <div class="input-container d-flex align-items-center">
+      <input
+        class="input-style form-control"
+        :class="[ inputClass ]"
+        :placeholder="placeholderValue"
+        :type="type === 'number' ? 'number' : 'text'"
+        step="any"
+        v-bind="$attrs"
+        :value="val"
+        :disabled="disabled"
+        @focus="onInputFocus"
+        @blur="onInputBlur"
+        @input="onInput($event.target.value)"
+      >
+      <div
+        v-if="hasLeftSlot"
+        class="addon addon-left"
+      >
+        <slot name="left" />
+      </div>
+      <div
+        v-if="hasRightSlot"
+        class="addon addon-right"
+      >
+        <slot name="right" />
+      </div>
+      <div
+        v-if="hasSuffixSlot"
+        class="ml-2"
+      >
+        <slot name="suffix" />
+      </div>
     </div>
-    <div v-if="hasRightSlot" class="addon addon-right">
-      <slot name="right" />
-    </div>
-    <div v-if="hasSuffixSlot" class="ml-2">
-      <slot name="suffix" />
+    <div v-if="showMessage">
+      <div
+        v-if="!validationError && validMessage"
+        class="valid-feedback"
+      >
+        {{ $t(validMessage) }}
+      </div>
+      <div
+        v-if="validationError && isDirty"
+        :class="{ 'is-warning': isWarning }"
+      >
+        <div
+          v-if="invalidMessage"
+          class="invalid-feedback"
+        >
+          {{ $t(invalidMessage) }}
+        </div>
+        <div
+          v-else
+          class="invalid-feedback"
+        >
+          {{ message }}
+        </div>
+      </div>
+      <small
+        v-if="help && isEditing"
+        class="form-text text-muted"
+      >{{ $t(help) }}</small>
     </div>
   </div>
-  <div v-if="showMessage">
-    <div class="valid-feedback" v-if="!validationError && validMessage">{{ $t(validMessage) }}</div>
-    <div v-if="validationError && isDirty" :class="{ 'is-warning': isWarning }">
-      <div class="invalid-feedback" v-if="invalidMessage">{{ $t(invalidMessage) }}</div>
-      <div class="invalid-feedback" v-else>{{ message }}</div>
-    </div>
-    <small class="form-text text-muted" v-if="help && isEditing">{{ $t(help) }}</small>
+  <div
+    v-else
+    v-bind="$attrs"
+  >
+    <h2 v-if="isHeader">
+      {{ val }}
+    </h2>
+    <span v-else-if="val">{{ val }}{{ unit ? ' ' + $kaannaOlioTaiTeksti(unit) : '' }}</span>
+    <span
+      v-else-if="placeholderValue"
+      class="placeholder"
+    >{{ placeholderValue }}</span>
   </div>
-</div>
-<div v-else v-bind="$attrs">
-  <h2 v-if="isHeader">{{ val }}</h2>
-  <span v-else-if="val">{{ val }}{{ unit ? ' ' + $kaannaOlioTaiTeksti(unit) : '' }}</span>
-  <span class="placeholder" v-else-if="placeholderValue">{{ placeholderValue }}</span>
-</div>
 </template>
 
 <script lang="ts">

@@ -1,14 +1,24 @@
 <template>
-   <b-dropdown size="sm" class="kielivalinta" right>
+  <b-dropdown
+    size="sm"
+    class="kielivalinta"
+    right
+  >
     <template slot="button-content">
       <span>{{ $t("kieli-sisalto") }}:
         <span class="valittukieli">{{ $t(sisaltoKieli) }}</span>
         <EpMaterialIcon>expand_more</EpMaterialIcon>
       </span>
     </template>
-    <b-dropdown-item @click="valitseSisaltoKieli(kieli)" v-for="kieli in sovelluksenKielet" :key="kieli" :disabled="kieli === sisaltoKieli">{{ $t(kieli) }}</b-dropdown-item>
+    <b-dropdown-item
+      v-for="kieli in sovelluksenKielet"
+      :key="kieli"
+      :disabled="kieli === sisaltoKieli"
+      @click="valitseSisaltoKieli(kieli)"
+    >
+      {{ $t(kieli) }}
+    </b-dropdown-item>
   </b-dropdown>
-
 </template>
 
 <script lang="ts">

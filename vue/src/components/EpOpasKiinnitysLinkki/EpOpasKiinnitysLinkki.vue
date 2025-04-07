@@ -1,17 +1,27 @@
 <template>
-  <div class="mt-5" v-if="oppaat && oppaat.length > 0">
-    <hr/>
-    <h2 class="mb-4 mt-4">{{$t('ohjeet-ja-materiaalit')}}</h2>
+  <div
+    v-if="oppaat && oppaat.length > 0"
+    class="mt-5"
+  >
+    <hr>
+    <h2 class="mb-4 mt-4">
+      {{ $t('ohjeet-ja-materiaalit') }}
+    </h2>
 
     <router-link
       v-for="opas in oppaat"
       :key="opas.id"
       class="d-flex opas mb-2"
-      :to="{name: 'peruste', params: {koulutustyyppi: 'opas', perusteId: opas.id}}">
+      :to="{name: 'peruste', params: {koulutustyyppi: 'opas', perusteId: opas.id}}"
+    >
       <div class="icon mr-3">
-        <EpMaterialIcon size="18px">menu_book</EpMaterialIcon>
+        <EpMaterialIcon size="18px">
+          menu_book
+        </EpMaterialIcon>
       </div>
-      <div class="nimi pt-1">{{$kaanna(opas.nimi)}}</div>
+      <div class="nimi pt-1">
+        {{ $kaanna(opas.nimi) }}
+      </div>
     </router-link>
   </div>
 </template>

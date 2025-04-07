@@ -44,6 +44,8 @@ describe('EpJulkiLista component', () => {
 
     });
 
+    await Vue.nextTick();
+
     expect(wrapper.html()).toContain('otsikko1');
     expect(wrapper.html()).toContain('muokkausaika');
     expect(wrapper.html()).not.toContain('katso-lisaa-tiedotteita');
@@ -77,6 +79,8 @@ describe('EpJulkiLista component', () => {
       ],
     });
 
+    await Vue.nextTick();
+
     expect(wrapper.html()).toContain('otsikko1');
     expect(wrapper.html()).toContain('otsikko2');
 
@@ -90,6 +94,8 @@ describe('EpJulkiLista component', () => {
     expect(wrapper.html()).toContain('katso-lisaa-tiedotteita');
 
     wrapper.find('button').trigger('click');
+
+    await Vue.nextTick();
 
     expect(wrapper.html()).toContain('otsikko3');
     expect(wrapper.html()).toContain('otsikko4');
@@ -125,6 +131,8 @@ describe('EpJulkiLista component', () => {
       ],
     });
 
+    await Vue.nextTick();
+
     expect(wrapper.html()).toContain('otsikko1');
     expect(wrapper.html()).toContain('otsikko2');
     expect(wrapper.html()).not.toContain('otsikko3');
@@ -137,6 +145,8 @@ describe('EpJulkiLista component', () => {
 
     wrapper.findAll('button').at(1)
       .trigger('click');
+
+    await Vue.nextTick();
 
     expect(wrapper.html()).not.toContain('otsikko1');
     expect(wrapper.html()).not.toContain('otsikko2');

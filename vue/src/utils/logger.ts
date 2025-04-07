@@ -78,7 +78,7 @@ type Loggable<T> = new(...args: any[]) => T;
 
 export function createLogger<T>(t: Loggable<T> | string) {
   const target = _.isString(t) ? t : (t as any).name;
-  if (process.env.NODE_ENV === 'development') {
+  if (import.meta.env.NODE_ENV === 'development') {
     return new DevLogger<T>(target);
   }
   else {

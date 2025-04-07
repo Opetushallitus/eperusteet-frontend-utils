@@ -2,25 +2,49 @@
   <div>
     <draggable
       v-bind="keskeisetSisaltoalueetOptions"
+      v-model="keskeisetSisaltoalueet"
       tag="div"
-      v-model="keskeisetSisaltoalueet">
-      <b-row v-for="(keskeinenSisaltoalue, keskeinenSisaltoalueIndex) in keskeisetSisaltoalueet" :key="keskeinenSisaltoalue+keskeinenSisaltoalueIndex" class="pb-2 pr-2">
+    >
+      <b-row
+        v-for="(keskeinenSisaltoalue, keskeinenSisaltoalueIndex) in keskeisetSisaltoalueet"
+        :key="keskeinenSisaltoalue+keskeinenSisaltoalueIndex"
+        class="pb-2 pr-2"
+      >
         <b-col cols="11">
-          <ep-input v-model="keskeisetSisaltoalueet[keskeinenSisaltoalueIndex]" :is-editing="true" class="flex-grow-1">
-            <div class="order-handle m-2" slot="left">
+          <ep-input
+            v-model="keskeisetSisaltoalueet[keskeinenSisaltoalueIndex]"
+            :is-editing="true"
+            class="flex-grow-1"
+          >
+            <div
+              slot="left"
+              class="order-handle m-2"
+            >
               <EpMaterialIcon>drag_indicator</EpMaterialIcon>
             </div>
           </ep-input>
         </b-col>
         <b-col cols="1">
-          <div class="default-icon clickable mt-2" @click="poistaKeskeinenSisaltoalue(keskeinenSisaltoalue)">
-            <EpMaterialIcon icon-shape="outlined" :color="'inherit'">delete</EpMaterialIcon>
+          <div
+            class="default-icon clickable mt-2"
+            @click="poistaKeskeinenSisaltoalue(keskeinenSisaltoalue)"
+          >
+            <EpMaterialIcon
+              icon-shape="outlined"
+              :color="'inherit'"
+            >
+              delete
+            </EpMaterialIcon>
           </div>
         </b-col>
       </b-row>
     </draggable>
 
-    <ep-button variant="outline" icon="add" @click="lisaaKeskeinenSisaltoalue()" >
+    <ep-button
+      variant="outline"
+      icon="add"
+      @click="lisaaKeskeinenSisaltoalue()"
+    >
       {{ $t('lisaa-keskeinen-sisaltoalue') }}
     </ep-button>
   </div>

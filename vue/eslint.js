@@ -1,14 +1,15 @@
 module.exports = {
   'env': {
     'node': true,
+    'es2022': true,
   },
   'extends': [
-    'plugin:vue/essential',
-    '@vue/standard',
-    '@vue/typescript',
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:vue/recommended'
   ],
+  'parser': 'vue-eslint-parser',
   'parserOptions': {
-    'ecmaVersion': 2020,
     'parser': '@typescript-eslint/parser',
   },
   'rules': {
@@ -26,6 +27,7 @@ module.exports = {
       'named': 'never',
       'asyncArrow': 'always',
     }],
+    '@typescript-eslint/no-explicit-any': 'off',
     'indent': [
       'error',
       2,
@@ -45,8 +47,8 @@ module.exports = {
       'error',
       'always',
     ],
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-console': 'error',
+    'no-debugger': 'error',
   },
   'overrides': [
     {

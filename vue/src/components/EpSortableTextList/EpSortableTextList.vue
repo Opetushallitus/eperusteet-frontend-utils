@@ -3,46 +3,76 @@
     <template v-if="isEditing">
       <draggable
         v-bind="defaultDragOptions"
+        v-model="innerModel"
         tag="div"
-        v-model="innerModel">
-        <b-row v-for="(model, i) in innerModel" :key="group+i" class="pb-2">
+      >
+        <b-row
+          v-for="(model, i) in innerModel"
+          :key="group+i"
+          class="pb-2"
+        >
           <b-col cols="11">
-            <slot name="input" :model="model" :index="i">
+            <slot
+              name="input"
+              :model="model"
+              :index="i"
+            >
               <EpInput
                 v-model="innerModel[i]"
-                :is-editing="isEditing">
-                <div class="order-handle m-2" slot="left">
+                :is-editing="isEditing"
+              >
+                <div
+                  slot="left"
+                  class="order-handle m-2"
+                >
                   <EpMaterialIcon>drag_indicator</EpMaterialIcon>
                 </div>
               </EpInput>
             </slot>
           </b-col>
-          <b-col cols="1" v-if="isEditing" class="text-center">
-            <div class="default-icon clickable mt-2" @click="poistaTeksti(i)">
-              <EpMaterialIcon icon-shape="outlined">delete</EpMaterialIcon>
+          <b-col
+            v-if="isEditing"
+            cols="1"
+            class="text-center"
+          >
+            <div
+              class="default-icon clickable mt-2"
+              @click="poistaTeksti(i)"
+            >
+              <EpMaterialIcon icon-shape="outlined">
+                delete
+              </EpMaterialIcon>
             </div>
           </b-col>
         </b-row>
       </draggable>
       <EpButton
+        v-if="isEditing"
         variant="outline"
         icon="add"
         @click="lisaaTeksti()"
-        v-if="isEditing">
-        <slot name="default">{{ $t('lisaa-teksti') }}</slot>
+      >
+        <slot name="default">
+          {{ $t('lisaa-teksti') }}
+        </slot>
       </EpButton>
     </template>
     <template v-else-if="innerModel.length > 0">
       <ul>
-        <li v-for="(model, i) in innerModel" :key="group+i">
-          <slot name="li" :model="model">
-            {{$kaanna(model)}}
+        <li
+          v-for="(model, i) in innerModel"
+          :key="group+i"
+        >
+          <slot
+            name="li"
+            :model="model"
+          >
+            {{ $kaanna(model) }}
           </slot>
         </li>
       </ul>
     </template>
   </div>
-
 </template>
 
 <script lang="ts">

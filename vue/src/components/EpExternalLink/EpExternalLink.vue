@@ -1,12 +1,13 @@
 <template>
   <ep-linkki
-      :class="styleclass"
-      :url="url"
-      :label="label"
-      :icon="icon"
-      :only-top-level="onlyTopLevel"
-      :iconRight="iconRight">
-    <slot></slot>
+    :class="styleclass"
+    :url="url"
+    :label="label"
+    :icon="icon"
+    :only-top-level="onlyTopLevel"
+    :icon-right="iconRight"
+  >
+    <slot />
   </ep-linkki>
 </template>
 
@@ -24,7 +25,7 @@ export default class EpExternalLink extends Vue {
   private url!: string;
 
   @Prop({ default: true, type: Boolean })
-  private showIcon!: Boolean;
+  private showIcon!: boolean;
 
   @Prop({
     required: false,

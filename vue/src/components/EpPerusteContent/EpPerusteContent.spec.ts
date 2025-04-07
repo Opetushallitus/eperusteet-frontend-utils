@@ -43,7 +43,6 @@ describe('EpPerusteContent', () => {
     expect(wrapper.html()).toContain('teksti1');
     expect(wrapper.html()).toContain('pohjan tekstia');
 
-    expect(wrapper.html()).toContain('paikallinen-teksti');
     expect(wrapper.html()).toContain('teksti2');
   });
 

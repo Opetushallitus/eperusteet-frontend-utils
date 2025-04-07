@@ -1,20 +1,39 @@
 <template>
-  <div v-if="muutostiedot" class="muutostiedot">
+  <div
+    v-if="muutostiedot"
+    class="muutostiedot"
+  >
     <div v-if="muutostiedot.length > 0">
-      <div v-for="(kohdeTapahtumat, index) in muutostiedot" :key="index">
-        <ep-form-content :name="kohdeTapahtumat.kohde" headerType="h3" headerClass="h6">
+      <div
+        v-for="(kohdeTapahtumat, index) in muutostiedot"
+        :key="index"
+      >
+        <ep-form-content
+          :name="kohdeTapahtumat.kohde"
+          header-type="h3"
+          header-class="h6"
+        >
           <div v-if="yhteenvetoTapahtumat.includes(kohdeTapahtumat.kohde)">
-            <div v-for="(tapahtuma, index) in kohdeTapahtumat.tapahtumat" :key="index">
-              {{ $t(kohdeTapahtumat.kohde + '-muutoshistoria-' + tapahtuma.tapahtuma, {kpl: tapahtuma.muokkaustiedot.length})}}
+            <div
+              v-for="(tapahtuma, index) in kohdeTapahtumat.tapahtumat"
+              :key="index"
+            >
+              {{ $t(kohdeTapahtumat.kohde + '-muutoshistoria-' + tapahtuma.tapahtuma, {kpl: tapahtuma.muokkaustiedot.length}) }}
             </div>
           </div>
           <template v-else>
-            <div v-for="(tapahtuma, index) in kohdeTapahtumat.tapahtumat" :key="index">
-              {{ $t('muutoshistoria-' + tapahtuma.tapahtuma)}}
+            <div
+              v-for="(tapahtuma, index) in kohdeTapahtumat.tapahtumat"
+              :key="index"
+            >
+              {{ $t('muutoshistoria-' + tapahtuma.tapahtuma) }}
 
               <ul v-if="tapahtuma.muokkaustiedot && tapahtuma.muokkaustiedot.length > 0">
-                <li v-for="(tieto, i) in tapahtuma.muokkaustiedot" :key="i">
-                  <EpRouterLink :muokkaustieto="tieto"></EpRouterLink>
+                <li
+                  v-for="(tieto, i) in tapahtuma.muokkaustiedot"
+                  :key="i"
+                >
+                  <EpRouterLink :muokkaustieto="tieto" />
                 </li>
               </ul>
             </div>
@@ -28,7 +47,7 @@
     </div>
   </div>
   <div v-else>
-    <EpSpinner/>
+    <EpSpinner />
   </div>
 </template>
 

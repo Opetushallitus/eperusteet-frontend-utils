@@ -1,10 +1,19 @@
 <template>
-  <ep-main-view :container="true" class="mt-5">
+  <ep-main-view
+    :container="true"
+    class="mt-5"
+  >
     <template slot="header">
       <div class="d-flex justify-content-between align-items-center flex-wrap">
         <h1>{{ $t('tiedotteet') }}</h1>
-        <ep-button variant="link" icon="add">
-          <a :href="url" v-oikeustarkastelu="{ oikeus: 'hallinta', kohde: 'pohja' }">
+        <ep-button
+          variant="link"
+          icon="add"
+        >
+          <a
+            v-oikeustarkastelu="{ oikeus: 'hallinta', kohde: 'pohja' }"
+            :href="url"
+          >
             <span class="ml-1 link-text">{{ $t('lisaa-tiedote') }}</span>
           </a>
         </ep-button>
@@ -13,26 +22,28 @@
 
     <div class="row align-items-end mb-4">
       <div class="col-4">
-        <slot name="search"></slot>
+        <slot name="search" />
       </div>
     </div>
 
-    <ep-spinner v-if="!tiedotteet"/>
+    <ep-spinner v-if="!tiedotteet" />
     <template v-else>
       <ep-content-read-more
         v-for="tiedote in tiedotteet"
         :key="tiedote.id"
-        :content="tiedote.sisalto">
+        :content="tiedote.sisalto"
+      >
         <template #preHeading>
           <p>{{ $sdt(tiedote.luotu) }}</p>
         </template>
         <template #heading>
-          <h2 class="font-weight-normal">{{ $kaanna(tiedote.otsikko) }}</h2>
+          <h2 class="font-weight-normal">
+            {{ $kaanna(tiedote.otsikko) }}
+          </h2>
         </template>
       </ep-content-read-more>
-      <slot name="pagination"></slot>
+      <slot name="pagination" />
     </template>
-
   </ep-main-view>
 </template>
 

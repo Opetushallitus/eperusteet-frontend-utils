@@ -1,8 +1,10 @@
 <template>
-  <span :class="'material-icons' + shape"
-        class="icon"
-        :style="{color: color, fontSize: size, background: background}">
-    <slot></slot>
+  <span
+    :class="'material-icons' + shape"
+    class="icon"
+    :style="{color: color, fontSize: size, background: background}"
+  >
+    <slot />
   </span>
 </template>
 
@@ -32,7 +34,7 @@ export default class EpMaterialIcon extends Vue {
       return '';
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

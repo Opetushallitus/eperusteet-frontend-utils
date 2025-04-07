@@ -3,14 +3,17 @@
     class="moduulibox d-flex justify-content-between p-2"
     :class="{'moduulibox-valittu': valittu, 'selectable': isEditing}"
     role="button"
+    tabindex="0"
+    :title="moduuliNimi"
     @click="toggle()"
     @keyup.enter="toggle()"
-    tabindex="0"
-    :title="moduuliNimi">
-    <div class="name">{{ moduuliNimi }} ({{ moduuli.koodi.arvo }})</div>
+  >
+    <div class="name">
+      {{ moduuliNimi }} ({{ moduuli.koodi.arvo }})
+    </div>
     <div class="d-flex bd-highlight align-items-center">
       <span class="pr-2">{{ moduuli.laajuus }} {{ $t('opintopiste') }}</span>
-      <ep-color-indicator :kind="moduuli.pakollinen ? 'pakollinen' : 'valinnainen'"/>
+      <ep-color-indicator :kind="moduuli.pakollinen ? 'pakollinen' : 'valinnainen'" />
     </div>
   </div>
 </template>

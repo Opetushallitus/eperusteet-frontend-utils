@@ -2,29 +2,50 @@
   <div>
     <draggable
       v-bind="defaultDragOptions"
+      v-model="model"
       tag="div"
-      v-model="model">
-
-      <b-row v-for="(sisalto, index) in model" :key="'edKehOsaaminen'+index" class="pb-2">
+    >
+      <b-row
+        v-for="(sisalto, index) in model"
+        :key="'edKehOsaaminen'+index"
+        class="pb-2"
+      >
         <b-col cols="11">
-          <ep-input v-model="sisalto[sisaltokieli]" :is-editing="isEditing" type="string" class="flex-grow-1">
-            <div class="order-handle m-2" slot="left">
+          <ep-input
+            v-model="sisalto[sisaltokieli]"
+            :is-editing="isEditing"
+            type="string"
+            class="flex-grow-1"
+          >
+            <div
+              slot="left"
+              class="order-handle m-2"
+            >
               <EpMaterialIcon>drag_indicator</EpMaterialIcon>
             </div>
           </ep-input>
         </b-col>
         <b-col cols="1">
-          <div class="clickable mt-2" @click="poistaKuvaus(sisalto)">
-            <EpMaterialIcon class="default-icon">delete</EpMaterialIcon>
+          <div
+            class="clickable mt-2"
+            @click="poistaKuvaus(sisalto)"
+          >
+            <EpMaterialIcon class="default-icon">
+              delete
+            </EpMaterialIcon>
           </div>
         </b-col>
       </b-row>
     </draggable>
 
-    <ep-button @click="lisaaKuvaus()" variant="outline" icon="add" class="mt-1">
+    <ep-button
+      variant="outline"
+      icon="add"
+      class="mt-1"
+      @click="lisaaKuvaus()"
+    >
       {{ $t('lisaa-kuvaus') }}
     </ep-button>
-
   </div>
 </template>
 

@@ -1,11 +1,8 @@
-import Vue from 'vue';
-import VueCompositionApi, { reactive, computed } from '@vue/composition-api';
 import { Location } from 'vue-router';
-import { Computed } from '@shared/utils/interfaces';
+import { Computed, computedValue } from '@shared/utils/interfaces';
 import { LokalisoituTekstiDto, NavigationNodeType, NavigationNodeDto } from '@shared/tyypit';
 import _ from 'lodash';
-
-Vue.use(VueCompositionApi);
+import { computed, Ref } from 'vue';
 
 interface NodeConfig {
   disableNesting?: boolean;
@@ -25,22 +22,21 @@ export interface FlattenedNodeDto {
 
 export class EpTreeNavibarStore {
   constructor(
-    private navigation: Computed<NavigationNodeDto>,
+    private navigation: Ref<NavigationNodeDto> | NavigationNodeDto,
     private readonly routeToNodeImpl: (route: Location) => NavigationNodeDto | null,
     private config: NodeConfigs = {
     },
-  ) {
-  }
+  ) {}
 
   public routeToNode(route: Location) {
     return this.routeToNodeImpl(route);
   }
 
-  public readonly connected = computed(() => {
-    return _.drop(flattenNodes(this.config, this.navigation.value), 1);
+  public readonly connected = computedValue(() => {
+    return _.drop(flattenNodes(this.config, this.navigation as NavigationNodeDto), 1);
   });
 
-  public readonly filtered = computed(() => this.connected.value);
+  public readonly filtered = computedValue(() => this.connected.value);
 }
 
 function flattenNodes(config: NodeConfigs, root: NavigationNodeDto, depth = 0, parents: number[] = []): FlattenedNodeDto[] {
