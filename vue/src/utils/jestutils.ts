@@ -71,31 +71,32 @@ export const stubs = Object.freeze({
   EpPdfLink: true,
 }) as any;
 
-export function wrap<T extends object>(original: T, value: T) {
+export function wrap<T extends object>(OriginalClass: new (...args: any[]) => T, overrides: Partial<T> = {}): T {
+  const instance = new OriginalClass(); // Create a real instance to get all methods
   const result: any = {};
 
-  // Get original implementations
-  for (const k in original) {
-    if (_.isFunction(original[k])) {
-      result[k] = vi.fn(original[k] as any);
+  // Get all methods from prototype (including inherited ones)
+  let proto = OriginalClass.prototype;
+  while (proto && proto !== Object.prototype) {
+    for (const key of Reflect.ownKeys(proto)) {
+      if (key !== 'constructor' && typeof (proto as any)[key] === 'function') {
+        result[key] = vi.fn();
+      }
     }
-    else {
-      result[k] = original[k];
-    }
+    proto = Object.getPrototypeOf(proto);
   }
 
-  // Overwrite with default mocks
-  _.forEach(value, (v, k) => {
-    if (_.isFunction(v)) {
-      result[k] = vi.fn(v);
-    }
-    else {
-      result[k] = Vue.observable(v);
-    }
+  // Copy over instance properties (but not methods)
+  for (const key of Object.keys(instance)) {
+    result[key] = instance[key];
+  }
+
+  // Apply overrides (functions will be mocked again if overridden)
+  _.forEach(overrides, (value, key) => {
+    result[key] = _.isFunction(value) ? vi.fn(value) : value;
   });
 
-  const Mock = vi.fn(() => Vue.observable(result) as T);
-  return new Mock();
+  return Vue.observable(result) as T;
 }
 
 type Constructable<T> = new(...params: any[]) => T;
@@ -105,15 +106,20 @@ type Constructable<T> = new(...params: any[]) => T;
  *
  * @returns {undefined}
  */
-export function mock<T>(X: Constructable<T>, overrides: Partial<T> = {}): T {
-  const mocks: any = new X();
-  for (const key of _.keys(X.prototype)) {
-    mocks[key] = vi.fn();
+export function mock<T>(X: new (...args: any[]) => T, overrides: Partial<T> = {}): T {
+  const prototypeKeys = Reflect.ownKeys(X.prototype) as (keyof T)[];
+  const mocks: Partial<T> = {};
+
+  for (const key of prototypeKeys) {
+    if (key !== 'constructor') {
+      mocks[key] = vi.fn();
+    }
   }
+
   return {
     ...mocks,
     ...overrides,
-  };
+  } as T;
 }
 
 // export class TestStore<T> extends T {
@@ -124,3 +130,15 @@ export function mock<T>(X: Constructable<T>, overrides: Partial<T> = {}): T {
 // export function exposed<T>() {
 //   return new TestStore<T>();
 // }
+
+export function createMockedStore(StoreClass: any, methods: Record<string, any>) {
+  const MockedStore = vi.fn();
+  Object.entries(methods).forEach(([key, value]) => {
+    if (typeof value === 'function') {
+      MockedStore.prototype[key] = vi.fn(value);
+    } else {
+      MockedStore.prototype[key] = value;
+    }
+  });
+  return new MockedStore();
+}

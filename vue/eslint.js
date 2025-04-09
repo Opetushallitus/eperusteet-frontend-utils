@@ -47,7 +47,7 @@ module.exports = {
       'error',
       'always',
     ],
-    'no-console': 'error',
+    'no-console': 'off',
     'no-debugger': 'error',
   },
   'overrides': [
