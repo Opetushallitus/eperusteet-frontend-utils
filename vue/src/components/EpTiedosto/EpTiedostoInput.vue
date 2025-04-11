@@ -97,7 +97,7 @@ export default class EpTiedostoInput extends Vue {
 
     .custom-file-label {
       width: 100%;
-      background-image: url('~@assets/img/icons/lataus_ikoni.svg');
+      background-image: url('@assets/img/icons/lataus_ikoni.svg');
       background-repeat: no-repeat;
       background-position: left;
       border: 0;

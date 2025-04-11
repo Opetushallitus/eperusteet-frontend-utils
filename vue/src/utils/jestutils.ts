@@ -106,20 +106,15 @@ type Constructable<T> = new(...params: any[]) => T;
  *
  * @returns {undefined}
  */
-export function mock<T>(X: new (...args: any[]) => T, overrides: Partial<T> = {}): T {
-  const prototypeKeys = Reflect.ownKeys(X.prototype) as (keyof T)[];
-  const mocks: Partial<T> = {};
-
-  for (const key of prototypeKeys) {
-    if (key !== 'constructor') {
-      mocks[key] = vi.fn();
-    }
+export function mock<T>(X: Constructable<T>, overrides: Partial<T> = {}): T {
+  const mocks: any = new X();
+  for (const key of _.keys(X.prototype)) {
+    mocks[key] = vi.fn();
   }
-
   return {
     ...mocks,
     ...overrides,
-  } as T;
+  };
 }
 
 // export class TestStore<T> extends T {
@@ -131,14 +126,33 @@ export function mock<T>(X: new (...args: any[]) => T, overrides: Partial<T> = {}
 //   return new TestStore<T>();
 // }
 
-export function createMockedStore(StoreClass: any, methods: Record<string, any>) {
-  const MockedStore = vi.fn();
+export function createMockedStore<T extends { new(...args: any[]): any }>(
+  StoreClass: T,
+  methods: Partial<InstanceType<T>> = {},
+): InstanceType<T> {
+  // Create an actual instance of the StoreClass
+  const storeInstance = new StoreClass();
+
+  // Create a new object that inherits from the real store instance
+  const mockedStore = Object.create(storeInstance);
+
+  // Preserve reactivity for `state` and allow partial overwriting
+  if (Object.prototype.hasOwnProperty.call(storeInstance, 'state')) {
+    mockedStore.state = reactive({
+      ...(storeInstance as any).state, // Copy the original state
+      ...methods.state, // Allow overriding the state properties
+    });
+  }
+
+  // Override only the methods passed in the `methods` argument
   Object.entries(methods).forEach(([key, value]) => {
     if (typeof value === 'function') {
-      MockedStore.prototype[key] = vi.fn(value);
-    } else {
-      MockedStore.prototype[key] = value;
+      mockedStore[key] = vi.fn(value);
+    }
+    else {
+      mockedStore[key] = value;
     }
   });
-  return new MockedStore();
+
+  return mockedStore;
 }
