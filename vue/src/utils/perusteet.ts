@@ -740,3 +740,16 @@ export function getTavoiteNumero(tavoiteNimi) {
   const tavoitenumero = Kielet.kaanna(tavoiteNimi).match(/^[A-Za-z](\d{1,2})/) || [];
   return tavoitenumero?.length > 1 ? _.toNumber(tavoitenumero[1]) : 0;
 }
+
+export const julkisivuPerusteKoosteJarjestys = {
+  keys: [
+    'julkisivuJarjestysNro',
+    'voimassaoloAlkaa',
+    'kaannettyNimi',
+  ],
+  sortby: [
+    'asc',
+    'desc',
+    'asc',
+  ] as const,
+};
