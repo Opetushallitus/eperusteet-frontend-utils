@@ -11,7 +11,7 @@ import VueI18n from 'vue-i18n';
 import { vi } from 'vitest';
 
 import '../../config/bootstrap';
-import { computed, reactive } from 'vue';
+import { computed, reactive } from '@vue/composition-api';
 
 function mockAndWrapper(extension: Partial<IEditoitava> = {}, template?: string) {
   const localVue = createLocalVue();

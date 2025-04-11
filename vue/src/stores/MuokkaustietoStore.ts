@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import { MuokkaustietoKayttajallaDto, PerusteenMuutostietoDto, Muokkaustiedot } from '@shared/api/eperusteet';
 import _ from 'lodash';
-import { reactive, computed } from 'vue';
+import  { reactive, computed } from '@vue/composition-api';
 import { computedValue } from '@shared/utils/interfaces';
 
 export class MuokkaustietoStore {
@@ -19,10 +19,10 @@ export class MuokkaustietoStore {
     await this.update();
   }
 
-  public readonly muokkaustiedot = computedValue(() => this.state.muokkaustiedot);
-  public readonly viimeinenHaku = computedValue(() => this.state.viimeinenHaku);
-  public readonly hakuLukumaara = computedValue(() => this.state.hakuLukumaara);
-  public readonly muutostiedot = computedValue(() => this.state.muutostiedot);
+  public readonly muokkaustiedot = computed(() => this.state.muokkaustiedot);
+  public readonly viimeinenHaku = computed(() => this.state.viimeinenHaku);
+  public readonly hakuLukumaara = computed(() => this.state.hakuLukumaara);
+  public readonly muutostiedot = computed(() => this.state.muutostiedot);
 
   public async update() {
     if (this.state.perusteId) {

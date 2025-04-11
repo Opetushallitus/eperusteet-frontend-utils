@@ -1,9 +1,9 @@
-import Vue from 'vue';
+import Vue, { ref } from 'vue';
 import { MaaraysDto, Maaraykset, MaaraysDtoTyyppiEnum } from '@shared/api/eperusteet';
 import _ from 'lodash';
 import { Koulutustyyppi, Page } from '@shared/tyypit';
 import { Debounced, DEFAULT_PUBLIC_WAIT_TIME_MS } from '@shared/utils/delay';
-import { reactive, computed } from 'vue';
+import  { reactive, computed } from '@vue/composition-api';
 
 export interface MaaraysQueryDto {
   nimi?: string;

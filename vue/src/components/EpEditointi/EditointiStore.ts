@@ -1,12 +1,12 @@
 import * as _ from 'lodash';
-import Vue, { reactive, computed } from 'vue';
+import Vue from 'vue';
 import VueScrollTo from 'vue-scrollto';
 import { Computed } from '../../utils/interfaces';
 import { ILukko, Revision } from '../../tyypit';
 import VueRouter, { RawLocation } from 'vue-router';
 import { fail } from '../../utils/notifications';
 import { createLogger } from '../../utils/logger';
-import { computedValue } from '@shared/utils/interfaces';
+import { computed, reactive } from '@vue/composition-api';
 
 export interface EditointiKontrolliValidation {
   valid: boolean;
@@ -188,18 +188,18 @@ export class EditointiStore {
     return this.config;
   }
 
-  public readonly data = computedValue(() => this.state.data);
-  public readonly supportData = computedValue(() => this.state.supportData);
-  public readonly revisions = computedValue(() => this.state.revisions);
-  public readonly disabled = computedValue(() => this.state.disabled);
-  public readonly isLoading = computedValue(() => !this.state.data || this.state.isLoading);
-  public readonly isSaving = computedValue(() => this.state.isSaving);
-  public readonly isEditing = computedValue(() => this.state.isEditingState);
-  public readonly isRemoved = computedValue(() => this.state.isRemoved);
-  public readonly validator = computedValue(() => this.config.validator?.value || {});
-  public readonly isNew = computedValue(() => this.state.isNew);
+  public readonly data = computed(() => this.state.data);
+  public readonly supportData = computed(() => this.state.supportData);
+  public readonly revisions = computed(() => this.state.revisions);
+  public readonly disabled = computed(() => this.state.disabled);
+  public readonly isLoading = computed(() => !this.state.data || this.state.isLoading);
+  public readonly isSaving = computed(() => this.state.isSaving);
+  public readonly isEditing = computed(() => this.state.isEditingState);
+  public readonly isRemoved = computed(() => this.state.isRemoved);
+  public readonly validator = computed(() => this.config.validator?.value || {});
+  public readonly isNew = computed(() => this.state.isNew);
 
-  public readonly features = computedValue(() => {
+  public readonly features = computed(() => {
     const Default = {
       editable: true,
       hideable: true,
@@ -232,7 +232,7 @@ export class EditointiStore {
     };
   });
 
-  public readonly currentLock = computedValue(() => {
+  public readonly currentLock = computed(() => {
     const now = new Date();
     const cl = this.state.currentLock;
     if (cl?.oma || (cl?.vanhentuu && now > new Date(cl.vanhentuu as unknown as number))) {

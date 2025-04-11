@@ -388,7 +388,7 @@ export default class EpKayttaja extends Vue {
 </script>
 
 <style scoped lang="scss">
-@import '~@shared/styles/_variables.scss';
+@import '@shared/styles/_variables.scss';
 .kayttaja {
 
   ::v-deep ul.dropdown-menu {

@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import _ from 'lodash';
-import { reactive, computed } from 'vue';
-import { computedValue } from '@shared/utils/interfaces';
+import  { reactive, computed } from '@vue/composition-api';
 
 const state = reactive({
   window: {
@@ -43,12 +42,12 @@ document.addEventListener('keyup', (ev) => {
 });
 
 export class BrowserStore {
-  public readonly scrollY = computedValue(() => state.scrollY);
-  public readonly window = computedValue(() => state.window);
-  public readonly focused = computedValue(() => state.focused);
-  public readonly activeElement = computedValue(() => state.focused?.target);
-  public readonly latestKeypress = computedValue(() => state.latestKeypress);
-  public readonly navigationVisible = computedValue(() => state.window.width > 991);
+  public readonly scrollY = computed(() => state.scrollY);
+  public readonly window = computed(() => state.window);
+  public readonly focused = computed(() => state.focused);
+  public readonly activeElement = computed(() => state.focused?.target);
+  public readonly latestKeypress = computed(() => state.latestKeypress);
+  public readonly navigationVisible = computed(() => state.window.width > 991);
 
   public static location = Vue.observable({ href: '' });
 
