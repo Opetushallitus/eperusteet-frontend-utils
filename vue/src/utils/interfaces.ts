@@ -1,5 +1,4 @@
 import { Ref } from 'vue';
-import { computed, ref } from 'vue';
 
 
 /**
@@ -12,7 +11,3 @@ import { computed, ref } from 'vue';
 export type Computed<T> = T extends Array<infer E>
   ? Readonly<Ref<readonly (E & any)[] | null>>
   : Readonly<Ref<T & any | null>>;
-
-export function computedValue<T>(getter: () => T) {
-  return computed(() => ({ value: getter() }));
-}

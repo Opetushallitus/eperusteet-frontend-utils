@@ -134,6 +134,8 @@ export default class EpViimeaikainenToiminta extends Vue {
   }
 
   get muokkaustiedotRouted() {
+    console.log(this.muokkaustiedot);
+
     return _.chain(this.muokkaustiedot)
       .map((muokkaustieto: Muokkaustieto) => {
         return {

@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { Wrapper } from '@vue/test-utils';
 import { EditointiStore, IEditoitava } from '../components/EpEditointi/EditointiStore';
 import { vi } from 'vitest';
-import { reactive, computed } from 'vue';
+import  { reactive, computed } from '@vue/composition-api';
 
 import '../config/bootstrap';
 
@@ -71,32 +71,31 @@ export const stubs = Object.freeze({
   EpPdfLink: true,
 }) as any;
 
-export function wrap<T extends object>(OriginalClass: new (...args: any[]) => T, overrides: Partial<T> = {}): T {
-  const instance = new OriginalClass(); // Create a real instance to get all methods
+export function wrap<T extends object>(original: T, value: T) {
   const result: any = {};
 
-  // Get all methods from prototype (including inherited ones)
-  let proto = OriginalClass.prototype;
-  while (proto && proto !== Object.prototype) {
-    for (const key of Reflect.ownKeys(proto)) {
-      if (key !== 'constructor' && typeof (proto as any)[key] === 'function') {
-        result[key] = vi.fn();
-      }
+  // Get original implementations
+  for (const k in original) {
+    if (_.isFunction(original[k])) {
+      result[k] = vi.fn(original[k] as any);
     }
-    proto = Object.getPrototypeOf(proto);
+    else {
+      result[k] = original[k];
+    }
   }
 
-  // Copy over instance properties (but not methods)
-  for (const key of Object.keys(instance)) {
-    result[key] = instance[key];
-  }
-
-  // Apply overrides (functions will be mocked again if overridden)
-  _.forEach(overrides, (value, key) => {
-    result[key] = _.isFunction(value) ? vi.fn(value) : value;
+  // Overwrite with default mocks
+  _.forEach(value, (v, k) => {
+    if (_.isFunction(v)) {
+      result[k] = vi.fn(v);
+    }
+    else {
+      result[k] = Vue.observable(v);
+    }
   });
 
-  return Vue.observable(result) as T;
+  const Mock = vi.fn(() => Vue.observable(result) as T);
+  return new Mock();
 }
 
 type Constructable<T> = new(...params: any[]) => T;
@@ -106,20 +105,15 @@ type Constructable<T> = new(...params: any[]) => T;
  *
  * @returns {undefined}
  */
-export function mock<T>(X: new (...args: any[]) => T, overrides: Partial<T> = {}): T {
-  const prototypeKeys = Reflect.ownKeys(X.prototype) as (keyof T)[];
-  const mocks: Partial<T> = {};
-
-  for (const key of prototypeKeys) {
-    if (key !== 'constructor') {
-      mocks[key] = vi.fn();
-    }
+export function mock<T>(X: Constructable<T>, overrides: Partial<T> = {}): T {
+  const mocks: any = new X();
+  for (const key of _.keys(X.prototype)) {
+    mocks[key] = vi.fn();
   }
-
   return {
     ...mocks,
     ...overrides,
-  } as T;
+  };
 }
 
 // export class TestStore<T> extends T {
@@ -131,14 +125,33 @@ export function mock<T>(X: new (...args: any[]) => T, overrides: Partial<T> = {}
 //   return new TestStore<T>();
 // }
 
-export function createMockedStore(StoreClass: any, methods: Record<string, any>) {
-  const MockedStore = vi.fn();
+export function createMockedStore<T extends { new(...args: any[]): any }>(
+  StoreClass: T,
+  methods: Partial<InstanceType<T>> = {},
+): InstanceType<T> {
+  // Create an actual instance of the StoreClass
+  const storeInstance = new StoreClass();
+
+  // Create a new object that inherits from the real store instance
+  const mockedStore = Object.create(storeInstance);
+
+  // Preserve reactivity for `state` and allow partial overwriting
+  if (Object.prototype.hasOwnProperty.call(storeInstance, 'state')) {
+    mockedStore.state = reactive({
+      ...(storeInstance as any).state, // Copy the original state
+      ...methods.state, // Allow overriding the state properties
+    });
+  }
+
+  // Override only the methods passed in the `methods` argument
   Object.entries(methods).forEach(([key, value]) => {
     if (typeof value === 'function') {
-      MockedStore.prototype[key] = vi.fn(value);
-    } else {
-      MockedStore.prototype[key] = value;
+      mockedStore[key] = vi.fn(value);
+    }
+    else {
+      mockedStore[key] = value;
     }
   });
-  return new MockedStore();
+
+  return mockedStore;
 }

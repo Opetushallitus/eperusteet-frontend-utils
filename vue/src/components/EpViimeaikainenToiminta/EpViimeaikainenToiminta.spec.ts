@@ -5,7 +5,7 @@ import BootstrapVue from 'bootstrap-vue';
 import { Kielet } from '@shared/stores/kieli';
 import { MuokkaustietoStore } from '@shared/stores/MuokkaustietoStore';
 import { Kaannos } from '@shared/plugins/kaannos';
-import { mock } from '@shared/utils/jestutils';
+import { createMockedStore, mock } from '@shared/utils/jestutils';
 import VueI18n from 'vue-i18n';
 
 Vue.use(BootstrapVue);

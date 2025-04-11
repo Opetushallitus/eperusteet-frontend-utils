@@ -5,9 +5,9 @@ import { EpTreeNavibarStore } from './EpTreeNavibarStore';
 import { Kaannos } from '../../plugins/kaannos';
 import { Kielet } from '../../stores/kieli';
 import { mount, createLocalVue, RouterLinkStub } from '@vue/test-utils';
-import Vue, { reactive, computed, ref } from 'vue';
 import { NavigationNodeDto } from '@shared/tyypit';
-import { computedValue } from '@shared/utils/interfaces';
+import { computed } from '@vue/composition-api';
+import Vue from 'vue';
 
 describe('EpTreeNavibar component', () => {
   const localVue = createLocalVue();
@@ -20,9 +20,9 @@ describe('EpTreeNavibar component', () => {
     const wrapper = mount(EpTreeNavibar, {
       localVue,
       propsData: {
-        store: new EpTreeNavibarStore(ref(navipuu as any), () => null),
+        store: new EpTreeNavibarStore(computed(() => navipuu), () => null),
       },
-      stubs: {
+        stubs: {
         Portal: '<div />',
         RouterLink: RouterLinkStub,
       },

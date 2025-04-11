@@ -3,7 +3,7 @@ import { PerusteHakuDto, findAllOppaat, OppaatQuery } from '@shared/api/eperuste
 import _ from 'lodash';
 import { Page } from '@shared/tyypit';
 import { Debounced, DEFAULT_PUBLIC_WAIT_TIME_MS } from '@shared/utils/delay';
-import { reactive, computed } from 'vue';
+import  { reactive, computed } from '@vue/composition-api';
 
 export class OppaatStore {
   private state = reactive({

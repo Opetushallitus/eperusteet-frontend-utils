@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import Vue from 'vue';
-import { reactive, computed } from 'vue';
+import  { reactive, computed } from '@vue/composition-api';
 
 export const DEFAULT_PUBLIC_WAIT_TIME_MS = 300;
 

@@ -1,8 +1,7 @@
 import { Page } from '../../tyypit';
 import { KoodistoKoodiDto } from '../../api/eperusteet';
 import { Debounced } from '../../utils/delay';
-import { reactive, computed } from 'vue';
-import { computedValue } from '@shared/utils/interfaces';
+import  { reactive, computed } from '@vue/composition-api';
 
 export interface IKoodisto {
   koodisto: string;
@@ -14,8 +13,8 @@ export class KoodistoSelectStore {
     data: null as Page<KoodistoKoodiDto> | null,
   });
 
-  public readonly data = computedValue(() => this.state.data);
-  public readonly koodisto = computedValue(() => this.config.koodisto);
+  public readonly data = computed(() => this.state.data);
+  public readonly koodisto = computed(() => this.config.koodisto);
 
   constructor(private config: IKoodisto) {
   }
