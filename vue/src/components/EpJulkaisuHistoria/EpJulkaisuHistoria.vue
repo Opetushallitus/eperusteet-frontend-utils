@@ -1,36 +1,67 @@
 <template>
   <div class="julkaisuhistoria">
-    <h3 slot="header">{{ $t('julkaisuhistoria') }}</h3>
-    <EpSpinner v-if="!julkaisut"/>
+    <h3 slot="header">
+      {{ $t('julkaisuhistoria') }}
+    </h3>
+    <EpSpinner v-if="!julkaisut" />
     <template v-else>
-      <div class="alert alert-info" v-if="julkaisut.length === 0">
-        <slot name="empty">{{ $t('ei-julkaisuja') }}</slot>
+      <div
+        v-if="julkaisut.length === 0"
+        class="alert alert-info"
+      >
+        <slot name="empty">
+          {{ $t('ei-julkaisuja') }}
+        </slot>
       </div>
       <div v-else>
-        <div v-for="(julkaisu, index) in julkaisutMapped" :key="'julkaisu'+index" class="julkaisu pb-2 ml-1 px-3">
+        <div
+          v-for="(julkaisu, index) in julkaisutMapped"
+          :key="'julkaisu'+index"
+          class="julkaisu pb-2 ml-1 px-3"
+        >
           <div class="d-flex justify-content-between align-items-center">
             <div>
-              <span class="font-weight-bold pr-1">{{$t('julkaisu')}} {{julkaisu.revision}}</span>
-              <span v-if="latestJulkaisuRevision && latestJulkaisuRevision.revision === julkaisu.revision" class="julkaistu">{{$t('julkaistu-versio')}}</span>
-              <span v-if ="julkaisu.tila === 'KESKEN'" class="julkaistu julkaistu--kesken">{{$t('julkaisu-kesken')}}</span>
-              <span v-if ="julkaisu.tila === 'VIRHE'" class="julkaistu julkaistu--virhe">{{$t('julkaisu-epaonnistui')}}</span>
+              <span class="font-weight-bold pr-1">{{ $t('julkaisu') }} {{ julkaisu.revision }}</span>
+              <span
+                v-if="latestJulkaisuRevision && latestJulkaisuRevision.revision === julkaisu.revision"
+                class="julkaistu"
+              >{{ $t('julkaistu-versio') }}</span>
+              <span
+                v-if="julkaisu.tila === 'KESKEN'"
+                class="julkaistu julkaistu--kesken"
+              >{{ $t('julkaisu-kesken') }}</span>
+              <span
+                v-if="julkaisu.tila === 'VIRHE'"
+                class="julkaistu julkaistu--virhe"
+              >{{ $t('julkaisu-epaonnistui') }}</span>
             </div>
 
             <div class="d-flex align-items-center">
-              <slot name="katsele" :julkaisu="julkaisu" v-if="julkaisu.tila !== 'VIRHE'"></slot>
-              <EpButton v-if="latestJulkaisuRevision && latestJulkaisuRevision.revision !== julkaisu.revision && julkaisu.tila === 'JULKAISTU'"
-                        icon="keyboard_return"
-                        class="ml-4"
-                        variant="link"
-                        :showSpinner="julkaisu.palautuksessa"
-                        @click="palautaConfirm(julkaisu)"
-                        v-oikeustarkastelu="{ oikeus: 'muokkaus' }">
+              <slot
+                v-if="julkaisu.tila !== 'VIRHE'"
+                name="katsele"
+                :julkaisu="julkaisu"
+              />
+              <EpButton
+                v-if="latestJulkaisuRevision && latestJulkaisuRevision.revision !== julkaisu.revision && julkaisu.tila === 'JULKAISTU'"
+                v-oikeustarkastelu="{ oikeus: 'muokkaus' }"
+                icon="keyboard_return"
+                class="ml-4"
+                variant="link"
+                :show-spinner="julkaisu.palautuksessa"
+                @click="palautaConfirm(julkaisu)"
+              >
                 {{ $t('palauta') }}
               </EpButton>
             </div>
           </div>
-          <div class="my-1">{{$sdt(julkaisu.luotu)}} <span v-if="julkaisu.nimi">{{julkaisu.nimi}}</span></div>
-          <div class="my-1" v-html="$kaanna(julkaisu.tiedote)"></div>
+          <div class="my-1">
+            {{ $sdt(julkaisu.luotu) }} <span v-if="julkaisu.nimi">{{ julkaisu.nimi }}</span>
+          </div>
+          <div
+            class="my-1"
+            v-html="$kaanna(julkaisu.tiedote)"
+          />
         </div>
       </div>
     </template>

@@ -1,27 +1,40 @@
 <template>
   <div v-if="isEditing">
-    <slot name="default" :open="openDialog">
-      <div class="bg-danger">Painike puuttuu</div>
+    <slot
+      name="default"
+      :open="openDialog"
+    >
+      <div class="bg-danger">
+        Painike puuttuu
+      </div>
     </slot>
-    <b-modal id="koodistoModal"
-            ref="editModal"
-            size="xl"
-            :ok-title="multiselect ? $t('lisaa-valitut') : $t('lisaa-valittu')"
-            :cancel-title="$t('peruuta')"
-            @ok="lisaaValitut"
-            :ok-disabled="innerModel.length === 0"
-            @hidden="alusta">
+    <b-modal
+      id="koodistoModal"
+      ref="editModal"
+      size="xl"
+      :ok-title="multiselect ? $t('lisaa-valitut') : $t('lisaa-valittu')"
+      :cancel-title="$t('peruuta')"
+      :ok-disabled="innerModel.length === 0"
+      @ok="lisaaValitut"
+      @hidden="alusta"
+    >
       <template #modal-header>
         <slot name="header">
-          <h2>{{ $t('hae-koodistosta') }} ({{koodisto}})</h2>
+          <h2>{{ $t('hae-koodistosta') }} ({{ koodisto }})</h2>
         </slot>
       </template>
 
       <template #default>
         <div class="d-flex flex-row align-items-center">
           <div class="flex-grow-1">
-            <ep-search v-model="query"></ep-search>
-            <ep-toggle class="pt-3 pl-1" v-model="vanhentuneet" :isSWitch="false">{{$t('nayta-myos-vanhentuneet')}}</ep-toggle>
+            <ep-search v-model="query" />
+            <ep-toggle
+              v-model="vanhentuneet"
+              class="pt-3 pl-1"
+              :is-s-witch="false"
+            >
+              {{ $t('nayta-myos-vanhentuneet') }}
+            </ep-toggle>
           </div>
           <div>
             <ep-spinner v-if="isLoading" />
@@ -38,38 +51,45 @@
             :items="items"
             :fields="fields"
             :selectable="true"
-            @row-selected="onRowSelected"
             select-mode="single"
-            selected-variant=''>
-
-            <template v-slot:cell(nimi)="{ item }">
+            selected-variant=""
+            @row-selected="onRowSelected"
+          >
+            <template #cell(nimi)="{ item }">
               <span v-if="multiple">
-                <EpMaterialIcon v-if="item.selected" class="checked mr-2" size="20px">check_box</EpMaterialIcon>
-                <EpMaterialIcon v-else class="checked mr-2" size="20px">check_box_outline_blank</EpMaterialIcon>
+                <EpMaterialIcon
+                  v-if="item.selected"
+                  class="checked mr-2"
+                  size="20px"
+                >check_box</EpMaterialIcon>
+                <EpMaterialIcon
+                  v-else
+                  class="checked mr-2"
+                  size="20px"
+                >check_box_outline_blank</EpMaterialIcon>
               </span>
               <span class="btn-link">
                 {{ $kaanna(item.nimi) }}
               </span>
             </template>
 
-            <template v-slot:cell(arvo)="{ item }">
+            <template #cell(arvo)="{ item }">
               <span class="font-weight-bold">
                 {{ item.koodiArvo }}
               </span>
             </template>
 
-            <template v-slot:cell(versio)="{ item }">
+            <template #cell(versio)="{ item }">
               {{ item.versio }}
             </template>
 
-            <template v-slot:cell(voimaantulo)="{ item }">
+            <template #cell(voimaantulo)="{ item }">
               {{ $sd(item.voimassaAlkuPvm) }}
             </template>
 
-            <template v-slot:cell(paattyminen)="{ item }">
+            <template #cell(paattyminen)="{ item }">
               <span v-if="item.voimassaLoppuPvm">{{ $ago(item.voimassaLoppuPvm) }}</span>
             </template>
-
           </b-table>
 
           <b-pagination
@@ -78,15 +98,18 @@
             :total-rows="raw.kokonaismäärä"
             :per-page="raw.sivukoko"
             aria-controls="koodistot"
-            align="center" />
+            align="center"
+          />
 
           <div v-if="multiselect && innerModel.length > 0">
-            <h4>{{$t('valittu')}} {{innerModel.length}} {{$t('kpl')}}</h4>
-            <div v-for="(koodi, index) in innerModel" :key="'valitut'+index">
+            <h4>{{ $t('valittu') }} {{ innerModel.length }} {{ $t('kpl') }}</h4>
+            <div
+              v-for="(koodi, index) in innerModel"
+              :key="'valitut'+index"
+            >
               {{ $kaanna(koodi.nimi) }}
             </div>
           </div>
-
         </div>
         <ep-spinner v-else />
       </template>
@@ -95,8 +118,13 @@
   <div v-else-if="value && value.arvo">
     {{ $kaanna(value.nimi) }} <span v-if="naytaArvo">{{ value.arvo }}</span>
   </div>
-  <div class="font-italic" v-else>
-    <slot name="empty">{{ $t('ei-asetettu') }}</slot>
+  <div
+    v-else
+    class="font-italic"
+  >
+    <slot name="empty">
+      {{ $t('ei-asetettu') }}
+    </slot>
   </div>
 </template>
 

@@ -3,9 +3,13 @@
     v-model="model"
     :koulutustyypit="koulutustyyppiVaihtoehdot"
     :koulutustyyppiryhmat="koulutustyyppiryhmat"
-    :isEditing="isEditing">
-    <template v-slot:colorindicator="{ koulutustyyppi }">
-      <EpColorIndicator :size="10" :kind="koulutustyyppiColors[koulutustyyppi] || koulutustyyppi"/>
+    :is-editing="isEditing"
+  >
+    <template #colorindicator="{ koulutustyyppi }">
+      <EpColorIndicator
+        :size="10"
+        :kind="koulutustyyppiColors[koulutustyyppi] || koulutustyyppi"
+      />
     </template>
   </KoulutustyyppiSelect>
 </template>

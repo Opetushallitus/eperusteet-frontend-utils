@@ -1,8 +1,10 @@
 <template>
-  <div class="d-flex flex-column" :class="{ 'is-warning': isWarning }">
+  <div
+    class="d-flex flex-column"
+    :class="{ 'is-warning': isWarning }"
+  >
     <div class="d-flex">
-      <slot>
-      </slot>
+      <slot />
     </div>
     <div>
       <b-form-invalid-feedback :state="false">

@@ -64,6 +64,8 @@ describe('EpAikatauluListaus component', () => {
       },
     });
 
+    await Vue.nextTick();
+
     expect(wrapper.findAll('.paatavoite')).toHaveLength(0);
     expect(wrapper.findAll('.yleistavoite')).toHaveLength(1);
 

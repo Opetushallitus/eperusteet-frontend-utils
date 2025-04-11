@@ -1,39 +1,84 @@
 <template>
-<div class="ep-steps">
-  <div class="steps d-flex justify-content-center mr-5 ml-5 mb-5" v-if="steps.length > 1">
-    <div role="button" v-for="(step, idx) in steps" :key="step.key" class="text-center step" @click="stepIdx = idx">
-      <div class="connection" v-if="steps.length > 1" :class="{ left: idx === steps.length - 1, right: idx === 0 }"/>
-      <div class="p-4">
-        <div class="d-inline-block" :class="{ ball: true, active: idx <= stepIdx }">
-          {{ idx + 1 }}
-        </div>
-        <div :class="{ name: true, active: idx === stepIdx }">
-          {{ step.name }}
+  <div class="ep-steps">
+    <div
+      v-if="steps.length > 1"
+      class="steps d-flex justify-content-center mr-5 ml-5 mb-5"
+    >
+      <div
+        v-for="(step, idx) in steps"
+        :key="step.key"
+        role="button"
+        class="text-center step"
+        @click="stepIdx = idx"
+      >
+        <div
+          v-if="steps.length > 1"
+          class="connection"
+          :class="{ left: idx === steps.length - 1, right: idx === 0 }"
+        />
+        <div class="p-4">
+          <div
+            class="d-inline-block"
+            :class="{ ball: true, active: idx <= stepIdx }"
+          >
+            {{ idx + 1 }}
+          </div>
+          <div :class="{ name: true, active: idx === stepIdx }">
+            {{ step.name }}
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <h2 class="heading">
-    {{ currentStep.name }}
-  </h2>
-  <p class="description" v-if="currentStep.description" v-html="currentStep.description"></p>
+    <h2 class="heading">
+      {{ currentStep.name }}
+    </h2>
+    <p
+      v-if="currentStep.description"
+      class="description"
+      v-html="currentStep.description"
+    />
 
-  <div>
-    <slot :name="currentStep.key" />
-  </div>
+    <div>
+      <slot :name="currentStep.key" />
+    </div>
 
-  <div class="clearfix">
-    <div class="float-right mt-5">
-      <ep-button variant="link" @click="cancel" v-if="hasCancelEvent">{{ $t('peruuta')}}</ep-button>
-      <ep-button variant="link" @click="previous" v-if="stepIdx > 0">{{ $t('edellinen') }}</ep-button>
-      <ep-button @click="next" v-if="stepIdx < steps.length - 1" :disabled="!currentValid">{{ $t('seuraava') }}</ep-button>
-      <ep-button @click="saveImpl" v-else :disabled="!currentValid" :showSpinner="saving">
-        <slot name="luo">{{ $t('tallenna') }}</slot>
-      </ep-button>
+    <div class="clearfix">
+      <div class="float-right mt-5">
+        <ep-button
+          v-if="hasCancelEvent"
+          variant="link"
+          @click="cancel"
+        >
+          {{ $t('peruuta') }}
+        </ep-button>
+        <ep-button
+          v-if="stepIdx > 0"
+          variant="link"
+          @click="previous"
+        >
+          {{ $t('edellinen') }}
+        </ep-button>
+        <ep-button
+          v-if="stepIdx < steps.length - 1"
+          :disabled="!currentValid"
+          @click="next"
+        >
+          {{ $t('seuraava') }}
+        </ep-button>
+        <ep-button
+          v-else
+          :disabled="!currentValid"
+          :show-spinner="saving"
+          @click="saveImpl"
+        >
+          <slot name="luo">
+            {{ $t('tallenna') }}
+          </slot>
+        </ep-button>
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <script lang="ts">

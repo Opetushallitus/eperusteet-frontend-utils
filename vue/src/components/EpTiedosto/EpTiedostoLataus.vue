@@ -1,15 +1,25 @@
 <template>
   <div>
-    <EpTiedostoInput @input="onInput"
-                     :file-types="fileTypes"
-                     :file="file"
-                     ref="fileInput">
+    <EpTiedostoInput
+      ref="fileInput"
+      :file-types="fileTypes"
+      :file="file"
+      @input="onInput"
+    >
       <slot>
-        <div v-if="file" class="pl-2 d-inline-block">
+        <div
+          v-if="file"
+          class="pl-2 d-inline-block"
+        >
           <div>{{ $t('valittu-tiedosto') }}: {{ file ? file.name : '' }}</div>
           <div class="text-right pl-2 pt-4">
-            <ep-button @click="cancel" class="pl-5">
-              <slot name="peruuta">{{ $t('peruuta') }}</slot>
+            <ep-button
+              class="pl-5"
+              @click="cancel"
+            >
+              <slot name="peruuta">
+                {{ $t('peruuta') }}
+              </slot>
             </ep-button>
           </div>
         </div>

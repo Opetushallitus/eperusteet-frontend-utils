@@ -1,15 +1,14 @@
 <template>
   <div>
     <OsaamistasonKriteeri
-          class="mb-3 ml-0 p-1 taulukko-rivi-varitys"
-          v-for="(osaamistasonkriteeri, osaamistasoIndex) in osaamistasonKriteerit"
-          :key="'osaamistasonkriteeri'+osaamistasonkriteeri._osaamistaso"
-          v-model="osaamistasonKriteerit[osaamistasoIndex]"
-          :isEditing="isEditing"
-          :arviointiasteikko="arviointiasteikko"
-        />
+      v-for="(osaamistasonkriteeri, osaamistasoIndex) in osaamistasonKriteerit"
+      :key="'osaamistasonkriteeri'+osaamistasonkriteeri._osaamistaso"
+      v-model="osaamistasonKriteerit[osaamistasoIndex]"
+      class="mb-3 ml-0 p-1 taulukko-rivi-varitys"
+      :is-editing="isEditing"
+      :arviointiasteikko="arviointiasteikko"
+    />
   </div>
-
 </template>
 
 <script lang="ts">

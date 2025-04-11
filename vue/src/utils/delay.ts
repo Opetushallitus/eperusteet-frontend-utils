@@ -1,8 +1,6 @@
 import * as _ from 'lodash';
 import Vue from 'vue';
-import VueCompositionApi, { computed } from '@vue/composition-api';
-
-Vue.use(VueCompositionApi);
+import { reactive, computed } from 'vue';
 
 export const DEFAULT_PUBLIC_WAIT_TIME_MS = 300;
 
@@ -54,7 +52,7 @@ export function Debounced(ms = 300) {
         clearTimeout(debounces.get(this));
       }
       return new Promise((resolve, reject) => {
-        if (process.env.NODE_ENV === 'test') {
+        if (import.meta.env.NODE_ENV === 'test') {
           original.apply(this, params).then(resolve)
             .catch(reject);
         }

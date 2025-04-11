@@ -10,14 +10,24 @@
       -
     </div>
   </div>
-  <div v-else class="d-flex flex-column">
+  <div
+    v-else
+    class="d-flex flex-column"
+  >
     <div class="d-flex align-items-center">
       <div class="flex-grow-1">
-        <ep-input type="number" v-model="model" min="0" max="999" :is-editing="isEditing" :validation="validation" />
+        <ep-input
+          v-model="model"
+          type="number"
+          min="0"
+          max="999"
+          :is-editing="isEditing"
+          :validation="validation"
+        />
       </div>
       <div class="ml-2">
         <slot>
-        {{ $t('osaamispiste') }}
+          {{ $t('osaamispiste') }}
         </slot>
       </div>
     </div>

@@ -1,52 +1,101 @@
 <template>
-  <EpMultiSelect v-model="model"
-                 :placeholder="placeholder"
-                 :search-identity="identity"
-                 label="nimi"
-                 track-by="koulutustyyppi"
-                 v-if="isEditing"
-                 :options="selectVaihtoehdot"
-                 group-values="koulutustyypit"
-                 group-label="ryhma"
-                 :group-select="false"
-                 :searchable="false"
-                 :maxHeight="500"
-                 :multiple="isMultiple"
-                 :closeOnSelect="!isMultiple"
-                 :openDirection="'below'"
-                 ref="koulutustyyppi_multiselect">
-
-    <template slot="singleLabel" slot-scope="{ option }">
+  <EpMultiSelect
+    v-if="isEditing"
+    ref="koulutustyyppi_multiselect"
+    v-model="model"
+    :placeholder="placeholder"
+    :search-identity="identity"
+    label="nimi"
+    track-by="koulutustyyppi"
+    :options="selectVaihtoehdot"
+    group-values="koulutustyypit"
+    group-label="ryhma"
+    :group-select="false"
+    :searchable="false"
+    :max-height="500"
+    :multiple="isMultiple"
+    :close-on-select="!isMultiple"
+    :open-direction="'below'"
+  >
+    <template
+      slot="singleLabel"
+      slot-scope="{ option }"
+    >
       <span :class="{'text-nowrap': !textWrap}">
-        <slot name="colorindicator" :koulutustyyppi="option.koulutustyyppi" v-if="!nocolor">
-          <EpColorIndicator :size="10" :kind="option.koulutustyyppi" v-if="!nocolor"/>
+        <slot
+          v-if="!nocolor"
+          name="colorindicator"
+          :koulutustyyppi="option.koulutustyyppi"
+        >
+          <EpColorIndicator
+            v-if="!nocolor"
+            :size="10"
+            :kind="option.koulutustyyppi"
+          />
         </slot>
         <span class="ml-2">{{ $t(option.koulutustyyppi) }}</span>
       </span>
     </template>
-    <template slot="option" slot-scope="{ option }">
-      <hr class="mt-0 mb-0" v-if="option.$groupLabel" />
+    <template
+      slot="option"
+      slot-scope="{ option }"
+    >
+      <hr
+        v-if="option.$groupLabel"
+        class="mt-0 mb-0"
+      >
 
-      <span v-else class="option text-nowrap">
-        <slot name="colorindicator" :koulutustyyppi="option.koulutustyyppi" v-if="option.koulutustyyppi !== 'kaikki' && !nocolor">
-          <EpColorIndicator :size="10" :kind="option.koulutustyyppi" v-if="option.koulutustyyppi !== 'kaikki' && !nocolor"/>
+      <span
+        v-else
+        class="option text-nowrap"
+      >
+        <slot
+          v-if="option.koulutustyyppi !== 'kaikki' && !nocolor"
+          name="colorindicator"
+          :koulutustyyppi="option.koulutustyyppi"
+        >
+          <EpColorIndicator
+            v-if="option.koulutustyyppi !== 'kaikki' && !nocolor"
+            :size="10"
+            :kind="option.koulutustyyppi"
+          />
         </slot>
         <span :class="{'font-weight-bold': option.koulutustyyppi === 'kaikki', 'ml-2': option.koulutustyyppi !== 'kaikki'}">
           {{ $t(option.koulutustyyppi) }}
         </span>
       </span>
     </template>
-    <template v-slot:checkbox><span/></template>
-    <template slot="selection" slot-scope="{ values }">
+    <template #checkbox>
+      <span />
+    </template>
+    <template
+      slot="selection"
+      slot-scope="{ values }"
+    >
       <div class="d-flex align-items-center">
-
         <template v-if="values.length === 1">
-          <span class="multiselect__tag" v-for="value in values" :key="'value' + value.koulutustyyppi">
-            <slot name="colorindicator" :koulutustyyppi="value.koulutustyyppi" v-if="!nocolor">
-              <EpColorIndicator :size="10" :kind="value.koulutustyyppi" v-if="!nocolor"/>
+          <span
+            v-for="value in values"
+            :key="'value' + value.koulutustyyppi"
+            class="multiselect__tag"
+          >
+            <slot
+              v-if="!nocolor"
+              name="colorindicator"
+              :koulutustyyppi="value.koulutustyyppi"
+            >
+              <EpColorIndicator
+                v-if="!nocolor"
+                :size="10"
+                :kind="value.koulutustyyppi"
+              />
             </slot>
             <span class="nimi ml-2">{{ $t(value.koulutustyyppi) }}</span>
-            <span class="multiselect__tag-icon clickable" @click.prevent @mousedown.prevent.stop="remove(value)"/>
+            <span
+              class="multiselect__tag-icon clickable"
+              @click.prevent
+              @mousedown.prevent.stop="remove(value)"
+            />
           </span>
         </template>
 
@@ -54,16 +103,34 @@
           {{ $t('valittu-x-koulutustyyppia', { kpl: values.length }) }}
         </span>
 
-        <span v-if="values.length > 0" class="ml-auto clickable border-right pr-2 remove-all" @click.prevent @mousedown.prevent.stop="removeAll()">
+        <span
+          v-if="values.length > 0"
+          class="ml-auto clickable border-right pr-2 remove-all"
+          @click.prevent
+          @mousedown.prevent.stop="removeAll()"
+        >
           <ep-material-icon>close</ep-material-icon>
         </span>
       </div>
     </template>
   </EpMultiSelect>
   <div v-else-if="asArray.length > 0">
-    <span class="text-nowrap mr-3" :class="{'text-nowrap': !textWrap}" v-for="value in asArray" :key="'reading' + value">
-      <slot name="colorindicator" :koulutustyyppi="value" v-if="!nocolor">
-        <EpColorIndicator :size="10" :kind="value" v-if="!nocolor"/>
+    <span
+      v-for="value in asArray"
+      :key="'reading' + value"
+      class="text-nowrap mr-3"
+      :class="{'text-nowrap': !textWrap}"
+    >
+      <slot
+        v-if="!nocolor"
+        name="colorindicator"
+        :koulutustyyppi="value"
+      >
+        <EpColorIndicator
+          v-if="!nocolor"
+          :size="10"
+          :kind="value"
+        />
       </slot>
       <span class="ml-2">{{ $t(value) }}</span>
     </span>
@@ -101,10 +168,10 @@ export default class KoulutustyyppiSelect extends Vue {
   isEditing!: boolean;
 
   @Prop({ type: Boolean })
-  required!: Boolean;
+  required!: boolean;
 
   @Prop({ default: false, type: Boolean })
-  nocolor!: Boolean;
+  nocolor!: boolean;
 
   @Prop({ default: () => EperusteetKoulutustyypit })
   koulutustyypit!: string[];
@@ -116,7 +183,7 @@ export default class KoulutustyyppiSelect extends Vue {
   eiTuetutKoulutustyypit!: string[];
 
   @Prop({ default: false, type: Boolean })
-  textWrap!: Boolean;
+  textWrap!: boolean;
 
   identity(tr: any) {
     return _.toLower(this.$kaanna(tr.nimi));

@@ -1,20 +1,32 @@
 <template>
   <div>
     <div class="pohja">
-      <div class="kulunut-aika" :style="'width:'+kulunutAikaWidth +'%'">&nbsp;</div>
-      <div class="aikataulu d-inline-block"
-          v-for="(aikataulu, i) in aikatauluTavoitteet"
-          :key="i"
-          :style="'right:' + aikataulu.rightPosition +'%'"
-          :id="'aikataulu-popover-'+i"
-          :class="aikataulu.tapahtuma">
-        <b-popover :target="'aikataulu-popover-'+i" triggers="hover click" placement="topleft" v-if="showPopover">
-          <template v-slot:title>
-            {{$sd(aikataulu.tapahtumapaiva)}}
+      <div
+        class="kulunut-aika"
+        :style="'width:'+kulunutAikaWidth +'%'"
+      >
+&nbsp;
+      </div>
+      <div
+        v-for="(aikataulu, i) in aikatauluTavoitteet"
+        :id="'aikataulu-popover-'+i"
+        :key="i"
+        class="aikataulu d-inline-block"
+        :style="'right:' + aikataulu.rightPosition +'%'"
+        :class="aikataulu.tapahtuma"
+      >
+        <b-popover
+          v-if="showPopover"
+          :target="'aikataulu-popover-'+i"
+          triggers="hover click"
+          placement="topleft"
+        >
+          <template #title>
+            {{ $sd(aikataulu.tapahtumapaiva) }}
           </template>
 
           <div style="width: 15vw">
-            {{$kaanna(aikataulu.tavoite)}}
+            {{ $kaanna(aikataulu.tavoite) }}
           </div>
         </b-popover>
       </div>
@@ -23,24 +35,31 @@
     <div class="alainfo">
       <div class="d-inline-block">
         <div v-if="julkaisuAikaPosition < luomisaikaPalloPoint">
-          <div class="luomispaiva">{{ $sd(luomisPaiva) }} </div>
+          <div class="luomispaiva">
+            {{ $sd(luomisPaiva) }}
+          </div>
           <div class="paiva-alatieto">
             <slot name="luomispaiva-topic">
-              <span v-html="$t('luotu')"/>
+              <span v-html="$t('luotu')" />
             </slot>
           </div>
         </div>
-        <div v-else>&nbsp;</div>
+        <div v-else>
+&nbsp;
+        </div>
       </div>
 
-      <div class="d-inline-block text-right julkaisu" :style="'right:'+julkaisuAikaPosition +'%'">
+      <div
+        class="d-inline-block text-right julkaisu"
+        :style="'right:'+julkaisuAikaPosition +'%'"
+      >
         <div class="julkaisupaiva">
           <span v-if="julkaisuPaiva">{{ $sd(julkaisuPaiva) }}</span>
           <span v-else>&nbsp;</span>
         </div>
         <div class="paiva-alatieto">
           <slot name="julkaisupaiva-topic">
-            <span v-html="$t('suunniteltu-julkaisupaiva')"/>
+            <span v-html="$t('suunniteltu-julkaisupaiva')" />
           </slot>
         </div>
       </div>

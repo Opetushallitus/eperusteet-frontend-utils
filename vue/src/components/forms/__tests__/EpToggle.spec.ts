@@ -1,8 +1,8 @@
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils';
 import EpToggle from '../EpToggle.vue';
-import { KieliStore } from '../../../stores/kieli';
 import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
+import { describe, test, expect } from 'vitest';
 
 Vue.use(BootstrapVue);
 
@@ -30,9 +30,11 @@ describe('EpToggle component', () => {
     expect(wrapper.vm.arvo).toBe(false);
 
     wrapper.find('input[type=checkbox]').setChecked(true);
+    await Vue.nextTick();
     expect(wrapper.vm.arvo).toBe(true);
 
     wrapper.find('input[type=checkbox]').setChecked(false);
+    await Vue.nextTick();
     expect(wrapper.vm.arvo).toBe(false);
   });
 });

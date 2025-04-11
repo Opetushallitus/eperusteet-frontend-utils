@@ -1,28 +1,66 @@
 <template>
   <div
     class="ep-progress text-center"
-    placement="'bottom'">
-
+    placement="'bottom'"
+  >
     <div v-if="!slices">
-      <svg viewBox="0 0 100 100" class="vaiheet animation" :height="height" :width="width">
-        <circle r="50%" cx="50%" cy="50%" style="stroke: rgba(91, 202, 19, 1); stroke-dasharray: 72.2566, 314.15; stroke-dashoffset: -2;"></circle>
-        <circle r="50%" cx="50%" cy="50%" style="stroke: rgba(91, 202, 19, 0.4); stroke-dasharray: 72.2566, 314.15; stroke-dashoffset: -80.5398;"></circle>
-        <circle r="50%" cx="50%" cy="50%" style="stroke: rgba(91, 202, 19, 1); stroke-dasharray: 72.2566, 314.15; stroke-dashoffset: -159.08;"></circle>
-        <circle r="50%" cx="50%" cy="50%" style="stroke: rgba(91, 202, 19, 0.4); stroke-dasharray: 72.2566, 314.15; stroke-dashoffset: -237.619;"></circle>
+      <svg
+        viewBox="0 0 100 100"
+        class="vaiheet animation"
+        :height="height"
+        :width="width"
+      >
+        <circle
+          r="50%"
+          cx="50%"
+          cy="50%"
+          style="stroke: rgba(91, 202, 19, 1); stroke-dasharray: 72.2566, 314.15; stroke-dashoffset: -2;"
+        />
+        <circle
+          r="50%"
+          cx="50%"
+          cy="50%"
+          style="stroke: rgba(91, 202, 19, 0.4); stroke-dasharray: 72.2566, 314.15; stroke-dashoffset: -80.5398;"
+        />
+        <circle
+          r="50%"
+          cx="50%"
+          cy="50%"
+          style="stroke: rgba(91, 202, 19, 1); stroke-dasharray: 72.2566, 314.15; stroke-dashoffset: -159.08;"
+        />
+        <circle
+          r="50%"
+          cx="50%"
+          cy="50%"
+          style="stroke: rgba(91, 202, 19, 0.4); stroke-dasharray: 72.2566, 314.15; stroke-dashoffset: -237.619;"
+        />
       </svg>
     </div>
 
-    <div v-else-if="done" class="done-icon d-inline-block" :style="{ height: height + 'px', width: width + 'px' }"></div>
+    <div
+      v-else-if="done"
+      class="done-icon d-inline-block"
+      :style="{ height: height + 'px', width: width + 'px' }"
+    />
 
     <div v-else-if="hasValidation">
-      <svg viewBox="0 0 100 100" class="vaiheet" style="transform: rotate(-90deg)" :height="height" :width="width">
+      <svg
+        viewBox="0 0 100 100"
+        class="vaiheet"
+        style="transform: rotate(-90deg)"
+        :height="height"
+        :width="width"
+      >
         <circle
-          v-for="(v, idx) in slicesColored" :key="idx"
-          r="50%" cx="50%" cy="50%"
-          :style="'stroke: rgba('+v.color+', ' + (v.progress || 0.4) + ');' + 'stroke-dasharray: ' + segmentLength + ' ' + 314.15 + '; stroke-dashoffset: ' + (-idx * gapLength -2)"/>
+          v-for="(v, idx) in slicesColored"
+          :key="idx"
+          r="50%"
+          cx="50%"
+          cy="50%"
+          :style="'stroke: rgba('+v.color+', ' + (v.progress || 0.4) + ');' + 'stroke-dasharray: ' + segmentLength + ' ' + 314.15 + '; stroke-dashoffset: ' + (-idx * gapLength -2)"
+        />
       </svg>
     </div>
-
   </div>
 </template>
 

@@ -3,6 +3,8 @@ import { Kielet } from '../../stores/kieli';
 import { Kaannos } from '../../plugins/kaannos';
 import { Kieli } from '../../tyypit';
 import VueI18n from 'vue-i18n';
+import { vi } from 'vitest';
+import Vue from 'vue';
 
 describe('Plugin kaannos', () => {
   const localVue = createLocalVue();
@@ -29,7 +31,7 @@ describe('Plugin kaannos', () => {
     });
   }
 
-  test('tekstioliot', () => {
+  test('tekstioliot', async () => {
     const wrapper = createWrapper({
       teksti: {
         fi: 'suomeksi',
@@ -40,6 +42,7 @@ describe('Plugin kaannos', () => {
     expect(wrapper.text()).toEqual('suomeksi');
 
     Kielet.setSisaltoKieli(Kieli.sv);
+    await Vue.nextTick();
     expect(wrapper.text()).toEqual('ruotsiksi');
   });
 
@@ -54,7 +57,7 @@ describe('Plugin kaannos', () => {
   });
 
   test('viallinen syöte', () => {
-    const spy = jest.spyOn(console, 'warn')
+    const spy = vi.spyOn(console, 'warn')
       .mockImplementationOnce(() => {});
     const wrapper = createWrapper({
       teksti: 'tekstiä',

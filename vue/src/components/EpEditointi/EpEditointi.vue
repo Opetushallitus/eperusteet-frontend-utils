@@ -1,91 +1,157 @@
 <template>
   <div class="editointi-container">
-    <ep-spinner class="mt-5" v-if="!store || !store.data.value"></ep-spinner>
-    <div class="editointikontrolli" v-else>
-      <div v-sticky sticky-offset="{ top: 56 }" sticky-z-index="500" v-if="!hasFooterSlot">
+    <ep-spinner
+      v-if="!store || !store.data || !store.data.value"
+      class="mt-5"
+    />
+    <div
+      v-else
+      class="editointikontrolli"
+    >
+      <div
+        v-if="!hasFooterSlot"
+        v-sticky
+        sticky-offset="{ top: 56 }"
+        sticky-z-index="500"
+      >
         <template v-if="hasCustomHeaderSlot">
-          <slot name="customheader"
-            :isEditing="isEditing"
+          <slot
+            name="customheader"
+            :is-editing="isEditing"
             :support-data="innerSupport"
             :data="inner"
             :cancel="cancel"
             :save="save"
             :disabled="disabled"
             :validation="validation"
-            :isSaving="isSaving"
+            :is-saving="isSaving"
             :modify="modify"
             :remove="remove"
-            :editable="features.editable"/>
+            :editable="features.editable"
+          />
         </template>
-        <div v-else class="ylapaneeli d-print-none">
-          <div class="d-flex align-items-center flex-md-row flex-column justify-content-between" :class="{ container: useContainer }">
+        <div
+          v-else
+          class="ylapaneeli d-print-none"
+        >
+          <div
+            class="d-flex align-items-center flex-md-row flex-column justify-content-between"
+            :class="{ container: useContainer }"
+          >
             <div class="d-flex flex-wrap flex-xl-nowrap align-items-center justify-content-between">
-              <div class="headerline" v-if="inner">
-                <slot name="header"
-                      :isEditing="isEditing"
-                      :data="inner"
-                      :support-data="innerSupport"
-                      :validation="validation"/>
+              <div
+                v-if="inner"
+                class="headerline"
+              >
+                <slot
+                  name="header"
+                  :is-editing="isEditing"
+                  :data="inner"
+                  :support-data="innerSupport"
+                  :validation="validation"
+                />
               </div>
-              <div class="muokattu text-nowrap" v-if="!isEditing">
-                <slot name="postHeader" :data="inner"></slot>
-                <slot name="additionalInfo" :data="inner"></slot>
-                <span class="text-truncate" v-if="latest">{{ $t('muokattu') }}: {{ $sdt(latest.pvm) }}, {{ nimi }}</span>
+              <div
+                v-if="!isEditing"
+                class="muokattu text-nowrap"
+              >
+                <slot
+                  name="postHeader"
+                  :data="inner"
+                />
+                <slot
+                  name="additionalInfo"
+                  :data="inner"
+                />
+                <span
+                  v-if="latest"
+                  class="text-truncate"
+                >{{ $t('muokattu') }}: {{ $sdt(latest.pvm) }}, {{ nimi }}</span>
               </div>
             </div>
             <div>
-              <div class="floating-editing-buttons d-flex align-items-center" v-if="!versiohistoriaVisible">
-                <ep-button class="ml-4"
-                           v-if="isEditing"
-                           @click="cancel()"
-                           :disabled="disabled"
-                           variant="link">
-                  <slot name="peruuta">{{ $t('peruuta') }}</slot>
+              <div
+                v-if="!versiohistoriaVisible"
+                class="floating-editing-buttons d-flex align-items-center"
+              >
+                <ep-button
+                  v-if="isEditing"
+                  class="ml-4"
+                  :disabled="disabled"
+                  variant="link"
+                  @click="cancel()"
+                >
+                  <slot name="peruuta">
+                    {{ $t('peruuta') }}
+                  </slot>
                 </ep-button>
-                <ep-button class="ml-4"
-                           @click="save()"
-                           v-if="isEditing"
-                           :disabled="disabled || (validation && validation.$invalid)"
-                           variant="primary"
-                           :show-spinner="isSaving"
-                           :help="saveHelpText">
-                  <slot name="tallenna">{{ $t('tallenna') }}</slot>
+                <ep-button
+                  v-if="isEditing"
+                  class="ml-4"
+                  :disabled="disabled || (validation && validation.$invalid)"
+                  variant="primary"
+                  :show-spinner="isSaving"
+                  :help="saveHelpText"
+                  @click="save()"
+                >
+                  <slot name="tallenna">
+                    {{ $t('tallenna') }}
+                  </slot>
                 </ep-button>
-                <b-dropdown class="mx-4"
-                            v-if="isEditing && !disabled && (features.removable || features.hideable)"
-                            size="md"
-                            variant="link"
-                            :disabled="disabled"
-                            toggle-class="text-decoration-none"
-                            no-caret="no-caret"
-                            right>
+                <b-dropdown
+                  v-if="isEditing && !disabled && (features.removable || features.hideable)"
+                  class="mx-4"
+                  size="md"
+                  variant="link"
+                  :disabled="disabled"
+                  toggle-class="text-decoration-none"
+                  no-caret="no-caret"
+                  right
+                >
                   <template slot="button-content">
                     <EpMaterialIcon>more_horiz</EpMaterialIcon>
                   </template>
                   <b-dropdown-item
-                    @click="remove()"
                     key="poista"
-                    :disabled="!features.removable || disabled">
-                    <slot name="poista">{{ poistoteksti }}</slot>
+                    :disabled="!features.removable || disabled"
+                    @click="remove()"
+                  >
+                    <slot name="poista">
+                      {{ poistoteksti }}
+                    </slot>
                   </b-dropdown-item>
                   <b-dropdown-item
                     v-if="!hidden && features.hideable"
-                    @click="hide()"
                     key="piilota"
-                    :disabled="disabled">
-                    <slot name="piilota">{{ $t('piilota') }}</slot>
+                    :disabled="disabled"
+                    @click="hide()"
+                  >
+                    <slot name="piilota">
+                      {{ $t('piilota') }}
+                    </slot>
                   </b-dropdown-item>
                   <b-dropdown-item
                     v-if="hidden"
-                    @click="unHide()"
                     key="palauta"
-                    :disabled="!features.hideable || disabled">
-                    <slot name="palauta">{{ $t('palauta') }}</slot>
+                    :disabled="!features.hideable || disabled"
+                    @click="unHide()"
+                  >
+                    <slot name="palauta">
+                      {{ $t('palauta') }}
+                    </slot>
                   </b-dropdown-item>
                 </b-dropdown>
-                <div v-if="currentLock && features.lockable" class="d-flex align-items-center ml-2 mr-2">
+                <div
+                  v-if="currentLock && features.lockable"
+                  class="d-flex align-items-center ml-2 mr-2"
+                >
                   <div>
-                    <EpMaterialIcon class="mr-1" :color="'#555'">lock</EpMaterialIcon>
+                    <EpMaterialIcon
+                      class="mr-1"
+                      :color="'#555'"
+                    >
+                      lock
+                    </EpMaterialIcon>
                     {{ $t('sivu-lukittu') }}
                   </div>
                   <div class="flex-grow-1 ml-3">
@@ -97,64 +163,93 @@
                     </div>
                   </div>
                 </div>
-                <ep-button id="editointi-muokkaus"
-                           variant="link"
-                           icon="edit"
-                           v-oikeustarkastelu="muokkausOikeustarkastelu"
-                           @click="modify()"
-                           v-else-if="!isEditing && features.editable && !versiohistoriaVisible"
-                           :show-spinner="isSaving || loading"
-                           :disabled="disabled">
-                  <slot name="muokkaa">{{ $t('muokkaa') }}</slot>
+                <ep-button
+                  v-else-if="!isEditing && features.editable && !versiohistoriaVisible"
+                  id="editointi-muokkaus"
+                  v-oikeustarkastelu="muokkausOikeustarkastelu"
+                  variant="link"
+                  icon="edit"
+                  :show-spinner="isSaving || loading"
+                  :disabled="disabled"
+                  @click="modify()"
+                >
+                  <slot name="muokkaa">
+                    {{ $t('muokkaa') }}
+                  </slot>
                 </ep-button>
-                <div v-else-if="!isEditing && features.copyable" v-oikeustarkastelu="muokkausOikeustarkastelu">
-                  <slot name="kopioi" :data="inner" :support-data="innerSupport">
-                    <ep-button id="editointi-kopiointi"
-                              variant="link"
-                              icon="edit"
-                              v-oikeustarkastelu="muokkausOikeustarkastelu"
-                              @click="copy()"
-                              :show-spinner="isSaving"
-                              :disabled="disabled">
-                      <slot name="kopioi-teksti">{{ $t('kopioi-muokattavaksi') }}</slot>
+                <div
+                  v-else-if="!isEditing && features.copyable"
+                  v-oikeustarkastelu="muokkausOikeustarkastelu"
+                >
+                  <slot
+                    name="kopioi"
+                    :data="inner"
+                    :support-data="innerSupport"
+                  >
+                    <ep-button
+                      id="editointi-kopiointi"
+                      v-oikeustarkastelu="muokkausOikeustarkastelu"
+                      variant="link"
+                      icon="edit"
+                      :show-spinner="isSaving"
+                      :disabled="disabled"
+                      @click="copy()"
+                    >
+                      <slot name="kopioi-teksti">
+                        {{ $t('kopioi-muokattavaksi') }}
+                      </slot>
                     </ep-button>
                   </slot>
                 </div>
-                <span v-else-if="muokkausEiSallittu" class="disabled-text">
-                  {{$t('muokkausta-ei-sallittu')}}
+                <span
+                  v-else-if="muokkausEiSallittu"
+                  class="disabled-text"
+                >
+                  {{ $t('muokkausta-ei-sallittu') }}
                 </span>
-                <b-dropdown class="mx-4"
-                            v-if="katseluDropDownValinnatVisible"
-                            size="md"
-                            variant="link"
-                            :disabled="disabled"
-                            toggle-class="text-decoration-none"
-                            no-caret="no-caret"
-                            right
-                            v-oikeustarkastelu="{ oikeus: 'luku' }">
+                <b-dropdown
+                  v-if="katseluDropDownValinnatVisible"
+                  v-oikeustarkastelu="{ oikeus: 'luku' }"
+                  class="mx-4"
+                  size="md"
+                  variant="link"
+                  :disabled="disabled"
+                  toggle-class="text-decoration-none"
+                  no-caret="no-caret"
+                  right
+                >
                   <template slot="button-content">
                     <EpMaterialIcon>more_horiz</EpMaterialIcon>
                   </template>
                   <b-dropdown-item
+                    v-if="features.removable && !disabled"
+                    key="poista"
                     v-oikeustarkastelu="muokkausOikeustarkastelu"
                     @click="remove()"
-                    key="poista"
-                    v-if="features.removable && !disabled">
-                    <slot name="poista">{{ poistoteksti }}</slot>
+                  >
+                    <slot name="poista">
+                      {{ poistoteksti }}
+                    </slot>
                   </b-dropdown-item>
                   <b-dropdown-item
-                  v-oikeustarkastelu="muokkausOikeustarkastelu"
                     v-if="!hidden && features.hideable && !disabled"
+                    key="piilota"
+                    v-oikeustarkastelu="muokkausOikeustarkastelu"
                     @click="hide()"
-                    key="piilota">
-                    <slot name="piilota">{{ $t('piilota') }}</slot>
+                  >
+                    <slot name="piilota">
+                      {{ $t('piilota') }}
+                    </slot>
                   </b-dropdown-item>
                   <b-dropdown-item
-                  v-oikeustarkastelu="muokkausOikeustarkastelu"
                     v-if="hidden && features.hideable && !disabled"
+                    key="palauta"
+                    v-oikeustarkastelu="muokkausOikeustarkastelu"
                     @click="unHide()"
-                    key="palauta">
-                    <slot name="palauta">{{ $t('palauta') }}</slot>
+                  >
+                    <slot name="palauta">
+                      {{ $t('palauta') }}
+                    </slot>
                   </b-dropdown-item>
                   <b-dropdown-item :disabled="!features.previewable || disabled">
                     {{ $t('esikatsele-sivua') }}
@@ -162,77 +257,104 @@
                   <b-dropdown-item v-if="store.validate && !disabled">
                     {{ $t('validoi') }}
                   </b-dropdown-item>
-                  <b-dropdown-item v-if="features.recoverable" :disabled="!historia || disabled">
-                    <ep-versio-modaali :value="current"
+                  <b-dropdown-item
+                    v-if="features.recoverable"
+                    :disabled="!historia || disabled"
+                  >
+                    <ep-versio-modaali
+                      :value="current"
                       :versions="historia"
                       :current="current"
                       :per-page="10"
-                      @restore="restore($event)" />
+                      @restore="restore($event)"
+                    />
                   </b-dropdown-item>
                 </b-dropdown>
-                <ep-round-button class="ml-2"
-                                 :disabled="disabled"
-                                 id="editointi-muokkaus-comments"
-                                 v-if="hasKeskusteluSlot"
-                                 @click="toggleSidebarState(1)"
-                                 icon="comment"
-                                 variant="lightblue fa-flip-horizontal" />
-                <ep-round-button class="ml-2"
-                                 :disabled="disabled"
-                                 id="editointi-muokkaus-question"
-                                 v-if="hasOhjeSlot"
-                                 @click="toggleSidebarState(2)"
-                                 icon="question_mark"
-                                 variant="green" />
-                <ep-round-button class="ml-2"
-                                 :disabled="disabled"
-                                 v-if="hasPerusteSlot"
-                                 @click="toggleSidebarState(3)"
-                                 icon="account_balance"
-                                 variant="pink" />
+                <ep-round-button
+                  v-if="hasKeskusteluSlot"
+                  id="editointi-muokkaus-comments"
+                  class="ml-2"
+                  :disabled="disabled"
+                  icon="comment"
+                  variant="lightblue fa-flip-horizontal"
+                  @click="toggleSidebarState(1)"
+                />
+                <ep-round-button
+                  v-if="hasOhjeSlot"
+                  id="editointi-muokkaus-question"
+                  class="ml-2"
+                  :disabled="disabled"
+                  icon="question_mark"
+                  variant="green"
+                  @click="toggleSidebarState(2)"
+                />
+                <ep-round-button
+                  v-if="hasPerusteSlot"
+                  class="ml-2"
+                  :disabled="disabled"
+                  icon="account_balance"
+                  variant="pink"
+                  @click="toggleSidebarState(3)"
+                />
               </div>
             </div>
           </div>
         </div>
-        <div class="d-flex align-items-center versiohistoria" v-if="versiohistoriaVisible">
+        <div
+          v-if="versiohistoriaVisible"
+          class="d-flex align-items-center versiohistoria"
+        >
           <div class="headerline">
             <span>{{ $t('muokkaushistoria') }}: {{ $t('versionumero') }} {{ versionumero }}</span>
           </div>
           <div class="flex-fill">
-            <b-pagination :value="versionumero"
-              @input="updateVersionumero"
+            <b-pagination
+              :value="versionumero"
               :total-rows="versions"
               :per-page="1"
               :hide-goto-end-buttons="true"
               size="sm"
-              class="mb-0">
-              <template v-slot:prev-text>
+              class="mb-0"
+              @input="updateVersionumero"
+            >
+              <template #prev-text>
                 <EpMaterialIcon>chevron_left</EpMaterialIcon>
               </template>
-              <template v-slot:next-text>
+              <template #next-text>
                 <EpMaterialIcon>chevron_right</EpMaterialIcon>
               </template>
             </b-pagination>
           </div>
           <div class="floating-editing-buttons">
-            <ep-button variant="link"
-                       icon="menu">
-              <ep-versio-modaali :value="current"
+            <ep-button
+              variant="link"
+              icon="menu"
+            >
+              <ep-versio-modaali
+                :value="current"
                 :versions="historia"
                 :current="current"
                 :per-page="10"
-                @restore="restore($event)">
+                @restore="restore($event)"
+              >
                 {{ $t('palaa-listaan') }}
               </ep-versio-modaali>
             </ep-button>
-            <ep-button variant="link"
-                       @click="restore({ numero: current.numero, routePushLatest: true })"
-                       icon="keyboard_return">
+            <ep-button
+              variant="link"
+              icon="keyboard_return"
+              @click="restore({ numero: current.numero, routePushLatest: true })"
+            >
               {{ $t('palauta-tama-versio') }}
             </ep-button>
             <div class="btn">
               <router-link :to="{ query: {} }">
-                <EpMaterialIcon :background="'inherit'" :color="'inherit'">close</EpMaterialIcon>
+                <EpMaterialIcon
+                  :background="'inherit'"
+                  :color="'inherit'"
+                >
+                  close
+                </EpMaterialIcon>
               </router-link>
             </div>
           </div>
@@ -241,48 +363,100 @@
       <div v-if="inner">
         <div class="threads">
           <div class="actual-content">
-            <div v-if="hasInfoSlotContent" class="info d-flex">
-              <EpMaterialIcon class="mr-1" :color="'#2a2a2a'">info</EpMaterialIcon>
-              <slot name="info"></slot>
+            <div
+              v-if="hasInfoSlotContent"
+              class="info d-flex"
+            >
+              <EpMaterialIcon
+                class="mr-1"
+                :color="'#2a2a2a'"
+              >
+                info
+              </EpMaterialIcon>
+              <slot name="info" />
             </div>
             <div class="sisalto">
-              <slot :isEditing="isEditing" :support-data="innerSupport" :data="inner" :validation="validation" :isCopyable="features.copyable"></slot>
+              <slot
+                :is-editing="isEditing"
+                :support-data="innerSupport"
+                :data="inner"
+                :validation="validation"
+                :is-copyable="features.copyable"
+              />
             </div>
           </div>
-          <div class="rightbar rb-keskustelu" v-if="hasKeskusteluSlot && sidebarState === 1">
-            <div class="rbheader"><b>{{ $t('keskustelu') }}</b></div>
+          <div
+            v-if="hasKeskusteluSlot && sidebarState === 1"
+            class="rightbar rb-keskustelu"
+          >
+            <div class="rbheader">
+              <b>{{ $t('keskustelu') }}</b>
+            </div>
             <div class="rbcontent">
-              <slot name="keskustelu" :isEditing="isEditing" :support-data="innerSupport" :data="inner" :validation="validation"></slot>
+              <slot
+                name="keskustelu"
+                :is-editing="isEditing"
+                :support-data="innerSupport"
+                :data="inner"
+                :validation="validation"
+              />
             </div>
           </div>
-          <div class="rightbar rb-ohje" v-if="hasOhjeSlot && sidebarState === 2">
-            <div class="rbheader"><b>{{ $t('ohje') }}</b></div>
+          <div
+            v-if="hasOhjeSlot && sidebarState === 2"
+            class="rightbar rb-ohje"
+          >
+            <div class="rbheader">
+              <b>{{ $t('ohje') }}</b>
+            </div>
             <div class="rbcontent">
-              <slot name="ohje" :isEditing="isEditing" :support-data="innerSupport" :validation="validation" :data="inner"></slot>
+              <slot
+                name="ohje"
+                :is-editing="isEditing"
+                :support-data="innerSupport"
+                :validation="validation"
+                :data="inner"
+              />
             </div>
           </div>
-          <div class="rightbar rb-peruste" v-if="hasPerusteSlot && sidebarState === 3">
-            <div class="rbheader"><b>{{ $t('perusteen-teksti') }}</b></div>
+          <div
+            v-if="hasPerusteSlot && sidebarState === 3"
+            class="rightbar rb-peruste"
+          >
+            <div class="rbheader">
+              <b>{{ $t('perusteen-teksti') }}</b>
+            </div>
             <div class="rbcontent">
-              <slot name="peruste" :isEditing="isEditing" :support-data="innerSupport" :validation="validation" :data="inner"></slot>
+              <slot
+                name="peruste"
+                :is-editing="isEditing"
+                :support-data="innerSupport"
+                :validation="validation"
+                :data="inner"
+              />
             </div>
           </div>
         </div>
       </div>
       <template v-if="hasFooterSlot">
-        <div v-if="inner" class="alapaneeli py-3 px-2">
-          <slot name="footer"
-            :isEditing="isEditing"
+        <div
+          v-if="inner"
+          class="alapaneeli py-3 px-2"
+        >
+          <slot
+            name="footer"
+            :is-editing="isEditing"
             :support-data="innerSupport"
             :data="inner"
             :cancel="cancel"
             :save="save"
             :disabled="disabled"
             :validation="validation"
-            :isSaving="isSaving"
+            :is-saving="isSaving"
             :modify="modify"
             :remove="remove"
-            :editable="features.editable"/>
+            :editable="features.editable"
+          />
         </div>
         <EpSpinner v-else />
       </template>

@@ -1,54 +1,90 @@
 <template>
-<draggable v-bind="options"
-           tag="div"
-           class="tree-container"
-           :class="draggableClass"
-           :value="value"
-           @input="emitter"
-           :key="value.length"
-           :move="move">
-  <div v-for="(node, idx) in value" :key="idx">
-    <div class="box d-flex align-items-center" :class="{ 'new-box': node.$uusi, 'box-draggable': isEditable }" >
-      <div class="handle">
-        <EpMaterialIcon v-if="isEditable && !options.disabled">drag_indicator</EpMaterialIcon>
-      </div>
-      <slot name="chapter">
-        <div class="chapter">
-          {{ prefix }}{{ idx + 1 }}
+  <draggable
+    v-bind="options"
+    :key="value.length"
+    tag="div"
+    class="tree-container"
+    :class="draggableClass"
+    :value="value"
+    :move="move"
+    @input="emitter"
+  >
+    <div
+      v-for="(node, idx) in value"
+      :key="idx"
+    >
+      <div
+        class="box d-flex align-items-center"
+        :class="{ 'new-box': node.$uusi, 'box-draggable': isEditable }"
+      >
+        <div class="handle">
+          <EpMaterialIcon v-if="isEditable && !options.disabled">
+            drag_indicator
+          </EpMaterialIcon>
         </div>
-      </slot>
-      <div class="name">
-        <slot :node="node"></slot>
+        <slot name="chapter">
+          <div class="chapter">
+            {{ prefix }}{{ idx + 1 }}
+          </div>
+        </slot>
+        <div class="name">
+          <slot :node="node" />
+        </div>
+        <div
+          v-if="node[childField] && node[childField] != null && node[childField].length > 0"
+          class="actions ml-auto"
+          role="button"
+          tabindex="0"
+          :aria-expanded="!node.$closed"
+          @click="toggle(idx)"
+          @keyup.enter="toggle(idx)"
+        >
+          <EpMaterialIcon
+            v-if="node.$closed"
+            size="28px"
+          >
+            expand_more
+          </EpMaterialIcon>
+          <EpMaterialIcon
+            v-else
+            size="28px"
+          >
+            expand_less
+          </EpMaterialIcon>
+        </div>
       </div>
       <div
-        v-if="node[childField] && node[childField] != null && node[childField].length > 0"
-        class="actions ml-auto"
-        role="button"
-        tabindex="0"
-        @click="toggle(idx)"
-        @keyup.enter="toggle(idx)"
-        :aria-expanded="!node.$closed">
-        <EpMaterialIcon v-if="node.$closed" size="28px">expand_more</EpMaterialIcon>
-        <EpMaterialIcon v-else size="28px">expand_less</EpMaterialIcon>
-      </div>
-    </div>
-    <div class="children" v-if="!node.$closed && node[childField] && node[childField] != null">
-      <ep-jarjesta
+        v-if="!node.$closed && node[childField] && node[childField] != null"
+        class="children"
+      >
+        <ep-jarjesta
           v-model="node[childField]"
           :is-editable="isEditable"
           :prefix="prefix + (idx + 1) + '.'"
           :child-field="childField"
           :sortable="node.sortable"
           :group="node.group ? node.group + idx : (uniqueChildGroups ? group + idx : group)"
-          :allowMove="allowMove">
-        <slot v-for="(_, name) in $slots" :name="name" :slot="name"></slot>
-        <template v-for="(_, name) in $scopedSlots" :slot="name" slot-scope="data">
-          <slot :name="name" v-bind="data" />
-        </template>
-      </ep-jarjesta>
+          :allow-move="allowMove"
+        >
+          <slot
+            v-for="(_, name) in $slots"
+            :slot="name"
+            :name="name"
+          />
+          <template
+            v-for="(_, name) in $scopedSlots"
+            :slot="name"
+            slot-scope="data"
+          >
+            <slot
+              :name="name"
+              v-bind="data"
+            />
+          </template>
+        </ep-jarjesta>
+      </div>
     </div>
-  </div>
-</draggable>
+  </draggable>
 </template>
 
 <script lang="ts">

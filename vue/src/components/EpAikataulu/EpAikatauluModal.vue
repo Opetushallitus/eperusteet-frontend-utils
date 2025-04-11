@@ -1,42 +1,56 @@
 <template>
   <div>
-    <ep-button v-if="aikataulut && aikataulut.length > 0"
-      @click="openModal"
-      buttonClass="pr-1"
+    <ep-button
+      v-if="aikataulut && aikataulut.length > 0"
+      v-oikeustarkastelu="{ oikeus: 'muokkaus' }"
+      button-class="pr-1"
       variant="link"
       icon="edit"
-      v-oikeustarkastelu="{ oikeus: 'muokkaus' }">
+      @click="openModal"
+    >
       {{ $t('muokkaa') }}
     </ep-button>
 
-    <b-modal ref="aikataulumodal" id="aikataulumodal" size="lg" :hide-header-close="true" @ok="tallenna" :ok-disabled="invalid">
-
-      <template v-slot:modal-title>
+    <b-modal
+      id="aikataulumodal"
+      ref="aikataulumodal"
+      size="lg"
+      :hide-header-close="true"
+      :ok-disabled="invalid"
+      @ok="tallenna"
+    >
+      <template #modal-title>
         {{ aikataulut && aikataulut.length > 0 ? $t('muokkaa-aikataulua') : $t('ota-aikataulu-kayttoon') }}
       </template>
 
-      <slot name="selite"></slot>
+      <slot name="selite" />
 
       <ep-aikataulu-listaus
         ref="epAikatauluListaus"
-        :aikataulutProp="aikataulutClone"
-        :immutableAikataulut="immutableAikataulut"
-        :rootModel="rootModel"
+        :aikataulut-prop="aikataulutClone"
+        :immutable-aikataulut="immutableAikataulut"
+        :root-model="rootModel"
+        :julkinen-valinta="julkinenValinta"
+        :pakolliset-tapahtumat="pakollisetTapahtumat"
         @setInvalid="setInvalid"
-        :julkinenValinta="julkinenValinta"
-        :pakollisetTapahtumat="pakollisetTapahtumat">
-        <template v-slot:luomispaiva-topic><slot name="luomispaiva-topic"></slot></template>
-        <template v-slot:julkaisupaiva-topic><slot name="julkaisupaiva-topic"></slot></template>
-        <template v-slot:aikataululistaus-julkaisu-header><slot name="aikataululistaus-julkaisu-header"></slot></template>
+      >
+        <template #luomispaiva-topic>
+          <slot name="luomispaiva-topic" />
+        </template>
+        <template #julkaisupaiva-topic>
+          <slot name="julkaisupaiva-topic" />
+        </template>
+        <template #aikataululistaus-julkaisu-header>
+          <slot name="aikataululistaus-julkaisu-header" />
+        </template>
       </ep-aikataulu-listaus>
 
-      <template v-slot:modal-cancel>
-        {{ $t('peruuta')}}
+      <template #modal-cancel>
+        {{ $t('peruuta') }}
       </template>
-      <template v-slot:modal-ok >
-        {{ $t('tallenna')}}
+      <template #modal-ok>
+        {{ $t('tallenna') }}
       </template>
-
     </b-modal>
   </div>
 </template>

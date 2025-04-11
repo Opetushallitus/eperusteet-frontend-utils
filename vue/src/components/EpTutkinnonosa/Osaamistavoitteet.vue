@@ -1,23 +1,42 @@
 <template>
   <div>
-    <ep-collapse :borderBottom="true">
-      <h3 slot="header">{{ nimi }}</h3>
+    <ep-collapse :border-bottom="true">
+      <h3 slot="header">
+        {{ nimi }}
+      </h3>
       <EpAmmattitaitovaatimukset
         v-if="perusteenOsaamistavoite"
         tavoitekoodisto="osaamistavoitteet"
         :value="perusteenOsaamistavoite.tavoitteet"
-        :is-editing="false" />
+        :is-editing="false"
+      />
     </ep-collapse>
 
-    <ep-collapse :borderBottom="true" :collapsable="!isEditing" :class="{'pt-0 pb-0': isEditing}">
-      <h3 slot="header" v-if="!isEditing">{{ $t('arviointi') }}</h3>
+    <ep-collapse
+      :border-bottom="true"
+      :collapsable="!isEditing"
+      :class="{'pt-0 pb-0': isEditing}"
+    >
+      <h3
+        v-if="!isEditing"
+        slot="header"
+      >
+        {{ $t('arviointi') }}
+      </h3>
       <div v-if="perusteData">
-        <GeneerinenArviointiTaulukko v-if="perusteData.geneerinenArviointiasteikko"
-                                     :arviointi="perusteData.geneerinenArviointiasteikko" />
-        <Arviointi2020Taulukko v-else-if="perusteData.tyyppi === 'osaalue2020' && perusteData.arviointi"
-                                     :arviointi="perusteData.arviointi" />
+        <GeneerinenArviointiTaulukko
+          v-if="perusteData.geneerinenArviointiasteikko"
+          :arviointi="perusteData.geneerinenArviointiasteikko"
+        />
+        <Arviointi2020Taulukko
+          v-else-if="perusteData.tyyppi === 'osaalue2020' && perusteData.arviointi"
+          :arviointi="perusteData.arviointi"
+        />
       </div>
-      <div class="alert alert-warning" v-else>
+      <div
+        v-else
+        class="alert alert-warning"
+      >
         {{ $t('perusteella-virheellinen-arviointi') }}
       </div>
     </ep-collapse>

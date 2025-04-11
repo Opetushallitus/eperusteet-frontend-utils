@@ -2,35 +2,61 @@
   <div>
     <ep-spinner v-if="dokumenttiLataa" />
     <div v-else>
-      <div class="row pdf-box align-items-center justify-content-between"
-           :class="{'luotu': dokumenttiLuotu, 'ei-luotu': !dokumenttiLuotu, 'polling': polling, 'epaonnistui': dokumenttiEpaonnistui}">
+      <div
+        class="row pdf-box align-items-center justify-content-between"
+        :class="{'luotu': dokumenttiLuotu, 'ei-luotu': !dokumenttiLuotu, 'polling': polling, 'epaonnistui': dokumenttiEpaonnistui}"
+      >
         <div class="col col-auto ikoni">
-          <EpMaterialIcon size="48px">picture_as_pdf</EpMaterialIcon>
+          <EpMaterialIcon size="48px">
+            picture_as_pdf
+          </EpMaterialIcon>
         </div>
         <div class="col-lg teksti">
-            <span v-if="dokumenttiLuotu">
-              {{pdfnimi}}.pdf
-            </span>
+          <span v-if="dokumenttiLuotu">
+            {{ pdfnimi }}.pdf
+          </span>
           <span v-else-if="dokumenttiEpaonnistui">
             <span v-if="dokumentti.julkaisuDokumentti">
-              {{$t('julkaisu-pdf-tiedosto-luonti-epaonnistui')}}
+              {{ $t('julkaisu-pdf-tiedosto-luonti-epaonnistui') }}
             </span>
             <span v-else>
-              {{$t('pdf-tiedosto-luonti-epaonnistui')}}
+              {{ $t('pdf-tiedosto-luonti-epaonnistui') }}
             </span>
           </span>
           <span v-else>
-              {{$t('pdf-tiedostoa-ei-ole-viela-luotu')}}
-            </span>
+            {{ $t('pdf-tiedostoa-ei-ole-viela-luotu') }}
+          </span>
         </div>
-        <div class="col-sm-3 text-left luomisaika" v-if="dokumenttiLuotu && !polling">
-          <span class="luontitiedot">{{$t('luotu')}}: {{$sdt(dokumentti.valmistumisaika)}}</span>
-          <span class="luontitiedot" v-if="dokumentti.julkaisuDokumentti || isKvLiite">{{$t('julkaistu')}}</span>
-          <span class="luontitiedot" v-else>{{$t('tyoversio')}}</span>
+        <div
+          v-if="dokumenttiLuotu && !polling"
+          class="col-sm-3 text-left luomisaika"
+        >
+          <span class="luontitiedot">{{ $t('luotu') }}: {{ $sdt(dokumentti.valmistumisaika) }}</span>
+          <span
+            v-if="dokumentti.julkaisuDokumentti || isKvLiite"
+            class="luontitiedot"
+          >{{ $t('julkaistu') }}</span>
+          <span
+            v-else
+            class="luontitiedot"
+          >{{ $t('tyoversio') }}</span>
         </div>
-        <div class="col-sm-2 text-left" v-if="dokumenttiLuotu">
-          <a class="btn btn-link pl-0" :href="dokumenttiHref" target="_blank" rel="noopener noreferrer" variant="link">
-            <EpMaterialIcon class="mr-1" icon-shape="outlined" size="18px">visibility</EpMaterialIcon>
+        <div
+          v-if="dokumenttiLuotu"
+          class="col-sm-2 text-left"
+        >
+          <a
+            class="btn btn-link pl-0"
+            :href="dokumenttiHref"
+            target="_blank"
+            rel="noopener noreferrer"
+            variant="link"
+          >
+            <EpMaterialIcon
+              class="mr-1"
+              icon-shape="outlined"
+              size="18px"
+            >visibility</EpMaterialIcon>
             <span>{{ $t('esikatsele-ja-lataa') }}</span>
           </a>
         </div>

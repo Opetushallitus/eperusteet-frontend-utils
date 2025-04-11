@@ -1,21 +1,36 @@
 <template>
   <div>
-    <b-button :id="id" variant="link">
-      <EpMaterialIcon icon-shape="outlined" size="20px">info</EpMaterialIcon>
+    <b-button
+      :id="id"
+      variant="link"
+    >
+      <EpMaterialIcon
+        icon-shape="outlined"
+        size="20px"
+      >
+        info
+      </EpMaterialIcon>
     </b-button>
     <b-popover
+      ref="kaytossa"
       :target="id"
       :triggers="triggers"
-      ref="kaytossa"
+      :title="$t('kaytossa-toisaalla')"
       @shown="shown"
-      :title="$t('kaytossa-toisaalla')">
-
+    >
       <ep-spinner v-if="isLoading" />
-      <div v-else-if="data && data.data.length > 0" class="listaus">
+      <div
+        v-else-if="data && data.data.length > 0"
+        class="listaus"
+      >
         <div class="info">
           {{ $t('loytyi-tutkinnon-osaa', { amount: data.kokonaismäärä }) }}
         </div>
-        <div v-for="(item, idx) in data.data" class="kaytetty" :key="idx">
+        <div
+          v-for="(item, idx) in data.data"
+          :key="idx"
+          class="kaytetty"
+        >
           <div>
             {{ $kaanna(item.peruste.nimi) }}:
           </div>
@@ -23,12 +38,17 @@
             {{ $kaanna(item.tutkinnonOsa.nimi) }}
           </div>
         </div>
-        <EpPagination :value="page"
-                      :per-page="perPage"
-                      :total-rows="data.kokonaismäärä"
-                      @input="fetch" />
+        <EpPagination
+          :value="page"
+          :per-page="perPage"
+          :total-rows="data.kokonaismäärä"
+          @input="fetch"
+        />
       </div>
-      <div class="ei-hakutuloksia" v-else>
+      <div
+        v-else
+        class="ei-hakutuloksia"
+      >
         {{ $t('ei-hakutuloksia') }}
       </div>
     </b-popover>

@@ -1,20 +1,38 @@
 <template>
-<div class="filter" role="search" :class="{'maxWidth': maxWidth}">
-    <label :for="id" v-if="labelSlot"><slot name="label"/></label>
-    <label :for="id" class="sr-only" v-if="srOnlyLabelText">{{srOnlyLabelText}}</label>
+  <div
+    class="filter"
+    role="search"
+    :class="{'maxWidth': maxWidth}"
+  >
+    <label
+      v-if="labelSlot"
+      :for="id"
+    ><slot name="label" /></label>
+    <label
+      v-if="srOnlyLabelText"
+      :for="id"
+      class="sr-only"
+    >{{ srOnlyLabelText }}</label>
     <span class="form-control-feedback">
       <EpMaterialIcon class="icon">search</EpMaterialIcon>
     </span>
-    <input :id="id"
-           class="form-control"
-           type="search"
-           :placeholder="placeholderText"
-           aria-describedby="hakuohje"
-           @input="onInput($event.target.value)"
-           :value="val"
-           :maxlength="maxlength">
-    <p class="sr-only" id="hakuohje">{{ $t('saavutettavuus-hakuohje')}}</p>
-</div>
+    <input
+      :id="id"
+      class="form-control"
+      type="search"
+      :placeholder="placeholderText"
+      aria-describedby="hakuohje"
+      :value="val"
+      :maxlength="maxlength"
+      @input="onInput($event.target.value)"
+    >
+    <p
+      id="hakuohje"
+      class="sr-only"
+    >
+      {{ $t('saavutettavuus-hakuohje') }}
+    </p>
+  </div>
 </template>
 
 <script lang="ts">

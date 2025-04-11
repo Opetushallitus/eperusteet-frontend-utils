@@ -1,33 +1,55 @@
 <template>
-<div v-if="isEditable">
-  <div class="arvo" v-for="(value, idx) in internal" :key="idx">
-    <ep-input v-model="internal[idx][kentta]" :is-editing="true" class="mb-2">
-      <div slot="left" style="padding: 8px">
-        <i>&#8226;</i>
-      </div>
-      <div slot="right">
-        <b-button variant="link" @click="poista(idx)">
-          <EpMaterialIcon>close</EpMaterialIcon>
-        </b-button>
-      </div>
-    </ep-input>
+  <div v-if="isEditable">
+    <div
+      v-for="(value, idx) in internal"
+      :key="idx"
+      class="arvo"
+    >
+      <ep-input
+        v-model="internal[idx][kentta]"
+        :is-editing="true"
+        class="mb-2"
+      >
+        <div
+          slot="left"
+          style="padding: 8px"
+        >
+          <i>&#8226;</i>
+        </div>
+        <div slot="right">
+          <b-button
+            variant="link"
+            @click="poista(idx)"
+          >
+            <EpMaterialIcon>close</EpMaterialIcon>
+          </b-button>
+        </div>
+      </ep-input>
+    </div>
+    <div style="margin-top: 20px;">
+      <ep-button
+        variant="outline-primary"
+        icon="add"
+        @click="lisaaRivi()"
+      >
+        {{ $t(lisays) }}
+      </ep-button>
+    </div>
   </div>
-  <div style="margin-top: 20px;">
-    <ep-button
-      variant="outline-primary"
-      icon="add"
-      @click="lisaaRivi()">
-      {{ $t(lisays) }}
-    </ep-button>
+  <div v-else>
+    <ul class="arvot">
+      <li
+        v-for="(value, idx) in internal"
+        :key="idx"
+        class="arvo"
+      >
+        <ep-input
+          :value="internal[idx][kentta]"
+          :is-editing="false"
+        />
+      </li>
+    </ul>
   </div>
-</div>
-<div v-else>
-  <ul class="arvot">
-    <li class="arvo" v-for="(value, idx) in internal" :key="idx">
-      <ep-input :value="internal[idx][kentta]" :is-editing="false" />
-    </li>
-  </ul>
-</div>
 </template>
 
 <script lang="ts">

@@ -2,7 +2,9 @@
   <div class="subview">
     <div class="top d-flex align-items-center">
       <slot name="header">
-        <h2 class="header">{{ header }}</h2>
+        <h2 class="header">
+          {{ header }}
+        </h2>
       </slot>
     </div>
     <div class="content">

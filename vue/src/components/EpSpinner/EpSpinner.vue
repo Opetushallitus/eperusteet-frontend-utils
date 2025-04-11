@@ -1,11 +1,23 @@
 <template>
-<div class="spinner" :class="{'small': small}">
-  <div class="oph-spinner">
-    <div class="oph-bounce oph-bounce1" :style="style"></div>
-    <div class="oph-bounce oph-bounce2" :style="style"></div>
-    <div class="oph-bounce oph-bounce3" :style="style"></div>
+  <div
+    class="spinner"
+    :class="{'small': small}"
+  >
+    <div class="oph-spinner">
+      <div
+        class="oph-bounce oph-bounce1"
+        :style="style"
+      />
+      <div
+        class="oph-bounce oph-bounce2"
+        :style="style"
+      />
+      <div
+        class="oph-bounce oph-bounce3"
+        :style="style"
+      />
+    </div>
   </div>
-</div>
 </template>
 
 <script lang="ts">

@@ -1,8 +1,8 @@
 <template>
-<div class="spinner">
-  <ep-spinner v-if="isLoading"/>
-  <slot v-else></slot>
-</div>
+  <div class="spinner">
+    <ep-spinner v-if="isLoading" />
+    <slot v-else />
+  </div>
 </template>
 
 <script lang="ts">

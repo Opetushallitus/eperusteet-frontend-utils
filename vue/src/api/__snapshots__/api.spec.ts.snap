@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Api Has caller id 1`] = `
+exports[`Api > Has caller id 1`] = `
 {
   "common": {
     "Accept": "application/json, text/plain, */*",

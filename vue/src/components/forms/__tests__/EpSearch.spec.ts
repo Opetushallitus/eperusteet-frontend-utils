@@ -3,6 +3,7 @@ import EpSearch from '../EpSearch.vue';
 import VueI18n from 'vue-i18n';
 import { Kielet } from '../../../stores/kieli';
 import { wrap } from '../../../utils/jestutils';
+import { vi } from 'vitest';
 
 describe('EpSearch component', () => {
   const localVue = createLocalVue();
@@ -36,13 +37,13 @@ describe('EpSearch component', () => {
   };
 
   test('Renders content with content', async () => {
-    const testMethod = jest.fn();
+    const testMethod = vi.fn();
     const wrapper = mountWrapper(testMethod, { placeholder: null, rajain: '' });
     expect(wrapper.html()).toContain('Etsi');
   });
 
   test('Renders content with content and props', async () => {
-    const testMethod = jest.fn();
+    const testMethod = vi.fn();
     const wrapper = mountWrapper(testMethod, { placeholder: 'etsi-teksti', rajain: '', srOnlyLabelText: 'etsi-tietoja-sivulta-haku' });
     wrapper.setProps({ placeholder: 'etsi-teksti', srPlaceholder: 'etsi-tietoja-sivulta-haku' });
     await localVue.nextTick();
@@ -52,7 +53,7 @@ describe('EpSearch component', () => {
   });
 
   test('Renders content with content and props', async () => {
-    const testMethod = jest.fn();
+    const testMethod = vi.fn();
     const testrajain = '';
     const wrapper = mountWrapper(testMethod, { placeholder: 'etsi-teksti', rajain: testrajain });
 

@@ -2,13 +2,13 @@ import { createLogger } from '../utils/logger';
 import { Kieli } from '../tyypit';
 import _ from 'lodash';
 import VueI18n from 'vue-i18n';
-import Vue, { VueConstructor } from 'vue';
+import Vue, { VueConstructor, computed, reactive } from 'vue';
 import moment from 'moment';
-import VueCompositionApi, { computed, reactive } from '@vue/composition-api';
 import { updateRelativeTime } from '../plugins/aikaleima';
 import { Computed } from '../utils/interfaces';
-
-Vue.use(VueCompositionApi);
+import kfi from '../translations/locale-fi.json';
+import ksv from '../translations/locale-sv.json';
+import ken from '../translations/locale-en.json';
 
 declare module 'vue/types/vue' {
   interface Vue {
@@ -22,10 +22,6 @@ declare module 'vue/types/vue' {
 
 export const UiKielet = Object.freeze(['fi', 'sv', 'en']);
 const logger = createLogger('Kieli');
-
-const kfi = require('../translations/locale-fi.json');
-const ksv = require('../translations/locale-sv.json');
-const ken = require('../translations/locale-en.json');
 
 export function getMessages() {
   const result: any = {};

@@ -3,8 +3,15 @@
     <slot name="preHeading" />
     <slot name="heading" />
     <div class="content">
-      <div v-html="$kaannaOlioTaiTeksti(content)" :class="{'limited-content': showReadMore && !readMore}"></div>
-      <button v-if="showReadMore" class="read-more" @click="onReadMore">
+      <div
+        :class="{'limited-content': showReadMore && !readMore}"
+        v-html="$kaannaOlioTaiTeksti(content)"
+      />
+      <button
+        v-if="showReadMore"
+        class="read-more"
+        @click="onReadMore"
+      >
         {{ readMore ? $t('nayta-vahemman') : $t('lue-lisaa') }}
       </button>
     </div>

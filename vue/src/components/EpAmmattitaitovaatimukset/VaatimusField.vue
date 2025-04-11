@@ -1,6 +1,10 @@
 <template>
   <div>
-    <ep-koodisto-select :store="koodisto" v-model="value.koodi" v-if="value">
+    <ep-koodisto-select
+      v-if="value"
+      v-model="value.koodi"
+      :store="koodisto"
+    >
       <template #default="{ open }">
         <div class="d-flex flex-column">
           <div>
@@ -10,41 +14,63 @@
                   <EpMaterialIcon>drag_indicator</EpMaterialIcon>
                 </div>
                 <b-form-input
+                  v-if="!value.koodi"
+                  ref="input"
                   class="vaatimus"
                   :class="{ 'placeholder': placeholder }"
                   :value="vaatimus"
+                  :placeholder="placeholder"
                   @input="onInput"
                   @resize="onResize"
                   @focus="focused = true"
                   @blur="onBlur"
-                  :placeholder="placeholder"
-                  ref="input"
-                  v-if="!value.koodi" />
+                />
                 <b-form-input
+                  v-if="value.koodi"
                   class="vaatimus"
                   :value="($kaanna(value.koodi.nimi) || vaatimus) + ' (' + koodiArvo + ')'"
                   disabled
-                  v-if="value.koodi"></b-form-input>
+                />
                 <b-input-group-append>
-                  <b-button @click="open" variant="primary">
+                  <b-button
+                    variant="primary"
+                    @click="open"
+                  >
                     {{ $t('hae-koodistosta') }}
                   </b-button>
                 </b-input-group-append>
               </b-input-group>
             </ep-error-wrapper>
           </div>
-          <div class="datalist-wrapper" v-if="isDatalistVisible">
-            <div class="datalist-container" ref="datalistContainer">
-              <div v-if="isLoading" class="m-2">
+          <div
+            v-if="isDatalistVisible"
+            class="datalist-wrapper"
+          >
+            <div
+              ref="datalistContainer"
+              class="datalist-container"
+            >
+              <div
+                v-if="isLoading"
+                class="m-2"
+              >
                 <ep-spinner />
               </div>
-              <div class="datalist" v-else>
-                <div class="item"
-                     v-for="(item, idx) in koodit"
-                     ref="datalist"
-                     :key="'autocomplete-' + idx">
+              <div
+                v-else
+                class="datalist"
+              >
+                <div
+                  v-for="(item, idx) in koodit"
+                  ref="datalist"
+                  :key="'autocomplete-' + idx"
+                  class="item"
+                >
                   <div class="d-flex align-items-center">
-                    <div role="button" @click="valitse(item)">
+                    <div
+                      role="button"
+                      @click="valitse(item)"
+                    >
                       <span>{{ item.completion.left }}</span>
                       <span class="font-weight-bold">{{ item.completion.hit }}</span>
                       <span>{{ item.completion.right }}</span>

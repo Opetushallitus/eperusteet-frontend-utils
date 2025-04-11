@@ -2,23 +2,34 @@
   <ep-form-content>
     <slot name="header">
       <div class="d-flex">
-        <span class="kuvatyyppi mr-1">{{$t(tyyppi)}}</span>
-        <EpInfoPopover :unique-id="tyyppi">{{ kuvatyyppiInfo }}</EpInfoPopover>
+        <span class="kuvatyyppi mr-1">{{ $t(tyyppi) }}</span>
+        <EpInfoPopover :unique-id="tyyppi">
+          {{ kuvatyyppiInfo }}
+        </EpInfoPopover>
       </div>
     </slot>
 
-    <EpTiedostoInput @input="onInput"
-                     v-model="file"
-                     :file-types="fileTypes"
-                     :file="fileOrUrl"
-                     ref="fileInput">
+    <EpTiedostoInput
+      ref="fileInput"
+      v-model="file"
+      :file-types="fileTypes"
+      :file="fileOrUrl"
+      @input="onInput"
+    >
       <slot>
         <div class="justify-content-around align-items-center h-100 m-3">
           <div v-if="kuvaUrl">
-            <img :src="kuvaUrl" />
+            <img :src="kuvaUrl">
             <div class="vali-viiva justify-content-center">
-              <ep-button @click="removeImage()" variant="link" icon="delete" class="mt-2">
-                <slot name="poista">{{ $t('poista') }}</slot>
+              <ep-button
+                variant="link"
+                icon="delete"
+                class="mt-2"
+                @click="removeImage()"
+              >
+                <slot name="poista">
+                  {{ $t('poista') }}
+                </slot>
               </ep-button>
             </div>
           </div>
@@ -26,16 +37,33 @@
           <div v-else-if="file">
             <div class="h-100 justify-content-around align-items-center">
               <figure>
-                <img v-if="previewUrl" :src="previewUrl" />
+                <img
+                  v-if="previewUrl"
+                  :src="previewUrl"
+                >
                 <figcaption>{{ $t('fu-valittu-tiedosto') }}: {{ file ? file.name : '' }}</figcaption>
               </figure>
             </div>
             <div class="justify-content-center">
-              <ep-button v-if="fileValidi" @click="saveImage()" variant="link" icon="save" class="mr-5">
-                <slot name="tallenna">{{ $t('tallenna') }}</slot>
+              <ep-button
+                v-if="fileValidi"
+                variant="link"
+                icon="save"
+                class="mr-5"
+                @click="saveImage()"
+              >
+                <slot name="tallenna">
+                  {{ $t('tallenna') }}
+                </slot>
               </ep-button>
-              <ep-button @click="file = null" variant="link" icon="keyboard_return">
-                <slot name="peruuta">{{ $t('peruuta') }}</slot>
+              <ep-button
+                variant="link"
+                icon="keyboard_return"
+                @click="file = null"
+              >
+                <slot name="peruuta">
+                  {{ $t('peruuta') }}
+                </slot>
               </ep-button>
             </div>
           </div>

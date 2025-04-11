@@ -5,6 +5,8 @@ import { KoodistoSelectStore } from './KoodistoSelectStore';
 import { Page } from '../../tyypit';
 import { KoodistoKoodiDto } from '../../api/eperusteet';
 import _ from 'lodash';
+import { vi } from 'vitest';
+import Vue from 'vue';
 
 describe('EpKoodistoSelect component', () => {
   const localVue = createLocalVue();
@@ -12,7 +14,7 @@ describe('EpKoodistoSelect component', () => {
 
   const store = new KoodistoSelectStore({
     koodisto: 'test',
-    query: jest.fn(async () => {
+    query: vi.fn(async () => {
       return {
         data: [{
           koodiUri: 'koodiuri1',
@@ -61,9 +63,10 @@ describe('EpKoodistoSelect component', () => {
     }, {
       lisaaKoodit: (valittuKoodi) => {},
     });
-    wrapper.find({ ref: 'editModal' }).setProps({ static: true });
-    wrapper.find('#open').trigger('click');
+    (wrapper.find({ ref: 'editModal' }).vm as any).static = true;
     await localVue.nextTick();
+    wrapper.find('#open').trigger('click');
+    await Vue.nextTick();
     expect(wrapper.html()).toContain('koodiarvo1');
   });
 
@@ -76,12 +79,14 @@ describe('EpKoodistoSelect component', () => {
         koodi = valittuKoodi;
       },
     });
-    wrapper.find({ ref: 'editModal' }).setProps({ static: true });
-    wrapper.find('#open').trigger('click');
+    (wrapper.find({ ref: 'editModal' }).vm as any).static = true;
     await localVue.nextTick();
+    wrapper.find('#open').trigger('click');
+    await Vue.nextTick();
 
-    wrapper.findAll('tr[role="row"]').at(1)
-      .trigger('click');
+    wrapper.findAll('tr[role="row"]').at(1).trigger('click');
+
+    await Vue.nextTick();
 
     expect(koodi.uri).toBe('koodiuri1');
   });
@@ -95,18 +100,25 @@ describe('EpKoodistoSelect component', () => {
         koodit = valittuKoodi;
       },
     });
-    wrapper.find({ ref: 'editModal' }).setProps({ static: true });
+    (wrapper.find({ ref: 'editModal' }).vm as any).static = true;
+    await localVue.nextTick();
     wrapper.find('#open').trigger('click');
     await localVue.nextTick();
 
     wrapper.findAll('tr[role="row"]').at(1)
       .trigger('click');
+    await Vue.nextTick();
+
     wrapper.findAll('tr[role="row"]').at(2)
       .trigger('click');
+
+    await Vue.nextTick();
 
     expect(_.size(koodit)).toBe(0);
     wrapper.find('footer.modal-footer').find('.btn-primary')
       .trigger('click');
+
+    await Vue.nextTick();
 
     expect(_.size(koodit)).toBe(2);
     expect(koodit[0].uri).toBe('koodiuri1');

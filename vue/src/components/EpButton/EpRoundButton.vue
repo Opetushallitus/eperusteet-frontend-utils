@@ -1,9 +1,11 @@
 <template>
-  <button class="round-button"
-          :class="'round-button-' + variant"
-          v-bind="$attrs"
-          :disabled="disabled"
-          @click="$emit('click')">
+  <button
+    class="round-button"
+    :class="'round-button-' + variant"
+    v-bind="$attrs"
+    :disabled="disabled"
+    @click="$emit('click')"
+  >
     <EpMaterialIcon>{{ icon }}</EpMaterialIcon>
   </button>
 </template>
