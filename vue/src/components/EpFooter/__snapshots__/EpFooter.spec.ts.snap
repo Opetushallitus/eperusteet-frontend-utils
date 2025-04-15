@@ -4,7 +4,7 @@ exports[`EpFooter component > Renders 1`] = `
 "<footer data-v-d45b1334="">
   <div data-v-d45b1334="" class="footer-content link-style">
     <div data-v-d45b1334="" class="row">
-      <div data-v-d45b1334="" class="col-lg col-slot"><img data-v-d45b1334="" slot="footer-logo" src="/public/img/banners/oph_logo.svg" alt="oph"></div>
+      <div data-v-d45b1334="" class="col-lg col-slot"><img data-v-d45b1334="" src="/public/img/banners/oph_logo.svg" alt="oph"></div>
       <div data-v-d45b1334="" class="col-md col-slot">
         <p data-v-d45b1334="" class="linkki-kuvaus"> opetushallitus </p>
         <div data-v-742a49b4="" data-v-d45b1334="" class="linkki"><a data-v-742a49b4="" href="https://www.oph.fi/fi" rel="noopener noreferrer" target="_blank"><span data-v-07230345="" data-v-742a49b4="" class="icon mr-1 material-icons" style="font-size: 18px;" alt="avautuu-uuteen-valilehteen"> launch </span><span data-v-742a49b4="">www.oph.fi</span>

@@ -54,7 +54,9 @@
         </ep-button>
       </template>
 
-      <span slot="empty" />
+      <template #empty>
+        <span />
+      </template>
     </ep-koodisto-select>
   </div>
 </template>

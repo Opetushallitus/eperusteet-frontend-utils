@@ -3,7 +3,7 @@
     :container="true"
     class="mt-5"
   >
-    <template slot="header">
+    <template #header>
       <div class="d-flex justify-content-between align-items-center flex-wrap">
         <h1>{{ $t('tiedotteet') }}</h1>
         <ep-button

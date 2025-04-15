@@ -52,20 +52,14 @@
         :options="kasitteet"
         @input="onSelect"
       >
-        <template
-          slot="selected-option"
-          slot-scope="option"
-        >
+        <template #selected-option="option">
           <span>{{ $kaanna(option.termi) }}</span>
         </template>
-        <template
-          slot="option"
-          slot-scope="option"
-        >
+        <template #option="option">
           <div>
             <span>{{ $kaanna(option.termi) }}</span>
           </div>
-          <div class="pl-3 small font‑weight‑light">
+          <div class="pl-3 small font-weight-light">
             <span v-html="$kaanna(option.selitys)" />
           </div>
         </template>

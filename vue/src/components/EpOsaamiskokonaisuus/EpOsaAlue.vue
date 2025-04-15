@@ -2,13 +2,12 @@
   <div class="osa-alue">
     <div v-if="isEditing">
       <b-form-group>
-        <div
-          slot="label"
-          class="d-flex justify-content-between"
-        >
-          <div>{{ $t('osa-alueen-nimi') }}</div>
-          <slot name="poisto" />
-        </div>
+        <template #label>
+          <div class="d-flex justify-content-between">
+            <div>{{ $t('osa-alueen-nimi') }}</div>
+            <slot name="poisto" />
+          </div>
+        </template>
         <ep-input
           v-model="osaAlue.nimi"
           :is-editing="isEditing"

@@ -42,7 +42,7 @@
         :key="idx + '-paikallinen'"
         class="paikallinen-laaja-alainen"
       >
-        <div slot="header">
+        <div>
           <span v-if="laajaAlaisetKooditByUri[lo.koodi]">
             <h5 class="d-inline">{{ $kaanna(laajaAlaisetKooditByUri[lo.koodi].nimi) }}</h5>
             <b-button
@@ -99,10 +99,7 @@
           :key="index+'paik-laaja-osa'"
           class="paikallinen-laaja-alainen"
         >
-          <div
-            slot="header"
-            class="moduuliotsikko"
-          >
+          <div class="moduuliotsikko">
             <span v-if="laajaAlaisetKooditByUri[lo.koodi]">
               <h5>{{ $kaanna(laajaAlaisetKooditByUri[lo.koodi].nimi) }}</h5>
             </span>

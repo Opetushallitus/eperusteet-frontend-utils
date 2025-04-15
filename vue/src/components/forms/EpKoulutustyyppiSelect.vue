@@ -18,8 +18,7 @@
     :open-direction="'below'"
   >
     <template
-      slot="singleLabel"
-      slot-scope="{ option }"
+      #singleLabel="{option}"
     >
       <span :class="{'text-nowrap': !textWrap}">
         <slot
@@ -36,15 +35,11 @@
         <span class="ml-2">{{ $t(option.koulutustyyppi) }}</span>
       </span>
     </template>
-    <template
-      slot="option"
-      slot-scope="{ option }"
-    >
+    <template #option="{ option }">
       <hr
         v-if="option.$groupLabel"
         class="mt-0 mb-0"
       >
-
       <span
         v-else
         class="option text-nowrap"
@@ -68,10 +63,7 @@
     <template #checkbox>
       <span />
     </template>
-    <template
-      slot="selection"
-      slot-scope="{ values }"
-    >
+    <template #selection="{ values }">
       <div class="d-flex align-items-center">
         <template v-if="values.length === 1">
           <span

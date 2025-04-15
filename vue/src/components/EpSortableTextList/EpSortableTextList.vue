@@ -21,12 +21,13 @@
                 v-model="innerModel[i]"
                 :is-editing="isEditing"
               >
-                <div
-                  slot="left"
-                  class="order-handle m-2"
-                >
-                  <EpMaterialIcon>drag_indicator</EpMaterialIcon>
-                </div>
+                <template #left>
+                  <div
+                    class="order-handle m-2"
+                  >
+                    <EpMaterialIcon>drag_indicator</EpMaterialIcon>
+                  </div>
+                </template>
               </EpInput>
             </slot>
           </b-col>

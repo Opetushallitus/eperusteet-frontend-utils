@@ -68,7 +68,7 @@
           right
           no-caret
         >
-          <template slot="button-content">
+          <template #button-content>
             <div class="d-flex flex-row">
               <div class="kieli-valikko d-flex">
                 <span class="kielivalitsin text-left">{{ $t("kieli-sisalto") }}: </span>

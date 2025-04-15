@@ -14,7 +14,7 @@
         :color="correctColor"
         background-color="white"
       >
-        <template slot="fas">
+        <template #fas>
           <slot name="fas" />
         </template>
       </ep-icon>

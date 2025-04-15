@@ -4,7 +4,6 @@
       <div class="row">
         <div class="col-lg col-slot">
           <img
-            slot="footer-logo"
             src="@assets/img/banners/oph_logo.svg"
             :alt="$t('oph')"
           >

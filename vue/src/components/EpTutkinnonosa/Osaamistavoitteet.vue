@@ -1,9 +1,9 @@
 <template>
   <div>
     <ep-collapse :border-bottom="true">
-      <h3 slot="header">
-        {{ nimi }}
-      </h3>
+      <template #header>
+        <h3>{{ nimi }}</h3>
+      </template>
       <EpAmmattitaitovaatimukset
         v-if="perusteenOsaamistavoite"
         tavoitekoodisto="osaamistavoitteet"
@@ -17,12 +17,11 @@
       :collapsable="!isEditing"
       :class="{'pt-0 pb-0': isEditing}"
     >
-      <h3
-        v-if="!isEditing"
-        slot="header"
-      >
-        {{ $t('arviointi') }}
-      </h3>
+      <template #header>
+        <h3 v-if="!isEditing">
+          {{ $t('arviointi') }}
+        </h3>
+      </template>
       <div v-if="perusteData">
         <GeneerinenArviointiTaulukko
           v-if="perusteData.geneerinenArviointiasteikko"

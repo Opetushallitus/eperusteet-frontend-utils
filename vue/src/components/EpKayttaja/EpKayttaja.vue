@@ -5,7 +5,7 @@
       right
       no-caret
     >
-      <template slot="button-content">
+      <template #button-content>
         <div class="d-flex flex-row">
           <div class="kayttaja-valikko d-flex flex-column">
             <span class="kielivalitsin text-right">{{ esitysnimi }}</span>
@@ -25,7 +25,7 @@
         :use-padding="false"
         :border-bottom="false"
       >
-        <div slot="header">
+        <template #header>
           <div class="pl-3 pt-2 text-nowrap kieli">
             <EpMaterialIcon class="icon mr-3">
               group
@@ -36,12 +36,9 @@
             <span class="icon mr-3" />
             <small>{{ $kaanna(koulutustoimija.nimi) }}</small>
           </div>
-        </div>
+        </template>
 
-        <template
-          slot="icon"
-          slot-scope="{ toggled }"
-        >
+        <template #icon="{ toggled }">
           <div
             class="ml-auto align-self-start"
             style="padding: 0.8rem 1rem;"
@@ -115,7 +112,7 @@
         :use-padding="false"
         :border-bottom="false"
       >
-        <div slot="header">
+        <template #header>
           <div class="pl-3 pt-2 text-nowrap kieli">
             <EpMaterialIcon class="icon mr-3">
               language
@@ -126,12 +123,9 @@
             <span class="icon mr-3" />
             <small>{{ $t(uiKieli) }}</small>
           </div>
-        </div>
+        </template>
 
-        <template
-          slot="icon"
-          slot-scope="{ toggled }"
-        >
+        <template #icon="{ toggled }">
           <div
             class="ml-auto align-self-start"
             style="padding: 0.8rem 1rem;"
@@ -191,7 +185,7 @@
         :use-padding="false"
         :border-bottom="false"
       >
-        <div slot="header">
+        <template #header>
           <div class="pl-3 pt-2 text-nowrap kieli">
             <EpMaterialIcon class="icon mr-3">
               launch
@@ -205,12 +199,9 @@
             <span class="icon mr-3" />
             <small>{{ $t(valittuSovellus.eperusteSovellus.sovellus) }}</small>
           </div>
-        </div>
+        </template>
 
-        <template
-          slot="icon"
-          slot-scope="{ toggled }"
-        >
+        <template #icon="{ toggled }">
           <div
             class="ml-auto align-self-start"
             style="padding: 0.8rem 1rem;"

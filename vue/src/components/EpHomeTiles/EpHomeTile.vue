@@ -18,13 +18,13 @@
         :effects="effects"
         :count="count"
       >
-        <template slot="fas">
+        <template #fas>
           <slot name="fas" />
         </template>
-        <template slot="header">
+        <template #header>
           <slot name="header" />
         </template>
-        <template slot="content">
+        <template #content>
           <slot name="content" />
         </template>
       </InnerTile>
@@ -46,10 +46,10 @@
         :effects="effects"
         :count="count"
       >
-        <template slot="header">
+        <template #header>
           <slot name="header" />
         </template>
-        <template slot="content">
+        <template #content>
           <slot name="content" />
         </template>
       </InnerTile>

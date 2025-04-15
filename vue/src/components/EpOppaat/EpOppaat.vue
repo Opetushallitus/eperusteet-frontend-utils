@@ -1,6 +1,6 @@
 <template>
   <ep-main-view :container="true">
-    <template slot="header">
+    <template #header>
       <h1>{{ $t('ohjeet-ja-materiaalit') }}</h1>
     </template>
 

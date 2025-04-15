@@ -21,10 +21,7 @@
           :class="{'is-invalid': !innerModel.valid }"
           @input="handleInput($event, i)"
         >
-          <template
-            slot="option"
-            slot-scope="{ option }"
-          >
+          <template #option="{ option }">
             <div :class="{'child': option.child, 'unselectable': option.unselectable}">
               <slot
                 name="option"
@@ -35,10 +32,7 @@
             </div>
           </template>
 
-          <template
-            slot="singleLabel"
-            slot-scope="{ option }"
-          >
+          <template #singleLabel="{ option }">
             <slot
               v-if="option.value"
               name="singleLabel"
@@ -54,10 +48,10 @@
             </div>
           </template>
 
-          <template slot="noResult">
+          <template #noResult>
             <div>{{ $t('ei-hakutuloksia') }}</div>
           </template>
-          <template slot="noOptions">
+          <template #noOptions>
             <div>{{ $t('ei-vaihtoehtoja') }}</div>
           </template>
         </multiselect>

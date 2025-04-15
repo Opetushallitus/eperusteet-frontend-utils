@@ -12,7 +12,6 @@
           class="px-3 py-2 mb-4 taitotaso"
         >
           <div
-            slot="left"
             class="order-handle mb-1"
           >
             <EpMaterialIcon>drag_indicator</EpMaterialIcon>
@@ -149,9 +148,11 @@
         </h2>
 
         <b-form-group class="mt-3">
-          <h3 slot="label">
-            {{ tavoitteetOtsikko }}
-          </h3>
+          <template #label>
+            <h3>
+              {{ tavoitteetOtsikko }}
+            </h3>
+          </template>
           <ep-content
             v-if="kuvaHandler"
             :value="taitotaso.tavoitteet"
@@ -182,8 +183,8 @@
             v-if="taitotaso[keskeinenSisalto['object']]"
             class="mt-3 mb-2 p-0"
           >
-            <template v-if="keskeinenSisalto['otsikko']">
-              <h4 slot="label">
+            <template v-if="keskeinenSisalto['otsikko']" #label>
+              <h4>
                 {{ $t(keskeinenSisalto['otsikko']) }}
               </h4>
             </template>

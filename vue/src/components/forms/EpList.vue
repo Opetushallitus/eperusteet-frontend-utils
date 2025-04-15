@@ -10,20 +10,19 @@
         :is-editing="true"
         class="mb-2"
       >
-        <div
-          slot="left"
-          style="padding: 8px"
-        >
-          <i>&#8226;</i>
-        </div>
-        <div slot="right">
+        <template #left>
+          <div style="padding: 8px">
+            <i>&#8226;</i>
+          </div>
+        </template>
+        <template #right>
           <b-button
             variant="link"
             @click="poista(idx)"
           >
             <EpMaterialIcon>close</EpMaterialIcon>
           </b-button>
-        </div>
+        </template>
       </ep-input>
     </div>
     <div style="margin-top: 20px;">
