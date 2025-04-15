@@ -12,12 +12,11 @@
           class="pt-3 pb-2 px-3 mb-2 jarjestaja"
         >
           <div class="d-flex">
-            <div
-              slot="left"
-              class="order-handle mr-3 pt-1"
-            >
-              <EpMaterialIcon>drag_indicator</EpMaterialIcon>
-            </div>
+            <template #left>
+              <div class="order-handle mr-3 pt-1">
+                <EpMaterialIcon>drag_indicator</EpMaterialIcon>
+              </div>
+            </template>
             <div class="w-100">
               <b-input-group
                 :label="$t('organisaation-nimi')"

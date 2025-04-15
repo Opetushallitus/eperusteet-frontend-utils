@@ -79,12 +79,14 @@
             class="kohdealue mt-2"
           >
             <b-form-group class="w-100">
-              <div slot="label">
-                <span class="handle-kohdealue text-muted">
-                  <EpMaterialIcon size="20px">drag_indicator</EpMaterialIcon>
-                </span>
-                <span class="font-weight-bold">{{ kaannokset.kohdealue }}</span>
-              </div>
+              <template #label>
+                <div>
+                  <span class="handle-kohdealue text-muted">
+                    <EpMaterialIcon size="20px">drag_indicator</EpMaterialIcon>
+                  </span>
+                  <span class="font-weight-bold">{{ kaannokset.kohdealue }}</span>
+                </div>
+              </template>
               <ep-input
                 v-model="kohdealue.kuvaus"
                 :is-editing="true"

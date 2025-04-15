@@ -61,7 +61,9 @@
           </ep-form-content>
 
           <ep-form-content class="mt-3">
-            <label slot="header">{{ $t('kuvan-vaihtoehtoinen-teksti') }} *</label>
+            <template #header>
+              <label>{{ $t('kuvan-vaihtoehtoinen-teksti') }} *</label>
+            </template>
             <ep-field
               v-model="vaihtoehtoinenteksti"
               :is-editing="true"

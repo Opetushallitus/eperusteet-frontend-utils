@@ -41,9 +41,9 @@
       variant="primary"
       class="mb-4"
     >
-      <span slot="button-content">
+      <template #button-content>
         <slot name="default">Painike puuttuu</slot>
-      </span>
+      </template>
       <b-dropdown-item-button
         v-for="(koodi, index) in koodit"
         :key="index+'addKoodiTekstilla'"

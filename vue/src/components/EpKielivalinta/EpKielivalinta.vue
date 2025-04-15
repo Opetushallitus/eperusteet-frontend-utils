@@ -4,7 +4,7 @@
     class="kielivalinta"
     right
   >
-    <template slot="button-content">
+    <template #button-content>
       <span>{{ $t("kieli-sisalto") }}:
         <span class="valittukieli">{{ $t(sisaltoKieli) }}</span>
         <EpMaterialIcon>expand_more</EpMaterialIcon>

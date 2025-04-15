@@ -1,6 +1,6 @@
 <template>
   <b-form-group>
-    <div slot="label">
+    <template #label>
       <div
         v-if="isEditing"
         class="mb-2"
@@ -12,7 +12,7 @@
         :is-editing="isEditing"
         :class="{'mb-3': isEditing }"
       />
-    </div>
+    </template>
     <div
       v-for="(arvioinninKohde, arvindex) in arvioinninKohdeAlue.arvioinninKohteet"
       :key="'arvioinninKohde' + arvindex"

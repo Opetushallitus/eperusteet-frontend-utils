@@ -17,16 +17,10 @@
       :placeholder="$t('valitse-laajuus-yksikko')"
       :validation="validation.laajuusYksikko"
     >
-      <template
-        slot="singleLabel"
-        slot-scope="{ option }"
-      >
+      <template #singleLabel="{ option }">
         {{ $t(option.toLowerCase() + '-lyhenne') }}
       </template>
-      <template
-        slot="option"
-        slot-scope="{ option }"
-      >
+      <template #option="{ option }">
         {{ $t(option.toLowerCase() + '-partitiivi') }}
       </template>
     </EpMultiSelect>

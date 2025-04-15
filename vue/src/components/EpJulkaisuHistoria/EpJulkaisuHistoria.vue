@@ -1,6 +1,6 @@
 <template>
   <div class="julkaisuhistoria">
-    <h3 slot="header">
+    <h3>
       {{ $t('julkaisuhistoria') }}
     </h3>
     <EpSpinner v-if="!julkaisut" />

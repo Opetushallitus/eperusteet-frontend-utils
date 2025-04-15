@@ -108,7 +108,7 @@
                   no-caret="no-caret"
                   right
                 >
-                  <template slot="button-content">
+                  <template #button-content>
                     <EpMaterialIcon>more_horiz</EpMaterialIcon>
                   </template>
                   <b-dropdown-item
@@ -218,7 +218,7 @@
                   no-caret="no-caret"
                   right
                 >
-                  <template slot="button-content">
+                  <template #button-content>
                     <EpMaterialIcon>more_horiz</EpMaterialIcon>
                   </template>
                   <b-dropdown-item

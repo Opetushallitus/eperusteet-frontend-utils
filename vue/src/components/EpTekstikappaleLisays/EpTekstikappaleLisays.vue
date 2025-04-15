@@ -51,13 +51,13 @@
       </ep-form-content>
 
       <ep-form-content v-if="!hideTaso">
-        <div slot="header">
+        <template #header>
           <h3>
             <slot name="header">
               {{ $t('tekstikappaleen-sijainti-valikossa') }}
             </slot>
           </h3>
-        </div>
+        </template>
 
         <div>
           <div v-if="paatasovalinta">

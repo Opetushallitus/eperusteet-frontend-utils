@@ -177,10 +177,7 @@
               :is-editing="editing"
               :required="false"
             >
-              <template
-                slot="option"
-                slot-scope="{ option }"
-              >
+              <template #option="{ option }">
                 {{ option.text }}
                 <span
                   v-if="option.value.voimassaoloAlkaa || option.value.voimassaoloLoppuu"
@@ -190,10 +187,7 @@
                   <span v-if="option.value.voimassaoloLoppuu">{{ $sd(option.value.voimassaoloLoppuu) }}</span>)
                 </span>
               </template>
-              <template
-                slot="singleLabel"
-                slot-scope="{ option }"
-              >
+              <template #singleLabel="{ option }">
                 {{ option.text }}
                 <span
                   v-if="option.value.voimassaoloAlkaa || option.value.voimassaoloLoppuu"

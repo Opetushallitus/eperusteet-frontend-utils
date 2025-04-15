@@ -96,16 +96,10 @@
                 :options="navigationFlattened"
                 :placeholder="$t('valitse-sivu') + '...'"
               >
-                <template
-                  slot="singleLabel"
-                  slot-scope="{ option }"
-                >
+                <template #singleLabel="{ option }">
                   {{ $kaanna(option.label) }}
                 </template>
-                <template
-                  slot="option"
-                  slot-scope="{ option }"
-                >
+                <template #option="{ option }">
                   <span :style="'padding-left: ' + 10*option.depth +'px'"> {{ $kaanna(option.label) }}</span>
                 </template>
               </EpMultiSelect>

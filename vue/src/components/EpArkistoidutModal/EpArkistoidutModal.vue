@@ -15,9 +15,11 @@
       size="lg"
       :hide-footer="true"
     >
-      <div slot="modal-title">
-        {{ $t('arkistoidut') + ' (' + arkistoidut.length + ')' }}
-      </div>
+      <template #modal-title>
+        <div>
+          {{ $t('arkistoidut') + ' (' + arkistoidut.length + ')' }}
+        </div>
+      </template>
       <div class="search">
         <EpSearch v-model="query" />
       </div>

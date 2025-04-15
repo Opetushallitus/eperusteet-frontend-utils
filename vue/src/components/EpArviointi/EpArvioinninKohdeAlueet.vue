@@ -10,7 +10,7 @@
         :is-editing="isEditing"
         :arviointiasteikot="arviointiasteikot"
       >
-        <div slot="poisto">
+        <template #poisto>
           <EpButton
             v-if="isEditing"
             variant="link"
@@ -19,7 +19,7 @@
           >
             {{ $t('poista-arvioinnin-kohdealue') }}
           </EpButton>
-        </div>
+        </template>
       </EpArviointi>
     </div>
     <EpButton

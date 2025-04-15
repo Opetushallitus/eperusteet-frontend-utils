@@ -16,7 +16,6 @@
             class="m-2"
           >
             <div
-              slot="left"
               class="order-handle m-2"
             >
               <EpMaterialIcon>drag_indicator</EpMaterialIcon>
@@ -69,7 +68,6 @@
             class="m-2 tavoitesisaltoalue"
           >
             <div
-              slot="left"
               class="order-handle m-2"
             >
               <EpMaterialIcon>drag_indicator</EpMaterialIcon>

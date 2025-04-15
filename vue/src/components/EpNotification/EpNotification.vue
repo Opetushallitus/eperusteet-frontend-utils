@@ -6,10 +6,7 @@
     :ignore-duplicates="true"
     :close-on-click="false"
   >
-    <template
-      slot="body"
-      slot-scope="{ item, close }"
-    >
+    <template #body="{ item, close }">
       <div
         class="notification"
         :class="item.type"

@@ -18,10 +18,8 @@ exports[`EpKayttaja component > Renders 1`] = `
             <!---->
             <div data-v-24bfaad2="" class="align-self-start header">
               <div data-v-24bfaad2="" class="">
-                <div data-v-9ad4d674="" data-v-24bfaad2="">
-                  <div data-v-9ad4d674="" data-v-24bfaad2="" class="pl-3 pt-2 text-nowrap kieli"><span data-v-07230345="" data-v-9ad4d674="" class="icon icon mr-3 material-icons" data-v-24bfaad2=""> language </span><span data-v-9ad4d674="" data-v-24bfaad2="">kieli</span></div>
-                  <div data-v-9ad4d674="" data-v-24bfaad2="" class="pl-3 uikieli"><span data-v-9ad4d674="" data-v-24bfaad2="" class="icon mr-3"></span><small data-v-9ad4d674="" data-v-24bfaad2="">sv</small></div>
-                </div>
+                <div data-v-9ad4d674="" data-v-24bfaad2="" class="pl-3 pt-2 text-nowrap kieli"><span data-v-07230345="" data-v-9ad4d674="" class="icon icon mr-3 material-icons" data-v-24bfaad2=""> language </span><span data-v-9ad4d674="" data-v-24bfaad2="">kieli</span></div>
+                <div data-v-9ad4d674="" data-v-24bfaad2="" class="pl-3 uikieli"><span data-v-9ad4d674="" data-v-24bfaad2="" class="icon mr-3"></span><small data-v-9ad4d674="" data-v-24bfaad2="">sv</small></div>
               </div>
             </div>
             <div data-v-9ad4d674="" data-v-24bfaad2="" class="ml-auto align-self-start" style="padding: 0.8rem 1rem;"><span data-v-07230345="" data-v-9ad4d674="" class="icon material-icons" data-v-24bfaad2=""> expand_more </span></div>
@@ -41,10 +39,8 @@ exports[`EpKayttaja component > Renders 1`] = `
             <!---->
             <div data-v-24bfaad2="" class="align-self-start header">
               <div data-v-24bfaad2="" class="header-toggled">
-                <div data-v-9ad4d674="" data-v-24bfaad2="">
-                  <div data-v-9ad4d674="" data-v-24bfaad2="" class="pl-3 pt-2 text-nowrap kieli"><span data-v-07230345="" data-v-9ad4d674="" class="icon icon mr-3 material-icons" data-v-24bfaad2=""> launch </span><span data-v-9ad4d674="" data-v-24bfaad2="">vaihda-sovellusta</span></div>
-                  <div data-v-9ad4d674="" data-v-24bfaad2="" class="pl-3 valittu-sovellus pb-2"><span data-v-9ad4d674="" data-v-24bfaad2="" class="icon mr-3"></span><small data-v-9ad4d674="" data-v-24bfaad2="">APP_EPERUSTEET</small></div>
-                </div>
+                <div data-v-9ad4d674="" data-v-24bfaad2="" class="pl-3 pt-2 text-nowrap kieli"><span data-v-07230345="" data-v-9ad4d674="" class="icon icon mr-3 material-icons" data-v-24bfaad2=""> launch </span><span data-v-9ad4d674="" data-v-24bfaad2="">vaihda-sovellusta</span></div>
+                <div data-v-9ad4d674="" data-v-24bfaad2="" class="pl-3 valittu-sovellus pb-2"><span data-v-9ad4d674="" data-v-24bfaad2="" class="icon mr-3"></span><small data-v-9ad4d674="" data-v-24bfaad2="">APP_EPERUSTEET</small></div>
               </div>
             </div>
             <div data-v-9ad4d674="" data-v-24bfaad2="" class="ml-auto align-self-start" style="padding: 0.8rem 1rem;"><span data-v-07230345="" data-v-9ad4d674="" class="icon material-icons" data-v-24bfaad2=""> expand_less </span></div>

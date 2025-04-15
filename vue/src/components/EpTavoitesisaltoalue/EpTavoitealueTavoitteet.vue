@@ -30,12 +30,13 @@
                     class="input-wrapper"
                     :validation="$v.tavoitteet.$each.$iter[tavoiteIndex].nimi"
                   >
-                    <div
-                      slot="left"
-                      class="order-handle m-2"
-                    >
-                      <EpMaterialIcon>drag_indicator</EpMaterialIcon>
-                    </div>
+                    <template #left>
+                      <div
+                        class="order-handle m-2"
+                      >
+                        <EpMaterialIcon>drag_indicator</EpMaterialIcon>
+                      </div>
+                    </template>
                   </EpInput>
                   <b-input-group-append>
                     <b-button

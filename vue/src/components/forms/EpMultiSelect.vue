@@ -38,23 +38,17 @@
       @remove="remove"
       @tag="addTag"
     >
-      <template slot="beforeList">
+      <template #beforeList>
         <slot name="beforeList" />
       </template>
 
-      <template
-        slot="singleLabel"
-        slot-scope="{ option }"
-      >
+      <template #singleLabel="{ option }">
         <slot
           name="singleLabel"
           :option="option"
         />
       </template>
-      <template
-        slot="option"
-        slot-scope="{ option, search }"
-      >
+      <template #option="{ option, search }">
         <div class="d-flex align-items-center">
           <div
             class="w-100"
@@ -87,10 +81,7 @@
           </EpMaterialIcon>
         </div>
       </template>
-      <template
-        slot="tag"
-        slot-scope="{ option, search, remove }"
-      >
+      <template #tag="{ option, search, remove }">
         <slot
           name="tag"
           :option="option"
@@ -98,20 +89,17 @@
           :remove="remove"
         />
       </template>
-      <template slot="noResult">
+      <template #noResult>
         <slot name="noResult">
           <div>{{ $t('ei-hakutuloksia') }}</div>
         </slot>
       </template>
-      <template slot="noOptions">
+      <template #noOptions>
         <slot name="noOptions">
           <div>{{ $t('ei-vaihtoehtoja') }}</div>
         </slot>
       </template>
-      <template
-        slot="selection"
-        slot-scope="{ values, search, isOpen }"
-      >
+      <template #selection="{ values, search, isOpen }">
         <slot
           name="selection"
           :values="values"
@@ -119,7 +107,7 @@
           :is-open="isOpen"
         />
       </template>
-      <template slot="afterList">
+      <template #afterList>
         <slot name="afterList" />
       </template>
     </multiselect>

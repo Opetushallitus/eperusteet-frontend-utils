@@ -13,7 +13,6 @@
         <div class="balloon d-flex">
           <div
             v-if="draggable"
-            slot="left"
             class="order-handle mr-2"
           >
             <EpMaterialIcon>drag_indicator</EpMaterialIcon>

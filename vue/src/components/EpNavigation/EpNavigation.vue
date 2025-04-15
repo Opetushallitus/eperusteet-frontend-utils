@@ -50,7 +50,7 @@
           id="content-lang-selector"
           right
         >
-          <template slot="button-content">
+          <template #button-content>
             <span class="kielivalitsin">{{ $t("kieli-sisalto") }}: {{ $t(sisaltoKieli) }}</span>
           </template>
           <div class="kielet">
