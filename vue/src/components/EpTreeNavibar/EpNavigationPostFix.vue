@@ -1,17 +1,22 @@
 <template>
-  <div class="d-flex align-items-center" v-if="postfixLabel">
+  <div
+    v-if="postfixLabel"
+    class="d-flex align-items-center"
+  >
     <div
+      v-if="node.meta && node.meta.postfix_label"
       :id="'item-popover'+node.id"
       class="postfix"
-      v-if="node.meta && node.meta.postfix_label">
-      ({{$t(postfixLabel)}})
+    >
+      ({{ $t(postfixLabel) }})
     </div>
     <b-popover
       v-if="node.meta && node.meta.postfix_tooltip"
       :target="'item-popover'+node.id"
       triggers="click hover"
-      placement="right">
-      {{$t(postfixTooltip)}}
+      placement="right"
+    >
+      {{ $t(postfixTooltip) }}
     </b-popover>
   </div>
 </template>

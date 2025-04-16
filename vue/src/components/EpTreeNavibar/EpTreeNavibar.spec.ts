@@ -1,11 +1,13 @@
 import BootstrapVue from 'bootstrap-vue';
 import EpTreeNavibar from './EpTreeNavibar.vue';
-import { computed } from '@vue/composition-api';
 import VueI18n from 'vue-i18n';
 import { EpTreeNavibarStore } from './EpTreeNavibarStore';
 import { Kaannos } from '../../plugins/kaannos';
 import { Kielet } from '../../stores/kieli';
 import { mount, createLocalVue, RouterLinkStub } from '@vue/test-utils';
+import { NavigationNodeDto } from '@shared/tyypit';
+import { computed } from '@vue/composition-api';
+import Vue from 'vue';
 
 describe('EpTreeNavibar component', () => {
   const localVue = createLocalVue();
@@ -20,11 +22,13 @@ describe('EpTreeNavibar component', () => {
       propsData: {
         store: new EpTreeNavibarStore(computed(() => navipuu), () => null),
       },
-      stubs: {
+        stubs: {
         Portal: '<div />',
         RouterLink: RouterLinkStub,
       },
     });
+
+    await Vue.nextTick();
 
     expect(wrapper.html()).toContain('Päätason tekstikappale');
     expect(wrapper.html()).toContain('Tutkinnon muodostuminen');

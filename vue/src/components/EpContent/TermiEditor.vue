@@ -1,50 +1,86 @@
 <template>
   <div v-if="isEditing">
     <ep-form-content name="termin-nimi">
-      <ep-field help="termin-nimi" v-model="muokattava.termi" :validation="$v.muokattava.termi" :is-editing="true" />
+      <ep-field
+        v-model="muokattava.termi"
+        help="termin-nimi"
+        :validation="$v.muokattava.termi"
+        :is-editing="true"
+      />
     </ep-form-content>
     <ep-form-content name="termin-kuvaus">
-      <ep-field help="termin-kuvaus" v-model="muokattava.selitys" :validation="$v.muokattava.selitys" :is-editing="true" />
+      <ep-field
+        v-model="muokattava.selitys"
+        help="termin-kuvaus"
+        :validation="$v.muokattava.selitys"
+        :is-editing="true"
+      />
     </ep-form-content>
-    <ep-form-content name="alaviitteessa" v-if="alaviiteSupported">
-      <ep-toggle v-model="muokattava.alaviite">{{ $t('nayta-alaviitteessa') }}</ep-toggle>
+    <ep-form-content
+      v-if="alaviiteSupported"
+      name="alaviitteessa"
+    >
+      <ep-toggle v-model="muokattava.alaviite">
+        {{ $t('nayta-alaviitteessa') }}
+      </ep-toggle>
     </ep-form-content>
-    <ep-button id="tallenna-kasite" @click="tallenna" :disabled="$v.muokattava.$invalid" :show-spinner="isLoading">{{ $t('tallenna') }}</ep-button>
-    <ep-button class="ml-2" variant="warning" @click="peruuta" :show-spinner="isLoading">{{ $t('peruuta') }}</ep-button>
+    <ep-button
+      id="tallenna-kasite"
+      :disabled="$v.muokattava.$invalid"
+      :show-spinner="isLoading"
+      @click="tallenna"
+    >
+      {{ $t('tallenna') }}
+    </ep-button>
+    <ep-button
+      class="ml-2"
+      variant="warning"
+      :show-spinner="isLoading"
+      @click="peruuta"
+    >
+      {{ $t('peruuta') }}
+    </ep-button>
   </div>
   <div v-else>
-    <ep-spinner v-if="isLoading"></ep-spinner>
+    <ep-spinner v-if="isLoading" />
     <div v-else>
       <vue-select
         :value="valittu"
         :filter-by="filterBy"
         :placeholder="$t('valitse-kasite')"
-        @input="onSelect"
         label="avain"
-        :options="kasitteet">
-        <template slot="selected-option" slot-scope="option">
+        :options="kasitteet"
+        @input="onSelect"
+      >
+        <template #selected-option="option">
           <span>{{ $kaanna(option.termi) }}</span>
         </template>
-        <template slot="option" slot-scope="option">
+        <template #option="option">
           <div>
             <span>{{ $kaanna(option.termi) }}</span>
           </div>
-          <div class="pl-3 small font‑weight‑light">
-            <span v-html="$kaanna(option.selitys)"></span>
+          <div class="pl-3 small font-weight-light">
+            <span v-html="$kaanna(option.selitys)" />
           </div>
         </template>
       </vue-select>
       <b-button
-        id="muokkaa-termia"
         v-if="valittu"
+        id="muokkaa-termia"
         class="lisaa-painike"
         variant="primary"
-        @click="muokkaa(valittu)">{{ $t('muokkaa-kasitetta') }}</b-button>
+        @click="muokkaa(valittu)"
+      >
+        {{ $t('muokkaa-kasitetta') }}
+      </b-button>
       <b-button
         id="lisaa-uusi-termi"
         class="lisaa-painike"
         variant="primary"
-        @click="muokkaa()">{{ $t('lisaa-uusi-kasite') }}</b-button>
+        @click="muokkaa()"
+      >
+        {{ $t('lisaa-uusi-kasite') }}
+      </b-button>
     </div>
   </div>
 </template>

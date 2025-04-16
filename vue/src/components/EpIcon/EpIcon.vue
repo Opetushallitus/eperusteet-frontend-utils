@@ -1,9 +1,17 @@
 <template>
-<div class="icon">
-  <slot name="fas">
-    <EpMaterialIcon class="inner" icon-shape="outlined" :background="actualBackground" :color="color" size="40px">{{ icon }}</EpMaterialIcon>
-  </slot>
-</div>
+  <div class="icon">
+    <slot name="fas">
+      <EpMaterialIcon
+        class="inner"
+        icon-shape="outlined"
+        :background="actualBackground"
+        :color="color"
+        size="40px"
+      >
+        {{ icon }}
+      </EpMaterialIcon>
+    </slot>
+  </div>
 </template>
 
 <script lang="ts">

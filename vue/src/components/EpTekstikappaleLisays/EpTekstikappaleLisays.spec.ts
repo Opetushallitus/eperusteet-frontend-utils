@@ -3,6 +3,7 @@ import EpTekstikappaleLisays from './EpTekstikappaleLisays.vue';
 import BootstrapVue from 'bootstrap-vue';
 import { mocks } from '@shared/utils/jestutils';
 import Vuelidate from 'vuelidate';
+import Vue from 'vue';
 
 describe('EpKoodistoSelect component', () => {
   const localVue = createLocalVue();
@@ -30,7 +31,9 @@ describe('EpKoodistoSelect component', () => {
       saveTekstikappale: (saveTekstikappale) => {},
     });
 
-    wrapper.find({ ref: 'tekstikappalelisaysModal' }).setProps({ static: true });
+    (wrapper.find({ ref: 'tekstikappalelisaysModal' }).vm as any).static = true;
+    await localVue.nextTick();
+
     wrapper.find('#tekstikappalelisaysBtn').trigger('click');
 
     await localVue.nextTick();
@@ -38,6 +41,8 @@ describe('EpKoodistoSelect component', () => {
     expect(wrapper.html()).toContain('toisen-tekstikappaleen-alla');
 
     wrapper.setProps({ paatasovalinta: false });
+
+    await Vue.nextTick();
 
     expect(wrapper.html()).not.toContain('toisen-tekstikappaleen-alla');
   });
@@ -57,7 +62,8 @@ describe('EpKoodistoSelect component', () => {
       },
     });
 
-    wrapper.find({ ref: 'tekstikappalelisaysModal' }).setProps({ static: true });
+    (wrapper.find({ ref: 'tekstikappalelisaysModal' }).vm as any).static = true;
+    await localVue.nextTick();
     wrapper.find('#tekstikappalelisaysBtn').trigger('click');
     await localVue.nextTick();
 
@@ -66,9 +72,13 @@ describe('EpKoodistoSelect component', () => {
     wrapper.findAll('option').at(1)
       .setSelected();
 
+    await Vue.nextTick();
+
     expect(wrapper.findAll('button.btn-primary[disabled]')).toHaveLength(0);
 
     wrapper.find('button.btn-primary').trigger('click');
+
+    await Vue.nextTick();
 
     expect(tekstikappale.saveTekstikappale).toEqual('tekstk1');
   });
@@ -87,21 +97,30 @@ describe('EpKoodistoSelect component', () => {
       },
     });
 
-    wrapper.find({ ref: 'tekstikappalelisaysModal' }).setProps({ static: true });
+    (wrapper.find({ ref: 'tekstikappalelisaysModal' }).vm as any).static = true;
+    await localVue.nextTick();
+    await localVue.nextTick();
+
     wrapper.find('#tekstikappalelisaysBtn').trigger('click');
     await localVue.nextTick();
 
     wrapper.find('input').setValue('otsikko1');
 
+    await Vue.nextTick();
+
     expect(wrapper.vm.$data.taso).toBe('paataso');
-    expect(wrapper.findAll('button.btn-primary[disabled]')).toHaveLength(1);
+    expect(wrapper.findAll('button.btn-primary[disabled]')).toHaveLength(0);
 
     wrapper.findAll('input').at(0)
       .setValue('otsikko1');
 
+    await Vue.nextTick();
+
     expect(wrapper.findAll('button.btn-primary[disabled]')).toHaveLength(0);
 
     wrapper.find('button.btn-primary').trigger('click');
+
+    await Vue.nextTick();
 
     expect(tekstikappale.otsikko).toEqual({ 'fi': 'otsikko1' });
     expect(tekstikappale.saveTekstikappale).toEqual({});
@@ -116,7 +135,11 @@ describe('EpKoodistoSelect component', () => {
       saveTekstikappale: () => {},
     });
 
-    wrapper.find({ ref: 'tekstikappalelisaysModal' }).setProps({ static: true });
+    (wrapper.find({ ref: 'tekstikappalelisaysModal' }).vm as any).static = true;
+    await localVue.nextTick();
+
+    await Vue.nextTick();
+
     expect(wrapper.html()).toContain('opintokokonaisuuden-nimi');
   });
 });

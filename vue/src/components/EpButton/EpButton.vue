@@ -1,19 +1,43 @@
 <template>
-<div class="ep-button d-print-none" ref="button-container">
-  <b-button :variant="resolvedVariant"
-          v-bind="$attrs"
-          :disabled="disabled || showSpinner"
-          @click="$emit('click')"
-          :size="size"
-          :class="variantClass">
-    <EpMaterialIcon v-if="icon" class="float-left mr-1" icon-shape="outlined" :background="inherit" :color="inherit">{{ icon }}</EpMaterialIcon>
-    <div class="teksti" :class="{'pl-3 pr-3': paddingx && !noPadding}">
-      <slot />
-      <ep-spinner-inline v-if="showSpinner" :link="variant === 'link' || isOutline"/>
-    </div>
-  </b-button>
-  <b-tooltip v-if="help" :target="() => $refs['button-container']">{{ $t(help) }}</b-tooltip>
-</div>
+  <div
+    ref="button-container"
+    class="ep-button d-print-none"
+  >
+    <b-button
+      :variant="resolvedVariant"
+      v-bind="$attrs"
+      :disabled="disabled || showSpinner"
+      :size="size"
+      :class="variantClass"
+      @click="$emit('click')"
+    >
+      <EpMaterialIcon
+        v-if="icon"
+        class="float-left mr-1"
+        icon-shape="outlined"
+        :background="inherit"
+        :color="inherit"
+      >
+        {{ icon }}
+      </EpMaterialIcon>
+      <div
+        class="teksti"
+        :class="{'pl-3 pr-3': paddingx && !noPadding}"
+      >
+        <slot />
+        <ep-spinner-inline
+          v-if="showSpinner"
+          :link="variant === 'link' || isOutline"
+        />
+      </div>
+    </b-button>
+    <b-tooltip
+      v-if="help"
+      :target="() => $refs['button-container']"
+    >
+      {{ $t(help) }}
+    </b-tooltip>
+  </div>
 </template>
 
 <script lang="ts">

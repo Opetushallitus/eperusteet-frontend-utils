@@ -1,29 +1,44 @@
 <template>
   <div v-if="show">
-    <div class="tutorial-bg"></div>
-    <b-popover show v-if="current" :target="current" :key="current" placement="bottom" custom-class="tutorial-popover">
-      <div class="tutorial-popover-content">{{ $t('tutorial-' + current)}}</div>
+    <div class="tutorial-bg" />
+    <b-popover
+      v-if="current"
+      :key="current"
+      show
+      :target="current"
+      placement="bottom"
+      custom-class="tutorial-popover"
+    >
+      <div class="tutorial-popover-content">
+        {{ $t('tutorial-' + current) }}
+      </div>
       <div class="tutorial-popover-buttons">
-        <ep-button class="mr-5"
-          @click="suljeTutoriaali"
+        <ep-button
+          class="mr-5"
           variant="link"
-          size="sm">
-          {{ $t('poistu')}}
+          size="sm"
+          @click="suljeTutoriaali"
+        >
+          {{ $t('poistu') }}
         </ep-button>
 
         <div class="float-right">
-          <ep-button v-if="hasEdellinen"
+          <ep-button
+            v-if="hasEdellinen"
             class="ml-2"
+            size="sm"
             @click="edellinen"
-            size="sm">
-            {{ $t('edellinen')}}
+          >
+            {{ $t('edellinen') }}
           </ep-button>
 
-          <ep-button v-if="hasSeuraava"
+          <ep-button
+            v-if="hasSeuraava"
             class="float-right ml-2"
+            size="sm"
             @click="seuraava"
-            size="sm">
-            {{ $t('seuraava')}}
+          >
+            {{ $t('seuraava') }}
           </ep-button>
         </div>
       </div>

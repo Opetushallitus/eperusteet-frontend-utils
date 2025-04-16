@@ -1,24 +1,36 @@
 <template>
   <div>
-    <div v-for="(arvioinninKohdeAlue, index) in model" :key="'arvioinninKohdeAlue' + index" class="arviointi">
+    <div
+      v-for="(arvioinninKohdeAlue, index) in model"
+      :key="'arvioinninKohdeAlue' + index"
+      class="arviointi"
+    >
       <EpArviointi
         v-model="model[index]"
-        :isEditing="isEditing"
-        :arviointiasteikot="arviointiasteikot">
-
-        <div slot="poisto">
-          <EpButton v-if="isEditing" variant="link" icon="delete" @click="poistaArvioinninKohdealue(arvioinninKohdeAlue)">{{$t('poista-arvioinnin-kohdealue')}}</EpButton>
-        </div>
-        </EpArviointi>
+        :is-editing="isEditing"
+        :arviointiasteikot="arviointiasteikot"
+      >
+        <template #poisto>
+          <EpButton
+            v-if="isEditing"
+            variant="link"
+            icon="delete"
+            @click="poistaArvioinninKohdealue(arvioinninKohdeAlue)"
+          >
+            {{ $t('poista-arvioinnin-kohdealue') }}
+          </EpButton>
+        </template>
+      </EpArviointi>
     </div>
     <EpButton
-      class="mt-3"
       v-if="isEditing"
+      class="mt-3"
       variant="outline"
       icon="add"
-      @click="lisaaArvioinninKohdeAlue">
-        {{$t(lisaaBtnTeksti)}}
-      </EpButton>
+      @click="lisaaArvioinninKohdeAlue"
+    >
+      {{ $t(lisaaBtnTeksti) }}
+    </EpButton>
   </div>
 </template>
 

@@ -1,52 +1,91 @@
 <template>
   <div class="content text-left">
-    <h3>{{$t('viimeaikainen-toiminta')}}</h3>
+    <h3>{{ $t('viimeaikainen-toiminta') }}</h3>
 
-    <ep-spinner v-if="!muokkaustiedot"/>
+    <ep-spinner v-if="!muokkaustiedot" />
 
-    <div class="container text-center" v-else>
-      <div v-for="(muokkaustieto, index) in muokkaustiedotRouted" :key="index" class="row muokkaustieto">
-
+    <div
+      v-else
+      class="container text-center"
+    >
+      <div
+        v-for="(muokkaustieto, index) in muokkaustiedotRouted"
+        :key="index"
+        class="row muokkaustieto"
+      >
         <div class="col col-auto ikoni-col center-block">
           <div class="ikoni d-inline-block">
-            <EpMaterialIcon :class="muokkaustieto.iconClass">{{ muokkaustieto.icon }}</EpMaterialIcon>
+            <EpMaterialIcon :class="muokkaustieto.iconClass">
+              {{ muokkaustieto.icon }}
+            </EpMaterialIcon>
           </div>
-          <div class="aikajana" v-if="index !== muokkaustiedotRouted.length - 1">&nbsp;</div>
+          <div
+            v-if="index !== muokkaustiedotRouted.length - 1"
+            class="aikajana"
+          >
+&nbsp;
+          </div>
         </div>
 
         <div class="col router-col text-left">
           <div v-if="muokkaustieto.poistettu || muokkaustieto.tapahtuma === 'julkaisu'">
-            <div class="router-box" :class="{ 'router-box-poistettu': muokkaustieto.poistettu }">
+            <div
+              class="router-box"
+              :class="{ 'router-box-poistettu': muokkaustieto.poistettu }"
+            >
               <div class="row">
-                <div class="col nimi">{{muokkaustieto.kayttajaNimi}}</div>
-                <div class="col aika text-right">{{$ago(muokkaustieto.luotu)}}</div>
+                <div class="col nimi">
+                  {{ muokkaustieto.kayttajaNimi }}
+                </div>
+                <div class="col aika text-right">
+                  {{ $ago(muokkaustieto.luotu) }}
+                </div>
               </div>
-              <div class="kohde">{{muokkaustieto.tapahtumateksti}}</div>
+              <div class="kohde">
+                {{ muokkaustieto.tapahtumateksti }}
+              </div>
             </div>
           </div>
-          <router-link :to="muokkaustieto.route" v-else>
-            <div class="router-box" :class="{ 'router-box-poistettu': muokkaustieto.poistettu }">
+          <router-link
+            v-else
+            :to="muokkaustieto.route"
+          >
+            <div
+              class="router-box"
+              :class="{ 'router-box-poistettu': muokkaustieto.poistettu }"
+            >
               <div class="row">
-                <div class="col nimi">{{muokkaustieto.kayttajaNimi}}</div>
-                <div class="col aika text-right">{{$ago(muokkaustieto.luotu)}}</div>
+                <div class="col nimi">
+                  {{ muokkaustieto.kayttajaNimi }}
+                </div>
+                <div class="col aika text-right">
+                  {{ $ago(muokkaustieto.luotu) }}
+                </div>
               </div>
-              <div class="kohde">{{muokkaustieto.tapahtumateksti}}</div>
+              <div class="kohde">
+                {{ muokkaustieto.tapahtumateksti }}
+              </div>
             </div>
           </router-link>
         </div>
       </div>
 
-       <span class="tyhja" v-if="muokkaustiedot && muokkaustiedot.length === 0">{{$t('viimeaikainen-toiminta-tyhja')}}</span>
+      <span
+        v-if="muokkaustiedot && muokkaustiedot.length === 0"
+        class="tyhja"
+      >{{ $t('viimeaikainen-toiminta-tyhja') }}</span>
 
       <div v-else>
-        <ep-button @click="haeLisaa" variant="link" v-if="!lisahaku && muokkaustiedotRouted.length % hakuLukumaara === 0 && muokkaustiedot && (!viimeinenHaku || viimeinenHaku.length > 0)">
-          {{$t('nayta-lisaa')}}
+        <ep-button
+          v-if="!lisahaku && muokkaustiedotRouted.length % hakuLukumaara === 0 && muokkaustiedot && (!viimeinenHaku || viimeinenHaku.length > 0)"
+          variant="link"
+          @click="haeLisaa"
+        >
+          {{ $t('nayta-lisaa') }}
         </ep-button>
-        <ep-spinner v-if="lisahaku"></ep-spinner>
+        <ep-spinner v-if="lisahaku" />
       </div>
-
     </div>
-
   </div>
 </template>
 

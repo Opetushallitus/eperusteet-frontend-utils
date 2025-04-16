@@ -1,39 +1,64 @@
 <template>
-<footer>
-  <div class="footer-content link-style">
-    <div class="row">
-      <div class="col-lg col-slot">
-        <img src="@assets/img/banners/oph_logo.svg" slot="footer-logo" :alt="$t('oph')" />
-      </div>
-      <div class="col-md col-slot">
-        <p class="linkki-kuvaus">{{ $t('opetushallitus') }}</p>
-        <ep-linkki :url="$kaanna(linkit.oph)" icon="launch"></ep-linkki>
-      </div>
-      <div class="col-md col-slot">
-        <p class="linkki-kuvaus">{{ $t('opintopolku') }}</p>
-        <ep-linkki :url="$kaanna(linkit.opintopolku)" icon="launch"></ep-linkki>
-      </div>
-      <div class="col-md col-slot">
-        <p class="linkki-kuvaus">{{ $t('eperusteet') }}</p>
-        <ep-linkki :url="$kaanna(linkit.eperusteet)" icon="launch"></ep-linkki>
-      </div>
-      <div class="col-md col-slot">
-        <slot name="palaute" />
-        <div class="d-flex link-style">
-          <EpMaterialIcon>chevron_right</EpMaterialIcon>
-          <EpExternalLink :url="$kaanna(linkit.yhteystiedot)" :showIcon="false">
-            {{ $t('yhteystiedot') }}: {{ yhteystiedotMail }}</EpExternalLink>
+  <footer>
+    <div class="footer-content link-style">
+      <div class="row">
+        <div class="col-lg col-slot">
+          <img
+            src="@assets/img/banners/oph_logo.svg"
+            :alt="$t('oph')"
+          >
         </div>
-        <div class="d-flex link-style">
-          <EpMaterialIcon>chevron_right</EpMaterialIcon>
-          <EpExternalLink :url="$kaanna(linkit.seloste)" :showIcon="false">
-            {{ $t('tietosuojaseloste') }}
-          </EpExternalLink>
+        <div class="col-md col-slot">
+          <p class="linkki-kuvaus">
+            {{ $t('opetushallitus') }}
+          </p>
+          <ep-linkki
+            :url="$kaanna(linkit.oph)"
+            icon="launch"
+          />
+        </div>
+        <div class="col-md col-slot">
+          <p class="linkki-kuvaus">
+            {{ $t('opintopolku') }}
+          </p>
+          <ep-linkki
+            :url="$kaanna(linkit.opintopolku)"
+            icon="launch"
+          />
+        </div>
+        <div class="col-md col-slot">
+          <p class="linkki-kuvaus">
+            {{ $t('eperusteet') }}
+          </p>
+          <ep-linkki
+            :url="$kaanna(linkit.eperusteet)"
+            icon="launch"
+          />
+        </div>
+        <div class="col-md col-slot">
+          <slot name="palaute" />
+          <div class="d-flex link-style">
+            <EpMaterialIcon>chevron_right</EpMaterialIcon>
+            <EpExternalLink
+              :url="$kaanna(linkit.yhteystiedot)"
+              :show-icon="false"
+            >
+              {{ $t('yhteystiedot') }}: {{ yhteystiedotMail }}
+            </EpExternalLink>
+          </div>
+          <div class="d-flex link-style">
+            <EpMaterialIcon>chevron_right</EpMaterialIcon>
+            <EpExternalLink
+              :url="$kaanna(linkit.seloste)"
+              :show-icon="false"
+            >
+              {{ $t('tietosuojaseloste') }}
+            </EpExternalLink>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</footer>
+  </footer>
 </template>
 
 <script lang="ts">

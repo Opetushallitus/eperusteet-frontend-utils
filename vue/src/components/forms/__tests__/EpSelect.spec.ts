@@ -4,6 +4,7 @@ import { Kielet } from '../../../stores/kieli';
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 import BootstrapVue from 'bootstrap-vue';
+import { vi } from 'vitest';
 
 Vue.use(BootstrapVue);
 
@@ -84,7 +85,7 @@ describe('EpSelect component', () => {
       multiple: true,
       help: '',
       validation: {
-        $touch: jest.fn(),
+        $touch: vi.fn(),
       },
       useCheckboxes: false,
       enableEmptyOption: true,
@@ -108,7 +109,7 @@ describe('EpSelect component', () => {
       help: '',
       useCheckboxes: false,
       validation: {
-        $touch: jest.fn(),
+        $touch: vi.fn(),
       },
       enableEmptyOption: true,
     });
@@ -130,7 +131,7 @@ describe('EpSelect component', () => {
       help: '',
       useCheckboxes: true,
       validation: {
-        $touch: jest.fn(),
+        $touch: vi.fn(),
       },
       enableEmptyOption: true,
     });
@@ -167,7 +168,7 @@ describe('EpSelect component', () => {
       help: '',
       useCheckboxes: false,
       validation: {
-        $touch: jest.fn(),
+        $touch: vi.fn(),
       },
       enableEmptyOption: false,
     });
@@ -192,7 +193,7 @@ describe('EpSelect component', () => {
       help: '',
       useCheckboxes: false,
       validation: {
-        $touch: jest.fn(),
+        $touch: vi.fn(),
       },
       enableEmptyOption: false,
     });

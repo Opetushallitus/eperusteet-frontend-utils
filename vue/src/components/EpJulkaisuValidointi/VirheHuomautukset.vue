@@ -1,15 +1,24 @@
 <template>
-  <EpNaytaKaikki v-model="virhehuomautukset" striped>
+  <EpNaytaKaikki
+    v-model="virhehuomautukset"
+    striped
+  >
     <template #default="{ data }">
-      <router-link v-if="data.route" :to="data.route">
+      <router-link
+        v-if="data.route"
+        :to="data.route"
+      >
         <IkoniTeksti :tyyppi="tyyppi">
-          {{$t(data.kuvaus)}}
-          <span v-if="data.navigationNode && data.navigationNode.label">({{$kaanna(data.navigationNode.label)}})</span>
+          {{ $t(data.kuvaus) }}
+          <span v-if="data.navigationNode && data.navigationNode.label">({{ $kaanna(data.navigationNode.label) }})</span>
         </IkoniTeksti>
       </router-link>
-      <IkoniTeksti v-else :tyyppi="tyyppi">
-        {{$t(data.kuvaus)}}
-        <span v-if="data.navigationNode &&  data.navigationNode.label">({{$kaanna(data.navigationNode.label)}})</span>
+      <IkoniTeksti
+        v-else
+        :tyyppi="tyyppi"
+      >
+        {{ $t(data.kuvaus) }}
+        <span v-if="data.navigationNode && data.navigationNode.label">({{ $kaanna(data.navigationNode.label) }})</span>
       </IkoniTeksti>
     </template>
   </EpNaytaKaikki>

@@ -1,5 +1,4 @@
 import { mount, createLocalVue } from '@vue/test-utils';
-import { reactive, computed } from '@vue/composition-api';
 import EpEditointi from './EpEditointi.vue';
 import { IEditoitava } from './EditointiStore';
 import { Kielet } from '../../stores/kieli';
@@ -9,8 +8,10 @@ import { VueTutorial } from '../../plugins/tutoriaali';
 import { delay } from '../../utils/delay';
 import { findContaining, mockEditointiStore } from '../../utils/jestutils';
 import VueI18n from 'vue-i18n';
+import { vi } from 'vitest';
 
 import '../../config/bootstrap';
+import { computed, reactive } from '@vue/composition-api';
 
 function mockAndWrapper(extension: Partial<IEditoitava> = {}, template?: string) {
   const localVue = createLocalVue();
@@ -32,7 +33,7 @@ function mockAndWrapper(extension: Partial<IEditoitava> = {}, template?: string)
   });
 
   const { store, config } = mockEditointiStore({
-    load: jest.fn(async () => {
+    load: vi.fn(async () => {
       return {
         name: 'foo',
         description: 'xyz',
@@ -86,8 +87,8 @@ describe('EpEditointi component', () => {
     expect(config.acquire).toBeCalledTimes(0);
     expect(config.cancel).toBeCalledTimes(0);
     expect(config.editAfterLoad).toBeCalledTimes(1);
-    expect(wrapper.html()).toContain('<h1>foo</h1>');
-    expect(wrapper.html()).toContain('<p>xyz</p>');
+    expect(wrapper.html()).toMatch(/<h1.*?>foo<\/h1>/);
+    expect(wrapper.html()).toMatch(/<p.*?>xyz<\/p>/);
   });
 
   test('Can edit after create', async () => {
@@ -108,8 +109,8 @@ describe('EpEditointi component', () => {
       async editAfterLoad() {
         return true;
       },
-      save: jest.fn(async () => { }),
-      load: jest.fn(async (supportFn) => {
+      save: vi.fn(async () => { }),
+      load: vi.fn(async (supportFn) => {
         supportFn({
           testi: 123,
         });
@@ -132,10 +133,10 @@ describe('EpEditointi component', () => {
       async editAfterLoad() {
         return true;
       },
-      save: jest.fn(async () => {
+      save: vi.fn(async () => {
         data.name = 'uusi';
       }),
-      load: jest.fn(async () => data),
+      load: vi.fn(async () => data),
     });
     await delay();
     findContaining(wrapper, 'button', 'tallenna')!.trigger('click');
@@ -149,7 +150,7 @@ describe('EpEditointi component', () => {
   test('Shows latest revision info', async () => {
     const data = { name: 'name' };
     const { store, config, wrapper } = mockAndWrapper({
-      revisions: jest.fn(async () => [{
+      revisions: vi.fn(async () => [{
         numero: 1,
         pvm: new Date(),
         muokkaajaOid: 'muokkaajaOid1234',
@@ -201,7 +202,7 @@ describe('EpEditointi component', () => {
     `);
     await delay();
 
-    expect(wrapper.html()).toContain('<pre>editing false</pre>');
+    expect(wrapper.html()).toContain('>editing false</pre>');
     findContaining(wrapper, 'button', 'muokkaa')!.trigger('click');
     await delay();
 
@@ -209,7 +210,7 @@ describe('EpEditointi component', () => {
     expect(store.data.value.name).toEqual('uusi nimi');
     expect(config.start).toBeCalledTimes(1);
     expect(config.acquire).toBeCalledTimes(1);
-    expect(wrapper.html()).toContain('<pre>editing true</pre>');
+    expect(wrapper.html()).toContain('>editing true</pre>');
 
     findContaining(wrapper, 'button', 'peruuta')!.trigger('click');
     await delay();

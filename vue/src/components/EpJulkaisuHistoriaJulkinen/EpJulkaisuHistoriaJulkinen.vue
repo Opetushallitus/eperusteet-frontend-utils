@@ -1,13 +1,19 @@
 <template>
   <div class="julkaisuhistoria mt-4">
-    <EpSpinner v-if="!julkaisut"/>
+    <EpSpinner v-if="!julkaisut" />
     <template v-else>
-      <div class="alert alert-info" v-if="julkaisut.length === 0">
-        <slot name="empty">{{ $t('ei-julkaisuja') }}</slot>
+      <div
+        v-if="julkaisut.length === 0"
+        class="alert alert-info"
+      >
+        <slot name="empty">
+          {{ $t('ei-julkaisuja') }}
+        </slot>
       </div>
       <div v-else>
         <EpJulkaisuLista
-          :julkaisut="julkaisutMapped"/>
+          :julkaisut="julkaisutMapped"
+        />
       </div>
     </template>
   </div>

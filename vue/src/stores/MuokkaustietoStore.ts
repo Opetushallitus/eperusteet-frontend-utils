@@ -1,9 +1,8 @@
 import Vue from 'vue';
-import VueCompositionApi, { reactive, computed } from '@vue/composition-api';
 import { MuokkaustietoKayttajallaDto, PerusteenMuutostietoDto, Muokkaustiedot } from '@shared/api/eperusteet';
 import _ from 'lodash';
-
-Vue.use(VueCompositionApi);
+import  { reactive, computed } from '@vue/composition-api';
+import { computedValue } from '@shared/utils/interfaces';
 
 export class MuokkaustietoStore {
   private state = reactive({

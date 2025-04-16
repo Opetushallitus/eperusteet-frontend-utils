@@ -1,14 +1,25 @@
 <template>
   <div>
-    <EpButton v-b-modal.arkistoidutModal variant="link" icon="folder">
-      <slot name="title"><span>{{ $t('arkistoidut') }}</span></slot>
+    <EpButton
+      v-b-modal.arkistoidutModal
+      variant="link"
+      icon="folder"
+    >
+      <slot name="title">
+        <span>{{ $t('arkistoidut') }}</span>
+      </slot>
     </EpButton>
     <b-modal
-      ref="arkistoidutModal"
       id="arkistoidutModal"
+      ref="arkistoidutModal"
       size="lg"
-      :hide-footer="true">
-      <div slot="modal-title">{{ $t('arkistoidut') + ' (' + arkistoidut.length + ')' }}</div>
+      :hide-footer="true"
+    >
+      <template #modal-title>
+        <div>
+          {{ $t('arkistoidut') + ' (' + arkistoidut.length + ')' }}
+        </div>
+      </template>
       <div class="search">
         <EpSearch v-model="query" />
       </div>
@@ -19,7 +30,8 @@
         :items="arkistoidutSortedFiltered"
         :fields="fields"
         :current-page="currentPage"
-        :per-page="perPage">
+        :per-page="perPage"
+      >
         <template #cell(nimi)="data">
           {{ $kaanna(data.value) }}
         </template>
@@ -27,7 +39,10 @@
           {{ $sdt(data.value) }}
         </template>
         <template #cell(siirtyminen)="data">
-          <slot name="palauta" :data="data"></slot>
+          <slot
+            name="palauta"
+            :data="data"
+          />
         </template>
       </b-table>
       <b-pagination
@@ -35,8 +50,8 @@
         :total-rows="arkistoidutSortedFiltered.length"
         :per-page="perPage"
         aria-controls="arkistoidut"
-        align="center">
-      </b-pagination>
+        align="center"
+      />
     </b-modal>
   </div>
 </template>

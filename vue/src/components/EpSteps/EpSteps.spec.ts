@@ -6,6 +6,7 @@ import { Kaannos } from '../../plugins/kaannos';
 import { Kielet } from '../../stores/kieli';
 import { findContaining } from '../../utils/jestutils';
 import { mount, createLocalVue, RouterLinkStub } from '@vue/test-utils';
+import { vi } from 'vitest';
 
 Vue.use(BootstrapVue);
 
@@ -20,14 +21,14 @@ describe('EpSteps component', () => {
       key: 'first',
       name: 'First step',
       description: 'First description',
-      isValid: jest.fn(() => true),
+      isValid: vi.fn(() => true),
     }, {
       key: 'second',
       name: 'Second step',
       description: 'Second description',
-      isValid: jest.fn(() => true),
+      isValid: vi.fn(() => true),
     }],
-    onSave: jest.fn(),
+    onSave: vi.fn(),
   };
 
   test('Renders', async () => {
@@ -46,14 +47,25 @@ describe('EpSteps component', () => {
     expect(wrapper.html()).toContain('First description');
     expect(findContaining(wrapper, 'button', 'edellinen')).toBeFalsy();
     findContaining(wrapper, 'button', 'seuraava')!.trigger('click');
+
+    await Vue.nextTick();
+
     expect(propsData.steps[0].isValid).toHaveBeenCalledTimes(2);
 
     findContaining(wrapper, 'button', 'edellinen')!.trigger('click');
+
+    await Vue.nextTick();
+
     findContaining(wrapper, 'button', 'seuraava')!.trigger('click');
+
+    await Vue.nextTick();
 
     expect(wrapper.html()).toContain('Second step');
     expect(wrapper.html()).toContain('Second description');
     findContaining(wrapper, 'button', 'tallenna')!.trigger('click');
+
+    await Vue.nextTick();
+
     expect(propsData.steps[1].isValid).toHaveBeenCalledTimes(3);
     expect(propsData.onSave).toHaveBeenCalledTimes(1);
   });

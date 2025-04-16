@@ -3,27 +3,38 @@
     <template v-if="isEditing">
       <draggable
         v-bind="taitotasotOptions"
+        v-model="taitotasot"
         tag="div"
-        v-model="taitotasot">
-        <div v-for="(taitotaso, index) in taitotasot" :key="taitotaso+index" class="px-3 py-2 mb-4 taitotaso">
-
-          <div class="order-handle mb-1" slot="left">
+      >
+        <div
+          v-for="(taitotaso, index) in taitotasot"
+          :key="taitotaso+index"
+          class="px-3 py-2 mb-4 taitotaso"
+        >
+          <div
+            class="order-handle mb-1"
+          >
             <EpMaterialIcon>drag_indicator</EpMaterialIcon>
-            <span class="otsikko"> {{$t(sisalto['koodisto-otsikko'])}}</span>
+            <span class="otsikko"> {{ $t(sisalto['koodisto-otsikko']) }}</span>
           </div>
 
           <EpKoodistoSelect
-            :store="koodisto"
             v-model="taitotaso.nimi"
+            :store="koodisto"
             :is-editing="true"
-            :naytaArvo="false">
+            :nayta-arvo="false"
+          >
             <template #default="{ open }">
               <b-input-group>
                 <b-form-input
                   :value="taitotaso.nimi ? $kaanna(taitotaso.nimi.nimi) : ''"
-                  disabled></b-form-input>
+                  disabled
+                />
                 <b-input-group-append>
-                  <b-button @click="open" variant="primary">
+                  <b-button
+                    variant="primary"
+                    @click="open"
+                  >
                     {{ $t('hae-koodistosta') }}
                   </b-button>
                 </b-input-group-append>
@@ -31,104 +42,170 @@
             </template>
           </EpKoodistoSelect>
 
-          <b-form-group class="col-5 mt-2" v-if="isOpintokokonaisuus">
+          <b-form-group
+            v-if="isOpintokokonaisuus"
+            class="col-5 mt-2"
+          >
             <div class="d-flex align-items-center">
               <b-form-group :label="$t('laajuus-vahintaan')">
-                <ep-input type="number" is-editing v-model="taitotaso.tyoelamaOpintoMinimiLaajuus">
-                </ep-input>
+                <ep-input
+                  v-model="taitotaso.tyoelamaOpintoMinimiLaajuus"
+                  type="number"
+                  is-editing
+                />
               </b-form-group>
               <div class="ml-2 pt-3">
                 -
               </div>
-              <b-form-group :label="$t('laajuus-enintaan')" class="ml-2">
-                <ep-input type="number" is-editing v-model="taitotaso.tyoelamaOpintoMaksimiLaajuus">
-                </ep-input>
+              <b-form-group
+                :label="$t('laajuus-enintaan')"
+                class="ml-2"
+              >
+                <ep-input
+                  v-model="taitotaso.tyoelamaOpintoMaksimiLaajuus"
+                  type="number"
+                  is-editing
+                />
               </b-form-group>
               <div class="ml-2 pt-3">
-                {{$t('op')}}
+                {{ $t('op') }}
               </div>
             </div>
           </b-form-group>
 
-          <b-form-group :label="tavoitteetOtsikko" required class="mt-4">
-            <ep-content v-model="taitotaso.tavoitteet"
-                        layout="normal"
-                        :is-editable="isEditing"
-                        :kasiteHandler="kasiteHandler"
-                        :kuvaHandler="kuvaHandler"></ep-content>
+          <b-form-group
+            :label="tavoitteetOtsikko"
+            required
+            class="mt-4"
+          >
+            <ep-content
+              v-model="taitotaso.tavoitteet"
+              layout="normal"
+              :is-editable="isEditing"
+              :kasite-handler="kasiteHandler"
+              :kuva-handler="kuvaHandler"
+            />
           </b-form-group>
 
-          <h3 class="mt-4">{{$t('opiskelijan-osaaminen')}}</h3>
+          <h3 class="mt-4">
+            {{ $t('opiskelijan-osaaminen') }}
+          </h3>
 
-          <b-form-group v-for="(sisalto, index) in sisalto.keskeisetsisallot"
-                        :key="'sisalto'+index"
-                        :label="sisalto['otsikko'] ? $t(sisalto['otsikko']) : ''"
-                        :label-class="sisalto['otsikko'] ? 'mt-4' : ''">
-            <h6>{{$t('opiskelija')}}</h6>
-            <ep-content v-model="taitotaso[sisalto['object']]"
-                        layout="normal"
-                        :is-editable="isEditing"
-                        :kasiteHandler="kasiteHandler"
-                        :kuvaHandler="kuvaHandler"></ep-content>
-
+          <b-form-group
+            v-for="(sisalto, index) in sisalto.keskeisetsisallot"
+            :key="'sisalto'+index"
+            :label="sisalto['otsikko'] ? $t(sisalto['otsikko']) : ''"
+            :label-class="sisalto['otsikko'] ? 'mt-4' : ''"
+          >
+            <h6>{{ $t('opiskelija') }}</h6>
+            <ep-content
+              v-model="taitotaso[sisalto['object']]"
+              layout="normal"
+              :is-editable="isEditing"
+              :kasite-handler="kasiteHandler"
+              :kuva-handler="kuvaHandler"
+            />
           </b-form-group>
 
           <div class="text-right">
-<!--            funktio puuttuu...-->
-<!--            <ep-button variant="link" @click="poistaTavoitealue(tavoitealue)">-->
-<!--              <EpMaterialIcon icon-shape="outlined" :color="'inherit'" :background="'inherit'">delete</EpMaterialIcon>-->
-<!--              {{ $t('poista-tavoitteet-ja-sisaltoalueet') }}-->
-<!--            </ep-button>-->
-            <ep-button variant="link" @click="poistaTaitotaso(taitotaso)" icon="delete">
+            <!--            funktio puuttuu...-->
+            <!--            <ep-button variant="link" @click="poistaTavoitealue(tavoitealue)">-->
+            <!--              <EpMaterialIcon icon-shape="outlined" :color="'inherit'" :background="'inherit'">delete</EpMaterialIcon>-->
+            <!--              {{ $t('poista-tavoitteet-ja-sisaltoalueet') }}-->
+            <!--            </ep-button>-->
+            <ep-button
+              variant="link"
+              icon="delete"
+              @click="poistaTaitotaso(taitotaso)"
+            >
               {{ $t(sisalto['poista-taitotaso']) }}
             </ep-button>
           </div>
         </div>
       </draggable>
 
-      <ep-button variant="outline" icon="add" @click="lisaaTaitotaso()">
+      <ep-button
+        variant="outline"
+        icon="add"
+        @click="lisaaTaitotaso()"
+      >
         {{ $t(sisalto['lisaa-taitotaso']) }}
       </ep-button>
     </template>
 
     <div v-else>
-      <div v-for="(taitotaso, index) in taitotasot" :key="taitotaso+index">
-        <hr v-if="index > 0" class="mb-4"/>
+      <div
+        v-for="(taitotaso, index) in taitotasot"
+        :key="taitotaso+index"
+      >
+        <hr
+          v-if="index > 0"
+          class="mb-4"
+        >
 
-        <h2 v-if="taitotaso.nimi">{{taitotasoOtsikko(taitotaso)}}</h2>
+        <h2 v-if="taitotaso.nimi">
+          {{ taitotasoOtsikko(taitotaso) }}
+        </h2>
 
         <b-form-group class="mt-3">
-          <h3 slot="label">{{tavoitteetOtsikko}}</h3>
-          <ep-content v-if="kuvaHandler"
-                      :value="taitotaso.tavoitteet"
-                      :kasiteHandler="kasiteHandler"
-                      :kuvaHandler="kuvaHandler"
-                      layout="normal"/>
-          <ep-content-viewer v-else :value="$kaanna(taitotaso.tavoitteet)" :termit="termit" :kuvat="kuvat" />
+          <template #label>
+            <h3>
+              {{ tavoitteetOtsikko }}
+            </h3>
+          </template>
+          <ep-content
+            v-if="kuvaHandler"
+            :value="taitotaso.tavoitteet"
+            :kasite-handler="kasiteHandler"
+            :kuva-handler="kuvaHandler"
+            layout="normal"
+          />
+          <ep-content-viewer
+            v-else
+            :value="$kaanna(taitotaso.tavoitteet)"
+            :termit="termit"
+            :kuvat="kuvat"
+          />
 
-          <slot v-bind="taitotaso" name="paikallinentarkennus"></slot>
+          <slot
+            v-bind="taitotaso"
+            name="paikallinentarkennus"
+          />
         </b-form-group>
 
-        <h3>{{$t('opiskelijan-osaaminen')}}</h3>
+        <h3>{{ $t('opiskelijan-osaaminen') }}</h3>
 
-        <div v-for="(keskeinenSisalto, index) in keskeisetSisallot" :key="'sisalto'+index">
-          <b-form-group class="mt-3 mb-2 p-0" v-if="taitotaso[keskeinenSisalto['object']]">
-            <template v-if="keskeinenSisalto['otsikko']">
-              <h4 slot="label">{{$t(keskeinenSisalto['otsikko'])}}</h4>
+        <div
+          v-for="(keskeinenSisalto, index) in keskeisetSisallot"
+          :key="'sisalto'+index"
+        >
+          <b-form-group
+            v-if="taitotaso[keskeinenSisalto['object']]"
+            class="mt-3 mb-2 p-0"
+          >
+            <template v-if="keskeinenSisalto['otsikko']" #label>
+              <h4>
+                {{ $t(keskeinenSisalto['otsikko']) }}
+              </h4>
             </template>
-            <h6>{{$t('opiskelija')}}</h6>
-            <ep-content v-if="kuvaHandler"
-                        :value="taitotaso[keskeinenSisalto['object']]"
-                        :kasiteHandler="kasiteHandler"
-                        :kuvaHandler="kuvaHandler"
-                        layout="normal"/>
-            <ep-content-viewer v-else :value="$kaanna(taitotaso[keskeinenSisalto['object']])" :termit="termit" :kuvat="kuvat" />
+            <h6>{{ $t('opiskelija') }}</h6>
+            <ep-content
+              v-if="kuvaHandler"
+              :value="taitotaso[keskeinenSisalto['object']]"
+              :kasite-handler="kasiteHandler"
+              :kuva-handler="kuvaHandler"
+              layout="normal"
+            />
+            <ep-content-viewer
+              v-else
+              :value="$kaanna(taitotaso[keskeinenSisalto['object']])"
+              :termit="termit"
+              :kuvat="kuvat"
+            />
           </b-form-group>
         </div>
-
       </div>
     </div>
-
   </div>
 </template>
 

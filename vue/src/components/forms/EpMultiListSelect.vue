@@ -1,12 +1,15 @@
 <template>
   <div v-if="isEditing">
-
-    <div v-for="(innerModel, i) in innerModelValidations" :key="i" class="row mb-2">
+    <div
+      v-for="(innerModel, i) in innerModelValidations"
+      :key="i"
+      class="row mb-2"
+    >
       <div class="col-11">
         <multiselect
+          v-model="innerModels[i]"
           :disabled="isLoading"
           class="groupselect"
-          v-model="innerModels[i]"
           :options="items"
           :multiple="false"
           track-by="text"
@@ -16,53 +19,105 @@
           deselect-label=""
           :placeholder="''"
           :class="{'is-invalid': !innerModel.valid }"
-          @input="handleInput($event, i)" >
-
-          <template slot="option" slot-scope="{ option }">
+          @input="handleInput($event, i)"
+        >
+          <template #option="{ option }">
             <div :class="{'child': option.child, 'unselectable': option.unselectable}">
-              <slot name="option" :option="option">{{option.text}}</slot>
+              <slot
+                name="option"
+                :option="option"
+              >
+                {{ option.text }}
+              </slot>
             </div>
           </template>
 
-          <template slot="singleLabel" slot-scope="{ option }">
-            <slot name="singleLabel" :option="option" v-if="option.value">{{option.text}}</slot>
-            <div class="valitse" v-else>{{$t('valitse')}}</div>
+          <template #singleLabel="{ option }">
+            <slot
+              v-if="option.value"
+              name="singleLabel"
+              :option="option"
+            >
+              {{ option.text }}
+            </slot>
+            <div
+              v-else
+              class="valitse"
+            >
+              {{ $t('valitse') }}
+            </div>
           </template>
 
-          <template slot="noResult">
+          <template #noResult>
             <div>{{ $t('ei-hakutuloksia') }}</div>
           </template>
-          <template slot="noOptions">
+          <template #noOptions>
             <div>{{ $t('ei-vaihtoehtoja') }}</div>
           </template>
-
         </multiselect>
-
       </div>
       <div class="col-1">
-        <ep-button v-if="!required || (i > 0 && !isLoading)"
-                   buttonClass="p-0 pt-2 roskalaatikko"
-                   variant="link"
-                   icon="delete"
-                   @click="poistaValinta(i)"/>
+        <ep-button
+          v-if="!required || (i > 0 && !isLoading)"
+          button-class="p-0 pt-2 roskalaatikko"
+          variant="link"
+          icon="delete"
+          @click="poistaValinta(i)"
+        />
       </div>
     </div>
 
-    <ep-spinner v-if="isLoading"/>
-    <ep-button buttonClass="pl-0 lisaa-valinta" variant="outline-primary" icon="add" @click="lisaaValinta" v-else-if="multiple" >
-      <slot name="lisaaTeksti">{{ $t(lisaaTeksti) }}</slot>
+    <ep-spinner v-if="isLoading" />
+    <ep-button
+      v-else-if="multiple"
+      button-class="pl-0 lisaa-valinta"
+      variant="outline-primary"
+      icon="add"
+      @click="lisaaValinta"
+    >
+      <slot name="lisaaTeksti">
+        {{ $t(lisaaTeksti) }}
+      </slot>
     </ep-button>
 
-    <div class="valid-feedback" v-if="!validationError && validMessage">{{ $t(validMessage) }}</div>
-    <div class="invalid-feedback" v-else-if="validationError && invalidMessage ">{{ $t(invalidMessage) }}</div>
-    <div class="invalid-feedback" v-else-if="validationError && !invalidMessage">{{ $t('validation-error-' + validationError, validation.$params[validationError]) }}</div>
-    <small class="form-text text-muted" v-if="help && isEditing">{{ $t(help) }}</small>
-
+    <div
+      v-if="!validationError && validMessage"
+      class="valid-feedback"
+    >
+      {{ $t(validMessage) }}
+    </div>
+    <div
+      v-else-if="validationError && invalidMessage "
+      class="invalid-feedback"
+    >
+      {{ $t(invalidMessage) }}
+    </div>
+    <div
+      v-else-if="validationError && !invalidMessage"
+      class="invalid-feedback"
+    >
+      {{ $t('validation-error-' + validationError, validation.$params[validationError]) }}
+    </div>
+    <small
+      v-if="help && isEditing"
+      class="form-text text-muted"
+    >{{ $t(help) }}</small>
   </div>
   <div v-else>
-    <div v-for="(innerModel, i) in innerModelValidations" :key="i" class="row" :class="{'mb-2': i < innerModelValidations.length-1}">
+    <div
+      v-for="(innerModel, i) in innerModelValidations"
+      :key="i"
+      class="row"
+      :class="{'mb-2': i < innerModelValidations.length-1}"
+    >
       <div class="col-11">
-        <slot name="singleLabel" :option="innerModels[i]" v-if="innerModels[i].value">{{innerModels[i].text}}</slot>
+        <slot
+          v-if="innerModels[i].value"
+          name="singleLabel"
+          :option="innerModels[i]"
+        >
+          {{ innerModels[i].text }}
+        </slot>
       </div>
     </div>
   </div>

@@ -1,7 +1,13 @@
 <template>
-  <div class="d-flex" v-if="yllapitoValue">
+  <div
+    v-if="yllapitoValue"
+    class="d-flex"
+  >
     <EpMaterialIcon>chevron_right</EpMaterialIcon>
-    <EpExternalLink :url="url" iconRight>
+    <EpExternalLink
+      :url="url"
+      icon-right
+    >
       {{ $t('anna-palautetta') }}
     </EpExternalLink>
   </div>

@@ -1,13 +1,20 @@
 <template>
   <router-link :to="route">
     <div class="d-inline-flex align-items-start flex-column kortti ml-0 mr-3 my-3 pl-3 pt-3 pr-2 pb-2">
-      <div class="font-weight-bold mb-auto nimi">{{$kaanna(koulutuksenosa.nimi)}}</div>
+      <div class="font-weight-bold mb-auto nimi">
+        {{ $kaanna(koulutuksenosa.nimi) }}
+      </div>
       <div class="w-100 text-right laajuus">
         <span class="pr-1">
-          {{koulutuksenosa.laajuusMinimi}}-{{koulutuksenosa.laajuusMaksimi}} {{$t('viikkoa')}}
+          {{ koulutuksenosa.laajuusMinimi }}-{{ koulutuksenosa.laajuusMaksimi }} {{ $t('viikkoa') }}
         </span>
 
-        <EpColorCircle class="laajuusmerkki" v-for="(laajuusmerkki, index) in laajuusmerkit" :key="'laajuusmerkki'+index" :color="laajuusmerkki"/>
+        <EpColorCircle
+          v-for="(laajuusmerkki, index) in laajuusmerkit"
+          :key="'laajuusmerkki'+index"
+          class="laajuusmerkki"
+          :color="laajuusmerkki"
+        />
       </div>
     </div>
   </router-link>

@@ -1,28 +1,47 @@
 <template>
-<div v-if="valueFormatted">
-  <div class="teksti" v-html="valueFormatted" />
-  <div v-for="(viite, idx) in termitWrapped" :key="idx">
-    <template v-if="viite">
-      <b-popover v-if="viite.el && viite.termi"
-                 :target="viite.el"
-                 triggers="click blur"
-                 placement="bottom"
-                 @shown="termiAriaNakyviin(viite.termi.avain)"
-                 @hidden="termiAriaPiiloon(viite.termi.avain)">
-        <template v-slot:title v-if="viite.termi.selitys">
-          {{ $kaanna(viite.termi.termi) }}
-        </template>
-        <div v-if="!viite.termi.selitys">{{ $kaanna(viite.termi.termi) }}</div>
-        <div v-if="viite.termi.selitys" v-html="$kaanna(viite.termi.selitys)"></div>
-      </b-popover>
-      <div class="sr-only" aria-live="polite">
-        <span v-if="nakyvatTermit.includes(viite.termi.avain)">
-          {{ $kaanna(viite.termi.selitys) }}
-        </span>
-      </div>
-    </template>
+  <div v-if="valueFormatted">
+    <div
+      class="teksti"
+      v-html="valueFormatted"
+    />
+    <div
+      v-for="(viite, idx) in termitWrapped"
+      :key="idx"
+    >
+      <template v-if="viite">
+        <b-popover
+          v-if="viite.el && viite.termi"
+          :target="viite.el"
+          triggers="click blur"
+          placement="bottom"
+          @shown="termiAriaNakyviin(viite.termi.avain)"
+          @hidden="termiAriaPiiloon(viite.termi.avain)"
+        >
+          <template
+            v-if="viite.termi.selitys"
+            #title
+          >
+            {{ $kaanna(viite.termi.termi) }}
+          </template>
+          <div v-if="!viite.termi.selitys">
+            {{ $kaanna(viite.termi.termi) }}
+          </div>
+          <div
+            v-if="viite.termi.selitys"
+            v-html="$kaanna(viite.termi.selitys)"
+          />
+        </b-popover>
+        <div
+          class="sr-only"
+          aria-live="polite"
+        >
+          <span v-if="nakyvatTermit.includes(viite.termi.avain)">
+            {{ $kaanna(viite.termi.selitys) }}
+          </span>
+        </div>
+      </template>
+    </div>
   </div>
-</div>
 </template>
 
 <script lang="ts">

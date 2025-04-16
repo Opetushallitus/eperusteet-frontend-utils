@@ -25,6 +25,8 @@ describe('EpToggle component', () => {
       size: 20,
     });
 
+    await Vue.nextTick();
+
     expect(wrapper.html()).toContain('julkaistu');
     expect(wrapper.html()).toContain('circle');
 
@@ -35,6 +37,8 @@ describe('EpToggle component', () => {
       tooltip: 'tooltipviesti',
       size: 20,
     });
+
+    await Vue.nextTick();
 
     expect(wrapper.element.style.color).toMatchSnapshot();
   });

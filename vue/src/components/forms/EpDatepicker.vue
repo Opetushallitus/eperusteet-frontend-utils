@@ -1,10 +1,10 @@
 <template>
-<div class="ep-date-picker"
-     v-if="isEditing">
-
+  <div
+    v-if="isEditing"
+    class="ep-date-picker"
+  >
     <b-form-datepicker
       :value="modelValue"
-      @input="onInput"
       :locale="locale"
       start-weekday="1"
       :placeholder="$t('valitse-pvm')"
@@ -12,7 +12,6 @@
       :state="state"
       reset-button
       close-button
-      @blur="onBlur"
       :label-reset-button="$t('tyhjenna')"
       :label-close-button="$t('sulje')"
       :label-no-date-selected="$t('valitse-pvm')"
@@ -20,18 +19,41 @@
       :value-as-date="true"
       :hide-header="true"
       :no-flip="true"
-      />
+      @input="onInput"
+      @blur="onBlur"
+    />
 
-    <div class="valid-feedback"
-         v-if="!validationError && validMessage">{{ $t(validMessage) }}</div>
-    <div v-else-if="validationError && isDirty" :class="{ 'is-warning': isWarning }">
-      <div class="invalid-feedback" v-if="invalidMessage">{{ $t(invalidMessage) }}</div>
-      <div class="invalid-feedback" v-else>{{ message }}</div>
+    <div
+      v-if="!validationError && validMessage"
+      class="valid-feedback"
+    >
+      {{ $t(validMessage) }}
     </div>
-    <small class="form-text text-muted"
-           v-if="help && isEditing">{{ $t(help) }}</small>
-</div>
-<div v-else>{{ locdate }}</div>
+    <div
+      v-else-if="validationError && isDirty"
+      :class="{ 'is-warning': isWarning }"
+    >
+      <div
+        v-if="invalidMessage"
+        class="invalid-feedback"
+      >
+        {{ $t(invalidMessage) }}
+      </div>
+      <div
+        v-else
+        class="invalid-feedback"
+      >
+        {{ message }}
+      </div>
+    </div>
+    <small
+      v-if="help && isEditing"
+      class="form-text text-muted"
+    >{{ $t(help) }}</small>
+  </div>
+  <div v-else>
+    {{ locdate }}
+  </div>
 </template>
 
 <script lang="ts">

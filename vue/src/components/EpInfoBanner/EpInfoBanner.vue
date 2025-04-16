@@ -1,7 +1,9 @@
 <template>
   <div class="ep-info-banner d-flex p-3">
-    <EpMaterialIcon class="icon mr-2">info</EpMaterialIcon>
-    <div><slot/></div>
+    <EpMaterialIcon class="icon mr-2">
+      info
+    </EpMaterialIcon>
+    <div><slot /></div>
   </div>
 </template>
 

@@ -1,8 +1,15 @@
 <template>
   <div>
-    <div class="row justify-content-center" id="tila-popover">
+    <div
+      id="tila-popover"
+      class="row justify-content-center"
+    >
       <div class="col-12 progress-area">
-        <ep-progress :slices="processSlices" :height="height" :width="width"/>
+        <ep-progress
+          :slices="processSlices"
+          :height="height"
+          :width="width"
+        />
       </div>
       <div class="col-12 header">
         <slot name="header" />
@@ -10,21 +17,27 @@
     </div>
 
     <b-popover
+      v-if="$slots.default"
+      ref="progresspopover"
       container="tila-popover"
       target="tila-popover"
       triggers="focus hover blur"
       size="md"
       placement="bottom"
       :show.sync="tilaPopupVisible"
-      ref="progresspopover"
       custom-class="progress-popover"
-      v-if="$slots.default"
+    >
+      <div
+        class="popup-top row flex-column align-items-center"
+        :style="popupStyle"
       >
-
-      <div class="popup-top row flex-column align-items-center" :style="popupStyle">
         <div class="progress-area">
-          <ep-progress :slices="processSlices" :height="height" :width="width"
-                       :popup-style="{ 'background-color': '' }" />
+          <ep-progress
+            :slices="processSlices"
+            :height="height"
+            :width="width"
+            :popup-style="{ 'background-color': '' }"
+          />
         </div>
         <div class="header">
           <slot name="header" />
@@ -43,7 +56,6 @@
         <slot name="bottom" />
       </div>
     </b-popover>
-
   </div>
 </template>
 

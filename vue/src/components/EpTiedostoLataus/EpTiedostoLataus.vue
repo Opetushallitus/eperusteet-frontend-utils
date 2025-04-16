@@ -1,16 +1,34 @@
 <template>
   <div>
-    <div class="tiedosto-lataus" :class="file ? 'tiedosto' : 'ei-tiedosto'">
-
-      <b-form-file ref="file-input" v-if="!file" :accept="accept" :placeholder="placeholder" :drop-placeholder="dropPlaceholder" :browse-text="browseText" @input="onInput"></b-form-file>
+    <div
+      class="tiedosto-lataus"
+      :class="file ? 'tiedosto' : 'ei-tiedosto'"
+    >
+      <b-form-file
+        v-if="!file"
+        ref="file-input"
+        :accept="accept"
+        :placeholder="placeholder"
+        :drop-placeholder="dropPlaceholder"
+        :browse-text="browseText"
+        @input="onInput"
+      />
 
       <template v-if="file">
-        <slot name="file-selected" :file="file">
+        <slot
+          name="file-selected"
+          :file="file"
+        >
           <div class="pl-2 d-inline-block">
             <div>{{ $t('valittu-tiedosto') }}: {{ file ? file.name : '' }}</div>
             <div class="text-right pl-2 pt-4">
-              <ep-button @click="cancel" class="pl-5">
-                <slot name="peruuta">{{ $t('peruuta') }}</slot>
+              <ep-button
+                class="pl-5"
+                @click="cancel"
+              >
+                <slot name="peruuta">
+                  {{ $t('peruuta') }}
+                </slot>
               </ep-button>
             </div>
           </div>

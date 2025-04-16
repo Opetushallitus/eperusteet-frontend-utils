@@ -11,7 +11,7 @@
           </slot>
         </h4>
       </div>
-      <div><slot></slot></div>
+      <div><slot /></div>
     </div>
   </div>
 </template>

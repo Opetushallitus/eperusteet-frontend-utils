@@ -1,5 +1,9 @@
 <template>
-  <b-table striped :items="arvioinninKohteetSorted" :fields="sarakkeet"/>
+  <b-table
+    striped
+    :items="arvioinninKohteetSorted"
+    :fields="sarakkeet"
+  />
 </template>
 
 <script lang="ts">

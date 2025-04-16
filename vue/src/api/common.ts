@@ -12,7 +12,7 @@ axios.defaults.xsrfHeaderName = 'CSRF';
 
 export function axiosHandler(msg: string) {
   return async (err: any) => {
-    if (err.response.status === 500 || err.response.status === 403 || err.response.status === 400 || err.response.status === 409) {
+    if (err?.response?.status === 500 || err?.response?.status === 403 || err?.response?.status === 400 || err?.response?.status === 409) {
       fail(errorMessage(err), undefined, errorNotificationDuration());
     }
     throw err;
@@ -20,11 +20,11 @@ export function axiosHandler(msg: string) {
 }
 
 function errorMessage(err) {
-  if (err.response.status === 403) {
+  if (err?.response?.status === 403) {
     return 'ei-oikeutta-suorittaa';
   }
 
-  if (err.response.status === 400 && !!err.response?.data?.syy) {
+  if (err?.response?.status === 400 && !!err.response?.data?.syy) {
     return Kielet.kaannaOlioTaiTeksti(err.response?.data?.syy);
   }
 

@@ -1,80 +1,134 @@
 <template>
-<div v-if="isEditable">
-  <editor-menu-bar :editor="editor"
-                   :focused="true"
-                    v-slot="data">
-    <div class="editor-toolbar" :class="{ 'd-none': !alwaysVisible && !data.focused}">
-      <div class="btn-toolbar" role="toolbar">
-        <div class="btn-group mr-2" role="group" v-for="(group, idx) in groups" :key="idx">
-          <b-button v-for="feature in group"
-                  :key="feature.command"
-                  :delay="100"
-                  :title="$t('editor-' + feature.command)"
-                  :variant="'outline'"
-                  :disabled="feature.disabled"
-                  :class="{ 'active': !feature.disabled && data.isActive[feature.command] && data.isActive[feature.command]() }"
-                  @click="feature.customClick ? feature.customClick(data) : data.commands[feature.command](feature.params)">
-            <EpMaterialIcon v-if="feature.icon" :color="'#444'">{{ feature.icon }}</EpMaterialIcon>
-            <span v-if="feature.text">{{ $t(feature.text) }}</span>
-          </b-button>
+  <div v-if="isEditable">
+    <editor-menu-bar
+      v-slot="data"
+      :editor="editor"
+      :focused="true"
+    >
+      <div
+        class="editor-toolbar"
+        :class="{ 'd-none': !alwaysVisible && !data.focused}"
+      >
+        <div
+          class="btn-toolbar"
+          role="toolbar"
+        >
+          <div
+            v-for="(group, idx) in groups"
+            :key="idx"
+            class="btn-group mr-2"
+            role="group"
+          >
+            <b-button
+              v-for="feature in group"
+              :key="feature.command"
+              :delay="100"
+              :title="$t('editor-' + feature.command)"
+              :variant="'outline'"
+              :disabled="feature.disabled"
+              :class="{ 'active': !feature.disabled && data.isActive[feature.command] && data.isActive[feature.command]() }"
+              @click="feature.customClick ? feature.customClick(data) : data.commands[feature.command](feature.params)"
+            >
+              <EpMaterialIcon
+                v-if="feature.icon"
+                :color="'#444'"
+              >
+                {{ feature.icon }}
+              </EpMaterialIcon>
+              <span v-if="feature.text">{{ $t(feature.text) }}</span>
+            </b-button>
+          </div>
         </div>
-      </div>
-      <div class="btn-toolbar sub-bar" role="toolbar" v-if="layout === 'normal' && data.isActive.table()">
-        <div class="btn-group mr-2" role="group" v-for="(group, idx) in helperTable" :key="idx">
-          <b-button v-for="feature in group"
-                  :key="feature.command"
-                  :title="$t('editor-' + feature.command)"
-                  :variant="'outline'"
-                  :disabled="feature.disabled"
-                  :class="{ 'active': !feature.disabled && data.isActive[feature.command] && data.isActive[feature.command]() }"
-                  @click="feature.customClick ? feature.customClick(data) : data.commands[feature.command](feature.params)">
-            <EpPublicImage v-if="feature.icon" :image="feature.icon" class="icon-opacity"></EpPublicImage>
-          </b-button>
+        <div
+          v-if="layout === 'normal' && data.isActive.table()"
+          class="btn-toolbar sub-bar"
+          role="toolbar"
+        >
+          <div
+            v-for="(group, idx) in helperTable"
+            :key="idx"
+            class="btn-group mr-2"
+            role="group"
+          >
+            <b-button
+              v-for="feature in group"
+              :key="feature.command"
+              :title="$t('editor-' + feature.command)"
+              :variant="'outline'"
+              :disabled="feature.disabled"
+              :class="{ 'active': !feature.disabled && data.isActive[feature.command] && data.isActive[feature.command]() }"
+              @click="feature.customClick ? feature.customClick(data) : data.commands[feature.command](feature.params)"
+            >
+              <EpPublicImage
+                v-if="feature.icon"
+                :image="feature.icon"
+                class="icon-opacity"
+              />
+            </b-button>
+          </div>
         </div>
+        <b-modal
+          ref="link-modal"
+          :title="$t('lisaa-muokkaa-linkki')"
+          :ok-title="$t('ok')"
+          :cancel-title="$t('peruuta')"
+          :ok-disabled="linkInvalid"
+          size="xl"
+          @ok="editLink(data)"
+          @keyup.enter="editLink(data)"
+          @hidden="linkValue = null"
+        >
+          <b-form-group class="mx-4">
+            <template v-if="navigationFlattened">
+              <b-form-radio
+                v-model="linkkiTyyppi"
+                class="p-2"
+                value="sisainen"
+                name="linkkiTyyppi"
+              >
+                {{ $t('sisainen-linkki') }}
+              </b-form-radio>
+              <EpMultiSelect
+                v-if="linkkiTyyppi === 'sisainen'"
+                v-model="internalLink"
+                :is-editing="true"
+                :search-identity="labelSearchIdentity"
+                :options="navigationFlattened"
+                :placeholder="$t('valitse-sivu') + '...'"
+              >
+                <template #singleLabel="{ option }">
+                  {{ $kaanna(option.label) }}
+                </template>
+                <template #option="{ option }">
+                  <span :style="'padding-left: ' + 10*option.depth +'px'"> {{ $kaanna(option.label) }}</span>
+                </template>
+              </EpMultiSelect>
+
+              <b-form-radio
+                v-model="linkkiTyyppi"
+                class="p-2 mt-3"
+                value="ulkoinen"
+                name="linkkiTyyppi"
+              >
+                {{ $t('ulkoinen-linkki') }}
+              </b-form-radio>
+              <b-form-input
+                v-if="linkkiTyyppi === 'ulkoinen'"
+                v-model="linkValue"
+                :placeholder="linkPlaceholder"
+                :state="!linkInvalid"
+              />
+            </template>
+            <b-form-input
+              v-else
+              v-model="linkValue"
+              :placeholder="linkPlaceholder"
+            />
+          </b-form-group>
+        </b-modal>
       </div>
-      <b-modal ref="link-modal"
-               :title="$t('lisaa-muokkaa-linkki')"
-               :ok-title="$t('ok')"
-               :cancel-title="$t('peruuta')"
-               @ok="editLink(data)"
-               @keyup.enter="editLink(data)"
-               @hidden="linkValue = null"
-               :ok-disabled="linkInvalid"
-               size="xl">
-
-        <b-form-group class="mx-4">
-
-          <template v-if="navigationFlattened">
-            <b-form-radio class="p-2" v-model="linkkiTyyppi" value="sisainen" name="linkkiTyyppi">{{ $t('sisainen-linkki') }}</b-form-radio>
-            <EpMultiSelect
-              v-if="linkkiTyyppi === 'sisainen'"
-              v-model="internalLink"
-              :is-editing="true"
-              :search-identity="labelSearchIdentity"
-              :options="navigationFlattened"
-              :placeholder="$t('valitse-sivu') + '...'">
-              <template slot="singleLabel" slot-scope="{ option }">
-                {{ $kaanna(option.label) }}
-              </template>
-              <template slot="option" slot-scope="{ option }">
-                <span :style="'padding-left: ' + 10*option.depth +'px'"> {{ $kaanna(option.label) }}</span>
-              </template>
-            </EpMultiSelect>
-
-            <b-form-radio class="p-2 mt-3" v-model="linkkiTyyppi" value="ulkoinen" name="linkkiTyyppi" >{{ $t('ulkoinen-linkki') }}</b-form-radio>
-            <b-form-input v-if="linkkiTyyppi === 'ulkoinen'"
-                          v-model="linkValue"
-                          :placeholder="linkPlaceholder"
-                          :state="!linkInvalid"></b-form-input>
-          </template>
-          <b-form-input v-else v-model="linkValue" :placeholder="linkPlaceholder"></b-form-input>
-
-        </b-form-group>
-
-      </b-modal>
-    </div>
-  </editor-menu-bar>
-</div>
+    </editor-menu-bar>
+  </div>
 </template>
 
 <script lang="ts">

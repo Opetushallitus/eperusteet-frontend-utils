@@ -3,8 +3,9 @@
     <EpLaajuusInput
       v-model="value.laajuus"
       :is-editing="isEditing"
-      :validation="validation.laajuus">
-      <span></span>
+      :validation="validation.laajuus"
+    >
+      <span />
     </EpLaajuusInput>
 
     <EpMultiSelect
@@ -14,15 +15,19 @@
       :close-on-select="true"
       :clear-on-select="false"
       :placeholder="$t('valitse-laajuus-yksikko')"
-      :validation="validation.laajuusYksikko">
-      <template slot="singleLabel" slot-scope="{ option }">
+      :validation="validation.laajuusYksikko"
+    >
+      <template #singleLabel="{ option }">
         {{ $t(option.toLowerCase() + '-lyhenne') }}
       </template>
-      <template slot="option" slot-scope="{ option }">
+      <template #option="{ option }">
         {{ $t(option.toLowerCase() + '-partitiivi') }}
       </template>
     </EpMultiSelect>
-    <div v-if="!isEditing && value.laajuusYksikko && value.laajuus" class="ml-2">
+    <div
+      v-if="!isEditing && value.laajuusYksikko && value.laajuus"
+      class="ml-2"
+    >
       <span> {{ laajuusYksikkoLyhenne }}</span>
     </div>
   </div>
@@ -79,7 +84,7 @@ export default class EpLaajuusYksikkoInput extends Mixins(EpValidation) {
   get laajuusYksikkoLyhenne() {
     return this.$t(_.lowerCase(this.value.laajuusYksikko) + '-lyhenne');
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

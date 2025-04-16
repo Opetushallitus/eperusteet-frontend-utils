@@ -1,12 +1,12 @@
 import * as _ from 'lodash';
 import Vue from 'vue';
 import VueScrollTo from 'vue-scrollto';
-import { reactive, computed } from '@vue/composition-api';
 import { Computed } from '../../utils/interfaces';
 import { ILukko, Revision } from '../../tyypit';
 import VueRouter, { RawLocation } from 'vue-router';
 import { fail } from '../../utils/notifications';
 import { createLogger } from '../../utils/logger';
+import { computed, reactive } from '@vue/composition-api';
 
 export interface EditointiKontrolliValidation {
   valid: boolean;

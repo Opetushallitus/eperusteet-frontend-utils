@@ -142,4 +142,4 @@ $paattynyt-color: $red-1;
 $ylops-paikallinen-color: #eaf6fe;
 
 // Ylikirjoitetaan muuttujien arvot palvelukohtaisilla jos määritelty
-@import "~@/styles/_variables.scss";
+@import "@/styles/_variables.scss";

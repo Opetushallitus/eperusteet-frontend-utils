@@ -24,6 +24,9 @@ describe('EpToggle component', () => {
       text: 'tässä tekstiä',
       ops: true,
     });
+
+    await Vue.nextTick();
+
     expect(wrapper.html()).not.toEqual(old);
   });
 });

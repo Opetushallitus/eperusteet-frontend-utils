@@ -1,85 +1,140 @@
 <template>
-<div>
-  <label :for="id" v-if="labelSlot" class="label"><slot name="label"/></label>
-  <multiselect v-model="model"
-               :track-by="track"
-               :options="filteredOptions"
-               :close-on-select="closeOnSelect"
-               :clear-on-select="clearOnSelect"
-               :placeholder="placeholder"
-               select-label=""
-               selected-label=""
-               deselect-label=""
-               @search-change="onSearchChange"
-               :multiple="multiple"
-               :class="inputClass"
-               :label="label"
-               :custom-label="customLabel"
-               :group-values="groupValues"
-               :group-label="groupLabel"
-               :group-select="groupSelect"
-               :searchable="searchable"
-               :maxHeight="maxHeight"
-               :loading="loading"
-               :internal-search="internalSearch"
-               :disabled="disabled"
-               :allowEmpty="allowEmpty"
-               :openDirection="openDirection"
-               @remove="remove"
-               ref="multiselect"
-               @tag="addTag"
-               :taggable="taggable"
-               :tagPlaceholder="tagPlaceholder"
-               :id="id"
-               :aria-controls="id">
+  <div>
+    <label
+      v-if="labelSlot"
+      :for="id"
+      class="label"
+    ><slot name="label" /></label>
+    <multiselect
+      v-model="model"
+      :track-by="track"
+      :options="filteredOptions"
+      :close-on-select="closeOnSelect"
+      :clear-on-select="clearOnSelect"
+      :placeholder="placeholder"
+      select-label=""
+      selected-label=""
+      deselect-label=""
+      :multiple="multiple"
+      :class="inputClass"
+      :label="label"
+      :custom-label="customLabel"
+      :group-values="groupValues"
+      :group-label="groupLabel"
+      :group-select="groupSelect"
+      :searchable="searchable"
+      :max-height="maxHeight"
+      :loading="loading"
+      :internal-search="internalSearch"
+      ref="multiselect"
+      :disabled="disabled"
+      :allow-empty="allowEmpty"
+      :open-direction="openDirection"
+      :taggable="taggable"
+      :tag-placeholder="tagPlaceholder"
+      :id="id"
+      @search-change="onSearchChange"
+      :aria-controls="id"
+      @remove="remove"
+      @tag="addTag"
+    >
+      <template #beforeList>
+        <slot name="beforeList" />
+      </template>
 
-    <template slot="beforeList">
-      <slot name="beforeList" />
-    </template>
-
-    <template slot="singleLabel"
-              slot-scope="{ option }">
-      <slot name="singleLabel" :option="option"></slot>
-    </template>
-    <template slot="option" slot-scope="{ option, search }">
-      <div class="d-flex align-items-center">
-        <div class="w-100" role="option" :aria-selected="optionChecked(option)">
-          <slot name="checkbox" :option="option">
-            <input type="checkbox" :checked="optionChecked(option)" v-if="multiple"/>
-          </slot>
-          <slot name="option" :option="option" :search="search">
-            <span class="ml-2">{{getOptionLabel(option)}}</span>
-          </slot>
+      <template #singleLabel="{ option }">
+        <slot
+          name="singleLabel"
+          :option="option"
+        />
+      </template>
+      <template #option="{ option, search }">
+        <div class="d-flex align-items-center">
+          <div
+            class="w-100"
+            role="option"
+            :aria-selected="optionChecked(option)"
+          >
+            <slot
+              name="checkbox"
+              :option="option"
+            >
+              <input
+                v-if="multiple"
+                type="checkbox"
+                :checked="optionChecked(option)"
+              >
+            </slot>
+            <slot
+              name="option"
+              :option="option"
+              :search="search"
+            >
+              <span class="ml-2">{{ getOptionLabel(option) }}</span>
+            </slot>
+          </div>
+          <EpMaterialIcon
+            v-if="optionChecked(option)"
+            class="mr-2"
+          >
+            check
+          </EpMaterialIcon>
         </div>
-        <EpMaterialIcon v-if="optionChecked(option)" class="mr-2">check</EpMaterialIcon>
-      </div>
-    </template>
-    <template slot="tag" slot-scope="{ option, search, remove }">
-      <slot name="tag" :option="option" :search="search" :remove="remove"></slot>
-    </template>
-    <template slot="noResult">
-      <slot name="noResult">
-        <div>{{ $t('ei-hakutuloksia') }}</div>
-      </slot>
-    </template>
-    <template slot="noOptions">
-      <slot name="noOptions">
-        <div>{{ $t('ei-vaihtoehtoja') }}</div>
-      </slot>
-    </template>
-    <template slot="selection" slot-scope="{ values, search, isOpen }">
-      <slot name="selection" :values="values" :search="search" :isOpen="isOpen"></slot>
-    </template>
-    <template slot="afterList">
-      <slot name="afterList"></slot>
-    </template>
-  </multiselect>
-  <div class="valid-feedback" v-if="!validationError && validMessage">{{ $t(validMessage) }}</div>
-  <div class="invalid-feedback" v-else-if="validationError && invalidMessage ">{{ $t(invalidMessage) }}</div>
-  <div class="invalid-feedback" v-else-if="validationError && !invalidMessage">{{ $t('validation-error-' + validationError, validation.$params[validationError]) }}</div>
-  <small class="form-text text-muted" v-if="help">{{ $t(help) }}</small>
-  <slot name="helptext"></slot>
-</div>
+      </template>
+      <template #tag="{ option, search, remove }">
+        <slot
+          name="tag"
+          :option="option"
+          :search="search"
+          :remove="remove"
+        />
+      </template>
+      <template #noResult>
+        <slot name="noResult">
+          <div>{{ $t('ei-hakutuloksia') }}</div>
+        </slot>
+      </template>
+      <template #noOptions>
+        <slot name="noOptions">
+          <div>{{ $t('ei-vaihtoehtoja') }}</div>
+        </slot>
+      </template>
+      <template #selection="{ values, search, isOpen }">
+        <slot
+          name="selection"
+          :values="values"
+          :search="search"
+          :is-open="isOpen"
+        />
+      </template>
+      <template #afterList>
+        <slot name="afterList" />
+      </template>
+    </multiselect>
+    <div
+      v-if="!validationError && validMessage"
+      class="valid-feedback"
+    >
+      {{ $t(validMessage) }}
+    </div>
+    <div
+      v-else-if="validationError && invalidMessage "
+      class="invalid-feedback"
+    >
+      {{ $t(invalidMessage) }}
+    </div>
+    <div
+      v-else-if="validationError && !invalidMessage"
+      class="invalid-feedback"
+    >
+      {{ $t('validation-error-' + validationError, validation.$params[validationError]) }}
+    </div>
+    <small
+      v-if="help"
+      class="form-text text-muted"
+    >{{ $t(help) }}</small>
+    <slot name="helptext" />
+  </div>
 </template>
 
 <script lang="ts">

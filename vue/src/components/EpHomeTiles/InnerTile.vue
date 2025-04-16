@@ -1,20 +1,32 @@
 <template>
   <div :class="{ 'innertile': true, 'route-button': effectEnabled}">
-    <div class="tile-header" :style="tileHeaderStyle">
+    <div
+      class="tile-header"
+      :style="tileHeaderStyle"
+    >
       <h3 class="oph-h3 tileheader">
-        <slot name="header"></slot>
+        <slot name="header" />
       </h3>
     </div>
     <div class="iconline">
-      <ep-icon :icon="icon" :color="correctColor" background-color="white">
-        <template slot="fas">
-          <slot name="fas"></slot>
+      <ep-icon
+        :icon="icon"
+        :color="correctColor"
+        background-color="white"
+      >
+        <template #fas>
+          <slot name="fas" />
         </template>
       </ep-icon>
-      <div class="count" v-if="count">{{count}}</div>
+      <div
+        v-if="count"
+        class="count"
+      >
+        {{ count }}
+      </div>
     </div>
     <div class="tile-content px-3">
-      <slot name="content"></slot>
+      <slot name="content" />
     </div>
   </div>
 </template>

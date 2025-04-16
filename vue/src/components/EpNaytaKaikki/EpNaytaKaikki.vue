@@ -1,12 +1,22 @@
 <template>
   <div>
-    <div class="row" :class="striped ? 'striped' : ''" v-for="(modelObject, index) in model" :key="'item'+index">
-      <slot :data="modelObject" :index="index"></slot>
+    <div
+      v-for="(modelObject, index) in model"
+      :key="'item'+index"
+      class="row"
+      :class="striped ? 'striped' : ''"
+    >
+      <slot
+        :data="modelObject"
+        :index="index"
+      />
     </div>
-    <div v-if="totalListLength > collapsedSize"
-         @click="toggleNaytaKaikki()"
-         class="nayta-btn">
-      <span v-html="naytaKaikki ? $t('nayta-vahemman') : $t('nayta-kaikki')"></span>
+    <div
+      v-if="totalListLength > collapsedSize"
+      class="nayta-btn"
+      @click="toggleNaytaKaikki()"
+    >
+      <span v-html="naytaKaikki ? $t('nayta-vahemman') : $t('nayta-kaikki')" />
     </div>
   </div>
 </template>

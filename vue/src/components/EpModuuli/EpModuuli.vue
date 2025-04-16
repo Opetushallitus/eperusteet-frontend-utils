@@ -1,9 +1,19 @@
 <template>
   <div class="moduuli d-flex justify-content-between p-2">
-    <div class="font-weight-bold">{{$kaanna(moduuli.nimi)}} <span v-if="moduuli.koodi">({{moduuli.koodi.arvo}})</span></div>
+    <div class="font-weight-bold">
+      {{ $kaanna(moduuli.nimi) }} <span v-if="moduuli.koodi">({{ moduuli.koodi.arvo }})</span>
+    </div>
     <div class="d-flex align-items-center">
-      <div class="pr-2 opintopiste" v-if="moduuli.laajuus">{{moduuli.laajuus}} {{$t('opintopiste')}}</div>
-      <EpColorIndicator class="mt-1" :kind="moduuli.pakollinen ? 'pakollinen' : 'valinnainen'"/>
+      <div
+        v-if="moduuli.laajuus"
+        class="pr-2 opintopiste"
+      >
+        {{ moduuli.laajuus }} {{ $t('opintopiste') }}
+      </div>
+      <EpColorIndicator
+        class="mt-1"
+        :kind="moduuli.pakollinen ? 'pakollinen' : 'valinnainen'"
+      />
     </div>
   </div>
 </template>

@@ -1,21 +1,26 @@
 <template>
-<div>
-  <b-modal ref="epConfirmDialogModal" id="epConfirmDialog" size="lg" v-model="visible" @ok="cancelSave">
-    <template v-slot:modal-title>
-     {{ $t('haluatko-poistua-tallentamatta')}}
-    </template>
+  <div>
+    <b-modal
+      id="epConfirmDialog"
+      ref="epConfirmDialogModal"
+      v-model="visible"
+      size="lg"
+      @ok="cancelSave"
+    >
+      <template #modal-title>
+        {{ $t('haluatko-poistua-tallentamatta') }}
+      </template>
 
-    <span>{{$t('poistumisen-varmistusteksti-dialogi')}}</span>
+      <span>{{ $t('poistumisen-varmistusteksti-dialogi') }}</span>
 
-    <template v-slot:modal-cancel>
-      {{ $t('peruuta')}}
-    </template>
-    <template v-slot:modal-ok>
-      {{ $t('poistu-tallentamatta')}}
-    </template>
-
-  </b-modal>
-</div>
+      <template #modal-cancel>
+        {{ $t('peruuta') }}
+      </template>
+      <template #modal-ok>
+        {{ $t('poistu-tallentamatta') }}
+      </template>
+    </b-modal>
+  </div>
 </template>
 
 <script lang="ts">

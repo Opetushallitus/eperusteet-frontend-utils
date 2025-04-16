@@ -1,19 +1,30 @@
 <template>
   <ep-main-view :container="true">
-    <template slot="header">
+    <template #header>
       <h1>{{ $t('ohjeet-ja-materiaalit') }}</h1>
     </template>
 
     <div class="mb-4">
-
       <label>{{ $t('nimi') }}</label>
       <div class="d-flex justify-content-between">
-        <ep-search :placeholder="$t('etsi-ohjeita')" class="w-50" v-model="query.nimi"/>
-        <KoulutustyyppiSelect v-model="query.koulutustyyppi" :isEditing="true" class="w-50" :koulutustyypit="koulutustyypit"/>
+        <ep-search
+          v-model="query.nimi"
+          :placeholder="$t('etsi-ohjeita')"
+          class="w-50"
+        />
+        <KoulutustyyppiSelect
+          v-model="query.koulutustyyppi"
+          :is-editing="true"
+          class="w-50"
+          :koulutustyypit="koulutustyypit"
+        />
       </div>
 
       <div class="d-flex mt-3">
-        <b-form-checkbox v-model="query.tuleva" class="mr-4">
+        <b-form-checkbox
+          v-model="query.tuleva"
+          class="mr-4"
+        >
           {{ $t('tulevat') }}
         </b-form-checkbox>
 
@@ -23,32 +34,37 @@
       </div>
     </div>
 
-    <ep-spinner v-if="!oppaat"/>
+    <ep-spinner v-if="!oppaat" />
 
     <template v-else>
       <EpExternalLink
-        :showIcon="false"
         v-for="opas in mappedOppaat"
         :key="opas.id"
+        :show-icon="false"
         :url="opas.url"
-        class="opas mb-2">
+        class="opas mb-2"
+      >
         <div class="d-flex">
           <div class="icon mr-3">
             <EpMaterialIcon>menu_book</EpMaterialIcon>
           </div>
           <div class="pt-1 text">
-            <div class="nimi">{{$kaanna(opas.nimi)}}</div>
-            <div v-if="opas.voimassaoloAlkaa">{{$t('voimaantulo')}} {{$sd(opas.voimassaoloAlkaa)}}</div>
+            <div class="nimi">
+              {{ $kaanna(opas.nimi) }}
+            </div>
+            <div v-if="opas.voimassaoloAlkaa">
+              {{ $t('voimaantulo') }} {{ $sd(opas.voimassaoloAlkaa) }}
+            </div>
           </div>
         </div>
       </EpExternalLink>
 
       <ep-pagination
-        class="mt-3"
         v-model="sivu"
+        class="mt-3"
         :per-page="query.sivukoko"
-        :total-rows="kokonaismaara"/>
-
+        :total-rows="kokonaismaara"
+      />
     </template>
   </ep-main-view>
 </template>

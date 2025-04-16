@@ -1,5 +1,9 @@
 <template>
-  <span class="ep-expand-text" :class="{'clickable pointer': !isExpanded}" @click="toggleExpanded">
+  <span
+    class="ep-expand-text"
+    :class="{'clickable pointer': !isExpanded}"
+    @click="toggleExpanded"
+  >
     {{ truncated }}
   </span>
 </template>

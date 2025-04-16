@@ -1,73 +1,119 @@
 <template>
-<div>
-  <div v-if="showPerustesisalto">
-    <div class="perustesisalto" v-for="(oppiaine, idx) in opintojaksonOppiaineidenTiedot" :key="idx">
-      <div v-if="oppiaine.laajaAlaisetOsaamiset && oppiaine.laajaAlaisetOsaamiset.kuvaus">
-        <div class="moduuliotsikko"><h4 v-html="$kaanna(oppiaine.nimi)"></h4></div>
-        <ep-content
-          layout="normal"
-          :opetussuunnitelma-store="opetussuunnitelmaStore"
-          :value="oppiaine.laajaAlaisetOsaamiset.kuvaus"
-          help="ohje-lyhyt-laaja-alainen"></ep-content>
-      </div>
-      <div v-else-if="oppiaine.laajaAlainenOsaaminen">
-        <div class="moduuliotsikko"><h4 v-html="$kaanna(oppiaine.nimi)"></h4></div>
-        {{ oppiaine.laajaAlainenOsaaminen }}
-        <ep-content v-for="(laajalainenosaaminen, idx) in oppiaine.laajaAlainenOsaaminen" :key="idx"
-            layout="normal" :opetussuunnitelma-store="opetussuunnitelmaStore" :value="laajalainenosaaminen.kuvaus"></ep-content>
+  <div>
+    <div v-if="showPerustesisalto">
+      <div
+        v-for="(oppiaine, idx) in opintojaksonOppiaineidenTiedot"
+        :key="idx"
+        class="perustesisalto"
+      >
+        <div v-if="oppiaine.laajaAlaisetOsaamiset && oppiaine.laajaAlaisetOsaamiset.kuvaus">
+          <div class="moduuliotsikko">
+            <h4 v-html="$kaanna(oppiaine.nimi)" />
+          </div>
+          <ep-content
+            layout="normal"
+            :opetussuunnitelma-store="opetussuunnitelmaStore"
+            :value="oppiaine.laajaAlaisetOsaamiset.kuvaus"
+            help="ohje-lyhyt-laaja-alainen"
+          />
+        </div>
+        <div v-else-if="oppiaine.laajaAlainenOsaaminen">
+          <div class="moduuliotsikko">
+            <h4 v-html="$kaanna(oppiaine.nimi)" />
+          </div>
+          {{ oppiaine.laajaAlainenOsaaminen }}
+          <ep-content
+            v-for="(laajalainenosaaminen, idx) in oppiaine.laajaAlainenOsaaminen"
+            :key="idx"
+            layout="normal"
+            :opetussuunnitelma-store="opetussuunnitelmaStore"
+            :value="laajalainenosaaminen.kuvaus"
+          />
+        </div>
       </div>
     </div>
-  </div>
 
-  <div v-if="showEmptyAlert || value.laajaAlainenOsaaminen.length > 0">
-    <div class="moduuliotsikko"><h4>{{ $t('paikallinen-lisays-opintojakso-laaja-alainen') }}</h4></div>
-    <div class="paikallinen-laaja-alainen" v-for="(lo, idx) in value.laajaAlainenOsaaminen" :key="idx + '-paikallinen'">
-      <div slot="header">
-        <span v-if="laajaAlaisetKooditByUri[lo.koodi]">
-          <h5 class="d-inline">{{ $kaanna(laajaAlaisetKooditByUri[lo.koodi].nimi) }}</h5>
-          <b-button variant="link" @click.stop="poistaLaaja(lo)" v-if="isEditing">
-            <EpMaterialIcon>close</EpMaterialIcon>
-          </b-button>
-        </span>
+    <div v-if="showEmptyAlert || value.laajaAlainenOsaaminen.length > 0">
+      <div class="moduuliotsikko">
+        <h4>{{ $t('paikallinen-lisays-opintojakso-laaja-alainen') }}</h4>
       </div>
-      <ep-content
-        v-if="lo.kuvaus"
-        layout="normal"
-        v-model="lo.kuvaus"
-        :is-editable="isEditing"></ep-content>
-    </div>
-
-    <div class="alert alert-info" v-if="!isEditing && value.laajaAlainenOsaaminen.length === 0">{{ $t('ei-paikallista-tarkennusta') }}</div>
-  </div>
-
-  <b-dropdown v-if="isEditing" :text="$t('lisaa-laaja-alainen-osaaminen')" variant="primary" class="mb-4">
-    <b-dropdown-item-button
-      @click="addLaaja(laaja)"
-      v-for="(laaja, index) in laajaAlaistenKoodit"
-      :key="index+'addlaaja'"
-      :disabled="laaja.hasPaikallinenKuvaus">
-      {{ $kaanna(laaja.nimi) }}
-    </b-dropdown-item-button>
-  </b-dropdown>
-
-  <div v-for="(paikallinenOpintojakso, index) in value.paikallisetOpintojaksot" :key="index+'laaja'">
-    <div v-if="paikallinenOpintojakso.laajaAlainenOsaaminen && paikallinenOpintojakso.laajaAlainenOsaaminen.length > 0">
-      <div class="moduuliotsikko"><h4>{{ $kaanna(paikallinenOpintojakso.nimi) }}</h4></div>
-      <div class="paikallinen-laaja-alainen" v-for="(lo, index) in paikallinenOpintojakso.laajaAlainenOsaaminen" :key="index+'paik-laaja-osa'">
-        <div slot="header" class="moduuliotsikko">
+      <div
+        v-for="(lo, idx) in value.laajaAlainenOsaaminen"
+        :key="idx + '-paikallinen'"
+        class="paikallinen-laaja-alainen"
+      >
+        <div>
           <span v-if="laajaAlaisetKooditByUri[lo.koodi]">
-            <h5>{{ $kaanna(laajaAlaisetKooditByUri[lo.koodi].nimi) }}</h5>
+            <h5 class="d-inline">{{ $kaanna(laajaAlaisetKooditByUri[lo.koodi].nimi) }}</h5>
+            <b-button
+              v-if="isEditing"
+              variant="link"
+              @click.stop="poistaLaaja(lo)"
+            >
+              <EpMaterialIcon>close</EpMaterialIcon>
+            </b-button>
           </span>
         </div>
         <ep-content
           v-if="lo.kuvaus"
-          layout="normal"
           v-model="lo.kuvaus"
-          :is-editable="false"></ep-content>
+          layout="normal"
+          :is-editable="isEditing"
+        />
+      </div>
+
+      <div
+        v-if="!isEditing && value.laajaAlainenOsaaminen.length === 0"
+        class="alert alert-info"
+      >
+        {{ $t('ei-paikallista-tarkennusta') }}
+      </div>
+    </div>
+
+    <b-dropdown
+      v-if="isEditing"
+      :text="$t('lisaa-laaja-alainen-osaaminen')"
+      variant="primary"
+      class="mb-4"
+    >
+      <b-dropdown-item-button
+        v-for="(laaja, index) in laajaAlaistenKoodit"
+        :key="index+'addlaaja'"
+        :disabled="laaja.hasPaikallinenKuvaus"
+        @click="addLaaja(laaja)"
+      >
+        {{ $kaanna(laaja.nimi) }}
+      </b-dropdown-item-button>
+    </b-dropdown>
+
+    <div
+      v-for="(paikallinenOpintojakso, index) in value.paikallisetOpintojaksot"
+      :key="index+'laaja'"
+    >
+      <div v-if="paikallinenOpintojakso.laajaAlainenOsaaminen && paikallinenOpintojakso.laajaAlainenOsaaminen.length > 0">
+        <div class="moduuliotsikko">
+          <h4>{{ $kaanna(paikallinenOpintojakso.nimi) }}</h4>
+        </div>
+        <div
+          v-for="(lo, index) in paikallinenOpintojakso.laajaAlainenOsaaminen"
+          :key="index+'paik-laaja-osa'"
+          class="paikallinen-laaja-alainen"
+        >
+          <div class="moduuliotsikko">
+            <span v-if="laajaAlaisetKooditByUri[lo.koodi]">
+              <h5>{{ $kaanna(laajaAlaisetKooditByUri[lo.koodi].nimi) }}</h5>
+            </span>
+          </div>
+          <ep-content
+            v-if="lo.kuvaus"
+            v-model="lo.kuvaus"
+            layout="normal"
+            :is-editable="false"
+          />
+        </div>
       </div>
     </div>
   </div>
-</div>
 </template>
 
 <script lang="ts">

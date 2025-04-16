@@ -1,9 +1,17 @@
 <template>
   <div>
-    <EpMaterialIcon class="default-icon clickable" icon-shape="outlined" :id="'infopopup-' + uniqueId">info</EpMaterialIcon>
-    <b-popover :target="'infopopup-' + uniqueId"
-               triggers="hover click blur">
-      <slot/>
+    <EpMaterialIcon
+      :id="'infopopup-' + uniqueId"
+      class="default-icon clickable"
+      icon-shape="outlined"
+    >
+      info
+    </EpMaterialIcon>
+    <b-popover
+      :target="'infopopup-' + uniqueId"
+      triggers="hover click blur"
+    >
+      <slot />
     </b-popover>
   </div>
 </template>
