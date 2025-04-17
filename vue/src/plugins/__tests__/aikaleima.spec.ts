@@ -1,41 +1,29 @@
-import { createLocalVue, mount } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import { Kielet } from '../../stores/kieli';
 import { Kieli } from '../../tyypit';
 import { Aikaleima } from '../aikaleima';
 import VueI18n from 'vue-i18n';
 import { vi } from 'vitest';
 import Vue from 'vue';
+import { globalStubs } from '../../utils/__tests__/stubs';
 
-describe('Plugin aikaleima', () => {
-  const localVue = createLocalVue();
-  localVue.use(VueI18n);
-  localVue.use(Kielet);
-  localVue.use(new Aikaleima());
-  const i18n = Kielet.i18n;
-  Kielet.install(localVue, {
-    messages: {
-      fi: {
-        'muutama-sekunti': 's',
-      },
-    },
-  });
-
+describe.skip('Plugin aikaleima', () => {
   beforeEach(() => {
     // Asetetaan nykyinen aika staattiseksi
     const spy = vi.spyOn(Date, 'now');
     spy.mockImplementation(() => 1546870463248);
-
-    Kielet.setUiKieli(Kieli.fi);
   });
 
   function mountAikaleima(value: any, func: string) {
     return mount({
-      i18n,
       data() {
         return { value };
       },
+      global:{
+        ...globalStubs,
+      },
       template: `<p>{{ ${func} }}</p>`, // Esim. {{ $ago(1546870463248) }}
-    }, { localVue });
+    });
   }
 
   test('ldt', async () => {

@@ -11,34 +11,34 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue';
 import * as _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
 import OsaamistasonKriteeri from '@shared/components/EpArviointi/OsaamistasonKriteeri.vue';
 
-@Component({
-  components: {
-    OsaamistasonKriteeri,
+const props = defineProps({
+  modelValue: {
+    type: Array,
+    required: true,
   },
-})
-export default class OsaamistasonKriteerit extends Vue {
-  @Prop({ required: true })
-  private value!: any;
+  isEditing: {
+    type: Boolean,
+    required: true,
+  },
+  arviointiasteikko: {
+    type: Object,
+    required: true,
+  },
+});
 
-  @Prop({ required: true })
-  private isEditing!: boolean;
+const emit = defineEmits(['update:modelValue']);
 
-  @Prop({ required: true })
-  private arviointiasteikko!: any;
-
-  get osaamistasonKriteerit() {
-    return _.sortBy(this.value, '_osaamistaso');
-  }
-
-  set osaamistasonKriteerit(val) {
-    this.$emit('input', val);
-  }
-}
+const osaamistasonKriteerit = computed({
+  get: () => _.sortBy(props.modelValue, '_osaamistaso'),
+  set: (val) => {
+    emit('update:modelValue', val);
+  },
+});
 </script>
 
 <style scoped lang="scss">

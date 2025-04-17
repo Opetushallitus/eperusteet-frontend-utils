@@ -21,29 +21,22 @@
   </b-dropdown>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed } from 'vue';
 import { Kielet, UiKielet } from '@shared/stores/kieli';
 import { Kieli } from '@shared/tyypit';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
-@Component({
-  components: {
-    EpMaterialIcon,
-  },
-})
-export default class EpKielivalinta extends Vue {
-  get sisaltoKieli() {
-    return Kielet.getSisaltoKieli.value;
-  }
+const sisaltoKieli = computed(() => {
+  return Kielet.getSisaltoKieli.value;
+});
 
-  get sovelluksenKielet() {
-    return UiKielet;
-  }
+const sovelluksenKielet = computed(() => {
+  return UiKielet;
+});
 
-  valitseSisaltoKieli(kieli: Kieli) {
-    Kielet.setSisaltoKieli(kieli);
-  }
+function valitseSisaltoKieli(kieli: Kieli) {
+  Kielet.setSisaltoKieli(kieli);
 }
 </script>
 

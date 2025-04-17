@@ -1,17 +1,19 @@
-import { mount, createLocalVue } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import { mocks } from '../../utils/jestutils';
 import EpPaikallinenTarkennus from './EpPaikallinenTarkennus.vue';
+import { globalStubs } from '@shared/utils/__tests__/stubs';
+import { nextTick } from 'vue';
 
 describe('EpPaikallinenTarkennus', () => {
-  const localVue = createLocalVue();
 
   const options = (data, slots = {}) => {
     return {
-      propsData: {
+      props: {
         ...data,
       },
-      mocks: mocks,
-      localVue,
+      global: {
+        ...globalStubs,
+      },
       slots,
     };
   };
@@ -24,7 +26,7 @@ describe('EpPaikallinenTarkennus', () => {
       ),
     );
 
-    await localVue.nextTick();
+    await nextTick();
 
     expect(wrapper.html()).toContain('ep-collapse');
     expect(wrapper.html()).toContain('paikallinen-teksti');
@@ -41,7 +43,7 @@ describe('EpPaikallinenTarkennus', () => {
       ),
     );
 
-    await localVue.nextTick();
+    await nextTick();
     expect(wrapper.html()).not.toContain('ep-collapse');
     expect(wrapper.html()).not.toContain('paikallinen-teksti');
     expect(wrapper.html()).toContain('paikallinen tarkennus');
@@ -57,7 +59,7 @@ describe('EpPaikallinenTarkennus', () => {
       ),
     );
 
-    await localVue.nextTick();
+    await nextTick();
     expect(wrapper.html()).not.toContain('ep-collapse');
     expect(wrapper.html()).toContain('paikallinen-teksti');
     expect(wrapper.html()).toContain('paikallinen tarkennus');

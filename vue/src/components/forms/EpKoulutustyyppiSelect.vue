@@ -129,160 +129,165 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, getCurrentInstance, useTemplateRef } from 'vue';
+import * as _ from 'lodash';
 import EpSelect from '@shared/components/forms/EpSelect.vue';
 import EpMultiSelect from '@shared/components/forms/EpMultiSelect.vue';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import EpColorIndicator from '@shared/components/EpColorIndicator/EpColorIndicator.vue';
 import { EperusteetKoulutustyypit, EperusteetKoulutustyyppiRyhmat } from '../../utils/perusteet';
-import * as _ from 'lodash';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
-import EpMaterialIcon from '@shared/components//EpMaterialIcon/EpMaterialIcon.vue';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
-@Component({
-  components: {
-    EpColorIndicator,
-    EpInput,
-    EpMultiSelect,
-    EpSelect,
-    EpSpinner,
-    EpButton,
-    EpMaterialIcon,
+const props = defineProps({
+  modelValue: {
+    required: true,
   },
-})
-export default class KoulutustyyppiSelect extends Vue {
-  @Prop({ required: true })
-  value!: string | string[];
+  isEditing: {
+    default: false,
+    type: Boolean,
+  },
+  required: {
+    type: Boolean,
+  },
+  nocolor: {
+    default: false,
+    type: Boolean,
+  },
+  koulutustyypit: {
+    default: () => EperusteetKoulutustyypit,
+    type: Array,
+  },
+  koulutustyyppiryhmat: {
+    default: () => EperusteetKoulutustyyppiRyhmat,
+    type: Object,
+  },
+  eiTuetutKoulutustyypit: {
+    default: () => [],
+    type: Array,
+  },
+  textWrap: {
+    default: false,
+    type: Boolean,
+  },
+});
 
-  @Prop({ default: false })
-  isEditing!: boolean;
+const emit = defineEmits(['update:modelValue']);
 
-  @Prop({ type: Boolean })
-  required!: boolean;
+// Get instance for accessing $kaanna
+const instance = getCurrentInstance();
+const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
+const $t = instance?.appContext.config.globalProperties.$t;
 
-  @Prop({ default: false, type: Boolean })
-  nocolor!: boolean;
+// Template refs
+const koulutustyyppi_multiselect = useTemplateRef('koulutustyyppi_multiselect');
 
-  @Prop({ default: () => EperusteetKoulutustyypit })
-  koulutustyypit!: string[];
+function identity(tr: any) {
+  return _.toLower($kaanna(tr.nimi));
+}
 
-  @Prop({ default: () => EperusteetKoulutustyyppiRyhmat })
-  koulutustyyppiryhmat!: any;
+const isMultiple = computed(() => {
+  return _.isArray(props.modelValue);
+});
 
-  @Prop({ default: () => [] })
-  eiTuetutKoulutustyypit!: string[];
+const vaihtoehdot = computed(() => {
+  return _.chain(props.koulutustyyppiryhmat)
+    .keys()
+    .map(ryhma => {
+      return {
+        ryhma,
+        koulutustyypit: _.chain(props.koulutustyyppiryhmat[ryhma])
+          .filter(koulutustyyppi => _.isEmpty(props.koulutustyypit) || _.includes(props.koulutustyypit, koulutustyyppi))
+          .reject(koulutustyyppi => _.includes(props.eiTuetutKoulutustyypit, koulutustyyppi))
+          .map(koulutustyyppi => ({ koulutustyyppi, nimi: $t(koulutustyyppi) }))
+          .value(),
+      };
+    })
+    .value();
+});
 
-  @Prop({ default: false, type: Boolean })
-  textWrap!: boolean;
+const kaikkiVaihtoehdot = computed(() => {
+  return [
+    {
+      ryhma: 'kaikki',
+      koulutustyypit: [{ koulutustyyppi: 'kaikki' }],
+    },
+    ...vaihtoehdot.value,
+  ];
+});
 
-  identity(tr: any) {
-    return _.toLower(this.$kaanna(tr.nimi));
+const selectVaihtoehdot = computed(() => {
+  if (props.required) {
+    return vaihtoehdot.value;
   }
-
-  get model() {
-    return this.isMultiple ? this.toArrayValue : this.toValue;
+  else {
+    return kaikkiVaihtoehdot.value;
   }
+});
 
-  get toArrayValue() {
-    return _.chain(this.vaihtoehdot)
-      .map(vaihtoehto => vaihtoehto.koulutustyypit)
-      .flatMap()
-      .filter(kt => _.includes(this.value, kt.koulutustyyppi))
-      .value();
-  }
+const toArrayValue = computed(() => {
+  return _.chain(vaihtoehdot.value)
+    .map(vaihtoehto => vaihtoehto.koulutustyypit)
+    .flatMap()
+    .filter(kt => _.includes(props.modelValue, kt.koulutustyyppi))
+    .value();
+});
 
-  get toValue() {
-    return _.chain(this.vaihtoehdot)
-      .map(vaihtoehto => vaihtoehto.koulutustyypit)
-      .flatMap()
-      .find(kt => kt.koulutustyyppi === this.value)
-      .value();
-  }
+const toValue = computed(() => {
+  return _.chain(vaihtoehdot.value)
+    .map(vaihtoehto => vaihtoehto.koulutustyypit)
+    .flatMap()
+    .find(kt => kt.koulutustyyppi === props.modelValue)
+    .value();
+});
 
-  get asArray() {
-    if (this.isMultiple) {
-      return this.value;
-    }
-
-    return this.value ? [this.value] : [];
-  }
-
-  get isMultiple() {
-    return _.isArray(this.value);
-  }
-
-  set model(value: any) {
+const model = computed({
+  get: () => isMultiple.value ? toArrayValue.value : toValue.value,
+  set: (value: any) => {
     if (_.get(value, 'koulutustyyppi') === 'kaikki') {
-      this.$emit('input', this.isMultiple ? [] : undefined);
+      emit('update:modelValue', isMultiple.value ? [] : undefined);
     }
     else {
-      if (!this.isMultiple) {
-        this.$emit('input', _.get(value, 'koulutustyyppi'));
+      if (!isMultiple.value) {
+        emit('update:modelValue', _.get(value, 'koulutustyyppi'));
       }
       else {
-        this.$emit('input', _.map(value, 'koulutustyyppi'));
+        emit('update:modelValue', _.map(value, 'koulutustyyppi'));
       }
     }
+  },
+});
+
+const asArray = computed(() => {
+  if (isMultiple.value) {
+    return props.modelValue;
   }
 
-  get placeholder() {
-    if (this.required) {
-      return this.$t('valitse');
-    }
-    else {
-      return this.$t('kaikki');
-    }
-  }
+  return props.modelValue ? [props.modelValue] : [];
+});
 
-  get selectVaihtoehdot() {
-    if (this.required) {
-      return this.vaihtoehdot;
-    }
-    else {
-      return this.kaikkiVaihtoehdot;
-    }
+const placeholder = computed(() => {
+  if (props.required) {
+    return $t('valitse');
   }
+  else {
+    return $t('kaikki');
+  }
+});
 
-  get kaikkiVaihtoehdot() {
-    return [
-      {
-        ryhma: 'kaikki',
-        koulutustyypit: [{ koulutustyyppi: 'kaikki' }],
-      },
-      ...this.vaihtoehdot,
-    ];
-  }
+function remove(option: any) {
+  const poistettava = _.get(option, 'koulutustyyppi');
+  emit('update:modelValue', _.without(props.modelValue, poistettava));
+}
 
-  get vaihtoehdot() {
-    return _.chain(this.koulutustyyppiryhmat)
-      .keys()
-      .map(ryhma => {
-        return {
-          ryhma,
-          koulutustyypit: _.chain(this.koulutustyyppiryhmat[ryhma])
-            .filter(koulutustyyppi => _.isEmpty(this.koulutustyypit) || _.includes(this.koulutustyypit, koulutustyyppi))
-            .reject(koulutustyyppi => _.includes(this.eiTuetutKoulutustyypit, koulutustyyppi))
-            .map(koulutustyyppi => ({ koulutustyyppi, nimi: this.$t(koulutustyyppi) }))
-            .value(),
-        };
-      })
-      .value();
-  }
+function removeAll() {
+  emit('update:modelValue', []);
+}
 
-  remove(option) {
-    const poistettava = _.get(option, 'koulutustyyppi');
-    this.$emit('input', _.without(this.value, poistettava));
-  }
-
-  removeAll() {
-    this.$emit('input', []);
-  }
-
-  sulje() {
-    (this.$refs.koulutustyyppi_multiselect as any)?.sulje();
-  }
+function sulje() {
+  koulutustyyppi_multiselect.value?.sulje();
 }
 </script>
 
@@ -321,5 +326,4 @@ export default class KoulutustyyppiSelect extends Vue {
     }
   }
 }
-
 </style>

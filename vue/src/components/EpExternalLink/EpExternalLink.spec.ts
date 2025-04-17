@@ -1,40 +1,28 @@
-import { mount, createLocalVue } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import EpExternalLink from './EpExternalLink.vue';
 import VueI18n from 'vue-i18n';
 import { Kielet } from '../../stores/kieli';
 import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
-
-Vue.use(BootstrapVue);
+import { globalStubs } from '@shared/utils/__tests__/stubs';
 
 describe('EpExternalLink component', () => {
-  const localVue = createLocalVue();
-  localVue.use(VueI18n);
-
-  Kielet.install(localVue, {
-    messages: {
-      fi: {
-        'apu-teksti': 'apu teksti',
-      },
-    },
-  });
 
   const i18n = Kielet.i18n;
 
   function mountWrapper(props : any) {
-    return mount(localVue.extend({
+    return mount({
       components: {
         EpExternalLink,
       },
       data() {
-        return props;
+        return {
+          ...props,
+        };
       },
       template: '<ep-external-link v-if="teksti" :url="url">{{ teksti }}</ep-external-link> <ep-external-link v-else :url="url"></ep-external-link>',
-    }), {
-      localVue,
-      i18n,
     });
-  };
+  }
 
   test('Renders external link ', async () => {
     const wrapper = mountWrapper({
@@ -42,7 +30,7 @@ describe('EpExternalLink component', () => {
       teksti: 'google',
     });
 
-    expect(wrapper.html()).toContain('google\n    <!----></a>');
+    expect(wrapper.html()).toContain('</span>google');
   });
 
   test('Renders external link ', async () => {

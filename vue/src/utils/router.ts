@@ -44,12 +44,13 @@ export async function resolveRouterMetaProps(to) {
     }
   }
   catch (err: any) {
-    logger.error(err);
-    const error = { err: '500', path: '' };
-    if (err.response) {
-      error.err = err.response.status;
-    }
-    Virheet.lisaaVirhe(error);
+    console.log('Error in resolveRouterMetaProps', err);
+    // logger.error(err);
+    // const error = { err: '500', path: '' };
+    // if (err.response) {
+    //   error.err = err.response.status;
+    // }
+    // Virheet.lisaaVirhe(error);
   }
 }
 

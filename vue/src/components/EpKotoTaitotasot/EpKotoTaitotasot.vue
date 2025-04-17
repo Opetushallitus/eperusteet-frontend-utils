@@ -108,11 +108,6 @@
           </b-form-group>
 
           <div class="text-right">
-            <!--            funktio puuttuu...-->
-            <!--            <ep-button variant="link" @click="poistaTavoitealue(tavoitealue)">-->
-            <!--              <EpMaterialIcon icon-shape="outlined" :color="'inherit'" :background="'inherit'">delete</EpMaterialIcon>-->
-            <!--              {{ $t('poista-tavoitteet-ja-sisaltoalueet') }}-->
-            <!--            </ep-button>-->
             <ep-button
               variant="link"
               icon="delete"
@@ -209,8 +204,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, getCurrentInstance } from 'vue';
 import _ from 'lodash';
 import { KoodistoSelectStore } from '../EpKoodistoSelect/KoodistoSelectStore';
 import { Koodisto, TermiDto } from '@shared/api/eperusteet';
@@ -230,207 +225,213 @@ enum TaitotasoTyyppi {
   kielitaitotaso = 'kielitaitotaso',
 }
 
-@Component({
-  components: {
-    EpKoodistoSelect,
-    EpButton,
-    draggable,
-    EpInput,
-    EpContent,
-    EpContentViewer,
-    EpMaterialIcon,
+const props = defineProps({
+  modelValue: {
+    type: Array,
+    required: true,
   },
-})
-export default class EpKotoTaitotasot extends Vue {
-  @Prop({ required: true })
-  private value!: any[];
+  isEditing: {
+    type: Boolean,
+    default: false,
+  },
+  kasiteHandler: {
+    type: Object as () => IKasiteHandler,
+    required: false,
+  },
+  kuvaHandler: {
+    type: Object as () => IKuvaHandler,
+    required: false,
+  },
+  taitotasoTyyppi: {
+    type: String as () => TaitotasoTyyppi,
+    required: false,
+  },
+  termit: {
+    type: Array as () => TermiDto[],
+    required: false,
+  },
+  kuvat: {
+    type: Array as () => LiiteDtoWrapper[],
+    required: false,
+  },
+});
 
-  @Prop({ required: false, default: false, type: Boolean })
-  private isEditing!: boolean;
+const emit = defineEmits(['update:modelValue']);
 
-  @Prop({ required: false })
-  private kasiteHandler!: IKasiteHandler;
+// Get instance to access global properties
+const instance = getCurrentInstance();
+const $t = instance?.appContext.config.globalProperties.$t;
+const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
 
-  @Prop({ required: false })
-  private kuvaHandler!: IKuvaHandler;
+// Create koodisto store
+const koodisto = new KoodistoSelectStore({
+  koodisto: 'kotoutumiskoulutustavoitteet',
+  async query(query: string, sivu = 0, koodisto: string) {
+    const { data } = (await Koodisto.kaikkiSivutettuna(koodisto, query, {
+      params: {
+        sivu,
+        sivukoko: 10,
+      },
+    }));
+    return data as any;
+  },
+});
 
-  @Prop({ required: false })
-  private taitotasoTyyppi!: TaitotasoTyyppi;
+// Computed properties
+const taitotasot = computed({
+  get: () => props.modelValue,
+  set: (value) => {
+    emit('update:modelValue', value);
+  },
+});
 
-  @Prop({ required: false, type: Array })
-  private termit!: TermiDto[];
+const isOpintokokonaisuus = computed(() => {
+  return props.taitotasoTyyppi === TaitotasoTyyppi.opintokokonaisuus;
+});
 
-  @Prop({ required: false, type: Array })
-  private kuvat!: LiiteDtoWrapper[];
+const defaultDragOptions = computed(() => {
+  return {
+    animation: 300,
+    emptyInsertThreshold: 10,
+    handle: '.order-handle',
+    ghostClass: 'dragged',
+    forceFallback: true,
+  };
+});
 
-  get taitotasot() {
-    return this.value;
-  }
-
-  get isOpintokokonaisuus() {
-    return this.taitotasoTyyppi === TaitotasoTyyppi.opintokokonaisuus;
-  }
-
-  set taitotasot(value) {
-    this.$emit('input', value);
-  }
-
-  private readonly koodisto = new KoodistoSelectStore({
-    koodisto: 'kotoutumiskoulutustavoitteet',
-    async query(query: string, sivu = 0, koodisto: string) {
-      const { data } = (await Koodisto.kaikkiSivutettuna(koodisto, query, {
-        params: {
-          sivu,
-          sivukoko: 10,
-        },
-      }));
-      return data as any;
+const taitotasotOptions = computed(() => {
+  return {
+    ...defaultDragOptions.value,
+    group: {
+      name: 'taitotasot',
     },
-  });
+  };
+});
 
-  lisaaTaitotaso() {
-    this.taitotasot = [
-      ...this.taitotasot,
-      {},
-    ];
+const tavoitteetOtsikko = computed(() => {
+  if (props.taitotasoTyyppi === TaitotasoTyyppi.kielitaitotaso) {
+    return $t('tavoitteet');
   }
 
-  poistaTaitotaso(taitotaso) {
-    this.taitotasot = _.filter(this.taitotasot, rivi => rivi !== taitotaso);
+  return $t('tavoitteet-ja-sisallot');
+});
+
+const tyyppiSisalto = computed(() => {
+  return {
+    [TaitotasoTyyppi.opintokokonaisuus]: {
+      'koodisto-otsikko': 'opintokokonaisuuden-nimi',
+      'lisaa-taitotaso': 'lisaa-opintokokonaisuus',
+      'poista-taitotaso': 'poista-opintokokonaisuus',
+      keskeisetsisallot: [
+        {
+          object: 'opiskelijanTyoelamataidot',
+        },
+      ],
+    },
+    [TaitotasoTyyppi.kielitaitotaso]: {
+      'koodisto-otsikko': 'kielitaitotason-nimi',
+      'lisaa-taitotaso': 'lisaa-kielitaitotaso',
+      'poista-taitotaso': 'poista-kielitaitotaso',
+      keskeisetsisallot: [
+        {
+          otsikko: 'suullinen-vastaanottaminen',
+          object: 'suullinenVastaanottaminen',
+        },
+        {
+          otsikko: 'suullinen-tuottaminen',
+          object: 'suullinenTuottaminen',
+        },
+        {
+          otsikko: 'vuorovaikutus-ja-mediaatio',
+          object: 'vuorovaikutusJaMediaatio',
+        },
+      ],
+    },
+  };
+});
+
+const sisalto = computed(() => {
+  return tyyppiSisalto.value[props.taitotasoTyyppi];
+});
+
+const keskeisetSisallot = computed(() => {
+  return [
+    {
+      otsikko: 'kielenkayttotarkoitus',
+      object: 'kielenkayttotarkoitus',
+    },
+    {
+      otsikko: 'aihealueet',
+      object: 'aihealueet',
+    },
+    {
+      otsikko: 'viestintataidot',
+      object: 'viestintataidot',
+    },
+    {
+      otsikko: 'opiskelijan-taidot',
+      object: 'opiskelijantaidot',
+    },
+    {
+      object: 'opiskelijanTyoelamataidot',
+    },
+    {
+      otsikko: 'suullinen-vastaanottaminen',
+      object: 'suullinenVastaanottaminen',
+    },
+    {
+      otsikko: 'suullinen-tuottaminen',
+      object: 'suullinenTuottaminen',
+    },
+    {
+      otsikko: 'vuorovaikutus-ja-mediaatio',
+      object: 'vuorovaikutusJaMediaatio',
+    },
+  ];
+});
+
+// Methods
+function lisaaTaitotaso() {
+  taitotasot.value = [
+    ...taitotasot.value,
+    {},
+  ];
+}
+
+function poistaTaitotaso(taitotaso) {
+  taitotasot.value = _.filter(taitotasot.value, rivi => rivi !== taitotaso);
+}
+
+function getLaajuusteksti(minimi, maksimi) {
+  if (!minimi) {
+    return maksimi || '';
   }
 
-  get defaultDragOptions() {
-    return {
-      animation: 300,
-      emptyInsertThreshold: 10,
-      handle: '.order-handle',
-      ghostClass: 'dragged',
-      forceFallback: true,
-    };
+  if (!maksimi) {
+    return `${($t('vahintaan'))} ${minimi}`;
   }
 
-  get taitotasotOptions() {
-    return {
-      ...this.defaultDragOptions,
-      group: {
-        name: 'taitotasot',
-      },
-    };
+  return `${minimi} - ${maksimi}`;
+}
+
+function taitotasoOtsikko(taitotaso) {
+  if (props.taitotasoTyyppi === TaitotasoTyyppi.kielitaitotaso) {
+    return $kaanna(taitotaso.nimi.nimi);
   }
 
-  get tavoitteetOtsikko() {
-    if (this.taitotasoTyyppi === TaitotasoTyyppi.kielitaitotaso) {
-      return this.$t('tavoitteet');
-    }
-
-    return this.$t('tavoitteet-ja-sisallot');
+  if (taitotaso.tyoelamaOpintoMinimiLaajuus || taitotaso.tyoelamaOpintoMaksimiLaajuus) {
+    const laajuus = getLaajuusteksti(taitotaso.tyoelamaOpintoMinimiLaajuus, taitotaso.tyoelamaOpintoMaksimiLaajuus);
+    return `${$kaanna(taitotaso.nimi.nimi)}, ${laajuus} ${$t('op')}`;
   }
 
-  taitotasoOtsikko(taitotaso) {
-    if (this.taitotasoTyyppi === TaitotasoTyyppi.kielitaitotaso) {
-      return this.$kaanna(taitotaso.nimi.nimi);
-    }
-
-    if (taitotaso.tyoelamaOpintoMinimiLaajuus || taitotaso.tyoelamaOpintoMaksimiLaajuus) {
-      const laajuus = this.getLaajuusteksti(taitotaso.tyoelamaOpintoMinimiLaajuus, taitotaso.tyoelamaOpintoMaksimiLaajuus);
-      return `${this.$kaanna(taitotaso.nimi.nimi)}, ${laajuus} ${this.$t('op')}`;
-    }
-
-    return this.$kaanna(taitotaso.nimi.nimi);
-  }
-
-  private getLaajuusteksti(minimi, maksimi) {
-    if (!minimi) {
-      return maksimi || '';
-    }
-
-    if (!maksimi) {
-      return `${(this.$t('vahintaan'))} ${minimi}`;
-    }
-
-    return `${minimi} - ${maksimi}`;
-  }
-
-  get sisalto() {
-    return this.tyyppiSisalto[this.taitotasoTyyppi];
-  }
-
-  get tyyppiSisalto() {
-    return {
-      [TaitotasoTyyppi.opintokokonaisuus]: {
-        'koodisto-otsikko': 'opintokokonaisuuden-nimi',
-        'lisaa-taitotaso': 'lisaa-opintokokonaisuus',
-        'poista-taitotaso': 'poista-opintokokonaisuus',
-        keskeisetsisallot: [
-          {
-            object: 'opiskelijanTyoelamataidot',
-          },
-        ],
-      },
-      [TaitotasoTyyppi.kielitaitotaso]: {
-        'koodisto-otsikko': 'kielitaitotason-nimi',
-        'lisaa-taitotaso': 'lisaa-kielitaitotaso',
-        'poista-taitotaso': 'poista-kielitaitotaso',
-        keskeisetsisallot: [
-          {
-            otsikko: 'suullinen-vastaanottaminen',
-            object: 'suullinenVastaanottaminen',
-          },
-          {
-            otsikko: 'suullinen-tuottaminen',
-            object: 'suullinenTuottaminen',
-          },
-          {
-            otsikko: 'vuorovaikutus-ja-mediaatio',
-            object: 'vuorovaikutusJaMediaatio',
-          },
-        ],
-      },
-    };
-  }
-
-  get keskeisetSisallot() {
-    return [
-      {
-        otsikko: 'kielenkayttotarkoitus',
-        object: 'kielenkayttotarkoitus',
-      },
-      {
-        otsikko: 'aihealueet',
-        object: 'aihealueet',
-      },
-      {
-        otsikko: 'viestintataidot',
-        object: 'viestintataidot',
-      },
-      {
-        otsikko: 'opiskelijan-taidot',
-        object: 'opiskelijantaidot',
-      },
-      {
-        object: 'opiskelijanTyoelamataidot',
-      },
-      {
-        otsikko: 'suullinen-vastaanottaminen',
-        object: 'suullinenVastaanottaminen',
-      },
-      {
-        otsikko: 'suullinen-tuottaminen',
-        object: 'suullinenTuottaminen',
-      },
-      {
-        otsikko: 'vuorovaikutus-ja-mediaatio',
-        object: 'vuorovaikutusJaMediaatio',
-      },
-    ];
-  }
+  return $kaanna(taitotaso.nimi.nimi);
 }
 </script>
 
 <style scoped lang="scss">
 @import "../../styles/_variables.scss";
 
-  ::v-deep .input-group-append {
+  :deep(.input-group-append) {
     display: inline-block;
   }
 

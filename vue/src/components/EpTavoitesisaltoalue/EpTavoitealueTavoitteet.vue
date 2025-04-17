@@ -28,7 +28,7 @@
                     :is-editing="true"
                     :disabled="!tavoite.uri.startsWith('temporary')"
                     class="input-wrapper"
-                    :validation="$v.tavoitteet.$each.$iter[tavoiteIndex].nimi"
+                    :validation="v$.tavoitteet.$each.$response.$data[tavoiteIndex]?.nimi"
                   >
                     <template #left>
                       <div
@@ -83,8 +83,9 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, useSlots } from 'vue';
+import { useVuelidate } from '@vuelidate/core';
 import _ from 'lodash';
 import { KoodistoSelectStore } from '../EpKoodistoSelect/KoodistoSelectStore';
 import { Koodisto } from '@shared/api/eperusteet';
@@ -93,90 +94,84 @@ import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import { koodistoKoodiValidator } from '@shared/validators/required';
-import { Validations } from 'vuelidate-property-decorators';
 import { generateTemporaryKoodiUri } from '@shared/utils/koodi';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
-@Component({
-  components: {
-    EpKoodistoSelect,
-    EpButton,
-    draggable,
-    EpInput,
-    EpMaterialIcon,
+const props = defineProps({
+  modelValue: {
+    type: Array,
+    required: true,
   },
-})
-export default class EpTavoitealueTavoitteet extends Vue {
-  @Prop({ required: true })
-  private value!: any[];
+});
 
-  get tavoitteet() {
-    return this.value;
-  }
+const emit = defineEmits(['update:modelValue']);
 
-  set tavoitteet(value) {
-    this.$emit('input', value);
-  }
+const $slots = useSlots();
 
-  @Validations()
-    validations = {
-      tavoitteet: {
-        $each: {
-          ...koodistoKoodiValidator(),
-        },
-      },
-    };
+const tavoitteet = computed({
+  get: () => props.modelValue,
+  set: (value) => emit('update:modelValue', value),
+});
 
-  private readonly tavoitteetlukutaidotKoodisto = new KoodistoSelectStore({
-    koodisto: 'tavoitteetlukutaidot',
-    async query(query: string, sivu = 0, koodisto: string) {
-      const { data } = (await Koodisto.kaikkiSivutettuna(koodisto, query, {
-        params: {
-          sivu,
-          sivukoko: 10,
-        },
-      }));
-      return data as any;
+const rules = computed(() => ({
+  tavoitteet: {
+    $each: {
+      ...koodistoKoodiValidator(),
     },
-  });
+  },
+}));
 
-  lisaaTavoite() {
-    this.tavoitteet = [
-      ...this.tavoitteet,
-      {
-        ...(!this.$scopedSlots['default'] && { uri: generateTemporaryKoodiUri('tavoitteetlukutaidot') }),
+const v$ = useVuelidate(rules, { tavoitteet });
+
+const tavoitteetlukutaidotKoodisto = new KoodistoSelectStore({
+  koodisto: 'tavoitteetlukutaidot',
+  async query(query: string, sivu = 0, koodisto: string) {
+    const { data } = (await Koodisto.kaikkiSivutettuna(koodisto, query, {
+      params: {
+        sivu,
+        sivukoko: 10,
       },
-    ];
-  }
+    }));
+    return data as any;
+  },
+});
 
-  poistaTavoite(tavoite) {
-    this.tavoitteet = _.filter(this.tavoitteet, rivi => rivi !== tavoite);
-  }
+const lisaaTavoite = () => {
+  tavoitteet.value = [
+    ...tavoitteet.value,
+    {
+      ...(!$slots['default'] && { uri: generateTemporaryKoodiUri('tavoitteetlukutaidot') }),
+    },
+  ];
+};
 
-  get defaultDragOptions() {
-    return {
-      animation: 300,
-      emptyInsertThreshold: 10,
-      handle: '.order-handle',
-      ghostClass: 'dragged',
-    };
-  }
+const poistaTavoite = (tavoite) => {
+  tavoitteet.value = _.filter(tavoitteet.value, rivi => rivi !== tavoite);
+};
 
-  get tavoitteetOptions() {
-    return {
-      ...this.defaultDragOptions,
-      group: {
-        name: 'tavoitteet',
-      },
-    };
-  }
-}
+const defaultDragOptions = computed(() => {
+  return {
+    animation: 300,
+    emptyInsertThreshold: 10,
+    handle: '.order-handle',
+    ghostClass: 'dragged',
+  };
+});
+
+const tavoitteetOptions = computed(() => {
+  return {
+    ...defaultDragOptions.value,
+    group: {
+      name: 'tavoitteet',
+    },
+  };
+});
 </script>
 
 <style scoped lang="scss">
 @import "../../styles/_variables.scss";
 
-  ::v-deep .input-group-append {
+  :deep(.input-group-append) {
     display: inline-block;
   }
 </style>

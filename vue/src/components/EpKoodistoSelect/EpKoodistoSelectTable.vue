@@ -3,13 +3,13 @@
     <slot name="header" />
 
     <b-table
-      v-if="value && value.length > 0"
+      v-if="modelValue && modelValue.length > 0"
       responsive
       borderless
       striped
       fixed
       hover
-      :items="value"
+      :items="modelValue"
       :fields="fields"
       :selectable="true"
       select-mode="single"
@@ -61,66 +61,71 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, getCurrentInstance } from 'vue';
 import EpButton from '../EpButton/EpButton.vue';
 import { KoodistoSelectStore } from './KoodistoSelectStore';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
 
-@Component({
-  components: {
-    EpButton,
-    EpKoodistoSelect,
+const props = defineProps({
+  modelValue: {
+    type: Array,
+    default: null,
   },
-})
-export default class EpKoodistoSelectTable extends Vue {
-  @Prop({ default: null })
-  private value!: any;
+  isEditing: {
+    type: Boolean,
+    default: true,
+  },
+  showKoodiArvo: {
+    type: Boolean,
+    default: true,
+  },
+  store: {
+    type: Object as () => KoodistoSelectStore,
+    required: true,
+  },
+});
 
-  @Prop({ default: true })
-  private isEditing!: boolean;
+const emit = defineEmits(['update:modelValue', 'remove']);
 
-  @Prop({ default: true })
-  private showKoodiArvo!: boolean;
+// Get instance to access global properties
+const instance = getCurrentInstance();
+const $t = instance?.appContext.config.globalProperties.$t;
+const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
 
-  @Prop({ required: true })
-  private store!: KoodistoSelectStore;
+const koodi = computed({
+  get: () => props.modelValue,
+  set: (val) => {
+    emit('update:modelValue', val);
+  },
+});
 
-  get koodi() {
-    return this.value;
-  }
+const koodistoSelectDefaultFields = computed(() => {
+  return props.showKoodiArvo ? ['nimi', 'arvo'] : ['nimi'];
+});
 
-  set koodi(koodi) {
-    this.$emit('input', koodi);
-  }
+const fields = computed(() => {
+  return [{
+    key: 'nimi',
+    label: $t('nimi'),
+  },
+  ...(props.showKoodiArvo
+    ? [
+      {
+        key: 'arvo',
+        label: $t('koodi'),
+        thStyle: { width: '10rem' },
+      },
+    ] : []),
+  {
+    key: 'poisto',
+    label: '',
+    thStyle: { width: '5rem' },
+  }];
+});
 
-  remove(koodi) {
-    this.$emit('remove', koodi);
-  }
-
-  get koodistoSelectDefaultFields() {
-    return this.showKoodiArvo ? ['nimi', 'arvo'] : ['nimi'];
-  }
-
-  get fields() {
-    return [{
-      key: 'nimi',
-      label: this.$t('nimi'),
-    },
-    ...(this.showKoodiArvo
-      ? [
-        {
-          key: 'arvo',
-          label: this.$t('koodi'),
-          thStyle: { width: '10rem' },
-        },
-      ] : []),
-    {
-      key: 'poisto',
-      label: '',
-      thStyle: { width: '5rem' },
-    }];
-  }
+function remove(koodi) {
+  emit('remove', koodi);
 }
 </script>
 

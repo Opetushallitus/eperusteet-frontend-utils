@@ -68,9 +68,9 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, computed, getCurrentInstance } from 'vue';
 import _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
@@ -83,59 +83,61 @@ interface Julkaisu {
   luoja?: string;
   kayttajanTieto?: any;
   tila?: 'JULKAISTU' | 'KESKEN' | 'VIRHE';
+  palautuksessa?: boolean;
 }
 
-@Component({
-  components: {
-    EpButton,
-    EpSpinner,
-    EpMaterialIcon,
+const props = defineProps({
+  julkaisut: {
+    type: Array as () => Julkaisu[],
+    required: false,
   },
-})
-export default class EpJulkaisuHistoria extends Vue {
-  @Prop({ required: false })
-  private julkaisut!: Julkaisu[];
+  palauta: {
+    type: Function,
+    required: false,
+  },
+});
 
-  @Prop({ required: false })
-  private palauta!: Function;
+const palautuksessa = ref<number | null>(null);
+const instance = getCurrentInstance();
+const $t = instance?.appContext.config.globalProperties.$t;
+const $bvModal = (instance?.proxy?.$root as any)?.$bvModal;
 
-  private palautuksessa: any | null = null;
+const julkaisutMapped = computed(() => {
+  return _.chain(props.julkaisut)
+    .map(julkaisu => {
+      return {
+        ...julkaisu,
+        ...(julkaisu.kayttajanTieto && { nimi: parsiEsitysnimi(julkaisu.kayttajanTieto) }),
+        tila: julkaisu.tila || 'JULKAISTU',
+        palautuksessa: palautuksessa.value === julkaisu.revision,
+      };
+    })
+    .sortBy('revision')
+    .reverse()
+    .value();
+});
 
-  get julkaisutMapped() {
-    return _.chain(this.julkaisut)
-      .map(julkaisu => {
-        return {
-          ...julkaisu,
-          ...(julkaisu.kayttajanTieto && { nimi: parsiEsitysnimi(julkaisu.kayttajanTieto) }),
-          tila: julkaisu.tila || 'JULKAISTU',
-          palautuksessa: this.palautuksessa === julkaisu.revision,
-        };
-      })
-      .sortBy('revision')
-      .reverse()
-      .value();
-  }
+const latestJulkaisuRevision = computed(() => {
+  return _.find(julkaisutMapped.value, julkaisu => julkaisu.tila === 'JULKAISTU');
+});
 
-  get latestJulkaisuRevision() {
-    return _.find(this.julkaisutMapped, julkaisu => julkaisu.tila === 'JULKAISTU');
-  }
-
-  async palautaConfirm(julkaisu) {
-    if (await this.$bvModal.msgBoxConfirm((this.$t('toiminto-kopioi-ja-palauttaa-valitsemasi-version-julkiseksi') as any), {
-      title: this.$t('palauta-versio-julkiseksi'),
-      okVariant: 'primary',
-      okTitle: this.$t('kylla') as any,
-      cancelVariant: 'link',
-      cancelTitle: this.$t('peruuta') as any,
-      centered: true,
-      ...{} as any,
-    })) {
-      this.palautuksessa = julkaisu.revision;
-      await this.palauta(julkaisu);
-      this.palautuksessa = null;
+const palautaConfirm = async (julkaisu: Julkaisu) => {
+  if (await $bvModal.msgBoxConfirm(($t('toiminto-kopioi-ja-palauttaa-valitsemasi-version-julkiseksi') as any), {
+    title: $t('palauta-versio-julkiseksi'),
+    okVariant: 'primary',
+    okTitle: $t('kylla') as any,
+    cancelVariant: 'link',
+    cancelTitle: $t('peruuta') as any,
+    centered: true,
+    ...{} as any,
+  })) {
+    palautuksessa.value = julkaisu.revision || null;
+    if (props.palauta) {
+      await props.palauta(julkaisu);
     }
+    palautuksessa.value = null;
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -159,5 +161,4 @@ export default class EpJulkaisuHistoria extends Vue {
     background-color: $red-lighten-1;
   }
 }
-
 </style>

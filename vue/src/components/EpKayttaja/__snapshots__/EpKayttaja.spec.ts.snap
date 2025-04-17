@@ -2,72 +2,71 @@
 
 exports[`EpKayttaja component > Renders 1`] = `
 "<div data-v-9ad4d674="" class="kayttaja">
-  <li data-v-9ad4d674="" id="kayttaja-dropdown" class="nav-item b-nav-dropdown dropdown"><a id="kayttaja-dropdown__BV_toggle_" role="button" aria-haspopup="true" aria-expanded="false" aria-controls="kayttaja-dropdown__BV_toggle_menu_" href="#kayttaja-dropdown" target="_self" class="nav-link dropdown-toggle dropdown-toggle-no-caret">
+  <div data-v-9ad4d674="" class="b-nav-item-dropdown" id="kayttaja-dropdown" right="" no-caret="">
+    <!--v-if-->
+    <div data-v-24bfaad2="" data-v-9ad4d674="">
+      <!--v-if-->
+      <div data-v-24bfaad2="" class="ep-collapse">
+        <!-- Button tagia ei voida käyttää, sillä ml-auto ei toimi.-->
+        <!-- Käytetään button rolea saavutettavuuden takaamiseksi.-->
+        <div data-v-24bfaad2="" class="collapse-button d-flex align-items-center my-2 mr-1" role="button" tabindex="0" aria-expanded="false">
+          <!--v-if-->
+          <div data-v-24bfaad2="" class="align-self-start header">
+            <div data-v-24bfaad2="" class="">
+              <div data-v-9ad4d674="" class="pl-3 pt-2 text-nowrap kieli"><span data-v-07230345="" data-v-9ad4d674="" class="material-icons icon icon mr-3"> language </span><span data-v-9ad4d674="">kieli</span></div>
+              <div data-v-9ad4d674="" class="pl-3 uikieli"><span data-v-9ad4d674="" class="icon mr-3"></span><small data-v-9ad4d674="">sv</small></div>
+            </div>
+          </div>
+          <div data-v-9ad4d674="" class="ml-auto align-self-start" style="padding: 0.8rem 1rem;"><span data-v-07230345="" data-v-9ad4d674="" class="material-icons icon"> expand_more </span></div>
+        </div>
+        <!--v-if-->
+      </div>
+      <!--v-if-->
+    </div>
+    <div data-v-9ad4d674="" class="b-dd-item" href="/henkilo-ui/omattiedot"><span data-v-07230345="" data-v-9ad4d674="" class="material-icons icon icon mr-3"> person </span><span data-v-9ad4d674="">kayttajan-asetukset</span></div>
+    <div data-v-9ad4d674="" class="b-dropdown-divider"></div><!-- Sovellussiisrtymä  -->
+    <div data-v-24bfaad2="" data-v-9ad4d674="">
+      <!--v-if-->
+      <div data-v-24bfaad2="" class="ep-collapse">
+        <!-- Button tagia ei voida käyttää, sillä ml-auto ei toimi.-->
+        <!-- Käytetään button rolea saavutettavuuden takaamiseksi.-->
+        <div data-v-24bfaad2="" class="collapse-button d-flex align-items-center my-2 mr-1" role="button" tabindex="0" aria-expanded="true">
+          <!--v-if-->
+          <div data-v-24bfaad2="" class="align-self-start header">
+            <div data-v-24bfaad2="" class="header-toggled">
+              <div data-v-9ad4d674="" class="pl-3 pt-2 text-nowrap kieli"><span data-v-07230345="" data-v-9ad4d674="" class="material-icons icon icon mr-3"> launch </span><span data-v-9ad4d674="">vaihda-sovellusta</span></div>
+              <div data-v-9ad4d674="" class="pl-3 valittu-sovellus pb-2"><span data-v-9ad4d674="" class="icon mr-3"></span><small data-v-9ad4d674="">APP_EPERUSTEET</small></div>
+            </div>
+          </div>
+          <div data-v-9ad4d674="" class="ml-auto align-self-start" style="padding: 0.8rem 1rem;"><span data-v-07230345="" data-v-9ad4d674="" class="material-icons icon"> expand_less </span></div>
+        </div>
+        <div data-v-24bfaad2="" class="collapse-content">
+          <div data-v-9ad4d674="" class="collapse-tausta text-left">
+            <div data-v-9ad4d674="" class="b-dd-item sovellusoikeus" href="eperuste-url" disabled="true">
+              <div data-v-9ad4d674="" class="collapse-tausta-valinta-icon"><span data-v-07230345="" data-v-9ad4d674="" class="material-icons icon mr-3 valittu"> done </span></div> APP_EPERUSTEET
+            </div>
+            <div data-v-9ad4d674="" class="b-dd-item sovellusoikeus" href="amosaa-url" disabled="false">
+              <div data-v-9ad4d674="" class="collapse-tausta-valinta-icon">
+                <!--v-if-->
+              </div> APP_EPERUSTEET_AMOSAA
+            </div>
+            <div data-v-9ad4d674="" class="b-dd-item" href="/virkailijan-tyopoyta">
+              <div data-v-9ad4d674="" class="collapse-tausta-valinta-icon"></div> virkailijan-tyopoyta
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--v-if-->
+    </div>
+    <div data-v-9ad4d674="" class="b-dropdown-divider"></div>
+    <div data-v-9ad4d674="" class="b-dd-item" href="/service-provider-app/saml/logout"><span data-v-07230345="" data-v-9ad4d674="" class="material-icons icon mr-3 valittu"> logout </span><span data-v-9ad4d674="">kirjaudu-ulos</span></div>
+    <div class="b-nav-item-dropdown__slot-button-content">
       <div data-v-9ad4d674="" class="d-flex flex-row">
         <div data-v-9ad4d674="" class="kayttaja-valikko d-flex flex-column"><span data-v-9ad4d674="" class="kielivalitsin text-right">etunimi sukunimi</span>
-          <!---->
-        </div><span data-v-07230345="" data-v-9ad4d674="" class="icon material-icons">expand_more</span>
+          <!--v-if-->
+        </div><span data-v-07230345="" data-v-9ad4d674="" class="material-icons icon">expand_more</span>
       </div>
-    </a>
-    <ul tabindex="-1" aria-labelledby="kayttaja-dropdown__BV_toggle_" id="kayttaja-dropdown__BV_toggle_menu_" class="dropdown-menu dropdown-menu-right">
-      <!---->
-      <div data-v-24bfaad2="" data-v-9ad4d674="">
-        <!---->
-        <div data-v-24bfaad2="" class="ep-collapse">
-          <div data-v-24bfaad2="" role="button" tabindex="0" class="collapse-button d-flex align-items-center my-2 mr-1">
-            <!---->
-            <div data-v-24bfaad2="" class="align-self-start header">
-              <div data-v-24bfaad2="" class="">
-                <div data-v-9ad4d674="" data-v-24bfaad2="" class="pl-3 pt-2 text-nowrap kieli"><span data-v-07230345="" data-v-9ad4d674="" class="icon icon mr-3 material-icons" data-v-24bfaad2=""> language </span><span data-v-9ad4d674="" data-v-24bfaad2="">kieli</span></div>
-                <div data-v-9ad4d674="" data-v-24bfaad2="" class="pl-3 uikieli"><span data-v-9ad4d674="" data-v-24bfaad2="" class="icon mr-3"></span><small data-v-9ad4d674="" data-v-24bfaad2="">sv</small></div>
-              </div>
-            </div>
-            <div data-v-9ad4d674="" data-v-24bfaad2="" class="ml-auto align-self-start" style="padding: 0.8rem 1rem;"><span data-v-07230345="" data-v-9ad4d674="" class="icon material-icons" data-v-24bfaad2=""> expand_more </span></div>
-          </div>
-          <!---->
-        </div>
-        <!---->
-      </div>
-      <li data-v-9ad4d674="" role="presentation"><a role="menuitem" href="/henkilo-ui/omattiedot" target="_self" class="dropdown-item"><span data-v-07230345="" data-v-9ad4d674="" class="icon icon mr-3 material-icons"> person </span><span data-v-9ad4d674="">kayttajan-asetukset</span></a></li>
-      <li data-v-9ad4d674="" role="presentation">
-        <hr data-v-9ad4d674="" role="separator" aria-orientation="horizontal" class="dropdown-divider">
-      </li>
-      <div data-v-24bfaad2="" data-v-9ad4d674="">
-        <!---->
-        <div data-v-24bfaad2="" class="ep-collapse">
-          <div data-v-24bfaad2="" role="button" tabindex="0" class="collapse-button d-flex align-items-center my-2 mr-1" aria-expanded="true">
-            <!---->
-            <div data-v-24bfaad2="" class="align-self-start header">
-              <div data-v-24bfaad2="" class="header-toggled">
-                <div data-v-9ad4d674="" data-v-24bfaad2="" class="pl-3 pt-2 text-nowrap kieli"><span data-v-07230345="" data-v-9ad4d674="" class="icon icon mr-3 material-icons" data-v-24bfaad2=""> launch </span><span data-v-9ad4d674="" data-v-24bfaad2="">vaihda-sovellusta</span></div>
-                <div data-v-9ad4d674="" data-v-24bfaad2="" class="pl-3 valittu-sovellus pb-2"><span data-v-9ad4d674="" data-v-24bfaad2="" class="icon mr-3"></span><small data-v-9ad4d674="" data-v-24bfaad2="">APP_EPERUSTEET</small></div>
-              </div>
-            </div>
-            <div data-v-9ad4d674="" data-v-24bfaad2="" class="ml-auto align-self-start" style="padding: 0.8rem 1rem;"><span data-v-07230345="" data-v-9ad4d674="" class="icon material-icons" data-v-24bfaad2=""> expand_less </span></div>
-          </div>
-          <div data-v-24bfaad2="" class="collapse-content">
-            <div data-v-9ad4d674="" data-v-24bfaad2="" class="collapse-tausta text-left">
-              <li data-v-9ad4d674="" role="presentation" class="sovellusoikeus" data-v-24bfaad2=""><a role="menuitem" href="eperuste-url" target="_self" tabindex="-1" aria-disabled="true" class="dropdown-item disabled">
-                  <div data-v-9ad4d674="" class="collapse-tausta-valinta-icon"><span data-v-07230345="" data-v-9ad4d674="" class="icon mr-3 valittu material-icons"> done </span></div> APP_EPERUSTEET
-                </a></li>
-              <li data-v-9ad4d674="" role="presentation" class="sovellusoikeus" data-v-24bfaad2=""><a role="menuitem" href="amosaa-url" target="_self" class="dropdown-item">
-                  <div data-v-9ad4d674="" class="collapse-tausta-valinta-icon">
-                    <!---->
-                  </div> APP_EPERUSTEET_AMOSAA
-                </a></li>
-              <li data-v-9ad4d674="" role="presentation" data-v-24bfaad2=""><a role="menuitem" href="/virkailijan-tyopoyta" target="_self" class="dropdown-item">
-                  <div data-v-9ad4d674="" class="collapse-tausta-valinta-icon"></div> virkailijan-tyopoyta
-                </a></li>
-            </div>
-          </div>
-        </div>
-        <!---->
-      </div>
-      <li data-v-9ad4d674="" role="presentation">
-        <hr data-v-9ad4d674="" role="separator" aria-orientation="horizontal" class="dropdown-divider">
-      </li>
-      <li data-v-9ad4d674="" role="presentation"><a role="menuitem" href="/service-provider-app/saml/logout" target="_self" class="dropdown-item"><span data-v-07230345="" data-v-9ad4d674="" class="icon mr-3 valittu material-icons"> logout </span><span data-v-9ad4d674="">kirjaudu-ulos</span></a></li>
-    </ul>
-  </li>
+    </div>
+  </div>
 </div>"
 `;

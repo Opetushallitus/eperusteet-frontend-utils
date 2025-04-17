@@ -28,66 +28,63 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed } from 'vue';
 import { Kielet } from '@shared/stores/kieli';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import { IDokumenttiStore } from '@shared/tyypit';
 import EpPdfDokumentti from '@shared/components/EpPdfLuonti/EpPdfDokumentti.vue';
 
-@Component({
-  components: {
-    EpButton,
-    EpPdfDokumentti,
+const props = defineProps({
+  store: {
+    type: Object as () => IDokumenttiStore,
+    required: true,
   },
-})
-export default class EpPdfLuonti extends Vue {
-  @Prop({ required: true })
-  protected store!: IDokumenttiStore;
+  pdfnimi: {
+    type: String,
+    required: true,
+  },
+  naytaJulkaistu: {
+    type: Boolean,
+    default: true,
+  },
+});
 
-  @Prop({ required: true })
-  protected pdfnimi!: string;
-
-  @Prop({ required: false, default: true })
-  protected naytaJulkaistu!: boolean;
-
-  get dokumentti() {
-    if (this.store) {
-      return this.store.dokumentti.value;
-    }
+const dokumentti = computed(() => {
+  if (props.store) {
+    return props.store.dokumentti.value;
   }
+});
 
-  get dokumenttiHref() {
-    return this.store?.dokumenttiHref.value;
-  }
+const dokumenttiHref = computed(() => {
+  return props.store?.dokumenttiHref.value;
+});
 
-  get dokumenttiJulkaisu() {
-    if (this.store) {
-      return this.store.dokumenttiJulkaisu.value;
-    }
+const dokumenttiJulkaisu = computed(() => {
+  if (props.store) {
+    return props.store.dokumenttiJulkaisu.value;
   }
+});
 
-  get dokumenttiJulkaisuHref() {
-    return this.store?.dokumenttiJulkaisuHref.value;
-  }
+const dokumenttiJulkaisuHref = computed(() => {
+  return props.store?.dokumenttiJulkaisuHref.value;
+});
 
-  get kieli() {
-    return Kielet.getSisaltoKieli.value;
-  }
+const kieli = computed(() => {
+  return Kielet.getSisaltoKieli.value;
+});
 
-  get isPolling() {
-    return this.store?.polling.value;
-  }
+const isPolling = computed(() => {
+  return props.store?.polling.value;
+});
 
-  luoPdf() {
-    this.store?.luoPdf();
-  }
+const julkaisudokumenttiJaDokumenttiSamat = computed(() => {
+  return dokumenttiJulkaisu.value && dokumentti.value?.id === dokumenttiJulkaisu.value?.id;
+});
 
-  get julkaisudokumenttiJaDokumenttiSamat() {
-    return this.dokumenttiJulkaisu && this.dokumentti?.id === this.dokumenttiJulkaisu?.id;
-  }
+function luoPdf() {
+  props.store?.luoPdf();
 }
-
 </script>
 
 <style lang="scss" scoped>

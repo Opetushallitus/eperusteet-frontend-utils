@@ -167,8 +167,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, getCurrentInstance } from 'vue';
 import _ from 'lodash';
 import { KoodistoSelectStore } from '../EpKoodistoSelect/KoodistoSelectStore';
 import { Koodisto } from '@shared/api/eperusteet';
@@ -179,95 +179,93 @@ import EpTavoitealueKeskeisetSisaltoalueet from './EpTavoitealueKeskeisetSisalto
 import EpTavoitealueTavoitteet from './EpTavoitealueTavoitteet.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
-@Component({
-  components: {
-    EpKoodistoSelect,
-    EpButton,
-    draggable,
-    EpTavoitealueKeskeisetSisaltoalueet,
-    EpTavoitealueTavoitteet,
-    EpMaterialIcon,
+const props = defineProps({
+  modelValue: {
+    type: Array,
+    required: true,
   },
-})
-export default class EpTavoitesisaltoalueTavoitealueet extends Vue {
-  @Prop({ required: true })
-  private value!: any[];
+  isEditing: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+});
 
-  @Prop({ required: false, default: false, type: Boolean })
-  private isEditing!: boolean;
+const emit = defineEmits(['update:modelValue']);
 
-  get tavoitealueet() {
-    return this.value;
-  }
+const instance = getCurrentInstance();
+const $t = instance?.appContext.config.globalProperties.$t;
+const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
 
-  set tavoitealueet(value) {
-    this.$emit('input', value);
-  }
+const tavoitealueet = computed({
+  get: () => props.modelValue,
+  set: (value) => emit('update:modelValue', value),
+});
 
-  private readonly tavoitealueetKoodisto = new KoodistoSelectStore({
-    koodisto: 'tavoitealueet',
-    async query(query: string, sivu = 0, koodisto: string) {
-      const { data } = (await Koodisto.kaikkiSivutettuna(koodisto, query, {
-        params: {
-          sivu,
-          sivukoko: 10,
-        },
-      }));
-      return data as any;
+const tavoitealueetKoodisto = new KoodistoSelectStore({
+  koodisto: 'tavoitealueet',
+  async query(query: string, sivu = 0, koodisto: string) {
+    const { data } = (await Koodisto.kaikkiSivutettuna(koodisto, query, {
+      params: {
+        sivu,
+        sivukoko: 10,
+      },
+    }));
+    return data as any;
+  },
+});
+
+const lisaaTavoitealue = (tyyppi: 'OTSIKKO' | 'TAVOITESISALTOALUE') => {
+  tavoitealueet.value = [
+    ...tavoitealueet.value,
+    {
+      tavoiteAlueTyyppi: tyyppi,
+      ...(tyyppi === 'TAVOITESISALTOALUE' && { tavoitteet: [] }),
+      ...(tyyppi === 'TAVOITESISALTOALUE' && { keskeisetSisaltoalueet: [] }),
     },
-  });
+  ];
+};
 
-  lisaaTavoitealue(tyyppi: 'OTSIKKO' | 'TAVOITESISALTOALUE') {
-    this.tavoitealueet = [
-      ...this.tavoitealueet,
-      {
-        tavoiteAlueTyyppi: tyyppi,
-        ...(tyyppi === 'TAVOITESISALTOALUE' && { tavoitteet: [] }),
-        ...(tyyppi === 'TAVOITESISALTOALUE' && { keskeisetSisaltoalueet: [] }),
-      },
-    ];
-  }
+const poistaTavoitealue = (tavoitealue: any) => {
+  tavoitealueet.value = _.filter(tavoitealueet.value, rivi => rivi !== tavoitealue);
+};
 
-  poistaTavoitealue(tavoitealue) {
-    this.tavoitealueet = _.filter(this.tavoitealueet, rivi => rivi !== tavoitealue);
-  }
+const defaultDragOptions = computed(() => {
+  return {
+    animation: 300,
+    emptyInsertThreshold: 10,
+    handle: '.order-handle',
+    disabled: !props.isEditing,
+    ghostClass: 'dragged',
+  };
+});
 
-  get defaultDragOptions() {
-    return {
-      animation: 300,
-      emptyInsertThreshold: 10,
-      handle: '.order-handle',
-      disabled: !this.isEditing,
-      ghostClass: 'dragged',
-    };
-  }
-  get tavoitealueOptions() {
-    return {
-      ...this.defaultDragOptions,
-      group: {
-        name: 'tavoitealue',
-      },
-    };
-  }
+const tavoitealueOptions = computed(() => {
+  return {
+    ...defaultDragOptions.value,
+    group: {
+      name: 'tavoitealue',
+    },
+  };
+});
 
-  get tavoitteetOptions() {
-    return {
-      ...this.defaultDragOptions,
-      group: {
-        name: 'tavoitteet',
-      },
-    };
-  }
+const tavoitteetOptions = computed(() => {
+  return {
+    ...defaultDragOptions.value,
+    group: {
+      name: 'tavoitteet',
+    },
+  };
+});
 
-  get keskeisetSisaltoalueetOptions() {
-    return {
-      ...this.defaultDragOptions,
-      group: {
-        name: 'keskeisetsisaltoalueet',
-      },
-    };
-  }
-}
+const keskeisetSisaltoalueetOptions = computed(() => {
+  return {
+    ...defaultDragOptions.value,
+    group: {
+      name: 'keskeisetsisaltoalueet',
+    },
+  };
+});
 </script>
 
 <style scoped lang="scss">
@@ -286,11 +284,11 @@ export default class EpTavoitesisaltoalueTavoitealueet extends Vue {
     }
   }
 
-  ::v-deep fieldset {
+  :deep(fieldset) {
     padding-right: 0px;
   }
 
-  ::v-deep .input-wrapper {
+  :deep(.input-wrapper) {
     flex: 1 1 0%;
 
     input {

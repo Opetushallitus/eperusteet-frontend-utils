@@ -5,7 +5,7 @@
       :for="id"
       class="label"
     ><slot name="label" /></label>
-    <multiselect
+    <VueMultiselect
       v-model="model"
       :track-by="track"
       :options="filteredOptions"
@@ -110,7 +110,7 @@
       <template #afterList>
         <slot name="afterList" />
       </template>
-    </multiselect>
+    </VueMultiselect>
     <div
       v-if="!validationError && validMessage"
       class="valid-feedback"
@@ -137,243 +137,267 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Mixins } from 'vue-property-decorator';
-
-import Multiselect from 'vue-multiselect';
+<script setup lang="ts">
+import { ref, computed, onMounted, useSlots, useTemplateRef, getCurrentInstance } from 'vue';
+import { useVuelidate } from '@vuelidate/core';
+import VueMultiselect from 'vue-multiselect';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
 import { Debounced } from '@shared/utils/delay';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
-import EpValidation from '../../mixins/EpValidation';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import _ from 'lodash';
+import { hasSlotContent } from '../../utils/vue-utils';
 
-@Component({
-  components: {
-    EpContent,
-    EpInput,
-    EpSpinner,
-    Multiselect,
-  },
-})
-export default class EpMultiSelect extends Mixins(EpValidation) {
-  @Prop({
+const props = defineProps({
+  modelValue: {
     required: true,
-    // type: Array
-  })
-  private value!: any[] | any;
-
-  @Prop({
+  },
+  multiple: {
     default: false,
-  })
-  private multiple!: boolean;
+    type: Boolean,
+  },
+  trackBy: {
+    type: String,
+  },
+  label: {
+    type: String,
+  },
+  customLabel: {
+    type: Function,
+  },
+  options: {
+    required: true,
+    type: Array,
+  },
+  help: {
+    default: '',
+    type: String,
+  },
+  placeholder: {
+    default: '',
+    type: String,
+  },
+  tagPlaceholder: {
+    default: '',
+    type: String,
+  },
+  searchIdentity: {
+    default: null,
+    type: Function,
+  },
+  groupValues: {
+    type: String,
+  },
+  groupLabel: {
+    type: String,
+  },
+  groupSelect: {
+    default: false,
+    type: Boolean,
+  },
+  searchable: {
+    default: true,
+    type: Boolean,
+  },
+  loading: {
+    default: false,
+    type: Boolean,
+  },
+  internalSearch: {
+    default: false,
+    type: Boolean,
+  },
+  closeOnSelect: {
+    default: true,
+    type: Boolean,
+  },
+  taggable: {
+    default: false,
+    type: Boolean,
+  },
+  clearOnSelect: {
+    default: false,
+    type: Boolean,
+  },
+  maxHeight: {
+    type: Number,
+  },
+  disabled: {
+    default: false,
+    type: Boolean,
+  },
+  allowEmpty: {
+    default: true,
+    type: Boolean,
+  },
+  openDirection: {
+    default: '',
+    type: String,
+  },
+  validationError: {
+    type: String,
+  },
+  validMessage: {
+    type: String,
+  },
+  invalidMessage: {
+    type: String,
+  },
+});
 
-  @Prop()
-  private trackBy!: string;
+const emit = defineEmits(['update:modelValue', 'search', 'remove', 'tag']);
+const v$ = useVuelidate();
+const slots = useSlots();
+const multiselect = useTemplateRef('multiselect');
+const search = ref('');
 
-  @Prop()
-  private label!: string;
+onMounted(() => {
+  const multiselectEl = document.querySelector('.multiselect');
 
-  @Prop({ required: false })
-  private customLabel!: Function;
+  if (multiselectEl) {
+    multiselectEl.setAttribute('aria-expanded', 'false');
+    multiselectEl.removeAttribute('aria-owns');
+    const inputEl = multiselectEl.querySelector('input');
+    if (inputEl) {
+      inputEl.setAttribute('aria-autocomplete', 'list');
+    }
 
-  @Prop({ required: true })
-  private options!: any[];
-
-  @Prop({ default: '' })
-  private help!: string;
-
-  @Prop({ default: '' })
-  private placeholder!: string;
-
-  @Prop({ default: '' })
-  private tagPlaceholder!: string;
-
-  @Prop({ default: null })
-  private searchIdentity!: null | ((v: any) => string | null | undefined);
-
-  @Prop({ required: false })
-  private groupValues!: string;
-
-  @Prop({ required: false })
-  private groupLabel!: string;
-
-  @Prop({ default: false })
-  private groupSelect!: boolean;
-
-  @Prop({ default: true })
-  private searchable!: boolean;
-
-  @Prop({ default: false })
-  private loading!: boolean;
-
-  @Prop({ default: false })
-  private internalSearch!: boolean;
-
-  @Prop({ default: true })
-  private closeOnSelect!: boolean;
-
-  @Prop({ default: false })
-  private taggable!: boolean;
-
-  @Prop({ default: true })
-  private clearOnSelect!: boolean;
-
-  @Prop({ required: false })
-  private maxHeight!: number;
-
-  @Prop({ default: false, type: Boolean })
-  private disabled!: boolean;
-
-  @Prop({ default: true, type: Boolean })
-  private allowEmpty!: boolean;
-
-  @Prop({ default: '' })
-  private openDirection!: string;
-
-  private search = '';
-
-  async mounted() {
-    const multiselect = this.$el.querySelector('.multiselect');
-
-    if (multiselect) {
-      multiselect.setAttribute('aria-expanded', 'false');
-      multiselect.removeAttribute('aria-owns');
-      multiselect.querySelector('input')?.setAttribute('aria-autocomplete', 'list');
-
-      const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-          if (mutation.attributeName === 'class') {
-            multiselect?.setAttribute('aria-expanded', multiselect?.classList.contains('multiselect--active') + '');
-          }
-        });
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'class') {
+          multiselectEl?.setAttribute('aria-expanded', multiselectEl?.classList.contains('multiselect--active') + '');
+        }
       });
-      observer.observe(multiselect, { attributes: true, attributeFilter: ['class'] });
-    }
-
-    const options = this.$el.querySelectorAll('.multiselect li[role="option"]');
-    if (options) {
-      options.forEach((option) => {
-        option.removeAttribute('role');
-      });
-    }
+    });
+    observer.observe(multiselectEl, { attributes: true, attributeFilter: ['class'] });
   }
 
-  get filteredOptions() {
-    if (this.search && this.searchIdentity) {
-      return _.filter(this.options, x => _.includes(
-        _.toLower(this.searchIdentity!(x) || ''),
-        _.toLower(this.search || '')));
-    }
-    return this.options;
+  const options = document.querySelectorAll('.multiselect li[role="option"]');
+  if (options) {
+    options.forEach((option) => {
+      option.removeAttribute('role');
+    });
   }
+});
 
-  get model() {
-    return this.value;
+const filteredOptions = computed(() => {
+  if (search.value && props.searchIdentity) {
+    return _.filter(props.options, x => _.includes(
+      _.toLower(props.searchIdentity!(x) || ''),
+      _.toLower(search.value || '')));
   }
+  return props.options;
+});
 
-  set model(value) {
-    this.$emit('input', value);
+const model = computed({
+  get: () => props.modelValue,
+  set: (value) => {
+    emit('update:modelValue', value);
+  },
+});
+
+const hasValue = computed(() => {
+  return !_.isEmpty(props.modelValue);
+});
+
+const track = computed(() => {
+  return props.trackBy;
+});
+
+const id = computed(() => {
+  return _.uniqueId('multiselect-');
+});
+
+const validation = computed(() => {
+  return v$.value || {};
+});
+
+function optionChecked(option) {
+  return option === props.modelValue || !_.isEmpty(_.filter(props.modelValue, x => x === option));
+}
+
+function getOptionLabel(option) {
+  if (_.isEmpty(option)) return '';
+  if (!_.isEmpty(props.label) && !_.isEmpty(_.get(option, props.label))) return _.get(option, props.label);
+  return option;
+}
+
+// Using regular function instead of debouncing directly since we need to access props
+async function onSearchChange(ev) {
+  if (props.searchIdentity) {
+    search.value = ev;
   }
-
-  get hasValue() {
-    return !_.isEmpty(this.value);
-  }
-
-  get track() {
-    return this.trackBy;
-  }
-
-  get id() {
-    return _.uniqueId('multiselect-');
-  }
-
-  optionChecked(option) {
-    return option === this.value || !_.isEmpty(_.filter(this.value, x => x === option));
-  }
-
-  getOptionLabel(option) {
-    if (_.isEmpty(option)) return '';
-    if (!_.isEmpty(this.label) && !_.isEmpty(_.get(option, this.label))) return _.get(option, this.label);
-    return option;
-  }
-
-  @Debounced(300)
-  async onSearchChange(ev) {
-    if (this.searchIdentity) {
-      this.search = ev;
-    }
-    else {
-      this.$emit('search', ev);
-    }
-  }
-
-  get inputClass() {
-    return {
-      'is-invalid': this.isInvalid,
-      'is-valid': this.isValid,
-    };
-  }
-
-  remove(option) {
-    this.$emit('remove', option);
-  }
-
-  sulje() {
-    (this.$refs.multiselect as any)?.deactivate();
-  }
-
-  addTag(tag) {
-    this.$emit('tag', tag);
-  }
-
-  get labelSlot() {
-    return this.$slots.label;
+  else {
+    emit('search', ev);
   }
 }
+
+const inputClass = computed(() => {
+  return {
+    'is-invalid': !!(props.validationError),
+    'is-valid': !!(props.validMessage && !props.validationError),
+  };
+});
+
+function remove(option) {
+  emit('remove', option);
+}
+
+function sulje() {
+  multiselect.value?.deactivate();
+}
+
+function addTag(tag) {
+  emit('tag', tag);
+}
+
+const labelSlot = computed(() => {
+  return hasSlotContent(slots.label);
+});
 </script>
 
 <style scoped lang="scss">
 @import '@shared/styles/_variables.scss';
 @import '@shared/styles/_mixins.scss';
 
-::v-deep .multiselect__tags {
+:deep(.multiselect__tags) {
   border: 1px solid $black;
   background-color: $white;
   padding-left:10px;
   border-radius: 0;
 }
 
-::v-deep .multiselect__tag {
+:deep(.multiselect__tag) {
   background-color: $white;
   color: $black;
   margin: 0px;
 }
 
-::v-deep .multiselect__placeholder {
+:deep(.multiselect__placeholder) {
   margin-bottom: 0px;
   padding-top: 0px;
 }
 
-::v-deep .multiselect--active {
+:deep(.multiselect--active) {
   .multiselect__tags {
     border-top: 2px solid $black;
   }
 }
 
-::v-deep .multiselect--above {
+:deep(.multiselect--above) {
   .multiselect__content-wrapper {
     border: 1px solid $black;
     border-bottom: 0;
   }
 }
-::v-deep .multiselect--above.multiselect--active {
+:deep(.multiselect--above.multiselect--active) {
   .multiselect__tags {
     border-top: 2px solid $black;
   }
 }
 
-::v-deep .multiselect__content-wrapper {
+:deep(.multiselect__content-wrapper) {
   border: 1px solid $black;
   width: fit-content;
   min-width: 100%;
@@ -384,55 +408,55 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
   }
 }
 
-::v-deep .is-invalid .multiselect__content-wrapper {
+:deep(.is-invalid .multiselect__content-wrapper) {
   border-color: #dc3545;
 }
 
-::v-deep .is-valid .multiselect__content-wrapper {
+:deep(.is-valid .multiselect__content-wrapper) {
   border-color: $valid;
 }
 
-::v-deep .is-invalid .multiselect__tags {
+:deep(.is-invalid .multiselect__tags) {
   border-color: #dc3545;
 }
 
-::v-deep .is-valid .multiselect__tags {
+:deep(.is-valid .multiselect__tags) {
   border-color: $valid;
 }
 
 // Piilotettu Bootstrapissa oletuksena
-::v-deep .invalid-feedback,
-::v-deep .valid-feedback {
+:deep(.invalid-feedback),
+:deep(.valid-feedback) {
   display: block;
 }
 
-::v-deep .multiselect__option--disabled {
+:deep(.multiselect__option--disabled) {
   background: none !important;
   color: $disabled !important;
 }
 
-::v-deep .multiselect__option--selected {
+:deep(.multiselect__option--selected) {
   font-weight: 400;
 }
 
-::v-deep .multiselect__input {
+:deep(.multiselect__input) {
   padding-left: 0px;
   font-size: 14px;
 }
 
-::v-deep .multiselect__option--highlight {
+:deep(.multiselect__option--highlight) {
     background-color: #bbb;
     color: #fff;
   }
 
-::v-deep .multiselect__option--selected {
+:deep(.multiselect__option--selected) {
   &.multiselect__option--highlight{
     background:$green;
     color:#fff
   }
 }
 
-::v-deep .multiselect__tags {
+:deep(.multiselect__tags) {
   .multiselect__tag {
     border: 1px solid $black;
     margin-right: 10px;
@@ -449,12 +473,11 @@ export default class EpMultiSelect extends Mixins(EpValidation) {
   }
 }
 
-::v-deep .multiselect__tag-icon:focus, ::v-deep .multiselect__tag-icon:hover {
+:deep(.multiselect__tag-icon:focus), :deep(.multiselect__tag-icon:hover) {
   background: $gray;
 }
 
-::v-deep .multiselect {
+:deep(.multiselect) {
   @include focus-within;
 }
-
 </style>

@@ -50,21 +50,23 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import * as _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
 
-@Component
-export default class EpPaikallinenTarkennus extends Vue {
-  @Prop({ required: false, default: true, type: Boolean })
-  private avattava!: boolean;
-
-  @Prop({ required: false, default: false, type: Boolean })
-  private headerh4!: boolean;
-
-  @Prop({ required: false, default: false, type: Boolean })
-  private noheader!: boolean;
-}
+const props = defineProps({
+  avattava: {
+    type: Boolean,
+    default: true,
+  },
+  headerh4: {
+    type: Boolean,
+    default: false,
+  },
+  noheader: {
+    type: Boolean,
+    default: false,
+  },
+});
 </script>
 
 <style scoped lang="scss">
@@ -85,5 +87,4 @@ export default class EpPaikallinenTarkennus extends Vue {
     font-weight: 600;
   }
 }
-
 </style>
