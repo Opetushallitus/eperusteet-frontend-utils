@@ -51,63 +51,59 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, getCurrentInstance } from 'vue';
 import _ from 'lodash';
 import draggable from 'vuedraggable';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
-@Component({
-  components: {
-    EpButton,
-    draggable,
-    EpInput,
-    EpMaterialIcon,
+const props = defineProps({
+  modelValue: {
+    type: Array,
+    required: true,
   },
-})
-export default class EpTavoitealueKeskeisetSisaltoalueet extends Vue {
-  @Prop({ required: true })
-  private value!: any[];
+});
 
-  get keskeisetSisaltoalueet() {
-    return this.value;
-  }
+const emit = defineEmits(['update:modelValue']);
 
-  set keskeisetSisaltoalueet(value) {
-    this.$emit('input', value);
-  }
+const instance = getCurrentInstance();
+const $t = instance?.appContext.config.globalProperties.$t;
 
-  lisaaKeskeinenSisaltoalue() {
-    this.keskeisetSisaltoalueet = [
-      ...this.keskeisetSisaltoalueet,
-      {},
-    ];
-  }
+const keskeisetSisaltoalueet = computed({
+  get: () => props.modelValue,
+  set: (value) => emit('update:modelValue', value),
+});
 
-  poistaKeskeinenSisaltoalue(keskeinenSisaltoalue) {
-    this.keskeisetSisaltoalueet = _.filter(this.keskeisetSisaltoalueet, rivi => rivi !== keskeinenSisaltoalue);
-  }
+const lisaaKeskeinenSisaltoalue = () => {
+  keskeisetSisaltoalueet.value = [
+    ...keskeisetSisaltoalueet.value,
+    {},
+  ];
+};
 
-  get defaultDragOptions() {
-    return {
-      animation: 300,
-      emptyInsertThreshold: 10,
-      handle: '.order-handle',
-      ghostClass: 'dragged',
-    };
-  }
+const poistaKeskeinenSisaltoalue = (keskeinenSisaltoalue: any) => {
+  keskeisetSisaltoalueet.value = _.filter(keskeisetSisaltoalueet.value, rivi => rivi !== keskeinenSisaltoalue);
+};
 
-  get keskeisetSisaltoalueetOptions() {
-    return {
-      ...this.defaultDragOptions,
-      group: {
-        name: 'keskeisetsisaltoalueet',
-      },
-    };
-  }
-}
+const defaultDragOptions = computed(() => {
+  return {
+    animation: 300,
+    emptyInsertThreshold: 10,
+    handle: '.order-handle',
+    ghostClass: 'dragged',
+  };
+});
+
+const keskeisetSisaltoalueetOptions = computed(() => {
+  return {
+    ...defaultDragOptions.value,
+    group: {
+      name: 'keskeisetsisaltoalueet',
+    },
+  };
+});
 </script>
 
 <style scoped lang="scss">

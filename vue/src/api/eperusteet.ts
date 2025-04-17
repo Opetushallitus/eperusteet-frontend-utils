@@ -282,7 +282,7 @@ export async function getAllPerusteetInternal(query: PerusteQuery) {
   );
 }
 
-export async function getKaannokset(palvelu) {
+export async function getKaannokset(palvelu = 'eperusteet') {
   try {
     const kaannokset = await Promise.all(_.map(['fi', 'sv', 'en'], lang => Lokalisointi.getPalveluKaannokset(palvelu, lang)));
     const [fi, sv, en] = _.map(kaannokset, 'data');

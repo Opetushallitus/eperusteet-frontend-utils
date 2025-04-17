@@ -56,36 +56,40 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import _ from 'lodash';
-import { Vue, Component, Prop } from 'vue-property-decorator';
-
+import { computed } from 'vue';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
 
-@Component({
-  components: {
-    EpContent,
+const props = defineProps({
+  opetussuunnitelmaStore: {
+    required: false,
+    type: Object,
   },
-})
-export default class EpOpintojaksonArviointi extends Vue {
-  @Prop({ required: false })
-  private opetussuunnitelmaStore!: any;
-
-  @Prop({ required: true })
-  private value!: any;
-
-  @Prop({ required: false, default: false })
-  private isEditing!: boolean;
-
-  @Prop({ required: true })
-  private opintojaksonOppiaineidenTiedot!: any;
-
-  @Prop({ required: false, default: true })
-  private showEmptyAlert!: boolean;
-
-  @Prop({ required: false, default: true })
-  private showPerustesisalto!: boolean;
-}
+  value: {
+    required: true,
+    type: Object,
+  },
+  isEditing: {
+    required: false,
+    default: false,
+    type: Boolean,
+  },
+  opintojaksonOppiaineidenTiedot: {
+    required: true,
+    type: Array,
+  },
+  showEmptyAlert: {
+    required: false,
+    default: true,
+    type: Boolean,
+  },
+  showPerustesisalto: {
+    required: false,
+    default: true,
+    type: Boolean,
+  },
+});
 </script>
 
 <style lang="scss">

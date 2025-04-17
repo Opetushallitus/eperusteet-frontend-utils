@@ -1,4 +1,4 @@
-import { Component } from 'vue-property-decorator';
+import { Component } from 'vue-facing-decorator';
 import EpRoot from './EpRoot';
 import { Murupolku } from '../stores/murupolku';
 

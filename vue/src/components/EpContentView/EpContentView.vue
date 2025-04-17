@@ -13,15 +13,15 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, useSlots } from 'vue';
+import { hasSlotContent } from '../../utils/vue-utils';
 
-@Component
-export default class EpContentView extends Vue {
-  get hasHeader() {
-    return !!this.$scopedSlots.header;
-  }
-}
+const slots = useSlots();
+
+const hasHeader = computed(() => {
+  return hasSlotContent(slots.header);
+});
 </script>
 
 <style scoped lang="scss">

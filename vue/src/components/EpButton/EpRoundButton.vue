@@ -10,34 +10,26 @@
   </button>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
-
+<script setup lang="ts">
 import EpSpinnerInline from '@shared/components/EpSpinner/EpSpinnerInline.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
-  @Component({
-    components: {
-      EpSpinnerInline,
-      EpMaterialIcon,
-    },
-  })
-export default class EpRoundButton extends Vue {
-    @Prop({
-      required: true,
-      type: String,
-    })
-    private icon!: string;
+const emit = defineEmits(['click']);
 
-    @Prop({
-      default: false,
-      type: Boolean,
-    })
-    private disabled!: boolean;
-
-    @Prop({ default: 'primary' })
-    private variant!: string;
-}
+const props = defineProps({
+  icon: {
+    type: String,
+    required: true,
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
+  variant: {
+    type: String,
+    default: 'primary',
+  },
+});
 </script>
 
 <style lang="scss" scoped>

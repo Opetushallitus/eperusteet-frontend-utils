@@ -1,5 +1,8 @@
 <template>
-  <div class="content">
+  <div
+    ref="contentRef"
+    class="content"
+  >
     <ep-spinner v-if="!tiedot" />
 
     <div v-else>
@@ -41,7 +44,7 @@
               v-if="tieto.koulutustyyppi"
               class="mr-2"
             >{{ tieto.koulutustyyppi }}</span>
-            <span v-if="tieto.perusteNimi">{{ tieto.perusteNimi }}</span>
+            <span v-if="tieto.perusteNimi">{{ $kaanna(tieto.perusteNimi) }}</span>
           </slot>
         </div>
       </div>
@@ -80,12 +83,13 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { ref, computed, onMounted, getCurrentInstance, nextTick } from 'vue';
 import _ from 'lodash';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import EpButton from '../EpButton/EpButton.vue';
 import { onkoUusi } from '@shared/utils/tiedote';
+import { $kaanna } from '@shared/utils/globals';
 
 export interface JulkiRivi {
   otsikko?: { [key: string]: string; } | string;
@@ -94,67 +98,73 @@ export interface JulkiRivi {
   perusteNimi?: string;
   koulutustyyppi?: string;
 }
-@Component({
-  components: {
-    EpSpinner,
-    EpButton,
+
+const props = defineProps({
+  tiedot: {
+    type: Array as () => JulkiRivi[],
+    required: true,
   },
-})
-export default class EpJulkiLista extends Vue {
-  @Prop({ required: true })
-  private tiedot!: JulkiRivi[];
+  tietoMaara: {
+    type: Number,
+    default: null,
+  },
+  listausTyyppi: {
+    type: String as () => 'sivutus' | 'lisahaku' | 'none',
+    default: 'lisahaku',
+  },
+});
 
-  @Prop({ required: false, default: null })
-  private tietoMaara!: number;
+const emit = defineEmits(['avaaTieto']);
 
-  @Prop({ required: false, default: 'lisahaku' })
-  private listausTyyppi!: 'sivutus' | 'lisahaku' | 'none';
+// Reactive state
+const naytettavaTietoMaara = ref(3);
+const sivu = ref(1);
+const contentRef = ref(null);
+// Computed properties
+const hasClickEvent = computed(() => {
+  return emit && emit.length > 0;
+});
 
-  private naytettavaTietoMaara = 3;
-  private sivu = 1;
+const tiedotSize = computed(() => {
+  return _.size(props.tiedot);
+});
 
-  mounted() {
-    if (this.tietoMaara) {
-      this.naytettavaTietoMaara = this.tietoMaara;
-    }
+const tiedotFiltered = computed(() => {
+  if (props.tiedot) {
+    return _.chain(props.tiedot)
+      .map((tieto: JulkiRivi) => {
+        return {
+          ...tieto,
+          uusi: onkoUusi((tieto as any).luotu),
+        } as JulkiRivi;
+      })
+      .filter((tieto, index) => props.listausTyyppi === 'lisahaku' || index >= (sivu.value - 1) * naytettavaTietoMaara.value)
+      .take(naytettavaTietoMaara.value)
+      .value();
   }
+  return [];
+});
 
-  get hasClickEvent() {
-    return this.$listeners && this.$listeners.avaaTieto;
-  }
+// Methods
+function avaaTieto(tieto: JulkiRivi) {
+  emit('avaaTieto', tieto);
+}
 
-  get tiedotSize() {
-    return _.size(this.tiedot);
-  }
-
-  get tiedotFiltered() {
-    if (this.tiedot) {
-      return _.chain(this.tiedot)
-        .map((tieto: JulkiRivi) => {
-          return {
-            ...tieto,
-            uusi: onkoUusi((tieto as any).luotu),
-          } as JulkiRivi;
-        })
-        .filter((tieto, index) => this.listausTyyppi === 'lisahaku' || index >= (this.sivu - 1) * this.naytettavaTietoMaara)
-        .take(this.naytettavaTietoMaara)
-        .value();
-    }
-  }
-
-  avaaTieto(tieto: JulkiRivi) {
-    this.$emit('avaaTieto', tieto);
-  }
-
-  async naytaLisaa() {
-    this.naytettavaTietoMaara += 3;
-    await this.$nextTick();
-    const linkit = this.$el.querySelectorAll('.otsikko a');
-    if (linkit.length >= this.naytettavaTietoMaara) {
-      (linkit[this.naytettavaTietoMaara - 3] as any).focus();
-    }
+async function naytaLisaa() {
+  naytettavaTietoMaara.value += 3;
+  await nextTick();
+  const linkit = contentRef.value?.querySelectorAll('.otsikko a');
+  if (linkit?.length >= naytettavaTietoMaara.value) {
+    (linkit[naytettavaTietoMaara.value - 3] as any).focus();
   }
 }
+
+// Lifecycle hooks
+onMounted(() => {
+  if (props.tietoMaara) {
+    naytettavaTietoMaara.value = props.tietoMaara;
+  }
+});
 </script>
 
 <style scoped lang="scss">
@@ -188,7 +198,7 @@ export default class EpJulkiLista extends Vue {
         font-size: 90%;
       }
     }
-    ::v-deep .btn {
+    :deep(.btn) {
       padding: 0px;
     }
   }

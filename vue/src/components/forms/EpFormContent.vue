@@ -6,9 +6,10 @@
           v-if="headerType === 'h3'"
           :class="headerClass"
         >
-          {{ $t(name, lang) }}
+          {{ text }}
         </h3>
-        <label v-else>{{ $t(name, lang) }}</label>
+        <label v-else>
+          {{ text }}</label>
       </div>
       <slot name="header" />
     </div>
@@ -18,41 +19,59 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+<script setup lang="ts">
+import { ref, computed, watch } from 'vue';
 import { Kielet } from '@shared/stores/kieli';
+import { useT, $t } from '@shared/utils/globals';
 
 /**
  * Tämän komponentin tehtävä on ainoastaan esittää label lomakekentälle
  */
-@Component
-export default class EpFormContent extends Vue {
-  @Prop({ required: false, type: String })
-  private name!: string;
 
-  @Prop({ type: String })
-  private headerType!: string;
+const props = defineProps({
+  name: {
+    type: String,
+    required: false,
+  },
+  headerType: {
+    type: String,
+    required: false,
+  },
+  headerClass: {
+    type: String,
+    required: false,
+  },
+  showHeader: {
+    type: Boolean,
+    required: false,
+    default: true,
+  },
+  kieli: {
+    type: String,
+    required: false,
+  },
+});
 
-  @Prop({ type: String })
-  private headerClass!: string;
+const t = useT();
 
-  @Prop({ required: false, default: true })
-  private showHeader!:boolean;
+const sisaltoKieli = computed(() => {
+  return Kielet.getSisaltoKieli.value;
+});
 
-  @Prop({ required: false, type: String })
-  private kieli?: string;
+const lang = ref(props.kieli ? props.kieli : sisaltoKieli.value);
 
-  private lang: string = this.kieli ? this.kieli : this.sisaltoKieli;
+watch(sisaltoKieli, () => {
+  lang.value = props.kieli ? props.kieli : sisaltoKieli.value;
+});
 
-  @Watch('sisaltoKieli')
-  async kieliChanged() {
-    this.lang = this.kieli ? this.kieli : this.sisaltoKieli;
-  }
+watch(() => props.kieli, (val) => {
+  lang.value = val ? val : sisaltoKieli.value;
+});
 
-  get sisaltoKieli() {
-    return Kielet.getSisaltoKieli.value;
-  }
-}
+const text = computed(() => {
+  return $t(props.name, lang);
+});
+
 </script>
 
 <style scoped lang="scss">

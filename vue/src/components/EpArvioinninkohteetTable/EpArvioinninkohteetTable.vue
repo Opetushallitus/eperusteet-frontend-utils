@@ -6,61 +6,67 @@
   />
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, getCurrentInstance } from 'vue';
 import * as _ from 'lodash';
 
-@Component
-export default class EpArvioinninkohteetTable extends Vue {
-  @Prop({ required: true })
-  private arvioinninkohteet!: any[];
+const props = defineProps({
+  arvioinninkohteet: {
+    type: Array,
+    required: true,
+  },
+});
 
-  get arvioinninKohteetSorted() {
-    return _.sortBy(this.arvioinninkohteet, 'arvosana');
-  }
+// Get instance to access global properties
+const instance = getCurrentInstance();
+const $t = instance?.appContext.config.globalProperties.$t;
+const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
 
-  get osaamisenKuvauksetTyhjia() {
-    return _.size(_.filter(this.arvioinninkohteet, kohde => kohde.arvosana !== null)) === 0;
-  }
+const arvioinninKohteetSorted = computed(() => {
+  return _.sortBy(props.arvioinninkohteet, 'arvosana');
+});
 
-  get sarakkeet() {
-    if (this.osaamisenKuvauksetTyhjia) {
-      return [
-        this.osaamisenKuvausSarake,
-      ];
-    }
+const osaamisenKuvauksetTyhjia = computed(() => {
+  return _.size(_.filter(props.arvioinninkohteet, kohde => kohde.arvosana !== null)) === 0;
+});
 
+const arvosanaSarake = computed(() => {
+  return {
+    key: 'arvosana',
+    label: $t('arviointitaulukko-arvosana-otsikko'),
+    thStyle: { width: '30%' },
+    formatter: (value, key, item) => {
+      if (value) {
+        return $t('osaamisen-kuvaus-arvosanalle_' + value);
+      }
+
+      return '';
+    },
+  };
+});
+
+const osaamisenKuvausSarake = computed(() => {
+  return {
+    key: 'osaamisenKuvaus',
+    label: $t('arviointitaulukko-osaaminen-otsikko'),
+    formatter: (value, key, item) => {
+      return $kaanna(value);
+    },
+  };
+});
+
+const sarakkeet = computed(() => {
+  if (osaamisenKuvauksetTyhjia.value) {
     return [
-      this.arvosanaSarake,
-      this.osaamisenKuvausSarake,
+      osaamisenKuvausSarake.value,
     ];
   }
 
-  get arvosanaSarake() {
-    return {
-      key: 'arvosana',
-      label: this.$t('arviointitaulukko-arvosana-otsikko'),
-      thStyle: { width: '30%' },
-      formatter: (value, key, item) => {
-        if (value) {
-          return (this as any).$t('osaamisen-kuvaus-arvosanalle_' + value);
-        }
-
-        return '';
-      },
-    };
-  }
-
-  get osaamisenKuvausSarake() {
-    return {
-      key: 'osaamisenKuvaus',
-      label: this.$t('arviointitaulukko-osaaminen-otsikko'),
-      formatter: (value, key, item) => {
-        return (this as any).$kaanna(value);
-      },
-    };
-  }
-}
+  return [
+    arvosanaSarake.value,
+    osaamisenKuvausSarake.value,
+  ];
+});
 </script>
 
 <style lang="scss" scoped>

@@ -104,86 +104,91 @@
   </b-form-group>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, getCurrentInstance } from 'vue';
 import * as _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import OsaamistasonKriteerit from '@shared/components/EpArviointi/OsaamistasonKriteerit.vue';
 
-@Component({
-  components: {
-    EpInput,
-    EpButton,
-    OsaamistasonKriteerit,
+const props = defineProps({
+  modelValue: {
+    type: Object,
+    required: true,
   },
-})
-export default class EpArviointi extends Vue {
-  @Prop({ required: true })
-  private value!: any;
+  isEditing: {
+    type: Boolean,
+    required: true,
+  },
+  arviointiasteikot: {
+    type: Array,
+    required: true,
+  },
+  arviointiasteikkoRef: {
+    type: String,
+    required: false,
+    default: '_arviointiasteikko',
+  },
+});
 
-  @Prop({ required: true })
-  private isEditing!: boolean;
+const emit = defineEmits(['update:modelValue']);
 
-  @Prop({ required: true })
-  private arviointiasteikot!: any;
+// Get instance for $t and $kaanna
+const instance = getCurrentInstance();
+const $t = instance?.appContext.config.globalProperties.$t;
+const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
 
-  @Prop({ required: false, default: '_arviointiasteikko' })
-  private arviointiasteikkoRef!: any;
+const arvioinninKohdeAlue = computed({
+  get: () => props.modelValue,
+  set: (val) => {
+    emit('update:modelValue', val);
+  },
+});
 
-  get arvioinninKohdeAlue() {
-    return this.value;
-  }
-
-  set arvioinninKohdeAlue(val) {
-    this.$emit('input', val);
-  }
-
-  get arviointiasteikotKeyById() {
-    return _.keyBy(_.map(this.arviointiasteikot, arviointiasteikko => {
-      return {
-        ...arviointiasteikko,
-        osaamistasot: _.keyBy(arviointiasteikko.osaamistasot, 'id'),
-      };
-    }), 'id');
-  }
-
-  lisaaArvionninkohde() {
-    this.arvioinninKohdeAlue = {
-      ...this.arvioinninKohdeAlue,
-      arvioinninKohteet: [
-        ...this.arvioinninKohdeAlue.arvioinninKohteet,
-        {},
-      ],
+const arviointiasteikotKeyById = computed(() => {
+  return _.keyBy(_.map(props.arviointiasteikot, arviointiasteikko => {
+    return {
+      ...arviointiasteikko,
+      osaamistasot: _.keyBy(arviointiasteikko.osaamistasot, 'id'),
     };
-  }
+  }), 'id');
+});
 
-  poistaArvioinninKohde(poistettavaKohde) {
-    this.arvioinninKohdeAlue = {
-      ...this.arvioinninKohdeAlue,
-      arvioinninKohteet: _.filter(this.arvioinninKohdeAlue.arvioinninKohteet, arvioinninKohde => arvioinninKohde !== poistettavaKohde),
-    };
-  }
+function lisaaArvionninkohde() {
+  arvioinninKohdeAlue.value = {
+    ...arvioinninKohdeAlue.value,
+    arvioinninKohteet: [
+      ...arvioinninKohdeAlue.value.arvioinninKohteet,
+      {},
+    ],
+  };
+}
 
-  arviointiVaihdos(muokattavaArvioinninKohde) {
-    this.arvioinninKohdeAlue = {
-      ...this.arvioinninKohdeAlue,
-      arvioinninKohteet: _.map(this.arvioinninKohdeAlue.arvioinninKohteet, arvioinninKohde => {
-        if (arvioinninKohde === muokattavaArvioinninKohde) {
-          const arviointiasteikko = this.arviointiasteikotKeyById[arvioinninKohde[this.arviointiasteikkoRef]];
-          return {
-            ...arvioinninKohde,
-            osaamistasonKriteerit: _.map(arviointiasteikko.osaamistasot, osaamistaso => ({
-              _osaamistaso: _.toString(osaamistaso.id),
-              kriteerit: [],
-            })),
-          };
-        }
+function poistaArvioinninKohde(poistettavaKohde) {
+  arvioinninKohdeAlue.value = {
+    ...arvioinninKohdeAlue.value,
+    arvioinninKohteet: _.filter(arvioinninKohdeAlue.value.arvioinninKohteet, arvioinninKohde => arvioinninKohde !== poistettavaKohde),
+  };
+}
 
-        return arvioinninKohde;
-      }),
-    };
-  }
+function arviointiVaihdos(muokattavaArvioinninKohde) {
+  arvioinninKohdeAlue.value = {
+    ...arvioinninKohdeAlue.value,
+    arvioinninKohteet: _.map(arvioinninKohdeAlue.value.arvioinninKohteet, arvioinninKohde => {
+      if (arvioinninKohde === muokattavaArvioinninKohde) {
+        const arviointiasteikko = arviointiasteikotKeyById.value[arvioinninKohde[props.arviointiasteikkoRef]];
+        return {
+          ...arvioinninKohde,
+          osaamistasonKriteerit: _.map(arviointiasteikko.osaamistasot, osaamistaso => ({
+            _osaamistaso: _.toString(osaamistaso.id),
+            kriteerit: [],
+          })),
+        };
+      }
+
+      return arvioinninKohde;
+    }),
+  };
 }
 </script>
 

@@ -1,17 +1,19 @@
-import { mount, createLocalVue } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import EpPerusteContent from './EpPerusteContent.vue';
 import { mocks } from '../../utils/jestutils';
+import { globalStubs } from '@shared/utils/__tests__/stubs';
+import { nextTick } from 'vue';
 
 describe('EpPerusteContent', () => {
-  const localVue = createLocalVue();
 
   const options = (data) => {
     return {
-      propsData: {
+      props: {
         ...data,
       },
-      mocks: mocks,
-      localVue,
+      global: {
+        ...globalStubs,
+      },
     };
   };
 
@@ -38,7 +40,7 @@ describe('EpPerusteContent', () => {
       },
     }));
 
-    await localVue.nextTick();
+    await nextTick();
     expect(wrapper.html()).toContain('otsikko1');
     expect(wrapper.html()).toContain('teksti1');
     expect(wrapper.html()).toContain('pohjan tekstia');
@@ -56,7 +58,7 @@ describe('EpPerusteContent', () => {
       },
     }));
 
-    await localVue.nextTick();
+    await nextTick();
     expect(wrapper.html()).not.toContain('perusteen-teksti');
     expect(wrapper.html()).toContain('teksti2');
   });
@@ -76,7 +78,7 @@ describe('EpPerusteContent', () => {
       },
     }));
 
-    await localVue.nextTick();
+    await nextTick();
     expect(wrapper.html()).toContain('otsikko1');
     expect(wrapper.html()).toContain('teksti1');
   });
@@ -97,7 +99,7 @@ describe('EpPerusteContent', () => {
       },
     }));
 
-    await localVue.nextTick();
+    await nextTick();
     expect(wrapper.html()).toContain('otsikko1');
     expect(wrapper.html()).toContain('teksti1');
   });

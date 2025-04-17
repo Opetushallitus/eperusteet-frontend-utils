@@ -1,31 +1,29 @@
-import { mount, createLocalVue, shallowMount } from '@vue/test-utils';
+import { mount, shallowMount } from '@vue/test-utils';
 import EpColorIndicator from './EpColorIndicator.vue';
 import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
-
-Vue.use(BootstrapVue);
+import { globalStubs } from '@shared/utils/__tests__/stubs';
+import { nextTick } from 'vue';
 
 describe('EpToggle component', () => {
-  const localVue = createLocalVue();
 
   test('Renders toggle and change changes value', async () => {
     const wrapper = mount(EpColorIndicator, {
-      localVue,
-      mocks: {
-        $t: x => x,
+      global: {
+        ...globalStubs,
       },
-      propsData: {},
+      props: {},
     });
 
     expect(wrapper.html()).toContain('normaali');
 
     wrapper.setProps({
       kind: 'julkaistu',
-      tooltip: 'tooltipviesti',
+      tooltip: true,
       size: 20,
     });
 
-    await Vue.nextTick();
+    await nextTick();
 
     expect(wrapper.html()).toContain('julkaistu');
     expect(wrapper.html()).toContain('circle');
@@ -34,11 +32,11 @@ describe('EpToggle component', () => {
 
     wrapper.setProps({
       kind: 'esiopetus',
-      tooltip: 'tooltipviesti',
+      tooltip: true,
       size: 20,
     });
 
-    await Vue.nextTick();
+    await nextTick();
 
     expect(wrapper.element.style.color).toMatchSnapshot();
   });

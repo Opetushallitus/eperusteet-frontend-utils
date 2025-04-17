@@ -50,62 +50,59 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue';
 import * as _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import { Kielet } from '@shared/stores/kieli';
 import draggable from 'vuedraggable';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
-@Component({
-  components: {
-    EpInput,
-    draggable,
-    EpButton,
-    EpMaterialIcon,
+const props = defineProps({
+  modelValue: {
+    type: Array,
+    required: true,
   },
-})
-export default class EpOsaAlueSisalto extends Vue {
-  @Prop({ required: true })
-  value!: any;
+  isEditing: {
+    type: Boolean,
+    default: false,
+  },
+});
 
-  @Prop({ required: false, default: false })
-  isEditing!: boolean;
+const emit = defineEmits(['update:modelValue']);
 
-  get model() {
-    return this.value;
-  }
+// Two-way binding for v-model
+const model = computed({
+  get: () => props.modelValue,
+  set: (val) => emit('update:modelValue', val),
+});
 
-  set model(val) {
-    this.$emit('input', val);
-  }
+// Computed properties
+const defaultDragOptions = computed(() => {
+  return {
+    animation: 300,
+    emptyInsertThreshold: 10,
+    handle: '.order-handle',
+    disabled: !props.isEditing,
+    ghostClass: 'dragged',
+    group: {
+      name: 'kuvaukset',
+    },
+  };
+});
 
-  get defaultDragOptions() {
-    return {
-      animation: 300,
-      emptyInsertThreshold: 10,
-      handle: '.order-handle',
-      disabled: !this.isEditing,
-      ghostClass: 'dragged',
-      group: {
-        name: 'kuvaukset',
-      },
-    };
-  }
+const sisaltokieli = computed(() => {
+  return Kielet.getSisaltoKieli.value;
+});
 
-  get sisaltokieli() {
-    return Kielet.getSisaltoKieli.value;
-  }
+// Methods
+function poistaKuvaus(sisalto) {
+  emit('update:modelValue', _.filter(props.modelValue, row => row !== sisalto));
+}
 
-  poistaKuvaus(sisalto) {
-    this.$emit('input', _.filter(this.value, row => row !== sisalto));
-  }
-
-  lisaaKuvaus() {
-    this.$emit('input', [...this.value, {}]);
-  }
+function lisaaKuvaus() {
+  emit('update:modelValue', [...props.modelValue, {}]);
 }
 </script>
 
