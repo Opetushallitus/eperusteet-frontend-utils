@@ -13,40 +13,41 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, computed, onMounted } from 'vue';
 import * as _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Maintenance } from '@shared/api/eperusteet';
 import { BrowserStore } from '@shared/stores/BrowserStore';
 
-@Component
-export default class EpPalauteLinkki extends Vue {
-  @Prop({ required: true })
-  private yllapitoAvain!: string;
+const props = defineProps({
+  yllapitoAvain: {
+    type: String,
+    required: true,
+  },
+});
 
-  private yllapitoValue: string | null = null;
+const yllapitoValue = ref<string | null>(null);
 
-  async mounted() {
-    try {
-      if (window.location.hostname === 'localhost') {
-        return;
-      }
-
-      this.yllapitoValue = (await Maintenance.getYllapito(this.yllapitoAvain)).data;
+onMounted(async () => {
+  try {
+    if (window.location.hostname === 'localhost') {
+      return;
     }
-    catch (e) {
-      this.yllapitoValue = null;
-    }
-  }
 
-  get url() {
-    return this.yllapitoValue + '/?ref=' + encodeURIComponent(this.browserLocationHref);
+    yllapitoValue.value = (await Maintenance.getYllapito(props.yllapitoAvain)).data;
   }
+  catch (e) {
+    yllapitoValue.value = null;
+  }
+});
 
-  get browserLocationHref() {
-    return BrowserStore.location.href;
-  }
-}
+const browserLocationHref = computed(() => {
+  return BrowserStore.location.href;
+});
+
+const url = computed(() => {
+  return yllapitoValue.value + '/?ref=' + encodeURIComponent(browserLocationHref.value);
+});
 </script>
 
 <style scoped lang="scss">

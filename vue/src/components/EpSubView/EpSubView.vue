@@ -13,16 +13,13 @@
   </div>
 </template>
 
-<script lang="ts">
-import _ from 'lodash';
-import { Component, Watch, Prop, Vue } from 'vue-property-decorator';
-
-@Component
-export default class EpSubview extends Vue {
-  @Prop({ required: false })
-  private header!: string;
-}
-
+<script setup lang="ts">
+const props = defineProps({
+  header: {
+    type: String,
+    required: false,
+  },
+});
 </script>
 
 <style lang="scss" scoped>

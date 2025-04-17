@@ -1,25 +1,22 @@
 import { createLogger } from '../utils/logger';
 import { Kieli } from '../tyypit';
 import _ from 'lodash';
-import VueI18n from 'vue-i18n';
-import Vue, { VueConstructor } from 'vue';
+import { createI18n, I18n } from 'vue-i18n';
+import { App, computed, reactive, ComputedRef } from 'vue';
 import moment from 'moment';
 import { updateRelativeTime } from '../plugins/aikaleima';
-import { Computed } from '../utils/interfaces';
 import kfi from '../translations/locale-fi.json';
 import ksv from '../translations/locale-sv.json';
 import ken from '../translations/locale-en.json';
-import VueCompositionApi, { computed, reactive } from '@vue/composition-api';
 
-Vue.use(VueCompositionApi);
-
-declare module 'vue/types/vue' {
-  interface Vue {
-    $locale: Computed<string>;
-    $slang: Computed<string>;
-    $t: typeof VueI18n.prototype.t;
-    $tc: typeof VueI18n.prototype.tc;
-    $te: typeof VueI18n.prototype.te;
+// Declare module augmentation for global properties
+declare module '@vue/runtime-core' {
+  interface ComponentCustomProperties {
+    $locale: ComputedRef<string>;
+    $slang: ComputedRef<string>;
+    $t: typeof I18n.prototype.global.t;
+    $tc: typeof I18n.prototype.global.tc;
+    $te: typeof I18n.prototype.global.te;
   }
 }
 
@@ -35,7 +32,7 @@ export function getMessages() {
 }
 
 export class KieliStore {
-  private vi18n!: VueI18n;
+  private vi18n!: I18n;
 
   public get i18n() {
     return this.vi18n;
@@ -45,16 +42,27 @@ export class KieliStore {
    * Add language support to root vue instance.
    *
    */
-  public install(v: VueConstructor, config = {} as Partial<VueI18n.I18nOptions>) {
+  public install(app: App, config = {} as any) {
     moment.locale(Kieli.fi);
-    this.vi18n = new VueI18n({
-      fallbackLocale: Kieli.fi,
-      locale: Kieli.fi,
-      ...config,
-      messages: _.merge(getMessages(), config.messages),
-    });
-    v.prototype.$locale = this.uiKieli;
-    v.prototype.$slang = this.sisaltoKieli;
+    // if (!config.i18n) {
+    //   this.vi18n = createI18n({
+    //     legacy: false,
+    //     fallbackLocale: Kieli.fi,
+    //     locale: Kieli.fi,
+    //     ...config,
+    // messages: _.merge(getMessages(), config.messages),
+    // });
+    // app.use(this.vi18n);
+    // }
+    // else {
+    this.vi18n = config.i18n;
+    // }
+
+    // Register global properties
+    app.config.globalProperties.$locale = this.uiKieli;
+    app.config.globalProperties.$slang = this.sisaltoKieli;
+    app.config.globalProperties.$t = this.vi18n.global.t;
+
     moment.updateLocale(Kieli.fi, updateRelativeTime());
   }
 
@@ -66,7 +74,7 @@ export class KieliStore {
     logger.info('Initing locales');
     const results = await this.fetchLocaleMap(kaannokset);
     _.forEach(results, (locales, lang) => {
-      this.i18n!.mergeLocaleMessage(lang, locales);
+      this.i18n!.global.mergeLocaleMessage(lang, locales);
     });
   }
 
@@ -74,10 +82,10 @@ export class KieliStore {
     sisaltoKieli: Kieli.fi,
   });
 
-  public readonly getUiKieli = computed(() => this.i18n?.locale);
+  public readonly getUiKieli = computed(() => this.i18n?.global.locale.value);
   public readonly getSisaltoKieli = computed(() => this.state.sisaltoKieli);
   public readonly sisaltoKieli = computed(() => this.state.sisaltoKieli);
-  public readonly uiKieli = computed(() => this.i18n?.locale);
+  public readonly uiKieli = computed(() => this.i18n?.global.locale.value);
 
   public readonly getAikakaannokset = computed(() => {
     const kieli = this.state.sisaltoKieli;
@@ -85,16 +93,16 @@ export class KieliStore {
       days: _.map(moment.weekdays(), (day: string) => _.toUpper(_.first(day))),
       months: moment.monthsShort(),
       placeholder: {
-        date: this.i18n!.t('valitse-pvm'),
-        dateRange: this.i18n!.t('valitse-pvm-jana'),
+        date: this.i18n!.global.t('valitse-pvm'),
+        dateRange: this.i18n!.global.t('valitse-pvm-jana'),
       },
     };
   });
 
   public setUiKieli(kieli: Kieli) {
-    if (this.i18n!.locale !== kieli && _.includes(UiKielet, kieli)) {
+    if (this.i18n!.global.locale.value !== kieli && _.includes(UiKielet, kieli)) {
       moment.locale(kieli);
-      this.i18n!.locale = kieli;
+      this.i18n!.global.locale.value = kieli;
     }
   }
 
@@ -104,14 +112,14 @@ export class KieliStore {
     }
   }
 
-  public haeLokalisoituOlio(avain: string) {
-    const result = {
-      fi: this.i18n!.t(avain, 'fi'),
-      sv: this.i18n!.t(avain, 'sv'),
-      en: this.i18n!.t(avain, 'en'),
-    };
-    return result;
-  }
+  // public haeLokalisoituOlio(avain: string) {
+  //   const result = {
+  //     fi: this.i18n!.global.t(avain, { locale: 'fi' }),
+  //     sv: this.i18n!.global.t(avain, { locale: 'sv' }),
+  //     en: this.i18n!.global.t(avain, { locale: 'en' }),
+  //   };
+  //   return result;
+  // }
 
   /**
    * Check if text query matches object
@@ -141,7 +149,7 @@ export class KieliStore {
    */
   public t(value: string): string {
     if (this.vi18n) {
-      return this.vi18n.t(value) as string || '<' + value + '>';
+      return this.vi18n.global.t(value) as string || '<' + value + '>';
     }
     else {
       return value;

@@ -65,63 +65,67 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue, InjectReactive } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, inject } from 'vue';
 import EpCollapse from '@shared/components/EpCollapse/EpCollapse.vue';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
 import EpAlert from '@shared/components/EpAlert/EpAlert.vue';
 import EpContentViewer from '@shared/components/EpContentViewer/EpContentViewer.vue';
+import EpPaikallinenTarkennus from '@shared/components/EpPaikallinenTarkennus/EpPaikallinenTarkennus.vue';
 
-@Component({
-  components: {
-    EpCollapse,
-    EpContent,
-    EpAlert,
-    EpContentViewer,
+const props = defineProps({
+  perusteObject: {
+    type: Object,
+    required: false,
   },
-} as any)
-export default class EpPerusteContent extends Vue {
-  @Prop({ required: false })
-  private perusteObject!: any;
+  pohjaObject: {
+    type: Object,
+    required: false,
+  },
+  object: {
+    type: Object,
+    required: false,
+  },
+  isEditing: {
+    type: Boolean,
+    default: false,
+  },
+  otsikko: {
+    type: String,
+    default: 'otsikko',
+  },
+  teksti: {
+    type: String,
+    default: 'teksti',
+  },
+  perusteTekstiAvattu: {
+    type: Boolean,
+    default: false,
+  },
+  naytaSisaltoTyhjana: {
+    type: Boolean,
+    default: false,
+  },
+  kuvat: {
+    type: Array,
+    required: false,
+  },
+  termit: {
+    type: Array,
+    required: false,
+  },
+});
 
-  @Prop({ required: false })
-  private pohjaObject!: any;
+// Inject opetussuunnitelma
+const opetussuunnitelma = inject('opetussuunnitelma');
 
-  @Prop({ required: false })
-  private object!: any;
+const hasContent = computed(() => {
+  return props.object != null && props.object[props.teksti] != null;
+});
 
-  @Prop({ default: false })
-  private isEditing!: boolean;
-
-  @Prop({ default: 'otsikko' })
-  private otsikko!: string;
-
-  @Prop({ default: 'teksti' })
-  private teksti!: string;
-
-  @Prop({ default: false })
-  private perusteTekstiAvattu!: boolean;
-
-  @Prop({ default: false })
-  private naytaSisaltoTyhjana!: boolean;
-
-  @Prop({ required: false })
-  private kuvat!: any[];
-
-  @Prop({ required: false })
-  private termit!: any[];
-
-  @InjectReactive('opetussuunnitelma')
-  private opetussuunnitelma!: any;
-
-  get hasContent() {
-    return this.object != null && this.object[this.teksti] != null;
-  }
-
-  get pohjaNimi() {
-    return this.opetussuunnitelma?.pohja?.nimi;
-  }
-}
+const pohjaNimi = computed(() => {
+  return opetussuunnitelma?.pohja?.nimi;
+});
 </script>
 
 <style lang="scss" scoped>

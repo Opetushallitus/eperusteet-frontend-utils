@@ -5,7 +5,7 @@
         <slot name="header" />
       </div>
       <div
-        v-if="$slots['default']"
+        v-if="hasDefaultSlot"
         :class="{'view-content': hasHeaderSlot}"
       >
         <slot name="default" />
@@ -16,18 +16,26 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, useSlots } from 'vue';
+import { hasSlotContent } from '../../utils/vue-utils';
 
-@Component
-export default class EpMainView extends Vue {
-  @Prop({ required: false, default: false, type: Boolean })
-  private container!: boolean;
-
-  get hasHeaderSlot() {
-    return this.$scopedSlots.header;
+const props = defineProps({
+  container: {
+    type: Boolean,
+    default: false
   }
-}
+});
+
+const slots = useSlots();
+
+const hasHeaderSlot = computed(() => {
+  return hasSlotContent(slots.header);
+});
+
+const hasDefaultSlot = computed(() => {
+  return hasSlotContent(slots.default);
+});
 </script>
 
 <style scoped lang="scss">

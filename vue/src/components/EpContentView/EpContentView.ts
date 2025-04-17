@@ -6,7 +6,7 @@ import { Kielet } from '../../stores/kieli';
 import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
 
-Vue.use(BootstrapVue);
+// Vue.use(BootstrapVue);
 
 describe('EpContentView component', () => {
   const localVue = createLocalVue();

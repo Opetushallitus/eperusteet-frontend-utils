@@ -1,19 +1,21 @@
 import { mount, RouterLinkStub } from '@vue/test-utils';
+import { vi } from 'vitest'; // Import vi from vitest for mocking
 import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
 import EpErrorPage from '@/components/EpErrorPage/EpErrorPage.vue';
+import { globalStubs } from '@shared/utils/__tests__/stubs';
 
-Vue.use(BootstrapVue);
+// Mock the useHead function from @unhead/vue
+vi.mock('@unhead/vue', () => ({
+  useHead: vi.fn(),
+}));
 
 describe('EpExternalLink component', () => {
   function mountWrapper(props : any) {
     return mount(EpErrorPage, {
-      propsData: props,
-      mocks: {
-        $t: x => x,
-      },
-      stubs: {
-        'router-link': RouterLinkStub,
+      props,
+      global: {
+        ...globalStubs,
       },
     });
   }

@@ -175,142 +175,149 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import * as _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { computed } from 'vue';
 import EpProgressPopover from '@shared/components/EpProgressPopover/EpProgressPopover.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { tileBackgroundColor } from '@shared/utils/bannerIcons';
 import { ValidableObject, Validoinnit, ValidoitavatTilat, ValidoitavatTyypit } from '@shared/components/EpValidPopover/EpValidPopoverTypes';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
-@Component({
-  components: {
-    EpMaterialIcon,
-    EpProgressPopover,
-    EpSpinner,
+const props = defineProps({
+  validoitava: {
+    type: Object as () => ValidableObject,
+    required: true,
   },
-})
-export default class EpValidPopover extends Vue {
-  @Prop({ required: true })
-  private validoitava!: ValidableObject;
+  validoinnit: {
+    type: Object as () => Validoinnit,
+    required: false,
+  },
+  julkaisemattomiaMuutoksia: {
+    type: Boolean,
+    required: true,
+  },
+  julkaistava: {
+    type: Boolean,
+    required: true,
+  },
+  tyyppi: {
+    type: String as () => ValidoitavatTyypit,
+    required: true,
+  },
+  isValidating: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+  julkaisuRoute: {
+    type: Object,
+    required: false,
+    default: () => ({ name: 'julkaise' }),
+  },
+});
 
-  @Prop({ required: false })
-  private validoinnit!: Validoinnit;
+const emit = defineEmits(['asetaValmiiksi', 'palauta', 'validoi']);
 
-  @Prop({ required: true })
-  private julkaisemattomiaMuutoksia!: boolean;
-
-  @Prop({ required: true })
-  private julkaistava!: boolean;
-
-  @Prop({ required: true })
-  private tyyppi!: ValidoitavatTyypit;
-
-  @Prop({ required: false, default: false })
-  private isValidating?: boolean;
-
-  @Prop({ required: false, type: Object, default: () => ({ name: 'julkaise' }) })
-  private julkaisuRoute!: { name: string };
-
-  asetaValmiiksi() {
-    this.$emit('asetaValmiiksi');
-  }
-
-  palauta() {
-    this.$emit('palauta');
-  }
-
-  validoi() {
-    this.$emit('validoi');
-  }
-
-  get prosessi() {
-    if (this.arkistoitu) {
-      return [0];
-    }
-
-    if (_.size(this.validoinnit?.virheet) > 0) {
-      return [0.2, 0.5, 1];
-    }
-
-    return [1];
-  }
-
-  get tila() {
-    if (this.julkaistu && !this.arkistoitu) {
-      return ValidoitavatTilat.JULKAISTU;
-    }
-
-    return _.toLower(this.validoitava?.tila);
-  }
-
-  get popupStyle(): { background: string; } | undefined {
-    if (this.tyyppi === 'peruste') {
-      return {
-        background: '#1d7599',
-      };
-    }
-
-    return tileBackgroundColor(this.validoitava?.peruste ? this.validoitava?.peruste?.koulutustyyppi : this.validoitava?.koulutustyyppi);
-  }
-
-  get julkaistu(): boolean {
-    return this.validoitava?.tila === ValidoitavatTilat.JULKAISTU || !!this.validoitava?.viimeisinJulkaisuAika;
-  }
-
-  get valmis(): boolean {
-    return this.validoitava?.tila === ValidoitavatTilat.VALMIS;
-  }
-
-  get luonnos(): boolean | undefined {
-    return this.tila === ValidoitavatTilat.LUONNOS;
-  }
-
-  get muokattavissa() {
-    return this.julkaistu && this.validoitava?.tila === ValidoitavatTilat.LUONNOS;
-  }
-
-  get arkistoitu(): boolean {
-    return this.validoitava?.tila === ValidoitavatTilat.POISTETTU;
-  }
-
-  get julkaisemattomiaTeksti() {
-    if (this.tyyppi === ValidoitavatTyypit.PERUSTE) {
-      return 'perusteessa-on-julkaisemattomia-muutoksia';
-    }
-
-    if (this.tyyppi === ValidoitavatTyypit.TOTEUTUSSUUNNITELMA) {
-      return 'toteutussuunnitelmassa-on-julkaisemattomia-muutoksia';
-    }
-
-    if (this.tyyppi === ValidoitavatTyypit.OPETUSSUUNNITELMA) {
-      return 'opetussuunnitelmassa-on-julkaisemattomia-muutoksia';
-    }
-  }
-
-  get huomautuksia() {
-    if (this.tyyppi === ValidoitavatTyypit.PERUSTE) {
-      return 'perusteessa-huomautuksia';
-    }
-
-    if (this.tyyppi === ValidoitavatTyypit.TOTEUTUSSUUNNITELMA) {
-      return 'toteutussuunnitelmassa-huomautuksia';
-    }
-
-    if (this.tyyppi === ValidoitavatTyypit.OPETUSSUUNNITELMA) {
-      return 'opetussuunnitelmassa-huomautuksia';
-    }
-  }
-
-  get uniqueVirheet() {
-    return _.uniq(this.validoinnit.virheet);
-  }
-
-  get validointiOk() {
-    return _.size(this.validoinnit.virheet) === 0 && _.size(this.validoinnit.huomautukset) === 0;
-  }
+function asetaValmiiksi() {
+  emit('asetaValmiiksi');
 }
+
+function palauta() {
+  emit('palauta');
+}
+
+function validoi() {
+  emit('validoi');
+}
+
+const prosessi = computed(() => {
+  if (arkistoitu.value) {
+    return [0];
+  }
+
+  if (_.size(props.validoinnit?.virheet) > 0) {
+    return [0.2, 0.5, 1];
+  }
+
+  return [1];
+});
+
+const tila = computed(() => {
+  if (julkaistu.value && !arkistoitu.value) {
+    return ValidoitavatTilat.JULKAISTU;
+  }
+
+  return _.toLower(props.validoitava?.tila);
+});
+
+const popupStyle = computed(() => {
+  if (props.tyyppi === 'peruste') {
+    return {
+      background: '#1d7599',
+    };
+  }
+
+  return tileBackgroundColor(props.validoitava?.peruste ? props.validoitava?.peruste?.koulutustyyppi : props.validoitava?.koulutustyyppi);
+});
+
+const julkaistu = computed(() => {
+  return props.validoitava?.tila === ValidoitavatTilat.JULKAISTU || !!props.validoitava?.viimeisinJulkaisuAika;
+});
+
+const valmis = computed(() => {
+  return props.validoitava?.tila === ValidoitavatTilat.VALMIS;
+});
+
+const luonnos = computed(() => {
+  return tila.value === ValidoitavatTilat.LUONNOS;
+});
+
+const muokattavissa = computed(() => {
+  return julkaistu.value && props.validoitava?.tila === ValidoitavatTilat.LUONNOS;
+});
+
+const arkistoitu = computed(() => {
+  return props.validoitava?.tila === ValidoitavatTilat.POISTETTU;
+});
+
+const julkaisemattomiaTeksti = computed(() => {
+  if (props.tyyppi === ValidoitavatTyypit.PERUSTE) {
+    return 'perusteessa-on-julkaisemattomia-muutoksia';
+  }
+
+  if (props.tyyppi === ValidoitavatTyypit.TOTEUTUSSUUNNITELMA) {
+    return 'toteutussuunnitelmassa-on-julkaisemattomia-muutoksia';
+  }
+
+  if (props.tyyppi === ValidoitavatTyypit.OPETUSSUUNNITELMA) {
+    return 'opetussuunnitelmassa-on-julkaisemattomia-muutoksia';
+  }
+  return '';
+});
+
+const huomautuksia = computed(() => {
+  if (props.tyyppi === ValidoitavatTyypit.PERUSTE) {
+    return 'perusteessa-huomautuksia';
+  }
+
+  if (props.tyyppi === ValidoitavatTyypit.TOTEUTUSSUUNNITELMA) {
+    return 'toteutussuunnitelmassa-huomautuksia';
+  }
+
+  if (props.tyyppi === ValidoitavatTyypit.OPETUSSUUNNITELMA) {
+    return 'opetussuunnitelmassa-huomautuksia';
+  }
+  return '';
+});
+
+const uniqueVirheet = computed(() => {
+  return _.uniq(props.validoinnit?.virheet);
+});
+
+const validointiOk = computed(() => {
+  return _.size(props.validoinnit?.virheet) === 0 && _.size(props.validoinnit?.huomautukset) === 0;
+});
 </script>
 
 <style scoped lang="scss">
@@ -340,7 +347,7 @@ export default class EpValidPopover extends Vue {
   align-self: center;
 }
 
-::v-deep .popover-body {
+:deep(.popover-body) {
   color: inherit;
 
   .slot-area {

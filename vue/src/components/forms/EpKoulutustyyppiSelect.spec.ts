@@ -1,35 +1,28 @@
-import { mount, createLocalVue } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import EpKoulutustyyppiSelect from './EpKoulutustyyppiSelect.vue';
-import Vue from 'vue';
-import BootstrapVue from 'bootstrap-vue';
-
-Vue.use(BootstrapVue);
+import { globalStubs } from '@shared/utils/__tests__/stubs';
 
 describe('EpKoulutustyyppiSelect', () => {
-  const localVue = createLocalVue();
-
   it('Renders', () => {
     const wrapper = mount(EpKoulutustyyppiSelect, {
-      propsData: {
+      props: {
         value: null,
       },
-      mocks: {
-        $t: x => x,
+      global: {
+        ...globalStubs,
       },
-      localVue,
     });
   });
 
   it('value not set', () => {
     const wrapper = mount(EpKoulutustyyppiSelect, {
-      propsData: {
-        value: null,
+      props: {
+        modelValue: null,
         isEditing: true,
       },
-      mocks: {
-        $t: x => x,
+      global: {
+        ...globalStubs,
       },
-      localVue,
     });
 
     expect(wrapper.find('.multiselect__placeholder').html()).toContain('kaikki');
@@ -38,14 +31,13 @@ describe('EpKoulutustyyppiSelect', () => {
 
   it('value set', () => {
     const wrapper = mount(EpKoulutustyyppiSelect, {
-      propsData: {
-        value: 'koulutustyyppi_20',
+      props: {
+        modelValue: 'koulutustyyppi_20',
         isEditing: true,
       },
-      mocks: {
-        $t: x => x,
+      global: {
+        ...globalStubs,
       },
-      localVue,
     });
 
     expect(wrapper.find('.multiselect__single').html()).toContain('koulutustyyppi_20');

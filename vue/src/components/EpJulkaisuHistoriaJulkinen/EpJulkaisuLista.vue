@@ -88,82 +88,92 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, getCurrentInstance } from 'vue';
+import { useRoute } from 'vue-router';
 import _ from 'lodash';
 import { Kielet } from '@shared/stores/kieli';
 import EpCollapse from '@shared/components/EpCollapse/EpCollapse.vue';
-import EpMuutosvertailu from '@shared//components/EpJulkaisuHistoriaJulkinen/EpMuutosvertailu.vue';
+import EpMuutosvertailu from '@shared/components/EpJulkaisuHistoriaJulkinen/EpMuutosvertailu.vue';
 import { MaaraysLiiteDtoTyyppiEnum } from '@shared/generated/eperusteet';
 import { MaarayksetParams, baseURL } from '@shared/api/eperusteet';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
-@Component({
-  components: {
-    EpCollapse,
-    EpMuutosvertailu,
+const props = defineProps({
+  julkaisut: {
+    type: Array,
+    required: true,
   },
-})
-export default class EpJulkaisuLista extends Vue {
-  @Prop({ required: true })
-  private julkaisut!: any[];
+});
 
-  get julkaisutMapped() {
-    return _.chain(this.julkaisut)
-      .map(julkaisu => {
-        return {
-          ...julkaisu,
-          liitteet: _.filter(julkaisu.liitteet, liite => liite.kieli === Kielet.getSisaltoKieli.value),
-          ...(!!julkaisu.muutosmaarays && {
-            muutosmaarays: {
-              ...julkaisu.muutosmaarays,
-              url: this.muutosmaaraysUrl(julkaisu.muutosmaarays),
-            },
-          }),
-        };
-      })
-      .map(julkaisu => {
-        return {
-          ...julkaisu,
-          muutosmaarays: (!julkaisu.muutosmaarays && julkaisu.muutosmaaraysVoimaan && {
-            voimassaoloAlkaa: julkaisu.muutosmaaraysVoimaan,
-          }) || julkaisu.muutosmaarays,
-        };
-      })
-      .value();
+// Get instance to access global properties
+const instance = getCurrentInstance();
+const $t = instance?.appContext.config.globalProperties.$t;
+const $sd = instance?.appContext.config.globalProperties.$sd;
+const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
+const $slang = instance?.appContext.config.globalProperties.$slang;
+
+// Get route
+const route = useRoute();
+
+// Computed properties
+const julkaisutSorted = computed(() => {
+  return _.sortBy(props.julkaisut, 'revision');
+});
+
+const julkaisutReversed = computed(() => {
+  return _.clone(julkaisutSorted.value).reverse();
+});
+
+const ensimmainenTulevaMuutosmaarays = computed(() => {
+  return _.find(julkaisutSorted.value, julkaisu => julkaisu.muutosmaarays && julkaisu.muutosmaarays.voimassaoloAlkaa > Date.now());
+});
+
+const uusinTulevaMuutosmaarays = computed(() => {
+  return _.find(julkaisutReversed.value, julkaisu => julkaisu.muutosmaarays && julkaisu.muutosmaarays.voimassaoloAlkaa > Date.now());
+});
+
+const uusinVoimassaolevaJulkaisu = computed(() => {
+  return _.find(julkaisutReversed.value, julkaisu => julkaisu.revision < ensimmainenTulevaMuutosmaarays.value?.revision) || _.first(julkaisutReversed.value);
+});
+
+const versio = computed(() => {
+  return _.toNumber(route.params?.revision) || _.max(_.map(props.julkaisut, 'revision'));
+});
+
+// Methods
+function muutosmaaraysUrl(muutosmaarays) {
+  if (!_.find(muutosmaarays.liitteet[$slang.value].liitteet, liite => liite.tyyppi === MaaraysLiiteDtoTyyppiEnum.MAARAYSDOKUMENTTI)) {
+    return null;
   }
 
-  muutosmaaraysUrl(muutosmaarays) {
-    if (!_.find(muutosmaarays.liitteet![this.$slang.value].liitteet, liite => liite.tyyppi === MaaraysLiiteDtoTyyppiEnum.MAARAYSDOKUMENTTI)) {
-      return null;
-    }
-
-    return baseURL + MaarayksetParams.getMaaraysLiite(_.toString(_.get(_.find(muutosmaarays.liitteet![this.$slang.value].liitteet, liite => liite.tyyppi === MaaraysLiiteDtoTyyppiEnum.MAARAYSDOKUMENTTI), 'id'))).url;
-  }
-
-  get versio() {
-    return _.toNumber(this.$route.params?.revision) || _.max(_.map(this.julkaisut, 'revision'));
-  }
-
-  get julkaisutSorted() {
-    return _.sortBy(this.julkaisut, 'revision');
-  }
-
-  get julkaisutReversed() {
-    return _.clone(this.julkaisutSorted).reverse();
-  }
-
-  get ensimmainenTulevaMuutosmaarays() {
-    return _.find(this.julkaisutSorted, julkaisu => julkaisu.muutosmaarays && julkaisu.muutosmaarays.voimassaoloAlkaa > Date.now());
-  }
-
-  get uusinTulevaMuutosmaarays() {
-    return _.find(this.julkaisutReversed, julkaisu => julkaisu.muutosmaarays && julkaisu.muutosmaarays.voimassaoloAlkaa > Date.now());
-  }
-
-  get uusinVoimassaolevaJulkaisu() {
-    return _.find(this.julkaisutReversed, julkaisu => julkaisu.revision < this.ensimmainenTulevaMuutosmaarays?.revision) || _.first(this.julkaisutReversed);
-  }
+  return baseURL + MaarayksetParams.getMaaraysLiite(_.toString(_.get(_.find(muutosmaarays.liitteet[$slang.value].liitteet, liite => liite.tyyppi === MaaraysLiiteDtoTyyppiEnum.MAARAYSDOKUMENTTI), 'id'))).url;
 }
+
+const julkaisutMapped = computed(() => {
+  return _.chain(props.julkaisut)
+    .map(julkaisu => {
+      return {
+        ...julkaisu,
+        liitteet: _.filter(julkaisu.liitteet, liite => liite.kieli === Kielet.getSisaltoKieli.value),
+        ...(!!julkaisu.muutosmaarays && {
+          muutosmaarays: {
+            ...julkaisu.muutosmaarays,
+            url: muutosmaaraysUrl(julkaisu.muutosmaarays),
+          },
+        }),
+      };
+    })
+    .map(julkaisu => {
+      return {
+        ...julkaisu,
+        muutosmaarays: (!julkaisu.muutosmaarays && julkaisu.muutosmaaraysVoimaan && {
+          voimassaoloAlkaa: julkaisu.muutosmaaraysVoimaan,
+        }) || julkaisu.muutosmaarays,
+      };
+    })
+    .value();
+});
 </script>
 
 <style scoped lang="scss">
@@ -216,11 +226,11 @@ export default class EpJulkaisuLista extends Vue {
   width: 30%;
 }
 
-::v-deep .ml-auto {
+:deep(.ml-auto) {
   margin-left: 0 !important;
 }
 
-::v-deep .ep-collapse {
+:deep(.ep-collapse) {
   overflow: auto;
   text-align: right;
 
@@ -229,7 +239,7 @@ export default class EpJulkaisuLista extends Vue {
   }
 }
 
-::v-deep .ep-collapse .header {
+:deep(.ep-collapse .header) {
   margin-left: auto !important;
   margin-right: 5px;
 }

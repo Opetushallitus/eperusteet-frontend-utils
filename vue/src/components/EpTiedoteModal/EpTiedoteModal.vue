@@ -47,7 +47,7 @@
           <ep-input
             v-model="muokattavaTiedote.otsikko"
             :is-editing="editing"
-            :validation="$v.muokattavaTiedote.otsikko"
+            :validation="v$.muokattavaTiedote.otsikko"
           />
         </ep-form-content>
 
@@ -56,7 +56,7 @@
             v-model="muokattavaTiedote.sisalto"
             :is-editable="editing"
             layout="normal"
-            :validation="$v.muokattavaTiedote.sisalto"
+            :validation="v$.muokattavaTiedote.sisalto"
           />
         </ep-form-content>
 
@@ -402,7 +402,7 @@
           </ep-button>
           <ep-button
             class="ml-3"
-            :disabled="$v.$invalid"
+            :disabled="v$.$invalid"
             @click="tallennaTiedote"
           >
             {{ muokattavaTiedote.id ? $t('tallenna') : $t('julkaise-tiedote') }}
@@ -442,9 +442,9 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, computed, getCurrentInstance, watch } from 'vue';
 import * as _ from 'lodash';
-import { Watch, Prop, Component, Mixins } from 'vue-property-decorator';
 import { TiedoteDto, Kayttajat, PerusteHakuDto, PerusteDto, PerusteKevytDto, Koodisto } from '@shared/api/eperusteet';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
@@ -455,7 +455,7 @@ import EpField from '@shared/components/forms/EpField.vue';
 import EpMultiListSelect, { MultiListSelectItem } from '@shared/components/forms/EpMultiListSelect.vue';
 import EpToggle from '@shared/components/forms/EpToggle.vue';
 import { required } from 'vuelidate/lib/validators';
-import { validationMixin } from 'vuelidate';
+import { useVuelidate } from '@vuelidate/core';
 import { success, fail } from '@shared/utils/notifications';
 import { julkaisupaikka, KoulutustyyppiRyhmaValinta } from '@shared/utils/tiedote';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
@@ -467,349 +467,364 @@ import { KoodistoSelectStore } from '../EpKoodistoSelect/KoodistoSelectStore';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
 import { ITiedotteetProvider } from '@shared/stores/types';
 import { requiredOneLang } from '@shared/validators/required';
+import { useTemplateRef } from 'vue';
 
-@Component({
-  components: {
-    EpButton,
-    EpFormContent,
-    EpMultiSelect,
-    EpInput,
-    EpField,
-    EpMultiListSelect,
-    EpToggle,
-    EpContent,
-    EpKielivalinta,
-    EpColorIndicator,
-    EpSpinner,
-    EpKoodistoSelect,
+const props = defineProps({
+  perusteet: {
+    type: Array as () => PerusteHakuDto[],
+    required: false,
   },
-  validations: {
-    muokattavaTiedote: {
-      otsikko: requiredOneLang(),
-      sisalto: {
-        required,
-        ...requiredOneLang(),
+  peruste: {
+    type: Object as () => PerusteDto,
+    required: false,
+  },
+  tiedotteetStore: {
+    type: Object as () => ITiedotteetProvider,
+    required: false,
+  },
+  editable: {
+    type: Boolean,
+    required: false,
+    default: true,
+  },
+  naytaJulkaisupaikka: {
+    type: Boolean,
+    required: false,
+    default: true,
+  },
+  oikeustarkastelu: {
+    type: Object,
+    required: false,
+    default: () => ({ oikeus: 'muokkaus' }),
+  },
+});
+
+const koulutusryypiRyhmaValinnat = ref<KoulutustyyppiRyhmaValinta[]>([]);
+const liitaPeruste = ref(false);
+const opintopolkuJulkaisu = ref(false);
+const opintopolkuJulkaisuKoulutustyyppiTutkinto = ref(false);
+const opsJulkaisu = ref(false);
+const lopsJulkaisu = ref(false);
+const amosaaJulkaisu = ref(false);
+const vstJulkaisu = ref(false);
+const tuvaJulkaisu = ref(false);
+const kotoJulkaisu = ref(false);
+const muokkaavanKayttajanNimi = ref('');
+const muokattavaTiedote = ref<TiedoteDto>({});
+const editing = ref(false);
+
+// Get instance for $t, $kaanna, etc.
+const instance = getCurrentInstance();
+const $t = instance?.appContext.config.globalProperties.$t;
+const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
+const $sdt = instance?.appContext.config.globalProperties.$sdt;
+const $sd = instance?.appContext.config.globalProperties.$sd;
+
+// Get $bvModal from instance's proxy
+const $bvModal = (instance?.proxy?.$root as any)?.$bvModal;
+
+// Template refs
+const tiedoteMuokkausModal = useTemplateRef('tiedoteMuokkausModal');
+
+// Validation rules
+const rules = {
+  muokattavaTiedote: {
+    otsikko: requiredOneLang(),
+    sisalto: {
+      required,
+      ...requiredOneLang(),
+    },
+  },
+};
+
+// Setup vuelidate
+const v$ = useVuelidate(rules, { muokattavaTiedote });
+
+// KoodistoSelectStores
+const tutkinnonOsaKoodisto = new KoodistoSelectStore({
+  koodisto: 'tutkinnonosat',
+  async query(query: string, sivu = 0, koodisto: string) {
+    const { data } = await Koodisto.kaikkiSivutettuna(koodisto, query, {
+      params: {
+        sivu,
+        sivukoko: 10,
       },
-    },
-  },
-} as any)
-export default class EpTiedoteModal extends Mixins(validationMixin) {
-  @Prop({ required: false })
-  private perusteet!: PerusteHakuDto[];
-
-  @Prop({ required: false })
-  private peruste!: PerusteDto;
-
-  @Prop({ required: false })
-  private tiedotteetStore!: ITiedotteetProvider;
-
-  @Prop({ required: false, default: true })
-  private editable!: boolean;
-
-  @Prop({ required: false, default: true })
-  private naytaJulkaisupaikka!: boolean;
-
-  @Prop({ required: false, default: () => ({ oikeus: 'muokkaus' }) })
-  private oikeustarkastelu!: any;
-
-  private koulutusryypiRyhmaValinnat: KoulutustyyppiRyhmaValinta[] = [];
-
-  private liitaPeruste: boolean = false;
-  private opintopolkuJulkaisu: boolean = false;
-  private opintopolkuJulkaisuKoulutustyyppiTutkinto: boolean = false;
-  private opsJulkaisu: boolean = false;
-  private lopsJulkaisu: boolean = false;
-  private amosaaJulkaisu: boolean = false;
-  private vstJulkaisu: boolean = false;
-  private tuvaJulkaisu: boolean = false;
-  private kotoJulkaisu: boolean = false;
-  private muokkaavanKayttajanNimi = '';
-  private muokattavaTiedote: TiedoteDto = {};
-  private editing: boolean = false;
-
-  lisaaTiedote() {
-    this.muokkaa({});
-    this.aloitaMuokkaus();
-  }
-
-  async muokkaa(rivi: any) {
-    this.muokattavaTiedote = _.cloneDeep(rivi);
-    this.opintopolkuJulkaisu = _.includes(rivi.julkaisupaikat, julkaisupaikka.opintopolku_etusivu);
-    this.opsJulkaisu = _.includes(rivi.julkaisupaikat, julkaisupaikka.ops);
-    this.lopsJulkaisu = _.includes(rivi.julkaisupaikat, julkaisupaikka.lops);
-    this.amosaaJulkaisu = _.includes(rivi.julkaisupaikat, julkaisupaikka.amosaa);
-    this.vstJulkaisu = _.includes(rivi.julkaisupaikat, julkaisupaikka.vst);
-    this.tuvaJulkaisu = _.includes(rivi.julkaisupaikat, julkaisupaikka.tuva);
-    this.kotoJulkaisu = _.includes(rivi.julkaisupaikat, julkaisupaikka.koto);
-
-    this.koulutusryypiRyhmaValinnat = [
-      ..._.chain(this.koulutustyyppiRyhmaItems)
-        .filter(item => _.some(item.value.object, koulutustyyppi => _.includes(rivi.koulutustyypit, koulutustyyppi)))
-        .map(item => {
-          return {
-            ...item.value,
-          } as KoulutustyyppiRyhmaValinta;
-        })
-        .value(),
-    ];
-
-    this.opintopolkuJulkaisuKoulutustyyppiTutkinto = !_.isEmpty(this.koulutusryypiRyhmaValinnat);
-
-    this.muokattavaTiedote.perusteet = _.map(this.muokattavaTiedote.perusteet, peruste => this.perusteToKevytDto(peruste));
-
-    if (this.muokattavaTiedote.luotu) {
-      const kayttaja = (await Kayttajat.getKayttaja((this.muokattavaTiedote.muokkaaja as any))).data;
-      if (kayttaja) {
-        this.muokkaavanKayttajanNimi = parsiEsitysnimi(kayttaja);
-      }
-      else {
-        this.muokkaavanKayttajanNimi = (this.muokattavaTiedote.muokkaaja as any);
-      }
-    }
-
-    if (this.peruste) {
-      this.liitaPeruste = true;
-    }
-
-    (this as any).$refs.tiedoteMuokkausModal.show();
-  }
-
-  get esittavaMuokkaustieto() {
-    return {
-      ...this.muokattavaTiedote,
-      filteredJulkaisupaikat: [
-        ..._.chain(this.muokattavaTiedote.koulutustyypit)
-          .map(koulutustyyppi => themes[koulutustyyppi])
-          .uniq()
-          .value(),
-      ],
-      filteredJulkaisusovellukset: [
-        ..._.chain([julkaisupaikka.ops, julkaisupaikka.lops, julkaisupaikka.amosaa])
-          .filter(julkaisupaikka => _.includes(_.map(this.muokattavaTiedote.julkaisupaikat, _.toLower), _.toLower(julkaisupaikka)))
-          .map(julkaisupaikka => this.$t('tiedote-julkaisupaikka-' + julkaisupaikka))
-          .value(),
-      ],
-      filteredPerusteet: [
-        ..._.chain(this.muokattavaTiedote.perusteet)
-          .filter(peruste => !_.isEmpty(this.perusteetById[(peruste as any).id]))
-          .map(peruste => this.$kaanna((this.perusteetById[(peruste as any).id] as any).nimi))
-          .uniq()
-          .value(),
-      ],
-    };
-  }
-
-  get perusteetById() {
-    return _.keyBy(this.perusteet, 'id');
-  }
-
-  aloitaMuokkaus() {
-    this.editing = true;
-  }
-
-  suljeTiedote() {
-    this.editing = false;
-    (this as any).$refs.tiedoteMuokkausModal.hide();
-  }
-
-  get valitutKoulutustyypit(): string[] {
-    return _.chain(this.koulutusryypiRyhmaValinnat)
-      .map('object')
-      .flatMap()
-      .value();
-  }
-
-  async tallennaTiedote() {
-    this.muokattavaTiedote.julkaisupaikat = _.chain(_.values(julkaisupaikka))
-      .filter(value => value !== julkaisupaikka.opintopolku_etusivu || this.opintopolkuJulkaisu)
-      .filter(value => value !== julkaisupaikka.ops || this.opsJulkaisu)
-      .filter(value => value !== julkaisupaikka.lops || this.lopsJulkaisu)
-      .filter(value => value !== julkaisupaikka.amosaa || this.amosaaJulkaisu)
-      .filter(value => value !== julkaisupaikka.vst || this.vstJulkaisu)
-      .filter(value => value !== julkaisupaikka.tuva || this.tuvaJulkaisu)
-      .filter(value => value !== julkaisupaikka.koto || this.kotoJulkaisu)
-      .value() as any;
-
-    this.muokattavaTiedote.koulutustyypit = (this.valitutKoulutustyypit as any);
-
-    if (this.peruste) {
-      if (this.liitaPeruste) {
-        if (!_.includes(_.map(this.muokattavaTiedote.perusteet, 'id'), this.peruste.id)) {
-          this.muokattavaTiedote.perusteet = [
-            ..._.map(this.muokattavaTiedote.perusteet),
-            this.perusteToKevytDto(this.peruste),
-          ];
-        }
-      }
-      else {
-        this.muokattavaTiedote.perusteet = _.filter(this.muokattavaTiedote.perusteet, peruste => peruste.id !== this.peruste.id);
-      }
-    }
-
-    if (this.tiedotteetStore.save) {
-      try {
-        await this.tiedotteetStore.save(this.muokattavaTiedote);
-        this.suljeTiedote();
-        success('tiedote-tallennettu');
-      }
-      catch (e) {
-        if (_.includes(_.get(e, 'message'), '400')) {
-          fail('tiedotteen-tallennus-epaonnistui-sisaltovirhe');
-        }
-        else {
-          fail('tiedotteen-tallennus-epaonnistui');
-        }
-      }
-    }
-  }
-
-  private perusteToKevytDto(peruste): PerusteKevytDto {
-    return {
-      id: peruste.id,
-      nimi: peruste.nimi,
-      voimassaoloAlkaa: peruste.voimassaoloAlkaa,
-      voimassaoloLoppuu: peruste.voimassaoloLoppuu,
-    } as PerusteKevytDto;
-  }
-
-  async poista() {
-    this.suljeTiedote();
-
-    if (await this.vahvistaPoisto() && this.tiedotteetStore.delete) {
-      await this.tiedotteetStore.delete(this.muokattavaTiedote);
-      success('tiedote-poistettu');
-    }
-  }
-
-  public async vahvistaPoisto() {
-    const vahvistusSisalto = this.$createElement('div', {},
-      [
-        this.$createElement('div', this.$t('poista-tiedote-vahvistus') as string),
-        this.$createElement('div', '"' + (this as any).$kaanna(this.muokattavaTiedote.otsikko) + '"'),
-        this.$createElement('br', ''),
-        this.$createElement('div', this.$t('poista-tiedote-varmistus') as string),
-      ],
-    ).children;
-
-    return this.$bvModal.msgBoxConfirm((vahvistusSisalto as any), {
-      title: this.$t('poista-tiedote-kysymys'),
-      okVariant: 'primary',
-      okTitle: this.$t('poista') as any,
-      cancelVariant: 'link',
-      cancelTitle: this.$t('peruuta') as any,
-      centered: true,
-      ...{} as any,
     });
-  }
+    return data as any;
+  },
+});
 
-  get koulutustyyppiRyhmaItems(): MultiListSelectItem[] {
-    return [
-      ..._.chain(koulutustyyppiRyhmat())
-        .map((koulutustyyppiryhma: KoulutustyyppiRyhma) => {
-          return {
-            text: this.$t(koulutustyyppiryhma.ryhma),
+const osaamisalaKoodisto = new KoodistoSelectStore({
+  koodisto: 'osaamisala',
+  async query(query: string, sivu = 0, koodisto: string) {
+    const { data } = await Koodisto.kaikkiSivutettuna(koodisto, query, {
+      params: {
+        sivu,
+        sivukoko: 10,
+      },
+    });
+    return data as any;
+  },
+});
+
+// Computed properties
+const perusteetById = computed(() => {
+  return _.keyBy(props.perusteet, 'id');
+});
+
+const esittavaMuokkaustieto = computed(() => {
+  return {
+    ...muokattavaTiedote.value,
+    filteredJulkaisupaikat: [
+      ..._.chain(muokattavaTiedote.value.koulutustyypit)
+        .map(koulutustyyppi => themes[koulutustyyppi])
+        .uniq()
+        .value(),
+    ],
+    filteredJulkaisusovellukset: [
+      ..._.chain([julkaisupaikka.ops, julkaisupaikka.lops, julkaisupaikka.amosaa])
+        .filter(julkaisupaikka => _.includes(_.map(muokattavaTiedote.value.julkaisupaikat, _.toLower), _.toLower(julkaisupaikka)))
+        .map(julkaisupaikka => $t('tiedote-julkaisupaikka-' + julkaisupaikka))
+        .value(),
+    ],
+    filteredPerusteet: [
+      ..._.chain(muokattavaTiedote.value.perusteet)
+        .filter(peruste => !_.isEmpty(perusteetById.value[(peruste as any).id]))
+        .map(peruste => $kaanna((perusteetById.value[(peruste as any).id] as any).nimi))
+        .uniq()
+        .value(),
+    ],
+  };
+});
+
+const valitutKoulutustyypit = computed((): string[] => {
+  return _.chain(koulutusryypiRyhmaValinnat.value)
+    .map('object')
+    .flatMap()
+    .value();
+});
+
+const koulutustyyppiRyhmaItems = computed((): MultiListSelectItem[] => {
+  return [
+    ..._.chain(koulutustyyppiRyhmat())
+      .map((koulutustyyppiryhma: KoulutustyyppiRyhma) => {
+        return {
+          text: $t(koulutustyyppiryhma.ryhma),
+          value: {
+            type: koulutustyyppiryhma.ryhma,
+            object: koulutustyyppiryhma.koulutustyypit,
+          },
+        } as MultiListSelectItem;
+      })
+      .sortBy(koulutustyyppiryhma => koulutustyyppiRyhmaSort[koulutustyyppiryhma.value.type])
+      .value(),
+  ];
+});
+
+const perusteItems = computed((): MultiListSelectItem[] => {
+  return [
+    ..._.chain(_.keys(ktToState))
+      .filter(koulutustyyppi => !_.isEmpty(_.keyBy(props.perusteet, 'koulutustyyppi')[koulutustyyppi]))
+      .map((koulutustyyppi) => {
+        return [
+          {
+            text: $t(koulutustyyppi),
             value: {
-              type: koulutustyyppiryhma.ryhma,
-              object: koulutustyyppiryhma.koulutustyypit,
+              type: 'koulutustyyppi',
+              object: koulutustyyppi,
             },
-          } as MultiListSelectItem;
-        })
-        .sortBy(koulutustyyppiryhma => koulutustyyppiRyhmaSort[koulutustyyppiryhma.value.type])
-        .value(),
-    ];
+            unselectable: true,
+          } as MultiListSelectItem,
+          ..._.chain(props.perusteet)
+            .filter((peruste) => peruste.koulutustyyppi === koulutustyyppi)
+            .map(peruste => {
+              return {
+                text: $kaanna(peruste.nimi),
+                value: perusteToKevytDto(peruste),
+                child: true,
+              } as MultiListSelectItem;
+            })
+            .value(),
+        ];
+      })
+      .flatten()
+      .value(),
+  ];
+});
+
+// Watch for changes
+watch(opintopolkuJulkaisuKoulutustyyppiTutkinto, (val) => {
+  if (!val) {
+    koulutusryypiRyhmaValinnat.value = [];
   }
+});
 
-  get perusteItems(): MultiListSelectItem[] {
-    return [
-      ..._.chain(_.keys(ktToState))
-        .filter(koulutustyyppi => !_.isEmpty(_.keyBy(this.perusteet, 'koulutustyyppi')[koulutustyyppi]))
-        .map((koulutustyyppi) => {
-          return [
-            {
-              text: this.$t(koulutustyyppi),
-              value: {
-                type: 'koulutustyyppi',
-                object: koulutustyyppi,
-              },
-              unselectable: true,
-            } as MultiListSelectItem,
-            ..._.chain(this.perusteet)
-              .filter((peruste) => peruste.koulutustyyppi === koulutustyyppi)
-              .map(peruste => {
-                return {
-                  text: (this as any).$kaanna(peruste.nimi),
-                  value: this.perusteToKevytDto(peruste),
-                  child: true,
-                } as MultiListSelectItem;
-              })
-              .value(),
-          ];
-        })
-        .flatten()
-        .value(),
-    ];
-  }
+// Methods
+function lisaaTiedote() {
+  muokkaa({});
+  aloitaMuokkaus();
+}
 
-  private readonly tutkinnonOsaKoodisto = new KoodistoSelectStore({
-    koodisto: 'tutkinnonosat',
-    async query(query: string, sivu = 0, koodisto: string) {
-      const { data } = await Koodisto.kaikkiSivutettuna(koodisto, query, {
-        params: {
-          sivu,
-          sivukoko: 10,
-        },
-      });
-      return data as any;
-    },
-  });
+async function muokkaa(rivi: any) {
+  muokattavaTiedote.value = _.cloneDeep(rivi);
+  opintopolkuJulkaisu.value = _.includes(rivi.julkaisupaikat, julkaisupaikka.opintopolku_etusivu);
+  opsJulkaisu.value = _.includes(rivi.julkaisupaikat, julkaisupaikka.ops);
+  lopsJulkaisu.value = _.includes(rivi.julkaisupaikat, julkaisupaikka.lops);
+  amosaaJulkaisu.value = _.includes(rivi.julkaisupaikat, julkaisupaikka.amosaa);
+  vstJulkaisu.value = _.includes(rivi.julkaisupaikat, julkaisupaikka.vst);
+  tuvaJulkaisu.value = _.includes(rivi.julkaisupaikat, julkaisupaikka.tuva);
+  kotoJulkaisu.value = _.includes(rivi.julkaisupaikat, julkaisupaikka.koto);
 
-  poistaTutkinnonosa(tutkinnonOsaIndex) {
-    this.muokattavaTiedote.tutkinnonosat = _.filter(this.muokattavaTiedote.tutkinnonosat, (tutkinnonOsa, index) => index !== tutkinnonOsaIndex);
-  }
+  koulutusryypiRyhmaValinnat.value = [
+    ..._.chain(koulutustyyppiRyhmaItems.value)
+      .filter(item => _.some(item.value.object, koulutustyyppi => _.includes(rivi.koulutustyypit, koulutustyyppi)))
+      .map(item => {
+        return {
+          ...item.value,
+        } as KoulutustyyppiRyhmaValinta;
+      })
+      .value(),
+  ];
 
-  lisaaTutkinnonOsa() {
-    this.muokattavaTiedote = {
-      ...this.muokattavaTiedote,
-      tutkinnonosat: [
-        ...(this.muokattavaTiedote.tutkinnonosat || []),
-        {},
-      ],
-    };
-  }
+  opintopolkuJulkaisuKoulutustyyppiTutkinto.value = !_.isEmpty(koulutusryypiRyhmaValinnat.value);
 
-  private readonly osaamisalaKoodisto = new KoodistoSelectStore({
-    koodisto: 'osaamisala',
-    async query(query: string, sivu = 0, koodisto: string) {
-      const { data } = await Koodisto.kaikkiSivutettuna(koodisto, query, {
-        params: {
-          sivu,
-          sivukoko: 10,
-        },
-      });
-      return data as any;
-    },
-  });
+  muokattavaTiedote.value.perusteet = _.map(muokattavaTiedote.value.perusteet, peruste => perusteToKevytDto(peruste));
 
-  poistaOsaamisala(osaamisalaIndex) {
-    this.muokattavaTiedote.osaamisalat = _.filter(this.muokattavaTiedote.osaamisalat, (osaamisala, index) => index !== osaamisalaIndex);
-  }
-
-  lisaaOsaamisala() {
-    this.muokattavaTiedote = {
-      ...this.muokattavaTiedote,
-      osaamisalat: [
-        ...(this.muokattavaTiedote.osaamisalat || []),
-        {},
-      ],
-    };
-  }
-
-  @Watch('opintopolkuJulkaisuKoulutustyyppiTutkinto')
-  opintopolkuJulkaisuKoulutustyyppiTutkintoChange(val) {
-    if (!val) {
-      this.koulutusryypiRyhmaValinnat = [];
+  if (muokattavaTiedote.value.luotu) {
+    const kayttaja = (await Kayttajat.getKayttaja((muokattavaTiedote.value.muokkaaja as any))).data;
+    if (kayttaja) {
+      muokkaavanKayttajanNimi.value = parsiEsitysnimi(kayttaja);
+    }
+    else {
+      muokkaavanKayttajanNimi.value = (muokattavaTiedote.value.muokkaaja as any);
     }
   }
+
+  if (props.peruste) {
+    liitaPeruste.value = true;
+  }
+
+  tiedoteMuokkausModal.value?.show();
+}
+
+function aloitaMuokkaus() {
+  editing.value = true;
+}
+
+function suljeTiedote() {
+  editing.value = false;
+  tiedoteMuokkausModal.value?.hide();
+}
+
+async function tallennaTiedote() {
+  muokattavaTiedote.value.julkaisupaikat = _.chain(_.values(julkaisupaikka))
+    .filter(value => value !== julkaisupaikka.opintopolku_etusivu || opintopolkuJulkaisu.value)
+    .filter(value => value !== julkaisupaikka.ops || opsJulkaisu.value)
+    .filter(value => value !== julkaisupaikka.lops || lopsJulkaisu.value)
+    .filter(value => value !== julkaisupaikka.amosaa || amosaaJulkaisu.value)
+    .filter(value => value !== julkaisupaikka.vst || vstJulkaisu.value)
+    .filter(value => value !== julkaisupaikka.tuva || tuvaJulkaisu.value)
+    .filter(value => value !== julkaisupaikka.koto || kotoJulkaisu.value)
+    .value() as any;
+
+  muokattavaTiedote.value.koulutustyypit = (valitutKoulutustyypit.value as any);
+
+  if (props.peruste) {
+    if (liitaPeruste.value) {
+      if (!_.includes(_.map(muokattavaTiedote.value.perusteet, 'id'), props.peruste.id)) {
+        muokattavaTiedote.value.perusteet = [
+          ..._.map(muokattavaTiedote.value.perusteet),
+          perusteToKevytDto(props.peruste),
+        ];
+      }
+    }
+    else {
+      muokattavaTiedote.value.perusteet = _.filter(muokattavaTiedote.value.perusteet, peruste => peruste.id !== props.peruste.id);
+    }
+  }
+
+  if (props.tiedotteetStore?.save) {
+    try {
+      await props.tiedotteetStore.save(muokattavaTiedote.value);
+      suljeTiedote();
+      success('tiedote-tallennettu');
+    }
+    catch (e) {
+      if (_.includes(_.get(e, 'message'), '400')) {
+        fail('tiedotteen-tallennus-epaonnistui-sisaltovirhe');
+      }
+      else {
+        fail('tiedotteen-tallennus-epaonnistui');
+      }
+    }
+  }
+}
+
+function perusteToKevytDto(peruste: any): PerusteKevytDto {
+  return {
+    id: peruste.id,
+    nimi: peruste.nimi,
+    voimassaoloAlkaa: peruste.voimassaoloAlkaa,
+    voimassaoloLoppuu: peruste.voimassaoloLoppuu,
+  } as PerusteKevytDto;
+}
+
+async function poista() {
+  suljeTiedote();
+
+  if (await vahvistaPoisto() && props.tiedotteetStore?.delete) {
+    await props.tiedotteetStore.delete(muokattavaTiedote.value);
+    success('tiedote-poistettu');
+  }
+}
+
+async function vahvistaPoisto() {
+  const vahvistusSisalto = instance?.proxy?.$createElement('div', {},
+    [
+      instance.proxy.$createElement('div', $t('poista-tiedote-vahvistus') as string),
+      instance.proxy.$createElement('div', '"' + $kaanna(muokattavaTiedote.value.otsikko) + '"'),
+      instance.proxy.$createElement('br', ''),
+      instance.proxy.$createElement('div', $t('poista-tiedote-varmistus') as string),
+    ],
+  ).children;
+
+  return $bvModal.msgBoxConfirm((vahvistusSisalto as any), {
+    title: $t('poista-tiedote-kysymys'),
+    okVariant: 'primary',
+    okTitle: $t('poista') as any,
+    cancelVariant: 'link',
+    cancelTitle: $t('peruuta') as any,
+    centered: true,
+    ...{} as any,
+  });
+}
+
+function poistaTutkinnonosa(tutkinnonOsaIndex: number) {
+  muokattavaTiedote.value.tutkinnonosat = _.filter(muokattavaTiedote.value.tutkinnonosat, (tutkinnonOsa, index) => index !== tutkinnonOsaIndex);
+}
+
+function lisaaTutkinnonOsa() {
+  muokattavaTiedote.value = {
+    ...muokattavaTiedote.value,
+    tutkinnonosat: [
+      ...(muokattavaTiedote.value.tutkinnonosat || []),
+      {},
+    ],
+  };
+}
+
+function poistaOsaamisala(osaamisalaIndex: number) {
+  muokattavaTiedote.value.osaamisalat = _.filter(muokattavaTiedote.value.osaamisalat, (osaamisala, index) => index !== osaamisalaIndex);
+}
+
+function lisaaOsaamisala() {
+  muokattavaTiedote.value = {
+    ...muokattavaTiedote.value,
+    osaamisalat: [
+      ...(muokattavaTiedote.value.osaamisalat || []),
+      {},
+    ],
+  };
 }
 </script>
 

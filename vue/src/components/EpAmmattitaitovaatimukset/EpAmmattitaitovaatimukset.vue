@@ -261,196 +261,143 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import EpButton from '../EpButton/EpButton.vue';
-import EpErrorWrapper from '../forms/EpErrorWrapper.vue';
-import EpInput from '../forms/EpInput.vue';
-import EpExternalLink from '../EpExternalLink/EpExternalLink.vue';
-import VaatimusField from './VaatimusField.vue';
-import { Ammattitaitovaatimukset2019Dto, Koodisto } from '../../api/eperusteet';
+<script setup lang="ts">
+import { defineProps, defineEmits, computed, ref, getCurrentInstance } from 'vue';
 import draggable from 'vuedraggable';
-import { KoodistoSelectStore } from '@shared/components/EpKoodistoSelect/KoodistoSelectStore';
-import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import _ from 'lodash';
+import EpButton from '../EpButton/EpButton.vue';
+import EpInput from '../forms/EpInput.vue';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import Kayttolistaus from './Kayttolistaus.vue';
+import VaatimusField from './VaatimusField.vue';
+import { KoodistoSelectStore } from '@shared/components/EpKoodistoSelect/KoodistoSelectStore';
+import { Koodisto } from '../../api/eperusteet';
 
-@Component({
-  components: {
-    EpButton,
-    EpErrorWrapper,
-    EpExternalLink,
-    EpInput,
-    Kayttolistaus,
-    VaatimusField,
-    EpMaterialIcon,
-    draggable,
+const props = defineProps({
+  modelValue: {
+    type: Object,
+    required: true,
   },
-})
-export default class EpAmmattitaitovaatimukset extends Vue {
-  @Prop({ required: true })
-  private value!: Ammattitaitovaatimukset2019Dto | null;
+  tavoitekoodisto: {
+    type: String,
+    default: 'ammattitaitovaatimukset',
+  },
+  kaannosKohdealueet: String,
+  kaannosLisaaAmmattitaitovaatimus: String,
+  kaannosLisaaKohdealue: String,
+  kaannosVaatimukset: String,
+  kaannosKohdealue: String,
+  kaannosKohde: String,
+  kohdealueettomat: {
+    type: Boolean,
+    default: true,
+  },
+  isEditing: {
+    type: Boolean,
+    default: false,
+  },
+  kohde: {
+    type: Object,
+    default: null,
+  },
+  validation: {
+    type: Object,
+    default: null,
+  },
+  showKohde: {
+    type: Boolean,
+    default: true,
+  },
+  showKoodiArvo: {
+    type: Boolean,
+    default: true,
+  },
+});
 
-  @Prop({ default: 'ammattitaitovaatimukset' })
-  private tavoitekoodisto!: string;
+const emit = defineEmits(['update:modelValue']);
+const instance = getCurrentInstance();
+const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
+const $t = instance?.appContext.config.globalProperties.$t;
 
-  @Prop({ required: false })
-  private kaannosKohdealueet!: string;
+const inner = computed({
+  get: () => props.modelValue || { kohde: null, vaatimukset: [], kohdealueet: [] },
+  set: (value) => emit('update:modelValue', value),
+});
 
-  @Prop({ required: false })
-  private kaannosLisaaAmmattitaitovaatimus!: string;
+const kaannokset = computed(() => ({
+  kohdealueet: props.kaannosKohdealueet || $t('ammattitaito-kohdealueet'),
+  lisaaKohdealue: props.kaannosLisaaKohdealue || $t('lisaa-kohdealue'),
+  lisaaAmmattitaitovaatimus: props.kaannosLisaaAmmattitaitovaatimus || $t('lisaa-ammattitaitovaatimus'),
+  kohdealue: props.kaannosKohdealue || $t('kohdealueen-otsikko'),
+  vaatimukset: props.kaannosVaatimukset || $t('vaatimukset'),
+}));
 
-  @Prop({ required: false })
-  private kaannosLisaaKohdealue!: string;
-
-  @Prop({ required: false })
-  private kaannosVaatimukset!: string;
-
-  @Prop({ required: false })
-  private kaannosKohdealue!: string;
-
-  @Prop({ required: false })
-  private kaannosKohde!: string;
-
-  @Prop({ default: true })
-  private kohdealueettomat!: boolean;
-
-  @Prop({ default: false })
-  private isEditing!: boolean;
-
-  @Prop({ default: null })
-  public kohde!: any;
-
-  @Prop({ default: null })
-  public validation!: any;
-
-  @Prop({ default: true })
-  public showKohde!: boolean;
-
-  @Prop({ default: true })
-  public showKoodiArvo!: boolean;
-
-  get kaannokset() {
-    return {
-      kohdealueet: !_.isNull(this.kaannosKohdealueet) ? this.kaannosKohdealueet : this.$t('ammattitaito-kohdealueet'),
-      lisaaKohdealue: this.kaannosLisaaKohdealue ? this.kaannosLisaaKohdealue : this.$t('lisaa-kohdealue'),
-      lisaaAmmattitaitovaatimus: this.kaannosLisaaAmmattitaitovaatimus ? this.kaannosLisaaAmmattitaitovaatimus : this.$t('lisaa-ammattitaitovaatimus'),
-      kohdealue: this.kaannosKohdealue ? this.kaannosKohdealue : this.$t('kohdealueen-otsikko'),
-      vaatimukset: this.kaannosVaatimukset ? this.kaannosVaatimukset : this.$t('vaatimukset'),
-    };
-  }
-
-  get inner() {
-    return this.value || {
-      kohde: null,
-      vaatimukset: [],
-      kohdealueet: [],
-    };
-  }
-
-  set inner(value: any) {
-    this.$emit('input', value);
-  }
-
-  get innerKohde() {
-    if (this.showKohde) {
-      return this.inner.kohde || this.kohde;
-    }
-  }
-
-  get kohdealueOptions() {
-    return {
-      animation: 300,
-      emptyInsertThreshold: 10,
-      handle: '.handle-kohdealue',
-      group: {
-        name: 'kohdealueet-drag-list',
-      },
-      disabled: !this.isEditing,
-      ghostClass: 'dragged',
-    };
-  }
-
-  get vaatimusOptions() {
-    return {
-      animation: 300,
-      emptyInsertThreshold: 10,
-      handle: '.handle',
-      group: {
-        name: 'vaatimukset',
-      },
-      disabled: !this.isEditing,
-      ghostClass: 'dragged',
-    };
-  }
-
-  private koodisto: KoodistoSelectStore | null = null;
-
-  mounted() {
-    if (this.tavoitekoodisto) {
-      this.koodisto = new KoodistoSelectStore({
-        koodisto: this.tavoitekoodisto,
-        async query(query: string, sivu = 0, koodisto: string) {
-          return (await Koodisto.kaikkiSivutettuna(koodisto, query, {
-            params: {
-              sivu,
-              sivukoko: 10,
-            },
-          })).data as any;
-        },
-      });
-    }
-  }
-
-  async poistaKohdealue(value: any, el: any) {
-    if (await this.$vahvista(this.$t('poista-kohdealue') as string, this.$t('poista-kohdealue-kuvaus') as string)) {
-      Vue.set(value, 'kohdealueet', _.without(value.kohdealueet, el));
-    }
-  }
-
-  async poistaVaatimus(value: any, el: any) {
-    if (await this.$vahvista(this.$t('poista-vaatimus') as string, this.$t('poista-vaatimus-kuvaus') as string)) {
-      Vue.set(value, 'vaatimukset', _.without(value.vaatimukset, el));
-    }
-  }
-
-  lisaaKohdealue(value: Ammattitaitovaatimukset2019Dto) {
-    this.inner = {
-      ...this.inner,
-      kohdealueet: [...(this.inner.kohdealueet || []), {
-        kuvaus: null as any,
-        vaatimukset: [] as any[],
-      }],
-    };
-  }
-
-  lisaaKohdealueVaatimus(kohdealue: any) {
-    Vue.set(kohdealue, 'vaatimukset', [...(kohdealue.vaatimukset || []), {
-      vaatimus: null,
-      koodi: null,
-    }]);
-  }
-
-  lisaaVaatimus() {
-    Vue.set(this.inner, 'vaatimukset', [...(this.inner.vaatimukset || []), {
-      vaatimus: null,
-      koodi: null,
-    }]);
-  }
-
-  vaatimusValidation(kohdealueIdx: number | null, vaatimusIdx: number) {
-    if (!kohdealueIdx) {
-      return this.validation?.vaatimukset?.$each?.$iter[vaatimusIdx]?.vaatimus;
-    }
-    else {
-      return this.validation?.kohdealueet?.$each?.$iter[kohdealueIdx]?.vaatimukset?.$each?.$iter[vaatimusIdx]?.vaatimus;
-    }
-  }
-
-  koodistoPalveluUrl(uri) {
-    return `${window.location.origin}/koodisto-app/koodi/view/${uri}/1`;
-  }
+const koodisto = ref(null);
+if (props.tavoitekoodisto) {
+  koodisto.value = new KoodistoSelectStore({
+    koodisto: props.tavoitekoodisto,
+    async query(query, sivu = 0, koodisto) {
+      return (await Koodisto.kaikkiSivutettuna(koodisto, query, {
+        params: { sivu, sivukoko: 10 },
+      })).data;
+    },
+  });
 }
+
+const vaatimusOptions = computed(() => ({
+  animation: 300,
+  emptyInsertThreshold: 10,
+  handle: '.handle',
+  group: { name: 'vaatimukset' },
+  disabled: !props.isEditing,
+  ghostClass: 'dragged',
+}));
+
+const kohdealueOptions = computed(() => ({
+  animation: 300,
+  emptyInsertThreshold: 10,
+  handle: '.handle-kohdealue',
+  group: { name: 'kohdealueet-drag-list' },
+  disabled: !props.isEditing,
+  ghostClass: 'dragged',
+}));
+
+const poistaKohdealue = async (value, el) => {
+  if (await instance?.appContext.config.globalProperties.$vahvista($t('poista-kohdealue'), $t('poista-kohdealue-kuvaus'))) {
+    value.kohdealueet = _.without(value.kohdealueet, el);
+  }
+};
+
+const poistaVaatimus = async (value, el) => {
+  if (await instance?.appContext.config.globalProperties.$vahvista($t('poista-vaatimus'), $t('poista-vaatimus-kuvaus'))) {
+    value.vaatimukset = _.without(value.vaatimukset, el);
+  }
+};
+
+const lisaaKohdealue = (value) => {
+  inner.value = {
+    ...inner.value,
+    kohdealueet: [...(inner.value.kohdealueet || []), { kuvaus: null, vaatimukset: [] }],
+  };
+};
+
+const lisaaKohdealueVaatimus = (kohdealue) => {
+  kohdealue.vaatimukset = [...(kohdealue.vaatimukset || []), { vaatimus: null, koodi: null }];
+};
+
+const lisaaVaatimus = () => {
+  inner.value.vaatimukset = [...(inner.value.vaatimukset || []), { vaatimus: null, koodi: null }];
+};
+
+const vaatimusValidation = (kohdealueIdx, vaatimusIdx) => {
+  if (!kohdealueIdx) {
+    return props.validation?.vaatimukset?.$each?.$iter[vaatimusIdx]?.vaatimus;
+  } else {
+    return props.validation?.kohdealueet?.$each?.$iter[kohdealueIdx]?.vaatimukset?.$each?.$iter[vaatimusIdx]?.vaatimus;
+  }
+};
+
+const koodistoPalveluUrl = (uri) => `${window.location.origin}/koodisto-app/koodi/view/${uri}/1`;
 </script>
 
 <style scoped lang="scss">

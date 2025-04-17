@@ -14,76 +14,75 @@
   </KoulutustyyppiSelect>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import * as _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { computed } from 'vue';
 import EpColorIndicator from '@shared/components/EpColorIndicator/EpColorIndicator.vue';
 import { EperusteetKoulutustyypit, EperusteetKoulutustyyppiRyhmat, Toteutus } from '@shared/utils/perusteet';
 import KoulutustyyppiSelect from '@shared/components/forms/EpKoulutustyyppiSelect.vue';
 
-@Component({
-  components: {
-    EpColorIndicator,
-    KoulutustyyppiSelect,
+const props = defineProps({
+  modelValue: {
+    type: [String, Array],
+    required: true,
   },
-})
-export default class EpMaarayskokoelmaKoulutustyyppiSelect extends Vue {
-  @Prop({ required: true })
-  value!: string | string[];
+  isEditing: {
+    type: Boolean,
+    default: false,
+  },
+  koulutustyypit: {
+    type: Array,
+    required: false,
+  },
+});
 
-  @Prop({ default: false })
-  isEditing!: boolean;
+const emit = defineEmits(['update:modelValue']);
 
-  @Prop()
-  koulutustyypit!: string[];
+const model = computed({
+  get: () => props.modelValue,
+  set: (val) => {
+    emit('update:modelValue', val);
+  },
+});
 
-  get model() {
-    return this.value;
+const koulutustyyppiVaihtoehdot = computed(() => {
+  if (props.koulutustyypit) {
+    return props.koulutustyypit;
   }
 
-  set model(val) {
-    this.$emit('input', val);
-  }
+  return [
+    ...EperusteetKoulutustyypit,
+    'opistovuosi-oppivelvollisille',
+    'muu-ammatillinen-koulutus',
+    'kotoutumiskoulutus',
+  ];
+});
 
-  get koulutustyyppiVaihtoehdot() {
-    if (this.koulutustyypit) {
-      return this.koulutustyypit;
-    }
+const koulutustyyppiColors = computed(() => {
+  return {
+    'opistovuosi-oppivelvollisille': 'vapaasivistystyo',
+    'muu-ammatillinen-koulutus': 'ammatillinen',
+    'kotoutumiskoulutus': 'kotoutumiskoulutus',
+  };
+});
 
-    return [
-      ...EperusteetKoulutustyypit,
-      'opistovuosi-oppivelvollisille',
+const koulutustyyppiryhmat = computed(() => {
+  return {
+    ...EperusteetKoulutustyyppiRyhmat,
+    [Toteutus.AMMATILLINEN]: [
+      ...EperusteetKoulutustyyppiRyhmat[Toteutus.AMMATILLINEN],
       'muu-ammatillinen-koulutus',
+    ],
+    [Toteutus.VAPAASIVISTYSTYO]: [
+      ...EperusteetKoulutustyyppiRyhmat[Toteutus.VAPAASIVISTYSTYO],
+      'opistovuosi-oppivelvollisille',
+    ],
+    [Toteutus.KOTOUTUMISKOULUTUS]: [
+      ...EperusteetKoulutustyyppiRyhmat[Toteutus.KOTOUTUMISKOULUTUS],
       'kotoutumiskoulutus',
-    ];
-  }
-
-  get koulutustyyppiColors() {
-    return {
-      'opistovuosi-oppivelvollisille': 'vapaasivistystyo',
-      'muu-ammatillinen-koulutus': 'ammatillinen',
-      'kotoutumiskoulutus': 'kotoutumiskoulutus',
-    };
-  }
-
-  get koulutustyyppiryhmat() {
-    return {
-      ...EperusteetKoulutustyyppiRyhmat,
-      [Toteutus.AMMATILLINEN]: [
-        ...EperusteetKoulutustyyppiRyhmat[Toteutus.AMMATILLINEN],
-        'muu-ammatillinen-koulutus',
-      ],
-      [Toteutus.VAPAASIVISTYSTYO]: [
-        ...EperusteetKoulutustyyppiRyhmat[Toteutus.VAPAASIVISTYSTYO],
-        'opistovuosi-oppivelvollisille',
-      ],
-      [Toteutus.KOTOUTUMISKOULUTUS]: [
-        ...EperusteetKoulutustyyppiRyhmat[Toteutus.KOTOUTUMISKOULUTUS],
-        'kotoutumiskoulutus',
-      ],
-    };
-  }
-}
+    ],
+  };
+});
 </script>
 
 <style scoped lang="scss">

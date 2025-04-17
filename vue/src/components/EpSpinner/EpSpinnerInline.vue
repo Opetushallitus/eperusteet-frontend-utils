@@ -9,14 +9,14 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
-
-@Component
-export default class EpSpinnerInline extends Vue {
-  @Prop({ required: false, default: false })
-  private link!: boolean;
-}
+<script setup lang="ts">
+const props = defineProps({
+  link: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+});
 </script>
 
 <style scoped lang="scss">

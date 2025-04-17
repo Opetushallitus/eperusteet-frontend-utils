@@ -7,13 +7,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import * as _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
-
-@Component
-export default class EpInfoBanner extends Vue {
-}
+<script setup lang="ts">
+// This component doesn't have any props, methods or computed properties
 </script>
 
 <style scoped lang="scss">

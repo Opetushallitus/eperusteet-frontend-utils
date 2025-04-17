@@ -16,20 +16,17 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
-@Component({
-  components: {
-    EpMaterialIcon,
-  },
-})
-export default class EpInfoPopover extends Vue {
+const props = defineProps({
   // Käytä komponentin proppina uniqueId:tä, jos EpInfoPopover on käytössä useamman kerran samassa komponentissa, jotta popover näytetään oikeassa ikonissa.
-  @Prop({ required: false, default: '0' })
-  uniqueId!: string;
-}
+  uniqueId: {
+    type: String,
+    required: false,
+    default: '0',
+  },
+});
 </script>
 
 <style scoped lang="scss">

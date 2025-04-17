@@ -1,11 +1,8 @@
-import Vue from 'vue';
+import Vue, { computed, reactive } from 'vue';
 import _ from 'lodash';
 import { Wrapper } from '@vue/test-utils';
 import { EditointiStore, IEditoitava } from '../components/EpEditointi/EditointiStore';
 import { vi } from 'vitest';
-import  { reactive, computed } from '@vue/composition-api';
-
-import '../config/bootstrap';
 
 export function mockEditointiStore<T>(config: Partial<IEditoitava> = {}) {
   const editointi = {

@@ -55,79 +55,80 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, onMounted } from 'vue';
 import EpButton from '../EpButton/EpButton.vue';
 import { KoodistoSelectStore } from './KoodistoSelectStore';
 import _ from 'lodash';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
 
-@Component({
-  components: {
-    EpButton,
-    EpKoodistoSelect,
-    EpContent,
+const props = defineProps({
+  modelValue: {
+    type: Array,
+    required: true,
   },
-})
-export default class EpKoodistoTekstillaSelect extends Vue {
-  @Prop({ required: true })
-  private value!: any[];
+  store: {
+    type: Object as () => KoodistoSelectStore,
+    required: true,
+  },
+  isEditing: {
+    type: Boolean,
+    default: false,
+  },
+  kuvaHandler: {
+    type: Object,
+    default: false,
+  },
+  tekstiField: {
+    type: String,
+    required: false,
+    default: 'teksti',
+  },
+});
 
-  @Prop({ required: true })
-  private store!: KoodistoSelectStore;
+const emit = defineEmits(['update:modelValue']);
 
-  @Prop({ default: false })
-  private isEditing!: boolean;
+onMounted(async () => {
+  await props.store.query();
+});
 
-  @Prop({ default: false })
-  private kuvaHandler!: any;
+const innerModel = computed({
+  get: () => props.modelValue,
+  set: (value) => {
+    emit('update:modelValue', value);
+  },
+});
 
-  @Prop({ required: false, default: 'teksti' })
-  private tekstiField!: string;
-
-  async mounted() {
-    await this.store.query();
-  }
-
-  get innerModel() {
-    return this.value;
-  }
-
-  set innerModel(innerModel) {
-    this.$emit('input', innerModel);
-  }
-
-  addKoodi(koodi) {
-    this.innerModel = [
-      ...this.innerModel,
-      {
-        koodiUri: koodi.koodiUri,
-        [this.tekstiField]: null,
-      },
-    ];
-  }
-
-  poistaKoodi(poistettava) {
-    this.innerModel = _.filter(this.innerModel, koodi => koodi.koodiUri !== poistettava.koodiUri);
-  }
-
-  get koodit() {
-    return _(this.store?.data.value?.data)
-      .map(koodi => {
-        const nimi = _.mapValues(_.keyBy(koodi.metadata, v => _.toLower(v.kieli)), v => v.nimi);
-        return {
-          ...koodi,
-          nimi,
-        };
-      })
-      .value();
-  }
-
-  get kooditByUri() {
-    return _.keyBy(this.koodit, 'koodiUri');
-  }
+function addKoodi(koodi) {
+  innerModel.value = [
+    ...innerModel.value,
+    {
+      koodiUri: koodi.koodiUri,
+      [props.tekstiField]: null,
+    },
+  ];
 }
+
+function poistaKoodi(poistettava) {
+  innerModel.value = _.filter(innerModel.value, koodi => koodi.koodiUri !== poistettava.koodiUri);
+}
+
+const koodit = computed(() => {
+  return _(props.store?.data.value?.data)
+    .map(koodi => {
+      const nimi = _.mapValues(_.keyBy(koodi.metadata, v => _.toLower(v.kieli)), v => v.nimi);
+      return {
+        ...koodi,
+        nimi,
+      };
+    })
+    .value();
+});
+
+const kooditByUri = computed(() => {
+  return _.keyBy(koodit.value, 'koodiUri');
+});
 </script>
 
 <style lang="scss" scoped>

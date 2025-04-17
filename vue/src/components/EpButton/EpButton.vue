@@ -4,12 +4,12 @@
     class="ep-button d-print-none"
   >
     <b-button
-      :variant="resolvedVariant"
       v-bind="$attrs"
+      :variant="resolvedVariant"
       :disabled="disabled || showSpinner"
       :size="size"
       :class="variantClass"
-      @click="$emit('click')"
+      @click="click"
     >
       <EpMaterialIcon
         v-if="icon"
@@ -40,81 +40,58 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed } from 'vue';
 import _ from 'lodash';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import EpSpinnerInline from '../EpSpinner/EpSpinnerInline.vue';
 
-@Component({
-  components: {
-    EpSpinnerInline,
-    EpMaterialIcon,
-  },
-})
-export default class EpButton extends Vue {
-  @Prop({ default: '' })
-  private icon!: string;
+const props = defineProps({
+  icon: { type: String, default: '' },
+  buttonClass: { type: String },
+  disabled: { type: Boolean, default: false },
+  showSpinner: { type: Boolean, default: false },
+  variant: { type: String, default: 'primary' },
+  size: { type: String, default: 'md' },
+  help: { type: String, default: '' },
+  paddingx: { type: Boolean, default: true },
+  link: { type: Boolean, default: false },
+  noPadding: { type: Boolean, default: false },
+});
 
-  @Prop()
-  private buttonClass!: string;
+const emit = defineEmits(['click']);
 
-  @Prop({ default: false, type: Boolean })
-  private disabled!: boolean;
-
-  @Prop({ default: false, type: Boolean })
-  private showSpinner!: boolean;
-
-  @Prop({ default: 'primary', type: String })
-  private variant!: string;
-
-  @Prop({ default: 'md', type: String })
-  private size!: string;
-
-  @Prop({ default: '', type: String })
-  private help!: string;
-
-  @Prop({ default: true, type: Boolean })
-  private paddingx!: boolean;
-
-  @Prop({ default: false, type: Boolean })
-  private link!: boolean;
-
-  @Prop({ default: false, type: Boolean })
-  private noPadding!: boolean;
-
-  get resolvedVariant() {
-    if (this.link) {
-      return 'link';
-    }
-
-    return this.variant;
-  }
-
-  get isOutline() {
-    return _.startsWith(this.resolvedVariant, 'outline');
-  }
-
-  get variantClass() {
-    let result = 'btn-' + this.resolvedVariant;
-    if (this.isOutline) {
-      result = 'no-outline ' + result;
-    }
-    if (this.buttonClass) {
-      result = this.buttonClass + ' ' + result;
-    }
-
-    if (this.noPadding) {
-      result = 'no-padding ' + result;
-    }
-
-    return result;
-  }
-
-  get inherit() {
-    return this.resolvedVariant === 'link' ? 'inherit' : '';
-  }
+function click() {
+  emit('click');
 }
+
+const resolvedVariant = computed(() => {
+  return props.link ? 'link' : props.variant;
+});
+
+const isOutline = computed(() => {
+  return _.startsWith(resolvedVariant.value, 'outline');
+});
+
+const variantClass = computed(() => {
+  let result = 'btn-' + resolvedVariant.value;
+  if (isOutline.value) {
+    result = 'no-outline ' + result;
+  }
+  if (props.buttonClass) {
+    result = props.buttonClass + ' ' + result;
+  }
+
+  if (props.noPadding) {
+    result = 'no-padding ' + result;
+  }
+
+  return result;
+});
+
+const inherit = computed(() => {
+  return resolvedVariant.value === 'link' ? 'inherit' : '';
+});
 </script>
 
 <style lang="scss" scoped>

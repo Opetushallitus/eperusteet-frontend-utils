@@ -49,7 +49,7 @@
               @click="navigate(item)"
             >
               <slot
-                :name="$scopedSlots[item.type] ? item.type : 'default'"
+                :name="slots[item.type] ? item.type : 'default'"
                 :item="item"
               >
                 {{ $kaannaOlioTaiTeksti(item.label) }}
@@ -74,8 +74,9 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Watch, Prop, Component, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { ref, computed, watch, useSlots, getCurrentInstance } from 'vue';
+import { useRoute } from 'vue-router';
 import EpSearch from '@shared/components/forms/EpSearch.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpToggle from '@shared/components/forms/EpToggle.vue';
@@ -92,187 +93,198 @@ export type ProjektiFilter = 'koulutustyyppi' | 'tila' | 'voimassaolo';
 
 type IndexedNode = FlattenedNodeDto & { idx: number };
 
-@Component({
-  components: {
-    EpMultiSelect,
-    EpSearch,
-    EpButton,
-    EpSpinner,
-    EpToggle,
-    EpMaterialIcon,
-    EpNavigationLabel,
+const props = defineProps({
+  store: {
+    type: Object as () => EpTreeNavibarStore,
+    required: true,
   },
-})
-export default class EpTreeNavibar extends Vue {
-  @Prop({ required: true })
-  private store!: EpTreeNavibarStore;
+  showAllToggle: {
+    type: Boolean,
+    default: false,
+  },
+  query: {
+    type: String,
+    required: false,
+  },
+});
 
-  @Prop({ required: false, type: Boolean, default: false })
-  private showAllToggle!: boolean;
+// Get instance to access global properties
+const instance = getCurrentInstance();
+const $t = instance?.appContext.config.globalProperties.$t;
+const $kaannaOlioTaiTeksti = instance?.appContext.config.globalProperties.$kaannaOlioTaiTeksti;
 
-  @Prop({ required: false, type: String })
-  private query!: string;
+// Access to slots
+const slots = useSlots();
 
-  private active: IndexedNode | null = null;
-  private showAll = false;
+// Access route
+const route = useRoute();
 
-  get depth() {
-    return this.active?.depth || 1;
+// Reactive state
+const active = ref<IndexedNode | null>(null);
+const showAll = ref(false);
+
+// Computed properties
+const depth = computed(() => {
+  return active.value?.depth || 1;
+});
+
+const navigation = computed((): IndexedNode[] | null => {
+  if (!props.store) {
+    return null;
   }
 
-  public parents(node: IndexedNode | null) {
-    if (!this.navigation || !node) {
-      return [];
-    }
-
-    const idx = _.findIndex(this.navigation, { idx: node.idx });
-    let depth = this.navigation[idx].depth;
-    return _(this.navigation)
-      .take(idx)
-      .reverse()
-      .filter(item => {
-        if (item.depth < depth) {
-          --depth;
-          return true;
-        }
-        else {
-          return false;
-        }
-      })
-      .reverse()
-      .value();
-  }
-
-  get path() {
-    return this.$route?.path || null;
-  }
-
-  @Watch('store')
-  onStoreChange() {
-    this.onRouteUpdate();
-  }
-
-  @Watch('path', { immediate: true })
-  onRouteUpdate() {
-    if (!this.store) {
-      return;
-    }
-
-    const matching = this.store.routeToNode(this.$route as any);
-    if (matching) {
-      const node = _.find(this.navigation, matching) as IndexedNode | null;
-      if (node) {
-        this.navigate(node);
-        VueScrollTo.scrollTo('#scroll-anchor');
-      }
-    }
-  }
-
-  get activeIdx(): number {
-    if (!this.active || !this.store) {
-      return -1;
-    }
-
-    return _.findIndex(this.navigation, navItem => navItem.id != null ? navItem.id === this.active!.id : navItem.type === this.active?.type);
-  }
-
-  get activeParents() {
-    return this.parents(this.active);
-  }
-
-  get children() {
-    if (!this.navigation || this.activeIdx < 0) {
-      return null;
-    }
-
-    const node = this.navigation[this.activeIdx];
-
-    return _(this.navigation)
-      .drop(this.activeIdx + 1)
-      .takeWhile(item => node.depth < item.depth)
-      .value();
-  }
-
-  get navigation(): IndexedNode[] | null {
-    if (!this.store) {
-      return null;
-    }
-
-    return _.map(this.store.filtered?.value, (item, idx) => {
-      return {
-        ...item,
-        idx,
-      };
-    });
-  }
-
-  get menu() {
-    if (this.allOrQuery) {
-      return _.chain(this.navigation)
-        .map(navi => this.filterNavigation(navi))
-        .filter('isVisible')
-        .value();
-    }
-    else if (this.active) {
-      return _.filter([
-        this.active,
-        ...(this.children || [])],
-      item => item.depth === this.depth || item.depth === this.depth + 1);
-    }
-    else {
-      return _.filter(this.navigation, item => item.depth === this.depth);
-    }
-  }
-
-  filterNavigation(node) {
-    const children = _(node.children)
-      .map(child => this.filterNavigation(child))
-      .filter(child => child.isMatch || child.isVisible)
-      .value();
+  return _.map(props.store.filtered?.value, (item, idx) => {
     return {
-      ...node,
-      children,
-      isMatch: this.isMatch(node),
-      isVisible: (this.showAll && !this.query) || this.isMatch(node) || _.some(children, child => child.isMatch),
+      ...item,
+      idx,
     };
+  });
+});
+
+const activeIdx = computed(() => {
+  if (!active.value || !props.store) {
+    return -1;
   }
 
-  isMatch(node) {
-    return this.query ? Kielet.search(this.query, node.label ? node.label : this.$t(node.type)) : false;
+  return _.findIndex(navigation.value, navItem =>
+    navItem.id != null ? navItem.id === active.value!.id : navItem.type === active.value?.type
+  );
+});
+
+const activeParents = computed(() => {
+  return parents(active.value);
+});
+
+const children = computed(() => {
+  if (!navigation.value || activeIdx.value < 0) {
+    return null;
   }
 
-  get menuStyled() {
-    return _.map(this.menu, item => {
-      return {
-        ...item,
-        ...(this.allOrQuery && { class: 'item-margin-' + (item.depth - 1) }),
-        koodi: _.get(item, 'meta.koodi.arvo') || _.get(item, 'meta.koodi'),
-      };
-    });
+  const node = navigation.value[activeIdx.value];
+
+  return _(navigation.value)
+    .drop(activeIdx.value + 1)
+    .takeWhile(item => node.depth < item.depth)
+    .value();
+});
+
+const path = computed(() => {
+  return route?.path || null;
+});
+
+const allOrQuery = computed(() => {
+  return showAll.value || !_.isEmpty(props.query);
+});
+
+const menu = computed(() => {
+  if (allOrQuery.value) {
+    return _.chain(navigation.value)
+      .map(navi => filterNavigation(navi))
+      .filter('isVisible')
+      .value();
+  }
+  else if (active.value) {
+    return _.filter([
+      active.value,
+      ...(children.value || [])],
+    item => item.depth === depth.value || item.depth === depth.value + 1);
+  }
+  else {
+    return _.filter(navigation.value, item => item.depth === depth.value);
+  }
+});
+
+const menuStyled = computed(() => {
+  return _.map(menu.value, item => {
+    return {
+      ...item,
+      ...(allOrQuery.value && { class: 'item-margin-' + (item.depth - 1) }),
+      koodi: _.get(item, 'meta.koodi.arvo') || _.get(item, 'meta.koodi'),
+    };
+  });
+});
+
+// Methods
+function parents(node: IndexedNode | null) {
+  if (!navigation.value || !node) {
+    return [];
   }
 
-  get allOrQuery() {
-    return this.showAll || !_.isEmpty(this.query);
-  }
+  const idx = _.findIndex(navigation.value, { idx: node.idx });
+  let nodeDepth = navigation.value[idx].depth;
+  return _(navigation.value)
+    .take(idx)
+    .reverse()
+    .filter(item => {
+      if (item.depth < nodeDepth) {
+        --nodeDepth;
+        return true;
+      }
+      else {
+        return false;
+      }
+    })
+    .reverse()
+    .value();
+}
 
-  navigate(item: IndexedNode) {
-    if (_.isEmpty(item.children)) {
-      this.active = _.last(this.parents(item)) || null;
-    }
-    else {
-      this.active = item;
-    }
-  }
+function isMatch(node) {
+  return props.query ? Kielet.search(props.query, node.label ? node.label : $t(node.type)) : false;
+}
 
-  navigateUp() {
-    this.active = _.last(this.activeParents) || null;
-  }
+function filterNavigation(node) {
+  const nodeChildren = _(node.children)
+    .map(child => filterNavigation(child))
+    .filter(child => child.isMatch || child.isVisible)
+    .value();
+  return {
+    ...node,
+    children: nodeChildren,
+    isMatch: isMatch(node),
+    isVisible: (showAll.value && !props.query) || isMatch(node) || _.some(nodeChildren, child => child.isMatch),
+  };
+}
 
-  @Watch('navigation')
-  onNavigationChange() {
-    this.active = null;
+function navigate(item: IndexedNode) {
+  if (_.isEmpty(item.children)) {
+    active.value = _.last(parents(item)) || null;
+  }
+  else {
+    active.value = item;
   }
 }
+
+function navigateUp() {
+  active.value = _.last(activeParents.value) || null;
+}
+
+function onRouteUpdate() {
+  if (!props.store) {
+    return;
+  }
+
+  const matching = props.store.routeToNode(route as any);
+  if (matching) {
+    const node = _.find(navigation.value, matching) as IndexedNode | null;
+    if (node) {
+      navigate(node);
+      VueScrollTo.scrollTo('#scroll-anchor');
+    }
+  }
+}
+
+// Watch for changes
+watch(() => props.store, () => {
+  onRouteUpdate();
+});
+
+watch(path, () => {
+  onRouteUpdate();
+}, { immediate: true });
+
+watch(navigation, () => {
+  active.value = null;
+});
 </script>
 
 <style lang="scss" scoped>

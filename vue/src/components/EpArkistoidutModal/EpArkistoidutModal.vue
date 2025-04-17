@@ -56,9 +56,9 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, computed, getCurrentInstance } from 'vue';
 import _ from 'lodash';
-import { Prop, Component, Vue } from 'vue-property-decorator';
 
 import { Kielet } from '@shared/stores/kieli';
 import EpSearch from '@shared/components/forms/EpSearch.vue';
@@ -70,46 +70,47 @@ interface Palautettava {
   muokattu: any;
 }
 
-@Component({
-  components: {
-    EpButton,
-    EpSearch,
-    EpMaterialIcon,
+const instance = getCurrentInstance();
+const $t = instance?.appContext.config.globalProperties.$t;
+const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
+const $sdt = instance?.appContext.config.globalProperties.$sdt;
+
+const props = defineProps({
+  arkistoidut: {
+    type: Array as () => Palautettava[],
+    required: false,
+    default: () => [],
   },
-})
-export default class EpArkistoidutModal extends Vue {
-  @Prop()
-  private arkistoidut!: Palautettava[];
+});
 
-  private query = '';
-  private currentPage = 1;
-  private perPage = 10;
+const query = ref('');
+const currentPage = ref(1);
+const perPage = ref(10);
 
-  get arkistoidutSortedFiltered() {
-    return _.chain(this.arkistoidut)
-      .filter(arkistoitu => Kielet.search(this.query, arkistoitu.nimi))
-      .orderBy('muokattu', 'desc')
-      .value();
-  }
+const arkistoidutSortedFiltered = computed(() => {
+  return _.chain(props.arkistoidut)
+    .filter(arkistoitu => Kielet.search(query.value, arkistoitu.nimi))
+    .orderBy('muokattu', 'desc')
+    .value();
+});
 
-  get fields() {
-    return [{
-      key: 'nimi',
-      label: this.$t('nimi'),
-    }, {
-      key: 'muokattu',
-      label: this.$t('poistettu'),
-      sortable: true,
-    }, {
-      key: 'siirtyminen',
-      label: '',
-    }];
-  }
-}
+const fields = computed(() => {
+  return [{
+    key: 'nimi',
+    label: $t('nimi'),
+  }, {
+    key: 'muokattu',
+    label: $t('poistettu'),
+    sortable: true,
+  }, {
+    key: 'siirtyminen',
+    label: '',
+  }];
+});
 </script>
 
 <style lang="scss" scoped>
-::v-deep .b-table.table-borderless thead th {
+:deep(.b-table.table-borderless thead th) {
   border: none;
 }
 </style>

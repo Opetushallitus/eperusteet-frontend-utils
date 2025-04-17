@@ -1,5 +1,9 @@
 <template>
   <div v-if="isEditing">
+
+    adfasdfasdfasfasfasfdasfasf
+    {{ items }}
+
     <slot
       name="default"
       :open="openDialog"
@@ -115,8 +119,8 @@
       </template>
     </b-modal>
   </div>
-  <div v-else-if="value && value.arvo">
-    {{ $kaanna(value.nimi) }} <span v-if="naytaArvo">{{ value.arvo }}</span>
+  <div v-else-if="modelValue && modelValue.arvo">
+    {{ $kaanna(modelValue.nimi) }} <span v-if="naytaArvo">{{ modelValue.arvo }}</span>
   </div>
   <div
     v-else
@@ -128,8 +132,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Vue, Watch, Component, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { ref, computed, watch, useTemplateRef } from 'vue';
 import EpButton from '../EpButton/EpButton.vue';
 import EpToggle from '../forms/EpToggle.vue';
 import EpSearch from '../forms/EpSearch.vue';
@@ -138,171 +142,172 @@ import { KoodistoSelectStore } from './KoodistoSelectStore';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import _ from 'lodash';
 
-@Component({
-  components: {
-    EpButton,
-    EpSearch,
-    EpSpinner,
-    EpToggle,
-    EpMaterialIcon,
+const props = defineProps({
+  modelValue: {
+    type: [Object, Array],
+    default: null,
   },
-})
-export default class EpKoodistoSelect extends Vue {
-  @Prop({ default: null })
-  private value!: any;
+  store: {
+    type: Object as () => KoodistoSelectStore,
+    required: true,
+  },
+  isEditing: {
+    type: Boolean,
+    default: true,
+  },
+  multiple: {
+    type: Boolean,
+    default: false,
+  },
+  naytaArvo: {
+    type: Boolean,
+    default: true,
+  },
+  defaultFields: {
+    type: Array as () => string[],
+    default: () => ['nimi', 'arvo', 'voimaantulo'],
+  },
+  additionalFields: {
+    type: Array,
+    required: false,
+  },
+});
 
-  @Prop({ required: true })
-  private store!: KoodistoSelectStore;
+const emit = defineEmits(['update:modelValue', 'add']);
 
-  @Prop({ default: true })
-  private isEditing!: boolean;
+const isLoading = ref(false);
+const query = ref('');
+const vanhentuneet = ref(false);
+const innerModel = ref<any[]>([]);
+const editModal = useTemplateRef('editModal');
 
-  @Prop({ required: false, default: false, type: Boolean })
-  private multiple!: boolean;
+const selectedUris = computed(() => {
+  return _.map(innerModel.value, 'uri');
+});
 
-  @Prop({ required: false, default: true, type: Boolean })
-  private naytaArvo!: boolean;
+const raw = computed(() => {
+  if (!props.store) {
+    return null;
+  }
+  return props.store.data.value;
+});
 
-  @Prop({ required: false, default: () => ['nimi', 'arvo', 'voimaantulo'] })
-  private defaultFields!: string[];
-
-  @Prop({ required: false })
-  private additionalFields!: any[];
-
-  private isLoading = false;
-  private query = '';
-  private vanhentuneet = false;
-  private innerModel: any[] = [];
-
-  get selectedUris() {
-    return _.map(this.innerModel, 'uri');
+const items = computed(() => {
+  if (!raw.value) {
+    return null;
   }
 
-  get raw() {
-    if (!this.store) {
-      return null;
-    }
-    return this.store.data.value;
-  }
+  return _(raw.value?.data)
+    .map(x => {
+      const nimi = _.mapValues(_.keyBy(x.metadata, v => _.toLower(v.kieli)), v => v.nimi);
+      const kuvaus = _.mapValues(_.keyBy(x.metadata, v => _.toLower(v.kieli)), v => v.kuvaus);
+      return {
+        ...x,
+        nimi,
+        kuvaus,
+        selected: _.includes(selectedUris.value, x.koodiUri),
+      };
+    })
+    .value();
+});
 
-  get items() {
-    if (!this.raw) {
-      return null;
-    }
-
-    return _(this.raw?.data)
-      .map(x => {
-        const nimi = _.mapValues(_.keyBy(x.metadata, v => _.toLower(v.kieli)), v => v.nimi);
-        const kuvaus = _.mapValues(_.keyBy(x.metadata, v => _.toLower(v.kieli)), v => v.kuvaus);
-        return {
-          ...x,
-          nimi,
-          kuvaus,
-          selected: _.includes(this.selectedUris, x.koodiUri),
-        };
-      })
-      .value();
-  }
-
-  get sivu() {
-    if (!this.raw) {
+const sivu = computed({
+  get: () => {
+    if (!raw.value) {
       return 1;
     }
-    return this.raw.sivu + 1;
-  }
+    return raw.value.sivu + 1;
+  },
+  set: (value: number) => {
+    props.store.query(query.value, _.max([value - 1, 0]));
+  },
+});
 
-  set sivu(value: number) {
-    this.store.query(this.query, _.max([value - 1, 0]));
-  }
+const multiselect = computed(() => {
+  return _.isArray(props.modelValue) || props.multiple;
+});
 
-  @Watch('query')
-  async onQueryChange(newValue) {
-    await this.initStoreQuery(newValue, this.sivu - 1, this.vanhentuneet);
-  }
+const koodisto = computed(() => {
+  return props.store.koodisto.value;
+});
 
-  @Watch('vanhentuneet')
-  async onVanhentuneetChange(newValue) {
-    await this.initStoreQuery(this.query, this.sivu - 1, newValue);
-  }
+const fields = computed(() => {
+  return [
+    ..._.filter([{
+      key: 'nimi',
+      label: 'nimi',
+    }, {
+      key: 'arvo',
+      label: 'arvo',
+      thStyle: { width: '6rem' },
+    }, {
+      key: 'voimaantulo',
+      label: 'voimaantulo',
+      thStyle: { width: '10rem' },
+    }], field => _.includes(props.defaultFields, field.key)),
+    ...(props.additionalFields ? props.additionalFields : []),
+  ];
+});
 
-  async initStoreQuery(query, sivu, vanhentuneet) {
-    this.isLoading = true;
-    await this.store.query(query, _.max([sivu, 0]), !vanhentuneet);
-    this.isLoading = false;
-  }
+const initStoreQuery = async (queryVal: string, sivuVal: number, vanhentuneetVal: boolean) => {
+  isLoading.value = true;
+  await props.store.query(queryVal, _.max([sivuVal, 0]), !vanhentuneetVal);
+  isLoading.value = false;
+};
 
-  openDialog() {
-    (this.$refs.editModal as any).show();
-    this.onQueryChange('');
-  }
+watch(() => query.value, async (newValue) => {
+  await initStoreQuery(newValue, sivu.value - 1, vanhentuneet.value);
+});
 
-  get multiselect() {
-    return _.isArray(this.value) || this.multiple;
-  }
+watch(() => vanhentuneet.value, async (newValue) => {
+  await initStoreQuery(query.value, sivu.value - 1, newValue);
+});
 
-  onRowSelected(items) {
-    if (!_.isEmpty(items)) {
-      const row = {
-        uri: items[0].koodiUri,
-        arvo: items[0].koodiArvo,
-        nimi: items[0].nimi,
-        versio: items[0].versio,
-        koodisto: items[0].koodisto?.koodistoUri || items[0].koodisto,
-        ..._.pick(items[0], _.map(this.additionalFields, 'key')),
-      };
+const openDialog = () => {
+  editModal.value?.show?.();
+  initStoreQuery('', 0, vanhentuneet.value);
+};
 
-      if (!this.multiselect) {
-        this.$emit('input', row);
-        this.$emit('add', row, this.value);
-        (this.$refs.editModal as any).hide();
+const onRowSelected = (items: any[]) => {
+  if (!_.isEmpty(items)) {
+    const row = {
+      uri: items[0].koodiUri,
+      arvo: items[0].koodiArvo,
+      nimi: items[0].nimi,
+      versio: items[0].versio,
+      koodisto: items[0].koodisto?.koodistoUri || items[0].koodisto,
+      ..._.pick(items[0], _.map(props.additionalFields || [], 'key')),
+    };
+
+    if (!multiselect.value) {
+      emit('update:modelValue', row);
+      emit('add', row, props.modelValue);
+      editModal.value.hide();
+    }
+    else {
+      if (_.includes(selectedUris.value, row.uri)) {
+        innerModel.value = _.filter(innerModel.value, koodi => koodi.uri !== row.uri);
       }
       else {
-        if (_.includes(this.selectedUris, row.uri)) {
-          this.innerModel = _.filter(this.innerModel, koodi => koodi.uri !== row.uri);
-        }
-        else {
-          this.innerModel = [
-            ...this.innerModel,
-            row,
-          ];
-        }
+        innerModel.value = [
+          ...innerModel.value,
+          row,
+        ];
       }
     }
   }
+};
 
-  lisaaValitut() {
-    if (this.multiselect) {
-      this.$emit('input', this.innerModel);
-      this.$emit('add', this.innerModel);
-    }
+const lisaaValitut = () => {
+  if (multiselect.value) {
+    emit('update:modelValue', innerModel.value);
+    emit('add', innerModel.value);
   }
+};
 
-  alusta() {
-    this.innerModel = [];
-  }
-
-  get fields() {
-    return [
-      ..._.filter([{
-        key: 'nimi',
-        label: this.$t('nimi'),
-      }, {
-        key: 'arvo',
-        label: this.$t('arvo'),
-        thStyle: { width: '6rem' },
-      }, {
-        key: 'voimaantulo',
-        label: this.$t('voimaantulo'),
-        thStyle: { width: '10rem' },
-      }], field => _.includes(this.defaultFields, field.key)),
-      ...(this.additionalFields ? this.additionalFields : []),
-    ];
-  }
-
-  get koodisto() {
-    return this.store.koodisto.value;
-  }
-}
+const alusta = () => {
+  innerModel.value = [];
+};
 </script>
 
 <style lang="scss" scoped>

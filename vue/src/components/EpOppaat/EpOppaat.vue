@@ -69,9 +69,9 @@
   </ep-main-view>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import _ from 'lodash';
-import { Prop, Vue, Component, Watch } from 'vue-property-decorator';
+import { ref, computed, watch } from 'vue';
 import EpMainView from '@shared/components//EpMainView/EpMainView.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import EpSearch from '@shared/components/forms/EpSearch.vue';
@@ -85,72 +85,61 @@ import { Kielet } from '@shared/stores/kieli';
 import EpExternalLink from '@shared/components/EpExternalLink/EpExternalLink.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
-@Component({
-  components: {
-    EpMainView,
-    EpSpinner,
-    EpSearch,
-    KoulutustyyppiSelect,
-    EpPagination,
-    EpExternalLink,
-    EpMaterialIcon,
+const props = defineProps({
+  koulutustyypit: {
+    type: Array as () => string[],
+    default: () => EperusteetKoulutustyypit,
   },
-})
-export default class EpOppaat extends Vue {
-  @Prop({ default: () => EperusteetKoulutustyypit })
-  private koulutustyypit!: string[];
+});
 
-  private store = new OppaatStore();
+const store = new OppaatStore();
 
-  private query = {
-    sivu: 0,
-    sivukoko: 20,
-    nimi: '',
-    voimassaolo: true,
-    tuleva: true,
-    koulutustyyppi: [],
-  } as OppaatQuery;
+const query = ref({
+  sivu: 0,
+  sivukoko: 20,
+  nimi: '',
+  voimassaolo: true,
+  tuleva: true,
+  koulutustyyppi: [],
+} as OppaatQuery);
 
-  @Watch('query', { deep: true, immediate: true })
-  async queryChange() {
-    if (_.size(this.query.koulutustyyppi) === 0) {
-      await this.store.fetch({
-        ...this.query,
-        koulutustyyppi: this.koulutustyypit,
-      });
-    }
-    else {
-      await this.store.fetch(this.query);
-    }
+const oppaat = computed(() => {
+  if (store.oppaat.value) {
+    return store.oppaat.value.data;
   }
+});
 
-  get oppaat() {
-    if (this.store.oppaat.value) {
-      return this.store.oppaat.value.data;
-    }
-  }
+const mappedOppaat = computed(() => {
+  return _.map(oppaat.value, opas => {
+    return {
+      ...opas,
+      url: buildKatseluUrl(Kielet.getSisaltoKieli.value, `/opas/${_.get(opas, 'id')}`),
+    };
+  });
+});
 
-  get mappedOppaat() {
-    return _.map(this.oppaat, opas => {
-      return {
-        ...opas,
-        url: buildKatseluUrl(Kielet.getSisaltoKieli.value, `/opas/${_.get(opas, 'id')}`),
-      };
+const kokonaismaara = computed(() => {
+  return store.oppaat.value?.kokonaismäärä;
+});
+
+const sivu = computed({
+  get: () => query.value.sivu! + 1,
+  set: (value: number) => {
+    query.value.sivu = value - 1;
+  },
+});
+
+watch(() => query.value, async () => {
+  if (_.size(query.value.koulutustyyppi) === 0) {
+    await store.fetch({
+      ...query.value,
+      koulutustyyppi: props.koulutustyypit,
     });
   }
-
-  get kokonaismaara() {
-    return this.store.oppaat.value?.kokonaismäärä;
+  else {
+    await store.fetch(query.value);
   }
-
-  get sivu() {
-    return this.query?.sivu! + 1;
-  }
-
-  set sivu(value: number) {
-    this.query.sivu = value - 1;
-  }
-}
+}, { deep: true, immediate: true });
 </script>
 
 <style scoped lang="scss">

@@ -167,7 +167,7 @@
       </b-dd-item>
 
       <b-dropdown-divider />
-
+      
       <b-dd-item
         v-if="!sovellusOikeudet || sovellusOikeudet.length === 1"
         href="/virkailijan-tyopoyta"
@@ -253,9 +253,9 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, computed } from 'vue';
 import * as _ from 'lodash';
-import { Prop, Component, Vue } from 'vue-property-decorator';
 import { Kielet, UiKielet } from '../../stores/kieli';
 import { Kieli } from '../../tyypit';
 import { IEsitysnimi, parsiEsitysnimi } from '../../utils/kayttaja';
@@ -266,115 +266,117 @@ import { SovellusOikeus } from '@shared/plugins/oikeustarkastelu';
 import EpSearch from '@shared/components/forms/EpSearch.vue';
 import EpToggle from '@shared/components/forms/EpToggle.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import { useRouter } from 'vue-router';
 
-@Component({
-  components: {
-    EpCollapse,
-    EpSpinner,
-    EpSearch,
-    EpToggle,
-    EpMaterialIcon,
+const props = defineProps({
+  tiedot: {
+    type: Object as () => IEsitysnimi,
+    required: true,
   },
-})
-export default class EpKayttaja extends Vue {
-  @Prop({ required: true })
-  private tiedot!: IEsitysnimi;
+  koulutustoimija: {
+    type: Object,
+    required: false,
+  },
+  koulutustoimijat: {
+    type: Array,
+    required: false,
+  },
+  sovellusOikeudet: {
+    type: Array as () => SovellusOikeus[],
+    required: false,
+  },
+  logoutHref: {
+    type: String,
+    default: '/service-provider-app/saml/logout',
+  },
+});
 
-  @Prop({})
-  private koulutustoimija!: any | null;
+// State
+const koulutustoimijaQuery = ref('');
+const naytaLukuoikeusKoulutustoimijat = ref(true);
+const router = useRouter();
 
-  @Prop({})
-  private koulutustoimijat!: any[] | null;
+// Computed properties
+const esitysnimi = computed(() => {
+  return parsiEsitysnimi(props.tiedot);
+});
 
-  @Prop({ required: false })
-  private sovellusOikeudet!: SovellusOikeus[];
+const sovelluksenKielet = computed(() => {
+  return UiKielet;
+});
 
-  @Prop({ required: false, default: '/service-provider-app/saml/logout' })
-  private logoutHref!: string;
+const uiKieli = computed(() => {
+  return Kielet.uiKieli.value;
+});
 
-  private koulutustoimijaQuery = '';
-  private naytaLukuoikeusKoulutustoimijat = true;
+const hasLukuOikeusKoulutustoimijoita = computed(() => {
+  if (props.koulutustoimijat) {
+    return !_.isEmpty(_.filter(props.koulutustoimijat, { oikeus: 'luku' })) &&
+           !_.isEmpty(_.reject(props.koulutustoimijat, { oikeus: 'luku' }));
+  }
+  return false;
+});
 
-  get esitysnimi() {
-    return parsiEsitysnimi(this.tiedot);
+const koulutustoimijatFilteredSorted = computed(() => {
+  return _.chain(props.koulutustoimijat)
+    .filter(kt => Kielet.search(koulutustoimijaQuery.value, kt.nimi))
+    .filter(kt => naytaLukuoikeusKoulutustoimijat.value || kt.oikeus !== 'luku')
+    .map(kt => {
+      return {
+        ...kt,
+        kaannettyNimi: Kielet.i18n.t(kt.nimi),
+      };
+    })
+    .orderBy(['kaannettyNimi', 'id'], ['asc', 'asc'])
+    .value();
+});
+
+const valittuSovellus = computed(() => {
+  return _.find(props.sovellusOikeudet, 'valittu');
+});
+
+// Methods
+async function valitseOrganisaatio(koulutustoimija: any) {
+  if (!router) {
+    return;
   }
 
-  get sovelluksenKielet() {
-    return UiKielet;
+  const current: any = router.currentRoute;
+  const next = {
+    ...current,
+    params: {
+      ...current.params,
+      koulutustoimijaId: _.toString(koulutustoimija.id),
+    },
+  };
+
+  try {
+    await router.push(next);
+    setItem('koulutustoimija', koulutustoimija.id);
+  }
+  catch (err) { }
+}
+
+async function valitseUiKieli(kieli: Kieli) {
+  Kielet.setUiKieli(kieli);
+
+  if (!router) {
+    return;
   }
 
-  get uiKieli() {
-    return Kielet.uiKieli.value;
+  const current: any = router.currentRoute;
+  const next = {
+    ...current,
+    params: {
+      ...current.params,
+      lang: kieli || Kielet.i18n.fallbackLocale,
+    },
+  };
+
+  try {
+    await router.push(next);
   }
-
-  get hasLukuOikeusKoulutustoimijoita() {
-    if (this.koulutustoimijat) {
-      return !_.isEmpty(_.filter(this.koulutustoimijat, { oikeus: 'luku' })) && !_.isEmpty(_.reject(this.koulutustoimijat, { oikeus: 'luku' }));
-    }
-  }
-
-  get koulutustoimijatFilteredSorted() {
-    return _.chain(this.koulutustoimijat)
-      .filter(kt => Kielet.search(this.koulutustoimijaQuery, kt.nimi))
-      .filter(kt => this.naytaLukuoikeusKoulutustoimijat || kt.oikeus !== 'luku')
-      .map(kt => {
-        return {
-          ...kt,
-          kaannettyNimi: this.$kaanna(kt.nimi),
-        };
-      })
-      .orderBy(['kaannettyNimi', 'id'], ['asc', 'asc'])
-      .value();
-  }
-
-  private async valitseOrganisaatio(koulutustoimija: any) {
-    if (!this.$router) {
-      return;
-    }
-
-    const router = this.$router;
-    const current: any = router.currentRoute;
-    const next = {
-      ...current,
-      params: {
-        ...current.params,
-        koulutustoimijaId: _.toString(koulutustoimija.id),
-      },
-    };
-
-    try {
-      await router.push(next);
-      setItem('koulutustoimija', koulutustoimija.id);
-    }
-    catch (err) { }
-  }
-
-  private async valitseUiKieli(kieli: Kieli) {
-    Kielet.setUiKieli(kieli);
-
-    if (!this.$router) {
-      return;
-    }
-
-    const router = this.$router;
-    const current: any = router.currentRoute;
-    const next = {
-      ...current,
-      params: {
-        ...current.params,
-        lang: kieli || this.$i18n.fallbackLocale,
-      },
-    };
-
-    try {
-      await router.push(next);
-    }
-    catch (err) { }
-  }
-
-  get valittuSovellus() {
-    return _.find(this.sovellusOikeudet, 'valittu');
-  }
+  catch (err) { }
 }
 </script>
 

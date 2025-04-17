@@ -47,8 +47,8 @@
   </ep-main-view>
 </template>
 
-<script lang="ts">
-import { Prop, Vue, Component } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, getCurrentInstance } from 'vue';
 import EpMainView from '../EpMainView/EpMainView.vue';
 import EpContentReadMore from '../EpContentReadMore/EpContentReadMore.vue';
 import EpLinkki from '../EpLinkki/EpLinkki.vue';
@@ -57,37 +57,30 @@ import { TiedoteDto } from '../../tyypit';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 
-@Component({
-  components: {
-    EpButton,
-    EpMainView,
-    EpContentReadMore,
-    EpLinkki,
-    EpSpinner,
+const props = defineProps({
+  tiedotteet: {
+    type: Object as () => TiedoteDto,
+    required: true,
   },
-})
-export default class EpTiedoteView extends Vue {
-  @Prop({ required: true })
-  private tiedotteet!: TiedoteDto;
+});
 
-  get sisaltoKieli() {
-    return Kielet.getSisaltoKieli.value || null;
-  }
+const sisaltoKieli = computed(() => {
+  return Kielet.getSisaltoKieli.value || null;
+});
 
-  get url() {
-    return `/eperusteet-app/#/${this.sisaltoKieli}/tiedotteet`;
-  }
-}
+const url = computed(() => {
+  return `/eperusteet-app/#/${sisaltoKieli.value}/tiedotteet`;
+});
 </script>
 
 <style scoped lang="scss">
 @import '../../styles/_variables.scss';
 
-::v-deep .linkki a {
+:deep(.linkki a) {
   display: flex;
 }
 
-::v-deep .fa-plussa {
+:deep(.fa-plussa) {
   height: 24px;
   width: 24px;
   border-radius: 100%;

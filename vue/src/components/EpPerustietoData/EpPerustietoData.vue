@@ -16,22 +16,19 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
-@Component({
-  components: {
-    EpMaterialIcon,
+const props = defineProps({
+  icon: {
+    type: String,
+    required: true
   },
-})
-export default class EpPerustietoData extends Vue {
-  @Prop({ required: true })
-  private icon!: string;
-
-  @Prop({ required: false })
-  private topic!: string;
-}
+  topic: {
+    type: String,
+    required: false
+  }
+});
 </script>
 
 <style scoped lang="scss">

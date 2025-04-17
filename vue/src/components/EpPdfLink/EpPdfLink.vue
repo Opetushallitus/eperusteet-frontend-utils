@@ -15,19 +15,13 @@
   </a>
 </template>
 
-<script lang="ts">
-import * as _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
-
-@Component({
-  components: {
-
+<script setup lang="ts">
+const props = defineProps({
+  url: {
+    type: String,
+    required: true,
   },
-})
-export default class EpPdfLink extends Vue {
-  @Prop({ required: true })
-  url!: string;
-}
+});
 </script>
 
 <style scoped lang="scss">

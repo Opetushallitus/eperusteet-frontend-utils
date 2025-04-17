@@ -19,9 +19,9 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import * as _ from 'lodash';
-import { Prop, Component, Vue } from 'vue-property-decorator';
+import { computed } from 'vue';
 import EpToggle from '@shared/components/forms/EpToggle.vue';
 import VirheHuomautukset from './VirheHuomautukset.vue';
 import { NavigationNodeDto } from '@shared/tyypit';
@@ -33,30 +33,26 @@ export interface VirheHuomautus {
   navigationNode: NavigationNodeDto;
 }
 
-interface Validointi {
+export interface Validointi {
   kategoria: string;
   virheet: VirheHuomautus[];
   huomautukset: VirheHuomautus[];
 }
 
-@Component({
-  components: {
-    EpToggle,
-    VirheHuomautukset,
+const props = defineProps({
+  validointi: {
+    type: Object as () => Validointi,
+    required: true,
   },
-})
-export default class EpJulkaisuValidointi extends Vue {
-  @Prop({ required: true })
-  private validointi!: Validointi;
+});
 
-  get virheita() {
-    return !_.isEmpty(this.validointi.virheet);
-  }
+const virheita = computed(() => {
+  return !_.isEmpty(props.validointi.virheet);
+});
 
-  get huomautuksia() {
-    return !_.isEmpty(this.validointi.huomautukset);
-  }
-}
+const huomautuksia = computed(() => {
+  return !_.isEmpty(props.validointi.huomautukset);
+});
 </script>
 
 <style scoped lang="scss">

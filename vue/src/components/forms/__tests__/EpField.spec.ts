@@ -1,18 +1,21 @@
-import { mount, createLocalVue } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import EpField from '../EpField.vue';
+import { nextTick } from 'vue';
+import { globalStubs } from '@shared/utils/__tests__/stubs';
 
 describe('EpInput component', () => {
-  const localVue = createLocalVue();
 
   test('Renders field with content', async () => {
     const wrapper = mount(EpField, {
-      propsData: {
+      props: {
         value: 'arvo',
       },
-      localVue,
+      global: {
+        ...globalStubs,
+      },
     });
 
-    await localVue.nextTick();
+    await nextTick();
 
     expect(wrapper.html()).toContain('arvo');
   });

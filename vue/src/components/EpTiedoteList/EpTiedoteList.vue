@@ -39,62 +39,67 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop, Mixins, Watch } from 'vue-property-decorator';
+<script setup lang="ts">
+import { ref, computed, onMounted, getCurrentInstance } from 'vue';
 import _ from 'lodash';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import EpButton from '../EpButton/EpButton.vue';
 import { TiedoteDto } from '../../api/eperusteet';
-import { ITiedotteetProvider } from '../../stores/types';
 import { onkoUusi } from '@shared/utils/tiedote';
 
 interface ListaTiedote extends TiedoteDto {
   uusi: boolean;
 }
 
-@Component({
-  components: {
-    EpSpinner,
-    EpButton,
+// Define props
+const props = defineProps({
+  tiedotteet: {
+    type: Array as () => TiedoteDto[],
+    required: true
   },
-})
-export default class EpTiedoteList extends Vue {
-  @Prop({ required: true })
-  private tiedotteet!: TiedoteDto[];
-
-  @Prop({ required: false })
-  private tiedoteMaara;
-
-  private naytettavaTiedoteMaara = 3;
-
-  mounted() {
-    if (this.tiedoteMaara) {
-      this.naytettavaTiedoteMaara = this.tiedoteMaara;
-    }
+  tiedoteMaara: {
+    type: Number,
+    required: false
   }
+});
 
-  get tiedotteetSize() {
-    return _.size(this.tiedotteet);
-  }
+// Define emits
+const emit = defineEmits(['avaaTiedote']);
 
-  get tiedotteetFiltered() {
-    if (this.tiedotteet) {
-      return _.chain(this.tiedotteet)
-        .map((tiedote: TiedoteDto) => {
-          return {
-            ...tiedote,
-            uusi: onkoUusi((tiedote as any).luotu),
-          } as ListaTiedote;
-        })
-        .take(this.naytettavaTiedoteMaara)
-        .value();
-    }
-  }
+// Reactive state
+const naytettavaTiedoteMaara = ref(3);
 
-  avaaTiedote(tiedote: TiedoteDto) {
-    this.$emit('avaaTiedote', tiedote);
+// Lifecycle hooks
+onMounted(() => {
+  if (props.tiedoteMaara) {
+    naytettavaTiedoteMaara.value = props.tiedoteMaara;
   }
-}
+});
+
+// Computed properties
+const tiedotteetSize = computed(() => {
+  return _.size(props.tiedotteet);
+});
+
+const tiedotteetFiltered = computed(() => {
+  if (props.tiedotteet) {
+    return _.chain(props.tiedotteet)
+      .map((tiedote: TiedoteDto) => {
+        return {
+          ...tiedote,
+          uusi: onkoUusi((tiedote as any).luotu),
+        } as ListaTiedote;
+      })
+      .take(naytettavaTiedoteMaara.value)
+      .value();
+  }
+  return [];
+});
+
+// Methods
+const avaaTiedote = (tiedote: TiedoteDto) => {
+  emit('avaaTiedote', tiedote);
+};
 </script>
 
 <style scoped lang="scss">
@@ -127,7 +132,7 @@ export default class EpTiedoteList extends Vue {
         color: $gray-lighten-1;
       }
     }
-    ::v-deep .btn {
+    :deep(.btn) {
       padding: 0px;
     }
   }

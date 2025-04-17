@@ -131,278 +131,279 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import _ from 'lodash';
-import { Vue, Component, Prop, InjectReactive } from 'vue-property-decorator';
+import { ref, computed, inject, useTemplateRef, getCurrentInstance } from 'vue';
 import { EditorMenuBar } from 'tiptap';
 import { NavigationNodeDto } from '@shared/tyypit';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import { deepFind } from '@shared/utils/helpers';
 import EpPublicImage from '@shared/components/EpPublicImage/EpPublicImage.vue';
 
-@Component({
-  components: {
-    EditorMenuBar,
-    EpMaterialIcon,
-    EpPublicImage,
+const props = defineProps({
+  editor: {
+    type: Object,
+    required: true,
   },
-})
-export default class EpEditorMenuBar extends Vue {
-  @Prop({ required: true })
-  private editor!: any;
+  isEditable: {
+    type: Boolean,
+    required: true,
+  },
+  layout: {
+    type: String,
+    required: true,
+  },
+  alwaysVisible: {
+    type: Boolean,
+    default: true,
+  },
+});
 
-  @Prop({ required: true })
-  private isEditable!: boolean;
+const instance = getCurrentInstance();
+const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
+const navigation = inject('navigation') as NavigationNodeDto;
 
-  @Prop({ required: true })
-  private layout!: string;
+const linkValue = ref<string | null>(null);
+const internalLink = ref<NavigationNodeDto | null>(null);
+const linkkiTyyppi = ref<'ulkoinen' | 'sisainen' | null>(null);
+const linkPlaceholder = ref('https://...');
 
-  @Prop({ default: true })
-  private alwaysVisible!: boolean;
+const linkModal = useTemplateRef('link-modal');
 
-  @InjectReactive('navigation')
-  private navigation!: NavigationNodeDto;
+const id = computed(() => {
+  return instance?.uid;
+});
 
-  private linkValue: string | null = null;
-  private internalLink: NavigationNodeDto | null = null;
-  private linkkiTyyppi: 'ulkoinen' | 'sisainen' | null = null;
-  private linkPlaceholder: string = 'https://...';
+const history = computed(() => {
+  return [{
+    command: 'undo',
+    icon: 'undo',
+  }, {
+    command: 'redo',
+    icon: 'redo',
+  }];
+});
 
-  get id() {
-    return (this as any)._uid;
-  }
+const textManipulation = computed(() => {
+  return [{
+    command: 'bold',
+    icon: 'format_bold',
+  }, {
+    command: 'italic',
+    icon: 'format_italic',
+  }, {
+    command: 'strike',
+    icon: 'strikethrough_s',
+  }];
+});
 
-  get history() {
-    return [{
-      command: 'undo',
-      icon: 'undo',
-    }, {
-      command: 'redo',
-      icon: 'redo',
-    }];
-  }
+const linking = computed(() => {
+  return [{
+    icon: 'add_link',
+    command: 'link',
+    disabled: props.editor.selection.from === props.editor.selection.to,
+    customClick: (data) => {
+      const isNew = !data.isActive.link();
+      const attrs = data.getMarkAttrs('link');
+      linkValue.value = null;
+      internalLink.value = null;
+      linkkiTyyppi.value = null;
 
-  get textManipulation() {
-    return [{
-      command: 'bold',
-      icon: 'format_bold',
-    }, {
-      command: 'italic',
-      icon: 'format_italic',
-    }, {
-      command: 'strike',
-      icon: 'strikethrough_s',
-    }];
-  }
+      if (!isNew && attrs) {
+        linkValue.value = attrs.href;
 
-  get linkTermiKuva() {
-    return [...this.linking,
-      ...(!_.isFunction(_.get(this.editor.commands, 'termi')) ? [] : [{
-        icon: 'book',
-        command: 'termi',
-        disabled: this.editor.selection.from === this.editor.selection.to,
-      }]), ...(!_.isFunction(_.get(this.editor.commands, 'image')) ? [] : [{
-        icon: 'add_photo_alternate',
-        command: 'image',
-      }]),
-    ];
-  }
-
-  get linking() {
-    return [{
-      icon: 'add_link',
-      command: 'link',
-      disabled: this.editor.selection.from === this.editor.selection.to,
-      customClick: (data) => {
-        const isNew = !data.isActive.link();
-        const attrs = data.getMarkAttrs('link');
-        this.linkValue = null;
-        this.internalLink = null;
-        this.linkkiTyyppi = null;
-
-        if (!isNew && attrs) {
-          this.linkValue = attrs.href;
-
-          if (attrs.href && attrs.href !== '#') {
-            this.linkkiTyyppi = 'ulkoinen';
-          }
-
-          if (attrs.routenode) {
-            this.linkkiTyyppi = 'sisainen';
-            this.internalLink = deepFind({ id: _.get(JSON.parse(attrs.routenode), 'id') }, this.navigationFlattened);
-          }
+        if (attrs.href && attrs.href !== '#') {
+          linkkiTyyppi.value = 'ulkoinen';
         }
 
-        (this as any).$refs['link-modal'].show();
-      },
-    }];
+        if (attrs.routenode) {
+          linkkiTyyppi.value = 'sisainen';
+          internalLink.value = deepFind({ id: _.get(JSON.parse(attrs.routenode), 'id') }, navigationFlattened.value);
+        }
+      }
+
+      linkModal.value.show();
+    },
+  }];
+});
+
+const linkTermiKuva = computed(() => {
+  return [...linking.value,
+    ...(!_.isFunction(_.get(props.editor.commands, 'termi')) ? [] : [{
+      icon: 'book',
+      command: 'termi',
+      disabled: props.editor.selection.from === props.editor.selection.to,
+    }]), ...(!_.isFunction(_.get(props.editor.commands, 'image')) ? [] : [{
+      icon: 'add_photo_alternate',
+      command: 'image',
+    }]),
+  ];
+});
+
+const lists = computed(() => {
+  return [{
+    command: 'bullet_list',
+    icon: 'list',
+  }, {
+    command: 'ordered_list',
+    icon: 'format_list_numbered_rtl',
+  }];
+});
+
+const tables = computed(() => {
+  return [{
+    command: 'createTable',
+    params: {
+      rowsCount: 3,
+      colsCount: 3,
+      withHeaderRow: false,
+    },
+    icon: 'grid_on',
+  }];
+});
+
+const helperToolbar = computed(() => {
+  return null;
+});
+
+const helperTable = computed(() => {
+  const RemoveColor = '#e44e4e';
+  const AddColor = '#5BCA13';
+  const MergeColor = '#ffd024';
+
+  const tables = [{
+    color: RemoveColor,
+    command: 'deleteTable',
+    icon: 'poista-taulukko.svg',
+    text: 'poista-taulu',
+  }];
+
+  const columns = [{
+    color: AddColor,
+    command: 'addColumnBefore',
+    icon: 'kolumni-vasen.svg',
+    text: 'lisaa-sarake-ennen',
+  }, {
+    color: AddColor,
+    command: 'addColumnAfter',
+    icon: 'kolumni-oikea.svg',
+    text: 'lisaa-sarake-jalkeen',
+  }, {
+    color: RemoveColor,
+    command: 'deleteColumn',
+    icon: 'poista-kolumni.svg',
+    text: 'poista-sarake',
+  }];
+
+  const rows = [{
+    command: 'addRowBefore',
+    color: AddColor,
+    icon: 'rivi-alas.svg',
+    text: 'lisaa-rivi-ennen',
+  }, {
+    command: 'addRowAfter',
+    color: AddColor,
+    icon: 'rivi-alas.svg',
+    text: 'lisaa-rivi-jalkeen',
+  }, {
+    command: 'deleteRow',
+    color: RemoveColor,
+    icon: 'poista-rivi.svg',
+    text: 'poista-rivi',
+  }, {
+    command: 'toggleCellMerge',
+    color: MergeColor,
+    icon: 'yhdista-solut.svg',
+    text: 'yhdista-solut',
+  }];
+
+  return [
+    columns,
+    rows,
+    tables,
+  ];
+});
+
+const groups = computed(() => {
+  if (props.layout === 'normal') {
+    return _.filter([
+      history.value,
+      textManipulation.value,
+      linkTermiKuva.value,
+      lists.value,
+      tables.value,
+    ], v => !_.isEmpty(v));
   }
-
-  get lists() {
-    return [{
-      command: 'bullet_list',
-      icon: 'list',
-    }, {
-      command: 'ordered_list',
-      icon: 'format_list_numbered_rtl',
-    }];
-  }
-
-  get tables() {
-    return [{
-      command: 'createTable',
-      params: {
-        rowsCount: 3,
-        colsCount: 3,
-        withHeaderRow: false,
-      },
-      icon: 'grid_on',
-    }];
-  }
-
-  get helperToolbar() {
-    return null;
-  }
-
-  get helperTable() {
-    const RemoveColor = '#e44e4e';
-    const AddColor = '#5BCA13';
-    const MergeColor = '#ffd024';
-
-    const tables = [{
-      color: RemoveColor,
-      command: 'deleteTable',
-      icon: 'poista-taulukko.svg',
-      text: 'poista-taulu',
-    }];
-
-    const columns = [{
-      color: AddColor,
-      command: 'addColumnBefore',
-      icon: 'kolumni-vasen.svg',
-      text: 'lisaa-sarake-ennen',
-    }, {
-      color: AddColor,
-      command: 'addColumnAfter',
-      icon: 'kolumni-oikea.svg',
-      text: 'lisaa-sarake-jalkeen',
-    }, {
-      color: RemoveColor,
-      command: 'deleteColumn',
-      icon: 'poista-kolumni.svg',
-      text: 'poista-sarake',
-    }];
-
-    const rows = [{
-      command: 'addRowBefore',
-      color: AddColor,
-      icon: 'rivi-alas.svg',
-      text: 'lisaa-rivi-ennen',
-    }, {
-      command: 'addRowAfter',
-      color: AddColor,
-      icon: 'rivi-alas.svg',
-      text: 'lisaa-rivi-jalkeen',
-    }, {
-      command: 'deleteRow',
-      color: RemoveColor,
-      icon: 'poista-rivi.svg',
-      text: 'poista-rivi',
-    }, {
-      command: 'toggleCellMerge',
-      color: MergeColor,
-      icon: 'yhdista-solut.svg',
-      text: 'yhdista-solut',
-    }];
-
+  else if (props.layout === 'simplified_w_links') {
     return [
-      columns,
-      rows,
-      tables,
+      history.value,
+      textManipulation.value,
+      linking.value,
+      lists.value,
     ];
   }
-
-  get groups() {
-    if (this.layout === 'normal') {
-      return _.filter([
-        this.history,
-        this.textManipulation,
-        this.linkTermiKuva,
-        this.lists,
-        this.tables,
-      ], v => !_.isEmpty(v));
-    }
-    else if (this.layout === 'simplified_w_links') {
-      return [
-        this.history,
-        this.textManipulation,
-        this.linking,
-        this.lists,
-      ];
-    }
-    else if (this.layout === 'simplified') {
-      return [
-        this.history,
-        this.textManipulation,
-        this.lists,
-      ];
-    }
-    else {
-      return [
-        this.history,
-      ];
-    }
-  }
-
-  get linkInvalid() {
-    return this.linkkiTyyppi === 'ulkoinen' && !this.linkValue?.startsWith('http');
-  }
-
-  private editLink(data) {
-    if (!_.isEmpty(this.linkValue)) {
-      data.commands.link({
-        href: this.linkValue,
-      } as any);
-    }
-
-    if (!_.isEmpty(this.internalLink)) {
-      data.commands.link({
-        href: '#',
-        routenode: JSON.stringify(_.pick(this.internalLink, ['id', 'type', 'koodi', 'meta'])),
-      } as any);
-    }
-
-    this.linkValue = null;
-    this.internalLink = null;
-  }
-
-  get navigationFlattened() {
-    if (this.navigation) {
-      return _.chain(this.flattenedNavi(this.navigation))
-        .filter(node => !!node.label)
-        .map(node => {
-          return {
-            ...node,
-            $isDisabled: !_.has(node, 'id'),
-          };
-        })
-        .value();
-    }
-  }
-
-  flattenedNavi(navi: NavigationNodeDto, depth = -1) {
+  else if (props.layout === 'simplified') {
     return [
-      {
-        ...navi,
-        depth,
-      },
-      ..._.flatten(_.map(navi.children, child => this.flattenedNavi(child, depth + 1))),
+      history.value,
+      textManipulation.value,
+      lists.value,
     ];
   }
-
-  labelSearchIdentity(obj: any) {
-    return _.toLower(this.$kaanna(obj.label));
+  else {
+    return [
+      history.value,
+    ];
   }
+});
+
+const linkInvalid = computed(() => {
+  return linkkiTyyppi.value === 'ulkoinen' && !linkValue.value?.startsWith('http');
+});
+
+const navigationFlattened = computed(() => {
+  if (navigation) {
+    return _.chain(flattenedNavi(navigation))
+      .filter(node => !!node.label)
+      .map(node => {
+        return {
+          ...node,
+          $isDisabled: !_.has(node, 'id'),
+        };
+      })
+      .value();
+  }
+});
+
+function flattenedNavi(navi: NavigationNodeDto, depth = -1) {
+  return [
+    {
+      ...navi,
+      depth,
+    },
+    ..._.flatten(_.map(navi.children, child => flattenedNavi(child, depth + 1))),
+  ];
+}
+
+function labelSearchIdentity(obj: any) {
+  return _.toLower($kaanna(obj.label));
+}
+
+function editLink(data) {
+  if (!_.isEmpty(linkValue.value)) {
+    data.commands.link({
+      href: linkValue.value,
+    } as any);
+  }
+
+  if (!_.isEmpty(internalLink.value)) {
+    data.commands.link({
+      href: '#',
+      routenode: JSON.stringify(_.pick(internalLink.value, ['id', 'type', 'koodi', 'meta'])),
+    } as any);
+  }
+
+  linkValue.value = null;
+  internalLink.value = null;
 }
 </script>
 
@@ -414,7 +415,7 @@ export default class EpEditorMenuBar extends Vue {
   border-top: 2px solid #E0E0E1;
 }
 
-::v-deep .active {
+:deep(.active) {
   background: #c1c1c1 !important;
   border-radius: 0;
 }

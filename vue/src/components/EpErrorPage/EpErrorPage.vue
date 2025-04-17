@@ -25,73 +25,72 @@
   </div>
 </template>
 
-<script lang="ts" >
-import { Component, Prop, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, getCurrentInstance } from 'vue';
 import _ from 'lodash';
 import eiLoydyImage from '@assets/img/images/404.svg';
 import virhekuva from '@assets/img/images/virhe.png';
-import { Meta } from '@shared/utils/decorators';
+import { useHead  } from '@unhead/vue';
 
-@Component
-export default class EpErrorPage extends Vue {
-  @Prop({ required: false, default: '404' })
-  private virhekoodi?: string;
+const props = defineProps({
+  virhekoodi: {
+    type: String,
+    default: '404',
+  },
+  kohdeUrl: {
+    type: String,
+    required: false,
+  },
+  paluukohde: {
+    type: String,
+    default: 'root',
+  },
+});
 
-  @Prop({ required: false })
-  private kohdeUrl?: string;
+useHead({
+  meta: [
+    {
+      vmid: 'robots',
+      name: 'robots',
+      content: 'none',
+    },
+  ],
+});
 
-  @Prop({ required: false, default: 'root' })
-  private paluukohde?: string;
+const virheImage = {
+  '500': {
+    img: virhekuva,
+    alt: 'virhe-palvelu-virhe',
+  },
+  '401': {
+    img: eiLoydyImage,
+    alt: 'virhe-sivua-ei-loytynyt',
+  },
+  '404': {
+    img: eiLoydyImage,
+    alt: 'virhe-sivua-ei-loytynyt',
+  },
+};
 
-  @Meta
-  getMetaInfo() {
-    return {
-      meta: [
-        {
-          vmid: 'robots',
-          name: 'robots',
-          content: 'none',
-        },
-      ],
-    };
-  }
+const virhe = computed(() => {
+  return (props.virhekoodi && virheImage[props.virhekoodi]) || virheImage['500'];
+});
 
-  get virhe() {
-    return (this.virhekoodi && this.virheImage[this.virhekoodi]) || this.virheImage['500'];
-  }
+const paluuroute = computed(() => {
+  return { name: props.paluukohde };
+});
 
-  get paluuroute() {
-    return { name: this.paluukohde };
-  }
-
-  get kohde() {
-    if (this.kohdeUrl && this.virhekoodi === '401') {
-      if (_.includes(this.kohdeUrl, 'peruste')) {
-        return 'peruste';
-      }
-      if (_.includes(this.kohdeUrl, 'opetussuunnitelma')) {
-        return 'opetussuunnitelma';
-      }
+const kohde = computed(() => {
+  if (props.kohdeUrl && props.virhekoodi === '401') {
+    if (_.includes(props.kohdeUrl, 'peruste')) {
+      return 'peruste';
+    }
+    if (_.includes(props.kohdeUrl, 'opetussuunnitelma')) {
+      return 'opetussuunnitelma';
     }
   }
-
-  get virheImage() {
-    return {
-      '500': {
-        img: virhekuva,
-        alt: 'virhe-palvelu-virhe',
-      },
-      '401': {
-        img: eiLoydyImage,
-        alt: 'virhe-sivua-ei-loytynyt',
-      },
-      '404': {
-        img: eiLoydyImage,
-        alt: 'virhe-sivua-ei-loytynyt',
-      },
-    };
-  }
-}
+  return undefined;
+});
 </script>
 
 <style scoped lang="scss">

@@ -55,65 +55,70 @@
   </ep-form-content>
 </template>
 
-<script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { defineProps, computed, useSlots, getCurrentInstance } from 'vue';
+import _ from 'lodash';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
-import * as _ from 'lodash';
 
-@Component({
-  components: {
-    EpFormContent,
+const props = defineProps({
+  arvioinninKohdealueet: {
+    type: Array,
+    required: true,
   },
-})
-export default class EpAmmatillinenArvioinninKohdealueet extends Vue {
-  @Prop({ required: true })
-  private arvioinninKohdealueet!: any;
+  arviointiasteikot: {
+    type: Array,
+    required: true,
+  },
+  showHeader: {
+    type: Boolean,
+    default: true,
+  },
+});
 
-  @Prop({ required: true })
-  private arviointiasteikot!: any[];
+const slots = useSlots();
+const instance = getCurrentInstance();
+const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
+const $t = instance?.appContext.config.globalProperties.$t;
 
-  @Prop({ default: true })
-  public showHeader!: boolean;
+const arvioinninKohdealueetFilled = computed(() => {
+  return _.map(props.arvioinninKohdealueet, arvKohdealue => {
+    return {
+      ...arvKohdealue,
+      arvioinninKohteet: _.map(arvKohdealue.arvioinninKohteet, arvioinninKohde => {
+        const arviointiasteikkoId = arvioinninKohde._arviointiAsteikko || arvioinninKohde._arviointiasteikko;
+        const arviointiAsteikko = _.keyBy(props.arviointiasteikot, 'id')[arviointiasteikkoId];
+        const osaamistasot = _.keyBy(arviointiAsteikko.osaamistasot, 'id');
+        return {
+          ...arvioinninKohde,
+          osaamistasonKriteerit: _.sortBy(_.map(arvioinninKohde.osaamistasonKriteerit, osaamistasonKriteeri => {
+            return {
+              ...osaamistasonKriteeri,
+              osaamistaso: osaamistasot[osaamistasonKriteeri._osaamistaso],
+            };
+          }), '_osaamistaso'),
+        };
+      }),
+    };
+  });
+});
 
-  get arvioinninKohdealueetFilled() {
-    return _.map(this.arvioinninKohdealueet, arvKohdealue => {
-      return {
-        ...arvKohdealue,
-        arvioinninKohteet: _.map(arvKohdealue.arvioinninKohteet, arvioinninKohde => {
-          const arviointiasteikkoId = arvioinninKohde._arviointiAsteikko || arvioinninKohde._arviointiasteikko;
-          const arviointiAsteikko = _.keyBy(this.arviointiasteikot, 'id')[arviointiasteikkoId];
-          const osaamistasot = _.keyBy(arviointiAsteikko.osaamistasot, 'id');
-          return {
-            ...arvioinninKohde,
-            osaamistasonKriteerit: _.sortBy(_.map(arvioinninKohde.osaamistasonKriteerit, osaamistasonKriteeri => {
-              return {
-                ...osaamistasonKriteeri,
-                osaamistaso: osaamistasot[osaamistasonKriteeri._osaamistaso],
-              };
-            }), '_osaamistaso'),
-          };
-        }),
-      };
-    });
-  }
-
-  get osaamistasonKriteeritFields() {
-    return [{
+const osaamistasonKriteeritFields = computed(() => {
+  return [
+    {
       key: 'osaamistaso',
-      label: this.$t('osaamistaso') as string,
+      label: $t('osaamistaso') as string,
       thStyle: { width: '40%' },
-    }, {
+    },
+    {
       key: 'kriteerit',
-      label: this.$t('kriteerit') as string,
-    }] as any[];
-  }
-}
+      label: $t('kriteerit') as string,
+    },
+  ];
+});
 </script>
 
 <style scoped lang="scss">
-
-  .kohdealueotsikko {
-    font-weight: 600;
-  }
-
+.kohdealueotsikko {
+  font-weight: 600;
+}
 </style>

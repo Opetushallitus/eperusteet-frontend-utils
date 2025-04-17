@@ -31,35 +31,38 @@
   </component>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue';
 import { NavigationNodeDto } from '@shared/tyypit';
 import * as _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
 
-@Component
-export default class EpNavigationLabel extends Vue {
-  @Prop()
-  node!: NavigationNodeDto;
-
-  @Prop({ required: false })
-  to!: any;
-
-  get component() {
-    return this.to ? 'router-link' : 'div';
+const props = defineProps({
+  node: {
+    type: Object as () => NavigationNodeDto,
+    required: true
+  },
+  to: {
+    type: [Object, String],
+    required: false,
+    default: undefined
   }
+});
 
-  get postfixLabel(): string {
-    return _.toString(this.node.meta?.postfix_label);
-  }
+const component = computed(() => {
+  return props.to ? 'router-link' : 'div';
+});
 
-  get postfixTooltip(): string {
-    return _.toString(this.node.meta?.postfix_tooltip);
-  }
+const postfixLabel = computed((): string => {
+  return _.toString(props.node.meta?.postfix_label);
+});
 
-  get piilotettu() {
-    return this.node.meta?.piilotettu;
-  }
-}
+const postfixTooltip = computed((): string => {
+  return _.toString(props.node.meta?.postfix_tooltip);
+});
+
+const piilotettu = computed(() => {
+  return props.node.meta?.piilotettu;
+});
 </script>
 
 <style scoped lang="scss">

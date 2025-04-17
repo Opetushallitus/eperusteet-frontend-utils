@@ -1,31 +1,37 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`EpHomeTile component > Renders state 1`] = `
-"<div data-v-5a8bf063="" class="tile"><a data-v-5a8bf063="" style="outline: none;">
+"<div data-v-5a8bf063="" class="tile">
+  <!-- Todo: Onko parempaa tapaa välittää slotit alikomponentille? -->
+  <!-- router-link täytyy olla a, jotta navigointi onnistuu näppäimistöllä --><a data-v-5a8bf063="" style="outline: none;">
     <div data-v-7127787c="" data-v-5a8bf063="" class="innertile">
       <div data-v-7127787c="" class="tile-header">
         <h3 data-v-7127787c="" class="oph-h3 tileheader"></h3>
       </div>
       <div data-v-7127787c="" class="iconline">
-        <div data-v-0ca2d75d="" data-v-7127787c="" class="icon"><span data-v-07230345="" data-v-0ca2d75d="" class="icon inner material-icons-outlined" style="color: red; font-size: 40px; background: white;"> add </span></div>
-        <!---->
+        <div data-v-0ca2d75d="" data-v-7127787c="" class="icon"><span data-v-07230345="" data-v-0ca2d75d="" class="material-icons-outlined icon inner" style="color: red; font-size: 40px; background: white;">add</span></div>
+        <!--v-if-->
       </div>
       <div data-v-7127787c="" class="tile-content px-3"></div>
     </div>
-  </a></div>"
+  </a>
+</div>"
 `;
 
 exports[`EpHomeTile component > Router link 1`] = `
-"<div data-v-5a8bf063="" class="tile"><a data-v-5a8bf063="" href="https://eperusteet.opintopolku.fi" rel="noopener noreferrer" target="_blank" style="outline: none;">
+"<div data-v-5a8bf063="" class="tile">
+  <!-- Todo: Onko parempaa tapaa välittää slotit alikomponentille? -->
+  <!-- router-link täytyy olla a, jotta navigointi onnistuu näppäimistöllä --><a data-v-5a8bf063="" href="https://eperusteet.opintopolku.fi" rel="noopener noreferrer" target="_blank" style="outline: none;">
     <div data-v-7127787c="" data-v-5a8bf063="" class="innertile">
       <div data-v-7127787c="" class="tile-header">
         <h3 data-v-7127787c="" class="oph-h3 tileheader"></h3>
       </div>
       <div data-v-7127787c="" class="iconline">
-        <div data-v-0ca2d75d="" data-v-7127787c="" class="icon"><span data-v-07230345="" data-v-0ca2d75d="" class="icon inner material-icons-outlined" style="color: red; font-size: 40px; background: white;"> add </span></div>
-        <div data-v-7127787c="" class="count"> 1 </div>
+        <div data-v-0ca2d75d="" data-v-7127787c="" class="icon"><span data-v-07230345="" data-v-0ca2d75d="" class="material-icons-outlined icon inner" style="color: red; font-size: 40px; background: white;">add</span></div>
+        <div data-v-7127787c="" class="count">1</div>
       </div>
       <div data-v-7127787c="" class="tile-content px-3"></div>
     </div>
-  </a></div>"
+  </a>
+</div>"
 `;

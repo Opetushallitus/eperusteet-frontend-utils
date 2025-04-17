@@ -46,75 +46,114 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, watch } from 'vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import { TutoriaaliStore } from '@shared/stores/tutoriaali';
-import _ from 'lodash';
 
-@Component({
-  components: {
-    EpButton,
+const props = defineProps({
+  tutoriaalistore: {
+    type: Object as () => TutoriaaliStore,
+    required: true,
   },
-})
-export default class EpTutorial extends Vue {
-  @Prop()
-  private tutoriaalistore!: TutoriaaliStore;
+});
 
-  suljeTutoriaali() {
-    this.tutoriaalistore.setActive(false);
-  }
+const suljeTutoriaali = () => {
+  props.tutoriaalistore.setActive(false);
+};
 
-  get show() {
-    return this.tutoriaalistore.isActive;
-  }
+const show = computed(() => {
+  return props.tutoriaalistore.isActive;
+});
 
-  get current() {
-    return this.tutoriaalistore.current;
-  }
+const current = computed(() => {
+  return props.tutoriaalistore.current;
+});
 
-  get hasSeuraava() {
-    return this.tutoriaalistore.hasSeuraava;
-  }
+const hasSeuraava = computed(() => {
+  return props.tutoriaalistore.hasSeuraava;
+});
 
-  get hasEdellinen() {
-    return this.tutoriaalistore.hasEdellinen;
-  }
+const hasEdellinen = computed(() => {
+  return props.tutoriaalistore.hasEdellinen;
+});
 
-  seuraava() {
-    this.tutoriaalistore.seuraava();
-  }
+const seuraava = () => {
+  props.tutoriaalistore.seuraava();
+};
 
-  edellinen() {
-    this.tutoriaalistore.edellinen();
-  }
+const edellinen = () => {
+  props.tutoriaalistore.edellinen();
+};
 
-  @Watch('show')
-  nakyvyysMuutos(val, oldVal) {
-    if (val) {
-      this.tutoriaalistore.paivitaAvaimet();
-      this.muutaTyyli(this.current, undefined);
-    }
-    else {
-      this.muutaTyyli(undefined, this.current);
+const muutaTyyli = (val: string | undefined, oldVal: string | undefined) => {
+  if (oldVal) {
+    const oldEl = document.getElementById(oldVal);
+    if (oldEl) {
+      oldEl.classList.remove('tutorial-highlight');
     }
   }
 
-  @Watch('current')
-  muutaTyyli(val, oldVal) {
-    if (oldVal) {
-      const oldEl = document.getElementById(oldVal);
-      if (oldEl) {
-        oldEl.classList.remove('tutorial-highlight');
-      }
+  if (val && show.value) {
+    const el = document.getElementById(val);
+    if (el) {
+      el.classList.add('tutorial-highlight');
     }
+  }
+};
 
-    if (val && this.show) {
-      const el = document.getElementById(val);
-      if (el) {
-        el.classList.add('tutorial-highlight');
-      }
-    }
+// Watch for changes in show
+watch(() => show.value, (val, oldVal) => {
+  if (val) {
+    props.tutoriaalistore.paivitaAvaimet();
+    muutaTyyli(current.value, undefined);
+  }
+  else {
+    muutaTyyli(undefined, current.value);
+  }
+});
+
+// Watch for changes in current
+watch(() => current.value, (val, oldVal) => {
+  muutaTyyli(val, oldVal);
+});
+</script>
+
+<style scoped lang="scss">
+.tutorial-bg {
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5000;
+}
+
+.tutorial-popover {
+  z-index: 10001;
+}
+
+:global(.tutorial-highlight) {
+  z-index: 10000;
+  position: relative;
+  animation: pulsate 2s ease-out;
+  animation-iteration-count: infinite;
+}
+
+@keyframes pulsate {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 0 30px rgba(255, 255, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
   }
 }
-</script>
+
+.tutorial-popover-content {
+  margin-bottom: 16px;
+}
+</style>

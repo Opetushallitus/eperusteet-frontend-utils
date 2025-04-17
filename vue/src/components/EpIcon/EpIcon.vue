@@ -14,8 +14,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed } from 'vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 const ColorMap: any = {
@@ -28,25 +28,24 @@ const ColorMap: any = {
   'valtakunnalliset-perusteet': '#3367E3',
 };
 
-@Component({
-  components: {
-    EpMaterialIcon,
+const props = defineProps({
+  icon: {
+    type: String,
+    required: true,
   },
-})
-export default class EpIcon extends Vue {
-  @Prop({ required: true })
-  private icon!: string;
+  color: {
+    type: String,
+    default: '#ffffff',
+  },
+  backgroundColor: {
+    type: String,
+    default: '',
+  },
+});
 
-  @Prop({ default: '#ffffff' })
-  private color!: string;
-
-  @Prop({ default: '' })
-  private backgroundColor!: string;
-
-  get actualBackground(): string {
-    return this.backgroundColor || ColorMap[this.icon] as string || '#3367E3';
-  }
-}
+const actualBackground = computed((): string => {
+  return props.backgroundColor || ColorMap[props.icon] as string || '#3367E3';
+});
 </script>
 
 <style lang="scss" scoped>

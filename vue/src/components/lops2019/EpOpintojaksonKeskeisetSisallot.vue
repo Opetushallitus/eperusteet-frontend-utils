@@ -58,34 +58,32 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import _ from 'lodash';
-import { Vue, Component, Prop } from 'vue-property-decorator';
-
 import EpPrefixList from '@shared/components/EpPrefixList/EpPrefixList.vue';
 import EpList from '@shared/components/forms/EpList.vue';
 
-@Component({
-  components: {
-    EpPrefixList,
-    EpList,
+const props = defineProps({
+  value: {
+    required: true,
+    type: Object,
   },
-})
-export default class EpOpintojaksonKeskeisetSisallot extends Vue {
-  @Prop({ required: true })
-  private value!: any;
-
-  @Prop({ required: false, default: false })
-  private isEditing!: boolean;
-
-  @Prop({ required: true })
-  private moduulitMap!: any;
-
-  @Prop({ required: false, default: true })
-  private showEmptyAlert!: boolean;
-}
+  isEditing: {
+    required: false,
+    default: false,
+    type: Boolean,
+  },
+  moduulitMap: {
+    required: true,
+    type: Object,
+  },
+  showEmptyAlert: {
+    required: false,
+    default: true,
+    type: Boolean,
+  },
+});
 </script>
 
 <style lang="scss">
-
 </style>

@@ -65,51 +65,48 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed } from 'vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
-@Component({
-  components: {
-    EpButton,
-    EpFormContent,
-    EpSpinner,
-    EpMaterialIcon,
+const props = defineProps({
+  dokumentti: {
+    type: Object,
+    required: true,
   },
-})
-export default class EpPdfDokumentti extends Vue {
-  @Prop({ required: true })
-  protected dokumentti!: any;
+  dokumenttiHref: {
+    type: String,
+    required: true,
+  },
+  polling: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+  pdfnimi: {
+    type: String,
+    required: true,
+  },
+});
 
-  @Prop({ required: true })
-  protected dokumenttiHref!: string;
+const dokumenttiLuotu = computed(() => {
+  return props.dokumentti != null && props.dokumenttiHref != null && props.dokumentti.tila === 'valmis';
+});
 
-  @Prop({ required: false, default: false })
-  protected polling?: boolean;
+const dokumenttiEpaonnistui = computed(() => {
+  return props.dokumentti && props.dokumentti.tila === 'epaonnistui';
+});
 
-  @Prop({ required: true })
-  protected pdfnimi!: string;
+const dokumenttiLataa = computed(() => {
+  return !props.dokumentti || (props.dokumentti.tila === 'valmis' && !props.dokumenttiHref);
+});
 
-  get dokumenttiLuotu() {
-    return this.dokumentti != null && this.dokumenttiHref != null && this.dokumentti.tila as any === 'valmis';
-  }
-
-  get dokumenttiEpaonnistui() {
-    return this.dokumentti && this.dokumentti.tila as any === 'epaonnistui';
-  }
-
-  get dokumenttiLataa() {
-    return !this.dokumentti || (this.dokumentti.tila as any === 'valmis' && !this.dokumenttiHref);
-  }
-
-  get isKvLiite() {
-    return this.dokumentti.generatorVersion === 'kvliite';
-  }
-}
-
+const isKvLiite = computed(() => {
+  return props.dokumentti.generatorVersion === 'kvliite';
+});
 </script>
 
 <style lang="scss" scoped>
@@ -160,5 +157,4 @@ export default class EpPdfDokumentti extends Vue {
     opacity: 0.5;
   }
 }
-
 </style>

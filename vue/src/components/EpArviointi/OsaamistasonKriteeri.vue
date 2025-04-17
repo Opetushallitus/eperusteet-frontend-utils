@@ -50,46 +50,50 @@
   </b-row>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, getCurrentInstance } from 'vue';
 import * as _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 
-@Component({
-  components: {
-    EpInput,
-    EpButton,
+const props = defineProps({
+  modelValue: {
+    type: Object,
+    required: true,
   },
-})
-export default class OsaamistasonKriteeri extends Vue {
-  @Prop({ required: true })
-  private value!: any;
+  isEditing: {
+    type: Boolean,
+    required: true,
+  },
+  arviointiasteikko: {
+    type: Object,
+    required: true,
+  },
+});
 
-  @Prop({ required: true })
-  private isEditing!: boolean;
+const emit = defineEmits(['update:modelValue']);
 
-  @Prop({ required: true })
-  private arviointiasteikko!: any;
+// Get instance for $t and $kaanna
+const instance = getCurrentInstance();
+const $t = instance?.appContext.config.globalProperties.$t;
+const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
 
-  get osaamistasonkriteeri() {
-    return this.value;
-  }
+const osaamistasonkriteeri = computed({
+  get: () => props.modelValue,
+  set: (val) => {
+    emit('update:modelValue', val);
+  },
+});
 
-  set osaamistasonkriteeri(val) {
-    this.$emit('input', val);
-  }
+async function lisaaKriteeri() {
+  osaamistasonkriteeri.value.kriteerit = [
+    ...osaamistasonkriteeri.value.kriteerit,
+    {},
+  ];
+}
 
-  async lisaaKriteeri() {
-    this.osaamistasonkriteeri.kriteerit = [
-      ...this.osaamistasonkriteeri.kriteerit,
-      {},
-    ];
-  }
-
-  async poistaKriteeri(poistettavaKriteeri) {
-    this.osaamistasonkriteeri.kriteerit = _.filter(this.osaamistasonkriteeri.kriteerit, kriteeri => kriteeri !== poistettavaKriteeri);
-  }
+async function poistaKriteeri(poistettavaKriteeri) {
+  osaamistasonkriteeri.value.kriteerit = _.filter(osaamistasonkriteeri.value.kriteerit, kriteeri => kriteeri !== poistettavaKriteeri);
 }
 </script>
 

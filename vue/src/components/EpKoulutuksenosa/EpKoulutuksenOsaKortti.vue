@@ -20,30 +20,28 @@
   </router-link>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed } from 'vue';
 import EpColorCircle from '@shared/components/EpColorIndicator/EpColorCircle.vue';
 
-@Component({
-  components: {
-    EpColorCircle,
+const props = defineProps({
+  koulutuksenosa: {
+    type: Object,
+    required: true,
   },
-})
-export default class EpKoulutuksenOsaKortti extends Vue {
-    @Prop({ required: true })
-    private koulutuksenosa!: any;
+  route: {
+    type: [Object, String],
+    required: true,
+  },
+});
 
-    @Prop({ required: true })
-    private route!: any;
-
-    get laajuusmerkit() {
-      return [
-        this.koulutuksenosa.laajuusMaksimi >= 10 ? '#E75B00' : '#FCBF88',
-        this.koulutuksenosa.laajuusMaksimi >= 20 ? '#E75B00' : '#FCBF88',
-        this.koulutuksenosa.laajuusMaksimi >= 30 ? '#E75B00' : '#FCBF88',
-      ];
-    }
-}
+const laajuusmerkit = computed(() => {
+  return [
+    props.koulutuksenosa.laajuusMaksimi >= 10 ? '#E75B00' : '#FCBF88',
+    props.koulutuksenosa.laajuusMaksimi >= 20 ? '#E75B00' : '#FCBF88',
+    props.koulutuksenosa.laajuusMaksimi >= 30 ? '#E75B00' : '#FCBF88',
+  ];
+});
 </script>
 
 <style scoped lang="scss">

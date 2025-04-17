@@ -5,7 +5,7 @@
       class="tiedosto-lataus ei-tiedostoa"
     >
       <b-form-file
-        ref="file-input"
+        ref="fileInput"
         :accept="accept"
         :placeholder="placeholder"
         :drop-placeholder="dropPlaceholder"
@@ -19,48 +19,62 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, getCurrentInstance, useTemplateRef } from 'vue';
 import _ from 'lodash';
 
-@Component
-export default class EpTiedostoInput extends Vue {
-  @Prop({ required: false })
-  private file!: any;
+const props = defineProps({
+  file: {
+    required: false,
+    default: null,
+  },
+  fileTypes: {
+    type: Array as () => string[],
+    required: true,
+  },
+});
 
-  @Prop({ required: true })
-  private fileTypes!: string[];
+const emit = defineEmits(['input']);
 
-  async onInput(file: File) {
-    this.$emit('input', file);
+const fileInput = useTemplateRef('fileInput');
+
+const instance = getCurrentInstance();
+const $t = instance?.appContext.config.globalProperties.$t;
+
+const onInput = async (file: File) => {
+  emit('input', file);
+};
+
+const accept = computed(() => {
+  return _.join(props.fileTypes, ', ');
+});
+
+const fileSelected = computed(() => {
+  return !!props.file;
+});
+
+const placeholder = computed(() => {
+  return $t('fu-placeholder');
+});
+
+const dropPlaceholder = computed(() => {
+  return $t('fu-placeholder');
+});
+
+const browseText = computed(() => {
+  return $t('fu-browse-text');
+});
+
+const resetFile = () => {
+  if (!fileSelected.value) {
+    fileInput.value?.reset();
   }
+};
 
-  get accept() {
-    return _.join(this.fileTypes, ', ');
-  }
-
-  get fileSelected() {
-    return !!this.file;
-  }
-
-  get placeholder() {
-    return this.$t('fu-placeholder');
-  }
-
-  get dropPlaceholder() {
-    return this.$t('fu-placeholder');
-  }
-
-  get browseText() {
-    return this.$t('fu-browse-text');
-  }
-
-  resetFile() {
-    if (!this.fileSelected) {
-      (this as any).$refs['file-input'].reset();
-    }
-  }
-}
+// Expose resetFile method for external components to use
+defineExpose({
+  resetFile,
+});
 </script>
 
 <style lang="scss" scoped>

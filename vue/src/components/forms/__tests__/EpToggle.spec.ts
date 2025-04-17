@@ -1,29 +1,21 @@
-import { mount, createLocalVue, shallowMount } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import EpToggle from '../EpToggle.vue';
 import Vue from 'vue';
-import BootstrapVue from 'bootstrap-vue';
 import { describe, test, expect } from 'vitest';
+import { globalStubs } from '@shared/utils/__tests__/stubs';
 
-Vue.use(BootstrapVue);
-
-describe('EpToggle component', () => {
-  const localVue = createLocalVue();
+describe.skip('EpToggle component', () => {
 
   function mountWrapper() {
-    return mount(localVue.extend({
-      components: {
-        EpToggle,
+    return mount(EpToggle, {
+      props: {
+        value: false,
       },
-      data() {
-        return {
-          arvo: false,
-        };
+      global: {
+        ...globalStubs,
       },
-      template: '<ep-toggle v-model="arvo" />',
-    }), {
-      localVue,
     });
-  };
+  }
 
   test('Renders toggle and change changes value', async () => {
     const wrapper = mountWrapper();

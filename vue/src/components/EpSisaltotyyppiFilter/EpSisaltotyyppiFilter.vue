@@ -37,29 +37,24 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed } from 'vue';
 import EpToggle from '@shared/components/forms/EpToggle.vue';
 import EpVoimassaoloFilter from '@shared/components/EpVoimassaoloFilter/EpVoimassaoloFilter.vue';
 
-@Component({
-  components: {
-    EpToggle,
-    EpVoimassaoloFilter,
+const props = defineProps({
+  modelValue: {
+    type: Object,
+    required: true,
   },
-})
-export default class EpSisaltotyyppiFilter extends Vue {
-  @Prop({ required: true })
-  private value!: any;
+});
 
-  get queryData() {
-    return this.value;
-  }
+const emit = defineEmits(['update:modelValue']);
 
-  set queryData(val) {
-    this.$emit('input', val);
-  }
-}
+const queryData = computed({
+  get: () => props.modelValue,
+  set: (val) => emit('update:modelValue', val),
+});
 </script>
 
 <style scoped lang="scss">

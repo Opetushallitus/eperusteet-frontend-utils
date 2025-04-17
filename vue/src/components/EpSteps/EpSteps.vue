@@ -81,8 +81,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Watch, Component, Prop, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { ref, computed, watch, getCurrentInstance } from 'vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import _ from 'lodash';
 
@@ -94,79 +94,75 @@ export interface Step {
   onNext?: () => void;
 }
 
-@Component({
-  components: {
-    EpButton,
+const props = defineProps({
+  steps: {
+    type: Array as () => Step[],
+    required: true,
   },
-})
-export default class EpSteps extends Vue {
-  @Prop({ required: true })
-  private steps!: Step[];
+  initialStep: {
+    type: Number,
+    default: 0,
+  },
+  onSave: {
+    type: Function as () => () => Promise<void>,
+    required: true,
+  },
+});
 
-  @Prop({ default: 0 })
-  private initialStep!: number;
+const emit = defineEmits(['stepChange', 'cancel']);
 
-  @Prop({ required: true })
-  private onSave!: () => Promise<void>;
+const stepIdx = ref(props.initialStep);
+const saving = ref(false);
 
-  private stepIdx = 0;
-  private saving = false;
+watch(() => props.initialStep, (value) => {
+  stepIdx.value = value;
+});
 
-  async saveImpl() {
-    const isValid = _.last(this.steps)?.isValid;
-    if (isValid && !isValid()) {
-      return;
+const currentStep = computed(() => {
+  return props.steps[stepIdx.value];
+});
+
+watch(currentStep, (newVal) => {
+  emit('stepChange', newVal);
+}, { immediate: true });
+
+const currentValid = computed(() => {
+  if (currentStep.value.isValid) {
+    return currentStep.value.isValid();
+  }
+  return true;
+});
+
+const instance = getCurrentInstance();
+const hasCancelEvent = computed(() => {
+  return instance?.attrs?.onCancel !== undefined;
+});
+
+async function saveImpl() {
+  const isValid = _.last(props.steps)?.isValid;
+  if (isValid && !isValid()) {
+    return;
+  }
+  saving.value = true;
+  await props.onSave();
+  saving.value = false;
+}
+
+function previous() {
+  stepIdx.value--;
+}
+
+function next() {
+  if (!currentStep.value.isValid || currentStep.value.isValid()) {
+    if (currentStep.value.onNext) {
+      currentStep.value.onNext();
     }
-    this.saving = true;
-    await this.onSave();
-    this.saving = false;
+    stepIdx.value++;
   }
+}
 
-  @Watch('initialStep', { immediate: true })
-  onInitialStepUpdate(value: number) {
-    this.stepIdx = value;
-  }
-
-  @Watch('currentStep', { immediate: true })
-  onStepChange(newVal) {
-    this.$emit('stepChange', newVal);
-  }
-
-  get currentStep() {
-    return this.steps[this.stepIdx];
-  }
-
-  previous() {
-    --this.stepIdx;
-  }
-
-  get currentValid() {
-    if (this.currentStep.isValid) {
-      return this.currentStep.isValid();
-    }
-
-    return true;
-  }
-
-  next() {
-    if (!this.currentStep.isValid || this.currentStep.isValid()) {
-      if (this.currentStep.onNext) {
-        this.currentStep.onNext();
-      }
-
-      ++this.stepIdx;
-    }
-    else {
-    }
-  }
-
-  get hasCancelEvent() {
-    return this.$listeners && this.$listeners.cancel;
-  }
-
-  cancel() {
-    this.$emit('cancel');
-  }
+function cancel() {
+  emit('cancel');
 }
 </script>
 

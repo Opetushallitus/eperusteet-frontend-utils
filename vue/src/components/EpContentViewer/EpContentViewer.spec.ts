@@ -1,19 +1,19 @@
-import { createLocalVue, mount } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import EpContentViewer from './EpContentViewer.vue';
-import VueI18n from 'vue-i18n';
 import { Kielet } from '../../stores/kieli';
-import BootstrapVue from 'bootstrap-vue';
+import { globalStubs } from '@shared/utils/__tests__/stubs';
 
+vi.mock('vue-router', () => (
+  {
+    useRoute: vi.fn(),
+    useRouter: vi.fn(),
+  }));
 describe('EpContentViewer component', () => {
-  const localVue = createLocalVue();
-  localVue.use(BootstrapVue);
-  localVue.use(VueI18n);
-  Kielet.install(localVue);
-
   const i18n = Kielet.i18n;
 
+
   function mountWrapper(props: any) {
-    return mount(localVue.extend({
+    return mount({
       components: {
         EpContentViewer,
       },
@@ -22,10 +22,10 @@ describe('EpContentViewer component', () => {
           ...props,
         };
       },
-      template: '<ep-content-viewer :value="value" :termit="termit" :kuvat="kuvat" />',
-    }), {
-      localVue,
-      i18n,
+      global: {
+        ...globalStubs,
+      },
+      template: '<div class="test"><ep-content-viewer :value="value" :termit="termit" :kuvat="kuvat" /></div>',
     });
   }
 

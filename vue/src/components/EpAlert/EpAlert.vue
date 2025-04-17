@@ -93,24 +93,27 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
-
-@Component
-export default class EpAlert extends Vue {
-  @Prop({ required: true })
-  private text!: string;
-
-  @Prop({ default: false, required: false })
-  private ops!: boolean;
-
-  @Prop({ default: false, required: false })
-  private onlyText!: boolean;
-}
+<script setup lang="ts">
+// Define props using the new Vue 3 defineProps syntax
+const props = defineProps({
+  text: {
+    type: String,
+    required: true
+  },
+  ops: {
+    type: Boolean,
+    default: false,
+    required: false
+  },
+  onlyText: {
+    type: Boolean,
+    default: false,
+    required: false
+  }
+});
 </script>
 
 <style lang="scss" scoped>
-
 .alert {
   color: #9e9e9e;
 }
@@ -118,5 +121,4 @@ export default class EpAlert extends Vue {
 .alert-only-text {
   padding: 0;
 }
-
 </style>

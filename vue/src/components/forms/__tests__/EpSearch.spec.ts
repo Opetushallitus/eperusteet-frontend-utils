@@ -1,64 +1,47 @@
-import { mount, createLocalVue } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import EpSearch from '../EpSearch.vue';
 import VueI18n from 'vue-i18n';
 import { Kielet } from '../../../stores/kieli';
 import { wrap } from '../../../utils/jestutils';
 import { vi } from 'vitest';
+import { nextTick } from 'vue';
+import { globalStubs } from '@shared/utils/__tests__/stubs';
 
 describe('EpSearch component', () => {
-  const localVue = createLocalVue();
-  localVue.use(VueI18n);
-  Kielet.install(localVue, {
-    messages: {
-      fi: {
-        'etsi': 'Etsi',
-      },
-    },
-  });
 
-  const i18n = Kielet.i18n;
-
-  function mountWrapper(updateSearch, propsit) {
-    return mount(localVue.extend({
-      components: {
-        EpSearch,
+  function mountWrapper(propsit) {
+    return mount(EpSearch, {
+      props: {
+        ...propsit,
       },
-      methods: {
-        updateSearch,
+      global: {
+        ...globalStubs,
       },
-      data() {
-        return propsit;
-      },
-      template: '<ep-search v-model="rajain" @input="updateSearch" :placeholder="placeholder" :srOnlyLabelText="srOnlyLabelText"/>',
-    }), {
-      localVue,
-      i18n,
     });
-  };
+  }
 
   test('Renders content with content', async () => {
-    const testMethod = vi.fn();
-    const wrapper = mountWrapper(testMethod, { placeholder: null, rajain: '' });
-    expect(wrapper.html()).toContain('Etsi');
+    const wrapper = mountWrapper({ placeholder: null, rajain: '' });
+    expect(wrapper.html()).toContain('etsi');
   });
 
   test('Renders content with content and props', async () => {
-    const testMethod = vi.fn();
-    const wrapper = mountWrapper(testMethod, { placeholder: 'etsi-teksti', rajain: '', srOnlyLabelText: 'etsi-tietoja-sivulta-haku' });
+    const wrapper = mountWrapper({ placeholder: 'etsi-teksti', rajain: '', srOnlyLabelText: 'etsi-tietoja-sivulta-haku' });
     wrapper.setProps({ placeholder: 'etsi-teksti', srPlaceholder: 'etsi-tietoja-sivulta-haku' });
-    await localVue.nextTick();
+    await nextTick();
 
     expect(wrapper.find('input').html()).toContain('etsi-teksti');
     expect(wrapper.find('label').html()).toContain('etsi-tietoja-sivulta-haku');
   });
 
   test('Renders content with content and props', async () => {
-    const testMethod = vi.fn();
     const testrajain = '';
-    const wrapper = mountWrapper(testMethod, { placeholder: 'etsi-teksti', rajain: testrajain });
+    const wrapper = mountWrapper({ placeholder: 'etsi-teksti', rajain: testrajain });
 
     wrapper.find('input').setValue('arvoa');
-    await localVue.nextTick();
-    expect(testMethod).toBeCalled();
+    await nextTick();
+
+    expect(wrapper.emitted('update:modelValue')).toBeTruthy();
+    expect(wrapper.emitted('update:modelValue')![0]).toEqual(['arvoa']);
   });
 });

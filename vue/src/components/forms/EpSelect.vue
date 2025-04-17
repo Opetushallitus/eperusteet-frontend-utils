@@ -67,7 +67,7 @@
         v-else-if="validationError && !invalidMessage"
         class="invalid-feedback"
       >
-        {{ $t('validation-error-' + validationError, validation.$params[validationError]) }}
+        {{ $t('validation-error-' + validationError) }}
       </div>
       <small
         v-if="help && isEditing"
@@ -93,94 +93,124 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import _ from 'lodash';
-import { Component, Prop, Mixins, Watch } from 'vue-property-decorator';
+import { computed, watch, getCurrentInstance } from 'vue';
+import { useVuelidate } from '@vuelidate/core';
 
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
-import EpValidation from '../../mixins/EpValidation';
 
-@Component({
-  components: {
-    EpSpinner,
-  },
-})
-export default class EpSelect extends Mixins(EpValidation) {
-  @Prop({
+const props = defineProps({
+  isEditing: {
     default: false,
     type: Boolean,
-  })
-  private isEditing!: boolean;
-
-  @Prop({ required: true })
-  private items!: any[];
-
-  @Prop({
+  },
+  items: {
     required: true,
-  })
-  private value!: any | any[];
+    type: Array,
+  },
+  modelValue: {
+    required: true,
+  },
+  useCheckboxes: {
+    default: false,
+    type: Boolean,
+  },
+  multiple: {
+    default: false,
+    type: Boolean,
+  },
+  enableEmptyOption: {
+    default: true,
+    type: Boolean,
+  },
+  help: {
+    default: '',
+    type: String,
+  },
+  placeholder: {
+    default: '',
+    type: String,
+  },
+  disabled: {
+    default: false,
+    type: Boolean,
+  },
+  emptyOptionDisabled: {
+    default: false,
+    type: Boolean,
+  },
+  validation: {
+    type: Object,
+    default: () => ({}),
+  },
+  validMessage: {
+    default: '',
+    type: String,
+  },
+  invalidMessage: {
+    default: '',
+    type: String,
+  },
+});
 
-  @Prop({ default: false, type: Boolean })
-  private useCheckboxes!: boolean;
+const emit = defineEmits(['update:modelValue']);
 
-  @Prop({ default: false, type: Boolean })
-  private multiple!: boolean;
+// Get global properties for translation
+const instance = getCurrentInstance();
+const $t = instance?.appContext.config.globalProperties.$t;
 
-  @Prop({ default: true, type: Boolean })
-  private enableEmptyOption!: boolean;
+const displayValue = computed(() => {
+  return _.filter(props.items, (item) => _.includes(props.modelValue, item));
+});
 
-  @Prop({ default: '', type: String })
-  private help!: string;
-
-  @Prop({ default: '', type: String })
-  private placeholder!: string;
-
-  @Prop({ default: false, type: Boolean })
-  private disabled!: boolean;
-
-  @Prop({ default: false, type: Boolean })
-  private emptyOptionDisabled!: boolean;
-
-  get displayValue() {
-    return _.filter(this.items, (item) => _.includes(this.value, item));
-  }
-
-  set innerModel(innerModel) {
-    if (_.isArray(innerModel)) {
-      if (!_.isEqual(innerModel, this.innerModel)) {
-        this.$emit('input', [...innerModel]);
-      }
+const innerModel = computed({
+  get() {
+    if (props.modelValue) {
+      return props.modelValue;
     }
-    else {
-      if (!_.isEqual(innerModel, this.innerModel)) {
-        this.$emit('input', innerModel);
-      }
-    }
-
-    if (this.validation?.$touch) {
-      this.validation?.$touch();
-    }
-  }
-
-  get innerModel() {
-    if (this.value) {
-      return this.value;
-    }
-    else if (this.multiple) {
+    else if (props.multiple) {
       return [];
     }
     else {
       return null;
     }
-  }
-
-  @Watch('items', { immediate: true })
-  itemsChange() {
-    if (!this.enableEmptyOption && _.size(this.items) > 0 && this.value === null && !this.multiple) {
-      this.innerModel = _.first(this.items);
+  },
+  set(value) {
+    if (_.isArray(value)) {
+      if (!_.isEqual(value, props.modelValue)) {
+        emit('update:modelValue', [...value]);
+      }
     }
-  }
-}
+    else {
+      if (!_.isEqual(value, props.modelValue)) {
+        emit('update:modelValue', value);
+      }
+    }
+
+    if (props.validation?.$touch) {
+      props.validation?.$touch();
+    }
+  },
+});
+
+// Import validation functions from the validation mixin
+const v$ = useVuelidate(props.validation, innerModel);
+
+const validationError = computed(() => {
+  return v$.value.$invalid;
+});
+
+// Watch for items changes (replaces @Watch decorator)
+watch(
+  () => props.items,
+  () => {
+    if (!props.enableEmptyOption && _.size(props.items) > 0 && props.modelValue === null && !props.multiple) {
+      innerModel.value = _.first(props.items);
+    }
+  },
+  { immediate: true }
+);
 </script>
 
 <style scoped lang="scss">
@@ -194,18 +224,18 @@ select {
   background-position-y: calc(100% - 2px);
 }
 
-::v-deep label.custom-control-label::before {
+:deep(label.custom-control-label::before) {
   border: 2px solid #E0E0E1;
   border-radius: 0.2rem;
 }
 
-::v-deep input.custom-control-input {
+:deep(input.custom-control-input) {
   appearance: none;
 }
 
 // Piilotettu Bootstrapissa oletuksena
-::v-deep .invalid-feedback,
-::v-deep .valid-feedback {
+:deep(.invalid-feedback),
+:deep(.valid-feedback) {
   display: block;
 }
 
@@ -220,5 +250,4 @@ select {
     box-shadow: none !important;
   }
 }
-
 </style>

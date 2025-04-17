@@ -18,70 +18,71 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import _ from 'lodash';
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { computed } from 'vue';
 import EpColorIndicator from '@shared/components/EpColorIndicator/EpColorIndicator.vue';
 import { Lops2019OpintojaksonModuuliDto, Lops2019ModuuliDto } from '@shared/api/ylops';
 import { Kielet } from '@shared/stores/kieli';
 
-@Component({
-  components: {
-    EpColorIndicator,
+const props = defineProps({
+  moduuli: {
+    type: Object as () => Lops2019ModuuliDto,
+    required: true,
   },
-})
-export default class EpOpintojaksonModuuli extends Vue {
-  @Prop({ required: true })
-  private moduuli!: Lops2019ModuuliDto;
+  modelValue: {
+    type: Array as () => Lops2019OpintojaksonModuuliDto[],
+    required: false,
+  },
+  isEditing: {
+    type: Boolean,
+    default: false,
+  },
+});
 
-  @Prop({ required: false })
-  private value!: Lops2019OpintojaksonModuuliDto[];
+const emit = defineEmits(['update:modelValue']);
 
-  @Prop({ default: false })
-  private isEditing!: boolean;
+const moduuliNimi = computed(() => {
+  if (props.moduuli) {
+    return Kielet.kaanna(props.moduuli.nimi);
+  }
+});
 
-  get moduuliNimi() {
-    if (this.moduuli) {
-      return Kielet.kaanna(this.moduuli.nimi);
-    }
+const koodi = computed(() => {
+  try {
+    return props.moduuli!.koodi!.uri!;
+  }
+  catch (err) {
+    return null;
+  }
+});
+
+const koodit = computed(() => {
+  return _.keyBy(props.modelValue, 'koodiUri');
+});
+
+const valittu = computed(() => {
+  return koodi.value && koodit.value[koodi.value];
+});
+
+const toggle = () => {
+  if (!props.isEditing) {
+    return;
   }
 
-  get koodi() {
-    try {
-      return this.moduuli!.koodi!.uri!;
+  const koodiUri = koodi.value;
+  if (koodiUri) {
+    if (koodit.value[koodiUri]) {
+      emit('update:modelValue', _.reject(props.modelValue, x => x.koodiUri === koodiUri));
     }
-    catch (err) {
-      return null;
-    }
-  }
-
-  get valittu() {
-    return this.koodi && this.koodit[this.koodi];
-  }
-
-  get koodit() {
-    return _.keyBy(this.value, 'koodiUri');
-  }
-
-  public toggle() {
-    if (!this.isEditing) {
-      return;
-    }
-
-    const koodiUri = this.koodi;
-    if (koodiUri) {
-      if (this.koodit[koodiUri]) {
-        this.$emit('input', _.reject(this.value, x => x.koodiUri === koodiUri));
-      }
-      else {
-        this.$emit('input', [
-          ...this.value,
-          { koodiUri },
-        ]);
-      }
+    else {
+      emit('update:modelValue', [
+        ...props.modelValue,
+        { koodiUri },
+      ]);
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

@@ -6,7 +6,7 @@
     >
       <slot name="bar" />
       <div
-        v-if="$scopedSlots.bottom"
+        v-if="slots.bottom"
         v-sticky
         class="bottom"
         sticky-side="bottom"
@@ -30,40 +30,39 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, useSlots } from 'vue';
 import EpToggle from '../forms/EpToggle.vue';
 import Sticky from 'vue-sticky-directive';
 import { BrowserStore } from '../../stores/BrowserStore';
 import _ from 'lodash';
+import { useRoute } from 'vue-router';
 
-@Component({
-  components: {
-    EpToggle,
+const props = defineProps({
+  scrollEnabled: {
+    type: Boolean,
+    default: false,
   },
-  directives: {
-    Sticky,
-  },
-})
-export default class EpSidebar extends Vue {
-  @Prop({ required: false, default: false, type: Boolean })
-  private scrollEnabled!: boolean;
+});
 
-  private browserStore = new BrowserStore();
+const slots = useSlots();
+const route = useRoute();
+const browserStore = new BrowserStore();
 
-  get showNavigation() {
-    return this.browserStore.navigationVisible.value;
-  }
+const showNavigation = computed(() => {
+  return browserStore.navigationVisible.value;
+});
 
-  private settings = {
-    autoScroll: true,
-    showSubchapter: true,
-  };
+const settings = {
+  autoScroll: true,
+  showSubchapter: true,
+};
 
-  get scrollAnchor() {
-    return this.scrollEnabled && !_.includes(['peruste', 'perusteTiedot'], this.$route?.name) ? 'scroll-anchor' : 'disabled-scroll-anchor';
-  }
-}
+const scrollAnchor = computed(() => {
+  return props.scrollEnabled && !_.includes(['peruste', 'perusteTiedot'], route?.name)
+    ? 'scroll-anchor'
+    : 'disabled-scroll-anchor';
+});
 </script>
 <style scoped lang="scss">
 @import "../../styles/_variables.scss";

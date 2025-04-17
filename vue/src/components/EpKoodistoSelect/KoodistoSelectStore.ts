@@ -1,7 +1,7 @@
 import { Page } from '../../tyypit';
 import { KoodistoKoodiDto } from '../../api/eperusteet';
-import { Debounced } from '../../utils/delay';
-import  { reactive, computed } from '@vue/composition-api';
+import { computed, ref } from 'vue';
+import { reactive } from 'vue';
 
 export interface IKoodisto {
   koodisto: string;
@@ -19,7 +19,7 @@ export class KoodistoSelectStore {
   constructor(private config: IKoodisto) {
   }
 
-  @Debounced(300)
+  // @Debounced(300)
   public async query(query: string = '', sivu = 0, onlyValidKoodis = true) {
     const result = await this.config.query(query, sivu, this.config.koodisto, onlyValidKoodis);
     this.state.data = result as any;

@@ -4,31 +4,26 @@ import VueI18n from 'vue-i18n';
 import { EpTreeNavibarStore } from './EpTreeNavibarStore';
 import { Kaannos } from '../../plugins/kaannos';
 import { Kielet } from '../../stores/kieli';
-import { mount, createLocalVue, RouterLinkStub } from '@vue/test-utils';
+import { mount, RouterLinkStub } from '@vue/test-utils';
 import { NavigationNodeDto } from '@shared/tyypit';
-import { computed } from '@vue/composition-api';
-import Vue from 'vue';
+import Vue, { computed, nextTick } from 'vue';
+import { globalStubs } from '@shared/utils/__tests__/stubs';
 
 describe('EpTreeNavibar component', () => {
-  const localVue = createLocalVue();
-  localVue.use(VueI18n);
-  Kielet.install(localVue);
-  localVue.use(new Kaannos());
-  localVue.use(BootstrapVue);
+
+  vi.mock('vue-router', () => ({ useRoute: vi.fn() }));
 
   test('Mounts', async () => {
     const wrapper = mount(EpTreeNavibar, {
-      localVue,
-      propsData: {
+      props: {
         store: new EpTreeNavibarStore(computed(() => navipuu), () => null),
       },
-        stubs: {
-        Portal: '<div />',
-        RouterLink: RouterLinkStub,
+      global: {
+        ...globalStubs,
       },
     });
 
-    await Vue.nextTick();
+    await nextTick();
 
     expect(wrapper.html()).toContain('Päätason tekstikappale');
     expect(wrapper.html()).toContain('Tutkinnon muodostuminen');
@@ -90,4 +85,4 @@ const navipuu = {
       'children': [],
     }],
   }],
-};
+} as any;

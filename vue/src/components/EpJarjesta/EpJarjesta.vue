@@ -1,16 +1,16 @@
 <template>
   <draggable
     v-bind="options"
-    :key="value.length"
+    :key="draggableKey"
     tag="div"
     class="tree-container"
     :class="draggableClass"
-    :value="value"
+    :model-value="modelValue"
     :move="move"
-    @input="emitter"
+    @update:model-value="emitter"
   >
     <div
-      v-for="(node, idx) in value"
+      v-for="(node, idx) in modelValue"
       :key="idx"
     >
       <div
@@ -66,18 +66,13 @@
           :group="node.group ? node.group + idx : (uniqueChildGroups ? group + idx : group)"
           :allow-move="allowMove"
         >
-          <slot
-            v-for="(_, name) in $slots"
-            :slot="name"
-            :name="name"
-          />
           <template
-            v-for="(_, name) in $scopedSlots"
-            #[name]="data"
+            v-for="(_, name) in $slots"
+            #[name]="slotData"
           >
             <slot
               :name="name"
-              v-bind="data"
+              v-bind="slotData"
             />
           </template>
         </ep-jarjesta>
@@ -86,96 +81,95 @@
   </draggable>
 </template>
 
-<script lang="ts">
-
-import { Vue, Prop, Component } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, useSlots } from 'vue';
 import draggable from 'vuedraggable';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import _ from 'lodash';
 
-@Component({
-  name: 'EpJarjesta',
-  components: {
-    draggable,
-    EpMaterialIcon,
-  },
-})
-export default class EpJarjesta extends Vue {
-  @Prop({
-    required: false,
+const props = defineProps({
+  prefix: {
     type: String,
     default: '',
-  })
-  private prefix!: string;
-
-  @Prop({
-    required: false,
+  },
+  isEditable: {
     type: Boolean,
     default: false,
-  })
-  private isEditable!: boolean;
-
-  @Prop({
-    required: true,
+  },
+  modelValue: {
     type: Array,
-    default: null,
-  })
-  private value!: any[];
-
-  @Prop({
-    required: false,
+    required: true,
+  },
+  childField: {
+    type: String,
     default: 'lista',
-  })
-  private childField!: string;
+  },
+  rootGroup: {
+    type: String,
+    default: null,
+  },
+  group: {
+    type: String,
+    default: null,
+  },
+  sortable: {
+    type: Boolean,
+    default: true,
+  },
+  uniqueChildGroups: {
+    type: Boolean,
+    default: false,
+  },
+  useHandle: {
+    type: Boolean,
+    default: false,
+  },
+  draggableClass: {
+    type: String,
+    default: null,
+  },
+  allowMove: {
+    type: Function,
+    required: false,
+  },
+});
 
-  @Prop({ default: null })
-  private rootGroup!: string | null;
+const emit = defineEmits(['update:modelValue']);
+const $slots = useSlots();
 
-  @Prop({ default: null })
-  private group!: string | null;
+const options = computed(() => {
+  return {
+    animation: 300,
+    disabled: !props.isEditable || !props.sortable,
+    forceFallback: true,
+    ghostClass: 'placeholder',
+    group: props.rootGroup ? props.rootGroup : props.group,
+    handle: props.useHandle && '.handle',
+  };
+});
 
-  @Prop({ required: false, default: true })
-  private sortable!: boolean;
+const toggle = (idx) => {
+  const updatedValue = [...props.modelValue];
+  updatedValue[idx] = {
+    ...updatedValue[idx],
+    $closed: !updatedValue[idx].$closed
+  };
+  emitter(updatedValue);
+};
 
-  @Prop({ default: false, required: false })
-  private uniqueChildGroups!: boolean;
+const emitter = (value) => {
+  emit('update:modelValue', value);
+};
 
-  @Prop({ default: false })
-  private useHandle!: boolean;
-
-  @Prop({ default: null })
-  private draggableClass!: string | null;
-
-  @Prop({ required: false })
-  private allowMove!: Function;
-
-  get options() {
-    return {
-      animation: 300,
-      disabled: !this.isEditable || !this.sortable,
-      forceFallback: true,
-      ghostClass: 'placeholder',
-      group: this.rootGroup ? this.rootGroup : this.group,
-      handle: this.useHandle && '.handle',
-    };
+const move = (event) => {
+  if (props.allowMove) {
+    return props.allowMove(event);
   }
 
-  toggle(idx) {
-    Vue.set(this.value[idx], '$closed', !this.value[idx].$closed);
-    this.emitter(this.value);
-  }
+  return true;
+};
 
-  emitter(value) {
-    this.$emit('input', value);
-  }
-
-  move(event) {
-    if (this.allowMove) {
-      return this.allowMove(event);
-    }
-
-    return true;
-  }
-}
+const draggableKey = _.uniqueId('draggable-');
 </script>
 
 <style scoped lang="scss">
@@ -246,5 +240,4 @@ export default class EpJarjesta extends Vue {
 .box-draggable {
   cursor: grab;
 }
-
 </style>

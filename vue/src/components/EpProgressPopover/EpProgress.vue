@@ -64,64 +64,66 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed } from 'vue';
 import _ from 'lodash';
 
-@Component
-export default class EpProgress extends Vue {
-  @Prop()
-  private slices!: number[] | null;
+const props = defineProps({
+  slices: {
+    type: Array as () => number[] | null,
+    required: false,
+    default: null,
+  },
+  height: {
+    type: Number,
+    default: 80,
+  },
+  width: {
+    type: Number,
+    default: 80,
+  },
+});
 
-  @Prop({ default: 80 })
-  private height!: number;
-
-  @Prop({ default: 80 })
-  private width!: number;
-
-  private tilaPopupVisible = false;
-
-  get slicesColored() {
-    if (!this.slices) {
-      return this.slices;
-    }
-
-    return _.map(this.slices, slice => {
-      return {
-        progress: slice,
-        color: slice >= 0.9 ? '91, 202, 19' : '255, 255, 255',
-      };
-    });
+const slicesColored = computed(() => {
+  if (!props.slices) {
+    return props.slices;
   }
 
-  get done() {
-    return _.size(_.filter(this.slices, (slice) => slice === 1)) === _.size(this.slices);
-  }
+  return _.map(props.slices, slice => {
+    return {
+      progress: slice,
+      color: slice >= 0.9 ? '91, 202, 19' : '255, 255, 255',
+    };
+  });
+});
 
-  get total() {
-    return _.size(this.slices);
-  }
+const done = computed(() => {
+  return _.size(_.filter(props.slices, (slice) => slice === 1)) === _.size(props.slices);
+});
 
-  get gap() {
-    return 0.02;
-  }
+const total = computed(() => {
+  return _.size(props.slices);
+});
 
-  get segmentLength() {
-    return (this.size - this.gap) * Math.PI * 0.5 * 2 * 100;
-  }
+const gap = computed(() => {
+  return 0.02;
+});
 
-  get gapLength() {
-    return this.size * Math.PI * 0.5 * 2 * 100;
-  }
+const size = computed(() => {
+  return 1 / total.value;
+});
 
-  get hasValidation() {
-    return this.total !== 0;
-  }
+const segmentLength = computed(() => {
+  return (size.value - gap.value) * Math.PI * 0.5 * 2 * 100;
+});
 
-  get size() {
-    return 1 / this.total;
-  }
-}
+const gapLength = computed(() => {
+  return size.value * Math.PI * 0.5 * 2 * 100;
+});
+
+const hasValidation = computed(() => {
+  return total.value !== 0;
+});
 </script>
 
 <style lang="scss" scoped>

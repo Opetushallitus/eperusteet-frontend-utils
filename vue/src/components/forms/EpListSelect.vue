@@ -15,10 +15,8 @@
           v-if="search"
           class="searchlist"
         >
-          <!-- <pre>{{ value }}</pre> -->
-          <!-- <pre>{{ options }}</pre> -->
           <div
-            v-for="option in options"
+            v-for="option in filteredOptions"
             :key="option[identity]"
             class="searchitem"
           >
@@ -53,92 +51,92 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Mixins } from 'vue-property-decorator';
-
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+import { useVuelidate } from '@vuelidate/core';
 import Multiselect from 'vue-multiselect';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
-import { Debounced } from '@shared/utils/delay';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
-import EpValidation from '../../mixins/EpValidation';
 import _ from 'lodash';
 
-@Component({
-  components: {
-    EpContent,
-    EpInput,
-    EpSpinner,
-    Multiselect,
+const props = defineProps({
+  options: {
+    required: true,
+    type: Array,
   },
-})
-export default class EpListSelect extends Mixins(EpValidation) {
-  @Prop({
+  modelValue: {
     required: true,
     type: Array,
-  })
-  private options!: any[];
-
-  @Prop({
+  },
+  trackBy: {
+    type: String,
+  },
+  identity: {
     required: true,
-    type: Array,
-  })
-  private value!: any[];
+    type: String,
+  },
+  searchIdentity: {
+    default: () => '',
+    type: Function as () => null | ((v: any) => string | null | undefined),
+  },
+  help: {
+    default: '',
+    type: String,
+  },
+  validMessage: {
+    type: String,
+  },
+  invalidMessage: {
+    type: String,
+  },
+  validationError: {
+    type: String,
+  },
+});
 
-  @Prop()
-  private trackBy!: string;
+const emit = defineEmits(['update:modelValue']);
 
-  @Prop({ required: true })
-  private identity!: string;
+const search = ref('');
+const hasFocus = ref(false);
+const v$ = useVuelidate();
 
-  @Prop({ default: () => '' })
-  private searchIdentity!: null | ((v: any) => string | null | undefined);
+const validation = computed(() => {
+  return v$.value || {};
+});
 
-  @Prop({ default: '', type: String })
-  private help!: string;
-
-  private search = '';
-  private hasFocus = false;
-
-  get filteredOptions() {
-    if (this.search && this.searchIdentity) {
-      return _.filter(this.options, x => _.includes(
-        _.toLower(this.searchIdentity!(x) || ''),
-        _.toLower(this.search || '')));
-    }
-    return this.options;
+const filteredOptions = computed(() => {
+  if (search.value && props.searchIdentity) {
+    return _.filter(props.options, x => _.includes(
+      _.toLower(props.searchIdentity!(x) || ''),
+      _.toLower(search.value || '')));
   }
+  return props.options;
+});
 
-  get model() {
-    return this.value;
-  }
+const model = computed(() => {
+  return props.modelValue;
+});
 
-  get track() {
-    return this.trackBy;
-  }
+const track = computed(() => {
+  return props.trackBy;
+});
 
-  private changed(value: any) {
-    this.$emit('input', value);
-  }
-
-  private onListBlur() {
-    this.hasFocus = false;
-  }
-
-  private onListFocus() {
-    this.hasFocus = true;
-  }
+function changed(value: any) {
+  emit('update:modelValue', value);
 }
 
+function onListBlur() {
+  hasFocus.value = false;
+}
+
+function onListFocus() {
+  hasFocus.value = true;
+}
 </script>
 
 <style scoped lang="scss">
 @import '@shared/styles/_variables.scss';
-
-/* .clear {          */
-/*   clear: left;    */
-/*   display: block; */
-/* }                 */
 
 .searchlist-wrapper {
   /* float: left; */
@@ -163,5 +161,4 @@ export default class EpListSelect extends Mixins(EpValidation) {
     border-top: none;
   }
 }
-
 </style>

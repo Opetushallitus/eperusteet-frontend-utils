@@ -55,61 +55,56 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { defineProps, ref, computed, getCurrentInstance } from 'vue';
 import _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
 import EpPagination from '../EpPagination/EpPagination.vue';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
-import { Ammattitaitovaatimukset } from '../../api/eperusteet';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import { Ammattitaitovaatimukset } from '../../api/eperusteet';
 
-@Component({
-  components: {
-    EpPagination,
-    EpSpinner,
-    EpMaterialIcon,
+const props = defineProps({
+  koodi: {
+    type: Object,
+    required: true,
   },
-})
-export default class Kayttolistaus extends Vue {
-  @Prop({ required: true })
-  private koodi!: any;
+});
 
-  private isLoading = true;
-  private data: any = null;
-  private page = 1;
-  private perPage = 8;
+const instance = getCurrentInstance();
+const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
+const $t = instance?.appContext.config.globalProperties.$t;
 
-  get id() {
-    return _.uniqueId('koodidialogi_');
-  }
+const isLoading = ref(true);
+const data = ref(null);
+const page = ref(1);
+const perPage = ref(8);
 
-  async fetch(page = this.page) {
-    const res = await Ammattitaitovaatimukset.getTutkinnonOsatByAmmattitaitovaatimus(
-      page - 1,
-      this.perPage,
-      this.koodi.uri,
-      true);
-    this.page = page;
-    this.data = res.data;
-  }
+const id = computed(() => _.uniqueId('koodidialogi_'));
 
-  async shown() {
-    this.isLoading = true;
-    this.data = null;
-    try {
-      if (this.koodi?.uri) {
-        await this.fetch();
-      }
+const fetch = async (pageNumber = page.value) => {
+  const res = await Ammattitaitovaatimukset.getTutkinnonOsatByAmmattitaitovaatimus(
+    pageNumber - 1,
+    perPage.value,
+    props.koodi.uri,
+    true,
+  );
+  page.value = pageNumber;
+  data.value = res.data;
+};
+
+const shown = async () => {
+  isLoading.value = true;
+  data.value = null;
+  try {
+    if (props.koodi?.uri) {
+      await fetch();
     }
-    finally {
-      this.isLoading = false;
-    }
+  } finally {
+    isLoading.value = false;
   }
+};
 
-  get triggers() {
-    return 'hover click blur';
-  }
-}
+const triggers = computed(() => 'hover click blur');
 </script>
 
 <style scoped lang="scss">

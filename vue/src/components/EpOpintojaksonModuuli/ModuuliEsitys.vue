@@ -64,68 +64,69 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import * as _ from 'lodash';
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { computed } from 'vue';
 
 import EpColorIndicator from '@shared/components/EpColorIndicator/EpColorIndicator.vue';
 import EpContentViewer from '@shared/components/EpContentViewer/EpContentViewer.vue';
 
-@Component({
-  components: {
-    EpColorIndicator,
-    EpContentViewer,
+const props = defineProps({
+  isPerusteView: {
+    type: Boolean,
+    default: true,
   },
-})
-export default class ModuuliEsitys extends Vue {
-  @Prop({ required: false, default: true })
-  private isPerusteView!: boolean;
+  moduuli: {
+    type: Object,
+    required: true,
+  },
+  termit: {
+    type: Array,
+    required: false,
+    default: () => [],
+  },
+  kuvat: {
+    type: Array,
+    required: false,
+    default: () => [],
+  },
+});
 
-  @Prop({ required: true })
-  private moduuli!: any;
+const koodi = computed(() => {
+  return props.moduuli.koodi;
+});
 
-  @Prop({ required: false, type: Array })
-  private termit!: any[];
-
-  @Prop({ required: false, type: Array })
-  private kuvat!: any[];
-
-  get koodi() {
-    return this.moduuli.koodi;
+const hasKuvaus = computed(() => {
+  if (props.moduuli) {
+    return props.moduuli.kuvaus;
   }
+});
 
-  get hasKuvaus() {
-    if (this.moduuli) {
-      return this.moduuli.kuvaus;
-    }
+const tyyppi = computed(() => {
+  if (props.moduuli) {
+    return props.moduuli.pakollinen ? 'pakollinen' : 'valinnainen';
   }
+});
 
-  get tyyppi() {
-    if (this.moduuli) {
-      return this.moduuli.pakollinen ? 'pakollinen' : 'valinnainen';
-    }
+const tavoitteet = computed(() => {
+  if (props.moduuli) {
+    return props.moduuli.tavoitteet;
   }
+});
 
-  get tavoitteet() {
-    if (this.moduuli) {
-      return this.moduuli.tavoitteet;
-    }
-  }
+const hasTavoitteet = computed(() => {
+  return !_.isEmpty(tavoitteet.value);
+});
 
-  get hasTavoitteet() {
-    return !_.isEmpty(this.tavoitteet);
+const sisallot = computed(() => {
+  if (props.moduuli) {
+    return props.moduuli.sisallot;
   }
+});
 
-  get sisallot() {
-    if (this.moduuli) {
-      return this.moduuli.sisallot;
-    }
-  }
-
-  get hasSisallot() {
-    return !_.isEmpty(this.sisallot);
-  }
-}
+const hasSisallot = computed(() => {
+  return !_.isEmpty(sisallot.value);
+});
 </script>
 
 <style scoped lang="scss">

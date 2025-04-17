@@ -32,61 +32,56 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed } from 'vue';
 import EpLaajuusInput from '@shared/components/forms/EpLaajuusInput.vue';
 import EpAmmattitaitovaatimukset from '@shared/components/EpAmmattitaitovaatimukset/EpAmmattitaitovaatimukset.vue';
-
 import _ from 'lodash';
 
-@Component({
-  components: {
-    EpAmmattitaitovaatimukset,
-    EpLaajuusInput,
+const props = defineProps({
+  modelValue: {
+    type: Object,
+    required: true,
   },
-})
-export default class Osaamistavoite extends Vue {
-  @Prop({ required: true })
-  value!: any;
+  isValinnainen: {
+    type: Boolean,
+    required: true,
+  },
+  showLaajuus: {
+    type: Boolean,
+    default: true,
+  },
+  showKoodiArvo: {
+    type: Boolean,
+    default: true,
+  },
+  isEditing: {
+    type: Boolean,
+    default: false,
+  },
+  validation: {
+    type: Object,
+    required: false,
+  },
+});
 
-  @Prop({ required: true })
-  isValinnainen!: boolean;
+const emit = defineEmits(['update:modelValue']);
 
-  @Prop({ default: true })
-  showLaajuus!: boolean;
+const inner = computed({
+  get: () => props.modelValue || {
+    laajuus: 0,
+    tavoitteet: {},
+  },
+  set: (v) => emit('update:modelValue', v),
+});
 
-  @Prop({ default: true })
-  public showKoodiArvo!: boolean;
-
-  get inner() {
-    return this.value || {
-      laajuus: 0,
-      tavoitteet: {
-      },
-    };
-  }
-
-  set inner(v) {
-    this.$emit('input', v);
-  }
-
-  get tavoitteet() {
-    return this.inner.tavoitteet || null;
-  }
-
-  set tavoitteet(tavoitteet) {
-    this.$emit('input', {
-      ...this.inner,
-      tavoitteet,
-    });
-  }
-
-  @Prop({ default: false })
-  isEditing!: boolean;
-
-  @Prop({ required: false })
-  validation!: any;
-}
+const tavoitteet = computed({
+  get: () => inner.value.tavoitteet || null,
+  set: (tavoitteet) => emit('update:modelValue', {
+    ...inner.value,
+    tavoitteet,
+  }),
+});
 </script>
 
 <style lang="scss" scoped>

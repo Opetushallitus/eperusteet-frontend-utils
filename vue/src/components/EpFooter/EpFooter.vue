@@ -61,48 +61,40 @@
   </footer>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-
+<script setup lang="ts">
+import { computed } from 'vue';
 import EpLinkki from '@shared/components/EpLinkki/EpLinkki.vue';
 import EpExternalLink from '../EpExternalLink/EpExternalLink.vue';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
-@Component({
-  name: 'EpFooter',
-  components: {
-    EpLinkki,
-  },
-})
-export default class EpFooter extends Vue {
-  get linkit() {
-    return {
-      oph: {
-        fi: 'https://www.oph.fi/fi',
-        sv: 'https://www.oph.fi/sv',
-      },
-      opintopolku: {
-        fi: 'https://opintopolku.fi/konfo/fi',
-        sv: 'https://opintopolku.fi/konfo/sv',
-      },
-      eperusteet: {
-        fi: 'https://eperusteet.opintopolku.fi/#/fi',
-        sv: 'https://eperusteet.opintopolku.fi/#/sv',
-      },
-      seloste: {
-        fi: 'https://opintopolku.fi/konfo/fi/sivu/tietosuojaselosteet-ja-evasteet',
-        sv: 'https://opintopolku.fi/konfo/sv/sivu/dataskyddsbeskrivningar-och-webbkakor',
-      },
-      yhteystiedot: {
-        fi: 'mailto:' + this.yhteystiedotMail,
-        sv: 'mailto:' + this.yhteystiedotMail,
-      },
-    };
-  }
+const yhteystiedotMail = computed(() => {
+  return 'eperusteet@opintopolku.fi';
+});
 
-  get yhteystiedotMail() {
-    return 'eperusteet@opintopolku.fi';
-  }
-}
+const linkit = computed(() => {
+  return {
+    oph: {
+      fi: 'https://www.oph.fi/fi',
+      sv: 'https://www.oph.fi/sv',
+    },
+    opintopolku: {
+      fi: 'https://opintopolku.fi/konfo/fi',
+      sv: 'https://opintopolku.fi/konfo/sv',
+    },
+    eperusteet: {
+      fi: 'https://eperusteet.opintopolku.fi/#/fi',
+      sv: 'https://eperusteet.opintopolku.fi/#/sv',
+    },
+    seloste: {
+      fi: 'https://opintopolku.fi/konfo/fi/sivu/tietosuojaselosteet-ja-evasteet',
+      sv: 'https://opintopolku.fi/konfo/sv/sivu/dataskyddsbeskrivningar-och-webbkakor',
+    },
+    yhteystiedot: {
+      fi: 'mailto:' + yhteystiedotMail.value,
+      sv: 'mailto:' + yhteystiedotMail.value,
+    },
+  };
+});
 </script>
 
 <style scoped lang="scss">

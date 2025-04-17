@@ -1,30 +1,18 @@
-import { mount, createLocalVue } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import EpPagination from './EpPagination.vue';
-import { Kaannos } from '../../plugins/kaannos';
-import VueI18n from 'vue-i18n';
 import { findContaining } from '../../utils/jestutils';
-import { Kielet } from '../../stores/kieli';
-import Vue from 'vue';
-import BootstrapVue from 'bootstrap-vue';
-
-Vue.use(BootstrapVue);
+import { globalStubs } from '@shared/utils/__tests__/stubs';
 
 describe('EpPagination', () => {
-  const localVue = createLocalVue();
-  localVue.use(VueI18n);
-  Kielet.install(localVue);
-  localVue.use(new Kaannos());
-
   test('Empty pagination', async () => {
     const wrapper = mount(EpPagination, {
-      localVue,
-      propsData: {
-        value: 1,
+      props: {
+        modelValue: 1,
         perPage: 10,
         totalRows: 0,
       },
-      mocks: {
-        $t: x => x,
+      global: {
+        ...globalStubs,
       },
     });
 
@@ -33,14 +21,13 @@ describe('EpPagination', () => {
 
   test('Pagination with less than six pages', async () => {
     const wrapper = mount(EpPagination, {
-      localVue,
-      propsData: {
-        value: 1,
+      props: {
+        modelValue: 1,
         perPage: 10,
         totalRows: 49,
       },
-      mocks: {
-        $t: x => x,
+      global: {
+        ...globalStubs,
       },
     });
 
@@ -54,14 +41,13 @@ describe('EpPagination', () => {
 
   test('Pagination with more than six pages', async () => {
     const wrapper = mount(EpPagination, {
-      localVue,
-      propsData: {
-        value: 5,
+      props: {
+        modelValue: 5,
         perPage: 10,
         totalRows: 80,
       },
-      mocks: {
-        $t: x => x,
+      global: {
+        ...globalStubs,
       },
     });
 

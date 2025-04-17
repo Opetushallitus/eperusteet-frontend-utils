@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import he from 'he';
 import { Kieli } from '@shared/tyypit';
-import { CustomRule, ValidationRule, helpers, minLength, minValue as vMinValue, required, maxLength } from 'vuelidate/lib/validators';
+import { ValidationRule } from '@vuelidate/core';
+import { helpers, minLength, minValue as vMinValue, required, maxLength } from '@vuelidate/validators';
 import { Kielet } from '@shared/stores/kieli';
 
 export function notNull() {
@@ -20,7 +21,7 @@ function exists(value: any, kieli: Kieli) {
     && !_.isEmpty(he.decode(value[kieli].replace(/<[^>]+>/g, '')).trim());
 }
 
-export function warning(x: CustomRule | ValidationRule) {
+export function warning(x: ValidationRule) {
   return helpers.withParams({ type: 'warning' }, x);
 }
 

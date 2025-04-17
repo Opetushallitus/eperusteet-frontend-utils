@@ -9,7 +9,7 @@
           </div>
         </template>
         <ep-input
-          v-model="osaAlue.nimi"
+          v-model="osaAlue"
           :is-editing="isEditing"
         />
       </b-form-group>
@@ -130,72 +130,80 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import * as _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { computed } from 'vue';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import { Kielet } from '@shared/stores/kieli';
 import draggable from 'vuedraggable';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpOsaAlueSisalto from './EpOsaAlueSisalto.vue';
 
-@Component({
-  components: {
-    EpInput,
-    draggable,
-    EpButton,
-    EpOsaAlueSisalto,
+const props = defineProps({
+  modelValue: {
+    type: Object,
+    required: true,
   },
-})
-export default class EpOsaAlue extends Vue {
-  @Prop({ required: true })
-  value!: any;
+  isEditing: {
+    type: Boolean,
+    default: false,
+  },
+});
 
-  @Prop({ required: false, default: false })
-  isEditing!: boolean;
+const emit = defineEmits(['update:modelValue']);
 
-  get osaAlue() {
-    return this.value;
-  }
+const osaAlue = computed({
+  get: () => props.modelValue,
+  set: (val) => emit('update:modelValue', val),
+});
 
-  set osaAlue(val) {
-    this.$emit('input', val);
-  }
+function otsikkoLkm(tasokuvaus) {
+  return (tasokuvaus.osaamiset?.length > 0 ? 1 : 0) +
+         (tasokuvaus.edelleenKehittyvatOsaamiset?.length > 0 ? 1 : 0) +
+         (tasokuvaus.edistynytOsaaminenKuvaukset?.length > 0 ? 1 : 0);
+}
 
-  otsikkoLkm(tasokuvaus) {
-    return (tasokuvaus.osaamiset?.length > 0 ? 1 : 0) + (tasokuvaus.edelleenKehittyvatOsaamiset?.length > 0 ? 1 : 0) + (tasokuvaus.edistynytOsaaminenKuvaukset?.length > 0 ? 1 : 0);
-  }
+const defaultDragOptions = computed(() => {
+  return {
+    animation: 300,
+    emptyInsertThreshold: 10,
+    handle: '.order-handle',
+    disabled: !props.isEditing,
+    ghostClass: 'dragged',
+    group: {
+      name: 'kuvaukset',
+    },
+  };
+});
 
-  get defaultDragOptions() {
-    return {
-      animation: 300,
-      emptyInsertThreshold: 10,
-      handle: '.order-handle',
-      disabled: !this.isEditing,
-      ghostClass: 'dragged',
-      group: {
-        name: 'kuvaukset',
-      },
-    };
-  }
+const sisaltokieli = computed(() => {
+  return Kielet.getSisaltoKieli.value;
+});
 
-  get sisaltokieli() {
-    return Kielet.getSisaltoKieli.value;
-  }
+function poistaKuvaus(listaKentta, kuvaus, taso) {
+  emit('update:modelValue', {
+    ...osaAlue.value,
+    tasokuvaukset: _.map(osaAlue.value.tasokuvaukset, tasokuvaus =>
+      tasokuvaus.taso === taso
+        ? {
+            ...tasokuvaus,
+            [listaKentta]: _.filter(tasokuvaus[listaKentta], tkuvaus => tkuvaus !== kuvaus)
+          }
+        : tasokuvaus),
+  });
+}
 
-  poistaKuvaus(listaKentta, kuvaus, taso) {
-    this.$emit('input', {
-      ...this.osaAlue,
-      tasokuvaukset: _.map(this.osaAlue.tasokuvaukset, tasokuvaus => tasokuvaus.taso === taso ? { ...tasokuvaus, [listaKentta]: _.filter(tasokuvaus[listaKentta], tkuvaus => tkuvaus !== kuvaus) } : tasokuvaus),
-    });
-  }
-
-  lisaaKuvaus(listaKentta, taso) {
-    this.$emit('input', {
-      ...this.osaAlue,
-      tasokuvaukset: _.map(this.osaAlue.tasokuvaukset, tasokuvaus => tasokuvaus.taso === taso ? { ...tasokuvaus, [listaKentta]: [...tasokuvaus[listaKentta], {}] } : tasokuvaus),
-    });
-  }
+function lisaaKuvaus(listaKentta, taso) {
+  emit('update:modelValue', {
+    ...osaAlue.value,
+    tasokuvaukset: _.map(osaAlue.value.tasokuvaukset, tasokuvaus =>
+      tasokuvaus.taso === taso
+        ? {
+            ...tasokuvaus,
+            [listaKentta]: [...tasokuvaus[listaKentta], {}]
+          }
+        : tasokuvaus),
+  });
 }
 </script>
 

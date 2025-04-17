@@ -18,28 +18,23 @@
   </div>
 </template>
 
-<script lang="ts">
-import * as _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
 import EpColorIndicator from '@shared/components/EpColorIndicator/EpColorIndicator.vue';
 import { KoodiDto } from '@shared/api/eperusteet';
 
 interface Moduuli {
-    nimi: { [key: string]: string; };
-    pakollinen: boolean;
-    koodi?: KoodiDto;
-    laajuus?: number;
+  nimi: { [key: string]: string; };
+  pakollinen: boolean;
+  koodi?: KoodiDto;
+  laajuus?: number;
 }
 
-@Component({
-  components: {
-    EpColorIndicator,
-  },
-})
-export default class EpModuuli extends Vue {
-  @Prop({ required: true })
-  moduuli!: Moduuli;
-}
+const props = defineProps({
+  moduuli: {
+    type: Object as () => Moduuli,
+    required: true
+  }
+});
 </script>
 
 <style scoped lang="scss">
