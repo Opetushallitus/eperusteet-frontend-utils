@@ -51,71 +51,66 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed } from 'vue';
+import _ from 'lodash';
 import EpButton from '../EpButton/EpButton.vue';
 import EpInput from './EpInput.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
-import _ from 'lodash';
 
-@Component({
-  components: {
-    EpButton,
-    EpInput,
-    EpMaterialIcon,
-  },
-})
-export default class EpList extends Vue {
-  @Prop({
+const props = defineProps({
+  isEditable: {
     type: Boolean,
     default: false,
-  })
-  private isEditable!: boolean;
+  },
+  modelValue: {
+    required: true,
+  },
+  lisays: {
+    default: 'lisaa-sisalto',
+    type: String,
+  },
+  kentta: {
+    required: true,
+    type: String,
+  },
+});
 
-  @Prop({ required: true })
-  private value!: any;
+const emit = defineEmits(['update:modelValue']);
 
-  @Prop({ default: 'lisaa-sisalto', type: String })
-  private lisays!: string;
-
-  @Prop({ required: true, type: String })
-  private kentta!: string;
-
-  get sanitized() {
-    if (_.isArray(this.value)) {
-      return this.value;
-    }
-    else {
-      return [this.value];
-    }
+const sanitized = computed(() => {
+  if (_.isArray(props.modelValue)) {
+    return props.modelValue;
   }
-
-  get internal() {
-    return this.sanitized;
+  else {
+    return [props.modelValue];
   }
+});
 
-  set internal(value: any) {
-    this.$emit('input', value);
+const internal = computed({
+  get: () => sanitized.value,
+  set: (value: any) => {
+    emit('update:modelValue', value);
   }
+});
 
-  get options() {
-    return {
-      // handle: '.handle',
-      animation: 300,
-      disabled: false,
-    };
-  }
+const options = computed(() => {
+  return {
+    // handle: '.handle',
+    animation: 300,
+    disabled: false,
+  };
+});
 
-  lisaaRivi() {
-    this.internal.push({ });
-  }
+function lisaaRivi() {
+  internal.value.push({ });
+}
 
-  poista(idx) {
-    this.internal = [
-      ...this.internal.slice(0, idx),
-      ...this.internal.slice(idx + 1),
-    ];
-  }
+function poista(idx: number) {
+  internal.value = [
+    ...internal.value.slice(0, idx),
+    ...internal.value.slice(idx + 1),
+  ];
 }
 </script>
 
@@ -168,7 +163,6 @@ export default class EpList extends Vue {
         }
       }
     }
-
   }
 }
 </style>

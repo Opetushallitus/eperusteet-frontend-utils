@@ -4,7 +4,7 @@
       <ep-field
         v-model="muokattava.termi"
         help="termin-nimi"
-        :validation="$v.muokattava.termi"
+        :validation="v$.muokattava.termi"
         :is-editing="true"
       />
     </ep-form-content>
@@ -12,7 +12,7 @@
       <ep-field
         v-model="muokattava.selitys"
         help="termin-kuvaus"
-        :validation="$v.muokattava.selitys"
+        :validation="v$.muokattava.selitys"
         :is-editing="true"
       />
     </ep-form-content>
@@ -26,7 +26,7 @@
     </ep-form-content>
     <ep-button
       id="tallenna-kasite"
-      :disabled="$v.muokattava.$invalid"
+      :disabled="v$.muokattava.$invalid"
       :show-spinner="isLoading"
       @click="tallenna"
     >
@@ -85,126 +85,127 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Mixins, Prop, Component } from 'vue-property-decorator';
+<script setup lang="ts">
+import { ref, computed, onMounted, reactive, getCurrentInstance } from 'vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpField from '@shared/components/forms/EpField.vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import EpToggle from '@shared/components/forms/EpToggle.vue';
-import EpValidation from '@shared/mixins/EpValidation';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { kasiteValidator } from '@shared/validators/kasite';
 import VueSelect from 'vue-select';
 import { IKasiteHandler, ITermi } from './KasiteHandler';
 import _ from 'lodash';
+import { useVuelidate } from '@vuelidate/core';
 
-@Component({
-  components: {
-    EpButton,
-    EpField,
-    EpFormContent,
-    EpInput,
-    EpSpinner,
-    EpToggle,
-    VueSelect,
+const props = defineProps({
+  value: {
+    type: String,
+    required: true,
   },
-})
-export default class TermitEditor extends Mixins(EpValidation) {
-  @Prop({ required: true })
-  private value!: string | null;
+  handler: {
+    type: Object as () => IKasiteHandler,
+    required: true,
+  },
+});
 
-  @Prop({ required: true })
-  private handler!: IKasiteHandler;
+const emit = defineEmits(['input']);
 
-  private kasitteet: ITermi[] = [];
+// State variables
+const kasitteet = ref<ITermi[]>([]);
+const isLoading = ref(false);
+const isEditing = ref(false);
+const valittu = ref<ITermi | null>(null);
+const muokattava = reactive<ITermi>({});
 
-  private isLoading = false;
-  private isEditing = false;
-  private valittu: ITermi | null = null;
-  private muokattava: ITermi = {};
+// Get instance for accessing global methods
+const instance = getCurrentInstance();
+const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
 
-  get validationConfig() {
-    return {
-      muokattava: {
-        ...kasiteValidator(),
-      },
-    };
-  }
+// Setup validation
+const rules = computed(() => {
+  return {
+    muokattava: kasiteValidator(),
+  };
+});
 
-  private filterBy(option, label, search) {
-    const k = (this as any).$kaanna;
-    const v = k(option.termi) + ' ' + k(option.selitys);
-    return (v)
-      .toLowerCase()
-      .indexOf(search.toLowerCase()) > -1;
-  }
+const v$ = useVuelidate(rules, { muokattava });
 
-  async mounted() {
-    try {
-      this.isLoading = true;
-      this.kasitteet = await this.handler.getAll();
-      if (this.value) {
-        this.valittu = _.find(this.kasitteet, (k) => k.avain === this.value) || null;
-      }
-    }
-    catch (err) {
-      throw err;
-    }
-    finally {
-      this.isLoading = false;
-    }
-  }
+// Methods
+const filterBy = (option, label, search) => {
+  const k = $kaanna;
+  const v = k(option.termi) + ' ' + k(option.selitys);
+  return (v)
+    .toLowerCase()
+    .indexOf(search.toLowerCase()) > -1;
+};
 
-  async peruuta() {
-    this.isEditing = false;
-  }
+const peruuta = async () => {
+  isEditing.value = false;
+};
 
-  async tallenna() {
-    try {
-      this.isLoading = true;
-      const uusi = await this.handler.addOrUpdate(this.muokattava);
-      if (!this.muokattava.avain) {
-        this.kasitteet.unshift(uusi);
-      }
-    }
-    finally {
-      this.isLoading = false;
-      this.isEditing = false;
+const tallenna = async () => {
+  try {
+    isLoading.value = true;
+    const uusi = await props.handler.addOrUpdate(muokattava);
+    if (!muokattava.avain) {
+      kasitteet.value.unshift(uusi);
     }
   }
-
-  muokkaa(valittu) {
-    if (valittu) {
-      this.muokattava = valittu;
-    }
-    else {
-      this.muokattava = {
-        alaviite: false,
-      };
-    }
-    this.isEditing = true;
+  finally {
+    isLoading.value = false;
+    isEditing.value = false;
   }
+};
 
-  onSelect(valittu) {
-    this.valittu = valittu;
-    if (this.valittu && this.valittu.avain) {
-      this.$emit('input', this.valittu.avain);
+const muokkaa = (selected?) => {
+  if (selected) {
+    Object.assign(muokattava, selected);
+  }
+  else {
+    Object.assign(muokattava, {
+      alaviite: false,
+    });
+  }
+  isEditing.value = true;
+};
+
+const onSelect = (selected) => {
+  valittu.value = selected;
+  if (valittu.value && valittu.value.avain) {
+    emit('input', valittu.value.avain);
+  }
+};
+
+const alaviiteSupported = computed(() => {
+  return _.has(muokattava, 'alaviite');
+});
+
+// Lifecycle hooks
+onMounted(async () => {
+  try {
+    isLoading.value = true;
+    kasitteet.value = await props.handler.getAll();
+    if (props.value) {
+      valittu.value = _.find(kasitteet.value, (k) => k.avain === props.value) || null;
     }
   }
-
-  get alaviiteSupported() {
-    return _.has(this.muokattava, 'alaviite');
+  catch (err) {
+    throw err;
   }
-}
+  finally {
+    isLoading.value = false;
+  }
+});
 </script>
 
 <style scoped lang="scss">
-::v-deep .vs__dropdown-menu {
+:deep(.vs__dropdown-menu) {
   overflow-x: hidden !important;
 }
 
-::v-deep .vs__dropdown-option {
+:deep(.vs__dropdown-option) {
   overflow-x: hidden !important;
   white-space: normal !important;
   i {

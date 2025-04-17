@@ -35,69 +35,76 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { computed, getCurrentInstance, useSlots } from 'vue';
 import { Kielet } from '../../stores/kieli';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import { hasSlotContent } from '../../utils/vue-utils';
+import { $t } from '@shared/utils/globals';
 
-@Component({
-  components: {
-    EpMaterialIcon,
+const props = defineProps({
+  modelValue: {
+    type: String,
+    default: '',
   },
-})
-export default class EpSearch extends Vue {
-  @Prop({ type: String })
-  private value!: string;
+  placeholder: {
+    type: String,
+  },
+  isLoading: {
+    type: Boolean,
+    default: false,
+  },
+  maxWidth: {
+    type: Boolean,
+    default: false,
+  },
+  maxlength: {
+    type: Number,
+  },
+  srOnlyLabelText: {
+    type: String,
+    default: '',
+  },
+});
 
-  @Prop({ type: String })
-  private placeholder!: string;
+const emit = defineEmits(['update:modelValue']);
 
-  @Prop({ required: false, default: false })
-  private isLoading!: boolean;
+const instance = getCurrentInstance();
+const slots = useSlots();
 
-  @Prop({ required: false, default: false, type: Boolean })
-  private maxWidth!: boolean;
+const id = computed(() => {
+  return _.uniqueId('search-');
+});
 
-  @Prop()
-  private maxlength!: number;
+const icon = computed(() => {
+  return props.isLoading ? 'spinner' : 'search';
+});
 
-  @Prop({ required: false, default: '', type: String })
-  private srOnlyLabelText!: string;
-
-  get id() {
-    return _.uniqueId('search-');
+const placeholderText = computed(() => {
+  if (props.placeholder != null) {
+    return props.placeholder;
   }
 
-  get icon() {
-    return this.isLoading ? 'spinner' : 'search';
-  }
+  return $t('etsi');
+});
 
-  get placeholderText() {
-    if (this.placeholder != null) {
-      return this.placeholder;
-    }
+const onInput = (input: any) => {
+  emit('update:modelValue', input);
+};
 
-    return this.$t('etsi');
+const val = computed(() => {
+  if (_.isObject(props.modelValue)) {
+    return (props.modelValue as any)[Kielet.getSisaltoKieli.value];
   }
+  else {
+    return props.modelValue;
+  }
+});
 
-  public onInput(input: any) {
-    this.$emit('input', input);
-  }
-
-  get val() {
-    if (_.isObject(this.value)) {
-      return (this.value as any)[Kielet.getSisaltoKieli.value];
-    }
-    else {
-      return this.value;
-    }
-  }
-
-  get labelSlot() {
-    return this.$slots.label;
-  }
-}
+const labelSlot = computed(() => {
+  return hasSlotContent(slots.label);
+});
 </script>
 
 <style scoped lang="scss">
@@ -133,5 +140,4 @@ export default class EpSearch extends Vue {
     color: #555;
   }
 }
-
 </style>

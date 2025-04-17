@@ -1,9 +1,8 @@
-import { createLocalVue, mount } from '@vue/test-utils';
 import EpCollapse from './EpCollapse.vue';
-import '../../config/bootstrap';
+import { mount } from '@vue/test-utils';
+import { nextTick } from 'vue';
 
 describe('EpCollapse component', () => {
-  const localVue = createLocalVue();
 
   function createOptions(options = {}) {
     return {
@@ -11,11 +10,10 @@ describe('EpCollapse component', () => {
         header: '<h3>Hello world</h3>',
         default: '<b>Foobar</b>',
       },
-      propsData: {
+      props: {
         expandedByDefault: true,
         ...options,
       },
-      localVue,
     };
   }
 
@@ -29,7 +27,7 @@ describe('EpCollapse component', () => {
       expandedByDefault: false,
     });
     const wrapper = mount(EpCollapse, options);
-    await localVue.nextTick();
+    await nextTick();
     expect(wrapper.html()).toContain(expects.header);
     expect(wrapper.html()).not.toContain(expects.default);
   });
@@ -37,7 +35,7 @@ describe('EpCollapse component', () => {
   it('Renders header and content', async () => {
     const options = createOptions();
     const wrapper = mount(EpCollapse, options);
-    await localVue.nextTick();
+    await nextTick();
     expect(wrapper.html()).toContain(expects.header);
     expect(wrapper.html()).toContain(expects.default);
   });

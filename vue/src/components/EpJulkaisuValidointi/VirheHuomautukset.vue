@@ -24,25 +24,21 @@
   </EpNaytaKaikki>
 </template>
 
-<script lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
 import { VirheHuomautus } from './EpJulkaisuValidointi.vue';
 import IkoniTeksti from './IkoniTeksti.vue';
 import EpNaytaKaikki from '@shared/components//EpNaytaKaikki/EpNaytaKaikki.vue';
 
-@Component({
-  components: {
-    EpNaytaKaikki,
-    IkoniTeksti,
+defineProps({
+  virhehuomautukset: {
+    type: Array as () => VirheHuomautus[],
+    required: true,
   },
-})
-export default class VirheHuomautukset extends Vue {
-  @Prop({ required: true })
-  private virhehuomautukset!: VirheHuomautus[];
-
-  @Prop({ required: true })
-  private tyyppi!: 'virhe' | 'huomautus';
-}
+  tyyppi: {
+    type: String as () => 'virhe' | 'huomautus',
+    required: true,
+  },
+});
 </script>
 
 <style scoped lang="scss">

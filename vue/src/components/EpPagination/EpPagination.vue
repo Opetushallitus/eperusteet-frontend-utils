@@ -11,7 +11,7 @@
           class="link"
           :class="{ 'muted': leftDisabled }"
           :disabled="leftDisabled"
-          @click="setValue(value - 1)"
+          @click="setValue(modelValue - 1)"
         >
           <EpMaterialIcon>chevron_left</EpMaterialIcon>
         </b-button>
@@ -23,7 +23,7 @@
       >
         <div v-if="row !== null">
           <b-button
-            :class="{ 'active-link': row === value }"
+            :class="{ 'active-link': row === modelValue }"
             :aria-label="$t('sivu') + ' ' + row"
             variant="link"
             class="link"
@@ -43,7 +43,7 @@
           variant="link"
           :class="{ 'muted': rightDisabled }"
           :disabled="rightDisabled"
-          @click="setValue(value + 1)"
+          @click="setValue(modelValue + 1)"
         >
           <EpMaterialIcon>chevron_right</EpMaterialIcon>
         </b-button>
@@ -55,83 +55,83 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed } from 'vue';
 import EpButton from '../EpButton/EpButton.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import _ from 'lodash';
 
-@Component({
-  components: {
-    EpButton,
-    EpMaterialIcon,
+const props = defineProps({
+  modelValue: {
+    type: Number,
+    required: true,
   },
-})
-export default class EpPagination extends Vue {
-  @Prop({ required: true })
-  private value!: number;
+  perPage: {
+    type: Number,
+    required: true,
+  },
+  totalRows: {
+    type: Number,
+    required: true,
+  },
+});
 
-  @Prop({ required: true })
-  private perPage!: number;
+const emit = defineEmits(['update:modelValue']);
 
-  @Prop({ required: true })
-  private totalRows!: number;
+const count = computed(() => {
+  return Math.ceil(props.totalRows / props.perPage);
+});
 
-  get leftDisabled() {
-    return this.value < 2;
+const leftDisabled = computed(() => {
+  return props.modelValue < 2;
+});
+
+const rightDisabled = computed(() => {
+  return props.modelValue > count.value - 1;
+});
+
+const leftEllipsis = computed(() => {
+  return props.modelValue - 1 > 1;
+});
+
+const rightEllipsis = computed(() => {
+  return props.modelValue < count.value - 1;
+});
+
+const pages = computed(() => {
+  if (count.value < 6) {
+    return _.range(1, count.value + 1);
   }
-
-  get rightDisabled() {
-    return this.value > this.count - 1;
-  }
-
-  get leftEllipsis() {
-    return this.value - 1 > 1;
-  }
-
-  get rightEllipsis() {
-    return this.value < this.count - 1;
-  }
-
-  get count() {
-    return Math.ceil(this.totalRows / this.perPage);
-  }
-
-  get pages() {
-    if (this.count < 6) {
-      return _.range(1, this.count + 1);
+  else {
+    const result: (number | null)[] = [];
+    if (!leftDisabled.value) {
+      result.push(1);
     }
-    else {
-      const result: (number | null)[] = [];
-      if (!this.leftDisabled) {
-        result.push(1);
+    if (leftEllipsis.value) {
+      if (props.modelValue > 3) {
+        result.push(null);
       }
-      if (this.leftEllipsis) {
-        if (this.value > 3) {
-          result.push(null);
-        }
-        result.push(this.value - 1);
-      }
-      result.push(this.value);
-      if (this.rightEllipsis) {
-        result.push(this.value + 1);
-        if (this.value < this.count - 2) {
-          result.push(null);
-        }
-      }
-      if (this.value !== this.count) {
-        result.push(this.count);
-      }
-      return result;
+      result.push(props.modelValue - 1);
     }
+    result.push(props.modelValue);
+    if (rightEllipsis.value) {
+      result.push(props.modelValue + 1);
+      if (props.modelValue < count.value - 2) {
+        result.push(null);
+      }
+    }
+    if (props.modelValue !== count.value) {
+      result.push(count.value);
+    }
+    return result;
   }
+});
 
-  async setValue(value: number) {
-    if (value > 0 && value <= this.count) {
-      this.$emit('input', value);
-    }
+const setValue = async (value: number) => {
+  if (value > 0 && value <= count.value) {
+    emit('update:modelValue', value);
   }
-}
+};
 </script>
 
 <style scoped lang="scss">

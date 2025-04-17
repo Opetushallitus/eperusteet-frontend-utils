@@ -77,9 +77,10 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 import Sticky from 'vue-sticky-directive';
 import { Kieli } from '@shared/tyypit';
 import { Kielet, UiKielet } from '@shared/stores/kieli';
@@ -88,56 +89,52 @@ import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpKayttaja from '@shared/components/EpKayttaja/EpKayttaja.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
-@Component({
-  directives: {
-    Sticky,
+const props = defineProps({
+  sticky: {
+    type: Boolean,
+    default: true,
   },
-  components: {
-    EpButton,
-    EpKayttaja,
-    EpMaterialIcon,
+  tyyli: {
+    type: String,
+    default: 'normaali',
   },
-})
-export default class EpNavigation extends Vue {
-  @Prop({ default: true })
-  private sticky!: boolean;
+  tiedot: {
+    type: String,
+    required: false,
+  },
+});
 
-  @Prop({ default: 'normaali' })
-  private tyyli!: string;
+const route = useRoute();
 
-  @Prop({ required: false })
-  private tiedot!: string | undefined;
+const murut = computed(() => {
+  return Murupolku.murut;
+});
 
-  get murut() {
-    return Murupolku.murut;
-  }
+const sisaltoKieli = computed(() => {
+  return Kielet.getSisaltoKieli.value;
+});
 
-  get sisaltoKieli() {
-    return Kielet.getSisaltoKieli.value;
-  }
+const sovelluksenKielet = computed(() => {
+  return UiKielet;
+});
 
-  get sovelluksenKielet() {
-    return UiKielet;
-  }
+const routePath = computed(() => {
+  return _(route.matched)
+    .filter('name')
+    .map(route => {
+      const computeds = _.get(route, 'instances.default');
+      const result = {
+        ...route,
+        muru: murut.value[route!.name!],
+        breadname: computeds && computeds.breadcrumb,
+      };
+      return result;
+    })
+    .value();
+});
 
-  get routePath() {
-    return _(this.$route.matched)
-      .filter('name')
-      .map(route => {
-        const computeds = _.get(route, 'instances.default');
-        const result = {
-          ...route,
-          muru: this.murut[route!.name!],
-          breadname: computeds && computeds.breadcrumb,
-        };
-        return result;
-      })
-      .value();
-  }
-
-  private valitseSisaltoKieli(kieli: Kieli) {
-    Kielet.setSisaltoKieli(kieli);
-  }
+function valitseSisaltoKieli(kieli: Kieli) {
+  Kielet.setSisaltoKieli(kieli);
 }
 </script>
 
@@ -194,18 +191,18 @@ export default class EpNavigation extends Vue {
       }
     }
 
-    ::v-deep .dropdown-menu {
+    :deep(.dropdown-menu) {
       padding: 0;
       color: #000000;
       min-width: initial;
     }
 
-    ::v-deep .dropdown-item {
+    :deep(.dropdown-item) {
       padding: 0.5rem 1rem;
       color: #000000;
     }
 
-    ::v-deep .dropdown-item:hover {
+    :deep(.dropdown-item:hover) {
       background-color: inherit;
     }
 

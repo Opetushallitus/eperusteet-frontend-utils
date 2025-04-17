@@ -25,9 +25,9 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import * as _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { computed, useRoute } from 'vue';
 import { Kielet } from '@shared/stores/kieli';
 import { PerusteDto } from '@shared/api/eperusteet';
 import { koulutustyyppiTheme } from '@shared/utils/perusteet';
@@ -43,80 +43,87 @@ interface Esikatseltavissa {
   peruste?: PerusteDto
 }
 
-@Component
-export default class EpEsikatselu extends Vue {
-  @Prop()
-  private value!: Esikatseltavissa;
+const props = defineProps({
+  modelValue: {
+    type: Object as () => Esikatseltavissa,
+    required: true,
+  },
+  isEditing: {
+    type: Boolean,
+    default: false,
+  },
+  peruste: {
+    type: Boolean,
+    default: false,
+  },
+  opetussuunnitelma: {
+    type: Boolean,
+    default: false,
+  },
+  toteutussuunnitelma: {
+    type: Boolean,
+    default: false,
+  },
+  opas: {
+    type: Boolean,
+    default: false,
+  },
+});
 
-  @Prop({ default: false })
-  private isEditing!: boolean;
+const emit = defineEmits(['update:modelValue']);
 
-  @Prop({ default: false, type: Boolean })
-  private peruste!: boolean;
+const route = useRoute();
 
-  @Prop({ default: false, type: Boolean })
-  private opetussuunnitelma!: boolean;
+const model = computed({
+  get: () => props.modelValue,
+  set: (value) => emit('update:modelValue', value),
+});
 
-  @Prop({ default: false, type: Boolean })
-  private toteutussuunnitelma!: boolean;
-
-  @Prop({ default: false, type: Boolean })
-  private opas!: boolean;
-
-  get model() {
-    return this.value;
-  }
-
-  set model(value) {
-    this.$emit('input', value);
-  }
-
-  get type() {
-    if (this.peruste) {
-      return 'peruste';
-    }
-    else if (this.opetussuunnitelma) {
-      return 'opetussuunnitelma';
-    }
-    else if (this.toteutussuunnitelma) {
-      return 'toteutussuunnitelma';
-    }
-    else if (this.opas) {
-      return 'opas';
-    }
+const type = computed(() => {
+  if (props.peruste) {
     return 'peruste';
   }
+  else if (props.opetussuunnitelma) {
+    return 'opetussuunnitelma';
+  }
+  else if (props.toteutussuunnitelma) {
+    return 'toteutussuunnitelma';
+  }
+  else if (props.opas) {
+    return 'opas';
+  }
+  return 'peruste';
+});
 
-  get header() {
-    return 'esikatsele-' + this.type;
+const header = computed(() => {
+  return 'esikatsele-' + type.value;
+});
+
+const toggleText = computed(() => {
+  return 'salli-esikatselu-' + type.value;
+});
+
+const amosaaToteutustyyppi = computed(() => {
+  return route.params.toteutus;
+});
+
+const externalUrl = computed(() => {
+  if (props.peruste) {
+    return buildPerusteEsikatseluUrl(model.value.peruste);
   }
 
-  get toggleText() {
-    return 'salli-esikatselu-' + this.type;
+  if (props.opas) {
+    return buildEsikatseluUrl(Kielet.getSisaltoKieli.value, `/opas/${model.value.id}`);
   }
 
-  get externalUrl() {
-    if (this.peruste) {
-      return buildPerusteEsikatseluUrl(this.value.peruste);
-    }
-
-    if (this.opas) {
-      return buildEsikatseluUrl(Kielet.getSisaltoKieli.value, `/opas/${this.value.id}`);
-    }
-
-    if (this.opetussuunnitelma) {
-      return buildEsikatseluUrl(Kielet.getSisaltoKieli.value, `/opetussuunnitelma/${this.value.id}`, `/${koulutustyyppiTheme(this.value.koulutustyyppi!)}/tiedot`);
-    }
-
-    if (this.toteutussuunnitelma) {
-      return buildToteutussuunnitelmaEsikatseluUrl(this.value, this.amosaaToteutustyyppi);
-    }
+  if (props.opetussuunnitelma) {
+    return buildEsikatseluUrl(Kielet.getSisaltoKieli.value, `/opetussuunnitelma/${model.value.id}`, `/${koulutustyyppiTheme(model.value.koulutustyyppi!)}/tiedot`);
   }
 
-  get amosaaToteutustyyppi() {
-    return (this.$route as any).params.toteutus;
+  if (props.toteutussuunnitelma) {
+    return buildToteutussuunnitelmaEsikatseluUrl(model.value, amosaaToteutustyyppi.value);
   }
-}
+});
 </script>
 
 <style scoped lang="scss">

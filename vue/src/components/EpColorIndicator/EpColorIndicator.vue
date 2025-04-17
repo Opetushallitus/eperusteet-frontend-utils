@@ -10,7 +10,7 @@
     circle
     <b-popover
       v-if="tooltip"
-      :target="() => $refs['ball']"
+      :target="() => ball"
       :placement="'top'"
       triggers="hover"
       variant="primary"
@@ -20,8 +20,8 @@
   </span>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, useTemplateRef } from 'vue';
 import { themeColors, themes, rgb2string } from '../../utils/perusteet';
 
 const moduuliColors = {
@@ -52,36 +52,42 @@ export type IndicatorKind = 'normaali'
   | 'tutkintoonvalmentava'
   | 'kotoutumiskoulutus';
 
-@Component
-export default class EpColorIndicator extends Vue {
-  @Prop({ default: 'normaali' })
-  kind!: IndicatorKind;
+const props = defineProps({
+  kind: {
+    type: String as () => IndicatorKind,
+    default: 'normaali',
+  },
+  tooltip: {
+    type: Boolean,
+    default: true,
+  },
+  size: {
+    type: Number,
+    default: 10,
+  },
+  backgroundColor: {
+    type: String,
+    required: false,
+  },
+});
 
-  @Prop({ default: true })
-  tooltip!: boolean;
+const ball = useTemplateRef('ball');
 
-  @Prop({ default: 10 })
-  size!: number;
+const spanClass = computed(() => {
+  return `ball ball-${props.kind}${props.tooltip ? ' ball-tooltip' : ''}`;
+});
 
-  @Prop({ required: false })
-  backgroundColor!: string;
+const background = computed(() => {
+  return themeColors[themes[props.kind]] || themeColors[props.kind] || moduuliColors[props.kind] || [0, 0, 0];
+});
 
-  get spanClass() {
-    return `ball ball-${this.kind}${this.tooltip ? ' ball-tooltip' : ''}`;
-  }
+const dynstyle = computed(() => {
+  const result = {
+    'color': props.backgroundColor ? props.backgroundColor : rgb2string(background.value),
+  };
 
-  get background() {
-    return themeColors[themes[this.kind]] || themeColors[this.kind] || moduuliColors[this.kind] || [0, 0, 0];
-  }
-
-  get dynstyle() {
-    const result = {
-      'color': this.backgroundColor ? this.backgroundColor : rgb2string(this.background),
-    };
-
-    return result;
-  }
-}
+  return result;
+});
 </script>
 
 <style lang="scss" scoped>

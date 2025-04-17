@@ -13,7 +13,7 @@
       >
         {{ icon }}
       </EpMaterialIcon>
-      <slot v-if="hasSlot()" />
+      <slot v-if="hasSlot" />
       <span v-else>{{ cleanUrl }}</span>
       <EpMaterialIcon
         v-if="icon && iconRight"
@@ -27,60 +27,55 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, useSlots } from 'vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import { hasSlotContent } from '@shared/utils/vue-utils';
 
-@Component({
-  components: {
-    EpMaterialIcon,
-  },
-})
-export default class EpLinkki extends Vue {
-  @Prop({ required: true, type: String })
-  private url!: string;
-
-  @Prop({
-    required: false,
+const props = defineProps({
+  url: {
     type: String,
-  })
-  private label!: string;
-
-  @Prop({ default: '', type: String })
-  private icon!: string;
-
-  @Prop({
+    required: true,
+  },
+  label: {
+    type: String,
+    required: false,
+  },
+  icon: {
+    type: String,
+    default: '',
+  },
+  onlyTopLevel: {
+    type: Boolean,
     default: true,
+  },
+  iconRight: {
     type: Boolean,
-  })
-  private onlyTopLevel!: boolean;
-
-  @Prop({
     default: false,
-    type: Boolean,
-  })
-  private iconRight!: boolean;
+  },
+});
 
-  hasSlot() {
-    return !!this.$slots.default;
-  }
+const slots = useSlots();
 
-  get cleanUrl() {
-    let result = this.url
-      ? (this.url.replace(/^https?:\/\//, ''))
-      : '';
+const hasSlot = computed(() => {
+  return hasSlotContent(slots.default);
+});
 
-    result = result.replace(/^mailto?:/, '');
+const cleanUrl = computed(() => {
+  let result = props.url
+    ? (props.url.replace(/^https?:\/\//, ''))
+    : '';
 
-    if (this.onlyTopLevel) {
-      const idx = result.indexOf('/');
-      if (idx > 0) {
-        result = result.substr(0, idx);
-      }
+  result = result.replace(/^mailto?:/, '');
+
+  if (props.onlyTopLevel) {
+    const idx = result.indexOf('/');
+    if (idx > 0) {
+      result = result.substr(0, idx);
     }
-    return result;
   }
-}
+  return result;
+});
 </script>
 
 <style scoped lang="scss">

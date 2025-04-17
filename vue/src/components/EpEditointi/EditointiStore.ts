@@ -1,12 +1,11 @@
 import * as _ from 'lodash';
-import Vue from 'vue';
+import Vue, { ref, computed, reactive } from 'vue';
 import VueScrollTo from 'vue-scrollto';
 import { Computed } from '../../utils/interfaces';
 import { ILukko, Revision } from '../../tyypit';
 import VueRouter, { RawLocation } from 'vue-router';
 import { fail } from '../../utils/notifications';
 import { createLogger } from '../../utils/logger';
-import { computed, reactive } from '@vue/composition-api';
 
 export interface EditointiKontrolliValidation {
   valid: boolean;
@@ -261,6 +260,7 @@ export class EditointiStore {
 
   public async init() {
     this.logger.debug('init');
+
     this.state.isNew = !!(this.config.editAfterLoad && await this.config.editAfterLoad());
     await this.fetch();
     await this.updateRevisions();
@@ -282,7 +282,7 @@ export class EditointiStore {
     this.state.isLoading = true;
 
     // Ei editointia uudestaan
-    if (this.isEditing.value) {
+    if (this.isEditing) {
       this.logger.warn('Editointi jo käynnissä');
       this.state.disabled = false;
       return;
@@ -356,7 +356,7 @@ export class EditointiStore {
 
   public async cancel(skipRedirectBack = false) {
     this.state.disabled = true;
-    if (!this.isEditing.value) {
+    if (!this.isEditing) {
       this.logger.warn('Ei voi perua');
       return;
     }
@@ -403,7 +403,7 @@ export class EditointiStore {
     this.state.disabled = true;
     this.state.isSaving = true;
 
-    if (!this.isEditing.value) {
+    if (!this.isEditing) {
       this.logger.warn('Ei voi tallentaa ilman editointia');
     }
     else if (this.config.save) {

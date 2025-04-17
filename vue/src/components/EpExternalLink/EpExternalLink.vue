@@ -11,54 +11,45 @@
   </ep-linkki>
 </template>
 
-<script lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed } from 'vue';
 import EpLinkki from '@shared/components/EpLinkki/EpLinkki.vue';
 
-@Component({
-  components: {
-    EpLinkki,
-  },
-})
-export default class EpExternalLink extends Vue {
-  @Prop({ type: String })
-  private url!: string;
-
-  @Prop({ default: true, type: Boolean })
-  private showIcon!: boolean;
-
-  @Prop({
-    required: false,
+const props = defineProps({
+  url: {
     type: String,
-  })
-  private label!: string;
-
-  @Prop({ default: 'medium', type: String })
-  private styleclass!: string;
-
-  @Prop({
+    required: true,
+  },
+  showIcon: {
+    type: Boolean,
     default: true,
+  },
+  label: {
+    type: String,
+    required: false,
+  },
+  styleclass: {
+    type: String,
+    default: 'medium',
+  },
+  onlyTopLevel: {
     type: Boolean,
-  })
-  private onlyTopLevel!: boolean;
-
-  @Prop({
+    default: true,
+  },
+  iconRight: {
+    type: Boolean,
     default: false,
-    type: Boolean,
-  })
-  private iconRight!: boolean;
+  },
+});
 
-  get icon() {
-    if (this.showIcon) {
-      return 'launch';
-    }
-
-    return '';
+const icon = computed(() => {
+  if (props.showIcon) {
+    return 'launch';
   }
+  return '';
+});
 
-  get urlWithQueryParam() {
-    return this.url + '?paluuosoite=' + encodeURIComponent(location.href);
-  }
-}
-
+const urlWithQueryParam = computed(() => {
+  return props.url + '?paluuosoite=' + encodeURIComponent(location.href);
+});
 </script>

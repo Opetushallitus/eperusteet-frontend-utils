@@ -1,15 +1,20 @@
 import { mount } from '@vue/test-utils';
 import EpPrefixList from './EpPrefixList.vue';
 import { mocks } from '@shared/utils/jestutils';
+import { globalStubs } from '@shared/utils/__tests__/stubs';
+import EpInput from '../forms/EpInput.vue';
 
 describe('EpPrefixList', () => {
   it('Read-only', () => {
     const wrapper = mount(EpPrefixList, {
-      mocks: {
-        ...mocks,
+      global: {
+        ...globalStubs,
+        components: {
+          EpInput,
+        },
       },
-      propsData: {
-        value: {
+      props: {
+        modelValue: {
           kohde: {
             fi: 'kohde',
           },

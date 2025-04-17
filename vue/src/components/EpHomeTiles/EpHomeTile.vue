@@ -5,29 +5,35 @@
     <router-link
       v-if="route"
       :to="route && route"
-      tag="a"
-      style="outline: none;"
-      @mouseover.native="effects.hover = true"
-      @mouseleave.native="effects.hover = false"
-      @focus.native="effects.focus = true"
-      @blur.native="effects.focus = false"
+      custom
+      v-slot="{ navigate }"
     >
-      <InnerTile
-        :icon="icon"
-        :color="color"
-        :effects="effects"
-        :count="count"
+      <a
+        style="outline: none;"
+        @click="navigate"
+        @keypress.enter="navigate"
+        @mouseover="effects.hover = true"
+        @mouseleave="effects.hover = false"
+        @focus="effects.focus = true"
+        @blur="effects.focus = false"
       >
-        <template #fas>
-          <slot name="fas" />
-        </template>
-        <template #header>
-          <slot name="header" />
-        </template>
-        <template #content>
-          <slot name="content" />
-        </template>
-      </InnerTile>
+        <InnerTile
+          :icon="icon"
+          :color="color"
+          :effects="effects"
+          :count="count"
+        >
+          <template #fas>
+            <slot name="fas" />
+          </template>
+          <template #header>
+            <slot name="header" />
+          </template>
+          <template #content>
+            <slot name="content" />
+          </template>
+        </InnerTile>
+      </a>
     </router-link>
     <a
       v-else
@@ -57,36 +63,37 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Vue, Prop, Component } from 'vue-property-decorator';
+<script setup lang="ts">
+import { ref } from 'vue';
 import InnerTile from './InnerTile.vue';
 
-@Component({
-  components: {
-    InnerTile,
+const props = defineProps({
+  icon: {
+    type: String,
+    required: true,
   },
-})
-export default class EpHomeTile extends Vue {
-  @Prop({ required: true })
-  private icon!: string;
+  color: {
+    type: String,
+    default: null,
+  },
+  route: {
+    type: [Object, String],
+    default: null,
+  },
+  href: {
+    type: String,
+    default: null,
+  },
+  count: {
+    type: Number,
+    required: false,
+  },
+});
 
-  @Prop({ default: null })
-  private color!: string | null;
-
-  @Prop({ default: null })
-  private route!: object | string | null;
-
-  @Prop({ default: null })
-  private href!: string | null;
-
-  @Prop({ required: false })
-  private count!: number;
-
-  private effects = {
-    hover: false,
-    focus: false,
-  };
-}
+const effects = ref({
+  hover: false,
+  focus: false,
+});
 </script>
 
 <style scoped lang="scss">

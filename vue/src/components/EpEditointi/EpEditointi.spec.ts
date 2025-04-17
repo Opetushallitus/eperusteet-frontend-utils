@@ -1,4 +1,4 @@
-import { mount, createLocalVue } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import EpEditointi from './EpEditointi.vue';
 import { IEditoitava } from './EditointiStore';
 import { Kielet } from '../../stores/kieli';
@@ -10,39 +10,33 @@ import { findContaining, mockEditointiStore } from '../../utils/jestutils';
 import VueI18n from 'vue-i18n';
 import { vi } from 'vitest';
 
-import '../../config/bootstrap';
-import { computed, reactive } from '@vue/composition-api';
+// import '../../config/bootstrap';
+import { computed, reactive } from 'vue';
+import { ref } from 'vue';
+import Vue from 'vue';
+import { globalStubs } from '@shared/utils/__tests__/stubs';
+import { defineComponent } from 'vue';
+import { nextTick } from 'vue';
+
+vi.mock('vue-router', () => (
+  {
+    useRoute: vi.fn(),
+    useRouter: vi.fn(),
+  }));
 
 function mockAndWrapper(extension: Partial<IEditoitava> = {}, template?: string) {
-  const localVue = createLocalVue();
-  localVue.use(VueI18n);
-  localVue.use(Kielet, {
-    messages: {
-      fi: {
-        'valitse-pvm': 'valitse-pvm',
-        'valitse-pvm-jana': 'valitse-pvm-jana',
-      },
-    },
-  });
-  localVue.use(Oikeustarkastelu, {
-    oikeusProvider: {
-      async hasOikeus() {
-        return true;
-      },
-    },
-  });
-
   const { store, config } = mockEditointiStore({
     load: vi.fn(async () => {
       return {
         name: 'foo',
         description: 'xyz',
+        test: 'testi',
       };
     }),
     ...extension,
   });
 
-  const wrapper = mount({
+  const TestComponent = defineComponent({
     components: {
       EpEditointi,
     },
@@ -64,20 +58,26 @@ function mockAndWrapper(extension: Partial<IEditoitava> = {}, template?: string)
         </ep-editointi>
       </div>
     `,
-  } as any, {
-    localVue,
-    mocks: {
-      $success: _.noop,
-      $t: x => x,
-      $sdt: x => '[' + x + ']',
-    },
-  } as any);
+  });
 
-  return { localVue, store, config, wrapper };
+
+  const wrapper = mount(TestComponent, {
+    global: {
+      ...globalStubs,
+      stubs: {
+        ...globalStubs.stubs,
+        'ep-versio-modaali': true,
+      },
+
+    },
+  });
+
+  return {store, config, wrapper };
 }
 
 describe('EpEditointi component', () => {
   test('Renders header and content', async () => {
+
     const { store, config, wrapper } = mockAndWrapper();
     await delay();
     expect(config.load).toBeCalledTimes(1);
@@ -98,8 +98,10 @@ describe('EpEditointi component', () => {
       },
     });
     await delay();
+
     expect(config.start).toBeCalledTimes(1);
-    findContaining(wrapper, 'button', 'peruuta')!.trigger('click');
+
+    findContaining(wrapper, '.b-button', 'peruuta')!.trigger('click');
     await delay();
   });
 
@@ -139,8 +141,9 @@ describe('EpEditointi component', () => {
       load: vi.fn(async () => data),
     });
     await delay();
-    findContaining(wrapper, 'button', 'tallenna')!.trigger('click');
+    findContaining(wrapper, '.b-button', 'tallenna')!.trigger('click');
     await delay();
+    await nextTick();
     expect(config.start).toBeCalledTimes(1);
     expect(config.save).toBeCalledTimes(1);
     expect(config.release).toBeCalledTimes(1);
@@ -171,7 +174,7 @@ describe('EpEditointi component', () => {
       recoverable: false,
     });
 
-    const { localVue, store, config, wrapper } = mockAndWrapper({
+    const { store, config, wrapper } = mockAndWrapper({
       features: () => {
         return computed(() => features);
       },
@@ -184,15 +187,15 @@ describe('EpEditointi component', () => {
       </ep-editointi>
     `);
     await delay();
-    expect(findContaining(wrapper, 'button', 'muokkaa')).toBeNull();
+    expect(findContaining(wrapper, '.b-button', 'muokkaa')).toBeNull();
 
     features.editable = true;
     await delay();
-    expect(findContaining(wrapper, 'button', 'muokkaa')).toBeTruthy();
+    expect(findContaining(wrapper, '.b-button', 'muokkaa')).toBeTruthy();
   });
 
   test('Can start and cancel editing', async () => {
-    const { localVue, store, config, wrapper } = mockAndWrapper({}, `
+    const { store, config, wrapper } = mockAndWrapper({}, `
       <ep-editointi :store="store">
         <template v-slot:default="{ data, isEditing }">
           <input v-model="data.name" />
@@ -203,7 +206,7 @@ describe('EpEditointi component', () => {
     await delay();
 
     expect(wrapper.html()).toContain('>editing false</pre>');
-    findContaining(wrapper, 'button', 'muokkaa')!.trigger('click');
+    findContaining(wrapper, '.b-button', 'muokkaa')!.trigger('click');
     await delay();
 
     wrapper.find('input').setValue('uusi nimi');
@@ -212,7 +215,7 @@ describe('EpEditointi component', () => {
     expect(config.acquire).toBeCalledTimes(1);
     expect(wrapper.html()).toContain('>editing true</pre>');
 
-    findContaining(wrapper, 'button', 'peruuta')!.trigger('click');
+    findContaining(wrapper, '.b-button', 'peruuta')!.trigger('click');
     await delay();
     expect(config.release).toBeCalledTimes(1);
     expect(config.cancel).toBeCalledTimes(1);

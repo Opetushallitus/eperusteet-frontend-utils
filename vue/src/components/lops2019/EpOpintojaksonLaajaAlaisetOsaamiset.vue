@@ -33,12 +33,12 @@
       </div>
     </div>
 
-    <div v-if="showEmptyAlert || value.laajaAlainenOsaaminen.length > 0">
+    <div v-if="showEmptyAlert || modelValue.laajaAlainenOsaaminen.length > 0">
       <div class="moduuliotsikko">
         <h4>{{ $t('paikallinen-lisays-opintojakso-laaja-alainen') }}</h4>
       </div>
       <div
-        v-for="(lo, idx) in value.laajaAlainenOsaaminen"
+        v-for="(lo, idx) in modelValue.laajaAlainenOsaaminen"
         :key="idx + '-paikallinen'"
         class="paikallinen-laaja-alainen"
       >
@@ -63,7 +63,7 @@
       </div>
 
       <div
-        v-if="!isEditing && value.laajaAlainenOsaaminen.length === 0"
+        v-if="!isEditing && modelValue.laajaAlainenOsaaminen.length === 0"
         class="alert alert-info"
       >
         {{ $t('ei-paikallista-tarkennusta') }}
@@ -87,7 +87,7 @@
     </b-dropdown>
 
     <div
-      v-for="(paikallinenOpintojakso, index) in value.paikallisetOpintojaksot"
+      v-for="(paikallinenOpintojakso, index) in modelValue.paikallisetOpintojaksot"
       :key="index+'laaja'"
     >
       <div v-if="paikallinenOpintojakso.laajaAlainenOsaaminen && paikallinenOpintojakso.laajaAlainenOsaaminen.length > 0">
@@ -116,43 +116,70 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue';
 import _ from 'lodash';
-import { Vue, Component, Prop } from 'vue-property-decorator';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
 
-@Component({
-  components: {
-    EpContent,
-    EpMaterialIcon,
+const props = defineProps({
+  opetussuunnitelmaStore: {
+    required: false,
   },
-})
-export default class EpOpintojaksonLaajaAlaisetOsaamiset extends Vue {
-  @Prop({ required: false })
-  private opetussuunnitelmaStore!: any;
+  modelValue: {
+    required: true,
+    type: Object,
+  },
+  isEditing: {
+    required: false,
+    default: false,
+    type: Boolean,
+  },
+  opintojaksonOppiaineidenTiedot: {
+    required: true,
+    type: Array,
+  },
+  laajaAlaistenKoodit: {
+    required: true,
+    type: Array,
+  },
+  showEmptyAlert: {
+    required: false,
+    default: true,
+    type: Boolean,
+  },
+  showPerustesisalto: {
+    required: false,
+    default: true,
+    type: Boolean,
+  },
+});
 
-  @Prop({ required: true })
-  private value!: any;
+const emit = defineEmits(['update:modelValue']);
 
-  @Prop({ required: false, default: false })
-  private isEditing!: boolean;
+const laajaAlaisetKooditByUri = computed(() => {
+  return _.keyBy(props.laajaAlaistenKoodit, 'koodi');
+});
 
-  @Prop({ required: true })
-  private opintojaksonOppiaineidenTiedot!: any;
+function poistaLaaja(lo: any) {
+  const updatedValue = {
+    ...props.modelValue,
+    laajaAlainenOsaaminen: _.filter(props.modelValue.laajaAlainenOsaaminen, osaaminen => osaaminen !== lo),
+  };
+  emit('update:modelValue', updatedValue);
+}
 
-  @Prop({ required: true })
-  private laajaAlaistenKoodit!: any;
-
-  @Prop({ required: false, default: true })
-  private showEmptyAlert!: boolean;
-
-  @Prop({ required: false, default: true })
-  private showPerustesisalto!: boolean;
-
-  get laajaAlaisetKooditByUri() {
-    return _.keyBy(this.laajaAlaistenKoodit, 'koodi');
-  }
+function addLaaja(laaja: any) {
+  const updatedValue = {
+    ...props.modelValue,
+    laajaAlainenOsaaminen: [
+      ...props.modelValue.laajaAlainenOsaaminen,
+      {
+        koodi: laaja.koodi,
+      },
+    ],
+  };
+  emit('update:modelValue', updatedValue);
 }
 </script>
 

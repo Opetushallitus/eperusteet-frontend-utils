@@ -169,8 +169,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { ref, computed, onMounted } from 'vue';
 import _ from 'lodash';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import draggable from 'vuedraggable';
@@ -182,113 +182,119 @@ import EpContent from '@shared/components/EpContent/EpContent.vue';
 import EpLinkki from '@shared/components/EpLinkki/EpLinkki.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
-@Component({
-  components: {
-    EpButton,
-    EpInput,
-    draggable,
-    EpSearch,
-    EpContent,
-    EpLinkki,
-    EpMaterialIcon,
+// Define props
+const props = defineProps({
+  value: {
+    type: Array as () => KoulutuksenJarjestajaDto[],
+    required: true,
   },
-})
-export default class EpKoulutuksenJarjestajaSelect extends Vue {
-  @Prop({ required: true })
-  private value!: KoulutuksenJarjestajaDto[];
+  isEditing: {
+    type: Boolean,
+    default: false,
+  },
+  group: {
+    type: String,
+    required: false,
+    default: 'koulutuksenjarjestajaSort',
+  },
+  kuvaHandler: {
+    default: false,
+  },
+});
 
-  @Prop({ default: false })
-  private isEditing!: boolean;
+// Define emits
+const emit = defineEmits(['input']);
 
-  @Prop({ required: false, default: 'koulutuksenjarjestajaSort' })
-  private group!: string;
+// Reactive state
+const query = ref('');
+const koulutuksenJarjestajat = ref<any[] | null>(null);
+const sivu = ref(1);
+const valittuIndex = ref(-1);
+const editModal = ref(null);
 
-  @Prop({ default: false })
-  private kuvaHandler!: any;
+// Lifecycle hooks
+onMounted(async () => {
+  koulutuksenJarjestajat.value = (await Koulutustoimijat.getKoulutuksenJarjestajat()).data;
+});
 
-  private query = '';
-  private koulutuksenJarjestajat: any[] | null = null;
-  private sivu = 1;
-  private valittuIndex = -1;
-
-  async mounted() {
-    this.koulutuksenJarjestajat = (await Koulutustoimijat.getKoulutuksenJarjestajat()).data;
+// Computed properties
+const innerModel = computed({
+  get: () => props.value,
+  set: (value) => {
+    emit('input', value);
   }
+});
 
-  get innerModel() {
-    return this.value;
-  }
+const kieli = computed(() => {
+  return Kielet.getSisaltoKieli.value;
+});
 
-  set innerModel(innerModel) {
-    this.$emit('input', innerModel);
-  }
+const defaultDragOptions = computed(() => {
+  return {
+    animation: 300,
+    emptyInsertThreshold: 10,
+    handle: '.order-handle',
+    disabled: !props.isEditing,
+    ghostClass: 'dragged',
+    group: {
+      name: props.group,
+    },
+  };
+});
 
-  open(i) {
-    (this.$refs.editModal as any).show();
-    this.valittuIndex = i;
-  }
+const koulutuksenjarjestajatSorted = computed(() => {
+  return _.chain(koulutuksenJarjestajat.value)
+    .filter(kt => _.includes(_.toLower(kt['nimi'][Kielet.getSisaltoKieli.value]), _.toLower(query.value)))
+    .sortBy(kt => kt['nimi'][Kielet.getSisaltoKieli.value])
+    .value();
+});
 
-  onRowSelected(row) {
-    this.innerModel.splice(this.valittuIndex, 1, {
-      ...this.innerModel[this.valittuIndex],
-      nimi: row[0].nimi,
-    });
+const items = computed(() => {
+  return _.slice(koulutuksenjarjestajatSorted.value, (sivu.value - 1) * 10, ((sivu.value - 1) * 10) + 10);
+});
 
-    (this.$refs.editModal as any).hide();
-  }
+const kokonaismaara = computed(() => {
+  return _.size(koulutuksenjarjestajatSorted.value);
+});
 
-  lisaa() {
-    this.innerModel = [
-      ...this.innerModel,
-      {},
-    ];
-  }
+const fields = computed(() => {
+  return [
+    {
+      key: 'nimi',
+      label: 'nimi', // Replace this.$t('nimi')
+    },
+  ];
+});
 
-  get kieli() {
-    return Kielet.getSisaltoKieli.value;
-  }
+// Methods
+const open = (i: number) => {
+  (editModal.value as any)?.show();
+  valittuIndex.value = i;
+};
 
-  poista(poistettavaIndex) {
-    this.innerModel = _.filter(this.innerModel, (teksti, index) => index !== poistettavaIndex);
-  }
+const onRowSelected = (row: any) => {
+  const newInnerModel = [...innerModel.value];
+  newInnerModel.splice(valittuIndex.value, 1, {
+    ...innerModel.value[valittuIndex.value],
+    nimi: row[0].nimi,
+  });
+  emit('input', newInnerModel);
 
-  get defaultDragOptions() {
-    return {
-      animation: 300,
-      emptyInsertThreshold: 10,
-      handle: '.order-handle',
-      disabled: !this.isEditing,
-      ghostClass: 'dragged',
-      group: {
-        name: this.group,
-      },
-    };
-  }
+  (editModal.value as any)?.hide();
+};
 
-  get koulutuksenjarjestajatSorted() {
-    return _.chain(this.koulutuksenJarjestajat)
-      .filter(kt => _.includes(_.toLower(kt['nimi'][Kielet.getSisaltoKieli.value]), _.toLower(this.query)))
-      .sortBy(kt => kt['nimi'][Kielet.getSisaltoKieli.value])
-      .value();
-  }
+const lisaa = () => {
+  const newInnerModel = [
+    ...innerModel.value,
+    {},
+  ];
+  emit('input', newInnerModel);
+};
 
-  get items() {
-    return _.slice(this.koulutuksenjarjestajatSorted, (this.sivu - 1) * 10, ((this.sivu - 1) * 10) + 10);
-  }
-
-  get kokonaismaara() {
-    return _.size(this.koulutuksenjarjestajatSorted);
-  }
-
-  get fields() {
-    return [
-      {
-        key: 'nimi',
-        label: this.$t('nimi'),
-      },
-    ];
-  }
-}
+const poista = (poistettavaIndex: number) => {
+  const newInnerModel = _.filter(innerModel.value, (teksti, index) => index !== poistettavaIndex);
+  emit('input', newInnerModel);
+};
 </script>
 
 <style lang="scss" scoped>
@@ -298,5 +304,4 @@ export default class EpKoulutuksenJarjestajaSelect extends Vue {
     border: 1px solid $gray-lighten-8;
     border-radius: 3px;
   }
-
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      v-for="(moduuli, idx) in value.moduulit"
+      v-for="(moduuli, idx) in modelValue.moduulit"
       :key="idx + '-moduuli'"
       class="perustesisalto"
     >
@@ -18,7 +18,7 @@
     </div>
 
     <div
-      v-for="(paikallinenOpintojakso, idx) in value.paikallisetOpintojaksot"
+      v-for="(paikallinenOpintojakso, idx) in modelValue.paikallisetOpintojaksot"
       :key="idx + '-opintojakso'"
     >
       <div
@@ -38,19 +38,19 @@
     </div>
 
     <div
-      v-if="value.tavoitteet.length > 0 || showEmptyAlert"
+      v-if="modelValue.tavoitteet.length > 0 || showEmptyAlert"
       class="moduuliotsikko"
     >
       <h4>{{ $t('paikallinen-lisays-tavoitteet') }}</h4>
     </div>
     <div
-      v-if="!isEditing && value.tavoitteet && value.tavoitteet.length === 0 && showEmptyAlert"
+      v-if="!isEditing && modelValue.tavoitteet && modelValue.tavoitteet.length === 0 && showEmptyAlert"
       class="alert alert-info"
     >
       {{ $t('ei-paikallista-tarkennusta') }}
     </div>
     <ep-list
-      v-model="value.tavoitteet"
+      v-model="modelValue.tavoitteet"
       :is-editable="isEditing"
       lisays="lisaa-tavoite"
       kentta="kuvaus"
@@ -58,32 +58,31 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import _ from 'lodash';
-import { Vue, Component, Prop } from 'vue-property-decorator';
-
 import EpPrefixList from '@shared/components/EpPrefixList/EpPrefixList.vue';
 import EpList from '@shared/components/forms/EpList.vue';
 
-@Component({
-  components: {
-    EpPrefixList,
-    EpList,
+const props = defineProps({
+  modelValue: {
+    required: true,
+    type: Object,
   },
-})
-export default class EpOpintojaksonTavoitteet extends Vue {
-  @Prop({ required: true })
-  private value!: any;
-
-  @Prop({ required: false, default: false })
-  private isEditing!: boolean;
-
-  @Prop({ required: true })
-  private moduulitMap!: any;
-
-  @Prop({ required: false, default: true })
-  private showEmptyAlert!: boolean;
-}
+  isEditing: {
+    required: false,
+    default: false,
+    type: Boolean,
+  },
+  moduulitMap: {
+    required: true,
+    type: Object,
+  },
+  showEmptyAlert: {
+    required: false,
+    default: true,
+    type: Boolean,
+  },
+});
 </script>
 
 <style lang="scss">

@@ -1,27 +1,16 @@
-import { mount, createLocalVue, RouterLinkStub } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import EpJulkaisuHistoria from './EpJulkaisuHistoria.vue';
-import Vue from 'vue';
-import BootstrapVue from 'bootstrap-vue';
-import { Kielet } from '@shared/stores/kieli';
-import { Kaannos } from '@shared/plugins/kaannos';
-import { mocks } from '@shared/utils/jestutils';
-import VueI18n from 'vue-i18n';
-
-Vue.use(BootstrapVue);
+import { globalStubs } from '@shared/utils/__tests__/stubs';
 
 describe('EpJulkaisuHistoria component', () => {
-  const localVue = createLocalVue();
-  localVue.use(VueI18n);
-  Kielet.install(localVue);
-  localVue.use(new Kaannos());
-
   test('Renders', async () => {
     const wrapper = mount(EpJulkaisuHistoria, {
-      localVue,
-      propsData: {
+      props: {
         julkaisut: [],
       },
-      mocks,
+      global: {
+        ...globalStubs,
+      },
     });
 
     expect(wrapper.html()).toBeTruthy();
@@ -30,8 +19,7 @@ describe('EpJulkaisuHistoria component', () => {
 
   test('Renders with data', async () => {
     const wrapper = mount(EpJulkaisuHistoria, {
-      localVue,
-      propsData: {
+      props: {
         julkaisut: [
           {
             revision: 1,
@@ -57,7 +45,9 @@ describe('EpJulkaisuHistoria component', () => {
         ],
         palauta: () => {},
       },
-      mocks,
+      global: {
+        ...globalStubs,
+      },
     });
 
     expect(wrapper.html()).toBeTruthy();

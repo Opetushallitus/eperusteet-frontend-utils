@@ -5,7 +5,7 @@
         class="kulunut-aika"
         :style="'width:'+kulunutAikaWidth +'%'"
       >
-&nbsp;
+      &nbsp;
       </div>
       <div
         v-for="(aikataulu, i) in aikatauluTavoitteet"
@@ -45,7 +45,7 @@
           </div>
         </div>
         <div v-else>
-&nbsp;
+        &nbsp;
         </div>
       </div>
 
@@ -67,103 +67,91 @@
   </div>
 </template>
 
-<script lang="ts">
-
-import { Vue, Component, Prop, Mixins } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed } from 'vue';
 import _ from 'lodash';
 import { aikataulutapahtuma, Tapahtuma } from '../../utils/aikataulu';
 
-@Component
-export default class EpAikataulu extends Vue {
-  @Prop({ required: true })
-  private aikataulut!: Tapahtuma[];
+const props = defineProps({
+  aikataulut: { type: Array as () => Tapahtuma[], required: true },
+  showPopover: { type: Boolean, default: true },
+});
 
-  @Prop({ required: false, default: true })
-  private showPopover!: boolean;
+const luomisaikaPalloPoint = 75;
 
-  private luomisaikaPalloPoint = 75;
+const luomisAikataulu = computed(() => {
+  return _.head(_.filter(props.aikataulut, (aikataulu) => aikataulu.tapahtuma === aikataulutapahtuma.luominen));
+});
 
-  get luomisAikataulu() {
-    return _.head(_.filter(this.aikataulut, (aikataulu) => aikataulu.tapahtuma === aikataulutapahtuma.luominen));
+const julkaisuAikataulu = computed(() => {
+  return _.head(_.filter(props.aikataulut, (aikataulu) => aikataulu.tapahtuma === aikataulutapahtuma.julkaisu));
+});
+
+const luomisPaiva = computed(() => {
+  return luomisAikataulu.value?.tapahtumapaiva;
+});
+
+const julkaisuPaiva = computed(() => {
+  return julkaisuAikataulu.value?.tapahtumapaiva;
+});
+
+const aikataulutSorted = computed(() => {
+  return _.chain(props.aikataulut)
+    .filter('tapahtumapaiva')
+    .sortBy('tapahtumapaiva')
+    .value();
+});
+
+const viimeinenTapahtuma = computed(() => {
+  return _.chain(aikataulutSorted.value)
+    .filter('tapahtumapaiva')
+    .reverse()
+    .head()
+    .value();
+});
+
+const viimeinenPaiva = computed(() => {
+  return viimeinenTapahtuma.value?.tapahtumapaiva;
+});
+
+const aikatauluTavoitteet = computed(() => {
+  return _.chain(props.aikataulut)
+    .filter(aikataulu => !(aikataulu.tapahtuma === aikataulutapahtuma.luominen && julkaisuAikaPosition.value < luomisaikaPalloPoint))
+    .filter(aikataulu => aikataulu.tapahtuma !== aikataulutapahtuma.julkaisu)
+    .filter('tapahtumapaiva')
+    .map(aikataulu => {
+      return {
+        ...aikataulu,
+        rightPosition: aikatauluPosition(aikataulu),
+      };
+    })
+    .value();
+});
+
+const kulunutAikaWidth = computed(() => {
+  if (julkaisuPaiva.value) {
+    return Math.min(timelinePosition(new Date().getTime()), 100);
   }
+  return 1;
+});
 
-  get julkaisuAikataulu() {
-    return _.head(_.filter(this.aikataulut, (aikataulu) => aikataulu.tapahtuma === aikataulutapahtuma.julkaisu));
+const julkaisuAikaPosition = computed(() => {
+  if (julkaisuPaiva.value) {
+    return Math.min(100 - timelinePosition(julkaisuPaiva.value), 88);
   }
+  return 0;
+});
 
-  get luomisPaiva() {
-    if (this.luomisAikataulu) {
-      return this.luomisAikataulu.tapahtumapaiva;
-    }
+function aikatauluPosition(aikataulu) {
+  if (aikataulu.tapahtuma === aikataulutapahtuma.luominen) {
+    return 99;
   }
+  return Math.min(Math.max(100 - timelinePosition(aikataulu.tapahtumapaiva), 0), 99);
+}
 
-  get julkaisuPaiva() {
-    if (this.julkaisuAikataulu) {
-      return this.julkaisuAikataulu.tapahtumapaiva;
-    }
-  }
-
-  get aikataulutSorted() {
-    return _.chain(this.aikataulut)
-      .filter('tapahtumapaiva')
-      .sortBy('tapahtumapaiva')
-      .value();
-  }
-
-  get viimeinenTapahtuma() {
-    return _.chain(this.aikataulutSorted)
-      .filter('tapahtumapaiva')
-      .reverse()
-      .head()
-      .value();
-  }
-
-  get viimeinenPaiva() {
-    if (this.viimeinenTapahtuma) {
-      return this.viimeinenTapahtuma.tapahtumapaiva;
-    }
-  }
-
-  get aikatauluTavoitteet() {
-    return _.chain(this.aikataulut)
-      .filter(aikataulu => !(aikataulu.tapahtuma === aikataulutapahtuma.luominen && this.julkaisuAikaPosition < this.luomisaikaPalloPoint))
-      .filter(aikataulu => aikataulu.tapahtuma !== aikataulutapahtuma.julkaisu)
-      .filter('tapahtumapaiva')
-      .map(aikataulu => {
-        return {
-          ...aikataulu,
-          rightPosition: this.aikatauluPosition(aikataulu),
-        };
-      })
-      .value();
-  }
-
-  get kulunutAikaWidth() {
-    if (this.julkaisuPaiva) {
-      return Math.min(this.timelinePosition(new Date().getTime()), 100);
-    }
-
-    return 1;
-  }
-
-  get julkaisuAikaPosition() {
-    if (this.julkaisuPaiva) {
-      return Math.min(100 - this.timelinePosition(this.julkaisuPaiva), 88);
-    }
-    return 0;
-  }
-
-  aikatauluPosition(aikataulu) {
-    if (aikataulu.tapahtuma === aikataulutapahtuma.luominen) {
-      return 99;
-    }
-    return Math.min(Math.max(100 - this.timelinePosition(aikataulu.tapahtumapaiva), 0), 99);
-  }
-
-  timelinePosition(time) {
-    return Math.floor((Math.max(time, this.luomisPaiva as any) - (this.luomisPaiva as any))
-            / ((this.viimeinenPaiva as any) - (this.luomisPaiva as any)) * 100);
-  }
+function timelinePosition(time) {
+  return Math.floor((Math.max(time, luomisPaiva.value) - luomisPaiva.value)
+          / (viimeinenPaiva.value - luomisPaiva.value) * 100);
 }
 </script>
 

@@ -76,67 +76,68 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, getCurrentInstance } from 'vue';
 import EpButton from '../EpButton/EpButton.vue';
 import _ from 'lodash';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import draggable from 'vuedraggable';
 
-@Component({
-  components: {
-    EpButton,
-    EpInput,
-    EpMaterialIcon,
-    draggable,
+const props = defineProps({
+  modelValue: {
+    type: Array,
+    required: true,
   },
-})
-export default class EpSortableTextList extends Vue {
-  @Prop({ required: true })
-  private value!: any[];
+  isEditing: {
+    type: Boolean,
+    default: false,
+  },
+  sortable: {
+    type: Boolean,
+    default: true,
+  },
+  group: {
+    type: String,
+    required: false,
+    default: 'sortableTextList',
+  },
+});
 
-  @Prop({ default: false })
-  private isEditing!: boolean;
+const emit = defineEmits(['update:modelValue']);
 
-  @Prop({ default: true })
-  private sortable!: boolean;
+const instance = getCurrentInstance();
+const $t = instance?.appContext.config.globalProperties.$t;
+const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
 
-  @Prop({ required: false, default: 'sortableTextList' })
-  private group!: string;
+const innerModel = computed({
+  get: () => props.modelValue,
+  set: (value) => emit('update:modelValue', value),
+});
 
-  get innerModel() {
-    return this.value;
-  }
+const lisaaTeksti = () => {
+  innerModel.value = [
+    ...innerModel.value,
+    {},
+  ];
+};
 
-  set innerModel(innerModel) {
-    this.$emit('input', innerModel);
-  }
+const poistaTeksti = (poistettavaIndex: number) => {
+  innerModel.value = _.filter(innerModel.value, (teksti, index) => index !== poistettavaIndex);
+};
 
-  lisaaTeksti() {
-    this.innerModel = [
-      ...this.innerModel,
-      {},
-    ];
-  }
-
-  poistaTeksti(poistettavaIndex) {
-    this.innerModel = _.filter(this.innerModel, (teksti, index) => index !== poistettavaIndex);
-  }
-
-  get defaultDragOptions() {
-    return {
-      animation: 300,
-      emptyInsertThreshold: 10,
-      handle: '.order-handle',
-      disabled: !this.isEditing && this.sortable,
-      ghostClass: 'dragged',
-      group: {
-        name: this.group,
-      },
-    };
-  }
-}
+const defaultDragOptions = computed(() => {
+  return {
+    animation: 300,
+    emptyInsertThreshold: 10,
+    handle: '.order-handle',
+    disabled: !props.isEditing && props.sortable,
+    ghostClass: 'dragged',
+    group: {
+      name: props.group,
+    },
+  };
+});
 </script>
 
 <style lang="scss" scoped>

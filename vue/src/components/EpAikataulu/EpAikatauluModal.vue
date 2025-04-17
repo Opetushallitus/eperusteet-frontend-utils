@@ -1,7 +1,7 @@
 <template>
   <div>
     <ep-button
-      v-if="aikataulut && aikataulut.length > 0"
+      v-if="props.aikataulut && props.aikataulut.length > 0"
       v-oikeustarkastelu="{ oikeus: 'muokkaus' }"
       button-class="pr-1"
       variant="link"
@@ -20,7 +20,7 @@
       @ok="tallenna"
     >
       <template #modal-title>
-        {{ aikataulut && aikataulut.length > 0 ? $t('muokkaa-aikataulua') : $t('ota-aikataulu-kayttoon') }}
+        {{ props.aikataulut && props.aikataulut.length > 0 ? $t('muokkaa-aikataulua') : $t('ota-aikataulu-kayttoon') }}
       </template>
 
       <slot name="selite" />
@@ -28,10 +28,10 @@
       <ep-aikataulu-listaus
         ref="epAikatauluListaus"
         :aikataulut-prop="aikataulutClone"
-        :immutable-aikataulut="immutableAikataulut"
-        :root-model="rootModel"
-        :julkinen-valinta="julkinenValinta"
-        :pakolliset-tapahtumat="pakollisetTapahtumat"
+        :immutable-aikataulut="props.immutableAikataulut"
+        :root-model="props.rootModel"
+        :julkinen-valinta="props.julkinenValinta"
+        :pakolliset-tapahtumat="props.pakollisetTapahtumat"
         @setInvalid="setInvalid"
       >
         <template #luomispaiva-topic>
@@ -55,11 +55,10 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { ref, defineProps, defineEmits, useTemplateRef } from 'vue';
 import _ from 'lodash';
 import { aikataulutapahtuma, AikatauluRootModel } from '../../utils/aikataulu';
-import EpAikataulu from './EpAikataulu.vue';
 import EpAikatauluListaus from './EpAikatauluListaus.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpDatepicker from '@shared/components/forms/EpDatepicker.vue';
@@ -67,74 +66,63 @@ import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import EpField from '@shared/components/forms/EpField.vue';
 import { Kielet } from '@shared/stores/kieli';
 
-@Component({
-  components: {
-    EpAikataulu,
-    EpButton,
-    EpDatepicker,
-    EpFormContent,
-    EpField,
-    EpAikatauluListaus,
+const props = defineProps({
+  rootModel: Object as () => AikatauluRootModel,
+  aikataulut: {
+    type: Array,
+    required: true,
   },
-})
-export default class EpAikatauluModal extends Vue {
-  @Prop({ required: false })
-  private rootModel!: AikatauluRootModel;
+  immutableAikataulut: Array,
+  julkinenValinta: {
+    type: Boolean,
+    default: false,
+  },
+  pakollisetTapahtumat: Array,
+});
 
-  @Prop({ required: true })
-  private aikataulut!: any[];
+const emit = defineEmits(['tallenna']);
 
-  @Prop({ required: false })
-  private immutableAikataulut!: any[];
+const invalid = ref(false);
+const aikataulutClone = ref([]);
 
-  @Prop({ required: false, default: false, type: Boolean })
-  private julkinenValinta!: boolean;
+function openModal() {
+  if (_.size(props.aikataulut) === 0) {
+    setInvalid(true);
 
-  @Prop({ required: false })
-  private pakollisetTapahtumat!: string[];
-
-  private invalid: boolean = false;
-  private aikataulutClone: any[] = [];
-
-  openModal() {
-    if (_.size(this.aikataulut) === 0) {
-      this.setInvalid(true);
-
-      this.aikataulutClone = [
-        {
-          tapahtuma: aikataulutapahtuma.luominen,
-          tapahtumapaiva: this.rootModel.luotu,
-          tavoite: {
-            [Kielet.getSisaltoKieli.value]: this.$t('luomispaiva'),
-          },
+    aikataulutClone.value = [
+      {
+        tapahtuma: aikataulutapahtuma.luominen,
+        tapahtumapaiva: props.rootModel?.luotu,
+        tavoite: {
+          [Kielet.getSisaltoKieli.value]: $t('luomispaiva'),
         },
-        {
-          tapahtuma: aikataulutapahtuma.julkaisu,
-          tapahtumapaiva: null,
-          tavoite: {
-            [Kielet.getSisaltoKieli.value]: this.$t('suunniteltu-julkaisupaiva'),
-          },
+      },
+      {
+        tapahtuma: aikataulutapahtuma.julkaisu,
+        tapahtumapaiva: null,
+        tavoite: {
+          [Kielet.getSisaltoKieli.value]: $t('suunniteltu-julkaisupaiva'),
         },
-      ];
-    }
-    else {
-      this.aikataulutClone = _.cloneDeep(this.aikataulut);
-    }
-
-    (this as any).$refs.aikataulumodal.show();
+      },
+    ];
+  } else {
+    aikataulutClone.value = _.cloneDeep(props.aikataulut);
   }
 
-  tallenna() {
-    this.$emit('tallenna', (this as any).$refs.epAikatauluListaus.getAikataulu());
-  }
+  const aikataulumodal = useTemplateRef('aikataulumodal');
+  aikataulumodal.value?.show();
+}
 
-  setInvalid(invalid) {
-    this.invalid = invalid;
-  }
+function tallenna() {
+  const epAikatauluListaus = useTemplateRef('epAikatauluListaus');
+  emit('tallenna', epAikatauluListaus.value?.getAikataulu());
+}
+
+function setInvalid(value: boolean) {
+  invalid.value = value;
 }
 </script>
 
 <style scoped lang="scss">
 @import "../../styles/_variables.scss";
-
 </style>
