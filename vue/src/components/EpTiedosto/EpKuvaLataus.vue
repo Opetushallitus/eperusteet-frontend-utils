@@ -94,7 +94,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch, Prop } from 'vue-property-decorator';
+import { Vue, Component, Watch, Prop } from 'vue-facing-decorator';
 import EpButton from '../EpButton/EpButton.vue';
 import { fail } from '@shared/utils/notifications';
 import _ from 'lodash';

@@ -122,7 +122,7 @@
 
 <script lang="ts">
 import _ from 'lodash';
-import { Prop, Component, Vue } from 'vue-property-decorator';
+import { Prop, Component, Vue } from 'vue-facing-decorator';
 import { requiredOneLang } from '@shared/validators/required';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpField from '@shared/components/forms/EpField.vue';

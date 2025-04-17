@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-facing-decorator';
 import EpButton from '../EpButton/EpButton.vue';
 import _ from 'lodash';
 import EpTiedostoInput from '@shared/components/EpTiedosto/EpTiedostoInput.vue';

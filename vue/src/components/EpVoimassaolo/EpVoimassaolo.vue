@@ -50,7 +50,7 @@
 </template>
 
 <script lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator';
+import { Prop, Component, Vue } from 'vue-facing-decorator';
 import EpColorIndicator from '@shared/components/EpColorIndicator/EpColorIndicator.vue';
 
 interface Voimassaolo {

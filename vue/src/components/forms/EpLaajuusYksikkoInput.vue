@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Mixins, Prop } from 'vue-property-decorator';
+import { Component, Mixins, Prop } from 'vue-facing-decorator';
 import EpValidation from '../../mixins/EpValidation';
 import EpErrorWrapper from '../forms/EpErrorWrapper.vue';
 import EpMultiSelect from '@shared/components/forms/EpMultiSelect.vue';

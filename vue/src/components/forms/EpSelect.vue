@@ -95,7 +95,7 @@
 
 <script lang="ts">
 import _ from 'lodash';
-import { Component, Prop, Mixins, Watch } from 'vue-property-decorator';
+import { Component, Prop, Mixins, Watch } from 'vue-facing-decorator';
 
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import EpValidation from '../../mixins/EpValidation';

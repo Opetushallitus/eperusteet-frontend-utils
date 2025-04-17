@@ -57,7 +57,7 @@
 
 <script lang="ts">
 import _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-facing-decorator';
 import EpPagination from '../EpPagination/EpPagination.vue';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import { Ammattitaitovaatimukset } from '../../api/eperusteet';

@@ -2,16 +2,13 @@ import { createLogger } from '../utils/logger';
 import { Kieli } from '../tyypit';
 import _ from 'lodash';
 import VueI18n from 'vue-i18n';
-import Vue, { VueConstructor } from 'vue';
+import Vue, { computed, reactive, ref, VueConstructor } from 'vue';
 import moment from 'moment';
 import { updateRelativeTime } from '../plugins/aikaleima';
 import { Computed } from '../utils/interfaces';
 import kfi from '../translations/locale-fi.json';
 import ksv from '../translations/locale-sv.json';
 import ken from '../translations/locale-en.json';
-import VueCompositionApi, { computed, reactive } from '@vue/composition-api';
-
-Vue.use(VueCompositionApi);
 
 declare module 'vue/types/vue' {
   interface Vue {

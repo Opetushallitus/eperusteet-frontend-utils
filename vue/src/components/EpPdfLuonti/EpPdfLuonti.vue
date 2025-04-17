@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-facing-decorator';
 import { Kielet } from '@shared/stores/kieli';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import { IDokumenttiStore } from '@shared/tyypit';

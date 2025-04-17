@@ -44,7 +44,7 @@
 
 <script lang="ts">
 import _ from 'lodash';
-import { Prop, Component, Vue } from 'vue-property-decorator';
+import { Prop, Component, Vue } from 'vue-facing-decorator';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
 import EpCollapse from '@shared/components/EpCollapse/EpCollapse.vue';

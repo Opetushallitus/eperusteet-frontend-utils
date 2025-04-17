@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import _ from 'lodash';
-import { Component, Watch, Prop, Vue } from 'vue-property-decorator';
+import { Component, Watch, Prop, Vue } from 'vue-facing-decorator';
 
 @Component
 export default class EpSubview extends Vue {

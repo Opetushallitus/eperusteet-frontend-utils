@@ -19,14 +19,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Prop, toNative, Vue, Watch } from 'vue-facing-decorator';
 import { Kielet } from '@shared/stores/kieli';
 
 /**
  * Tämän komponentin tehtävä on ainoastaan esittää label lomakekentälle
  */
 @Component
-export default class EpFormContent extends Vue {
+export class EpFormContent extends Vue {
   @Prop({ required: false, type: String })
   private name!: string;
 
@@ -53,6 +53,8 @@ export default class EpFormContent extends Vue {
     return Kielet.getSisaltoKieli.value;
   }
 }
+export default toNative(EpFormContent);
+
 </script>
 
 <style scoped lang="scss">

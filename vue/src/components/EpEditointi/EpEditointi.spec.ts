@@ -11,26 +11,28 @@ import VueI18n from 'vue-i18n';
 import { vi } from 'vitest';
 
 import '../../config/bootstrap';
-import { computed, reactive } from '@vue/composition-api';
+import { computed, reactive } from 'vue';
+import { ref } from 'vue';
+import Vue from 'vue';
 
 function mockAndWrapper(extension: Partial<IEditoitava> = {}, template?: string) {
-  const localVue = createLocalVue();
-  localVue.use(VueI18n);
-  localVue.use(Kielet, {
-    messages: {
-      fi: {
-        'valitse-pvm': 'valitse-pvm',
-        'valitse-pvm-jana': 'valitse-pvm-jana',
-      },
-    },
-  });
-  localVue.use(Oikeustarkastelu, {
-    oikeusProvider: {
-      async hasOikeus() {
-        return true;
-      },
-    },
-  });
+  // const localVue = createLocalVue();
+  // localVue.use(VueI18n);
+  // localVue.use(Kielet, {
+  //   messages: {
+  //     fi: {
+  //       'valitse-pvm': 'valitse-pvm',
+  //       'valitse-pvm-jana': 'valitse-pvm-jana',
+  //     },
+  //   },
+  // });
+  // localVue.use(Oikeustarkastelu, {
+  //   oikeusProvider: {
+  //     async hasOikeus() {
+  //       return true;
+  //     },
+  //   },
+  // });
 
   const { store, config } = mockEditointiStore({
     load: vi.fn(async () => {
@@ -65,7 +67,7 @@ function mockAndWrapper(extension: Partial<IEditoitava> = {}, template?: string)
       </div>
     `,
   } as any, {
-    localVue,
+    // localVue,
     mocks: {
       $success: _.noop,
       $t: x => x,
@@ -73,11 +75,14 @@ function mockAndWrapper(extension: Partial<IEditoitava> = {}, template?: string)
     },
   } as any);
 
-  return { localVue, store, config, wrapper };
+  return {store, config, wrapper };
 }
 
 describe('EpEditointi component', () => {
-  test('Renders header and content', async () => {
+  test.only('Renders header and content', async () => {
+
+    console.log('Vue.extend:', typeof Vue.extend);
+
     const { store, config, wrapper } = mockAndWrapper();
     await delay();
     expect(config.load).toBeCalledTimes(1);

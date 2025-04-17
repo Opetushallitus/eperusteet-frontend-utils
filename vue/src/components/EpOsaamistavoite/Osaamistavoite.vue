@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator';
+import { Prop, Component, Vue } from 'vue-facing-decorator';
 import EpLaajuusInput from '@shared/components/forms/EpLaajuusInput.vue';
 import EpAmmattitaitovaatimukset from '@shared/components/EpAmmattitaitovaatimukset/EpAmmattitaitovaatimukset.vue';
 

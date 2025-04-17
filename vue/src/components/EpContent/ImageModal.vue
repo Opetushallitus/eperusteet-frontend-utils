@@ -98,7 +98,7 @@
 
 <script lang="ts">
 import _ from 'lodash';
-import { Vue, Component, Prop, Mixins } from 'vue-property-decorator';
+import { Vue, Component, Prop, Mixins } from 'vue-facing-decorator';
 import VueSelect from 'vue-select';
 
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';

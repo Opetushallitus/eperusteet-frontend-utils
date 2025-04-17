@@ -444,7 +444,7 @@
 
 <script lang="ts">
 import * as _ from 'lodash';
-import { Watch, Prop, Component, Mixins } from 'vue-property-decorator';
+import { Watch, Prop, Component, Mixins } from 'vue-facing-decorator';
 import { TiedoteDto, Kayttajat, PerusteHakuDto, PerusteDto, PerusteKevytDto, Koodisto } from '@shared/api/eperusteet';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 import EpButton from '@shared/components/EpButton/EpButton.vue';

@@ -106,7 +106,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Mixins, Watch } from 'vue-property-decorator';
+import { Component, Prop, Mixins, Watch } from 'vue-facing-decorator';
 import _ from 'lodash';
 import EpAikataulu from './EpAikataulu.vue';
 import { requiredIf } from 'vuelidate/lib/validators';

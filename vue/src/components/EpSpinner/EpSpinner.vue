@@ -21,10 +21,10 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Component, Prop, toNative } from 'vue-facing-decorator';
 
 @Component
-export default class EpSpinner extends Vue {
+export class EpSpinner extends Vue {
   @Prop({ required: false, type: Boolean })
   private small!: boolean;
 
@@ -37,6 +37,8 @@ export default class EpSpinner extends Vue {
     }
   }
 }
+export default toNative(EpSpinner);
+
 </script>
 
 <style scoped lang="scss">

@@ -20,7 +20,7 @@
 
 <script lang="ts">
 import _ from 'lodash';
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-facing-decorator';
 import EpColorIndicator from '@shared/components/EpColorIndicator/EpColorIndicator.vue';
 import { Lops2019OpintojaksonModuuliDto, Lops2019ModuuliDto } from '@shared/api/ylops';
 import { Kielet } from '@shared/stores/kieli';

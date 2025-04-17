@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-facing-decorator';
 import { themeColors, themes, rgb2string } from '../../utils/perusteet';
 
 const moduuliColors = {

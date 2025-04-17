@@ -58,7 +58,7 @@
 
 <script lang="ts">
 import _ from 'lodash';
-import { Prop, Component, Vue } from 'vue-property-decorator';
+import { Prop, Component, Vue } from 'vue-facing-decorator';
 
 import { Kielet } from '@shared/stores/kieli';
 import EpSearch from '@shared/components/forms/EpSearch.vue';

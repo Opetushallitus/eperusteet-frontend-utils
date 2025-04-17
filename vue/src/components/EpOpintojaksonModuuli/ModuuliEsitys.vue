@@ -66,7 +66,7 @@
 
 <script lang="ts">
 import * as _ from 'lodash';
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-facing-decorator';
 
 import EpColorIndicator from '@shared/components/EpColorIndicator/EpColorIndicator.vue';
 import EpContentViewer from '@shared/components/EpContentViewer/EpContentViewer.vue';

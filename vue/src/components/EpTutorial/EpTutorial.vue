@@ -47,7 +47,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
+import { Component, Vue, Prop, Watch } from 'vue-facing-decorator';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import { TutoriaaliStore } from '@shared/stores/tutoriaali';
 import _ from 'lodash';

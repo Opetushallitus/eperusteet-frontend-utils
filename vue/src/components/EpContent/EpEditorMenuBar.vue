@@ -133,7 +133,7 @@
 
 <script lang="ts">
 import _ from 'lodash';
-import { Vue, Component, Prop, InjectReactive } from 'vue-property-decorator';
+import { Vue, Component, Prop, InjectReactive } from 'vue-facing-decorator';
 import { EditorMenuBar } from 'tiptap';
 import { NavigationNodeDto } from '@shared/tyypit';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';

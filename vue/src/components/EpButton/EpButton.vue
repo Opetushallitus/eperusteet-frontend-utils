@@ -4,8 +4,8 @@
     class="ep-button d-print-none"
   >
     <b-button
-      :variant="resolvedVariant"
       v-bind="$attrs"
+      :variant="resolvedVariant"
       :disabled="disabled || showSpinner"
       :size="size"
       :class="variantClass"
@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Component, Prop, toNative } from 'vue-facing-decorator';
 import _ from 'lodash';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import EpSpinnerInline from '../EpSpinner/EpSpinnerInline.vue';
@@ -52,7 +52,7 @@ import EpSpinnerInline from '../EpSpinner/EpSpinnerInline.vue';
     EpMaterialIcon,
   },
 })
-export default class EpButton extends Vue {
+export class EpButton extends Vue {
   @Prop({ default: '' })
   private icon!: string;
 
@@ -115,6 +115,8 @@ export default class EpButton extends Vue {
     return this.resolvedVariant === 'link' ? 'inherit' : '';
   }
 }
+export default toNative(EpButton);
+
 </script>
 
 <style lang="scss" scoped>

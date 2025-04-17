@@ -57,7 +57,7 @@
 
 <script lang="ts">
 import _ from 'lodash';
-import { Prop, Component, Mixins } from 'vue-property-decorator';
+import { Prop, Component, mixins, toNative, Vue } from 'vue-facing-decorator';
 import { Revision } from '../../tyypit';
 import EpButton from '../../components/EpButton/EpButton.vue';
 import EpFormContent from '../../components/forms/EpFormContent.vue';
@@ -70,7 +70,7 @@ import { parsiEsitysnimi } from '@shared/utils/kayttaja';
     EpFormContent,
   },
 })
-export default class EpVersioModaali extends Mixins(EpValidation) {
+export class EpVersioModaali extends Vue{ //extends mixins(EpValidation) {
   @Prop({ required: true })
   private versions!: Revision[];
 
@@ -123,10 +123,13 @@ export default class EpVersioModaali extends Mixins(EpValidation) {
     this.$router.push({ query: { versionumero } }).catch(() => {});
   }
 
+
   get rows() {
     return this.versionsFormatted.length;
   }
 }
+
+export default toNative(EpVersioModaali);
 
 </script>
 

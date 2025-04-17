@@ -210,7 +210,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-facing-decorator';
 import _ from 'lodash';
 import { KoodistoSelectStore } from '../EpKoodistoSelect/KoodistoSelectStore';
 import { Koodisto, TermiDto } from '@shared/api/eperusteet';

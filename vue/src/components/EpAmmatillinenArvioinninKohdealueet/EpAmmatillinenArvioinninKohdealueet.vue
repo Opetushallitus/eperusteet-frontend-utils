@@ -56,7 +56,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-facing-decorator';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import * as _ from 'lodash';
 

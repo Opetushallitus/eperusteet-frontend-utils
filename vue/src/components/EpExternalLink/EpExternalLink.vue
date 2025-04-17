@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator';
+import { Prop, Component, Vue } from 'vue-facing-decorator';
 import EpLinkki from '@shared/components/EpLinkki/EpLinkki.vue';
 
 @Component({

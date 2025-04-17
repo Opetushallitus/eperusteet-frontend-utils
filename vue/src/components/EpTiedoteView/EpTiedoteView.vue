@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts">
-import { Prop, Vue, Component } from 'vue-property-decorator';
+import { Prop, Vue, Component } from 'vue-facing-decorator';
 import EpMainView from '../EpMainView/EpMainView.vue';
 import EpContentReadMore from '../EpContentReadMore/EpContentReadMore.vue';
 import EpLinkki from '../EpLinkki/EpLinkki.vue';

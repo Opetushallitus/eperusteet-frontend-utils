@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Component, Prop, toNative } from 'vue-facing-decorator';
 
 import EpSpinnerInline from '@shared/components/EpSpinner/EpSpinnerInline.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
@@ -22,7 +22,7 @@ import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue
       EpMaterialIcon,
     },
   })
-export default class EpRoundButton extends Vue {
+export class EpRoundButton extends Vue {
     @Prop({
       required: true,
       type: String,
@@ -38,6 +38,8 @@ export default class EpRoundButton extends Vue {
     @Prop({ default: 'primary' })
     private variant!: string;
 }
+export default toNative(EpRoundButton);
+
 </script>
 
 <style lang="scss" scoped>

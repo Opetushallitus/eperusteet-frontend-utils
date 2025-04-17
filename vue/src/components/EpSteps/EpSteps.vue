@@ -82,7 +82,7 @@
 </template>
 
 <script lang="ts">
-import { Watch, Component, Prop, Vue } from 'vue-property-decorator';
+import { Watch, Component, Prop, Vue } from 'vue-facing-decorator';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import _ from 'lodash';
 

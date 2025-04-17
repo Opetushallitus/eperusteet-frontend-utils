@@ -66,7 +66,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, InjectReactive } from 'vue-property-decorator';
+import { Component, Prop, Vue, InjectReactive } from 'vue-facing-decorator';
 import EpCollapse from '@shared/components/EpCollapse/EpCollapse.vue';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
 import EpAlert from '@shared/components/EpAlert/EpAlert.vue';

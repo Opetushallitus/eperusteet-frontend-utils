@@ -88,7 +88,7 @@
 
 <script lang="ts">
 
-import { Vue, Prop, Component } from 'vue-property-decorator';
+import { Vue, Prop, Component } from 'vue-facing-decorator';
 import draggable from 'vuedraggable';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 

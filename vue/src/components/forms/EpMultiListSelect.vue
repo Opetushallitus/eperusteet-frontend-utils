@@ -125,7 +125,7 @@
 
 <script lang="ts">
 import _ from 'lodash';
-import { Component, Prop, Mixins, Watch, Vue } from 'vue-property-decorator';
+import { Component, Prop, Mixins, Watch, Vue } from 'vue-facing-decorator';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import EpValidation from '../../mixins/EpValidation';
 import EpButton from '@shared/components/EpButton/EpButton.vue';

@@ -129,7 +129,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Watch, Component, Prop } from 'vue-property-decorator';
+import { Vue, Watch, Component, Prop } from 'vue-facing-decorator';
 import EpButton from '../EpButton/EpButton.vue';
 import EpToggle from '../forms/EpToggle.vue';
 import EpSearch from '../forms/EpSearch.vue';

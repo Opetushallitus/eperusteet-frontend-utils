@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Mixins } from 'vue-property-decorator';
+import { Component, Prop, Mixins } from 'vue-facing-decorator';
 import _ from 'lodash';
 import EpValidation from '../../mixins/EpValidation';
 

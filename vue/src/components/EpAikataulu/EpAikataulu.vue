@@ -69,7 +69,7 @@
 
 <script lang="ts">
 
-import { Vue, Component, Prop, Mixins } from 'vue-property-decorator';
+import { Vue, Component, Prop, Mixins } from 'vue-facing-decorator';
 import _ from 'lodash';
 import { aikataulutapahtuma, Tapahtuma } from '../../utils/aikataulu';
 

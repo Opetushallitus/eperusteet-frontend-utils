@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-facing-decorator';
 import _ from 'lodash';
 import eiLoydyImage from '@assets/img/images/404.svg';
 import virhekuva from '@assets/img/images/virhe.png';

@@ -75,7 +75,7 @@
 </template>
 
 <script lang="ts">
-import { Watch, Prop, Component, Vue } from 'vue-property-decorator';
+import { Watch, Prop, Component, Vue } from 'vue-facing-decorator';
 import EpSearch from '@shared/components/forms/EpSearch.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpToggle from '@shared/components/forms/EpToggle.vue';

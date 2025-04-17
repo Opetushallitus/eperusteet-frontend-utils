@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts">
-import { Watch, Prop, Component } from 'vue-property-decorator';
+import { Watch, Prop, Component } from 'vue-facing-decorator';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import EpValidation from '../../mixins/EpValidation';
 import EpErrorWrapper from '../forms/EpErrorWrapper.vue';

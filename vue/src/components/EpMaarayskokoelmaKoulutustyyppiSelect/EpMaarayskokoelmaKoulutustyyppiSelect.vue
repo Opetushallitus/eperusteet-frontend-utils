@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import * as _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-facing-decorator';
 import EpColorIndicator from '@shared/components/EpColorIndicator/EpColorIndicator.vue';
 import { EperusteetKoulutustyypit, EperusteetKoulutustyyppiRyhmat, Toteutus } from '@shared/utils/perusteet';
 import KoulutustyyppiSelect from '@shared/components/forms/EpKoulutustyyppiSelect.vue';

@@ -132,7 +132,7 @@
 
 <script lang="ts">
 import * as _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-facing-decorator';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import { Kielet } from '@shared/stores/kieli';
 import draggable from 'vuedraggable';

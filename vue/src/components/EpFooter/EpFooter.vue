@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-facing-decorator';
 
 import EpLinkki from '@shared/components/EpLinkki/EpLinkki.vue';
 import EpExternalLink from '../EpExternalLink/EpExternalLink.vue';

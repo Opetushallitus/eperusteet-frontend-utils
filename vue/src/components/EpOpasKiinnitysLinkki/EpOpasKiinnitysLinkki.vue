@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-facing-decorator';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { PerusteDto, Perusteet } from '@shared/api/eperusteet';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';

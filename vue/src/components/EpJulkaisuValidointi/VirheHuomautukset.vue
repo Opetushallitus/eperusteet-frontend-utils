@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator';
+import { Prop, Component, Vue } from 'vue-facing-decorator';
 import { VirheHuomautus } from './EpJulkaisuValidointi.vue';
 import IkoniTeksti from './IkoniTeksti.vue';
 import EpNaytaKaikki from '@shared/components//EpNaytaKaikki/EpNaytaKaikki.vue';

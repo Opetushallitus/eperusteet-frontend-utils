@@ -13,7 +13,7 @@
 
 <script lang="ts">
 import _ from 'lodash';
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-facing-decorator';
 
 import { Kielet } from '@shared/stores/kieli';
 import PoistetutTable from './PoistetutTable.vue';

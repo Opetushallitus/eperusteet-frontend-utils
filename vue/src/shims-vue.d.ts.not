@@ -1,12 +1,6 @@
-// export {};
-
-declare module 'vue' {
-  import { CompatVue } from '@vue/runtime-dom';
-  const Vue: CompatVue;
+declare module '*.vue' {
+  import Vue from 'vue';
   export default Vue;
-  export * from '@vue/runtime-dom';
-  import { configureCompat } from '@vue/compat';
-  export { configureCompat };
 }
 
 declare module '*.svg' {
@@ -28,3 +22,12 @@ declare module 'vue-sticky-directive';
 declare module 'vue2-datepicker';
 declare module 'tiptap';
 declare module 'tiptap-extensions';
+
+declare module 'vue' {
+  import { CompatVue } from '@vue/runtime-dom';
+  const Vue: CompatVue;
+  export default Vue;
+  export * from '@vue/runtime-dom';
+  const { configureCompat } = Vue;
+  export { configureCompat };
+}

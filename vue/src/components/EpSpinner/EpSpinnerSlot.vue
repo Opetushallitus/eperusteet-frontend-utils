@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Prop, Component } from 'vue-property-decorator';
+import { Vue, Prop, Component } from 'vue-facing-decorator';
 import EpSpinner from './EpSpinner.vue';
 
 @Component({

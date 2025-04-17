@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import * as _ from 'lodash';
-import { Prop, Component, Vue } from 'vue-property-decorator';
+import { Prop, Component, Vue } from 'vue-facing-decorator';
 import EpToggle from '@shared/components/forms/EpToggle.vue';
 import VirheHuomautukset from './VirheHuomautukset.vue';
 import { NavigationNodeDto } from '@shared/tyypit';

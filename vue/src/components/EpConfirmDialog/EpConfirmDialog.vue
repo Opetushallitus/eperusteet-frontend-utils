@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { Prop, Component, Vue, Mixins } from 'vue-property-decorator';
+import { Prop, Component, Vue, Mixins } from 'vue-facing-decorator';
 import _ from 'lodash';
 
 @Component({ name: 'EpConfirmDialog' })

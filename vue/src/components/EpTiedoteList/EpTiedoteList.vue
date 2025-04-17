@@ -40,7 +40,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Mixins, Watch } from 'vue-property-decorator';
+import { Vue, Component, Prop, Mixins, Watch } from 'vue-facing-decorator';
 import _ from 'lodash';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import EpButton from '../EpButton/EpButton.vue';

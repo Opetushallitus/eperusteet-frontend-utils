@@ -466,7 +466,7 @@
 
 <script lang="ts">
 import _ from 'lodash';
-import { Watch, Component, Mixins, Prop } from 'vue-property-decorator';
+import { Watch, Component, Prop, toNative, Vue } from 'vue-facing-decorator';
 import { validationMixin } from 'vuelidate';
 import Sticky from 'vue-sticky-directive';
 import { EditointiStore } from './EditointiStore';
@@ -481,11 +481,11 @@ import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 @Component({
-  validations() {
-    return {
-      inner: this.validator,
-    };
-  },
+  // validations() {
+  //   return {
+  //     inner: this.validator,
+  //   };
+  // },
   directives: {
     Sticky,
   },
@@ -497,7 +497,7 @@ import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue
     EpVersioModaali,
   },
 })
-export default class EpEditointi extends Mixins(validationMixin) {
+export class EpEditointi extends Vue{ //extends Mixins(validationMixin) {
   @Prop({ required: true })
   private store!: EditointiStore;
 
@@ -935,6 +935,8 @@ export default class EpEditointi extends Mixins(validationMixin) {
     });
   }
 }
+
+export default toNative(EpEditointi);
 
 </script>
 <style scoped lang="scss">

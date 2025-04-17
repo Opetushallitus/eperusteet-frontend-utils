@@ -71,7 +71,7 @@
 
 <script lang="ts">
 import _ from 'lodash';
-import { Prop, Vue, Component, Watch } from 'vue-property-decorator';
+import { Prop, Vue, Component, Watch } from 'vue-facing-decorator';
 import EpMainView from '@shared/components//EpMainView/EpMainView.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import EpSearch from '@shared/components/forms/EpSearch.vue';

@@ -255,7 +255,7 @@
 
 <script lang="ts">
 import * as _ from 'lodash';
-import { Prop, Component, Vue } from 'vue-property-decorator';
+import { Prop, Component, Vue } from 'vue-facing-decorator';
 import { Kielet, UiKielet } from '../../stores/kieli';
 import { Kieli } from '../../tyypit';
 import { IEsitysnimi, parsiEsitysnimi } from '../../utils/kayttaja';

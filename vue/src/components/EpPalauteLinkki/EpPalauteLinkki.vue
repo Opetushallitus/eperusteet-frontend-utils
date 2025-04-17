@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import * as _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-facing-decorator';
 import { Maintenance } from '@shared/api/eperusteet';
 import { BrowserStore } from '@shared/stores/BrowserStore';
 

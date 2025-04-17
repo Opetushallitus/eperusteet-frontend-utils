@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Prop, Component, Inject } from 'vue-property-decorator';
+import { Vue, Prop, Component, Inject } from 'vue-facing-decorator';
 import EpIcon from '@shared/components/EpIcon/EpIcon.vue';
 
 @Component({

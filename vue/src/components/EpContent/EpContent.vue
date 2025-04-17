@@ -43,7 +43,7 @@
 <script lang="ts">
 
 import * as _ from 'lodash';
-import { Component, InjectReactive, Mixins, Prop, Watch } from 'vue-property-decorator';
+import { Component, InjectReactive, Mixins, Prop, Watch } from 'vue-facing-decorator';
 import { Editor, EditorContent } from 'tiptap';
 import { delay } from '@shared/utils/delay';
 import { Kielet } from '@shared/stores/kieli';

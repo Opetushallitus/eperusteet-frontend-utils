@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-facing-decorator';
 import { NavigationNodeDto } from '@shared/tyypit';
 import { NavigationNode, setPerusteData } from '@shared/utils/NavigationBuilder';
 

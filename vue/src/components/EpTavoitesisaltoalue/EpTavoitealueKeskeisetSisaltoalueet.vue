@@ -52,7 +52,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-facing-decorator';
 import _ from 'lodash';
 import draggable from 'vuedraggable';
 import EpButton from '@shared/components/EpButton/EpButton.vue';

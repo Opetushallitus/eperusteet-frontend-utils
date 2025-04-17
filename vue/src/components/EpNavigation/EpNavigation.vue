@@ -79,7 +79,7 @@
 
 <script lang="ts">
 import _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-facing-decorator';
 import Sticky from 'vue-sticky-directive';
 import { Kieli } from '@shared/tyypit';
 import { Kielet, UiKielet } from '@shared/stores/kieli';

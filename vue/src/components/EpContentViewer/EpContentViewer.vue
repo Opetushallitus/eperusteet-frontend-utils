@@ -46,7 +46,7 @@
 
 <script lang="ts">
 import _ from 'lodash';
-import { Vue, Component, Prop, Watch, InjectReactive } from 'vue-property-decorator';
+import { Vue, Component, Prop, Watch, InjectReactive } from 'vue-facing-decorator';
 import { LiiteDtoWrapper } from '../../tyypit';
 import { Kielet } from '../../stores/kieli';
 import { ILinkkiHandler } from '../EpContent/LinkkiHandler';

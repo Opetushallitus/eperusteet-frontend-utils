@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Mixins } from 'vue-property-decorator';
+import { Component, Prop, Mixins } from 'vue-facing-decorator';
 
 import EpFormContent from './EpFormContent.vue';
 import EpInput from './EpInput.vue';

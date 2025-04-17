@@ -52,7 +52,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-facing-decorator';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import { MuokkaustietoStore } from '@shared/stores/MuokkaustietoStore';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';

@@ -60,7 +60,7 @@
 
 <script lang="ts">
 import _ from 'lodash';
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-facing-decorator';
 
 import EpPrefixList from '@shared/components/EpPrefixList/EpPrefixList.vue';
 import EpList from '@shared/components/forms/EpList.vue';

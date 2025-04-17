@@ -34,7 +34,7 @@
 <script lang="ts">
 import { NavigationNodeDto } from '@shared/tyypit';
 import * as _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-facing-decorator';
 
 @Component
 export default class EpNavigationLabel extends Vue {
