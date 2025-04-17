@@ -40,10 +40,9 @@
   </div>
 </template>
 
-<script lang="ts">
-
+<script setup lang="ts">
 import * as _ from 'lodash';
-import { Component, InjectReactive, Mixins, Prop, Watch } from 'vue-property-decorator';
+import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick, useAttrs, inject, getCurrentInstance, useTemplateRef } from 'vue';
 import { Editor, EditorContent } from 'tiptap';
 import { delay } from '@shared/utils/delay';
 import { Kielet } from '@shared/stores/kieli';
@@ -69,7 +68,7 @@ import {
 import EpEditorMenuBar from './EpEditorMenuBar.vue';
 import Sticky from 'vue-sticky-directive';
 import { EditorLayout } from '@shared/tyypit';
-import EpValidation from '@shared/mixins/EpValidation';
+import { useVuelidate } from '@vuelidate/core';
 import { IKasiteHandler } from './KasiteHandler';
 import TermiExtension from './TermiExtension';
 import ImageExtension from './ImageExtension';
@@ -80,240 +79,270 @@ import { ILinkkiHandler } from './LinkkiHandler';
 import { fixTipTapContent } from '@shared/utils/helpers';
 import { unescapeStringHtml } from '@shared/utils/inputs';
 
+// Create span element for stripping tags
 const striptag = document.createElement('span');
 
-@Component({
-  components: {
-    EditorContent,
-    EpEditorMenuBar,
+// Define props
+const props = defineProps({
+  modelValue: {
+    type: Object,
+    required: true,
   },
-  directives: {
-    Sticky,
-    ObserveVisibility,
+  isEditable: {
+    type: Boolean,
+    default: false,
   },
-})
-export default class EpContent extends Mixins(EpValidation) {
-  @Prop({ required: true })
-  value!: Object;
+  locale: {
+    type: String,
+    required: false,
+  },
+  layout: {
+    type: String as () => EditorLayout,
+    required: true,
+  },
+  isPlainString: {
+    type: Boolean,
+    default: false,
+  },
+  toolbarHelp: {
+    type: String,
+    default: '',
+  },
+  help: {
+    type: String,
+    default: '',
+  },
+  sticky: {
+    type: Boolean,
+    default: true,
+  },
+  kasiteHandler: {
+    type: Object as () => IKasiteHandler,
+    required: false,
+  },
+  kuvaHandler: {
+    type: Object as () => IKuvaHandler,
+    required: false,
+  },
+  validMessage: {
+    type: String,
+    default: '',
+  },
+  invalidMessage: {
+    type: String,
+    default: '',
+  },
+});
 
-  @Prop({ default: false })
-  isEditable!: boolean;
+// Get validation from useVuelidate
+const v$ = useVuelidate();
+const validation = computed(() => v$.value);
 
-  @Prop()
-  locale!: string;
+// Define emits
+const emit = defineEmits(['update:modelValue']);
 
-  @Prop({ required: true })
-  layout!: EditorLayout;
+// Get instance for $t and other global properties
+const instance = getCurrentInstance();
+const $t = instance?.appContext.config.globalProperties.$t;
+const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
+const $kaannaPlaceholder = instance?.appContext.config.globalProperties.$kaannaPlaceholder;
 
-  @Prop({ default: false })
-  isPlainString!: boolean;
+// Template refs
+const content = useTemplateRef('content');
 
-  @Prop({ default: '' })
-  toolbarHelp!: string;
+// State
+const editor = ref(null);
+const focused = ref(false);
+const isVisible = ref(true);
 
-  @Prop({ default: '' })
-  help!: string;
+// Inject dependencies
+const linkkiHandler = inject<ILinkkiHandler>('linkkiHandler');
+const injectedKuvaHandler = inject<IKuvaHandler>('kuvaHandler');
+const injectedKasiteHandler = inject<IKasiteHandler>('kasiteHandler');
 
-  @Prop({ default: true })
-  sticky!: boolean;
+// Computed properties
+const annettuKuvaHandler = computed(() => {
+  return props.kuvaHandler || injectedKuvaHandler;
+});
 
-  @Prop({ required: false })
-  kasiteHandler!: IKasiteHandler;
+const annettuKasiteHandler = computed(() => {
+  return props.kasiteHandler || injectedKasiteHandler;
+});
 
-  @Prop({ required: false })
-  kuvaHandler!: IKuvaHandler;
+const lang = computed(() => {
+  return props.locale || Kielet.getSisaltoKieli.value || 'fi';
+});
 
-  @InjectReactive('linkkiHandler')
-  private linkkiHandler!: ILinkkiHandler;
+const localizedValue = computed(() => {
+  if (!props.modelValue) {
+    return null;
+  }
+  else if (props.isPlainString) {
+    return props.modelValue || '';
+  }
+  else if (_.isObject(props.modelValue)) {
+    return placeholder.value || (props.modelValue as any)[lang.value] || '';
+  }
+  else {
+    return props.modelValue;
+  }
+});
 
-  @InjectReactive('kuvaHandler')
-  private injectedKuvaHandler!: IKuvaHandler;
+const placeholder = computed(() => {
+  if (!focused.value) {
+    return $kaannaPlaceholder?.(props.modelValue, !props.isEditable);
+  }
+});
 
-  @InjectReactive('kasiteHandler')
-  private injectedKasiteHandler!: IKasiteHandler;
+const validationError = computed(() => {
+  if (validation.value?.$error) {
+    return Object.keys(validation.value?.$errors[0].$validator ?? {})[0] || null;
+  }
+  return null;
+});
 
-  private editor: any = null;
+const isSticky = computed(() => {
+  return props.sticky && isVisible.value;
+});
 
-  private focused = false;
-  private isVisible = true;
-
-  get annettuKuvaHandler() {
-    return this.kuvaHandler || this.injectedKuvaHandler;
+// Watch for changes in isEditable
+watch(() => props.isEditable, (val, oldVal) => {
+  if (val === oldVal) {
+    return;
   }
 
-  get annettuKasiteHandler() {
-    return this.kasiteHandler || this.injectedKasiteHandler;
-  }
-
-  get lang() {
-    return this.locale || Kielet.getSisaltoKieli.value || 'fi';
-  }
-
-  get localizedValue() {
-    if (!this.value) {
-      return null;
-    }
-    else if (this.isPlainString) {
-      return this.value || '';
-    }
-    else if (_.isObject(this.value)) {
-      return this.placeholder || (this.value as any)[this.lang] || '';
-    }
-    else {
-      return this.value;
-    }
-  }
-
-  get placeholder() {
-    if (!this.focused) {
-      return this.$kaannaPlaceholder(this.value, !this.isEditable);
-    }
-  }
-
-  mounted() {
-    let linkImplementation: any = null;
-    try {
-      linkImplementation = new CustomLink(this.linkkiHandler);
-    }
-    catch (err) {
-      linkImplementation = new Link();
-    }
-
-    const extensions = [
-      new HardBreak(),
-      new History(),
-      new Blockquote(),
-      new Bold(),
-      new Italic(),
-      new Strike(),
-      linkImplementation,
-      new BulletList(),
-      new OrderedList(),
-      new ListItem(),
-      new Table({ resizable: true }),
-      new TableHeader(),
-      new TableCell(),
-      new TableRow(),
-    ];
-
-    if (this.annettuKasiteHandler) {
-      extensions.push(new TermiExtension(this.annettuKasiteHandler));
-    }
-
-    if (this.annettuKuvaHandler) {
-      extensions.push(new ImageExtension(this.annettuKuvaHandler));
-    }
-
-    this.editor = new Editor({
-      content: fixTipTapContent(this.localizedValue),
-      editable: this.isEditable,
-      onUpdate: () => {
-        this.setUpEditorEvents();
-      },
-      onFocus: () => {
-        if (this.isEditable) {
-          this.focused = true;
-          if (!this.localizedValue) {
-            this.editor.setContent(fixTipTapContent(this.localizedValue));
-          }
-        }
-      },
-      onBlur: () => {
-        this.focused = false;
-      },
-      extensions,
-    });
-  }
-
-  @Watch('isEditable', { immediate: true })
-  onChange(val: boolean, oldVal: boolean) {
-    if (val === oldVal) {
+  nextTick(() => {
+    if (!editor.value) {
       return;
     }
 
-    this.$nextTick(() => {
-      if (!this.editor) {
-        return;
-      }
-
-      this.editor.setOptions({
-        editable: val,
-      });
-
-      if (val) {
-        this.setClass('form-control');
-      }
-      else {
-        this.setClass('');
-      }
+    editor.value.setOptions({
+      editable: val,
     });
-  }
 
-  async setClass(c: string) {
-    await delay();
-    // HACK: give prose mirror 10 vue ticks.
-    for (let count = 0; count < 10; ++count) {
-      if (this.$refs.content) {
-        const pm = (this.$refs.content as any).$el?.firstChild;
-        if (pm) {
-          (this.$refs.content as any).$el.firstChild.className = 'ProseMirror ' + c;
-          break;
-        }
-      }
-      await this.$nextTick();
+    if (val) {
+      setClass('form-control');
     }
-  }
-
-  beforeDestroy() {
-    if (this.editor) {
-      this.editor.destroy();
+    else {
+      setClass('');
     }
+  });
+}, { immediate: true });
+
+// Watch for changes in localizedValue
+watch(localizedValue, (val) => {
+  if (editor.value && !focused.value) {
+    editor.value.setContent(localizedValue.value);
   }
+}, { immediate: true });
 
-  @Watch('localizedValue', {
-    immediate: true,
-  })
-  onValueUpdate(val: string) {
-    if (this.editor && !this.focused) {
-      this.editor.setContent(this.localizedValue);
-    }
+// Watch for changes in lang
+watch(lang, () => {
+  if (editor.value) {
+    editor.value.setContent(localizedValue.value);
   }
+});
 
-  setUpEditorEvents() {
-    const data = this.editor.getHTML();
-    striptag.innerHTML = data;
-    const isValid = !_.isEmpty(striptag.innerText || striptag.textContent) || striptag.getElementsByTagName('img').length > 0;
-    const stripped = isValid ? data : null;
+// Methods
+function visibilityChanged(isVisible) {
+  isVisible.value = isVisible;
+}
 
-    if (!this.placeholder) {
-      if (this.isPlainString) {
-        this.$emit('input', stripped);
-      }
-      else {
-        this.$emit('input', {
-          ...this.value,
-          [Kielet.getSisaltoKieli.value as unknown as string]: stripped,
-        });
+async function setClass(c: string) {
+  await delay();
+  // HACK: give prose mirror 10 vue ticks.
+  for (let count = 0; count < 10; ++count) {
+    if (content.value) {
+      const pm = content.value.$el?.firstChild;
+      if (pm) {
+        content.value.$el.firstChild.className = 'ProseMirror ' + c;
+        break;
       }
     }
-  }
-
-  @Watch('lang')
-  onEditableChange(val: boolean) {
-    if (this.editor) {
-      this.editor.setContent(this.localizedValue);
-    }
-  }
-
-  visibilityChanged(isVisible) {
-    this.isVisible = isVisible;
-  }
-
-  get isSticky() {
-    return this.sticky && this.isVisible;
+    await nextTick();
   }
 }
 
+function setUpEditorEvents() {
+  const data = editor.value.getHTML();
+  striptag.innerHTML = data;
+  const isValid = !_.isEmpty(striptag.innerText || striptag.textContent) || striptag.getElementsByTagName('img').length > 0;
+  const stripped = isValid ? data : null;
+
+  if (!placeholder.value) {
+    if (props.isPlainString) {
+      emit('update:modelValue', stripped);
+    }
+    else {
+      emit('update:modelValue', {
+        ...props.modelValue,
+        [Kielet.getSisaltoKieli.value as unknown as string]: stripped,
+      });
+    }
+  }
+}
+
+// Lifecycle hooks
+onMounted(() => {
+  let linkImplementation: any = null;
+  try {
+    linkImplementation = new CustomLink(linkkiHandler);
+  }
+  catch (err) {
+    linkImplementation = new Link();
+  }
+
+  const extensions = [
+    new HardBreak(),
+    new History(),
+    new Blockquote(),
+    new Bold(),
+    new Italic(),
+    new Strike(),
+    linkImplementation,
+    new BulletList(),
+    new OrderedList(),
+    new ListItem(),
+    new Table({ resizable: true }),
+    new TableHeader(),
+    new TableCell(),
+    new TableRow(),
+  ];
+
+  if (annettuKasiteHandler.value) {
+    extensions.push(new TermiExtension(annettuKasiteHandler.value));
+  }
+
+  if (annettuKuvaHandler.value) {
+    extensions.push(new ImageExtension(annettuKuvaHandler.value));
+  }
+
+  editor.value = new Editor({
+    content: fixTipTapContent(localizedValue.value),
+    editable: props.isEditable,
+    onUpdate: () => {
+      setUpEditorEvents();
+    },
+    onFocus: () => {
+      if (props.isEditable) {
+        focused.value = true;
+        if (!localizedValue.value) {
+          editor.value.setContent(fixTipTapContent(localizedValue.value));
+        }
+      }
+    },
+    onBlur: () => {
+      focused.value = false;
+    },
+    extensions,
+  });
+});
+
+onBeforeUnmount(() => {
+  if (editor.value) {
+    editor.value.destroy();
+  }
+});
 </script>
 
 <style scoped lang="scss">

@@ -1,12 +1,12 @@
 <template>
   <div>
     <div
-      v-for="(arvioinninKohdeAlue, index) in model"
+      v-for="(arvioinninKohdeAlue, index) in modelValue"
       :key="'arvioinninKohdeAlue' + index"
       class="arviointi"
     >
       <EpArviointi
-        v-model="model[index]"
+        v-model="modelValue[index]"
         :is-editing="isEditing"
         :arviointiasteikot="arviointiasteikot"
       >
@@ -34,57 +34,40 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import * as _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { computed } from 'vue';
 import EpArviointi from '@shared/components/EpArviointi/EpArviointi.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 
-@Component({
-  components: {
-    EpArviointi,
-    EpButton,
-  },
-})
-export default class EpArvioinninKohdeAlueet extends Vue {
-  @Prop({ required: true })
-  private value!: any[];
+const props = defineProps<{
+  modelValue: any[];
+  isEditing: boolean;
+  arviointiasteikot: any;
+}>();
 
-  @Prop({ required: true })
-  private isEditing!: boolean;
+const emit = defineEmits(['update:modelValue']);
 
-  @Prop({ required: true })
-  private arviointiasteikot!: any;
+const lisaaArvioinninKohdeAlue = () => {
+  emit('update:modelValue', [
+    ...props.modelValue,
+    {
+      arvioinninKohteet: [],
+    },
+  ]);
+};
 
-  get model() {
-    return this.value;
+const poistaArvioinninKohdealue = (arvioinninKohdeAlue: any) => {
+  emit('update:modelValue', _.filter(props.modelValue, arv => arv !== arvioinninKohdeAlue));
+};
+
+const lisaaBtnTeksti = computed(() => {
+  if (_.size(props.modelValue) > 0) {
+    return 'lisaa-arvioinnin-kohdealue';
   }
 
-  set model(val) {
-    this.$emit('input', val);
-  }
-
-  lisaaArvioinninKohdeAlue() {
-    this.model = [
-      ...this.model,
-      {
-        arvioinninKohteet: [],
-      },
-    ];
-  }
-
-  poistaArvioinninKohdealue(arvioinninKohdeAlue) {
-    this.model = _.filter(this.model, arv => arv !== arvioinninKohdeAlue);
-  }
-
-  get lisaaBtnTeksti() {
-    if (_.size(this.model) > 0) {
-      return 'lisaa-arvioinnin-kohdealue';
-    }
-
-    return 'lisaa-tutkinnon-osa-kohtainen-arviointi';
-  }
-}
+  return 'lisaa-tutkinnon-osa-kohtainen-arviointi';
+});
 </script>
 
 <style scoped lang="scss">

@@ -39,38 +39,38 @@
   </ep-form-content>
 </template>
 
-<script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, getCurrentInstance } from 'vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import EpAlert from '@shared/components/EpAlert/EpAlert.vue';
 import * as _ from 'lodash';
 
-@Component({
-  components: {
-    EpFormContent,
-    EpAlert,
+const instance = getCurrentInstance();
+const $t = instance?.appContext.config.globalProperties.$t;
+const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
+
+const props = defineProps({
+  arviointi: {
+    type: Object,
+    required: true,
   },
-})
-export default class Arviointi2020Taulukko extends Vue {
-  @Prop({ required: true })
-  private arviointi!: any;
+});
 
-  get osaamistasonKriteerit() {
-    return _.sortBy(this.arviointi.osaamistasonKriteerit, otk => _.get(otk, 'osaamistaso.koodi.arvo'));
-  }
+const osaamistasonKriteerit = computed(() => {
+  return _.sortBy(props.arviointi.osaamistasonKriteerit, otk => _.get(otk, 'osaamistaso.koodi.arvo'));
+});
 
-  get osaamistasonKriteeritFields() {
-    return [{
-      key: 'osaamistaso',
-      label: this.$t('osaamistaso') as string,
-      thStyle: { display: 'none' },
-    }, {
-      key: 'kriteerit',
-      label: this.$t('kriteerit') as string,
-      thStyle: { display: 'none' },
-    }] as any[];
-  }
-}
+const osaamistasonKriteeritFields = computed(() => {
+  return [{
+    key: 'osaamistaso',
+    label: $t('osaamistaso'),
+    thStyle: { display: 'none' },
+  }, {
+    key: 'kriteerit',
+    label: $t('kriteerit'),
+    thStyle: { display: 'none' },
+  }];
+});
 </script>
 
 <style scoped lang="scss">

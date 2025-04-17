@@ -34,45 +34,43 @@
   </draggable>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed } from 'vue';
 import EpCollapse from '@shared/components/EpCollapse/EpCollapse.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import draggable from 'vuedraggable';
 import { DEFAULT_DRAGGABLE_PROPERTIES } from '@shared/utils/defaults';
 
-@Component({
-  components: {
-    EpCollapse,
-    EpMaterialIcon,
-    draggable,
+const props = defineProps({
+  modelValue: {
+    type: Array,
+    required: true,
   },
-})
-export default class EpDraggableCollapse extends Vue {
-  @Prop({ required: true })
-  value!: any[];
+  isEditing: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+});
 
-  @Prop({ required: false, default: false })
-  isEditing!: boolean;
+const emit = defineEmits(['update:modelValue']);
 
-  set model(val) {
-    this.$emit('input', val);
-  }
+const model = computed({
+  get: () => props.modelValue,
+  set: (val) => {
+    emit('update:modelValue', val);
+  },
+});
 
-  get model() {
-    return this.value;
-  }
-
-  get defaultDragOptions() {
-    return {
-      ...DEFAULT_DRAGGABLE_PROPERTIES,
-      disabled: !this.isEditing,
-      group: {
-        name: 'EpDraggableCollapse',
-      },
-    };
-  }
-}
+const defaultDragOptions = computed(() => {
+  return {
+    ...DEFAULT_DRAGGABLE_PROPERTIES,
+    disabled: !props.isEditing,
+    group: {
+      name: 'EpDraggableCollapse',
+    },
+  };
+});
 </script>
 
 <style scoped lang="scss">

@@ -2,18 +2,19 @@
   <img :src="src">
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed } from 'vue';
 
-@Component
-export default class EpPublicImage extends Vue {
-  @Prop({ required: true })
-  private image!: string;
+const props = defineProps({
+  image: {
+    type: String,
+    required: true,
+  },
+});
 
-  get src() {
-    return require(`../../../public/img/icons/${this.image}`);
-  }
-}
+const src = computed(() => {
+  return require(`../../../public/img/icons/${props.image}`);
+});
 </script>
 
 <style lang="scss" scoped>

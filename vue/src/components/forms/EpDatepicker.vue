@@ -4,7 +4,7 @@
     class="ep-date-picker"
   >
     <b-form-datepicker
-      :value="modelValue"
+      :value="modelValueComputed"
       :locale="locale"
       start-weekday="1"
       :placeholder="$t('valitse-pvm')"
@@ -56,111 +56,148 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Mixins } from 'vue-property-decorator';
+<script setup lang="ts">
 import _ from 'lodash';
 import DatePicker from 'vue2-datepicker';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { Kielet } from '../../stores/kieli';
+import { useVuelidate } from '@vuelidate/core';
 import EpFormContent from './EpFormContent.vue';
-import EpValidation from '../../mixins/EpValidation';
 
-@Component({
-  components: {
-    DatePicker,
-    EpFormContent,
+// Define props
+const props = defineProps({
+  modelValue: {
+    type: [Date, Number, String],
+    required: true
   },
-})
-export default class EpDatepicker extends Mixins(EpValidation) {
-  @Prop({ required: true })
-  private value!: any;
-
-  @Prop({
+  type: {
+    type: String,
     default: 'sd',
-    validator(value) {
+    validator(value: string) {
       return _.includes(['date', 'datetime', 'sd'], value);
-    },
-  })
-  private type!: string;
-
-  @Prop({ default: false, type: Boolean })
-  private isEditing!: boolean;
-
-  @Prop({ default: '', type: String })
-  private help!: string;
-
-  @Prop({ default: true, required: false })
-  private showValidValidation!: boolean;
-
-  @Prop({ default: false, type: Boolean })
-  private endOfDay!: boolean;
-
-  get modelValue() {
-    if (_.isNumber(this.value)) {
-      return new Date(this.value);
     }
-
-    return this.value;
+  },
+  isEditing: {
+    type: Boolean,
+    default: false
+  },
+  help: {
+    type: String,
+    default: ''
+  },
+  showValidValidation: {
+    type: Boolean,
+    default: true,
+    required: false
+  },
+  endOfDay: {
+    type: Boolean,
+    default: false
+  },
+  validation: {
+    type: Object,
+    default: null
+  },
+  validMessage: {
+    type: String,
+    default: null
+  },
+  invalidMessage: {
+    type: String,
+    default: null
+  },
+  isWarning: {
+    type: Boolean,
+    default: false
   }
+});
 
-  get state() {
-    if (!this.showValidValidation || this.isValid) {
-      return null;
-    }
+// Define emits
+const emit = defineEmits(['update:modelValue', 'blur']);
 
-    return this.isValid;
+// Use i18n
+const { t } = useI18n();
+
+// Validation setup
+const v$ = useVuelidate();
+
+// Computed properties
+const modelValueComputed = computed(() => {
+  if (_.isNumber(props.modelValue)) {
+    return new Date(props.modelValue);
   }
+  return props.modelValue;
+});
 
-  get locdate() {
-    if (!this.value) {
-      return this.$t('ei-asetettu');
-    }
-    else if (this.type === 'datetime') {
-      return (this as any).$ldt(this.value);
-    }
-    else if (this.type === 'sd') {
-      return (this as any).$sd(this.value);
-    }
-    else {
-      return (this as any).$ld(this.value);
-    }
+const state = computed(() => {
+  if (!props.showValidValidation || props.validation?.isValid) {
+    return null;
   }
+  return props.validation?.isValid;
+});
 
-  get lang() {
-    return Kielet.getAikakaannokset;
+const locdate = computed(() => {
+  if (!props.modelValue) {
+    return t('ei-asetettu');
   }
+  else if (props.type === 'datetime') {
+    return props.modelValue; // Need to implement $ldt equivalent
+  }
+  else if (props.type === 'sd') {
+    return props.modelValue; // Need to implement $sd equivalent
+  }
+  else {
+    return props.modelValue; // Need to implement $ld equivalent
+  }
+});
 
-  get locale() {
-    return Kielet.getUiKieli.value;
-  }
+const locale = computed(() => {
+  return Kielet.getUiKieli.value;
+});
 
-  private onInput(event: any) {
-    if (event && this.endOfDay) {
-      event.setHours(23);
-      event.setMinutes(59);
-      event.setSeconds(59);
-    }
-    this.$emit('input', event);
-    if (this.validation) {
-      (this.validation as any).$touch();
-    }
+const validationError = computed(() => {
+  return props.validation?.error;
+});
+
+const isDirty = computed(() => {
+  return props.validation?.$dirty;
+});
+
+const message = computed(() => {
+  return props.validation?.message;
+});
+
+// Methods
+const onInput = (event: any) => {
+  if (event && props.endOfDay) {
+    event.setHours(23);
+    event.setMinutes(59);
+    event.setSeconds(59);
   }
-}
+  emit('update:modelValue', event);
+  if (props.validation) {
+    props.validation.$touch();
+  }
+};
+
+const onBlur = () => {
+  emit('blur');
+};
 </script>
 
 <style scoped lang="scss">
-
-::v-deep .ep-datepicker-validation {
+:deep(.ep-datepicker-validation) {
   padding-right: calc(3em + .75rem) !important;
 }
 
-::v-deep .ep-datepicker-validation ~ .mx-input-append {
+:deep(.ep-datepicker-validation ~ .mx-input-append) {
   right: 30px;
 }
 
 // Piilotettu Bootstrapissa oletuksena
-::v-deep .invalid-feedback,
-::v-deep .valid-feedback {
+:deep(.invalid-feedback),
+:deep(.valid-feedback) {
   display: block;
 }
-
 </style>

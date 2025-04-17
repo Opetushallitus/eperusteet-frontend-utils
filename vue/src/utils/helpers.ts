@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import { findDeep, eachDeep } from 'deepdash/standalone';
 import { Kielet } from '@shared/stores/kieli';
+import { VNode } from 'vue';
 
 export function domAttrsGetter(...fields: string[]) {
   return (dom: any) => _.reduce(fields, (acc: any, field: string) => {

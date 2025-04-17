@@ -12,50 +12,52 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
-import EpFormContent from './EpFormContent.vue';
+<script setup lang="ts">
+import { computed } from 'vue';
 
-@Component({
-  components: {
-    EpFormContent,
+const props = defineProps({
+  isEditing: {
+    type: Boolean,
+    default: true,
   },
-})
-export default class EpToggle extends Vue {
-  @Prop({ default: true, type: Boolean })
-  private isEditing!: boolean;
+  modelValue: {
+    type: Boolean,
+    default: false,
+    required: false,
+  },
+  inline: {
+    type: Boolean,
+    default: true,
+  },
+  isSwitch: {
+    type: Boolean,
+    default: true,
+  },
+  checkbox: {
+    type: Boolean,
+    default: false,
+  },
+  size: {
+    type: String,
+    required: false,
+    default: undefined,
+  },
+});
 
-  @Prop({ required: false, type: Boolean, default: false })
-  private value!: boolean;
+const emit = defineEmits(['update:modelValue']);
 
-  @Prop({ default: true, type: Boolean })
-  private inline!: boolean;
+const lgSize = computed(() => {
+  return props.size ? props.size === 'lg' : false;
+});
 
-  @Prop({ default: true })
-  private isSWitch!: boolean;
+const innerValue = computed({
+  get: () => props.modelValue,
+  set: (value) => emit('update:modelValue', value),
+});
 
-  @Prop({ default: false, type: Boolean })
-  private checkbox!: boolean;
-
-  @Prop({ required: false })
-  private size!: string | undefined;
-
-  get lgSize() {
-    return this.size ? this.size === 'lg' : false;
-  }
-
-  get innerValue() {
-    return this.value;
-  }
-
-  set innerValue(value) {
-    this.$emit('input', value);
-  }
-
-  get asSwitch() {
-    return !this.checkbox && this.isSWitch;
-  }
-}
+const asSwitch = computed(() => {
+  return !props.checkbox && props.isSwitch;
+});
 </script>
 
 <style scoped lang="scss">

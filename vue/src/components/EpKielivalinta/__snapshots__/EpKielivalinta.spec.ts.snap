@@ -1,12 +1,10 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`EpKielivalinta component > Renders 1`] = `
-"<div data-v-6f7ccfa1="" class="dropdown b-dropdown kielivalinta btn-group">
-  <!----><button aria-haspopup="menu" aria-expanded="false" type="button" class="btn dropdown-toggle btn-secondary btn-sm"><span data-v-6f7ccfa1="">kieli-sisalto: <span data-v-6f7ccfa1="" class="valittukieli">fi</span><span data-v-07230345="" data-v-6f7ccfa1="" class="icon material-icons">expand_more</span></span></button>
-  <ul role="menu" tabindex="-1" class="dropdown-menu dropdown-menu-right">
-    <li data-v-6f7ccfa1="" role="presentation"><a role="menuitem" href="#" target="_self" tabindex="-1" aria-disabled="true" class="dropdown-item disabled"> fi </a></li>
-    <li data-v-6f7ccfa1="" role="presentation"><a role="menuitem" href="#" target="_self" class="dropdown-item"> sv </a></li>
-    <li data-v-6f7ccfa1="" role="presentation"><a role="menuitem" href="#" target="_self" class="dropdown-item"> en </a></li>
-  </ul>
+"<div data-v-6f7ccfa1="" class="b-dropdown kielivalinta" size="sm" right="">
+  <div data-v-6f7ccfa1="" class="b-dropdown-item" disabled="true">fi</div>
+  <div data-v-6f7ccfa1="" class="b-dropdown-item" disabled="false">sv</div>
+  <div data-v-6f7ccfa1="" class="b-dropdown-item" disabled="false">en</div>
+  <div class="b-dropdown__slot-button-content"><span data-v-6f7ccfa1="">kieli-sisalto: <span data-v-6f7ccfa1="" class="valittukieli">fi</span><span data-v-07230345="" data-v-6f7ccfa1="" class="material-icons icon">expand_more</span></span></div>
 </div>"
 `;

@@ -106,7 +106,7 @@
           class="arvo"
         >
           <ep-input
-            :value="arvo ? item[arvo] : item"
+            :modelValue="arvo ? item[arvo] : item"
             :is-editing="false"
           />
         </li>
@@ -115,9 +115,9 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, getCurrentInstance } from 'vue';
 import _ from 'lodash';
-import { Vue, Component, Prop } from 'vue-property-decorator';
 import draggable from 'vuedraggable';
 
 import { Kielet } from '@shared/stores/kieli';
@@ -125,65 +125,68 @@ import { Kielet } from '@shared/stores/kieli';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpInput from '@shared/components/forms/EpInput.vue';
 
-@Component({
-  components: {
-    draggable,
-    EpButton,
-    EpInput,
+const props = defineProps({
+  isEditable: {
+    type: Boolean,
+    default: false,
   },
-})
-export default class EpPrefixList extends Vue {
-  @Prop({ default: false })
-  private isEditable!: boolean;
+  modelValue: {
+    type: null,
+    required: true,
+  },
+  kohde: {
+    type: String,
+    default: 'kohde',
+  },
+  arvot: {
+    type: String,
+    default: 'arvot',
+  },
+  arvo: {
+    type: String,
+    default: '',
+  },
+});
 
-  @Prop({ required: true })
-  private value!: any;
+const emit = defineEmits(['update:modelValue']);
 
-  @Prop({ default: 'kohde' })
-  private kohde!: string;
+const hasMultiple = computed(() => {
+  return _.isArray(sanitized.value);
+});
 
-  @Prop({ default: 'arvot' })
-  private arvot!: string;
-
-  @Prop({ default: '' })
-  private arvo!: string;
-
-  get hasMultiple() {
-    return _.isArray(this.sanitized);
+const sanitized = computed(() => {
+  if (_.isArray(props.modelValue)) {
+    return props.modelValue;
   }
-
-  get sanitized() {
-    if (_.isArray(this.value)) {
-      return this.value;
-    }
-    else {
-      return [this.value];
-    }
+  else {
+    return [props.modelValue];
   }
+});
 
-  get kieli() {
-    return Kielet.getSisaltoKieli.value;
-  }
+const kieli = computed(() => {
+  return Kielet.getSisaltoKieli.value;
+});
 
-  get internal() {
-    return _.map(this.sanitized, el => {
+const internal = computed({
+  get: () => {
+    return _.map(sanitized.value, el => {
       const res = _.cloneDeep(el);
 
       // Piilotetaan kohteet, joita ei ole lokalisoitu jos kyseessä lokalisoitu teksti
-      const kohde = res[this.kohde];
+      const kohde = res[props.kohde];
       if (kohde) {
-        if (_.isObject(kohde) && !kohde[this.kieli]) {
-          res[this.kohde] = undefined;
+        if (_.isObject(kohde) && !kohde[kieli.value]) {
+          res[props.kohde] = undefined;
         }
       }
 
       // Piilotetaan arvot, joita ei ole lokalisoitu jos kyseessä lokalisoitu teksti
-      const arvot = res[this.arvot];
+      const arvot = res[props.arvot];
       if (arvot && !_.isEmpty(arvot)) {
         const arvotFiltered: any[] = [];
         _.each(arvot, arvo => {
           if (_.isObject(arvo)) {
-            if (arvo[this.kieli]) {
+            if (arvo[kieli.value]) {
               arvotFiltered.push(arvo);
             }
           }
@@ -191,43 +194,45 @@ export default class EpPrefixList extends Vue {
             arvotFiltered.push(arvo);
           }
         });
-        res[this.arvot] = arvotFiltered;
+        res[props.arvot] = arvotFiltered;
       }
 
       return res;
     });
+  },
+  set: (value: any) => {
+    emit('update:modelValue', value);
   }
+});
 
-  set internal(value: any) {
-    this.$emit('input', value);
-  }
+const options = computed(() => {
+  return {
+    // handle: '.handle',
+    animation: 300,
+    disabled: false,
+  };
+});
 
-  get options() {
-    return {
-      // handle: '.handle',
-      animation: 300,
-      disabled: false,
-    };
-  }
+const instance = getCurrentInstance();
+const $t = instance?.appContext.config.globalProperties.$t;
 
-  private poistaIndeksi(arr: any[], alueIdx: number) {
-    arr.splice(alueIdx, 1);
-  }
+const poistaIndeksi = (arr: any[], alueIdx: number) => {
+  arr.splice(alueIdx, 1);
+};
 
-  private lisaaAlue() {
-    this.internal.push({
-      nimi: {},
-      [this.kohde]: {},
-      [this.arvot]: [],
-    });
-  }
+const lisaaAlue = () => {
+  internal.value.push({
+    nimi: {},
+    [props.kohde]: {},
+    [props.arvot]: [],
+  });
+};
 
-  private lisaaArvo(alue: any) {
-    alue[this.arvot].push(this.arvot
-      ? { [this.arvo]: {} }
-      : {});
-  }
-}
+const lisaaArvo = (alue: any) => {
+  alue[props.arvot].push(props.arvot
+    ? { [props.arvo]: {} }
+    : {});
+};
 </script>
 
 <style lang="scss" scoped>
@@ -279,7 +284,6 @@ export default class EpPrefixList extends Vue {
         }
       }
     }
-
   }
 }
 </style>

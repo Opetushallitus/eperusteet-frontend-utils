@@ -26,30 +26,26 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { PerusteDto, Perusteet } from '@shared/api/eperusteet';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
-@Component({
-  components: {
-    EpSpinner,
-    EpMaterialIcon,
+const props = defineProps({
+  koodiUri: {
+    type: String,
+    required: false,
   },
-})
-export default class EpOpasKiinnitysLinkki extends Vue {
-  @Prop({ required: false })
-  private koodiUri!: string;
+});
 
-  private oppaat: PerusteDto[] | null = null;
+const oppaat = ref<PerusteDto[] | null>(null);
 
-  async mounted() {
-    if (this.koodiUri) {
-      this.oppaat = (await Perusteet.getOpasKiinnitettyKoodi(this.koodiUri)).data;
-    }
+onMounted(async () => {
+  if (props.koodiUri) {
+    oppaat.value = (await Perusteet.getOpasKiinnitettyKoodi(props.koodiUri)).data;
   }
-}
+});
 </script>
 
 <style scoped lang="scss">

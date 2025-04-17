@@ -47,19 +47,9 @@
   </notifications>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
 import EpRoundButton from '@shared/components/EpButton/EpRoundButton.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
-
-@Component({
-  components: {
-    EpRoundButton,
-    EpMaterialIcon,
-  },
-})
-export default class EpNotification extends Vue {
-}
 </script>
 
 <style scoped lang="scss">

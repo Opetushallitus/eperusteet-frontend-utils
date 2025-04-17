@@ -42,9 +42,9 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import _ from 'lodash';
-import { Prop, Component, Vue } from 'vue-property-decorator';
+import { computed, getCurrentInstance } from 'vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
 import EpCollapse from '@shared/components/EpCollapse/EpCollapse.vue';
@@ -55,55 +55,49 @@ import GeneerinenArviointiTaulukko from '@shared/components/EpTutkinnonosa/Genee
 import Arviointi2020Taulukko from '@shared/components/EpTutkinnonosa/Arviointi2020Taulukko.vue';
 import EpAmmattitaitovaatimukset from '@shared/components/EpAmmattitaitovaatimukset/EpAmmattitaitovaatimukset.vue';
 
-@Component({
-  components: {
-    Arviointi2020Taulukko,
-    EpAmmattitaitovaatimukset,
-    EpButton,
-    EpCollapse,
-    EpContent,
-    EpEditointi,
-    EpField,
-    EpToggle,
-    GeneerinenArviointiTaulukko,
+const instance = getCurrentInstance();
+const $t = instance?.appContext.config.globalProperties.$t;
+
+const props = defineProps({
+  isEditing: {
+    type: Boolean,
+    required: false,
+    default: false,
   },
-})
-export default class Osaamistavoitteet extends Vue {
-  @Prop({ required: false, default: false })
-  isEditing!: boolean;
+  tyyppi: {
+    type: [String, Object],
+    required: true,
+  },
+  perusteData: {
+    type: Object,
+    default: null,
+  },
+});
 
-  @Prop({ required: true })
-  tyyppi!: any;
-
-  @Prop({ default: null })
-  perusteData!: any;
-
-  get nimi() {
-    const nimi = this.tyyppi === 'pakollinen'
-      ? this.$t('pakolliset-osaamistavoitteet')
-      : this.$t('valinnaiset-osaamistavoitteet');
-    if (this.perusteenOsaamistavoite?.laajuus) {
-      const laajuusosa = ', ' + this.perusteenOsaamistavoite.laajuus + ' ' + this.$t('osaamispistetta');
-      return nimi + laajuusosa;
+const perusteenOsaamistavoite = computed(() => {
+  if (props.perusteData) {
+    if (props.tyyppi === 'pakollinen') {
+      return props.perusteData.pakollisetOsaamistavoitteet;
     }
-    else {
-      return nimi;
+    else if (props.tyyppi === 'valinnainen') {
+      return props.perusteData.valinnaisetOsaamistavoitteet;
     }
   }
+  return null;
+});
 
-  get perusteenOsaamistavoite() {
-    if (this.perusteData) {
-      if (this.tyyppi === 'pakollinen') {
-        return this.perusteData.pakollisetOsaamistavoitteet;
-      }
-      else if (this.tyyppi === 'valinnainen') {
-        return this.perusteData.valinnaisetOsaamistavoitteet;
-      }
-    }
-    return null;
+const nimi = computed(() => {
+  const nimiStr = props.tyyppi === 'pakollinen'
+    ? $t('pakolliset-osaamistavoitteet')
+    : $t('valinnaiset-osaamistavoitteet');
+  if (perusteenOsaamistavoite.value?.laajuus) {
+    const laajuusosa = ', ' + perusteenOsaamistavoite.value.laajuus + ' ' + $t('osaamispistetta');
+    return nimiStr + laajuusosa;
   }
-}
-
+  else {
+    return nimiStr;
+  }
+});
 </script>
 
 <style scoped lang="scss">
