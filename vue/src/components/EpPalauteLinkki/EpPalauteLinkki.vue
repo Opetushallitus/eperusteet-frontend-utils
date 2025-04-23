@@ -22,6 +22,10 @@ export default class EpPalauteLinkki extends Vue {
 
   async mounted() {
     try {
+      if (window.location.hostname === 'localhost') {
+        return;
+      }
+
       this.yllapitoValue = (await Maintenance.getYllapito(this.yllapitoAvain)).data;
     }
     catch (e) {
