@@ -412,6 +412,9 @@ export default class EpEditointi extends Mixins(validationMixin) {
   @Prop({ required: false, default: true })
   private confirmCopy!: boolean;
 
+  @Prop({ required: false, default: false })
+  private skipRedirectBack!: boolean;
+
   @Prop({ required: false,
     default: () => ({
       oikeus: 'muokkaus',
@@ -706,7 +709,7 @@ export default class EpEditointi extends Mixins(validationMixin) {
 
   async cancel() {
     if (!this.allowCancel || await this.allowCancel()) {
-      this.store.cancel();
+      this.store.cancel(this.skipRedirectBack);
     }
   }
 
