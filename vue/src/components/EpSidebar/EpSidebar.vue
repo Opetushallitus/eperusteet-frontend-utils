@@ -1,18 +1,33 @@
 <template>
-<div class="sidenav">
-  <div v-if="showNavigation" class="bar d-print-none">
-    <slot name="bar" />
-    <div v-if="$scopedSlots.bottom" class="bottom" v-sticky sticky-side="bottom" sticky-z-index="500">
-      <slot name="bottom" />
+  <div class="sidenav">
+    <div
+      v-if="showNavigation"
+      class="bar d-print-none"
+    >
+      <slot name="bar" />
+      <div
+        v-if="$scopedSlots.bottom"
+        v-sticky
+        class="bottom"
+        sticky-side="bottom"
+        sticky-z-index="500"
+      >
+        <slot name="bottom" />
+      </div>
+    </div>
+    <Portal
+      v-else
+      to="globalNavigation"
+    >
+      <slot name="bar" />
+    </Portal>
+    <div
+      :id="scrollAnchor"
+      class="view"
+    >
+      <slot name="view" />
     </div>
   </div>
-  <Portal v-else to="globalNavigation">
-    <slot name="bar" />
-  </Portal>
-  <div class="view" :id="scrollAnchor">
-    <slot name="view" />
-  </div>
-</div>
 </template>
 
 <script lang="ts">

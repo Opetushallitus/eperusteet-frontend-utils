@@ -1,71 +1,110 @@
 <template>
-<div class="topbar" v-sticky="sticky" sticky-z-index="600">
-  <b-sidebar id="sisaltobar">
-    <PortalTarget ref="innerPortal" name="globalNavigation"></PortalTarget>
-  </b-sidebar>
+  <div
+    v-sticky="sticky"
+    class="topbar"
+    sticky-z-index="600"
+  >
+    <b-sidebar id="sisaltobar">
+      <PortalTarget
+        ref="innerPortal"
+        name="globalNavigation"
+      />
+    </b-sidebar>
 
-  <b-navbar id="navigation-bar"
-            class="ep-navbar"
-            type="dark"
-            toggleable="lg">
+    <b-navbar
+      id="navigation-bar"
+      class="ep-navbar"
+      type="dark"
+      toggleable="lg"
+    >
+      <b-navbar-nav
+        v-if="showNavigation"
+        class="ml-2"
+      >
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <router-link
+                id="nav-admin"
+                :to="rootNavigation"
+              >
+                <EpMaterialIcon size="20px">
+                  home
+                </EpMaterialIcon>
+              </router-link>
+            </li>
+            <li
+              v-for="(route, idx) in routePath"
+              :key="idx"
+              class="breadcrumb-item"
+            >
+              <router-link
+                v-if="route.muru && route.muru.location"
+                :to="route.muru.location"
+              >
+                {{ route.muru.name }}
+              </router-link>
+              <span v-else-if="route.muru">
+                {{ route.muru.name }}
+              </span>
+              <span v-else>{{ $t('route-' + route.name) }}</span>
+            </li>
+          </ol>
+        </nav>
+      </b-navbar-nav>
+      <b-button
+        v-else
+        v-b-toggle.sisaltobar
+        class="text-white"
+        variant="icon"
+      >
+        <EpMaterialIcon>menu</EpMaterialIcon>
+      </b-button>
 
-    <b-navbar-nav v-if="showNavigation" class="ml-2">
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">
-            <router-link id="nav-admin" :to="rootNavigation">
-              <EpMaterialIcon size="20px">home</EpMaterialIcon>
-            </router-link>
-          </li>
-          <li class="breadcrumb-item" v-for="(route, idx) in routePath" :key="idx">
-            <router-link v-if="route.muru && route.muru.location" :to="route.muru.location">
-              {{ route.muru.name }}
-            </router-link>
-            <span v-else-if="route.muru">
-              {{ route.muru.name }}
-            </span>
-            <span v-else>{{ $t('route-' + route.name) }}</span>
-          </li>
-        </ol>
-      </nav>
-    </b-navbar-nav>
-    <b-button class="text-white" v-else v-b-toggle.sisaltobar variant="icon">
-      <EpMaterialIcon>menu</EpMaterialIcon>
-    </b-button>
-
-    <b-navbar-nav class="ml-auto">
-
-      <!-- Sisällön kieli-->
-      <b-nav-item-dropdown id="content-lang-selector" right no-caret>
-        <template slot="button-content">
-          <div class="d-flex flex-row">
-            <div class="kieli-valikko d-flex">
-              <span class="kielivalitsin text-left">{{ $t("kieli-sisalto") }}: </span>
-              <span class="valittu-kieli text-right ml-2">{{ $t(sisaltoKieli) }}</span>
-              <EpMaterialIcon>expand_more</EpMaterialIcon>
+      <b-navbar-nav class="ml-auto">
+        <!-- Sisällön kieli-->
+        <b-nav-item-dropdown
+          id="content-lang-selector"
+          right
+          no-caret
+        >
+          <template #button-content>
+            <div class="d-flex flex-row">
+              <div class="kieli-valikko d-flex">
+                <span class="kielivalitsin text-left">{{ $t("kieli-sisalto") }}: </span>
+                <span class="valittu-kieli text-right ml-2">{{ $t(sisaltoKieli) }}</span>
+                <EpMaterialIcon>expand_more</EpMaterialIcon>
+              </div>
             </div>
+          </template>
+          <div class="kielet">
+            <b-dd-item
+              v-for="kieli in sovelluksenKielet"
+              :key="kieli"
+              :disabled="kieli === sisaltoKieli"
+              @click="valitseSisaltoKieli(kieli)"
+            >
+              <EpMaterialIcon
+                v-if="kieli === sisaltoKieli"
+                class="mr-3 valittu"
+              >
+                check
+              </EpMaterialIcon>
+              {{ $t(kieli) }}
+            </b-dd-item>
           </div>
-        </template>
-        <div class="kielet">
-          <b-dd-item @click="valitseSisaltoKieli(kieli)"
-            v-for="kieli in sovelluksenKielet"
-            :key="kieli"
-            :disabled="kieli === sisaltoKieli">
-            <EpMaterialIcon v-if="kieli === sisaltoKieli" class="mr-3 valittu">check</EpMaterialIcon>
-            {{ $t(kieli) }}
-          </b-dd-item>
-        </div>
-      </b-nav-item-dropdown>
+        </b-nav-item-dropdown>
 
-      <ep-kayttaja :tiedot="kayttaja"
-                   :koulutustoimijat="koulutustoimijat"
-                   :koulutustoimija="koulutustoimija"
-                   :sovellusOikeudet="sovellusOikeudet"
-                   :logoutHref="logoutHref"/>
-
-    </b-navbar-nav>
-  </b-navbar>
-</div>
+        <ep-kayttaja
+          :tiedot="kayttaja"
+          :koulutustoimijat="koulutustoimijat"
+          :koulutustoimija="koulutustoimija"
+          :sovellus-oikeudet="sovellusOikeudet"
+          :logout-href="logoutHref"
+        />
+      </b-navbar-nav>
+    </b-navbar>
+  </div>
 </template>
 
 <script lang="ts">

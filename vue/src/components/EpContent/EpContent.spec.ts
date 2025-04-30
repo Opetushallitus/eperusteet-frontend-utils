@@ -6,6 +6,7 @@ import { Kielet } from '../../stores/kieli';
 import { Kaannos } from '../../plugins/kaannos';
 import { Editor } from 'tiptap';
 import '../../config/bootstrap';
+import { vi } from 'vitest';
 
 import {
   Blockquote,
@@ -30,6 +31,7 @@ import CustomLink from './CustomLink';
 import { IKuvaHandler } from './KuvaHandler';
 import ImageExtension from './ImageExtension';
 import { Kieli } from '@shared/tyypit';
+import Vue from 'vue';
 
 function createEditor(config: any) {
   return new Editor({
@@ -76,7 +78,7 @@ function createWrapper(localVue, config: any = {}) {
 
 describe('EpContent component', () => {
   beforeAll(() => {
-    jest.spyOn(console, 'error').mockImplementation();
+    vi.spyOn(console, 'error').mockImplementation(() => {});
   });
 
   afterAll(() => {
@@ -113,9 +115,10 @@ describe('EpContent component', () => {
     expect((wrapper.vm as any).editor).toBeTruthy();
   });
 
-  test('Value updates', () => {
+  test('Value updates', async () => {
     expect((wrapper.vm as any).localizedValue).toEqual('foo');
     wrapper.setProps({ value: 'bar' });
+    await Vue.nextTick();
     expect((wrapper.vm as any).localizedValue).toEqual('bar');
   });
 
@@ -126,12 +129,14 @@ describe('EpContent component', () => {
         sv: 'sv',
       },
     });
+    await Vue.nextTick();
     expect(wrapper.html()).toContain('teksti1234');
   });
 
   test('Language changing works', async () => {
     expect((wrapper.vm as any).lang).toEqual('fi');
     wrapper.setProps({ locale: 'sv' });
+    await Vue.nextTick();
     expect((wrapper.vm as any).locale).toEqual('sv');
     expect((wrapper.vm as any).localizedValue).toEqual('sv');
     expect(wrapper.html()).not.toContain('teksti1234');
@@ -147,9 +152,11 @@ describe('EpContent component', () => {
     });
 
     Kielet.setSisaltoKieli(Kieli.fi);
+    await Vue.nextTick();
     expect(wrapper.html()).toContain('teksti1234');
 
     Kielet.setSisaltoKieli(Kieli.sv);
+    await Vue.nextTick();
     expect(wrapper.html()).toContain('[teksti1234]');
 
     wrapper.setProps({ isEditable: true });
@@ -165,6 +172,7 @@ describe('EpContent component', () => {
     } },
     );
 
+    await Vue.nextTick();
     expect(wrapper.html()).not.toContain('placeholder');
 
     wrapper.setProps({ value: {
@@ -173,8 +181,8 @@ describe('EpContent component', () => {
     isEditable: false,
     });
 
-    await localVue.nextTick();
-    expect(wrapper.html()).toContain('<p>[</p><p>teksti1234</p><p>]</p>');
+    await Vue.nextTick();
+    expect(wrapper.html()).toContain('<p>[</p>\n      <p>teksti1234</p>\n      <p>]</p>');
   });
 });
 

@@ -3,59 +3,92 @@
     <template v-if="isEditing">
       <draggable
         v-bind="defaultDragOptions"
+        v-model="innerModel"
         tag="div"
-        v-model="innerModel">
-        <div v-for="(model, i) in innerModel" :key="group+i" class="pt-3 pb-2 px-3 mb-2 jarjestaja">
+      >
+        <div
+          v-for="(model, i) in innerModel"
+          :key="group+i"
+          class="pt-3 pb-2 px-3 mb-2 jarjestaja"
+        >
           <div class="d-flex">
-            <div class="order-handle mr-3 pt-1" slot="left">
-              <EpMaterialIcon>drag_indicator</EpMaterialIcon>
-            </div>
+            <template #left>
+              <div class="order-handle mr-3 pt-1">
+                <EpMaterialIcon>drag_indicator</EpMaterialIcon>
+              </div>
+            </template>
             <div class="w-100">
-
-              <b-input-group :label="$t('organisaation-nimi')" class="mb-4">
-                <b-form-input :value="$kaanna(model.nimi)" :disabled="true"></b-form-input>
+              <b-input-group
+                :label="$t('organisaation-nimi')"
+                class="mb-4"
+              >
+                <b-form-input
+                  :value="$kaanna(model.nimi)"
+                  :disabled="true"
+                />
                 <b-input-group-append>
-                  <b-button @click="open(i)" variant="primary">
+                  <b-button
+                    variant="primary"
+                    @click="open(i)"
+                  >
                     {{ $t('hae-organisaatio') }}
                   </b-button>
                 </b-input-group-append>
               </b-input-group>
 
-              <b-form-group :label="$t('linkki-toteutussuunnitelmaan-tai-koulutuksen-jarjestajan-kotisivuille')" class="mb-4">
+              <b-form-group
+                :label="$t('linkki-toteutussuunnitelmaan-tai-koulutuksen-jarjestajan-kotisivuille')"
+                class="mb-4"
+              >
                 <ep-input
                   v-model="model.url"
-                  :is-editing="isEditing"/>
+                  :is-editing="isEditing"
+                />
               </b-form-group>
 
-              <b-form-group :label="$t('kaytannon-toteutus')" class="mb-0">
+              <b-form-group
+                :label="$t('kaytannon-toteutus')"
+                class="mb-0"
+              >
                 <ep-content
-                  layout="normal"
                   v-model="model.kuvaus"
+                  layout="normal"
                   :is-editable="isEditing"
-                  :kuvaHandler="kuvaHandler"/>
+                  :kuva-handler="kuvaHandler"
+                />
               </b-form-group>
             </div>
           </div>
 
           <div class="text-right">
-            <ep-button variant="link" icon="delete" @click="poista(i)">
+            <ep-button
+              variant="link"
+              icon="delete"
+              @click="poista(i)"
+            >
               {{ $t('poista-koulutuksen-jarjestaja') }}
             </ep-button>
           </div>
         </div>
       </draggable>
-      <EpButton v-if="isEditing"
-                variant="outline"
-                icon="add"
-                @click="lisaa()">
-        <slot name="default">{{ $t('lisaa-koulutuksen-jarjestaja') }}</slot>
+      <EpButton
+        v-if="isEditing"
+        variant="outline"
+        icon="add"
+        @click="lisaa()"
+      >
+        <slot name="default">
+          {{ $t('lisaa-koulutuksen-jarjestaja') }}
+        </slot>
       </EpButton>
 
-      <b-modal id="koulutuksenjarjestajaModal"
-            ref="editModal"
-            size="xl"
-            :ok-title="$t('peruuta')"
-            :ok-only="true">
+      <b-modal
+        id="koulutuksenjarjestajaModal"
+        ref="editModal"
+        size="xl"
+        :ok-title="$t('peruuta')"
+        :ok-only="true"
+      >
         <template #modal-header>
           <h2>{{ $t('valitse-koulutuksen-jarjestaja') }}</h2>
         </template>
@@ -65,7 +98,7 @@
           <template v-else>
             <div class="d-flex flex-row align-items-center">
               <div class="flex-grow-1">
-                <ep-search v-model="query"></ep-search>
+                <ep-search v-model="query" />
               </div>
             </div>
             <div v-if="items">
@@ -78,16 +111,15 @@
                 :items="items"
                 :fields="fields"
                 :selectable="true"
-                @row-selected="onRowSelected"
                 select-mode="single"
-                selected-variant=''>
-
-                <template v-slot:cell(nimi)="{ item }">
+                selected-variant=""
+                @row-selected="onRowSelected"
+              >
+                <template #cell(nimi)="{ item }">
                   <span class="btn-link">
                     {{ $kaanna(item.nimi) }}
                   </span>
                 </template>
-
               </b-table>
 
               <b-pagination
@@ -95,36 +127,46 @@
                 :total-rows="kokonaismaara"
                 :per-page="10"
                 aria-controls="koodistot"
-                align="center" />
-
+                align="center"
+              />
             </div>
           </template>
         </template>
       </b-modal>
-
     </template>
     <template v-else-if="innerModel.length > 0">
-      <div v-for="(model, i) in innerModel" :key="group+i" class="pt-3 pb-2 px-3 mb-2 jarjestaja">
-
-        <h3>{{$kaanna(model.nimi)}}</h3>
-         <b-form-group :label="$t('toteutussuunnitelman-tai-koulutuksen-jarjestajan-verkkosivut')" class="mb-4">
+      <div
+        v-for="(model, i) in innerModel"
+        :key="group+i"
+        class="pt-3 pb-2 px-3 mb-2 jarjestaja"
+      >
+        <h3>{{ $kaanna(model.nimi) }}</h3>
+        <b-form-group
+          :label="$t('toteutussuunnitelman-tai-koulutuksen-jarjestajan-verkkosivut')"
+          class="mb-4"
+        >
           <EpLinkki :url="model.url[kieli]" />
         </b-form-group>
 
-        <b-form-group :label="$t('kaytannon-toteutus')" class="mb-0">
-          <slot name="kuvaus" v-bind="{ model }">
+        <b-form-group
+          :label="$t('kaytannon-toteutus')"
+          class="mb-0"
+        >
+          <slot
+            name="kuvaus"
+            v-bind="{ model }"
+          >
             <ep-content
-              layout="normal"
               v-model="model.kuvaus"
+              layout="normal"
               :is-editable="isEditing"
-              :kuvaHandler="kuvaHandler"/>
+              :kuva-handler="kuvaHandler"
+            />
           </slot>
         </b-form-group>
-
       </div>
     </template>
   </div>
-
 </template>
 
 <script lang="ts">

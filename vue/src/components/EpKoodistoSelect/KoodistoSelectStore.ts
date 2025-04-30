@@ -1,7 +1,7 @@
-import { computed, reactive } from '@vue/composition-api';
 import { Page } from '../../tyypit';
 import { KoodistoKoodiDto } from '../../api/eperusteet';
 import { Debounced } from '../../utils/delay';
+import  { reactive, computed } from '@vue/composition-api';
 
 export interface IKoodisto {
   koodisto: string;

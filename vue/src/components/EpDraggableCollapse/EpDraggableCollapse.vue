@@ -1,28 +1,35 @@
 <template>
   <draggable
     v-bind="defaultDragOptions"
+    v-model="model"
     tag="div"
-    v-model="model">
-
+  >
     <EpCollapse
       v-for="(modelObject, index) in model"
       :key="'EpDraggableCollapse_' + index"
-      :borderBottom="index < model.length -1"
+      :border-bottom="index < model.length -1"
       :collapsable="!isEditing"
-      :usePadding="false">
-
+      :use-padding="false"
+    >
       <template #header>
-        <slot name="header" :data="modelObject"></slot>
+        <slot
+          name="header"
+          :data="modelObject"
+        />
       </template>
       <div class="d-flex">
         <div class="order-handle mr-3">
-          <EpMaterialIcon v-if="isEditing">drag_indicator</EpMaterialIcon>
+          <EpMaterialIcon v-if="isEditing">
+            drag_indicator
+          </EpMaterialIcon>
         </div>
         <div class="w-100">
-          <slot :data="modelObject" :index="index"></slot>
+          <slot
+            :data="modelObject"
+            :index="index"
+          />
         </div>
       </div>
-
     </EpCollapse>
   </draggable>
 </template>

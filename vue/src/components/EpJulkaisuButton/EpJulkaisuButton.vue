@@ -1,8 +1,10 @@
 <template>
-  <ep-button class="mt-3"
-             @click="suoritaJulkaisu()"
-             :showSpinner="julkaistaan || julkaisuKesken"
-             :disabled="disabled">
+  <ep-button
+    class="mt-3"
+    :show-spinner="julkaistaan || julkaisuKesken"
+    :disabled="disabled"
+    @click="suoritaJulkaisu()"
+  >
     {{ $t('julkaise') }}
   </ep-button>
 </template>

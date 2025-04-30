@@ -1,16 +1,20 @@
 <template>
   <div>
-    <div class="tiedosto-lataus ei-tiedostoa" v-if="!fileSelected">
+    <div
+      v-if="!fileSelected"
+      class="tiedosto-lataus ei-tiedostoa"
+    >
       <b-form-file
         ref="file-input"
         :accept="accept"
         :placeholder="placeholder"
         :drop-placeholder="dropPlaceholder"
         :browse-text="browseText"
-        @input="onInput"></b-form-file>
+        @input="onInput"
+      />
     </div>
     <div>
-      <slot></slot>
+      <slot />
     </div>
   </div>
 </template>
@@ -93,7 +97,7 @@ export default class EpTiedostoInput extends Vue {
 
     .custom-file-label {
       width: 100%;
-      background-image: url('~@assets/img/icons/lataus_ikoni.svg');
+      background-image: url('@assets/img/icons/lataus_ikoni.svg');
       background-repeat: no-repeat;
       background-position: left;
       border: 0;

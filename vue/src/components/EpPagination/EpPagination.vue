@@ -1,44 +1,58 @@
 <template>
-<div v-if="totalRows > 0">
-  <div :aria-label="$t('sivutus')" class="d-flex align-items-center justify-content-center">
-    <div class="link-container">
-      <b-button variant="link"
-                :aria-label="$t('edellinen')"
-                @click="setValue(value - 1)"
-                class="link"
-                :class="{ 'muted': leftDisabled }"
-                :disabled="leftDisabled">
-        <EpMaterialIcon>chevron_left</EpMaterialIcon>
-      </b-button>
-    </div>
-    <div v-for="row in pages" :key="row" class="link-container">
-      <div v-if="row !== null">
-        <b-button :class="{ 'active-link': row === value }"
-                  :aria-label="$t('sivu') + ' ' + row"
-                  variant="link"
-                  @click="setValue(row)"
-                  class="link">{{ row }}</b-button>
+  <div v-if="totalRows > 0">
+    <div
+      :aria-label="$t('sivutus')"
+      class="d-flex align-items-center justify-content-center"
+    >
+      <div class="link-container">
+        <b-button
+          variant="link"
+          :aria-label="$t('edellinen')"
+          class="link"
+          :class="{ 'muted': leftDisabled }"
+          :disabled="leftDisabled"
+          @click="setValue(value - 1)"
+        >
+          <EpMaterialIcon>chevron_left</EpMaterialIcon>
+        </b-button>
       </div>
-      <div v-else>
-        ...
+      <div
+        v-for="row in pages"
+        :key="row"
+        class="link-container"
+      >
+        <div v-if="row !== null">
+          <b-button
+            :class="{ 'active-link': row === value }"
+            :aria-label="$t('sivu') + ' ' + row"
+            variant="link"
+            class="link"
+            @click="setValue(row)"
+          >
+            {{ row }}
+          </b-button>
+        </div>
+        <div v-else>
+          ...
+        </div>
       </div>
-    </div>
-    <div class="link-container">
-      <b-button class="link"
-                :aria-label="$t('seuraava')"
-                variant="link"
-                @click="setValue(value + 1)"
-                :class="{ 'muted': rightDisabled }"
-                :disabled="rightDisabled">
-        <EpMaterialIcon>chevron_right</EpMaterialIcon>
-      </b-button>
+      <div class="link-container">
+        <b-button
+          class="link"
+          :aria-label="$t('seuraava')"
+          variant="link"
+          :class="{ 'muted': rightDisabled }"
+          :disabled="rightDisabled"
+          @click="setValue(value + 1)"
+        >
+          <EpMaterialIcon>chevron_right</EpMaterialIcon>
+        </b-button>
+      </div>
     </div>
   </div>
-</div>
-<div v-else>
-  <slot name="empty">
-  </slot>
-</div>
+  <div v-else>
+    <slot name="empty" />
+  </div>
 </template>
 
 <script lang="ts">

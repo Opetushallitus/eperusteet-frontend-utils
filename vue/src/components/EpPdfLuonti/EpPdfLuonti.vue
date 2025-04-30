@@ -1,23 +1,29 @@
 <template>
   <div>
-    <EpPdfDokumentti v-if="dokumenttiJulkaisu && naytaJulkaistu"
-                     :dokumentti="dokumenttiJulkaisu"
-                     :dokumentti-href="dokumenttiJulkaisuHref"
-                     :is-polling="false"
-                     :pdfnimi="pdfnimi">
-    </EpPdfDokumentti>
+    <EpPdfDokumentti
+      v-if="dokumenttiJulkaisu && naytaJulkaistu"
+      :dokumentti="dokumenttiJulkaisu"
+      :dokumentti-href="dokumenttiJulkaisuHref"
+      :is-polling="false"
+      :pdfnimi="pdfnimi"
+    />
     <hr v-if="!julkaisudokumenttiJaDokumenttiSamat && naytaJulkaistu">
-    <EpPdfDokumentti v-if="!julkaisudokumenttiJaDokumenttiSamat"
-                     :dokumentti="dokumentti"
-                     :dokumentti-href="dokumenttiHref"
-                     :is-polling="isPolling"
-                     :pdfnimi="pdfnimi">
-    </EpPdfDokumentti>
+    <EpPdfDokumentti
+      v-if="!julkaisudokumenttiJaDokumenttiSamat"
+      :dokumentti="dokumentti"
+      :dokumentti-href="dokumenttiHref"
+      :is-polling="isPolling"
+      :pdfnimi="pdfnimi"
+    />
     <div class="btn-group">
-      <ep-button @click="luoPdf"
-                 :disabled="isPolling || !dokumentti"
-                 :show-spinner="isPolling"
-                 buttonClass="px-5"><span>{{ $t('luo-uusi-pdf') }}</span></ep-button>
+      <ep-button
+        :disabled="isPolling || !dokumentti"
+        :show-spinner="isPolling"
+        button-class="px-5"
+        @click="luoPdf"
+      >
+        <span>{{ $t('luo-uusi-pdf') }}</span>
+      </ep-button>
     </div>
   </div>
 </template>

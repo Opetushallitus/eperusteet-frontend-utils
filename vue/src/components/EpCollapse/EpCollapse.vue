@@ -1,41 +1,83 @@
 <template>
   <div>
-    <hr v-if="first && !borderTop" />
-    <div :class="classess" v-if="!disableHeader" :style="styles.collapse" @click="togglefull ? toggle(): null" @keyup.enter="togglefull ? toggle(): null">
+    <hr v-if="first && !borderTop">
+    <div
+      v-if="!disableHeader"
+      :class="classess"
+      :style="styles.collapse"
+      @click="togglefull ? toggle(): null"
+      @keyup.enter="togglefull ? toggle(): null"
+    >
       <!-- Button tagia ei voida käyttää, sillä ml-auto ei toimi.-->
       <!-- Käytetään button rolea saavutettavuuden takaamiseksi.-->
-      <div v-if="hasHeaderSlot"
-           class="collapse-button d-flex align-items-center my-2 mr-1"
-           @click="!togglefull ? toggle(): null"
-           @keyup.enter="!togglefull ? toggle(): null"
-           role="button"
-           tabindex="0"
-           :aria-expanded="toggled"
-           :style="styles.header">
-        <slot name="icon" :toggled="toggled" v-if="chevronLocation === 'left' && collapsable">
+      <div
+        v-if="hasHeaderSlot"
+        class="collapse-button d-flex align-items-center my-2 mr-1"
+        role="button"
+        tabindex="0"
+        :aria-expanded="toggled"
+        :style="styles.header"
+        @click="!togglefull ? toggle(): null"
+        @keyup.enter="!togglefull ? toggle(): null"
+      >
+        <slot
+          v-if="chevronLocation === 'left' && collapsable"
+          name="icon"
+          :toggled="toggled"
+        >
           <div class="align-self-start mr-2">
-            <EpMaterialIcon v-if="toggled" size="28px">expand_less</EpMaterialIcon>
-            <EpMaterialIcon v-else size="28px">expand_more</EpMaterialIcon>
+            <EpMaterialIcon
+              v-if="toggled"
+              size="28px"
+            >
+              expand_less
+            </EpMaterialIcon>
+            <EpMaterialIcon
+              v-else
+              size="28px"
+            >
+              expand_more
+            </EpMaterialIcon>
           </div>
         </slot>
         <div class="align-self-start header">
           <div :class="{'header-toggled': toggled}">
-            <slot name="header" :toggled="toggled"></slot>
+            <slot
+              name="header"
+              :toggled="toggled"
+            />
           </div>
         </div>
-        <slot name="icon" :toggled="toggled" v-if="chevronLocation === 'right'  && collapsable">
+        <slot
+          v-if="chevronLocation === 'right' && collapsable"
+          name="icon"
+          :toggled="toggled"
+        >
           <div class="ml-auto">
-            <EpMaterialIcon v-if="toggled" size="28px">expand_less</EpMaterialIcon>
-            <EpMaterialIcon v-else size="28px">expand_more</EpMaterialIcon>
+            <EpMaterialIcon
+              v-if="toggled"
+              size="28px"
+            >
+              expand_less
+            </EpMaterialIcon>
+            <EpMaterialIcon
+              v-else
+              size="28px"
+            >
+              expand_more
+            </EpMaterialIcon>
           </div>
         </slot>
       </div>
-      <div v-if="toggled" class="collapse-content">
-        <slot></slot>
+      <div
+        v-if="toggled"
+        class="collapse-content"
+      >
+        <slot />
       </div>
     </div>
-    <slot v-else></slot>
-    <hr v-if="borderBottom" />
+    <slot v-else />
+    <hr v-if="borderBottom">
   </div>
 </template>
 
@@ -79,7 +121,7 @@ export default class EpCollapse extends Vue {
   private first!: boolean;
 
   @Prop({ default: false, type: Boolean })
-  private blue!: Boolean;
+  private blue!: boolean;
 
   @Prop({ required: false, default: false })
   private shadow!: boolean;

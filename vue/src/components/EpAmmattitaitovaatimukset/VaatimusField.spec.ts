@@ -1,13 +1,13 @@
 import { mount, createLocalVue } from '@vue/test-utils';
-import { computed } from '@vue/composition-api';
 import { Kaannos } from '../../plugins/kaannos';
 import VueI18n from 'vue-i18n';
 import { delay } from '../../utils/delay';
 import { Kielet } from '../../stores/kieli';
-import Vue from 'vue';
+import Vue, { computed } from 'vue';
 import BootstrapVue from 'bootstrap-vue';
 import { KoodistoSelectStore } from '../EpKoodistoSelect/KoodistoSelectStore';
 import VaatimusField from './VaatimusField.vue';
+import { vi } from 'vitest';
 
 Vue.use(BootstrapVue);
 
@@ -20,7 +20,7 @@ describe('VaatimusField', () => {
   test('Text input', async () => {
     const editoitava = {
       koodisto: 'test',
-      query: jest.fn(async (query: string, sivu = 0) => {
+      query: vi.fn(async (query: string, sivu = 0) => {
         return koodit as any;
       }),
     };
@@ -53,7 +53,7 @@ describe('VaatimusField', () => {
   test('Render vaatimus when koodi name not present', async () => {
     const editoitava = {
       koodisto: 'test',
-      query: jest.fn(async (query: string, sivu = 0) => koodit as any),
+      query: vi.fn(async (query: string, sivu = 0) => koodit as any),
       data: computed(() => koodit),
     };
     const koodisto = new KoodistoSelectStore(editoitava);
@@ -87,7 +87,7 @@ describe('VaatimusField', () => {
   test('Renders koodi', async () => {
     const editoitava = {
       koodisto: 'test',
-      query: jest.fn(async (query: string, sivu = 0) => koodit as any),
+      query: vi.fn(async (query: string, sivu = 0) => koodit as any),
       data: computed(() => koodit),
     };
     const koodisto = new KoodistoSelectStore(editoitava);
@@ -121,7 +121,7 @@ describe('VaatimusField', () => {
   test('Autocompletion', async () => {
     const editoitava = {
       koodisto: 'test',
-      query: jest.fn(async (query: string, sivu = 0) => {
+      query: vi.fn(async (query: string, sivu = 0) => {
         return koodit as any;
       }),
     };

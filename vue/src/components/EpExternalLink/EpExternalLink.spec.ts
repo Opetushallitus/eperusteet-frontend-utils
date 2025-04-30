@@ -42,7 +42,7 @@ describe('EpExternalLink component', () => {
       teksti: 'google',
     });
 
-    expect(wrapper.html()).toContain('google <!----></a>');
+    expect(wrapper.html()).toContain('google\n    <!----></a>');
   });
 
   test('Renders external link ', async () => {
@@ -52,7 +52,7 @@ describe('EpExternalLink component', () => {
     });
 
     expect(wrapper.html()).not.toContain('google <!----></a>');
-    expect(wrapper.html()).toContain('<span>www.google.com');
+    expect(wrapper.html()).toContain('>www.google.com</span>');
     expect(wrapper.html()).not.toContain('?paluuosoite');
   });
 });

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <slot name="header"></slot>
+    <slot name="header" />
 
     <b-table
       v-if="value && value.length > 0"
@@ -13,39 +13,52 @@
       :fields="fields"
       :selectable="true"
       select-mode="single"
-      selected-variant=''>
-
-      <template v-slot:cell(nimi)="{ item }">
+      selected-variant=""
+    >
+      <template #cell(nimi)="{ item }">
         <span>
           {{ $kaanna(item.nimi) }}
         </span>
       </template>
 
-      <template v-slot:cell(poisto)="{ item }" v-if="isEditing">
-        <ep-button variant="link" icon="delete" @click="remove(item)" />
+      <template
+        v-if="isEditing"
+        #cell(poisto)="{ item }"
+      >
+        <ep-button
+          variant="link"
+          icon="delete"
+          @click="remove(item)"
+        />
       </template>
-
     </b-table>
 
-    <ep-koodisto-select v-if="isEditing"
-      :store="store"
+    <ep-koodisto-select
+      v-if="isEditing"
       v-model="koodi"
+      :store="store"
       :is-editing="isEditing"
-      :naytaArvo="false"
+      :nayta-arvo="false"
       :multiple="true"
-      :defaultFields="koodistoSelectDefaultFields">
+      :default-fields="koodistoSelectDefaultFields"
+    >
       <template #default="{ open }">
-        <ep-button @click="open" icon="add" variant="outline">
-          <slot name="button-text">lisaa-koodi</slot>
+        <ep-button
+          icon="add"
+          variant="outline"
+          @click="open"
+        >
+          <slot name="button-text">
+            lisaa-koodi
+          </slot>
         </ep-button>
-
       </template>
 
-      <span slot="empty"></span>
+      <template #empty>
+        <span />
+      </template>
     </ep-koodisto-select>
-
   </div>
-
 </template>
 
 <script lang="ts">

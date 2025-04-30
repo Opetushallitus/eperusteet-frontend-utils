@@ -1,42 +1,90 @@
 <template>
   <div>
-    <h4 v-if="file">{{$t('kuva')}}</h4>
-    <h4 v-else>{{$t('lataa-uusi-kuva')}}</h4>
-    <span v-if="!file">({{$t('max-koko') + ' ' + fileMaxSizeInMb + $t('megatavu-lyhenne')}})</span>
+    <h4 v-if="file">
+      {{ $t('kuva') }}
+    </h4>
+    <h4 v-else>
+      {{ $t('lataa-uusi-kuva') }}
+    </h4>
+    <span v-if="!file">({{ $t('max-koko') + ' ' + fileMaxSizeInMb + $t('megatavu-lyhenne') }})</span>
 
-    <EpTiedostoInput @input="onInput" :file-types="fileTypes" :file="file">
+    <EpTiedostoInput
+      :file-types="fileTypes"
+      :file="file"
+      @input="onInput"
+    >
       <slot>
-        <div class="justify-content-around align-items-center h-100" v-if="file">
+        <div
+          v-if="file"
+          class="justify-content-around align-items-center h-100"
+        >
           <div class="h-100 justify-content-around align-items-center">
-            <figure><img v-if="previewUrl" :src="previewUrl" :width="previewWidth" :height="previewHeight"/>
-              <figcaption v-if="!saved">{{ $t('fu-valittu-tiedosto') }}: {{ file ? file.name : '' }}</figcaption>
-              <figcaption v-if="!saved && file" :class="!fileValidi ? 'error' : ''">
-                {{ $t('fu-tiedosto-koko') }}: {{ fileSize }} {{ !fileValidi ? '(' +  $t('max-koko') + ' ' + fileMaxSizeInMb + $t('megatavu-lyhenne') + ')' : '' }}
+            <figure>
+              <img
+                v-if="previewUrl"
+                :src="previewUrl"
+                :width="previewWidth"
+                :height="previewHeight"
+              >
+              <figcaption v-if="!saved">
+                {{ $t('fu-valittu-tiedosto') }}: {{ file ? file.name : '' }}
+              </figcaption>
+              <figcaption
+                v-if="!saved && file"
+                :class="!fileValidi ? 'error' : ''"
+              >
+                {{ $t('fu-tiedosto-koko') }}: {{ fileSize }} {{ !fileValidi ? '(' + $t('max-koko') + ' ' + fileMaxSizeInMb + $t('megatavu-lyhenne') + ')' : '' }}
               </figcaption>
             </figure>
           </div>
 
-          <div class="mb-3" v-if="!saved">
+          <div
+            v-if="!saved"
+            class="mb-3"
+          >
             <div class="d-flex align-items-center">
-              <ep-form-content name="kuvan-leveys" class="mb-3">
+              <ep-form-content
+                name="kuvan-leveys"
+                class="mb-3"
+              >
                 <div class="d-flex align-items-center">
-                  <ep-field v-model="value.width" :is-editing="true" type="number"></ep-field>
+                  <ep-field
+                    v-model="value.width"
+                    :is-editing="true"
+                    type="number"
+                  />
                   <span class="ml-1 mr-3">px</span>
                 </div>
               </ep-form-content>
 
-              <ep-form-content name="kuvan-korkeus" class="mb-3">
+              <ep-form-content
+                name="kuvan-korkeus"
+                class="mb-3"
+              >
                 <div class="d-flex align-items-center">
-                  <ep-field v-model="value.height" :is-editing="true" type="number"></ep-field>
+                  <ep-field
+                    v-model="value.height"
+                    :is-editing="true"
+                    type="number"
+                  />
                   <span class="ml-1">px</span>
                 </div>
               </ep-form-content>
             </div>
 
-            <ep-toggle :is-switch="false" v-model="keepAspectRatio">{{$t('sailyta-mittasuhteet')}}</ep-toggle>
+            <ep-toggle
+              v-model="keepAspectRatio"
+              :is-switch="false"
+            >
+              {{ $t('sailyta-mittasuhteet') }}
+            </ep-toggle>
           </div>
 
-          <ep-button @click="cancel" variant="link" noPadding>
+          <ep-button
+            variant="link"
+            no-padding
+            @click="cancel"
+          >
             {{ $t('valitse-toinen-kuva') }}
           </ep-button>
         </div>

@@ -1,14 +1,15 @@
 import Vue from 'vue';
 import _ from 'lodash';
-import { computed } from '@vue/composition-api';
 import { Wrapper } from '@vue/test-utils';
 import { EditointiStore, IEditoitava } from '../components/EpEditointi/EditointiStore';
+import { vi } from 'vitest';
+import  { reactive, computed } from '@vue/composition-api';
 
 import '../config/bootstrap';
 
 export function mockEditointiStore<T>(config: Partial<IEditoitava> = {}) {
   const editointi = {
-    acquire: jest.fn(async () => {
+    acquire: vi.fn(async () => {
       const vanhentuu = new Date();
       vanhentuu.setMinutes(vanhentuu.getMinutes() + 10);
       return {
@@ -20,18 +21,18 @@ export function mockEditointiStore<T>(config: Partial<IEditoitava> = {}) {
         revisio: 1,
       };
     }),
-    cancel: jest.fn(),
-    editAfterLoad: jest.fn(async () => false),
-    history: jest.fn(),
-    load: jest.fn(),
-    lock: jest.fn(async () => null),
-    preview: jest.fn(async () => null),
-    release: jest.fn(),
-    remove: jest.fn(),
-    restore: jest.fn(),
-    revisions: jest.fn(),
-    save: jest.fn(),
-    start: jest.fn(),
+    cancel: vi.fn(),
+    editAfterLoad: vi.fn(async () => false),
+    history: vi.fn(),
+    load: vi.fn(),
+    lock: vi.fn(async () => null),
+    preview: vi.fn(async () => null),
+    release: vi.fn(),
+    remove: vi.fn(),
+    restore: vi.fn(),
+    revisions: vi.fn(),
+    save: vi.fn(),
+    start: vi.fn(),
     validator: computed(() => ({})),
     ...config,
   };
@@ -76,7 +77,7 @@ export function wrap<T extends object>(original: T, value: T) {
   // Get original implementations
   for (const k in original) {
     if (_.isFunction(original[k])) {
-      result[k] = jest.fn(original[k] as any);
+      result[k] = vi.fn(original[k] as any);
     }
     else {
       result[k] = original[k];
@@ -86,14 +87,14 @@ export function wrap<T extends object>(original: T, value: T) {
   // Overwrite with default mocks
   _.forEach(value, (v, k) => {
     if (_.isFunction(v)) {
-      result[k] = jest.fn(v);
+      result[k] = vi.fn(v);
     }
     else {
       result[k] = Vue.observable(v);
     }
   });
 
-  const Mock = jest.fn(() => Vue.observable(result) as T);
+  const Mock = vi.fn(() => Vue.observable(result) as T);
   return new Mock();
 }
 
@@ -107,7 +108,7 @@ type Constructable<T> = new(...params: any[]) => T;
 export function mock<T>(X: Constructable<T>, overrides: Partial<T> = {}): T {
   const mocks: any = new X();
   for (const key of _.keys(X.prototype)) {
-    mocks[key] = jest.fn();
+    mocks[key] = vi.fn();
   }
   return {
     ...mocks,
@@ -123,3 +124,34 @@ export function mock<T>(X: Constructable<T>, overrides: Partial<T> = {}): T {
 // export function exposed<T>() {
 //   return new TestStore<T>();
 // }
+
+export function createMockedStore<T extends { new(...args: any[]): any }>(
+  StoreClass: T,
+  methods: Partial<InstanceType<T>> = {},
+): InstanceType<T> {
+  // Create an actual instance of the StoreClass
+  const storeInstance = new StoreClass();
+
+  // Create a new object that inherits from the real store instance
+  const mockedStore = Object.create(storeInstance);
+
+  // Preserve reactivity for `state` and allow partial overwriting
+  if (Object.prototype.hasOwnProperty.call(storeInstance, 'state')) {
+    mockedStore.state = reactive({
+      ...(storeInstance as any).state, // Copy the original state
+      ...methods.state, // Allow overriding the state properties
+    });
+  }
+
+  // Override only the methods passed in the `methods` argument
+  Object.entries(methods).forEach(([key, value]) => {
+    if (typeof value === 'function') {
+      mockedStore[key] = vi.fn(value);
+    }
+    else {
+      mockedStore[key] = value;
+    }
+  });
+
+  return mockedStore;
+}

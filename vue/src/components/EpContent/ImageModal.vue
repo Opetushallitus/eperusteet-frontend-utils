@@ -3,22 +3,34 @@
     <ep-spinner v-if="isLoading" />
     <div v-else>
       <div>
-        <div class="imgselect" v-if="!imageData">
-          <div class="mb-4">{{$t('kuvalisays-modal-selite')}}</div>
+        <div
+          v-if="!imageData"
+          class="imgselect"
+        >
+          <div class="mb-4">
+            {{ $t('kuvalisays-modal-selite') }}
+          </div>
           <ep-form-content name="valitse-kuva">
             <vue-select
-              :disabled="options.length === 0"
               v-model="selected"
+              :disabled="options.length === 0"
               :filter-by="filterBy"
               :placeholder="options.length > 0 ? $t('valitse') : $t('ei-lisattyja-kuvia')"
               :options="options"
               label="id"
-              :clearable="true">
+              :clearable="true"
+            >
               <template #selected-option="option">
-                <img class="preview-selected" :src="option.src">
+                <img
+                  class="preview-selected"
+                  :src="option.src"
+                >
               </template>
               <template #option="option">
-                <img class="preview" :src="option.src">
+                <img
+                  class="preview"
+                  :src="option.src"
+                >
                 {{ option.nimi }}
               </template>
             </vue-select>
@@ -26,35 +38,60 @@
         </div>
 
         <div v-if="!selected || imageData">
-          <ep-kuva-lataus v-model="imageData" :saved="imageSaved" @saveImage="saveImage" @cancel="peruuta"></ep-kuva-lataus>
+          <ep-kuva-lataus
+            v-model="imageData"
+            :saved="imageSaved"
+            @saveImage="saveImage"
+            @cancel="peruuta"
+          />
         </div>
 
         <div v-if="selected || imageData">
-          <ep-form-content name="kuvateksti" class="mt-3">
+          <ep-form-content
+            name="kuvateksti"
+            class="mt-3"
+          >
             <ep-field
               v-model="kuvateksti"
-              @input="onKuvatekstichange"
               :is-editing="true"
               :validation="$v.kuvateksti"
-              :help="'teksti-naytetaan-kuvan-alla'"/>
+              :help="'teksti-naytetaan-kuvan-alla'"
+              @input="onKuvatekstichange"
+            />
           </ep-form-content>
 
           <ep-form-content class="mt-3">
-            <label slot="header">{{$t('kuvan-vaihtoehtoinen-teksti')}} *</label>
+            <template #header>
+              <label>{{ $t('kuvan-vaihtoehtoinen-teksti') }} *</label>
+            </template>
             <ep-field
               v-model="vaihtoehtoinenteksti"
-              @input="onVaihtoehtoinentekstiChange"
               :is-editing="true"
               :validation="$v.vaihtoehtoinenteksti"
-              :help="'teksti-naytetaan-ruudunlukijalaitteelle'"/>
+              :help="'teksti-naytetaan-ruudunlukijalaitteelle'"
+              @input="onVaihtoehtoinentekstiChange"
+            />
           </ep-form-content>
         </div>
       </div>
     </div>
 
     <div class="d-flex justify-content-end mt-3">
-      <b-button class="mr-3" variant="link" @click="close(false)">{{$t('peruuta')}}</b-button>
-      <b-button variant="primary" squared @click="close(true)" :disabled="invalid">{{$t('lisaa-kuva')}}</b-button>
+      <b-button
+        class="mr-3"
+        variant="link"
+        @click="close(false)"
+      >
+        {{ $t('peruuta') }}
+      </b-button>
+      <b-button
+        variant="primary"
+        squared
+        :disabled="invalid"
+        @click="close(true)"
+      >
+        {{ $t('lisaa-kuva') }}
+      </b-button>
     </div>
   </div>
 </template>

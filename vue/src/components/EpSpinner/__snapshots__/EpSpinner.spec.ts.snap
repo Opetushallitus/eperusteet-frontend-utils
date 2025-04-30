@@ -1,11 +1,11 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`EpSpinner component Renders 1`] = `
-<div class="spinner">
-  <div class="oph-spinner">
-    <div class="oph-bounce oph-bounce1"></div>
-    <div class="oph-bounce oph-bounce2"></div>
-    <div class="oph-bounce oph-bounce3"></div>
+exports[`EpSpinner component > Renders 1`] = `
+"<div data-v-97322137="" class="spinner">
+  <div data-v-97322137="" class="oph-spinner">
+    <div data-v-97322137="" class="oph-bounce oph-bounce1"></div>
+    <div data-v-97322137="" class="oph-bounce oph-bounce2"></div>
+    <div data-v-97322137="" class="oph-bounce oph-bounce3"></div>
   </div>
-</div>
+</div>"
 `;

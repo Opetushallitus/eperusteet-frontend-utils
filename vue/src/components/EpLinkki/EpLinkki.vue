@@ -1,22 +1,26 @@
 <template>
   <div class="linkki">
-    <a :href="url"
+    <a
+      :href="url"
       rel="noopener noreferrer"
-      target="_blank">
+      target="_blank"
+    >
       <EpMaterialIcon
         v-if="icon && !iconRight"
         class="mr-1"
         size="18px"
-        :alt="$t('avautuu-uuteen-valilehteen')">
+        :alt="$t('avautuu-uuteen-valilehteen')"
+      >
         {{ icon }}
       </EpMaterialIcon>
-      <slot v-if="hasSlot()"></slot>
+      <slot v-if="hasSlot()" />
       <span v-else>{{ cleanUrl }}</span>
       <EpMaterialIcon
         v-if="icon && iconRight"
         class="ml-1"
         size="18px"
-        :alt="$t('avautuu-uuteen-valilehteen')">
+        :alt="$t('avautuu-uuteen-valilehteen')"
+      >
         {{ icon }}
       </EpMaterialIcon>
     </a>

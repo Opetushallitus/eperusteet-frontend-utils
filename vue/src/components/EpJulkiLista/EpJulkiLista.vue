@@ -3,42 +3,78 @@
     <ep-spinner v-if="!tiedot" />
 
     <div v-else>
-      <div v-for="(tieto, index) in tiedotFiltered" :key="index" class="tieto p-2 pl-3" :class="{clickable: hasClickEvent}">
-        <div class="otsikko" :class="{'uusi': tieto.uusi}">
-          <a href="javascript:;" @click="avaaTieto(tieto)">
-            <slot name="otsikko" :item="tieto">
-              {{$kaanna(tieto.otsikko)}} <span class="uusi" v-if="tieto.uusi">{{$t('uusi')}}</span>
+      <div
+        v-for="(tieto, index) in tiedotFiltered"
+        :key="index"
+        class="tieto p-2 pl-3"
+        :class="{clickable: hasClickEvent}"
+      >
+        <div
+          class="otsikko"
+          :class="{'uusi': tieto.uusi}"
+        >
+          <a
+            href="javascript:;"
+            @click="avaaTieto(tieto)"
+          >
+            <slot
+              name="otsikko"
+              :item="tieto"
+            >
+              {{ $kaanna(tieto.otsikko) }} <span
+                v-if="tieto.uusi"
+                class="uusi"
+              >{{ $t('uusi') }}</span>
             </slot>
           </a>
         </div>
         <div class="muokkausaika">
-          <slot name="muokkausaika" :tieto="tieto">
-            <span v-if="tieto.muokattu" class="mr-2">{{$sd(tieto.muokattu)}}</span>
-            <span v-if="tieto.koulutustyyppi" class="mr-2">{{tieto.koulutustyyppi}}</span>
-            <span v-if="tieto.perusteNimi">{{tieto.perusteNimi}}</span>
+          <slot
+            name="muokkausaika"
+            :tieto="tieto"
+          >
+            <span
+              v-if="tieto.muokattu"
+              class="mr-2"
+            >{{ $sd(tieto.muokattu) }}</span>
+            <span
+              v-if="tieto.koulutustyyppi"
+              class="mr-2"
+            >{{ tieto.koulutustyyppi }}</span>
+            <span v-if="tieto.perusteNimi">{{ tieto.perusteNimi }}</span>
           </slot>
         </div>
       </div>
 
       <div v-if="listausTyyppi === 'lisahaku'">
-        <ep-button variant="link" @click="naytaLisaa" v-if="naytettavaTietoMaara < tiedotSize" class="mt-2">
+        <ep-button
+          v-if="naytettavaTietoMaara < tiedotSize"
+          variant="link"
+          class="mt-2"
+          @click="naytaLisaa"
+        >
           <slot name="lisaaBtnText">
-            {{$t('katso-lisaa-tiedotteita')}}
+            {{ $t('katso-lisaa-tiedotteita') }}
           </slot>
         </ep-button>
-        <span v-if="tiedotSize === 0" class="mt-2">
+        <span
+          v-if="tiedotSize === 0"
+          class="mt-2"
+        >
           <slot name="eiTietoja">
-            {{$t('ei-tuloksia')}}
+            {{ $t('ei-tuloksia') }}
           </slot>
         </span>
       </div>
-      <div v-else-if="listausTyyppi === 'none'"></div>
+      <div v-else-if="listausTyyppi === 'none'" />
       <div v-else>
-        <b-pagination align="center"
-                      no-local-sorting
-                      v-model="sivu"
-                      :per-page="naytettavaTietoMaara"
-                      :total-rows="tiedotSize"/>
+        <b-pagination
+          v-model="sivu"
+          align="center"
+          no-local-sorting
+          :per-page="naytettavaTietoMaara"
+          :total-rows="tiedotSize"
+        />
       </div>
     </div>
   </div>

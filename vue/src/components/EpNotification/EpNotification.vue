@@ -3,21 +3,40 @@
     width="30%"
     position="top right"
     :max="5"
-    :ignoreDuplicates="true"
-    :closeOnClick="false">
-    <template slot="body" slot-scope="{ item, close }">
-      <div class="notification" :class="item.type">
-        <button class="notification-close-button ml-2" @click="close">
+    :ignore-duplicates="true"
+    :close-on-click="false"
+  >
+    <template #body="{ item, close }">
+      <div
+        class="notification"
+        :class="item.type"
+      >
+        <button
+          class="notification-close-button ml-2"
+          @click="close"
+        >
           <EpMaterialIcon>close</EpMaterialIcon>
         </button>
-        <p class="notification-title" v-if="item.type === 'error'">
-          <EpMaterialIcon icon-shape="outlined">info</EpMaterialIcon> {{ $t('virhe-nakyma-otsikko') }}
+        <p
+          v-if="item.type === 'error'"
+          class="notification-title"
+        >
+          <EpMaterialIcon icon-shape="outlined">
+            info
+          </EpMaterialIcon> {{ $t('virhe-nakyma-otsikko') }}
         </p>
-        <p class="notification-title" v-if="item.type === 'warn'">
-          <EpMaterialIcon icon-shape="outlined">info</EpMaterialIcon> {{ $t('huom') }}
+        <p
+          v-if="item.type === 'warn'"
+          class="notification-title"
+        >
+          <EpMaterialIcon icon-shape="outlined">
+            info
+          </EpMaterialIcon> {{ $t('huom') }}
         </p>
         <p>
-          <EpMaterialIcon v-if="item.type === 'success'">check</EpMaterialIcon>
+          <EpMaterialIcon v-if="item.type === 'success'">
+            check
+          </EpMaterialIcon>
           {{ item.title }}
         </p>
         <p class="notification-content">
@@ -40,7 +59,7 @@ import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue
   },
 })
 export default class EpNotification extends Vue {
-};
+}
 </script>
 
 <style scoped lang="scss">

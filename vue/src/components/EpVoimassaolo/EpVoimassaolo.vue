@@ -1,18 +1,50 @@
 <template>
-  <span v-if="voimassa" class="ml-2">
-    <EpColorIndicator :size="10" background-color="#4c7f00" :tooltip="false" kind=""/>
+  <span
+    v-if="voimassa"
+    class="ml-2"
+  >
+    <EpColorIndicator
+      :size="10"
+      background-color="#4c7f00"
+      :tooltip="false"
+      kind=""
+    />
     {{ $t('voimassa') }}
   </span>
-  <span v-else-if="tulossa" class="ml-2">
-    <EpColorIndicator :size="10" background-color="#5BCA13" :tooltip="false" kind=""/>
+  <span
+    v-else-if="tulossa"
+    class="ml-2"
+  >
+    <EpColorIndicator
+      :size="10"
+      background-color="#5BCA13"
+      :tooltip="false"
+      kind=""
+    />
     {{ $t('tulossa-voimaan') }}
   </span>
-  <span v-else-if="siirtymaAjalla" class="ml-2">
-    <EpColorIndicator :size="10" background-color="#F5B800" :tooltip="false" kind=""/>
+  <span
+    v-else-if="siirtymaAjalla"
+    class="ml-2"
+  >
+    <EpColorIndicator
+      :size="10"
+      background-color="#F5B800"
+      :tooltip="false"
+      kind=""
+    />
     {{ $t('ajoitus-siirtyma') }}
   </span>
-  <span v-else-if="eraantynyt" class="ml-2">
-    <EpColorIndicator :size="10" background-color="#FF5000" :tooltip="false" kind=""/>
+  <span
+    v-else-if="eraantynyt"
+    class="ml-2"
+  >
+    <EpColorIndicator
+      :size="10"
+      background-color="#FF5000"
+      :tooltip="false"
+      kind=""
+    />
     {{ $t('ei-voimassa') }}
   </span>
 </template>

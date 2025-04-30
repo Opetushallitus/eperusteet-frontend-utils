@@ -1,26 +1,32 @@
 <template>
   <div>
-
     <ep-button
       v-if="editable"
+      v-b-modal.tiedoteMuokkausModal
+      v-oikeustarkastelu="oikeustarkastelu"
       icon="add"
       variant="outline"
-      v-b-modal.tiedoteMuokkausModal
       @click="lisaaTiedote"
-      v-oikeustarkastelu="oikeustarkastelu">
+    >
       {{ $t('lisaa-tiedote') }}
     </ep-button>
 
-    <b-modal ref="tiedoteMuokkausModal"
-        id="tiedoteMuokkausModal"
-        size="lg"
-        static lazy>
-
-      <template v-slot:modal-header>
+    <b-modal
+      id="tiedoteMuokkausModal"
+      ref="tiedoteMuokkausModal"
+      size="lg"
+      static
+      lazy
+    >
+      <template #modal-header>
         <div class="row w-100">
           <div class="col">
-            <h2 v-if="!editing">{{$t('tiedote')}}</h2>
-            <h2 v-else>{{ muokattavaTiedote.id ? $t('muokkaa-tiedotetta') : $t('lisaa-tiedote') }}</h2>
+            <h2 v-if="!editing">
+              {{ $t('tiedote') }}
+            </h2>
+            <h2 v-else>
+              {{ muokattavaTiedote.id ? $t('muokkaa-tiedotetta') : $t('lisaa-tiedote') }}
+            </h2>
           </div>
           <div class="col text-right">
             <ep-kielivalinta />
@@ -29,95 +35,194 @@
       </template>
 
       <div v-if="editing">
-
-        <ep-toggle class="mb-3" v-if="peruste" v-model="liitaPeruste">{{$t('liita-peruste-osaksi-tiedotetta')}}</ep-toggle>
+        <ep-toggle
+          v-if="peruste"
+          v-model="liitaPeruste"
+          class="mb-3"
+        >
+          {{ $t('liita-peruste-osaksi-tiedotetta') }}
+        </ep-toggle>
 
         <ep-form-content name="tiedotteen-otsikko">
-          <ep-input v-model="muokattavaTiedote.otsikko" :is-editing="editing" :validation="$v.muokattavaTiedote.otsikko"/>
+          <ep-input
+            v-model="muokattavaTiedote.otsikko"
+            :is-editing="editing"
+            :validation="$v.muokattavaTiedote.otsikko"
+          />
         </ep-form-content>
 
         <ep-form-content name="tiedoteteksti">
-          <ep-content v-model="muokattavaTiedote.sisalto" :is-editable="editing" layout="normal" :validation="$v.muokattavaTiedote.sisalto"> </ep-content>
+          <ep-content
+            v-model="muokattavaTiedote.sisalto"
+            :is-editable="editing"
+            layout="normal"
+            :validation="$v.muokattavaTiedote.sisalto"
+          />
         </ep-form-content>
 
         <ep-form-content name="valitse-missa-tiedote-julkaistaan">
-
-          <ep-toggle class="pb-2 mt-3" v-model="opintopolkuJulkaisu" :isSWitch="false" :is-editing="editing"> {{ $t('tiedote-julkaisupaikka-opintopolku_etusivu')}} </ep-toggle>
+          <ep-toggle
+            v-model="opintopolkuJulkaisu"
+            class="pb-2 mt-3"
+            :is-s-witch="false"
+            :is-editing="editing"
+          >
+            {{ $t('tiedote-julkaisupaikka-opintopolku_etusivu') }}
+          </ep-toggle>
 
           <div>
-            <ep-toggle class="pb-2" v-model="opintopolkuJulkaisuKoulutustyyppiTutkinto" :isSWitch="false" :is-editing="editing">
-              {{ $t('tiedote-julkaisupaikka-opintopolku-koulutus-ja-tutkintonakyma')}}
+            <ep-toggle
+              v-model="opintopolkuJulkaisuKoulutustyyppiTutkinto"
+              class="pb-2"
+              :is-s-witch="false"
+              :is-editing="editing"
+            >
+              {{ $t('tiedote-julkaisupaikka-opintopolku-koulutus-ja-tutkintonakyma') }}
             </ep-toggle>
 
             <ep-multi-list-select
               v-if="opintopolkuJulkaisuKoulutustyyppiTutkinto"
+              v-model="koulutusryypiRyhmaValinnat"
               class="pl-5 pb-2"
               tyyppi="koulutuskohtainen-nakyma"
               :items="koulutustyyppiRyhmaItems"
-              v-model="koulutusryypiRyhmaValinnat"
               :is-editing="editing"
-              :required="true">
-
-              <template v-slot:option="{option}">
-                <ep-color-indicator :size="10" v-if="option.value && option.value.type" :tooltip="false" :kind="option.value.type"/>
-                {{option.text}}
-                </template>
-
-              <template v-slot:singleLabel="{option}">
-                <ep-color-indicator :size="10" v-if="option.value && option.value.type" :tooltip="false" :kind="option.value.type"/>
-                {{option.text}}
+              :required="true"
+            >
+              <template #option="{option}">
+                <ep-color-indicator
+                  v-if="option.value && option.value.type"
+                  :size="10"
+                  :tooltip="false"
+                  :kind="option.value.type"
+                />
+                {{ option.text }}
               </template>
 
+              <template #singleLabel="{option}">
+                <ep-color-indicator
+                  v-if="option.value && option.value.type"
+                  :size="10"
+                  :tooltip="false"
+                  :kind="option.value.type"
+                />
+                {{ option.text }}
+              </template>
             </ep-multi-list-select>
           </div>
 
-          <ep-toggle class="pb-2" v-model="opsJulkaisu" :isSWitch="false" :is-editing="editing"> {{ $t('tiedote-julkaisupaikka-ops')}} </ep-toggle>
-          <ep-toggle class="pb-2" v-model="lopsJulkaisu" :isSWitch="false" :is-editing="editing"> {{ $t('tiedote-julkaisupaikka-lops')}} </ep-toggle>
-          <ep-toggle class="pb-2" v-model="amosaaJulkaisu" :isSWitch="false" :is-editing="editing"> {{ $t('tiedote-julkaisupaikka-amosaa')}} </ep-toggle>
-          <ep-toggle class="pb-2" v-model="vstJulkaisu" :isSWitch="false" :is-editing="editing"> {{ $t('tiedote-julkaisupaikka-vst')}} </ep-toggle>
-          <ep-toggle class="pb-2" v-model="tuvaJulkaisu" :isSWitch="false" :is-editing="editing"> {{ $t('tiedote-julkaisupaikka-tuva')}} </ep-toggle>
-          <ep-toggle class="pb-2" v-model="kotoJulkaisu" :isSWitch="false" :is-editing="editing"> {{ $t('tiedote-julkaisupaikka-koto')}} </ep-toggle>
-
+          <ep-toggle
+            v-model="opsJulkaisu"
+            class="pb-2"
+            :is-s-witch="false"
+            :is-editing="editing"
+          >
+            {{ $t('tiedote-julkaisupaikka-ops') }}
+          </ep-toggle>
+          <ep-toggle
+            v-model="lopsJulkaisu"
+            class="pb-2"
+            :is-s-witch="false"
+            :is-editing="editing"
+          >
+            {{ $t('tiedote-julkaisupaikka-lops') }}
+          </ep-toggle>
+          <ep-toggle
+            v-model="amosaaJulkaisu"
+            class="pb-2"
+            :is-s-witch="false"
+            :is-editing="editing"
+          >
+            {{ $t('tiedote-julkaisupaikka-amosaa') }}
+          </ep-toggle>
+          <ep-toggle
+            v-model="vstJulkaisu"
+            class="pb-2"
+            :is-s-witch="false"
+            :is-editing="editing"
+          >
+            {{ $t('tiedote-julkaisupaikka-vst') }}
+          </ep-toggle>
+          <ep-toggle
+            v-model="tuvaJulkaisu"
+            class="pb-2"
+            :is-s-witch="false"
+            :is-editing="editing"
+          >
+            {{ $t('tiedote-julkaisupaikka-tuva') }}
+          </ep-toggle>
+          <ep-toggle
+            v-model="kotoJulkaisu"
+            class="pb-2"
+            :is-s-witch="false"
+            :is-editing="editing"
+          >
+            {{ $t('tiedote-julkaisupaikka-koto') }}
+          </ep-toggle>
         </ep-form-content>
 
-        <ep-form-content name="liita-peruste-tiedotteeseen" v-if="!peruste && perusteet">
+        <ep-form-content
+          v-if="!peruste && perusteet"
+          name="liita-peruste-tiedotteeseen"
+        >
           <ep-spinner v-if="!perusteet" />
           <template v-else>
-            <div class="peruste-linkitys-ohje mb-2">{{$t('valitsemasi-peruste-linkitetaan-osaksi-tiedotetta')}}</div>
+            <div class="peruste-linkitys-ohje mb-2">
+              {{ $t('valitsemasi-peruste-linkitetaan-osaksi-tiedotetta') }}
+            </div>
             <EpMultiListSelect
-                tyyppi="peruste"
-                :items="perusteItems"
-                v-model="muokattavaTiedote.perusteet"
-                :is-editing="editing"
-                :required="false">
-
-              <template slot="option" slot-scope="{ option }">
-                {{option.text}}
-                <span class="ml-3 voimassaolo" v-if="option.value.voimassaoloAlkaa || option.value.voimassaoloLoppuu">
-                  (<span v-if="option.value.voimassaoloAlkaa">{{$sd(option.value.voimassaoloAlkaa)}}</span>-
-                  <span v-if="option.value.voimassaoloLoppuu">{{$sd(option.value.voimassaoloLoppuu)}}</span>)
+              v-model="muokattavaTiedote.perusteet"
+              tyyppi="peruste"
+              :items="perusteItems"
+              :is-editing="editing"
+              :required="false"
+            >
+              <template #option="{ option }">
+                {{ option.text }}
+                <span
+                  v-if="option.value.voimassaoloAlkaa || option.value.voimassaoloLoppuu"
+                  class="ml-3 voimassaolo"
+                >
+                  (<span v-if="option.value.voimassaoloAlkaa">{{ $sd(option.value.voimassaoloAlkaa) }}</span>-
+                  <span v-if="option.value.voimassaoloLoppuu">{{ $sd(option.value.voimassaoloLoppuu) }}</span>)
                 </span>
               </template>
-              <template slot="singleLabel" slot-scope="{ option }">
-                {{option.text}}
-                <span class="ml-3 voimassaolo" v-if="option.value.voimassaoloAlkaa || option.value.voimassaoloLoppuu">
-                  (<span v-if="option.value.voimassaoloAlkaa">{{$sd(option.value.voimassaoloAlkaa)}}</span>-
-                  <span v-if="option.value.voimassaoloLoppuu">{{$sd(option.value.voimassaoloLoppuu)}}</span>)
+              <template #singleLabel="{ option }">
+                {{ option.text }}
+                <span
+                  v-if="option.value.voimassaoloAlkaa || option.value.voimassaoloLoppuu"
+                  class="ml-3 voimassaolo"
+                >
+                  (<span v-if="option.value.voimassaoloAlkaa">{{ $sd(option.value.voimassaoloAlkaa) }}</span>-
+                  <span v-if="option.value.voimassaoloLoppuu">{{ $sd(option.value.voimassaoloLoppuu) }}</span>)
                 </span>
               </template>
-
             </EpMultiListSelect>
           </template>
         </ep-form-content>
 
         <ep-form-content name="liita-tutkinnon-osa-tiedotteeseen">
-          <div v-for="(tutkinnonOsa, index) in muokattavaTiedote.tutkinnonosat" :key="'tutkinnonOsa' + index" class="mb-1 d-flex justify-content-center align-items-center">
-            <ep-koodisto-select :store="tutkinnonOsaKoodisto" v-model="muokattavaTiedote.tutkinnonosat[index]" class="w-100">
+          <div
+            v-for="(tutkinnonOsa, index) in muokattavaTiedote.tutkinnonosat"
+            :key="'tutkinnonOsa' + index"
+            class="mb-1 d-flex justify-content-center align-items-center"
+          >
+            <ep-koodisto-select
+              v-model="muokattavaTiedote.tutkinnonosat[index]"
+              :store="tutkinnonOsaKoodisto"
+              class="w-100"
+            >
               <template #default="{ open }">
                 <b-input-group class="w-100 d-flex">
-                  <b-form-input :value="$kaanna(tutkinnonOsa.nimi)" disabled></b-form-input>
+                  <b-form-input
+                    :value="$kaanna(tutkinnonOsa.nimi)"
+                    disabled
+                  />
                   <b-input-group-append>
-                    <b-button @click="open" variant="primary">
+                    <b-button
+                      variant="primary"
+                      @click="open"
+                    >
                       {{ $t('hae') }}
                     </b-button>
                   </b-input-group-append>
@@ -125,22 +230,45 @@
               </template>
             </ep-koodisto-select>
             <div class="flex-shrink pl-2">
-              <ep-button @click="poistaTutkinnonosa(index)" variant="link" icon="delete"></ep-button>
+              <ep-button
+                variant="link"
+                icon="delete"
+                @click="poistaTutkinnonosa(index)"
+              />
             </div>
           </div>
-          <ep-button buttonClass="pl-0" variant="outline-primary" icon="add" @click="lisaaTutkinnonOsa" >
+          <ep-button
+            button-class="pl-0"
+            variant="outline-primary"
+            icon="add"
+            @click="lisaaTutkinnonOsa"
+          >
             {{ $t('lisaa-tutkinnon-osa') }}
           </ep-button>
         </ep-form-content>
 
         <ep-form-content name="liita-osaamisala-tiedotteeseen">
-          <div v-for="(osaamisala, index) in muokattavaTiedote.osaamisalat" :key="'osaamisala' + index" class="mb-1 d-flex justify-content-center align-items-center">
-            <ep-koodisto-select :store="osaamisalaKoodisto" v-model="muokattavaTiedote.osaamisalat[index]" class="w-100">
+          <div
+            v-for="(osaamisala, index) in muokattavaTiedote.osaamisalat"
+            :key="'osaamisala' + index"
+            class="mb-1 d-flex justify-content-center align-items-center"
+          >
+            <ep-koodisto-select
+              v-model="muokattavaTiedote.osaamisalat[index]"
+              :store="osaamisalaKoodisto"
+              class="w-100"
+            >
               <template #default="{ open }">
                 <b-input-group class="w-100 d-flex">
-                  <b-form-input :value="$kaanna(osaamisala.nimi)" disabled></b-form-input>
+                  <b-form-input
+                    :value="$kaanna(osaamisala.nimi)"
+                    disabled
+                  />
                   <b-input-group-append>
-                    <b-button @click="open" variant="primary">
+                    <b-button
+                      variant="primary"
+                      @click="open"
+                    >
                       {{ $t('hae') }}
                     </b-button>
                   </b-input-group-append>
@@ -148,91 +276,169 @@
               </template>
             </ep-koodisto-select>
             <div class="flex-shrink pl-2">
-              <ep-button @click="poistaOsaamisala(index)" variant="link" icon="delete"></ep-button>
+              <ep-button
+                variant="link"
+                icon="delete"
+                @click="poistaOsaamisala(index)"
+              />
             </div>
           </div>
-          <ep-button buttonClass="pl-0" variant="outline-primary" icon="add" @click="lisaaOsaamisala" >
+          <ep-button
+            button-class="pl-0"
+            variant="outline-primary"
+            icon="add"
+            @click="lisaaOsaamisala"
+          >
             {{ $t('lisaa-osaamisala') }}
           </ep-button>
         </ep-form-content>
-
       </div>
 
       <div v-else>
-        <div><h3>{{$kaanna(esittavaMuokkaustieto.otsikko)}}</h3></div>
+        <div><h3>{{ $kaanna(esittavaMuokkaustieto.otsikko) }}</h3></div>
         <div class="tiedote-muokkaustieto">
-          {{$sdt(esittavaMuokkaustieto.muokattu)}}
-          <span class="pl-3">{{muokkaavanKayttajanNimi}}</span>
+          {{ $sdt(esittavaMuokkaustieto.muokattu) }}
+          <span class="pl-3">{{ muokkaavanKayttajanNimi }}</span>
         </div>
 
-        <div class="mt-4" v-html="$kaanna(esittavaMuokkaustieto.sisalto)" :class="{ 'mb-5': naytaJulkaisupaikka }"></div>
+        <div
+          class="mt-4"
+          :class="{ 'mb-5': naytaJulkaisupaikka }"
+          v-html="$kaanna(esittavaMuokkaustieto.sisalto)"
+        />
 
         <div v-if="naytaJulkaisupaikka">
           <h6 v-if="opintopolkuJulkaisu || esittavaMuokkaustieto.filteredJulkaisupaikat.length > 0 || esittavaMuokkaustieto.filteredJulkaisusovellukset.length > 0">
-            {{$t('tiedote-julkaistu')}}:
+            {{ $t('tiedote-julkaistu') }}:
           </h6>
 
-          <div class="mb-3" v-if="esittavaMuokkaustieto.filteredJulkaisupaikat.length > 0 || opintopolkuJulkaisu">
-            {{$t('tiedote-julkaisupaikka-opintopolku')}}
+          <div
+            v-if="esittavaMuokkaustieto.filteredJulkaisupaikat.length > 0 || opintopolkuJulkaisu"
+            class="mb-3"
+          >
+            {{ $t('tiedote-julkaisupaikka-opintopolku') }}
 
-            <div class="ml-4" v-if="opintopolkuJulkaisu">
-              <ep-color-indicator class="mr-2" :size="6" :tooltip="false" kind="etusivu"/> {{$t('etusivu')}}
+            <div
+              v-if="opintopolkuJulkaisu"
+              class="ml-4"
+            >
+              <ep-color-indicator
+                class="mr-2"
+                :size="6"
+                :tooltip="false"
+                kind="etusivu"
+              /> {{ $t('etusivu') }}
             </div>
 
-            <div class="ml-4" v-for="(julkaisupaikka, index) in esittavaMuokkaustieto.filteredJulkaisupaikat" :key="index+'filteredjulkaisupaikka'">
-              <ep-color-indicator class="mr-2" :size="6" :tooltip="false" :kind="julkaisupaikka"/> {{$t(julkaisupaikka)}}
+            <div
+              v-for="(julkaisupaikka, index) in esittavaMuokkaustieto.filteredJulkaisupaikat"
+              :key="index+'filteredjulkaisupaikka'"
+              class="ml-4"
+            >
+              <ep-color-indicator
+                class="mr-2"
+                :size="6"
+                :tooltip="false"
+                :kind="julkaisupaikka"
+              /> {{ $t(julkaisupaikka) }}
             </div>
           </div>
 
-          <div v-for="(julkaisusovellus, index) in esittavaMuokkaustieto.filteredJulkaisusovellukset" :key="index+'julkaisusovellus'">
-            {{julkaisusovellus}}
+          <div
+            v-for="(julkaisusovellus, index) in esittavaMuokkaustieto.filteredJulkaisusovellukset"
+            :key="index+'julkaisusovellus'"
+          >
+            {{ julkaisusovellus }}
           </div>
         </div>
 
-        <div v-if="esittavaMuokkaustieto.filteredPerusteet.length > 0" class="mt-4">
-          <h6>{{$t('liitetyt-perusteet')}}:</h6>
-          <div v-for="(peruste, index) in esittavaMuokkaustieto.filteredPerusteet" :key="index+'filteredPerusteet'">
-            {{peruste}}
+        <div
+          v-if="esittavaMuokkaustieto.filteredPerusteet.length > 0"
+          class="mt-4"
+        >
+          <h6>{{ $t('liitetyt-perusteet') }}:</h6>
+          <div
+            v-for="(peruste, index) in esittavaMuokkaustieto.filteredPerusteet"
+            :key="index+'filteredPerusteet'"
+          >
+            {{ peruste }}
           </div>
         </div>
 
-        <div v-if="esittavaMuokkaustieto.tutkinnonosat && esittavaMuokkaustieto.tutkinnonosat.length > 0" class="mt-4">
-          <h6>{{$t('liitetyt-tutkinnonosat')}}:</h6>
-          <div v-for="(tutkinnonosa, index) in esittavaMuokkaustieto.tutkinnonosat" :key="index+'tutkinnonosa'">
-            {{$kaanna(tutkinnonosa.nimi)}}
+        <div
+          v-if="esittavaMuokkaustieto.tutkinnonosat && esittavaMuokkaustieto.tutkinnonosat.length > 0"
+          class="mt-4"
+        >
+          <h6>{{ $t('liitetyt-tutkinnonosat') }}:</h6>
+          <div
+            v-for="(tutkinnonosa, index) in esittavaMuokkaustieto.tutkinnonosat"
+            :key="index+'tutkinnonosa'"
+          >
+            {{ $kaanna(tutkinnonosa.nimi) }}
           </div>
         </div>
 
-        <div v-if="esittavaMuokkaustieto.osaamisalat && esittavaMuokkaustieto.osaamisalat.length > 0" class="mt-4">
-          <h6>{{$t('liitetyt-osaamisalat')}}:</h6>
-          <div v-for="(osaamisala, index) in esittavaMuokkaustieto.osaamisalat" :key="index+'osaamisala'">
-            {{$kaanna(osaamisala.nimi)}}
+        <div
+          v-if="esittavaMuokkaustieto.osaamisalat && esittavaMuokkaustieto.osaamisalat.length > 0"
+          class="mt-4"
+        >
+          <h6>{{ $t('liitetyt-osaamisalat') }}:</h6>
+          <div
+            v-for="(osaamisala, index) in esittavaMuokkaustieto.osaamisalat"
+            :key="index+'osaamisala'"
+          >
+            {{ $kaanna(osaamisala.nimi) }}
           </div>
         </div>
-
       </div>
 
-      <template v-slot:modal-footer>
-
+      <template #modal-footer>
         <div v-if="editing && editable">
-          <ep-button @click="suljeTiedote" variant="link">{{ $t('peruuta') }}</ep-button>
-          <ep-button @click="tallennaTiedote" class="ml-3" :disabled="$v.$invalid">{{ muokattavaTiedote.id ? $t('tallenna') : $t('julkaise-tiedote') }}</ep-button>
+          <ep-button
+            variant="link"
+            @click="suljeTiedote"
+          >
+            {{ $t('peruuta') }}
+          </ep-button>
+          <ep-button
+            class="ml-3"
+            :disabled="$v.$invalid"
+            @click="tallennaTiedote"
+          >
+            {{ muokattavaTiedote.id ? $t('tallenna') : $t('julkaise-tiedote') }}
+          </ep-button>
         </div>
 
-        <div v-else class="d-flex justify-content-between w-100">
+        <div
+          v-else
+          class="d-flex justify-content-between w-100"
+        >
           <div v-if="editable">
-            <ep-button icon="edit" variant="link" @click="editing = true" v-oikeustarkastelu="oikeustarkastelu">{{ $t('muokkaa') }}</ep-button>
-            <ep-button icon="delete" variant="link" @click="poista" v-oikeustarkastelu="oikeustarkastelu">{{ $t('poista') }}</ep-button>
+            <ep-button
+              v-oikeustarkastelu="oikeustarkastelu"
+              icon="edit"
+              variant="link"
+              @click="editing = true"
+            >
+              {{ $t('muokkaa') }}
+            </ep-button>
+            <ep-button
+              v-oikeustarkastelu="oikeustarkastelu"
+              icon="delete"
+              variant="link"
+              @click="poista"
+            >
+              {{ $t('poista') }}
+            </ep-button>
           </div>
           <div v-else />
 
-          <ep-button @click="suljeTiedote">{{ $t('sulje') }}</ep-button>
+          <ep-button @click="suljeTiedote">
+            {{ $t('sulje') }}
+          </ep-button>
         </div>
-
       </template>
-
     </b-modal>
-
   </div>
 </template>
 

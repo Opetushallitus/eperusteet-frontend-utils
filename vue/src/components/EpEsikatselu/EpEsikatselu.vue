@@ -1,18 +1,26 @@
 <template>
-  <div >
+  <div>
     <label class="font-weight-600">
       <slot name="header">
-        {{$t(header)}}
+        {{ $t(header) }}
       </slot>
     </label>
-    <ep-toggle v-model="model.esikatseltavissa" :is-editing="isEditing" v-if="isEditing" :class="{'disabled-events': model.tila === 'poistettu'}">
+    <ep-toggle
+      v-if="isEditing"
+      v-model="model.esikatseltavissa"
+      :is-editing="isEditing"
+      :class="{'disabled-events': model.tila === 'poistettu'}"
+    >
       <slot name="toggle-text">
-        {{$t(toggleText)}}
+        {{ $t(toggleText) }}
       </slot>
     </ep-toggle>
-    <ep-external-link :url="externalUrl" v-if="!isEditing && model.esikatseltavissa"/>
+    <ep-external-link
+      v-if="!isEditing && model.esikatseltavissa"
+      :url="externalUrl"
+    />
     <div v-if="!isEditing && !model.esikatseltavissa">
-      {{$t('et-ole-sallinut-esikatselua')}}
+      {{ $t('et-ole-sallinut-esikatselua') }}
     </div>
   </div>
 </template>
@@ -41,19 +49,19 @@ export default class EpEsikatselu extends Vue {
   private value!: Esikatseltavissa;
 
   @Prop({ default: false })
-  private isEditing!: Boolean;
+  private isEditing!: boolean;
 
   @Prop({ default: false, type: Boolean })
-  private peruste!: Boolean;
+  private peruste!: boolean;
 
   @Prop({ default: false, type: Boolean })
-  private opetussuunnitelma!: Boolean;
+  private opetussuunnitelma!: boolean;
 
   @Prop({ default: false, type: Boolean })
-  private toteutussuunnitelma!: Boolean;
+  private toteutussuunnitelma!: boolean;
 
   @Prop({ default: false, type: Boolean })
-  private opas!: Boolean;
+  private opas!: boolean;
 
   get model() {
     return this.value;

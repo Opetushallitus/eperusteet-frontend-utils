@@ -4,6 +4,7 @@ import VueI18n from 'vue-i18n';
 import { Kielet } from '../../../stores/kieli';
 import { Kieli } from '@shared/tyypit';
 import { Kaannos } from '@shared/plugins/kaannos';
+import Vue from 'vue';
 
 describe('EpInput component', () => {
   const localVue = createLocalVue();
@@ -30,12 +31,12 @@ describe('EpInput component', () => {
       i18n,
     });
 
-    await localVue.nextTick();
+    await Vue.nextTick();
 
     expect(wrapper.html()).not.toContain('apua');
 
     wrapper.setProps({ isEditing: true });
-    await localVue.nextTick();
+    await Vue.nextTick();
 
     expect(wrapper.html()).toContain('aputarve');
   });
@@ -61,7 +62,7 @@ describe('EpInput component', () => {
       i18n,
     });
 
-    await localVue.nextTick();
+    await Vue.nextTick();
     expect(wrapper.html()).toContain('123');
 
     wrapper.setProps({ isEditing: true });
@@ -70,7 +71,7 @@ describe('EpInput component', () => {
     wrapper.find('input[type="text"]').setValue('321');
 
     wrapper.setProps({ isEditing: false });
-    await localVue.nextTick();
+    await Vue.nextTick();
 
     expect(wrapper.text()).toContain('321');
     expect(wrapper.text()).not.toContain('123');
@@ -85,6 +86,7 @@ describe('EpInput component', () => {
       },
       localVue,
       i18n,
+      attachTo: document.body,
     });
 
     await localVue.nextTick();
@@ -92,16 +94,16 @@ describe('EpInput component', () => {
     expect(wrapper.html()).toContain('arvo');
     Kielet.setSisaltoKieli(Kieli.sv);
 
-    await localVue.nextTick();
+    await Vue.nextTick();
     expect(wrapper.html()).toContain('[arvo]');
 
     wrapper.setProps({ isEditing: true });
-    await localVue.nextTick();
+    await Vue.nextTick();
     expect(wrapper.html()).toContain('arvo');
     expect(wrapper.html()).not.toContain('[arvo]');
 
-    wrapper.find('input[type="text"]').trigger('focus');
-    await localVue.nextTick();
+    wrapper.find('input').trigger('focus');
+    await Vue.nextTick();
     expect(wrapper.html()).not.toContain('arvo');
   });
 });

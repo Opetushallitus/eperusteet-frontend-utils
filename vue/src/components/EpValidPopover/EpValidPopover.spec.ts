@@ -4,6 +4,7 @@ import BootstrapVue from 'bootstrap-vue';
 import { Kielet } from '../../stores/kieli';
 import { Kaannos } from '../../plugins/kaannos';
 import VueI18n from 'vue-i18n';
+import Vue from 'vue';
 
 describe('EpValidPopover component', () => {
   const localVue = createLocalVue();
@@ -48,41 +49,9 @@ describe('EpValidPopover component', () => {
       },
     );
 
+    await Vue.nextTick();
+
     expect(wrapper.html()).toContain('perusteessa-on-julkaisemattomia-muutoksia');
     expect(wrapper.html()).toContain('siirry-julkaisunakymaan');
-  });
-
-  xtest('popup opens', async () => {
-    const wrapper = mount(EpValidPopover, {
-      localVue,
-      propsData: {
-        validoitava: {
-          tila: 'luonnos',
-          koulutustyyppi: 'koulutustyyppi_1',
-        },
-        validoinnit: {
-          virheet: [],
-          huomautukset: [],
-        },
-        julkaistava: true,
-        julkaisemattomiaMuutoksia: true,
-        tyyppi: 'peruste',
-      },
-      mocks: {
-        $t: x => x,
-        $sd: x => x,
-      },
-      stubs: {
-        'router-link': RouterLinkStub,
-      },
-    });
-
-    expect(wrapper.html()).not.toContain('ei-julkaisua-estavia-virheita');
-    // expect(wrapper.find({ ref: 'ep-progress-popover' }).exists()).toBe(true);
-    // (wrapper.vm.$refs['ep-progress-popover'] as any).show();
-
-    await localVue.nextTick();
-
-    expect(wrapper.html()).toContain('ei-julkaisua-estavia-virheita');
   });
 });
