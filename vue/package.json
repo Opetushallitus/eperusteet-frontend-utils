@@ -54,7 +54,7 @@
     "file-loader": "^5.0.2",
     "file-saver": "^2.0.5",
     "husky": "^4.2.3",
-    "lint-staged": "^10.1.2",
+    "lint-staged": "^16.0.0",
     "loader-utils": "^1.4.2",
     "lodash": "^4.17.21",
     "material-icons": "^1.13.11",
