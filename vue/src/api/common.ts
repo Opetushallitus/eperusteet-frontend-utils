@@ -25,6 +25,9 @@ function errorMessage(err) {
   }
 
   if (err.response.status === 400 && !!err.response?.data?.syy) {
+    if (_.isArray(err.response.data.syy)) {
+      return err.response.data.syy.map(s => Kielet.kaannaOlioTaiTeksti(s)).join(', ');
+    }
     return Kielet.kaannaOlioTaiTeksti(err.response?.data?.syy);
   }
 
