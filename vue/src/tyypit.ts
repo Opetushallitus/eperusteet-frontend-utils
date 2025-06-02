@@ -37,11 +37,11 @@ export enum Koulutustyyppi {
   tutkintoonvalmentava = 'koulutustyyppi_40',
 }
 
-const ammatilliset = [Koulutustyyppi.ammattitutkinto, Koulutustyyppi.erikoisammattitutkinto, Koulutustyyppi.perustutkinto];
+export const AmmatillisetKoulutustyypit = [Koulutustyyppi.ammattitutkinto, Koulutustyyppi.erikoisammattitutkinto, Koulutustyyppi.perustutkinto];
 export const SallitutKoulutustyyppisiirtymat = Object.freeze({
-  [Koulutustyyppi.ammattitutkinto]: ammatilliset,
-  [Koulutustyyppi.perustutkinto]: ammatilliset,
-  [Koulutustyyppi.erikoisammattitutkinto]: ammatilliset,
+  [Koulutustyyppi.ammattitutkinto]: AmmatillisetKoulutustyypit,
+  [Koulutustyyppi.perustutkinto]: AmmatillisetKoulutustyypit,
+  [Koulutustyyppi.erikoisammattitutkinto]: AmmatillisetKoulutustyypit,
 });
 
 export enum KoulutustyyppiToteutus {
