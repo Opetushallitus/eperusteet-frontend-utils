@@ -4476,5 +4476,16 @@
     "korvattavat-perusteet-yleissivistava": "Korvattavat perusteet",
     "julkisivun-perusteiden-jarjestys": "Julkisivun perusteiden järjestys",
     "piilota-julkisivulta": "Piilota julkisivulta",
-    "teksti-kappale-viitteen-kopiointi-ei-onnistunut": "Tekstikappaleen viitteen kopiointi ei onnistunut"
+    "teksti-kappale-viitteen-kopiointi-ei-onnistunut": "Tekstikappaleen viitteen kopiointi ei onnistunut",
+    "rakenteen-validointi-virhe-paatason-muodostumisen-rooli-virheellinen": "Virheellinen rakenne, Päätason muodostumisen rooli on virheellinen",
+    "rakenteen-validointi-virhe-rakenteessa-osaamisaloja-useassa-ryhmassa": "Virheellinen rakenne, osaamisaloja useassa ryhmässä",
+    "rakenteen-validointi-virhe-rakennehierarkia-ei-saa-sisaltaa-tutkinnossa-maariteltavia-ryhmia-joihin-liitetty-osia": "Virheellinen rakenne, Rakennehierarkia ei saa sisältää tutkinnossa määriteltäviä ryhmiä, joihin on liitetty tutkinnon osia",
+    "rakenteen-validointi-virhe-rakenteessa-sisakkaisia-osaamisalaryhmia": "Virheellinen rakenne, sisäkkäisiä osaamisalaryhmiä",
+    "rakenteen-validointi-virhe-ryhmassa-on-samoja-tutkinnon-osia": "Virheellinen rakenne, ryhmässä on samoja tutkinnon osia",
+    "rakenteen-validointi-virhe-tutkintonimikkeelta-tai-osaamisalalta-puuttuu-sisalto": "Virheellinen rakenne, tutkintonimikkeeltä tai osaamisalalta puuttuu sisältö",
+    "rakenteen-validointi-virhe-laskettu-laajuuksien-summan-minimi-on-pienempi-kuin-ryhman-vaadittu-minimi": "Virheellinen rakenne, laskettu laajuuksien summan minimi on pienempi kuin ryhmän vaadittu minimi",
+    "rakenteen-validointi-virhe-laskettu-laajuuksien-summan-maksimi-on-pienempi-kuin-ryhman-vaadittu-maksimi": "Virheellinen rakenne, laskettu laajuuksien summan maksimi on pienempi kuin ryhmän vaadittu maksimi",
+    "rakenteen-validointi-virhe-laskettu-koko-on-pienempi-kuin-vaadittu-minimi": "Virheellinen rakenne, laskettu koko on pienempi kuin vaadittu minimi",
+    "rakenteen-validointi-virhe-laskettu-koko-on-pienempi-kuin-ryhman-vaadittu-maksimi": "Virheellinen rakenne, laskettu koko on pienempi kuin ryhmän vaadittu maksimi",
+    "rakenteen-validointi-virhe-ryhman-osaamisalaa-ei-perusteella": "Virheellinen rakenne, ryhmän osaamisalaa ei perusteella"
 }
