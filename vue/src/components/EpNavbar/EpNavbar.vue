@@ -5,9 +5,9 @@
     sticky-z-index="600"
   >
     <b-sidebar id="sisaltobar">
-      <PortalTarget
+      <div
+        id="globalNavigation"
         ref="innerPortal"
-        name="globalNavigation"
       />
     </b-sidebar>
 

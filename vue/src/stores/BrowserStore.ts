@@ -2,7 +2,7 @@ import Vue from 'vue';
 import _ from 'lodash';
 import { computed, reactive, ref } from '@vue/reactivity';
 
-const state = ref({
+const state = reactive({
   window: {
     width: window.innerWidth,
     height: window.innerHeight,
@@ -13,23 +13,23 @@ const state = ref({
 });
 
 document.addEventListener('scroll', (ev) => {
-  state.value.scrollY = window.pageYOffset;
+  state.scrollY = window.pageYOffset;
 });
 
 window.addEventListener('resize', (ev) => {
   const { innerWidth, innerHeight } = ev.target as any;
-  state.value.window.width = innerWidth;
-  state.value.window.height = innerHeight;
+  state.window.width = innerWidth;
+  state.window.height = innerHeight;
 });
 
 document.addEventListener('focusin', (ev) => {
   if (ev.target) {
-    state.value.focused = ev as any;
+    state.focused = ev as any;
   }
 });
 
 document.addEventListener('focusout', (ev) => {
-  state.value.focused = null;
+  state.focused = null;
 });
 
 document.addEventListener('keyup', (ev) => {
@@ -38,16 +38,16 @@ document.addEventListener('keyup', (ev) => {
   }
 
   const press = _.pick(ev, 'ctrlKey', 'code', 'shiftKey', 'type', 'keyCode');
-  state.value.latestKeypress = press;
+  state.latestKeypress = press;
 });
 
 export class BrowserStore {
-  public readonly scrollY = computed(() => state.value.scrollY);
-  public readonly window = computed(() => state.value.window);
-  public readonly focused = computed(() => state.value.focused);
-  public readonly activeElement = computed(() => state.value.focused?.target);
-  public readonly latestKeypress = computed(() => state.value.latestKeypress);
-  public readonly navigationVisible = computed(() => state.value.window.width > 991);
+  public readonly scrollY = computed(() => state.scrollY);
+  public readonly window = computed(() => state.window);
+  public readonly focused = computed(() => state.focused);
+  public readonly activeElement = computed(() => state.focused?.target);
+  public readonly latestKeypress = computed(() => state.latestKeypress);
+  public readonly navigationVisible = computed(() => state.window.width > 991);
 
   public static location = reactive({ href: '' });
 

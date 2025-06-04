@@ -46,6 +46,8 @@ const moduuliNimi = computed(() => {
   if (props.moduuli) {
     return Kielet.kaanna(props.moduuli.nimi);
   }
+
+  return undefined;
 });
 
 const koodi = computed(() => {

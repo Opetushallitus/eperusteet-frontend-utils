@@ -238,6 +238,10 @@ onMounted(() => {
     ? isToggled()
     : props.expandedByDefault;
 });
+
+defineExpose({
+  toggle,
+});
 </script>
 
 <style scoped lang="scss">
