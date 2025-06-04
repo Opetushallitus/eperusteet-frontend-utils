@@ -1,5 +1,5 @@
 import { createUnhead } from "@unhead/vue";
-import { RouterLinkStub } from "@vue/test-utils";
+import { mount, RouterLinkStub } from "@vue/test-utils";
 import { createPinia } from "pinia";
 import { h, renderSlot } from 'vue';
 import { createHead } from '@unhead/vue/client';
@@ -30,6 +30,7 @@ const generateBootstrapStubs = () => {
     'b-dropdown-item',
     'b-dropdown',
     'b-container',
+    'b-link',
     // Add any other B components you use
   ];
 
@@ -63,6 +64,7 @@ export const testPlugin = {
     app.config.globalProperties.$slang = () => 'fi';
     app.config.globalProperties.$sd = (tKey) => tKey;
     app.config.globalProperties.$sdt = (tKey) => tKey;
+    app.config.globalProperties.$sdm = (tKey) => tKey;
     app.config.globalProperties.$kaannaOlioTaiTeksti = (tKey) => tKey;
   },
 };
@@ -91,3 +93,12 @@ export const globalStubs = {
     },
   },
 };
+
+export function createMount(component, options = {}) {
+  return mount(component as any, {
+    ...options,
+    global: {
+      ...globalStubs,
+    },
+  });
+}

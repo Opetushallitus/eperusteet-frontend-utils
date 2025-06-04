@@ -15,12 +15,14 @@
         <slot name="bottom" />
       </div>
     </div>
-    <Portal
-      v-else
-      to="globalNavigation"
+    <Teleport
+      v-else-if="mounted"
+      to="#globalNavigation"
     >
-      <slot name="bar" />
-    </Portal>
+      <div class="mb-5">
+        <slot name="bar" />
+      </div>
+    </Teleport>
     <div
       :id="scrollAnchor"
       class="view"
@@ -32,11 +34,11 @@
 
 <script setup lang="ts">
 import { computed, useSlots } from 'vue';
-import EpToggle from '../forms/EpToggle.vue';
-import Sticky from 'vue-sticky-directive';
-import { BrowserStore } from '../../stores/BrowserStore';
+import { BrowserStore } from '@shared/stores/BrowserStore';
 import _ from 'lodash';
 import { useRoute } from 'vue-router';
+import { ref } from 'vue';
+import { onMounted } from 'vue';
 
 const props = defineProps({
   scrollEnabled: {
@@ -48,6 +50,11 @@ const props = defineProps({
 const slots = useSlots();
 const route = useRoute();
 const browserStore = new BrowserStore();
+const mounted = ref(false);
+
+onMounted(() => {
+  mounted.value = true;
+});
 
 const showNavigation = computed(() => {
   return browserStore.navigationVisible.value;

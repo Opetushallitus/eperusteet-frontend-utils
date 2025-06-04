@@ -1,5 +1,8 @@
 <template>
-  <div v-if="valueFormatted">
+  <div
+    v-if="valueFormatted"
+    ref="contentContainer"
+  >
     <div
       class="teksti"
       v-html="valueFormatted"
@@ -69,6 +72,7 @@ const props = defineProps({
   },
 });
 
+const contentContainer = ref<HTMLDivElement | null>(null);
 const linkkiHandler = inject<ILinkkiHandler>('linkkiHandler');
 
 const termiElements = ref<Element[]>([]);
@@ -179,20 +183,25 @@ const termitWrapped = computed(() => {
 
 // Watch for valueFormatted changes
 watch(valueFormatted, async (newVal) => {
-  await nextTick(); // Odotetaan DOM-elementtien rendausta
-  if (newVal) {
+  await nextTick(); // Wait for initial DOM updates'
+  if (newVal && contentContainer.value) {
     // Termit
     termiElements.value = [];
-    const abbrs = document.querySelectorAll('abbr');
-    _.each(abbrs, abbr => {
-      const termi = document.createElement('a');
-      termi.setAttribute('class', 'termi');
-      termi.setAttribute('href', 'javascript:void(0)');
-      termi.setAttribute('data-viite', abbr.getAttribute('data-viite') || '');
-      termi.textContent = abbr.textContent;
-      abbr.parentNode!.replaceChild(termi, abbr);
-      termiElements.value.push(termi);
-    });
+
+    // Find abbr elements within the component's content
+    const abbrs = contentContainer.value.querySelectorAll('abbr');
+
+    if (abbrs && abbrs.length) {
+      _.each(abbrs, abbr => {
+        const termi = document.createElement('a');
+        termi.setAttribute('class', 'termi');
+        termi.setAttribute('href', 'javascript:void(0)');
+        termi.setAttribute('data-viite', abbr.getAttribute('data-viite') || '');
+        termi.textContent = abbr.textContent;
+        abbr.parentNode!.replaceChild(termi, abbr);
+        termiElements.value.push(termi);
+      });
+    }
   }
 }, { immediate: true });
 
