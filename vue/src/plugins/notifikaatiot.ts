@@ -1,4 +1,6 @@
 import Vue from 'vue';
+import { App } from 'vue';
+import Notifications from 'vue-notification';
 
 interface NotificationConfig {
   title: string;
@@ -11,7 +13,7 @@ export interface CheckedConfig {
   failure?: string;
 }
 
-declare module 'vue/types/vue' {
+declare module '@vue/runtime-core' {
   interface Vue {
     $notification: (config: NotificationConfig) => Promise<void>;
     $success: (title: string) => Promise<void>;
@@ -22,12 +24,11 @@ declare module 'vue/types/vue' {
 }
 
 export class Notifikaatiot {
-  public static install(vue: typeof Vue) {
-    if (!vue.prototype.$notify) {
-      throw new Error('Vue.use(require("vue-notification"))');
-    }
+  public static install(app: App) {
 
-    vue.prototype.$notification = function(config: NotificationConfig) {
+    Vue.use(Notifications);
+
+    app.config.globalProperties.$notification = function(config: NotificationConfig) {
       this.$notify({
         title: config.title,
         type: config.kind || 'info',
@@ -35,21 +36,21 @@ export class Notifikaatiot {
       });
     };
 
-    vue.prototype.$success = function(title: string) {
+    app.config.globalProperties.$success = function(title: string) {
       this.$notify({
         title,
         type: 'success',
       });
     };
 
-    vue.prototype.$info = function(title: string) {
+    app.config.globalProperties.$info = function(title: string) {
       this.$notify({
         title,
         type: 'info',
       });
     };
 
-    vue.prototype.$fail = function(title: string, text: string = '') {
+    app.config.globalProperties.$fail = function(title: string, text: string = '') {
       this.$notify({
         title,
         type: 'error',
@@ -58,7 +59,7 @@ export class Notifikaatiot {
       });
     };
 
-    vue.prototype.$warning = function(title: string, text: string = '') {
+    app.config.globalProperties.$warning = function(title: string, text: string = '') {
       this.$notify({
         title,
         type: 'warn',

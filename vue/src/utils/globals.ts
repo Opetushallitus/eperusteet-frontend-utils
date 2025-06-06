@@ -87,3 +87,23 @@ export const $slang = (): string => {
   const slang = useGlobalProperties().$slang;
   return slang?.value || 'fi';
 };
+
+export const $success = (title: string): any => {
+  return useGlobalProperties().$success(title);
+}
+
+export const $notification = (title: string): any => {
+  return useGlobalProperties().$notification(title);
+}
+
+export const $info = (title: string): any => {
+  return useGlobalProperties().$info(title);
+}
+
+export const $fail = (title: string): any => {
+  return useGlobalProperties().$fail(title);
+}
+
+export const $warning = (title: string): any => {
+  return useGlobalProperties().$warning(title);
+}
