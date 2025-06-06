@@ -58,66 +58,61 @@
 
 <script setup lang="ts">
 import _ from 'lodash';
-import DatePicker from 'vue2-datepicker';
 import { computed } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { Kielet } from '../../stores/kieli';
 import { useVuelidate } from '@vuelidate/core';
-import EpFormContent from './EpFormContent.vue';
+import { $sd, $ldt, $ld, $t } from '@shared/utils/globals';
 
 // Define props
 const props = defineProps({
   modelValue: {
     type: [Date, Number, String],
-    required: true
+    required: true,
   },
   type: {
     type: String,
     default: 'sd',
     validator(value: string) {
       return _.includes(['date', 'datetime', 'sd'], value);
-    }
+    },
   },
   isEditing: {
     type: Boolean,
-    default: false
+    default: false,
   },
   help: {
     type: String,
-    default: ''
+    default: '',
   },
   showValidValidation: {
     type: Boolean,
     default: true,
-    required: false
+    required: false,
   },
   endOfDay: {
     type: Boolean,
-    default: false
+    default: false,
   },
   validation: {
     type: Object,
-    default: null
+    default: null,
   },
   validMessage: {
     type: String,
-    default: null
+    default: null,
   },
   invalidMessage: {
     type: String,
-    default: null
+    default: null,
   },
   isWarning: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 
 // Define emits
 const emit = defineEmits(['update:modelValue', 'blur']);
-
-// Use i18n
-const { t } = useI18n();
 
 // Validation setup
 const v$ = useVuelidate();
@@ -139,16 +134,16 @@ const state = computed(() => {
 
 const locdate = computed(() => {
   if (!props.modelValue) {
-    return t('ei-asetettu');
+    return $t('ei-asetettu');
   }
   else if (props.type === 'datetime') {
-    return props.modelValue; // Need to implement $ldt equivalent
+    return $ldt(props.modelValue);
   }
   else if (props.type === 'sd') {
-    return props.modelValue; // Need to implement $sd equivalent
+    return $sd(props.modelValue);
   }
   else {
-    return props.modelValue; // Need to implement $ld equivalent
+    return $ld(props.modelValue);
   }
 });
 

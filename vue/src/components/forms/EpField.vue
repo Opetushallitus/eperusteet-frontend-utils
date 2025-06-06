@@ -1,7 +1,7 @@
 <template>
   <ep-input
     class="form-data"
-    :value="value"
+    :modelValue="modelValue"
     :is-editing="isEditing"
     :is-header="isHeader"
     :type="type"
@@ -23,7 +23,7 @@ import { useVuelidate } from '@vuelidate/core';
 import EpInput from './EpInput.vue';
 
 const props = defineProps({
-  value: { type: [String, Object], required: true },
+  modelValue: { type: [String, Object], required: true },
   isHeader: { type: Boolean, default: false },
   isEditing: { type: Boolean, default: false },
   type: { type: String, default: 'localized' },
