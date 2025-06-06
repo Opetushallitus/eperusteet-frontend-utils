@@ -31,86 +31,59 @@ export const useGlobalProperties = (): Record<string, any> => {
   return {};
 };
 
-// Export frequently used global properties as individual utility functions
-export const useKaanna = () => {
-  return useGlobalProperties().$kaanna;
-};
-
-export const useAikaleimaSd = () => {
-  return useGlobalProperties().$sd;
-};
-
-export const useLocale = (): ComputedRef<string> => {
-  return useGlobalProperties().$locale;
-};
-
-export const useSisaltoKieli = (): ComputedRef<string> => {
-  return useGlobalProperties().$slang;
-};
-
-export const useSuodatin = () => {
-  return useGlobalProperties().$suodatin;
-};
-
-export const useFilterBy = () => {
-  return useGlobalProperties().$filterBy;
-};
-
-export const useKaannaOlioTaiTeksti = () => {
-  return useGlobalProperties().$kaannaOlioTaiTeksti;
-};
-
-export const useKaannaPlaceholder = () => {
-  return useGlobalProperties().$kaannaPlaceholder;
-};
-
-export const useT = () => {
-  return useGlobalProperties().$t;
-};
-
 // Direct usable exports of global properties
 export const $kaanna = (...args: any[]) => {
-  const kaanna = useKaanna();
+  const kaanna = useGlobalProperties().$kaanna;
   return kaanna ? kaanna(...args) : args[0];
 };
 
 export const $sd = (value: any) => {
-  const sd = useAikaleimaSd();
+  const sd = useGlobalProperties().$sd;
   return sd ? sd(value) : value;
 };
 
+export const $ldt = (value: any) => {
+  const ldt = useGlobalProperties().$ldt;
+  return ldt ? ldt(value) : value;
+};
+
+export const $ld = (value: any) => {
+  const ld = useGlobalProperties().$ld;
+  return ld ? ld(value) : value;
+};
+
 export const $suodatin = (query: string) => (value: any) => {
-  const suodatin = useSuodatin();
+  const suodatin = useGlobalProperties().$suodatin;
   return suodatin ? suodatin(query)(value) : value;
 };
 
 export const $filterBy = (field: string, query: string) => (value: any) => {
-  const filterBy = useFilterBy();
+  const filterBy = useGlobalProperties().$filterBy;
   return filterBy ? filterBy(field, query)(value) : true;
 };
 
 export const $kaannaOlioTaiTeksti = (...args: any[]) => {
-  const kaannaOlioTaiTeksti = useKaannaOlioTaiTeksti();
+  const kaannaOlioTaiTeksti = useGlobalProperties().$kaannaOlioTaiTeksti;
   return kaannaOlioTaiTeksti ? kaannaOlioTaiTeksti(...args) : args[0];
 };
 
 export const $kaannaPlaceholder = (...args: any[]) => {
-  const kaannaPlaceholder = useKaannaPlaceholder();
+  const kaannaPlaceholder = useGlobalProperties().$kaannaPlaceholder;
   return kaannaPlaceholder ? kaannaPlaceholder(...args) : args[0];
 };
 
 export const $t = (key: string, values?: Record<string, any>) => {
-  const t = useT();
+  const t = useGlobalProperties().$t;
   return t ? t(key, values) : key;
 };
 
 // Getter functions for locale and content language
 export const $locale = (): string => {
-  const locale = useLocale();
+  const locale = useGlobalProperties().$locale;
   return locale?.value || 'fi';
 };
 
 export const $slang = (): string => {
-  const slang = useSisaltoKieli();
+  const slang = useGlobalProperties().$slang;
   return slang?.value || 'fi';
 };
