@@ -42,6 +42,11 @@ export const $sd = (value: any) => {
   return sd ? sd(value) : value;
 };
 
+export const $sdt = (value: any) => {
+  const sdt = useGlobalProperties().$sdt;
+  return sdt ? sdt(value) : value;
+};
+
 export const $ldt = (value: any) => {
   const ldt = useGlobalProperties().$ldt;
   return ldt ? ldt(value) : value;
@@ -72,9 +77,9 @@ export const $kaannaPlaceholder = (...args: any[]) => {
   return kaannaPlaceholder ? kaannaPlaceholder(...args) : args[0];
 };
 
-export const $t = (key: string, values?: Record<string, any>) => {
+export const $t = (key: string, values?: Record<string, any>, options?: any) => {
   const t = useGlobalProperties().$t;
-  return t ? t(key, values) : key;
+  return t ? t(key, values, options) : key;
 };
 
 // Getter functions for locale and content language
@@ -106,4 +111,12 @@ export const $fail = (title: string): any => {
 
 export const $warning = (title: string): any => {
   return useGlobalProperties().$warning(title);
+}
+
+export const $bvModal = (): any => {
+  // TODO: Implement this
+
+  // return useGlobalProperties().$bvModal;
+
+  return {};
 }
