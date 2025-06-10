@@ -4487,5 +4487,6 @@
     "rakenteen-validointi-virhe-laskettu-laajuuksien-summan-maksimi-on-pienempi-kuin-ryhman-vaadittu-maksimi": "Virheellinen rakenne, laskettu laajuuksien summan maksimi on pienempi kuin ryhmän vaadittu maksimi",
     "rakenteen-validointi-virhe-laskettu-koko-on-pienempi-kuin-vaadittu-minimi": "Virheellinen rakenne, laskettu koko on pienempi kuin vaadittu minimi",
     "rakenteen-validointi-virhe-laskettu-koko-on-pienempi-kuin-ryhman-vaadittu-maksimi": "Virheellinen rakenne, laskettu koko on pienempi kuin ryhmän vaadittu maksimi",
-    "rakenteen-validointi-virhe-ryhman-osaamisalaa-ei-perusteella": "Virheellinen rakenne, ryhmän osaamisalaa ei perusteella"
+    "rakenteen-validointi-virhe-ryhman-osaamisalaa-ei-perusteella": "Virheellinen rakenne, ryhmän osaamisalaa ei perusteella",
+    "virheelliset-organisaatiot": "Virheelliset organisaatiot"
 }
