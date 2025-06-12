@@ -1,39 +1,42 @@
 <template>
-   <b-dropdown size="sm" class="kielivalinta" right>
-    <template slot="button-content">
+  <b-dropdown
+    size="sm"
+    class="kielivalinta"
+    right
+  >
+    <template #button-content>
       <span>{{ $t("kieli-sisalto") }}:
         <span class="valittukieli">{{ $t(sisaltoKieli) }}</span>
         <EpMaterialIcon>expand_more</EpMaterialIcon>
       </span>
     </template>
-    <b-dropdown-item @click="valitseSisaltoKieli(kieli)" v-for="kieli in sovelluksenKielet" :key="kieli" :disabled="kieli === sisaltoKieli">{{ $t(kieli) }}</b-dropdown-item>
+    <b-dropdown-item
+      v-for="kieli in sovelluksenKielet"
+      :key="kieli"
+      :disabled="kieli === sisaltoKieli"
+      @click="valitseSisaltoKieli(kieli)"
+    >
+      {{ $t(kieli) }}
+    </b-dropdown-item>
   </b-dropdown>
-
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed } from 'vue';
 import { Kielet, UiKielet } from '@shared/stores/kieli';
 import { Kieli } from '@shared/tyypit';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
-@Component({
-  components: {
-    EpMaterialIcon,
-  },
-})
-export default class EpKielivalinta extends Vue {
-  get sisaltoKieli() {
-    return Kielet.getSisaltoKieli.value;
-  }
+const sisaltoKieli = computed(() => {
+  return Kielet.getSisaltoKieli.value;
+});
 
-  get sovelluksenKielet() {
-    return UiKielet;
-  }
+const sovelluksenKielet = computed(() => {
+  return UiKielet;
+});
 
-  valitseSisaltoKieli(kieli: Kieli) {
-    Kielet.setSisaltoKieli(kieli);
-  }
+function valitseSisaltoKieli(kieli: Kieli) {
+  Kielet.setSisaltoKieli(kieli);
 }
 </script>
 

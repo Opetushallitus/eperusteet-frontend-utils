@@ -1,38 +1,38 @@
 <template>
-  <span class="ep-expand-text" :class="{'clickable pointer': !isExpanded}" @click="toggleExpanded">
+  <span
+    class="ep-expand-text"
+    :class="{'clickable pointer': !isExpanded}"
+    @click="toggleExpanded"
+  >
     {{ truncated }}
   </span>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue';
 import * as _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
 
-@Component
-export default class EpExpandText extends Vue {
-  @Prop({ required: true })
-  text!: string;
+const props = defineProps({
+  text: { type: String, required: true },
+  shortLength: { type: Number, default: 150 },
+});
 
-  @Prop({ default: 150 })
-  shortLength!: number;
+const expanded = ref(false);
 
-  expanded = false;
+const toggleExpanded = () => {
+  expanded.value = !expanded.value;
+};
 
-  toggleExpanded() {
-    this.expanded = !this.expanded;
+const isExpanded = computed(() => {
+  return expanded.value || props.text.length <= props.shortLength;
+});
+
+const truncated = computed(() => {
+  if (isExpanded.value) {
+    return props.text;
   }
-
-  get isExpanded() {
-    return this.expanded || this.text.length <= this.shortLength;
-  }
-
-  get truncated() {
-    if (this.isExpanded) {
-      return this.text;
-    }
-    return _.truncate(this.text, { length: this.shortLength });
-  }
-}
+  return _.truncate(props.text, { length: props.shortLength });
+});
 </script>
 
 <style scoped lang="scss">

@@ -1,54 +1,75 @@
 <template>
-<div class="sidenav">
-  <div v-if="showNavigation" class="bar d-print-none">
-    <slot name="bar" />
-    <div v-if="$scopedSlots.bottom" class="bottom" v-sticky sticky-side="bottom" sticky-z-index="500">
-      <slot name="bottom" />
+  <div class="sidenav">
+    <div
+      v-if="showNavigation"
+      class="bar d-print-none"
+    >
+      <slot name="bar" />
+      <div
+        v-if="slots.bottom"
+        v-sticky
+        class="bottom"
+        sticky-side="bottom"
+        sticky-z-index="500"
+      >
+        <slot name="bottom" />
+      </div>
+    </div>
+    <Teleport
+      v-else-if="mounted"
+      to="#globalNavigation"
+    >
+      <div class="mb-5">
+        <slot name="bar" />
+      </div>
+    </Teleport>
+    <div
+      :id="scrollAnchor"
+      class="view"
+    >
+      <slot name="view" />
     </div>
   </div>
-  <Portal v-else to="globalNavigation">
-    <slot name="bar" />
-  </Portal>
-  <div class="view" :id="scrollAnchor">
-    <slot name="view" />
-  </div>
-</div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
-import EpToggle from '../forms/EpToggle.vue';
-import Sticky from 'vue-sticky-directive';
-import { BrowserStore } from '../../stores/BrowserStore';
+<script setup lang="ts">
+import { computed, useSlots } from 'vue';
+import { BrowserStore } from '@shared/stores/BrowserStore';
 import _ from 'lodash';
+import { useRoute } from 'vue-router';
+import { ref } from 'vue';
+import { onMounted } from 'vue';
 
-@Component({
-  components: {
-    EpToggle,
+const props = defineProps({
+  scrollEnabled: {
+    type: Boolean,
+    default: false,
   },
-  directives: {
-    Sticky,
-  },
-})
-export default class EpSidebar extends Vue {
-  @Prop({ required: false, default: false, type: Boolean })
-  private scrollEnabled!: boolean;
+});
 
-  private browserStore = new BrowserStore();
+const slots = useSlots();
+const route = useRoute();
+const browserStore = new BrowserStore();
+const mounted = ref(false);
 
-  get showNavigation() {
-    return this.browserStore.navigationVisible.value;
-  }
+onMounted(() => {
+  mounted.value = true;
+});
 
-  private settings = {
-    autoScroll: true,
-    showSubchapter: true,
-  };
+const showNavigation = computed(() => {
+  return browserStore.navigationVisible.value;
+});
 
-  get scrollAnchor() {
-    return this.scrollEnabled && !_.includes(['peruste', 'perusteTiedot'], this.$route?.name) ? 'scroll-anchor' : 'disabled-scroll-anchor';
-  }
-}
+const settings = {
+  autoScroll: true,
+  showSubchapter: true,
+};
+
+const scrollAnchor = computed(() => {
+  return props.scrollEnabled && !_.includes(['peruste', 'perusteTiedot'], route?.name)
+    ? 'scroll-anchor'
+    : 'disabled-scroll-anchor';
+});
 </script>
 <style scoped lang="scss">
 @import "../../styles/_variables.scss";

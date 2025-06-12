@@ -1,32 +1,17 @@
-import { mount, createLocalVue, RouterLinkStub } from '@vue/test-utils';
-import { findContaining } from '../../utils/jestutils';
+import { mount } from '@vue/test-utils';
 import EpMainView from './EpMainView.vue';
-import { Kieli } from '../../tyypit';
-import { Kaannos } from '../../plugins/kaannos';
-import VueI18n from 'vue-i18n';
-import { delay } from '../../utils/delay';
-import { Kielet } from '../../stores/kieli';
-import Vue from 'vue';
-import BootstrapVue from 'bootstrap-vue';
-
-Vue.use(BootstrapVue);
+import { globalStubs } from '@shared/utils/__tests__/stubs';
 
 describe('EpMainView component', () => {
-  const localVue = createLocalVue();
-  localVue.use(VueI18n);
-  Kielet.install(localVue);
-  localVue.use(new Kaannos());
-
   test('Renders', async () => {
     const wrapper = mount(EpMainView, {
-      localVue,
       slots: {
         default: 'DEFAULT SLOT',
         'custom-content': 'CUSTOM CONTENT',
         after: 'AFTER CONTENT',
       },
-      mocks: {
-        $t: x => x,
+      global: {
+        ...globalStubs,
       },
     });
 

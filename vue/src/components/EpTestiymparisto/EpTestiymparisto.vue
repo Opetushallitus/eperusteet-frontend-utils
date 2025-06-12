@@ -1,32 +1,26 @@
 <template>
-  <div v-if="testiymparisto" class="testiymparisto">
+  <div
+    v-if="testiymparisto"
+    class="testiymparisto"
+  >
     {{ testiymparisto }}
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue';
 import * as _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
 
-@Component({
-  components: {
+const testiymparistot = {
+  'testiopintopolku': 'QA',
+  'untuvaopintopolku': 'Untuva',
+  'hahtuvaopintopolku': 'Hahtuva',
+  'localhost': 'kehittäjä',
+};
 
-  },
-})
-export default class EpTestiymparisto extends Vue {
-  get testiymparistot() {
-    return {
-      'testiopintopolku': 'QA',
-      'untuvaopintopolku': 'Untuva',
-      'hahtuvaopintopolku': 'Hahtuva',
-      'localhost': 'kehittäjä',
-    };
-  }
-
-  get testiymparisto() {
-    return this.testiymparistot[_.find(_.keys(this.testiymparistot), ymparisto => _.includes(window.location.origin, ymparisto)) || ''];
-  }
-}
+const testiymparisto = computed(() => {
+  return testiymparistot[_.find(_.keys(testiymparistot), ymparisto => _.includes(window.location.origin, ymparisto)) || ''];
+});
 </script>
 
 <style scoped lang="scss">

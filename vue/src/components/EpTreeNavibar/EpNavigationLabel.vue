@@ -1,56 +1,68 @@
 <template>
-  <component :is="component" :to="to">
+  <component
+    :is="component"
+    :to="to"
+  >
     <span>
       <slot />
-      <EpMaterialIcon v-if="piilotettu" class="ml-2" size="16px">visibility_off</EpMaterialIcon>
+      <EpMaterialIcon
+        v-if="piilotettu"
+        class="ml-2"
+        size="16px"
+      >visibility_off</EpMaterialIcon>
       <template v-if="postfixLabel">
         <span
+          v-if="node.meta && node.meta.postfix_label"
           :id="'item-popover'+node.id"
           class="postfix"
-          v-if="node.meta && node.meta.postfix_label">
-          ({{$t(postfixLabel)}})
+        >
+          ({{ $t(postfixLabel) }})
         </span>
         <b-popover
           v-if="node.meta && node.meta.postfix_tooltip"
           :target="'item-popover'+node.id"
           triggers="click hover"
-          placement="right">
-          {{$t(postfixTooltip)}}
+          placement="right"
+        >
+          {{ $t(postfixTooltip) }}
         </b-popover>
       </template>
     </span>
   </component>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue';
 import { NavigationNodeDto } from '@shared/tyypit';
 import * as _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
 
-@Component
-export default class EpNavigationLabel extends Vue {
-  @Prop()
-  node!: NavigationNodeDto;
-
-  @Prop({ required: false })
-  to!: any;
-
-  get component() {
-    return this.to ? 'router-link' : 'div';
+const props = defineProps({
+  node: {
+    type: Object as () => NavigationNodeDto,
+    required: true
+  },
+  to: {
+    type: [Object, String],
+    required: false,
+    default: undefined
   }
+});
 
-  get postfixLabel(): string {
-    return _.toString(this.node.meta?.postfix_label);
-  }
+const component = computed(() => {
+  return props.to ? 'router-link' : 'div';
+});
 
-  get postfixTooltip(): string {
-    return _.toString(this.node.meta?.postfix_tooltip);
-  }
+const postfixLabel = computed((): string => {
+  return _.toString(props.node.meta?.postfix_label);
+});
 
-  get piilotettu() {
-    return this.node.meta?.piilotettu;
-  }
-}
+const postfixTooltip = computed((): string => {
+  return _.toString(props.node.meta?.postfix_tooltip);
+});
+
+const piilotettu = computed(() => {
+  return props.node.meta?.piilotettu;
+});
 </script>
 
 <style scoped lang="scss">

@@ -1,191 +1,247 @@
 <template>
   <div>
-    <hr v-if="first && !borderTop" />
-    <div :class="classess" v-if="!disableHeader" :style="styles.collapse" @click="togglefull ? toggle(): null" @keyup.enter="togglefull ? toggle(): null">
+    <hr v-if="first && !borderTop">
+    <div
+      v-if="!disableHeader"
+      :class="classess"
+      :style="styles.collapse"
+      @click="togglefull ? toggle(): null"
+      @keyup.enter="togglefull ? toggle(): null"
+    >
       <!-- Button tagia ei voida käyttää, sillä ml-auto ei toimi.-->
       <!-- Käytetään button rolea saavutettavuuden takaamiseksi.-->
-      <div v-if="hasHeaderSlot"
-           class="collapse-button d-flex align-items-center my-2 mr-1"
-           @click="!togglefull ? toggle(): null"
-           @keyup.enter="!togglefull ? toggle(): null"
-           role="button"
-           tabindex="0"
-           :aria-expanded="toggled"
-           :style="styles.header">
-        <slot name="icon" :toggled="toggled" v-if="chevronLocation === 'left' && collapsable">
+      <div
+        v-if="hasHeaderSlot"
+        class="collapse-button d-flex align-items-center my-2 mr-1"
+        role="button"
+        tabindex="0"
+        :aria-expanded="toggled"
+        :style="styles.header"
+        @click="!togglefull ? toggle(): null"
+        @keyup.enter="!togglefull ? toggle(): null"
+      >
+        <slot
+          v-if="chevronLocation === 'left' && collapsable"
+          name="icon"
+          :toggled="toggled"
+        >
           <div class="align-self-start mr-2">
-            <EpMaterialIcon v-if="toggled" size="28px">expand_less</EpMaterialIcon>
-            <EpMaterialIcon v-else size="28px">expand_more</EpMaterialIcon>
+            <EpMaterialIcon
+              v-if="toggled"
+              size="28px"
+            >
+              expand_less
+            </EpMaterialIcon>
+            <EpMaterialIcon
+              v-else
+              size="28px"
+            >
+              expand_more
+            </EpMaterialIcon>
           </div>
         </slot>
         <div class="align-self-start header">
           <div :class="{'header-toggled': toggled}">
-            <slot name="header" :toggled="toggled"></slot>
+            <slot
+              name="header"
+              :toggled="toggled"
+            />
           </div>
         </div>
-        <slot name="icon" :toggled="toggled" v-if="chevronLocation === 'right'  && collapsable">
+        <slot
+          v-if="chevronLocation === 'right' && collapsable"
+          name="icon"
+          :toggled="toggled"
+        >
           <div class="ml-auto">
-            <EpMaterialIcon v-if="toggled" size="28px">expand_less</EpMaterialIcon>
-            <EpMaterialIcon v-else size="28px">expand_more</EpMaterialIcon>
+            <EpMaterialIcon
+              v-if="toggled"
+              size="28px"
+            >
+              expand_less
+            </EpMaterialIcon>
+            <EpMaterialIcon
+              v-else
+              size="28px"
+            >
+              expand_more
+            </EpMaterialIcon>
           </div>
         </slot>
       </div>
-      <div v-if="toggled" class="collapse-content">
-        <slot></slot>
+      <div
+        v-if="toggled"
+        class="collapse-content"
+      >
+        <slot />
       </div>
     </div>
-    <slot v-else></slot>
-    <hr v-if="borderBottom" />
+    <slot v-else />
+    <hr v-if="borderBottom">
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import _ from 'lodash';
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { ref, computed, onMounted, useSlots } from 'vue';
 import { setItem, getItem } from '../../utils/localstorage';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import { hasSlotContent } from '@shared/utils/vue-utils';
 
-@Component({
-  components: {
-    EpMaterialIcon,
+const props = defineProps({
+  expandedByDefault: {
+    type: Boolean,
+    default: true,
   },
-})
-export default class EpCollapse extends Vue {
-  @Prop({ default: true })
-  private expandedByDefault!: boolean;
+  disableHeader: {
+    type: Boolean,
+    default: false,
+  },
+  usePadding: {
+    type: Boolean,
+    default: true,
+  },
+  tyyppi: {
+    type: String,
+    default: '',
+  },
+  borderTop: {
+    type: Boolean,
+    default: false,
+  },
+  borderBottom: {
+    type: Boolean,
+    default: true,
+  },
+  chevronLocation: {
+    type: String,
+    default: 'right',
+    validator: (value: string) => ['right', 'left'].includes(value),
+  },
+  collapsable: {
+    type: Boolean,
+    default: true,
+  },
+  first: {
+    type: Boolean,
+    default: false,
+  },
+  blue: {
+    type: Boolean,
+    default: false,
+  },
+  shadow: {
+    type: Boolean,
+    default: false,
+  },
+  togglefull: {
+    type: Boolean,
+    default: false,
+  },
+});
 
-  @Prop({ default: false })
-  private disableHeader!: boolean;
+const slots = useSlots();
+const toggled = ref(false);
 
-  @Prop({ default: true })
-  private usePadding!: boolean;
+const hasHeaderSlot = computed(() => {
+  return hasSlotContent(slots.header);
+});
 
-  @Prop({ default: '' })
-  private tyyppi!: string;
+const styles = computed(() => {
+  let style = {
+    header: {},
+    collapse: {},
+  };
 
-  @Prop({ default: false })
-  private borderTop!: boolean;
-
-  @Prop({ default: true })
-  private borderBottom!: boolean;
-
-  @Prop({ default: 'right' })
-  private chevronLocation!: 'right' | 'left';
-
-  @Prop({ default: true })
-  private collapsable!: boolean;
-
-  @Prop({ default: false })
-  private first!: boolean;
-
-  @Prop({ default: false, type: Boolean })
-  private blue!: Boolean;
-
-  @Prop({ required: false, default: false })
-  private shadow!: boolean;
-
-  @Prop({ required: false, default: false })
-  private togglefull!: boolean;
-
-  private toggled = false;
-
-  get hasHeaderSlot() {
-    return !!this.$scopedSlots.header;
-  }
-
-  get styles() {
-    let style = {
-      header: {},
-      collapse: {},
+  if (props.blue) {
+    style = {
+      header: {
+        'color': '#001A58',
+      },
+      collapse: {
+        'padding': '20px 20px 0px 20px',
+        'border-radius': '30px',
+        'border': '1px solid #C8F1FF',
+        'background': '#E6F6FF',
+      },
     };
-
-    if (this.blue) {
-      style = {
-        header: {
-          'color': '#001A58',
-        },
-        collapse: {
-          'padding': '20px 20px 0px 20px',
-          'border-radius': '30px',
-          'border': '1px solid #C8F1FF',
-          'background': '#E6F6FF',
-        },
-      };
-    }
-
-    if (this.usePadding) {
-      style = {
-        header: {
-          ...style.header,
-          'margin-bottom': '10px',
-          'margin-top': '10px',
-        },
-        collapse: {
-          ...style.collapse,
-          'padding-top': '20px',
-          'padding-bottom': '20px',
-        },
-      };
-    }
-
-    return style;
   }
 
-  get classess() {
-    let result = 'ep-collapse';
-    if (this.borderTop) {
-      result += ' topborder';
-    }
-
-    if (this.shadow) {
-      result += ' shadow-tile';
-    }
-
-    if (this.togglefull) {
-      result += ' togglefull';
-    }
-
-    return result;
+  if (props.usePadding) {
+    style = {
+      header: {
+        ...style.header,
+        'margin-bottom': '10px',
+        'margin-top': '10px',
+      },
+      collapse: {
+        ...style.collapse,
+        'padding-top': '20px',
+        'padding-bottom': '20px',
+      },
+    };
   }
 
-  isToggled() {
-    try {
-      if (this.tyyppi) {
-        const item = getItem('toggle-' + this.tyyppi);
-        if (_.isObject(item)) {
-          return (item as any).toggled;
-        }
-      }
-      return true;
-    }
-    catch (err) {
-      return true;
-    }
+  return style;
+});
+
+const classess = computed(() => {
+  let result = 'ep-collapse';
+  if (props.borderTop) {
+    result += ' topborder';
   }
 
-  mounted() {
-    this.toggled = this.tyyppi
-      ? this.isToggled()
-      : this.expandedByDefault;
+  if (props.shadow) {
+    result += ' shadow-tile';
   }
 
-  toggle(toggle: boolean | null = null) {
-    if (this.collapsable) {
-      if (_.isNil(toggle)) {
-        this.toggled = !this.toggled;
-      }
-      else {
-        this.toggled = toggle;
-      }
-      if (this.tyyppi) {
-        setItem('toggle-' + this.tyyppi, {
-          toggled: this.toggled,
-        });
+  if (props.togglefull) {
+    result += ' togglefull';
+  }
+
+  return result;
+});
+
+const isToggled = () => {
+  try {
+    if (props.tyyppi) {
+      const item = getItem('toggle-' + props.tyyppi);
+      if (_.isObject(item)) {
+        return (item as any).toggled;
       }
     }
+    return true;
   }
-}
+  catch (err) {
+    return true;
+  }
+};
 
+const toggle = (toggle: boolean | null = null) => {
+  if (props.collapsable) {
+    if (_.isNil(toggle)) {
+      toggled.value = !toggled.value;
+    }
+    else {
+      toggled.value = toggle;
+    }
+    if (props.tyyppi) {
+      setItem('toggle-' + props.tyyppi, {
+        toggled: toggled.value,
+      });
+    }
+  }
+};
+
+onMounted(() => {
+  toggled.value = props.tyyppi
+    ? isToggled()
+    : props.expandedByDefault;
+});
+
+defineExpose({
+  toggle,
+});
 </script>
 
 <style scoped lang="scss">
@@ -234,7 +290,6 @@ export default class EpCollapse extends Vue {
   .collapse-content {
     text-align: left;
   }
-
 }
 
 .shadow-tile {
@@ -243,7 +298,7 @@ export default class EpCollapse extends Vue {
   border-radius: 0.7rem;
 }
 
-::v-deep .osaamistasot {
+:deep(.osaamistasot) {
   .row:nth-of-type(even) {
     background-color: $table-even-row-blue !important;
   }
@@ -252,10 +307,9 @@ export default class EpCollapse extends Vue {
   }
 }
 
-::v-deep .table-responsive {
+:deep(.table-responsive) {
   tr:first-child td {
     background: $table-header-color !important;
   }
 }
-
 </style>

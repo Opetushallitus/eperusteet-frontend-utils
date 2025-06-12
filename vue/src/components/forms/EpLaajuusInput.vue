@@ -10,52 +10,71 @@
       -
     </div>
   </div>
-  <div v-else class="d-flex flex-column">
+  <div
+    v-else
+    class="d-flex flex-column"
+  >
     <div class="d-flex align-items-center">
       <div class="flex-grow-1">
-        <ep-input type="number" v-model="model" min="0" max="999" :is-editing="isEditing" :validation="validation" />
+        <ep-input
+          v-model="model"
+          type="number"
+          min="0"
+          max="999"
+          :is-editing="isEditing"
+          :validation="validation"
+        />
       </div>
       <div class="ml-2">
         <slot>
-        {{ $t('osaamispiste') }}
+          {{ $t('osaamispiste') }}
         </slot>
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { Watch, Prop, Component } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue';
 import EpInput from '@shared/components/forms/EpInput.vue';
-import EpValidation from '../../mixins/EpValidation';
 import EpErrorWrapper from '../forms/EpErrorWrapper.vue';
+import { useVuelidate } from '@vuelidate/core';
 
-@Component({
-  components: {
-    EpErrorWrapper,
-    EpInput,
+const props = defineProps({
+  modelValue: {
+    type: Number,
+    required: true,
   },
-})
-export default class EpLaajuusInput extends EpValidation {
-  @Prop({ required: true })
-  private value!: number;
+  isEditing: {
+    type: Boolean,
+    default: false,
+  },
+  validation: {
+    type: Object,
+    default: null,
+  },
+});
 
-  @Prop({ default: false })
-  private isEditing!: boolean;
+const emit = defineEmits(['update:modelValue']);
 
-  private model = 0;
+// Use vuelidate for validation
+const v$ = useVuelidate();
 
-  @Watch('value', { immediate: true })
-  onValueUpdate(newValue: number) {
-    this.model = newValue;
-  }
+// Initialize the model with the value from props
+const model = ref(props.modelValue || 0);
 
-  @Watch('model', { immediate: true })
-  onModelUpdate(newValue: number) {
-    this.model = Math.max(Math.min(999, Number(newValue)), 0);
-    this.$emit('input', this.model);
-  }
-}
+// Watch for changes in the value prop
+watch(() => props.modelValue, (newValue) => {
+  model.value = newValue;
+}, { immediate: true });
+
+// Watch for changes to the model
+watch(() => model.value, (newValue) => {
+  // Constrain the value between 0 and 999
+  model.value = Math.max(Math.min(999, Number(newValue)), 0);
+  // Emit the update event with the new value
+  emit('update:modelValue', model.value);
+}, { immediate: true });
 </script>
 
 <style lang="scss" scoped>

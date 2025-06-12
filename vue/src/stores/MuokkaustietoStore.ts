@@ -1,12 +1,11 @@
 import Vue from 'vue';
-import VueCompositionApi, { reactive, computed } from '@vue/composition-api';
 import { MuokkaustietoKayttajallaDto, PerusteenMuutostietoDto, Muokkaustiedot } from '@shared/api/eperusteet';
 import _ from 'lodash';
-
-Vue.use(VueCompositionApi);
+import { ref } from 'vue';
+import { computed } from 'vue';
 
 export class MuokkaustietoStore {
-  private state = reactive({
+  private state = ref({
     muokkaustiedot: null as MuokkaustietoKayttajallaDto[] | null,
     viimeinenHaku: null as MuokkaustietoKayttajallaDto[] | null,
     perusteId: null as number | null,
@@ -15,35 +14,35 @@ export class MuokkaustietoStore {
   });
 
   async init(perusteId: number) {
-    this.state.perusteId = perusteId;
-    this.state.muokkaustiedot = null;
+    this.state.value.perusteId = perusteId;
+    this.state.value.muokkaustiedot = null;
     await this.update();
   }
 
-  public readonly muokkaustiedot = computed(() => this.state.muokkaustiedot);
-  public readonly viimeinenHaku = computed(() => this.state.viimeinenHaku);
-  public readonly hakuLukumaara = computed(() => this.state.hakuLukumaara);
-  public readonly muutostiedot = computed(() => this.state.muutostiedot);
+  public readonly muokkaustiedot = computed(() => this.state.value.muokkaustiedot);
+  public readonly viimeinenHaku = computed(() => this.state.value.viimeinenHaku);
+  public readonly hakuLukumaara = computed(() => this.state.value.hakuLukumaara);
+  public readonly muutostiedot = computed(() => this.state.value.muutostiedot);
 
   public async update() {
-    if (this.state.perusteId) {
-      if (this.state.muokkaustiedot && !_.isEmpty(this.state.muokkaustiedot)) {
-        this.state.viimeinenHaku = (await Muokkaustiedot.getPerusteenMuokkausTiedotWithLuomisaika(this.state.perusteId, (_.last(this.state.muokkaustiedot) as any).luotu, this.state.hakuLukumaara) as any).data;
+    if (this.state.value.perusteId) {
+      if (this.state.value.muokkaustiedot && !_.isEmpty(this.state.value.muokkaustiedot)) {
+        this.state.value.viimeinenHaku = (await Muokkaustiedot.getPerusteenMuokkausTiedotWithLuomisaika(this.state.value.perusteId, (_.last(this.state.value.muokkaustiedot) as any).luotu, this.state.value.hakuLukumaara) as any).data;
 
-        if (this.state.viimeinenHaku) {
-          this.state.muokkaustiedot = [
-            ...this.state.muokkaustiedot,
-            ...this.state.viimeinenHaku,
+        if (this.state.value.viimeinenHaku) {
+          this.state.value.muokkaustiedot = [
+            ...this.state.value.muokkaustiedot,
+            ...this.state.value.viimeinenHaku,
           ];
         }
       }
       else {
-        this.state.muokkaustiedot = (await Muokkaustiedot.getPerusteenMuokkausTiedotWithLuomisaika(this.state.perusteId, undefined, this.state.hakuLukumaara) as any).data;
+        this.state.value.muokkaustiedot = (await Muokkaustiedot.getPerusteenMuokkausTiedotWithLuomisaika(this.state.value.perusteId, undefined, this.state.value.hakuLukumaara) as any).data;
       }
     }
   }
 
   public async getVersionMuutokset(perusteId, revision) {
-    this.state.muutostiedot = (await Muokkaustiedot.getPerusteenVersionMuokkaustiedot(perusteId, revision) as any).data;
+    this.state.value.muutostiedot = (await Muokkaustiedot.getPerusteenVersionMuokkaustiedot(perusteId, revision) as any).data;
   }
 }

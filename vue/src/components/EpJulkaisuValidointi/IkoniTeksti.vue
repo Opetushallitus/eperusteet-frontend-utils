@@ -1,30 +1,29 @@
 <template>
   <div>
-    <EpMaterialIcon :class="tyyppi">{{ icon }}</EpMaterialIcon>
+    <EpMaterialIcon :class="tyyppi">
+      {{ icon }}
+    </EpMaterialIcon>
     <span class="pl-2"><slot /></span>
   </div>
 </template>
 
-<script lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed } from 'vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
-@Component({
-  components: {
-    EpMaterialIcon,
+const props = defineProps({
+  tyyppi: {
+    type: String as () => 'virhe' | 'huomautus' | 'kaikki-kunnossa',
+    required: true,
   },
-})
-export default class IkoniTeksti extends Vue {
-  @Prop({ required: true })
-  private tyyppi!: 'virhe' | 'huomautus' | 'kaikki-kunnossa';
+});
 
-  get icon() {
-    if (this.tyyppi === 'kaikki-kunnossa') {
-      return 'check_circle';
-    }
-    return 'info';
+const icon = computed(() => {
+  if (props.tyyppi === 'kaikki-kunnossa') {
+    return 'check_circle';
   }
-}
+  return 'info';
+});
 </script>
 
 <style scoped lang="scss">

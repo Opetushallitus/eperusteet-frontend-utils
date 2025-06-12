@@ -1,19 +1,22 @@
 <template>
-<div class="oph-spinner oph-spinner-in-button" :class="{'link' : link}">
-  <div class="oph-bounce oph-bounce1"></div>
-  <div class="oph-bounce oph-bounce2"></div>
-  <div class="oph-bounce oph-bounce3"></div>
-</div>
+  <div
+    class="oph-spinner oph-spinner-in-button"
+    :class="{'link' : link}"
+  >
+    <div class="oph-bounce oph-bounce1" />
+    <div class="oph-bounce oph-bounce2" />
+    <div class="oph-bounce oph-bounce3" />
+  </div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
-
-@Component
-export default class EpSpinnerInline extends Vue {
-  @Prop({ required: false, default: false })
-  private link!: boolean;
-}
+<script setup lang="ts">
+const props = defineProps({
+  link: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+});
 </script>
 
 <style scoped lang="scss">

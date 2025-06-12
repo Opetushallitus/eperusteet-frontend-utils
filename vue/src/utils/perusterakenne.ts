@@ -1,6 +1,7 @@
 import { Kielet } from '@shared/stores/kieli';
+import { $t } from '@shared/utils/globals';
 
-export function rakenneNodecolor(node, parentMandatory, el) {
+export function rakenneNodecolor(node, parentMandatory) {
   const isRyhma = !!node.rooli;
 
   if (isRyhma) {
@@ -9,13 +10,13 @@ export function rakenneNodecolor(node, parentMandatory, el) {
       return ColorMap[mapped];
     }
     if (node.rooli === 'määritelty') {
-      if (node.nimi[Kielet.getUiKieli.value] === el.$t('rakenne-moduuli-pakollinen')) {
+      if (node.nimi[Kielet.getUiKieli.value] === $t('rakenne-moduuli-pakollinen')) {
         return ColorMap.pakollinen;
       }
-      else if (node.nimi[Kielet.getUiKieli.value] === el.$t('rakenne-moduuli-ammatilliset')) {
+      else if (node.nimi[Kielet.getUiKieli.value] === $t('rakenne-moduuli-ammatilliset')) {
         return ColorMap.ammatilliset;
       }
-      else if (node.nimi[Kielet.getUiKieli.value] === el.$t('rakenne-moduuli-yhteiset')) {
+      else if (node.nimi[Kielet.getUiKieli.value] === $t('rakenne-moduuli-yhteiset')) {
         return ColorMap.yhteiset;
       }
     }

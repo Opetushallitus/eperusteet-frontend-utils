@@ -10,48 +10,46 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed } from 'vue';
 import { NavigationNodeDto } from '@shared/tyypit';
 import { NavigationNode, setPerusteData } from '@shared/utils/NavigationBuilder';
 
-@Component({
-  components: {
+const props = defineProps({
+  muokkaustieto: {
+    type: Object,
+    required: true,
   },
-})
-export default class EpRouterLink extends Vue {
-  @Prop({ required: true })
-  private muokkaustieto!: any;
+});
 
-  private kohdeToAvain = {
-    aipevaihe: 'vaiheId',
-    aipeoppiaine: 'oppiaineId',
+const kohdeToAvain = {
+  aipevaihe: 'vaiheId',
+  aipeoppiaine: 'oppiaineId',
+};
+
+const location = computed(() => {
+  let node: NavigationNode = {
+    type: props.muokkaustieto.kohde,
+    children: [],
+    path: [],
+    location: undefined,
   };
+  let navNode: NavigationNodeDto = {
+    id: props.muokkaustieto.kohdeId,
+    type: props.muokkaustieto.kohde,
+    ...(props.muokkaustieto.lisaparametrit && { meta: lisaparaParametritToMeta(props.muokkaustieto.lisaparametrit) }),
+  };
+  setPerusteData(node, navNode);
+  return node.location;
+});
 
-  get location() {
-    let node: NavigationNode = {
-      type: this.muokkaustieto.kohde,
-      children: [],
-      path: [],
-      location: undefined,
-    };
-    let navNode: NavigationNodeDto = {
-      id: this.muokkaustieto.kohdeId,
-      type: this.muokkaustieto.kohde,
-      ...(this.muokkaustieto.lisaparametrit && { meta: this.lisaparaParametritToMeta(this.muokkaustieto.lisaparametrit) }),
-    };
-    setPerusteData(node, navNode);
-    return node.location;
-  }
-
-  lisaparaParametritToMeta(lisaparametrit: any[]) {
-    return lisaparametrit.reduce((acc, param) => {
-      if (this.kohdeToAvain[param.kohde]) {
-        acc[this.kohdeToAvain[param.kohde]] = param.kohdeId;
-      }
-      return acc;
-    }, {});
-  }
+function lisaparaParametritToMeta(lisaparametrit: any[]) {
+  return lisaparametrit.reduce((acc, param) => {
+    if (kohdeToAvain[param.kohde]) {
+      acc[kohdeToAvain[param.kohde]] = param.kohdeId;
+    }
+    return acc;
+  }, {});
 }
 </script>
 

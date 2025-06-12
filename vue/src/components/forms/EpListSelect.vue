@@ -1,118 +1,142 @@
 <template>
-<div>
   <div>
     <div>
-      <EpInput type="string"
-               @blur="onListBlur"
-               @focus="onListFocus"
-               v-model="search" is-editing>
-      </EpInput>
-    </div>
-    <div class="searchlist-wrapper">
-      <div class="searchlist" v-if="search">
-        <!-- <pre>{{ value }}</pre> -->
-        <!-- <pre>{{ options }}</pre> -->
-        <div class="searchitem" v-for="option in options" :key="option[identity]">
-          <slot v-bind:option="option">
-          </slot>
+      <div>
+        <EpInput
+          v-model="search"
+          type="string"
+          is-editing
+          @blur="onListBlur"
+          @focus="onListFocus"
+        />
+      </div>
+      <div class="searchlist-wrapper">
+        <div
+          v-if="search"
+          class="searchlist"
+        >
+          <div
+            v-for="option in filteredOptions"
+            :key="option[identity]"
+            class="searchitem"
+          >
+            <slot :option="option" />
+          </div>
         </div>
       </div>
+      <span class="clear" />
     </div>
-    <span class="clear"></span>
+    <div
+      v-if="!validationError && validMessage"
+      class="valid-feedback"
+    >
+      {{ $t(validMessage) }}
+    </div>
+    <div
+      v-else-if="validationError && invalidMessage "
+      class="invalid-feedback"
+    >
+      {{ $t(invalidMessage) }}
+    </div>
+    <div
+      v-else-if="validationError && !invalidMessage"
+      class="invalid-feedback"
+    >
+      {{ $t('validation-error-' + validationError, validation.$params[validationError]) }}
+    </div>
+    <small
+      v-if="help"
+      class="form-text text-muted"
+    >{{ $t(help) }}</small>
   </div>
-  <div class="valid-feedback" v-if="!validationError && validMessage">{{ $t(validMessage) }}</div>
-  <div class="invalid-feedback" v-else-if="validationError && invalidMessage ">{{ $t(invalidMessage) }}</div>
-  <div class="invalid-feedback" v-else-if="validationError && !invalidMessage">{{ $t('validation-error-' + validationError, validation.$params[validationError]) }}</div>
-  <small class="form-text text-muted" v-if="help">{{ $t(help) }}</small>
-</div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Mixins } from 'vue-property-decorator';
-
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+import { useVuelidate } from '@vuelidate/core';
 import Multiselect from 'vue-multiselect';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
-import { Debounced } from '@shared/utils/delay';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
-import EpValidation from '../../mixins/EpValidation';
 import _ from 'lodash';
 
-@Component({
-  components: {
-    EpContent,
-    EpInput,
-    EpSpinner,
-    Multiselect,
+const props = defineProps({
+  options: {
+    required: true,
+    type: Array,
   },
-})
-export default class EpListSelect extends Mixins(EpValidation) {
-  @Prop({
+  modelValue: {
     required: true,
     type: Array,
-  })
-  private options!: any[];
-
-  @Prop({
+  },
+  trackBy: {
+    type: String,
+  },
+  identity: {
     required: true,
-    type: Array,
-  })
-  private value!: any[];
+    type: String,
+  },
+  searchIdentity: {
+    default: () => '',
+    type: Function as () => null | ((v: any) => string | null | undefined),
+  },
+  help: {
+    default: '',
+    type: String,
+  },
+  validMessage: {
+    type: String,
+  },
+  invalidMessage: {
+    type: String,
+  },
+  validationError: {
+    type: String,
+  },
+});
 
-  @Prop()
-  private trackBy!: string;
+const emit = defineEmits(['update:modelValue']);
 
-  @Prop({ required: true })
-  private identity!: string;
+const search = ref('');
+const hasFocus = ref(false);
+const v$ = useVuelidate();
 
-  @Prop({ default: () => '' })
-  private searchIdentity!: null | ((v: any) => string | null | undefined);
+const validation = computed(() => {
+  return v$.value || {};
+});
 
-  @Prop({ default: '', type: String })
-  private help!: string;
-
-  private search = '';
-  private hasFocus = false;
-
-  get filteredOptions() {
-    if (this.search && this.searchIdentity) {
-      return _.filter(this.options, x => _.includes(
-        _.toLower(this.searchIdentity!(x) || ''),
-        _.toLower(this.search || '')));
-    }
-    return this.options;
+const filteredOptions = computed(() => {
+  if (search.value && props.searchIdentity) {
+    return _.filter(props.options, x => _.includes(
+      _.toLower(props.searchIdentity!(x) || ''),
+      _.toLower(search.value || '')));
   }
+  return props.options;
+});
 
-  get model() {
-    return this.value;
-  }
+const model = computed(() => {
+  return props.modelValue;
+});
 
-  get track() {
-    return this.trackBy;
-  }
+const track = computed(() => {
+  return props.trackBy;
+});
 
-  private changed(value: any) {
-    this.$emit('input', value);
-  }
-
-  private onListBlur() {
-    this.hasFocus = false;
-  }
-
-  private onListFocus() {
-    this.hasFocus = true;
-  }
+function changed(value: any) {
+  emit('update:modelValue', value);
 }
 
+function onListBlur() {
+  hasFocus.value = false;
+}
+
+function onListFocus() {
+  hasFocus.value = true;
+}
 </script>
 
 <style scoped lang="scss">
 @import '@shared/styles/_variables.scss';
-
-/* .clear {          */
-/*   clear: left;    */
-/*   display: block; */
-/* }                 */
 
 .searchlist-wrapper {
   /* float: left; */
@@ -137,5 +161,4 @@ export default class EpListSelect extends Mixins(EpValidation) {
     border-top: none;
   }
 }
-
 </style>

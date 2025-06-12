@@ -1,14 +1,25 @@
 <template>
   <div class="d-flex align-self-center flex-wrap flex-lg-row flex-column justify-content-between">
     <div class="group">
-      <label class="font-weight-600" :aria-label="$t('tutkinnon-peruste-tai-tutkinnon-osa-rajaus')">{{$t('nayta')}}</label>
+      <label
+        class="font-weight-600"
+        :aria-label="$t('tutkinnon-peruste-tai-tutkinnon-osa-rajaus')"
+      >{{ $t('nayta') }}</label>
       <div class="d-flex flex-lg-row flex-column justify-content-between">
-        <EpToggle v-model="queryData.perusteet" class="haku-toggle" :is-s-witch="false">
+        <EpToggle
+          v-model="queryData.perusteet"
+          class="haku-toggle"
+          :is-s-witch="false"
+        >
           <span class="sr-only">{{ $t('valittu') }}</span>
           <span class="sr-only">{{ $t('tutkinto-filtteri') }}</span>
           {{ $t('tutkinnon-peruste') }}
         </EpToggle>
-        <EpToggle v-model="queryData.tutkinnonosat" class="haku-toggle" :is-s-witch="false">
+        <EpToggle
+          v-model="queryData.tutkinnonosat"
+          class="haku-toggle"
+          :is-s-witch="false"
+        >
           <span class="sr-only">{{ $t('valittu') }}</span>
           <span class="sr-only">{{ $t('tutkinto-filtteri') }}</span>
           {{ $t('tutkinnon-osa') }}
@@ -17,35 +28,33 @@
     </div>
 
     <div class="group">
-      <label class="font-weight-600" :aria-label="$t('voimassaolo-rajaus')">{{$t('voimassaolo')}}</label>
-      <EpVoimassaoloFilter v-model="queryData"></EpVoimassaoloFilter>
+      <label
+        class="font-weight-600"
+        :aria-label="$t('voimassaolo-rajaus')"
+      >{{ $t('voimassaolo') }}</label>
+      <EpVoimassaoloFilter v-model="queryData" />
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed } from 'vue';
 import EpToggle from '@shared/components/forms/EpToggle.vue';
 import EpVoimassaoloFilter from '@shared/components/EpVoimassaoloFilter/EpVoimassaoloFilter.vue';
 
-@Component({
-  components: {
-    EpToggle,
-    EpVoimassaoloFilter,
+const props = defineProps({
+  modelValue: {
+    type: Object,
+    required: true,
   },
-})
-export default class EpSisaltotyyppiFilter extends Vue {
-  @Prop({ required: true })
-  private value!: any;
+});
 
-  get queryData() {
-    return this.value;
-  }
+const emit = defineEmits(['update:modelValue']);
 
-  set queryData(val) {
-    this.$emit('input', val);
-  }
-}
+const queryData = computed({
+  get: () => props.modelValue,
+  set: (val) => emit('update:modelValue', val),
+});
 </script>
 
 <style scoped lang="scss">

@@ -1,51 +1,91 @@
 <template>
-<div v-if="isEditing">
-  <div class="input-container d-flex align-items-center">
-    <input class="input-style form-control"
-           :class="[ inputClass ]"
-           :placeholder="placeholderValue"
-           @focus="onInputFocus"
-           @blur="onInputBlur"
-           @input="onInput($event.target.value)"
-           :type="type === 'number' ? 'number' : 'text'"
-           step="any"
-           v-bind="$attrs"
-           :value="val"
-           :disabled="disabled">
-    <div v-if="hasLeftSlot" class="addon addon-left">
-      <slot name="left" />
+  <div v-if="isEditing">
+    <div class="input-container d-flex align-items-center">
+      <input
+        class="input-style form-control"
+        :class="[ inputClass ]"
+        :placeholder="placeholderValue"
+        :type="type === 'number' ? 'number' : 'text'"
+        step="any"
+        v-bind="$attrs"
+        :value="val"
+        :disabled="disabled"
+        @focus="onInputFocus"
+        @blur="onInputBlur"
+        @input="onInput($event.target.value)"
+      >
+      <div
+        v-if="hasLeftSlot"
+        class="addon addon-left"
+      >
+        <slot name="left" />
+      </div>
+      <div
+        v-if="hasRightSlot"
+        class="addon addon-right"
+      >
+        <slot name="right" />
+      </div>
+      <div
+        v-if="hasSuffixSlot"
+        class="ml-2"
+      >
+        <slot name="suffix" />
+      </div>
     </div>
-    <div v-if="hasRightSlot" class="addon addon-right">
-      <slot name="right" />
-    </div>
-    <div v-if="hasSuffixSlot" class="ml-2">
-      <slot name="suffix" />
+    <div v-if="showMessage">
+      <div
+        v-if="!validationError && validMessage"
+        class="valid-feedback"
+      >
+        {{ $t(validMessage) }}
+      </div>
+      <div
+        v-if="validationError && isDirty"
+        :class="{ 'is-warning': isWarning }"
+      >
+        <div
+          v-if="invalidMessage"
+          class="invalid-feedback"
+        >
+          {{ $t(invalidMessage) }}
+        </div>
+        <div
+          v-else
+          class="invalid-feedback"
+        >
+          {{ message }}
+        </div>
+      </div>
+      <small
+        v-if="help && isEditing"
+        class="form-text text-muted"
+      >{{ $t(help) }}</small>
     </div>
   </div>
-  <div v-if="showMessage">
-    <div class="valid-feedback" v-if="!validationError && validMessage">{{ $t(validMessage) }}</div>
-    <div v-if="validationError && isDirty" :class="{ 'is-warning': isWarning }">
-      <div class="invalid-feedback" v-if="invalidMessage">{{ $t(invalidMessage) }}</div>
-      <div class="invalid-feedback" v-else>{{ message }}</div>
-    </div>
-    <small class="form-text text-muted" v-if="help && isEditing">{{ $t(help) }}</small>
+  <div
+    v-else
+    v-bind="$attrs"
+  >
+    <h2 v-if="isHeader">
+      {{ val }}
+    </h2>
+    <span v-else-if="val">{{ val }}{{ unit ? ' ' + $kaannaOlioTaiTeksti(unit) : '' }}</span>
+    <span
+      v-else-if="placeholderValue"
+      class="placeholder"
+    >{{ placeholderValue }}</span>
   </div>
-</div>
-<div v-else v-bind="$attrs">
-  <h2 v-if="isHeader">{{ val }}</h2>
-  <span v-else-if="val">{{ val }}{{ unit ? ' ' + $kaannaOlioTaiTeksti(unit) : '' }}</span>
-  <span class="placeholder" v-else-if="placeholderValue">{{ placeholderValue }}</span>
-</div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Mixins } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, ref, useSlots, getCurrentInstance } from 'vue';
 import _ from 'lodash';
 import { Kielet } from '../../stores/kieli';
 import { createLogger } from '../../utils/logger';
-import EpValidation from '../../mixins/EpValidation';
-import { Debounced } from '../../utils/delay';
 import { unescapeStringHtml } from '@shared/utils/inputs';
+import { useVuelidate } from '@vuelidate/core';
+import { hasSlotContent } from '../../utils/vue-utils';
 
 const logger = createLogger('EpInput');
 
@@ -67,136 +107,189 @@ function removeHiddenCharacters(input: string): string {
   return input.replace(hiddenCharactersRegex, '');
 }
 
-@Component({
-  name: 'EpInput',
-})
-export default class EpInput extends Mixins(EpValidation) {
-  @Prop({ default: 'localized', type: String })
-  private type!: 'localized' | 'string' | 'number';
-
-  @Prop({ required: true })
-  private value!: number | string | object;
-
-  @Prop({ default: false, type: Boolean })
-  private isHeader!: boolean;
-
-  @Prop({ default: false, type: Boolean })
-  private isEditing!: boolean;
-
-  @Prop({ default: '', type: String })
-  private help!: string;
-
-  @Prop({ default: '' })
-  private placeholder!: string;
-
-  @Prop({ default: true, required: false, type: Boolean })
-  private showValidValidation!: boolean;
-
-  @Prop({ default: true, type: Boolean })
-  private showMessage!: boolean;
-
-  @Prop({ required: false })
-  private unit!: string | object;
-
-  @Prop({ default: false, type: Boolean })
-  private disabled!: boolean;
-
-  @Prop({ required: false })
-  private change!: Function;
-
-  private focus = false;
-
-  get hasLeftSlot() {
-    return !!this.$slots.left;
+// Define props
+const props = defineProps({
+  type: {
+    default: 'localized',
+    type: String,
+    validator: (value: string) => ['localized', 'string', 'number'].includes(value)
+  },
+  modelValue: {
+    required: true
+  },
+  isHeader: {
+    default: false,
+    type: Boolean
+  },
+  isEditing: {
+    default: false,
+    type: Boolean
+  },
+  help: {
+    default: '',
+    type: String
+  },
+  placeholder: {
+    default: '',
+    type: String
+  },
+  showValidValidation: {
+    default: true,
+    required: false,
+    type: Boolean
+  },
+  showMessage: {
+    default: true,
+    type: Boolean
+  },
+  unit: {
+    required: false
+  },
+  disabled: {
+    default: false,
+    type: Boolean
+  },
+  change: {
+    required: false,
+    type: Function
+  },
+  validation: {
+    required: false,
+    type: Object,
+    default: null,
+  },
+  validMessage: {
+    type: String,
+    default: null,
+  },
+  invalidMessage: {
+    type: String,
+    default: null,
+  },
+  isWarning: {
+    type: Boolean,
+    default: false,
   }
+});
 
-  get hasRightSlot() {
-    return !!this.$slots.right;
-  }
+// Define emits
+const emit = defineEmits(['update:modelValue', 'focus', 'blur']);
 
-  get hasSuffixSlot() {
-    return !!this.$slots.suffix;
-  }
+// Validation setup
+const v$ = useVuelidate();
 
-  get inputClass() {
-    return {
-      'left-padded': this.hasLeftSlot,
-      'right-padded': this.hasRightSlot,
-      'is-invalid': !this.isWarning && this.isInvalid,
-      'is-warning': this.isWarning && this.isInvalid,
-      'is-valid': this.isValid && this.showValidValidation,
-    };
-  }
+// State
+const focus = ref(false);
+const slots = useSlots();
 
-  @Debounced(1000)
-  async touch() {
-    this.validation?.$touch();
-  }
+const instance = getCurrentInstance();
+const $kaannaPlaceholder = instance?.appContext.config.globalProperties.$kaannaPlaceholder;
 
-  public onInput(input: any) {
-    if (this.type === 'string' && !_.isString(this.value) && typeof this.value !== 'undefined') {
-      logger.warn('Given value is not a string:', this.value);
+// Computed properties
+const hasLeftSlot = computed(() => {
+  return hasSlotContent(slots.left);
+});
+
+const hasRightSlot = computed(() => {
+  return hasSlotContent(slots.right);
+});
+
+const hasSuffixSlot = computed(() => {
+  return hasSlotContent(slots.suffix);
+});
+
+const inputClass = computed(() => {
+  return {
+    'left-padded': hasLeftSlot.value,
+    'right-padded': hasRightSlot.value,
+    'is-invalid': !props.isWarning && isInvalid.value,
+    'is-warning': props.isWarning && isInvalid.value,
+    'is-valid': isValid.value && props.showValidValidation,
+  };
+});
+
+const validationError = computed(() => {
+  return props.validation?.error;
+});
+
+const isDirty = computed(() => {
+  return props.validation?.$dirty;
+});
+
+const isInvalid = computed(() => {
+  return props.validation?.error;
+});
+
+const isValid = computed(() => {
+  return props.validation?.isValid;
+});
+
+const message = computed(() => {
+  return props.validation?.message;
+});
+
+const val = computed(() => {
+  const target = _.isObject(props.modelValue)
+    ? (props.modelValue as any)[Kielet.getSisaltoKieli.value]
+    : props.modelValue;
+
+  return unescapeStringHtml(target);
+});
+
+const placeholderValue = computed(() => {
+  if (!focus.value) {
+    if (props.placeholder) {
+      return props.placeholder;
     }
 
-    if (this.type === 'number' && !_.isNumber(this.value) && typeof this.value !== 'undefined') {
-      logger.warn('Given value is not a number:', this.value);
-    }
+    return $kaannaPlaceholder(props.modelValue as any, !props.isEditing);
+  }
+  return '';
+});
 
-    if (this.type === 'localized'
-      && !_.isPlainObject(this.value)
-      && !_.isNull(this.value)
-      && !_.isUndefined(this.value)) {
-      logger.warn('Given value is not an object:', this.value);
-    }
-
-    if (this.type === 'number') {
-      this.$emit('input', Number(input));
-    }
-    else if (this.type !== 'localized' || _.isString(this.value)) {
-      this.$emit('input', escapeHtml(input));
-    }
-    else {
-      this.$emit('input', {
-        ...(_.isObject(this.value) ? this.value as any : {}),
-        [Kielet.getSisaltoKieli.value]: _.isString(input) ? escapeHtml(input) : input,
-      });
-    }
-
-    if (this.change) {
-      this.change();
-    }
-
-    // this.touch();
+const onInput = (input: any) => {
+  if (props.type === 'string' && !_.isString(props.modelValue) && typeof props.modelValue !== 'undefined') {
+    logger.warn('Given value is not a string:', props.modelValue);
   }
 
-  private onInputFocus() {
-    this.focus = true;
-    this.$emit('focus');
+  if (props.type === 'number' && !_.isNumber(props.modelValue) && typeof props.modelValue !== 'undefined') {
+    logger.warn('Given value is not a number:', props.modelValue);
   }
 
-  private onInputBlur() {
-    this.focus = false;
-    this.$emit('blur');
+  if (props.type === 'localized'
+    && !_.isPlainObject(props.modelValue)
+    && !_.isNull(props.modelValue)
+    && !_.isUndefined(props.modelValue)) {
+    logger.warn('Given value is not an object:', props.modelValue);
   }
 
-  get val() {
-    const target = _.isObject(this.value)
-      ? (this.value as any)[Kielet.getSisaltoKieli.value]
-      : this.value;
-
-    return unescapeStringHtml(target);
+  if (props.type === 'number') {
+    emit('update:modelValue', Number(input));
+  }
+  else if (props.type !== 'localized' || _.isString(props.modelValue)) {
+    emit('update:modelValue', escapeHtml(input));
+  }
+  else {
+    emit('update:modelValue', {
+      ...(_.isObject(props.modelValue) ? props.modelValue as any : {}),
+      [Kielet.getSisaltoKieli.value]: _.isString(input) ? escapeHtml(input) : input,
+    });
   }
 
-  get placeholderValue() {
-    if (!this.focus) {
-      if (this.placeholder) {
-        return this.placeholder;
-      }
-
-      return this.$kaannaPlaceholder(this.value as any, !this.isEditing);
-    }
+  if (props.change) {
+    props.change();
   }
-}
+};
+
+const onInputFocus = () => {
+  focus.value = true;
+  emit('focus');
+};
+
+const onInputBlur = () => {
+  focus.value = false;
+  emit('blur');
+};
 </script>
 
 <style scoped lang="scss">
@@ -263,7 +356,7 @@ input::placeholder {
   }
 }
 
-::v-deep .invalid-feedback, ::v-deep .valid-feedback {
+:deep(.invalid-feedback), :deep(.valid-feedback) {
 }
 
 // Piilotettu Bootstrapissa oletuksena

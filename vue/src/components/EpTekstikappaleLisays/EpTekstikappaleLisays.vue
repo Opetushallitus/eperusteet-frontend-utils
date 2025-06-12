@@ -1,169 +1,230 @@
 <template>
-<div>
-  <div v-b-modal="modalId">
-    <slot name="lisays-btn">
-      <ep-button id="tekstikappalelisaysBtn" variant="link" buttonClass="text-decoration-none">
+  <div>
+    <div v-b-modal="modalId">
+      <slot name="lisays-btn">
+        <ep-button
+          id="tekstikappalelisaysBtn"
+          variant="link"
+          button-class="text-decoration-none"
+        >
           <slot name="lisays-btn-icon">
-            <EpMaterialIcon :color="'inherit'" :background="'inherit'" size="18px">add</EpMaterialIcon>
+            <EpMaterialIcon
+              :color="'inherit'"
+              :background="'inherit'"
+              size="18px"
+            >
+              add
+            </EpMaterialIcon>
           </slot>
           <span>
             <slot name="lisays-btn-text">
               {{ $t('uusi-tekstikappale') }}
             </slot>
           </span>
-      </ep-button>
-    </slot>
-  </div>
-  <b-modal ref="tekstikappalelisaysModal"
-           :id="modalId"
-           size="lg"
-           centered
-           @hidden="clear">
-    <template v-slot:modal-title>
-      <slot name="modal-title">
-        {{ $t('lisaa-uusi-tekstikappale') }}
+        </ep-button>
       </slot>
-    </template>
-
-    <ep-form-content :name="contentName" v-if="otsikkoRequired">
-      <ep-field class="mb-5" v-model="otsikko" :is-editing="true" :validation="$v.otsikko" :showValidValidation="true"/>
-    </ep-form-content>
-
-    <ep-form-content v-if="!hideTaso">
-      <div slot="header">
-        <h3>
-          <slot name="header">
-            {{$t('tekstikappaleen-sijainti-valikossa')}}
-          </slot>
-        </h3>
-      </div>
-
-      <div>
-        <div v-if="paatasovalinta">
-          <b-form-radio v-model="taso" name="taso" value="paataso" class="mb-1">{{$t('paatasolla')}}</b-form-radio>
-          <b-form-radio v-model="taso" name="taso" value="alataso" :disabled="tekstikappaleet.length === 0">{{$t('toisen-tekstikappaleen-alla')}}</b-form-radio>
-        </div>
-
-        <ep-select class="mb-5 mt-2" :class="{'ml-4': paatasovalinta}"
-                  v-model="valittuTekstikappale"
-                  :items="tekstikappaleet"
-                  :is-editing="true"
-                  :enable-empty-option="true"
-                  :placeholder="'valitse-ylaotsikko'"
-                  :disabled="taso === 'paataso'"
-                  :emptyOptionDisabled="true">
-          <template slot-scope="{ item }">
-            <slot :tekstikappale="item">{{item}}</slot>
-          </template>
-        </ep-select>
-      </div>
-    </ep-form-content>
-
-    <template v-slot:modal-footer>
-      <ep-button @click="cancel" variant="link">
-        {{ $t('peruuta')}}
-      </ep-button>
-      <ep-button @click="save" :showSpinner="loading" :disabled="okDisabled">
-        <slot name="footer-lisays-btn-text">
-          {{ $t('lisaa-tekstikappale')}}
+    </div>
+    <b-modal
+      :id="modalId"
+      ref="tekstikappalelisaysModal"
+      size="lg"
+      centered
+      @hidden="clear"
+    >
+      <template #modal-title>
+        <slot name="modal-title">
+          {{ $t('lisaa-uusi-tekstikappale') }}
         </slot>
-      </ep-button>
-    </template>
+      </template>
 
-  </b-modal>
-</div>
+      <ep-form-content
+        v-if="otsikkoRequired"
+        :name="contentName"
+      >
+        <ep-field
+          v-model="otsikko"
+          class="mb-5"
+          :is-editing="true"
+          :validation="v$.otsikko"
+          :show-valid-validation="true"
+        />
+      </ep-form-content>
+
+      <ep-form-content v-if="!hideTaso">
+        <template #header>
+          <h3>
+            <slot name="header">
+              {{ $t('tekstikappaleen-sijainti-valikossa') }}
+            </slot>
+          </h3>
+        </template>
+
+        <div>
+          <div v-if="paatasovalinta">
+            <b-form-radio
+              v-model="taso"
+              name="taso"
+              value="paataso"
+              class="mb-1"
+            >
+              {{ $t('paatasolla') }}
+            </b-form-radio>
+            <b-form-radio
+              v-model="taso"
+              name="taso"
+              value="alataso"
+              :disabled="tekstikappaleet.length === 0"
+            >
+              {{ $t('toisen-tekstikappaleen-alla') }}
+            </b-form-radio>
+          </div>
+
+          <ep-select
+            v-model="valittuTekstikappale"
+            class="mb-5 mt-2"
+            :class="{'ml-4': paatasovalinta}"
+            :items="tekstikappaleet"
+            :is-editing="true"
+            :enable-empty-option="true"
+            :placeholder="'valitse-ylaotsikko'"
+            :disabled="taso === 'paataso'"
+            :empty-option-disabled="true"
+          >
+            <template #default="{ item }">
+              <slot :tekstikappale="item">
+                {{ item }}
+              </slot>
+            </template>
+          </ep-select>
+        </div>
+      </ep-form-content>
+
+      <template #modal-footer>
+        <ep-button
+          variant="link"
+          @click="cancel"
+        >
+          {{ $t('peruuta') }}
+        </ep-button>
+        <ep-button
+          :show-spinner="loading"
+          :disabled="okDisabled"
+          @click="save"
+        >
+          <slot name="footer-lisays-btn-text">
+            {{ $t('lisaa-tekstikappale') }}
+          </slot>
+        </ep-button>
+      </template>
+    </b-modal>
+  </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, computed, getCurrentInstance, onMounted } from 'vue';
 import _ from 'lodash';
-import { Prop, Component, Vue } from 'vue-property-decorator';
+import { useVuelidate } from '@vuelidate/core';
 import { requiredOneLang } from '@shared/validators/required';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpField from '@shared/components/forms/EpField.vue';
 import EpSelect from '@shared/components/forms/EpSelect.vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
-import { Validations } from 'vuelidate-property-decorators';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import { useTemplateRef } from 'vue';
 
-@Component({
-  components: {
-    EpButton,
-    EpField,
-    EpSelect,
-    EpFormContent,
-    EpMaterialIcon,
+const props = defineProps({
+  tekstikappaleet: {
+    type: Array,
+    required: true,
   },
-})
-export default class EpTekstikappaleLisays extends Vue {
-  private otsikko: any = {};
-  private valittuTekstikappale: any = {};
+  paatasovalinta: {
+    type: Boolean,
+    default: false,
+  },
+  hideTaso: {
+    type: Boolean,
+    default: false,
+  },
+  otsikkoRequired: {
+    type: Boolean,
+    default: true,
+  },
+  modalId: {
+    type: String,
+    default: 'tekstikappalelisays',
+  },
+  otsikkoNimi: {
+    type: String,
+    required: false,
+  },
+  tallenna: {
+    type: Function,
+    required: true,
+  },
+});
 
-  @Prop({ required: true })
-  private tekstikappaleet!: any[];
+// Template refs
+const tekstikappalelisaysModal = useTemplateRef('tekstikappalelisaysModal');
 
-  @Prop({ required: false, default: false })
-  private paatasovalinta!: boolean;
+// Reactive state
+const otsikko = ref({});
+const valittuTekstikappale = ref({});
+const taso = ref(props.paatasovalinta ? 'paataso' : 'alataso');
+const loading = ref(false);
 
-  @Prop({ required: false, default: false })
-  private hideTaso!: boolean;
+// Get instance for $bvModal
+const instance = getCurrentInstance();
+const $bvModal = (instance?.proxy as any)?.$bvModal;
 
-  @Prop({ required: false, default: true })
-  private otsikkoRequired!: boolean;
+// Setup vuelidate
+const rules = {
+  otsikko: { requiredOneLang },
+};
+const v$ = useVuelidate(rules, { otsikko });
 
-  @Prop({ required: false, default: 'tekstikappalelisays' })
-  private modalId!: string;
+// Computed properties
+const okDisabled = computed(() => {
+  return (props.otsikkoRequired && v$.value.otsikko.$invalid) ||
+         (taso.value === 'alataso' && _.isEmpty(valittuTekstikappale.value));
+});
 
-  @Prop({ required: false })
-  private otsikkoNimi!: string;
+const contentName = computed(() => {
+  if (props.otsikkoNimi) {
+    return props.otsikkoNimi;
+  }
+  return props.modalId === 'opintokokonaisuusLisays' ? 'opintokokonaisuuden-nimi' : 'tekstikappale-nimi-ohje';
+});
 
-  @Prop({ required: true })
-  private tallenna!: Function;
-
-  private taso: 'paataso' | 'alataso' = 'paataso';
-  private loading: boolean = false;
-
-  @Validations()
-  validations = {
-    otsikko: requiredOneLang(),
-  };
-
-  mounted() {
-    this.taso = this.paatasovalinta ? 'paataso' : 'alataso';
+// Methods
+async function save() {
+  if (taso.value === 'paataso') {
+    valittuTekstikappale.value = {};
   }
 
-  get okDisabled() {
-    return (this.otsikkoRequired && this.$v.otsikko.$invalid) || (this.taso === 'alataso' && _.isEmpty(this.valittuTekstikappale));
-  }
-
-  get contentName() {
-    if (this.otsikkoNimi) {
-      return this.otsikkoNimi;
-    }
-    return this.modalId === 'opintokokonaisuusLisays' ? 'opintokokonaisuuden-nimi' : 'tekstikappale-nimi-ohje';
-  }
-
-  async save() {
-    if (this.taso === 'paataso') {
-      this.valittuTekstikappale = {};
-    }
-
-    this.loading = true;
-    await this.tallenna(this.otsikko, this.valittuTekstikappale);
-    this.loading = false;
-    this.$bvModal.hide(this.modalId);
-  }
-
-  clear() {
-    this.otsikko = {};
-    this.valittuTekstikappale = {};
-    this.taso = 'paataso';
-  }
-
-  cancel() {
-    this.$bvModal.hide(this.modalId);
-  }
+  loading.value = true;
+  await props.tallenna(otsikko.value, valittuTekstikappale.value);
+  loading.value = false;
+  $bvModal.hide(props.modalId);
 }
 
+function clear() {
+  otsikko.value = {};
+  valittuTekstikappale.value = {};
+  taso.value = 'paataso';
+}
+
+function cancel() {
+  $bvModal.hide(props.modalId);
+}
+
+// Lifecycle hooks
+onMounted(() => {
+  taso.value = props.paatasovalinta ? 'paataso' : 'alataso';
+});
+
+defineExpose({
+  taso,
+});
 </script>
 
 <style scoped lang="scss">

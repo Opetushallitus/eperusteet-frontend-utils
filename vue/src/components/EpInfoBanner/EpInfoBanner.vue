@@ -1,17 +1,14 @@
 <template>
   <div class="ep-info-banner d-flex p-3">
-    <EpMaterialIcon class="icon mr-2">info</EpMaterialIcon>
-    <div><slot/></div>
+    <EpMaterialIcon class="icon mr-2">
+      info
+    </EpMaterialIcon>
+    <div><slot /></div>
   </div>
 </template>
 
-<script lang="ts">
-import * as _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
-
-@Component
-export default class EpInfoBanner extends Vue {
-}
+<script setup lang="ts">
+// This component doesn't have any props, methods or computed properties
 </script>
 
 <style scoped lang="scss">
