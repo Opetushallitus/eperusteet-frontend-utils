@@ -1,5 +1,4 @@
-import { defineStore } from 'pinia';
-import { computed, ref } from 'vue';
+import Vue, { computed, ref } from 'vue';
 import { MaaraysDto, Maaraykset, MaaraysDtoTyyppiEnum } from '@shared/api/eperusteet';
 import _ from 'lodash';
 import { Koulutustyyppi, Page } from '@shared/tyypit';
@@ -23,15 +22,19 @@ export interface MaaraysQueryDto {
   jarjestys: string;
 }
 
-export const useMaarayksetStore = defineStore('maaraykset', () => {
-  // State
-  const maaraykset = ref<Page<MaaraysDto> | null>(null);
-  const koulutustyypit = ref<string[] | null>(null);
+export class MaarayksetStore {
+  private state = ref({
+    maaraykset: null as Page<MaaraysDto> | null,
+    koulutustyypit: null as string[] | null,
+  });
+
+  public readonly maaraykset = computed(() => this.state.value.maaraykset);
+  public readonly koulutustyypit = computed(() => this.state.value.koulutustyypit);
 
   // Create a debounced fetch function
-  const debouncedFetch = _.debounce(async (query: MaaraysQueryDto) => {
-    maaraykset.value = null;
-    maaraykset.value = (await Maaraykset.getMaaraykset(
+  private debouncedFetch = _.debounce(async (query: MaaraysQueryDto) => {
+    this.state.value.maaraykset = null;
+    this.state.value.maaraykset = (await Maaraykset.getMaaraykset(
       query.nimi,
       query.kieli,
       query.tyyppi,
@@ -48,23 +51,12 @@ export const useMaarayksetStore = defineStore('maaraykset', () => {
     )).data as any;
   }, DEBOUNCE_WAIT_TIME);
 
-  // Actions
-  async function init() {
-    koulutustyypit.value = (await Maaraykset.getMaarayksienKoulutustyypit()).data;
+  async init() {
+    this.state.value.koulutustyypit = (await Maaraykset.getMaarayksienKoulutustyypit()).data;
   }
 
   // Public method that calls the debounced fetch
-  async function fetch(query: MaaraysQueryDto) {
-    debouncedFetch(query);
+  async fetch(query: MaaraysQueryDto) {
+    this.debouncedFetch(query);
   }
-
-  return {
-    // State
-    maaraykset,
-    koulutustyypit,
-
-    // Actions
-    init,
-    fetch,
-  };
-});
+}

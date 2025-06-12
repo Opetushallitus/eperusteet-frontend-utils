@@ -1,3 +1,4 @@
+import { computed } from 'vue';
 import { getCurrentInstance, ComputedRef } from 'vue';
 
 // Store a reference to the app instance that can be set from main.ts
@@ -57,6 +58,11 @@ export const $ld = (value: any) => {
   return ld ? ld(value) : value;
 };
 
+export const $ago = (value: any) => {
+  const ago = useGlobalProperties().$ago;
+  return ago ? ago(value) : value;
+};
+
 export const $suodatin = (query: string) => (value: any) => {
   const suodatin = useGlobalProperties().$suodatin;
   return suodatin ? suodatin(query)(value) : value;
@@ -88,10 +94,10 @@ export const $locale = (): string => {
   return locale?.value || 'fi';
 };
 
-export const $slang = (): string => {
+export const $slang = computed((): string => {
   const slang = useGlobalProperties().$slang;
   return slang?.value || 'fi';
-};
+});
 
 export const $success = (title: string): any => {
   return useGlobalProperties().$success(title);
@@ -113,10 +119,27 @@ export const $warning = (title: string): any => {
   return useGlobalProperties().$warning(title);
 }
 
-export const $bvModal = (): any => {
-  // TODO: Implement this
 
-  // return useGlobalProperties().$bvModal;
+// TODO
+
+export const $bvModal = {
+  // Add any properties or methods needed
+};
+
+export const $hasOikeus = (oikeus: any, kohde?: any) => {
+  // return useGlobalProperties().$hasOikeus(oikeus, kohde);
+
+  return {};
+}
+
+export const $isAdmin = () => {
+  // return useGlobalProperties().$isAdmin();
+
+  return {};
+}
+
+export const $hasOphCrud = () => {
+  // return useGlobalProperties().$hasOphCrud();
 
   return {};
 }
