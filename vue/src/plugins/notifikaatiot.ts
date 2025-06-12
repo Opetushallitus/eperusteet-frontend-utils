@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import { App } from 'vue';
-import Notifications from 'vue-notification';
+import Notifications from '@kyvg/vue3-notification'
 
 interface NotificationConfig {
   title: string;
@@ -25,8 +25,6 @@ declare module '@vue/runtime-core' {
 
 export class Notifikaatiot {
   public static install(app: App) {
-
-    Vue.use(Notifications);
 
     app.config.globalProperties.$notification = function(config: NotificationConfig) {
       this.$notify({
