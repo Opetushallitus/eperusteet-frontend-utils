@@ -219,6 +219,7 @@ import EpContent from '@shared/components/EpContent/EpContent.vue';
 import { LiiteDtoWrapper } from '@shared/tyypit';
 import EpContentViewer from '@shared/components/EpContentViewer/EpContentViewer.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import { $t, $kaanna } from '@shared/utils/globals';
 
 enum TaitotasoTyyppi {
   opintokokonaisuus = 'opintokokonaisuus',
@@ -257,11 +258,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:modelValue']);
-
-// Get instance to access global properties
-const instance = getCurrentInstance();
-const $t = instance?.appContext.config.globalProperties.$t;
-const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
 
 // Create koodisto store
 const koodisto = new KoodistoSelectStore({

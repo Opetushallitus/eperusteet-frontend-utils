@@ -101,23 +101,23 @@ export const $slang = computed((): string => {
 
 export const $success = (title: string): any => {
   return useGlobalProperties().$success(title);
-}
+};
 
 export const $notification = (title: string): any => {
   return useGlobalProperties().$notification(title);
-}
+};
 
 export const $info = (title: string): any => {
   return useGlobalProperties().$info(title);
-}
+};
 
 export const $fail = (title: string): any => {
   return useGlobalProperties().$fail(title);
-}
+};
 
 export const $warning = (title: string): any => {
   return useGlobalProperties().$warning(title);
-}
+};
 
 
 // TODO
@@ -130,16 +130,22 @@ export const $hasOikeus = (oikeus: any, kohde?: any) => {
   // return useGlobalProperties().$hasOikeus(oikeus, kohde);
 
   return {};
-}
+};
 
 export const $isAdmin = () => {
   // return useGlobalProperties().$isAdmin();
 
   return {};
-}
+};
 
 export const $hasOphCrud = () => {
   // return useGlobalProperties().$hasOphCrud();
 
   return {};
-}
+};
+
+export const $vahvista = (title: string): any => {
+  // return useGlobalProperties().$vahvista(title);
+
+  return {};
+};
