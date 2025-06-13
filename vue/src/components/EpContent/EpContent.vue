@@ -60,6 +60,7 @@ import { ObserveVisibility } from 'vue-observe-visibility';
 import { ILinkkiHandler } from './LinkkiHandler';
 import { fixTipTapContent } from '@shared/utils/helpers';
 import { unescapeStringHtml } from '@shared/utils/inputs';
+import CommentExtension from './CommentExtension';
 
 const striptag = document.createElement('span');
 
@@ -175,6 +176,7 @@ export default class EpContent extends Mixins(EpValidation) {
       new TableHeader(),
       new TableCell(),
       new TableRow(),
+      new CommentExtension(),
     ];
 
     if (this.annettuKasiteHandler) {
