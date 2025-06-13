@@ -305,6 +305,7 @@ import EpRoundButton from '@shared/components/EpButton/EpRoundButton.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import { Kommentit } from '@shared/stores/kommentit';
 
 @Component({
   validations() {
@@ -579,6 +580,16 @@ export default class EpEditointi extends Mixins(validationMixin) {
 
   get hasCustomHeaderSlot() {
     return this.$scopedSlots.customheader;
+  }
+
+  @Watch('isEditing')
+  onChangeEditing(newValue: number, oldValue: number) {
+    Kommentit.setActive(!this.isEditing && this.sidebarState === 1);
+  }
+
+  @Watch('sidebarState')
+  onChange(newValue: number, oldValue: number) {
+    Kommentit.setActive(!this.isEditing && this.sidebarState === 1);
   }
 
   private toggleSidebarState(val: number) {
