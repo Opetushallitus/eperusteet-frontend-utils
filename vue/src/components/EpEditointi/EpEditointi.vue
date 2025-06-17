@@ -292,7 +292,7 @@
 
 <script lang="ts">
 import _ from 'lodash';
-import { Watch, Component, Mixins, Prop } from 'vue-property-decorator';
+import { Watch, Component, Mixins, Prop, InjectReactive } from 'vue-property-decorator';
 import { validationMixin } from 'vuelidate';
 import Sticky from 'vue-sticky-directive';
 import { EditointiStore } from './EditointiStore';
@@ -305,7 +305,6 @@ import EpRoundButton from '@shared/components/EpButton/EpRoundButton.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
-import { Kommentit } from '@shared/stores/kommentit';
 
 @Component({
   validations() {
@@ -429,6 +428,9 @@ export default class EpEditointi extends Mixins(validationMixin) {
   private isValidating = false;
 
   private currentPage = 1;
+
+  @InjectReactive('kommenttiHandler')
+  private kommenttiHandler!: any;
 
   private updateVersionumero(versionumero) {
     this.$router.push({ query: { versionumero } }).catch(() => {});
@@ -584,12 +586,16 @@ export default class EpEditointi extends Mixins(validationMixin) {
 
   @Watch('isEditing')
   onChangeEditing(newValue: number, oldValue: number) {
-    Kommentit.setActive(!this.isEditing && this.sidebarState === 1);
+    if (this.kommenttiHandler) {
+      this.kommenttiHandler.setActive(!this.isEditing && this.sidebarState === 1);
+    }
   }
 
   @Watch('sidebarState')
   onChange(newValue: number, oldValue: number) {
-    Kommentit.setActive(!this.isEditing && this.sidebarState === 1);
+    if (this.kommenttiHandler) {
+      this.kommenttiHandler.setActive(!this.isEditing && newValue === 1);
+    }
   }
 
   private toggleSidebarState(val: number) {
