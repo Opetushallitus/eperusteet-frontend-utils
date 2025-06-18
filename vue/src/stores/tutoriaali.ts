@@ -61,6 +61,3 @@ export const useTutoriaaliStore = defineStore('tutoriaali', () => {
     setActive,
   };
 });
-
-// For backwards compatibility, export a singleton instance
-export const tutoriaaliStore = useTutoriaaliStore();

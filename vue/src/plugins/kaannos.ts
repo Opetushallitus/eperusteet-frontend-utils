@@ -17,7 +17,7 @@ declare module '@vue/runtime-core' {
 }
 
 export class Kaannos {
-  public install(app: App, options: any) {
+  public install(app: App, options?: any) {
     // Sisällön kääntäminen
     app.config.globalProperties.$suodatin = (str: string) => (value: any) => this.handleUnescaping(Kielet.searchFn(str)(value));
 
@@ -47,4 +47,5 @@ export class Kaannos {
   }
 }
 
-export default new Kaannos();
+const kaannos = new Kaannos();
+export default kaannos;

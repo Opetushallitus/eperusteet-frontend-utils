@@ -131,6 +131,10 @@ import EpSelect from '@shared/components/forms/EpSelect.vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import { useTemplateRef } from 'vue';
+import { BvModal } from 'bootstrap-vue';
+import { nextTick } from 'vue';
+import { bvModalInstance } from '@shared/utils/globals';
+
 
 const props = defineProps({
   tekstikappaleet: {
@@ -164,7 +168,7 @@ const props = defineProps({
 });
 
 // Template refs
-const tekstikappalelisaysModal = useTemplateRef('tekstikappalelisaysModal');
+const tekstikappalelisaysModal = ref<InstanceType<any> | null>(null);
 
 // Reactive state
 const otsikko = ref({});
@@ -173,8 +177,19 @@ const taso = ref(props.paatasovalinta ? 'paataso' : 'alataso');
 const loading = ref(false);
 
 // Get instance for $bvModal
-const instance = getCurrentInstance();
-const $bvModal = (instance?.proxy as any)?.$bvModal;
+const instance = getCurrentInstance() as any;
+// let $bvModal = bvModalInstance();
+let $bvModal;
+
+nextTick(() => {
+  $bvModal = instance.ctx._bv__modal as BvModal;
+});
+
+// setTimeout(() =>{
+//   // The timeout seems to be need, otherwise _bv__toast is undefined.
+//   $bvModal = instance.ctx._bv__modal as BvModal;
+// }, 100);
+
 
 // Setup vuelidate
 const rules = {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input
+    <!-- <input
       :id="uniqueId"
       v-model="innerValue"
       type="checkbox"
@@ -10,8 +10,8 @@
       class="ml-1"
     >
       <slot />
-    </label>
-    <!-- <b-form-checkbox
+    </label> -->
+    <b-form-checkbox
       :value="innerValue"
       :disabled="!isEditing"
       :inline="inline"
@@ -20,7 +20,7 @@
       @input="handleInput"
     >
       <slot />
-    </b-form-checkbox> -->
+    </b-form-checkbox>
   </div>
 </template>
 

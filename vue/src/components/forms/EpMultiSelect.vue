@@ -293,6 +293,7 @@ const filteredOptions = computed(() => {
 const model = computed({
   get: () => props.modelValue,
   set: (value) => {
+    console.log('value', value);
     emit('update:modelValue', value);
   },
 });

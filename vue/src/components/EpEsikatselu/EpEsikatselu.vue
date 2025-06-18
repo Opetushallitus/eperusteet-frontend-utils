@@ -27,11 +27,12 @@
 
 <script setup lang="ts">
 import * as _ from 'lodash';
-import { computed, useRoute } from 'vue';
+import { computed } from 'vue';
 import { Kielet } from '@shared/stores/kieli';
 import { PerusteDto } from '@shared/api/eperusteet';
 import { koulutustyyppiTheme } from '@shared/utils/perusteet';
 import { buildPerusteEsikatseluUrl, buildEsikatseluUrl, buildToteutussuunnitelmaEsikatseluUrl } from '@shared/utils/esikatselu';
+import { useRoute } from 'vue-router';
 
 interface Esikatseltavissa {
   id: number;

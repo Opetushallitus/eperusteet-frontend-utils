@@ -3,9 +3,10 @@ import Vue, { ref, computed, reactive } from 'vue';
 import VueScrollTo from 'vue-scrollto';
 import { Computed } from '../../utils/interfaces';
 import { ILukko, Revision } from '../../tyypit';
-import VueRouter, { RawLocation } from 'vue-router';
 import { fail } from '../../utils/notifications';
 import { createLogger } from '../../utils/logger';
+import { App } from 'vue';
+import { Router } from 'vue-router';
 
 export interface EditointiKontrolliValidation {
   valid: boolean;
@@ -82,7 +83,7 @@ export interface IEditoitava {
   /**
    * Get preview url location
    */
-  preview?: () => Promise<RawLocation | null>;
+  preview?: () => Promise<any | null>;
 
   /**
    * Hide the resource
@@ -127,19 +128,19 @@ export interface EditointiKontrolliRestore {
 }
 
 export interface EditointiStoreConfig {
-  router: VueRouter;
+  router: Router;
   kayttajaProvider: KayttajaProvider;
 }
 
 export class EditointiStore {
   private static allEditingEditors: EditointiStore[] = [];
-  private static router: VueRouter;
+  private static router: Router;
   private static kayttajaProvider: KayttajaProvider;
   private logger = createLogger(EditointiStore);
   private isFirstRun = true;
 
   public static install(
-    vue: typeof Vue,
+    app: App,
     config: EditointiStoreConfig,
   ) {
     if (!config.router) {

@@ -1,3 +1,5 @@
+import { BvModal } from 'bootstrap-vue';
+import { nextTick } from 'vue';
 import { computed } from 'vue';
 import { getCurrentInstance, ComputedRef } from 'vue';
 
@@ -122,9 +124,16 @@ export const $warning = (title: string): any => {
 
 // TODO
 
-export const $bvModal = {
-  // Add any properties or methods needed
+export const bvModalInstance = () =>{
+  let instanceModal;
+  const instance = getCurrentInstance() as any;
+  nextTick(() => {
+    instanceModal =instance.ctx._bv__modal as BvModal;
+  });
+  return instanceModal;
 };
+
+export const $bvModal = {};
 
 export const $hasOikeus = (oikeus: any, kohde?: any) => {
   // return useGlobalProperties().$hasOikeus(oikeus, kohde);
@@ -133,15 +142,11 @@ export const $hasOikeus = (oikeus: any, kohde?: any) => {
 };
 
 export const $isAdmin = () => {
-  // return useGlobalProperties().$isAdmin();
-
-  return {};
+  return useGlobalProperties().$isAdmin();
 };
 
 export const $hasOphCrud = () => {
-  // return useGlobalProperties().$hasOphCrud();
-
-  return {};
+  return useGlobalProperties().$hasOphCrud();
 };
 
 export const $vahvista = (title: string): any => {

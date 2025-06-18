@@ -1,6 +1,6 @@
 <template>
   <EpNaytaKaikki
-    v-model="virhehuomautukset"
+    :value="virhehuomautukset"
     striped
   >
     <template #default="{ data }">

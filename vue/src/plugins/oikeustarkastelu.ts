@@ -2,6 +2,7 @@ import Vue from 'vue';
 import _ from 'lodash';
 import { Oikeus } from '../tyypit';
 import { Computed } from '../utils/interfaces';
+import { App } from 'vue';
 
 const DisableTags = ['input', 'button'];
 
@@ -27,16 +28,16 @@ declare module 'vue/types/vue' {
 }
 
 export class Oikeustarkastelu {
-  public static install(vue: typeof Vue, config: OikeustarkasteluConfig) {
-    vue.prototype.$isAdmin = () => config.oikeusProvider.isAdmin?.value || false;
-    vue.prototype.$hasOphCrud = () => config.oikeusProvider.hasOphCrud?.value || false;
+  public static install(app: App, config: OikeustarkasteluConfig) {
+    app.config.globalProperties.$isAdmin = () => config.oikeusProvider.isAdmin?.value || false;
+    app.config.globalProperties.$hasOphCrud = () => config.oikeusProvider.hasOphCrud?.value || false;
 
-    vue.prototype.$hasOikeus = function(oikeus: Oikeus, kohde?: any) {
+    app.config.globalProperties.$hasOikeus = function(oikeus: Oikeus, kohde?: any) {
       return config.oikeusProvider.hasOikeus(oikeus, kohde);
     };
 
     // Sisällön kääntäminen
-    vue.directive('oikeustarkastelu', (el: any, binding) => {
+    app.directive('oikeustarkastelu', (el: any, binding) => {
       // Hide the element before rights have been resolved
       if (!el.oldDisplayValue && el.style.display !== 'none') {
         el.oldDisplayValue = el.style.display;
