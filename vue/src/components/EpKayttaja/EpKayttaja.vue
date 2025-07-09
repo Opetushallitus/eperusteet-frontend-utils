@@ -167,7 +167,7 @@
       </b-dd-item>
 
       <b-dropdown-divider />
-      
+
       <b-dd-item
         v-if="!sovellusOikeudet || sovellusOikeudet.length === 1"
         href="/virkailijan-tyopoyta"
@@ -384,7 +384,7 @@ async function valitseUiKieli(kieli: Kieli) {
 @import '@shared/styles/_variables.scss';
 .kayttaja {
 
-  ::v-deep ul.dropdown-menu {
+  :deep(ul.dropdown-menu) {
     width: 350px;
   }
 
@@ -404,7 +404,7 @@ async function valitseUiKieli(kieli: Kieli) {
   .rajain {
     background-color: $white;
 
-    ::v-deep .form-control {
+    :deep(.form-control) {
       background-color: $white;
     }
   }
@@ -423,7 +423,7 @@ async function valitseUiKieli(kieli: Kieli) {
     }
   }
 
-  ::v-deep .ep-collapse {
+  :deep(.ep-collapse) {
     padding-top: 0;
     padding-bottom: 0;
   }
@@ -434,7 +434,7 @@ async function valitseUiKieli(kieli: Kieli) {
     white-space: nowrap;
     overflow: hidden;
 
-    ::v-deep .dropdown-item {
+    :deep(.dropdown-item) {
       padding: 0.25rem 1rem;
     }
 
@@ -453,16 +453,16 @@ async function valitseUiKieli(kieli: Kieli) {
     font-weight: normal;
   }
 
-  ::v-deep .dropdown-menu {
+  :deep(.dropdown-menu) {
     padding: 0;
     color: #000000;
   }
 
-  ::v-deep .dropdown-divider {
+  :deep(.dropdown-divider) {
     margin: 0;
   }
 
-  ::v-deep .dropdown-item {
+  :deep(.dropdown-item) {
     padding: 0.5rem 1rem;
     color: #000000;
     white-space: nowrap;
@@ -470,15 +470,15 @@ async function valitseUiKieli(kieli: Kieli) {
     text-overflow: ellipsis;
   }
 
-  ::v-deep .dropdown-item:disabled {
+  :deep(.dropdown-item:disabled) {
     color: inherit;
   }
 
-  ::v-deep .dropdown-item:hover {
+  :deep(.dropdown-item:hover) {
     background-color: inherit;
   }
 
-  ::v-deep .dropdown-item:active {
+  :deep(.dropdown-item:active) {
     color: inherit;
     background-color: inherit;
   }

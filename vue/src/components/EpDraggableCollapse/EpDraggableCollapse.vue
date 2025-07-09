@@ -1,5 +1,5 @@
 <template>
-  <draggable
+  <VueDraggable
     v-bind="defaultDragOptions"
     v-model="model"
     tag="div"
@@ -31,14 +31,14 @@
         </div>
       </div>
     </EpCollapse>
-  </draggable>
+  </VueDraggable>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
 import EpCollapse from '@shared/components/EpCollapse/EpCollapse.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
-import draggable from 'vuedraggable';
+import { VueDraggable } from 'vue-draggable-plus';
 import { DEFAULT_DRAGGABLE_PROPERTIES } from '@shared/utils/defaults';
 
 const props = defineProps({

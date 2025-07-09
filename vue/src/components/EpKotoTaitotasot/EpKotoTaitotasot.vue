@@ -1,7 +1,7 @@
 <template>
   <div>
     <template v-if="isEditing">
-      <draggable
+      <VueDraggable
         v-bind="taitotasotOptions"
         v-model="taitotasot"
         tag="div"
@@ -117,7 +117,7 @@
             </ep-button>
           </div>
         </div>
-      </draggable>
+      </VueDraggable>
 
       <ep-button
         variant="outline"
@@ -209,7 +209,7 @@ import { computed, getCurrentInstance } from 'vue';
 import _ from 'lodash';
 import { KoodistoSelectStore } from '../EpKoodistoSelect/KoodistoSelectStore';
 import { Koodisto, TermiDto } from '@shared/api/eperusteet';
-import draggable from 'vuedraggable';
+import { VueDraggable } from 'vue-draggable-plus';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
 import EpInput from '@shared/components/forms/EpInput.vue';

@@ -33,6 +33,7 @@ import { computed, useTemplateRef, getCurrentInstance } from 'vue';
 import EpButton from '../EpButton/EpButton.vue';
 import _ from 'lodash';
 import EpTiedostoInput from '@shared/components/EpTiedosto/EpTiedostoInput.vue';
+import { $t, $fail } from '@shared/utils/globals';
 
 export interface FileData {
   file: File;
@@ -60,11 +61,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:modelValue']);
-
-// Get instance for $fail
-const instance = getCurrentInstance();
-const $fail = instance?.appContext.config.globalProperties.$fail;
-
 const fileInput = useTemplateRef('fileInput');
 
 const file = computed(() => {
@@ -101,6 +97,7 @@ async function onInput(file: File) {
           }
         }
         catch (e) {
+          console.log(e);
           handleFail();
         }
       };
@@ -132,6 +129,10 @@ function cancel() {
 function resetFile() {
   fileInput.value?.resetFile();
 }
+
+defineExpose({
+  resetFile,
+});
 </script>
 
 <style lang="scss" scoped>

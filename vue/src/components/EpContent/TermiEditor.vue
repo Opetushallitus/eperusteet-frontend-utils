@@ -98,6 +98,7 @@ import VueSelect from 'vue-select';
 import { IKasiteHandler, ITermi } from './KasiteHandler';
 import _ from 'lodash';
 import { useVuelidate } from '@vuelidate/core';
+import { $kaanna } from '@shared/utils/globals';
 
 const props = defineProps({
   value: {
@@ -118,10 +119,6 @@ const isLoading = ref(false);
 const isEditing = ref(false);
 const valittu = ref<ITermi | null>(null);
 const muokattava = reactive<ITermi>({});
-
-// Get instance for accessing global methods
-const instance = getCurrentInstance();
-const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
 
 // Setup validation
 const rules = computed(() => {

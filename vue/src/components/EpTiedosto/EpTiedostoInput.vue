@@ -22,6 +22,7 @@
 <script setup lang="ts">
 import { computed, getCurrentInstance, useTemplateRef } from 'vue';
 import _ from 'lodash';
+import { $t } from '@shared/utils/globals';
 
 const props = defineProps({
   file: {
@@ -35,11 +36,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['input']);
-
 const fileInput = useTemplateRef('fileInput');
-
-const instance = getCurrentInstance();
-const $t = instance?.appContext.config.globalProperties.$t;
 
 const onInput = async (file: File) => {
   emit('input', file);
@@ -99,7 +96,7 @@ defineExpose({
       background-color: $gray-lighten-7;
     }
 
-  .custom-file::v-deep{
+  .custom-file:deep() {
     height: 100%;
     flex-direction: column;
     justify-content: center;

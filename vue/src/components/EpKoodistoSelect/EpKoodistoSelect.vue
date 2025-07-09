@@ -1,9 +1,5 @@
 <template>
   <div v-if="isEditing">
-
-    adfasdfasdfasfasfasfdasfasf
-    {{ items }}
-
     <slot
       name="default"
       :open="openDialog"
@@ -96,13 +92,12 @@
             </template>
           </b-table>
 
-          <b-pagination
+          <EpBPagination
             v-if="raw"
             v-model="sivu"
-            :total-rows="raw.kokonaismäärä"
-            :per-page="raw.sivukoko"
+            :total="raw.kokonaismäärä"
+            :itemsPerPage="raw.sivukoko"
             aria-controls="koodistot"
-            align="center"
           />
 
           <div v-if="multiselect && innerModel.length > 0">
@@ -141,6 +136,7 @@ import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import { KoodistoSelectStore } from './KoodistoSelectStore';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import _ from 'lodash';
+import EpBPagination from '../EpBPagination/EpBPagination.vue';
 
 const props = defineProps({
   modelValue: {

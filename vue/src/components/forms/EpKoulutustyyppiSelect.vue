@@ -140,6 +140,7 @@ import EpColorIndicator from '@shared/components/EpColorIndicator/EpColorIndicat
 import { EperusteetKoulutustyypit, EperusteetKoulutustyyppiRyhmat } from '../../utils/perusteet';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import { $kaanna, $t } from '@shared/utils/globals';
 
 const props = defineProps({
   modelValue: {
@@ -175,11 +176,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:modelValue']);
-
-// Get instance for accessing $kaanna
-const instance = getCurrentInstance();
-const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
-const $t = instance?.appContext.config.globalProperties.$t;
 
 // Template refs
 const koulutustyyppi_multiselect = useTemplateRef('koulutustyyppi_multiselect');
@@ -302,12 +298,12 @@ function sulje() {
   }
 }
 
-::v-deep .multiselect__option {
+:deep(.multiselect__option) {
  padding: 0px;
  min-height: 0px;
 }
 
-::v-deep .multiselect__option--disabled .option, ::v-deep .multiselect__option .option{
+:deep(.multiselect__option--disabled .option), :deep(.multiselect__option .option){
  padding: 12px;
  min-height: 40px;
  display: block;
@@ -319,7 +315,7 @@ function sulje() {
   background: $white;
 }
 
-::v-deep .multiselect__tags {
+:deep(.multiselect__tags) {
   .multiselect__tag {
     .nimi {
       margin-right: 5px;

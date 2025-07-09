@@ -59,6 +59,7 @@
 import { defineProps, computed, useSlots, getCurrentInstance } from 'vue';
 import _ from 'lodash';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
+import { $kaanna, $t } from '@shared/utils/globals';
 
 const props = defineProps({
   arvioinninKohdealueet: {
@@ -76,9 +77,6 @@ const props = defineProps({
 });
 
 const slots = useSlots();
-const instance = getCurrentInstance();
-const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
-const $t = instance?.appContext.config.globalProperties.$t;
 
 const arvioinninKohdealueetFilled = computed(() => {
   return _.map(props.arvioinninKohdealueet, arvKohdealue => {

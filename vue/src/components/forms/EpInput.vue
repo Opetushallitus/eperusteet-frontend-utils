@@ -2,12 +2,12 @@
   <div v-if="isEditing">
     <div class="input-container d-flex align-items-center">
       <input
+        v-bind="$attrs"
         class="input-style form-control"
         :class="[ inputClass ]"
         :placeholder="placeholderValue"
         :type="type === 'number' ? 'number' : 'text'"
         step="any"
-        v-bind="$attrs"
         :value="val"
         :disabled="disabled"
         @focus="onInputFocus"
@@ -86,6 +86,7 @@ import { createLogger } from '../../utils/logger';
 import { unescapeStringHtml } from '@shared/utils/inputs';
 import { useVuelidate } from '@vuelidate/core';
 import { hasSlotContent } from '../../utils/vue-utils';
+import { $kaannaPlaceholder } from '@shared/utils/globals';
 
 const logger = createLogger('EpInput');
 
@@ -181,9 +182,6 @@ const v$ = useVuelidate();
 // State
 const focus = ref(false);
 const slots = useSlots();
-
-const instance = getCurrentInstance();
-const $kaannaPlaceholder = instance?.appContext.config.globalProperties.$kaannaPlaceholder;
 
 // Computed properties
 const hasLeftSlot = computed(() => {

@@ -61,22 +61,22 @@
 
         <div>
           <div v-if="paatasovalinta">
-            <b-form-radio
+            <EpRadio
               v-model="taso"
               name="taso"
               value="paataso"
               class="mb-1"
             >
               {{ $t('paatasolla') }}
-            </b-form-radio>
-            <b-form-radio
+            </EpRadio>
+            <EpRadio
               v-model="taso"
               name="taso"
               value="alataso"
-              :disabled="tekstikappaleet.length === 0"
+              class="mb-1"
             >
               {{ $t('toisen-tekstikappaleen-alla') }}
-            </b-form-radio>
+            </EpRadio>
           </div>
 
           <ep-select
@@ -124,17 +124,17 @@
 import { ref, computed, getCurrentInstance, onMounted } from 'vue';
 import _ from 'lodash';
 import { useVuelidate } from '@vuelidate/core';
-import { requiredOneLang } from '@shared/validators/required';
+import { notNull, requiredOneLang } from '@shared/validators/required';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpField from '@shared/components/forms/EpField.vue';
 import EpSelect from '@shared/components/forms/EpSelect.vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
-import { useTemplateRef } from 'vue';
 import { BvModal } from 'bootstrap-vue';
 import { nextTick } from 'vue';
-import { bvModalInstance } from '@shared/utils/globals';
-
+import { Kielet } from '@shared/stores/kieli';
+import EpRadio from '@shared/components/forms/EpRadio.vue';
+import { $bvModal } from '@shared/utils/globals';
 
 const props = defineProps({
   tekstikappaleet: {
@@ -176,31 +176,17 @@ const valittuTekstikappale = ref({});
 const taso = ref(props.paatasovalinta ? 'paataso' : 'alataso');
 const loading = ref(false);
 
-// Get instance for $bvModal
-const instance = getCurrentInstance() as any;
-// let $bvModal = bvModalInstance();
-let $bvModal;
-
-nextTick(() => {
-  $bvModal = instance.ctx._bv__modal as BvModal;
-});
-
-// setTimeout(() =>{
-//   // The timeout seems to be need, otherwise _bv__toast is undefined.
-//   $bvModal = instance.ctx._bv__modal as BvModal;
-// }, 100);
-
-
-// Setup vuelidate
 const rules = {
-  otsikko: { requiredOneLang },
+  otsikko: {
+    [Kielet.getSisaltoKieli.value]: notNull(),
+  },
 };
 const v$ = useVuelidate(rules, { otsikko });
 
 // Computed properties
 const okDisabled = computed(() => {
-  return (props.otsikkoRequired && v$.value.otsikko.$invalid) ||
-         (taso.value === 'alataso' && _.isEmpty(valittuTekstikappale.value));
+  return (props.otsikkoRequired && v$.value.otsikko.$invalid)
+    || (taso.value === 'alataso' && _.isEmpty(valittuTekstikappale.value));
 });
 
 const contentName = computed(() => {

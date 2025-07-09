@@ -9,6 +9,7 @@
 <script setup lang="ts">
 import { computed, getCurrentInstance } from 'vue';
 import * as _ from 'lodash';
+import { $t, $kaanna } from '@shared/utils/globals';
 
 const props = defineProps({
   arvioinninkohteet: {
@@ -16,11 +17,6 @@ const props = defineProps({
     required: true,
   },
 });
-
-// Get instance to access global properties
-const instance = getCurrentInstance();
-const $t = instance?.appContext.config.globalProperties.$t;
-const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
 
 const arvioinninKohteetSorted = computed(() => {
   return _.sortBy(props.arvioinninkohteet, 'arvosana');

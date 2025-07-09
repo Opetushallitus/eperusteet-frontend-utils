@@ -42,6 +42,7 @@
 import { computed, useTemplateRef, getCurrentInstance } from 'vue';
 import EpButton from '../EpButton/EpButton.vue';
 import _ from 'lodash';
+import { $t, $fail } from '@shared/utils/globals';
 
 export interface FileData {
   file: File;
@@ -84,21 +85,19 @@ const file = computed(() => {
 });
 
 const placeholder = computed(() => {
-  return instance?.appContext.config.globalProperties.$t('fu-placeholder');
+  return $t('fu-placeholder');
 });
 
 const dropPlaceholder = computed(() => {
-  return instance?.appContext.config.globalProperties.$t('fu-placeholder');
+  return $t('fu-placeholder');
 });
 
 const browseText = computed(() => {
-  return instance?.appContext.config.globalProperties.$t('fu-browse-text');
+  return $t('fu-browse-text');
 });
 
 function handleFail() {
-  instance?.appContext.config.globalProperties.$fail(
-    instance?.appContext.config.globalProperties.$t('tiedosto-luku-virhe')
-  );
+  $fail($t('tiedosto-luku-virhe'));
   emit('input', null);
   resetFile();
 }
@@ -106,15 +105,11 @@ function handleFail() {
 // Luodaan esikatselukuva kuvan valitsemisen jälkeen
 async function onInput(file: File) {
   if (file != null && file.size > props.fileMaxSize) {
-    instance?.appContext.config.globalProperties.$fail(
-      instance?.appContext.config.globalProperties.$t('pdf-tiedosto-kuva-liian-suuri')
-    );
+    $fail($t('pdf-tiedosto-kuva-liian-suuri'));
   }
 
   if (file != null && !_.includes(props.fileTypes, file.type)) {
-    instance?.appContext.config.globalProperties.$fail(
-      instance?.appContext.config.globalProperties.$t('pdf-tiedosto-kuva-vaara-tyyppi')
-    );
+    $fail($t('pdf-tiedosto-kuva-vaara-tyyppi'));
   }
 
   if (file != null) {
@@ -196,7 +191,7 @@ function resetFile() {
     background-color: $gray-lighten-7;
   }
 
-  .custom-file::v-deep{
+  .custom-file:deep() {
     height: 100%;
     flex-direction: column;
     justify-content: center;

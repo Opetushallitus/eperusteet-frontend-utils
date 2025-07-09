@@ -1,6 +1,6 @@
 <template>
   <div>
-    <draggable
+    <VueDraggable
       v-bind="defaultDragOptions"
       v-model="model"
       tag="div"
@@ -37,7 +37,7 @@
           </div>
         </b-col>
       </b-row>
-    </draggable>
+    </VueDraggable>
 
     <ep-button
       variant="outline"
@@ -55,7 +55,7 @@ import { computed } from 'vue';
 import * as _ from 'lodash';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import { Kielet } from '@shared/stores/kieli';
-import draggable from 'vuedraggable';
+import { VueDraggable } from 'vue-draggable-plus';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 

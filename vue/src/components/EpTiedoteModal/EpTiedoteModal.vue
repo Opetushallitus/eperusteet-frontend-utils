@@ -468,6 +468,7 @@ import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSele
 import { ITiedotteetProvider } from '@shared/stores/types';
 import { requiredOneLang } from '@shared/validators/required';
 import { useTemplateRef } from 'vue';
+import { $t, $kaanna, $sdt, $sd, $bvModal, $success, $fail } from '@shared/utils/globals';
 
 const props = defineProps({
   perusteet: {
@@ -515,13 +516,7 @@ const editing = ref(false);
 
 // Get instance for $t, $kaanna, etc.
 const instance = getCurrentInstance();
-const $t = instance?.appContext.config.globalProperties.$t;
-const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
-const $sdt = instance?.appContext.config.globalProperties.$sdt;
-const $sd = instance?.appContext.config.globalProperties.$sd;
-
 // Get $bvModal from instance's proxy
-const $bvModal = (instance?.proxy?.$root as any)?.$bvModal;
 
 // Template refs
 const tiedoteMuokkausModal = useTemplateRef('tiedoteMuokkausModal');
@@ -747,14 +742,14 @@ async function tallennaTiedote() {
     try {
       await props.tiedotteetStore.save(muokattavaTiedote.value);
       suljeTiedote();
-      success('tiedote-tallennettu');
+      $success($t('tiedote-tallennettu'));
     }
     catch (e) {
       if (_.includes(_.get(e, 'message'), '400')) {
-        fail('tiedotteen-tallennus-epaonnistui-sisaltovirhe');
+        $fail($t('tiedotteen-tallennus-epaonnistui-sisaltovirhe'));
       }
       else {
-        fail('tiedotteen-tallennus-epaonnistui');
+        $fail($t('tiedotteen-tallennus-epaonnistui'));
       }
     }
   }
@@ -774,7 +769,7 @@ async function poista() {
 
   if (await vahvistaPoisto() && props.tiedotteetStore?.delete) {
     await props.tiedotteetStore.delete(muokattavaTiedote.value);
-    success('tiedote-poistettu');
+    $success($t('tiedote-poistettu'));
   }
 }
 
@@ -826,6 +821,10 @@ function lisaaOsaamisala() {
     ],
   };
 }
+
+defineExpose({
+  muokkaa,
+});
 </script>
 
 <style lang="scss" scoped>

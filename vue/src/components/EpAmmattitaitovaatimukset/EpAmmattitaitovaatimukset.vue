@@ -16,7 +16,7 @@
         v-if="kohdealueettomat"
         :label="$t('vaatimukset')"
       >
-        <draggable
+        <VueDraggable
           v-bind="vaatimusOptions"
           v-model="inner.vaatimukset"
           tag="div"
@@ -56,7 +56,7 @@
               </b-button>
             </div>
           </div>
-        </draggable>
+        </VueDraggable>
         <div class="mt-2">
           <ep-button
             variant="outline"
@@ -68,7 +68,7 @@
         </div>
       </b-form-group>
       <b-form-group :label="kaannokset.kohdealueet">
-        <draggable
+        <VueDraggable
           v-bind="kohdealueOptions"
           v-model="inner.kohdealueet"
           tag="div"
@@ -101,7 +101,7 @@
               <div class="otsikko font-italic">
                 {{ $kaanna(inner.kohde) }}
               </div>
-              <draggable
+              <VueDraggable
                 v-bind="vaatimusOptions"
                 v-model="kohdealue.vaatimukset"
                 tag="div"
@@ -138,7 +138,7 @@
                     />
                   </div>
                 </div>
-              </draggable>
+              </VueDraggable>
 
               <div class="mt-2">
                 <ep-button
@@ -160,7 +160,7 @@
               </div>
             </b-form-group>
           </div>
-        </draggable>
+        </VueDraggable>
         <div class="mt-2">
           <ep-button
             variant="outline"
@@ -263,7 +263,7 @@
 
 <script setup lang="ts">
 import { defineProps, defineEmits, computed, ref, getCurrentInstance } from 'vue';
-import draggable from 'vuedraggable';
+import { VueDraggable } from 'vue-draggable-plus';
 import _ from 'lodash';
 import EpButton from '../EpButton/EpButton.vue';
 import EpInput from '../forms/EpInput.vue';
@@ -272,6 +272,7 @@ import Kayttolistaus from './Kayttolistaus.vue';
 import VaatimusField from './VaatimusField.vue';
 import { KoodistoSelectStore } from '@shared/components/EpKoodistoSelect/KoodistoSelectStore';
 import { Koodisto } from '../../api/eperusteet';
+import { $kaanna, $t, $vahvista } from '@shared/utils/globals';
 
 const props = defineProps({
   modelValue: {
@@ -316,8 +317,6 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue']);
 const instance = getCurrentInstance();
-const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
-const $t = instance?.appContext.config.globalProperties.$t;
 
 const inner = computed({
   get: () => props.modelValue || { kohde: null, vaatimukset: [], kohdealueet: [] },
@@ -363,13 +362,13 @@ const kohdealueOptions = computed(() => ({
 }));
 
 const poistaKohdealue = async (value, el) => {
-  if (await instance?.appContext.config.globalProperties.$vahvista($t('poista-kohdealue'), $t('poista-kohdealue-kuvaus'))) {
+  if (await $vahvista($t('poista-kohdealue'), $t('poista-kohdealue-kuvaus'))) {
     value.kohdealueet = _.without(value.kohdealueet, el);
   }
 };
 
 const poistaVaatimus = async (value, el) => {
-  if (await instance?.appContext.config.globalProperties.$vahvista($t('poista-vaatimus'), $t('poista-vaatimus-kuvaus'))) {
+  if (await $vahvista($t('poista-vaatimus'), $t('poista-vaatimus-kuvaus'))) {
     value.vaatimukset = _.without(value.vaatimukset, el);
   }
 };

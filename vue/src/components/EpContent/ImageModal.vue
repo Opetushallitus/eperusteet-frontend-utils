@@ -109,6 +109,7 @@ import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { Kielet } from '@shared/stores/kieli';
 import EpKuvaLataus, { ImageData } from '@shared/components/EpTiedosto/EpKuvaLataus.vue';
 import { IKuvaHandler, ILiite } from './KuvaHandler';
+import { $t, $success, $fail } from '@shared/utils/globals';
 
 const props = defineProps({
   loader: {
@@ -130,11 +131,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:modelValue', 'onClose', 'onKuvatekstichange', 'onVaihtoehtoinentekstiChange']);
-
-// Get instance for $success and $fail
-const instance = getCurrentInstance();
-const $success = instance?.appContext.config.globalProperties.$success;
-const $fail = instance?.appContext.config.globalProperties.$fail;
 
 // State variables
 const imageSaved = ref(false);
@@ -306,7 +302,7 @@ onMounted(async () => {
     width: 100%;
   }
 
-  ::v-deep #fileInput {
+  :deep(#fileInput) {
     display: none;
   }
 }

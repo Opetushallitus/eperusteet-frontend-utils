@@ -1,7 +1,7 @@
 <template>
   <ep-input
     class="form-data"
-    :modelValue="modelValue"
+    :model-value="modelValue"
     :is-editing="isEditing"
     :is-header="isHeader"
     :type="type"
@@ -9,7 +9,7 @@
     :help="help"
     :show-valid-validation="showValidValidation"
     :unit="unit"
-    @input="emit('input', $event)"
+    @update:model-value="$emit('update:modelValue', $event)"
   >
     <template #suffix>
       <slot />
@@ -18,7 +18,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import EpInput from './EpInput.vue';
 
@@ -32,7 +31,7 @@ const props = defineProps({
   unit: { type: [String, Object], required: false },
 });
 
-const emit = defineEmits(['input']);
+const emit = defineEmits(['update:modelValue']);
 
 const validation = useVuelidate();
 </script>

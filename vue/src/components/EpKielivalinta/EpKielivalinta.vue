@@ -43,21 +43,21 @@ function valitseSisaltoKieli(kieli: Kieli) {
 <style scoped lang="scss">
 @import "@shared/styles/_variables.scss";
 
-  ::v-deep .dropdown-toggle::after {
+  :deep(.dropdown-toggle::after) {
     display:none;
   }
 
-  ::v-deep .btn {
+  :deep(.btn) {
     background-color: $white !important;
     color: $black  !important;
     border-color: $white !important;
     box-shadow: 0;
   }
 
-  ::v-deep .btn-secondary,
-  ::v-deep .btn-secondary:not(:disabled):not(.disabled):active:focus,
-  ::v-deep .btn-secondary:not(:disabled):not(.disabled).active:focus,
-  ::v-deep .show > .btn-secondary.dropdown-toggle:focus {
+  :deep(.btn-secondary),
+:deep(.btn-secondary:not(:disabled):not(.disabled):active:focus),
+:deep(.btn-secondary:not(:disabled):not(.disabled).active:focus),
+:deep(.show > .btn-secondary.dropdown-toggle:focus) {
     box-shadow: none;
   }
 

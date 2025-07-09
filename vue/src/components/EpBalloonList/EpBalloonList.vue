@@ -1,6 +1,6 @@
 <template>
   <div>
-    <draggable
+    <VueDraggable
       v-bind="defaultDragOptions"
       v-model="inner"
       tag="div"
@@ -20,13 +20,13 @@
           <slot v-bind="{ item }" />
         </div>
       </div>
-    </draggable>
+    </VueDraggable>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import draggable from 'vuedraggable';
+import { VueDraggable } from 'vue-draggable-plus';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 const props = defineProps({
@@ -64,7 +64,7 @@ const defaultDragOptions = computed(() => {
     animation: 300,
     emptyInsertThreshold: 10,
     handle: '.order-handle',
-    disabled: !draggable.value,
+    disabled: !isDraggable.value,
     ghostClass: 'dragged',
     group: {
       name: 'balloonsorts',

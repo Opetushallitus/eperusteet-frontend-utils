@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-// This component doesn't have any props, methods or computed properties
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 </script>
 
 <style scoped lang="scss">

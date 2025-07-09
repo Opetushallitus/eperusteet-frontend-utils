@@ -1,6 +1,6 @@
 <template>
   <div>
-    <draggable
+    <VueDraggable
       v-bind="tavoitteetOptions"
       v-model="tavoitteet"
       tag="div"
@@ -65,7 +65,7 @@
           </div>
         </b-col>
       </b-row>
-    </draggable>
+    </VueDraggable>
 
     <div class="d-flex justify-content-between">
       <ep-button
@@ -89,7 +89,7 @@ import { useVuelidate } from '@vuelidate/core';
 import _ from 'lodash';
 import { KoodistoSelectStore } from '../EpKoodistoSelect/KoodistoSelectStore';
 import { Koodisto } from '@shared/api/eperusteet';
-import draggable from 'vuedraggable';
+import { VueDraggable } from 'vue-draggable-plus';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
 import EpInput from '@shared/components/forms/EpInput.vue';

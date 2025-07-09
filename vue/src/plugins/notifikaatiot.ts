@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import { App } from 'vue';
-import Notifications from '@kyvg/vue3-notification'
+import Notifications, { useNotification } from '@kyvg/vue3-notification';
 
 interface NotificationConfig {
   title: string;
@@ -18,13 +18,15 @@ declare module '@vue/runtime-core' {
     $notification: (config: NotificationConfig) => Promise<void>;
     $success: (title: string) => Promise<void>;
     $info: (title: string) => Promise<void>;
-    $fail: (title: string, text?: string) => Promise<void>;
+    $fail: (title: string, text?: string, duration?: number) => Promise<void>;
     $warning: (title: string, text?: string) => Promise<void>;
   }
 }
 
 export class Notifikaatiot {
   public static install(app: App) {
+
+    app.use(Notifications);
 
     app.config.globalProperties.$notification = function(config: NotificationConfig) {
       this.$notify({
@@ -48,12 +50,12 @@ export class Notifikaatiot {
       });
     };
 
-    app.config.globalProperties.$fail = function(title: string, text: string = '') {
+    app.config.globalProperties.$fail = function(title: string, text: string = '', duration: number = 5000) {
       this.$notify({
         title,
         type: 'error',
         text,
-        duration: 5000,
+        duration,
       });
     };
 

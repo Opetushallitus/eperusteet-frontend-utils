@@ -1,7 +1,7 @@
 <template>
   <div>
     <template v-if="isEditing">
-      <draggable
+      <VueDraggable
         v-bind="defaultDragOptions"
         v-model="innerModel"
         tag="div"
@@ -70,7 +70,7 @@
             </ep-button>
           </div>
         </div>
-      </draggable>
+      </VueDraggable>
       <EpButton
         v-if="isEditing"
         variant="outline"
@@ -173,7 +173,7 @@
 import { ref, computed, onMounted } from 'vue';
 import _ from 'lodash';
 import EpInput from '@shared/components/forms/EpInput.vue';
-import draggable from 'vuedraggable';
+import { VueDraggable } from 'vue-draggable-plus';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import { Koulutustoimijat, KoulutuksenJarjestajaDto } from '@shared/api/amosaa';
 import { Kielet } from '@shared/stores/kieli';

@@ -31,17 +31,17 @@
         class="popup-top row flex-column align-items-center"
         :style="popupStyle"
       >
-        <div class="progress-area">
+        <!-- <div class="progress-area">
           <ep-progress
             :slices="processSlices"
             :height="height"
             :width="width"
             :popup-style="{ 'background-color': '' }"
           />
-        </div>
-        <div class="header">
+        </div> -->
+        <!-- <div class="header">
           <slot name="header" />
-        </div>
+        </div> -->
       </div>
 
       <div class="slot-area row justify-content-center">
@@ -101,6 +101,10 @@ const processSlices = computed(() => {
 
     return [0.2, 0.5, 1];
   }
+});
+
+defineExpose({
+  tilaPopupVisible,
 });
 </script>
 
