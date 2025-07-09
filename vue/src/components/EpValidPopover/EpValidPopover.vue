@@ -2,6 +2,7 @@
   <div class="ep-valid-popover">
     <EpProgressPopover
       v-if="validoinnit"
+      ref="progresspopover"
       :slices="prosessi"
       :popup-style="popupStyle"
     >
@@ -46,7 +47,7 @@
                 v-else-if="julkaistava && luonnos && !julkaistu && !arkistoitu"
                 class="px-3 py-1"
                 variant="primary"
-                :to="julkaisuRoute"
+                @click="toJulkaisuRoute"
               >
                 {{ $t('siirry-julkaisunakymaan') }}
               </b-button>
@@ -73,7 +74,7 @@
           <b-button
             v-if="(julkaistu || valmis) && julkaistava"
             variant="primary"
-            :to="julkaisuRoute"
+            @click="toJulkaisuRoute"
           >
             {{ $t('siirry-julkaisunakymaan') }}
           </b-button>
@@ -183,6 +184,8 @@ import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { tileBackgroundColor } from '@shared/utils/bannerIcons';
 import { ValidableObject, Validoinnit, ValidoitavatTilat, ValidoitavatTyypit } from '@shared/components/EpValidPopover/EpValidPopoverTypes';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import { useRouter } from 'vue-router';
+import { ref } from 'vue';
 
 const props = defineProps({
   validoitava: {
@@ -218,6 +221,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['asetaValmiiksi', 'palauta', 'validoi']);
+const router = useRouter();
+const progresspopover = ref<InstanceType<typeof EpProgressPopover> | null>(null);
 
 function asetaValmiiksi() {
   emit('asetaValmiiksi');
@@ -228,6 +233,7 @@ function palauta() {
 }
 
 function validoi() {
+  progresspopover.value!.tilaPopupVisible = false;
   emit('validoi');
 }
 
@@ -318,6 +324,10 @@ const uniqueVirheet = computed(() => {
 const validointiOk = computed(() => {
   return _.size(props.validoinnit?.virheet) === 0 && _.size(props.validoinnit?.huomautukset) === 0;
 });
+
+function toJulkaisuRoute() {
+  router.push(props.julkaisuRoute);
+}
 </script>
 
 <style scoped lang="scss">

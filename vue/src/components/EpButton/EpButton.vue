@@ -106,7 +106,7 @@ const inherit = computed(() => {
     color: #2B2B2B;
   }
 
-  ::v-deep button.btn-outline-primary:not(.disabled):hover{
+  :deep(button.btn-outline-primary:not(.disabled):hover){
     div.teksti {
       color: $white;
     }
@@ -133,7 +133,7 @@ const inherit = computed(() => {
   }
 
   &.no-padding {
-    ::v-deep .btn-link, .btn {
+    :deep(.btn-link), .btn {
       padding-left: 0 !important;
       .teksti{
         padding-left: 0 !important;
@@ -142,7 +142,7 @@ const inherit = computed(() => {
   }
 
   .no-padding {
-    ::v-deep &.btn-link, &.btn {
+    :deep(&.btn-link), &.btn {
       padding-left: 0 !important;
       .teksti{
         padding-left: 0 !important;

@@ -139,6 +139,8 @@ import { NavigationNodeDto } from '@shared/tyypit';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import { deepFind } from '@shared/utils/helpers';
 import EpPublicImage from '@shared/components/EpPublicImage/EpPublicImage.vue';
+import EpMultiSelect from '@shared/components/forms/EpMultiSelect.vue';
+import { $kaanna } from '@shared/utils/globals';
 
 const props = defineProps({
   editor: {
@@ -157,10 +159,13 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  navigationFlattened: {
+    type: Array,
+    default: () => [],
+  },
 });
 
-const instance = getCurrentInstance();
-const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
+
 const navigation = inject('navigation') as NavigationNodeDto;
 
 const linkValue = ref<string | null>(null);
@@ -169,10 +174,6 @@ const linkkiTyyppi = ref<'ulkoinen' | 'sisainen' | null>(null);
 const linkPlaceholder = ref('https://...');
 
 const linkModal = useTemplateRef('link-modal');
-
-const id = computed(() => {
-  return instance?.uid;
-});
 
 const history = computed(() => {
   return [{

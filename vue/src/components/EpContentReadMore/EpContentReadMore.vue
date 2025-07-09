@@ -74,7 +74,7 @@ const showReadMore = computed(() => {
 }
 
 .content {
-  ::v-deep p:last-of-type {
+  :deep(p:last-of-type) {
     display: inline;
     margin-right: 0.5rem;
   }

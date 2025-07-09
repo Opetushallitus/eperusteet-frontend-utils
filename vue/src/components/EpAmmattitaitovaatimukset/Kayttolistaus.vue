@@ -62,6 +62,7 @@ import EpPagination from '../EpPagination/EpPagination.vue';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import { Ammattitaitovaatimukset } from '../../api/eperusteet';
+import { $kaanna, $t } from '@shared/utils/globals';
 
 const props = defineProps({
   koodi: {
@@ -69,10 +70,6 @@ const props = defineProps({
     required: true,
   },
 });
-
-const instance = getCurrentInstance();
-const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
-const $t = instance?.appContext.config.globalProperties.$t;
 
 const isLoading = ref(true);
 const data = ref(null);

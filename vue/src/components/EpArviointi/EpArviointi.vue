@@ -110,6 +110,7 @@ import * as _ from 'lodash';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import OsaamistasonKriteerit from '@shared/components/EpArviointi/OsaamistasonKriteerit.vue';
+import { $t, $kaanna } from '@shared/utils/globals';
 
 const props = defineProps({
   modelValue: {
@@ -132,11 +133,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:modelValue']);
-
-// Get instance for $t and $kaanna
-const instance = getCurrentInstance();
-const $t = instance?.appContext.config.globalProperties.$t;
-const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
 
 const arvioinninKohdeAlue = computed({
   get: () => props.modelValue,

@@ -1,11 +1,6 @@
-import BootstrapVue from 'bootstrap-vue';
 import EpTreeNavibar from './EpTreeNavibar.vue';
-import VueI18n from 'vue-i18n';
 import { EpTreeNavibarStore } from './EpTreeNavibarStore';
-import { Kaannos } from '../../plugins/kaannos';
-import { Kielet } from '../../stores/kieli';
 import { mount, RouterLinkStub } from '@vue/test-utils';
-import { NavigationNodeDto } from '@shared/tyypit';
 import Vue, { computed, nextTick } from 'vue';
 import { globalStubs } from '@shared/utils/__tests__/stubs';
 

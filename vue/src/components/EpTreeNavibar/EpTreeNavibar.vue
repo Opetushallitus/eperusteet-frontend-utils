@@ -65,8 +65,6 @@
         </div>
       </div>
 
-      <Portal to="breadcrumbs" />
-
       <div class="action-container">
         <slot name="new" />
       </div>
@@ -88,6 +86,8 @@ import _ from 'lodash';
 import { Kielet } from '@shared/stores/kieli';
 import VueScrollTo from 'vue-scrollto';
 import EpNavigationLabel from '@shared/components/EpTreeNavibar/EpNavigationLabel.vue';
+import { $t, $kaannaOlioTaiTeksti } from '@shared/utils/globals';
+import { unref } from 'vue';
 
 export type ProjektiFilter = 'koulutustyyppi' | 'tila' | 'voimassaolo';
 
@@ -107,11 +107,6 @@ const props = defineProps({
     required: false,
   },
 });
-
-// Get instance to access global properties
-const instance = getCurrentInstance();
-const $t = instance?.appContext.config.globalProperties.$t;
-const $kaannaOlioTaiTeksti = instance?.appContext.config.globalProperties.$kaannaOlioTaiTeksti;
 
 // Access to slots
 const slots = useSlots();
@@ -133,7 +128,7 @@ const navigation = computed((): IndexedNode[] | null => {
     return null;
   }
 
-  return _.map(props.store.filtered?.value, (item, idx) => {
+  return _.map(unref(props.store.filtered), (item, idx) => {
     return {
       ...item,
       idx,

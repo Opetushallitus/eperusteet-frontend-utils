@@ -64,16 +64,12 @@ import { Kielet } from '@shared/stores/kieli';
 import EpSearch from '@shared/components/forms/EpSearch.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import { $t, $kaanna, $sdt } from '@shared/utils/globals';
 
 interface Palautettava {
   nimi: any;
   muokattu: any;
 }
-
-const instance = getCurrentInstance();
-const $t = instance?.appContext.config.globalProperties.$t;
-const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
-const $sdt = instance?.appContext.config.globalProperties.$sdt;
 
 const props = defineProps({
   arkistoidut: {

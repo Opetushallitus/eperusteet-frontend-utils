@@ -1,16 +1,5 @@
 <template>
   <div>
-    <!-- <input
-      :id="uniqueId"
-      v-model="innerValue"
-      type="checkbox"
-    >
-    <label
-      :for="uniqueId"
-      class="ml-1"
-    >
-      <slot />
-    </label> -->
     <b-form-checkbox
       :value="innerValue"
       :disabled="!isEditing"
@@ -85,12 +74,12 @@ const uniqueId = computed(() => {
 @import '@shared/styles/bootstrap.scss';
 @import '@shared/styles/_mixins.scss';
 
-::v-deep .custom-checkbox .custom-control-input:disabled:checked ~ .custom-control-label::before {
+:deep(.custom-checkbox .custom-control-input:disabled:checked ~ .custom-control-label::before) {
   border-width: 0;
 }
 
 large checkbox
-::v-deep .custom-checkbox-lg {
+:deep(.custom-checkbox-lg) {
   padding-left: 2rem;
   .custom-control-input {
     left: 0;
@@ -99,14 +88,14 @@ large checkbox
   }
 }
 
-::v-deep .custom-checkbox-lg label.custom-control-label::before {
+:deep(.custom-checkbox-lg label.custom-control-label::before) {
   top: 0rem;
   left: -1.7rem;
   width: 1.5rem;
   height: 1.5rem;
 }
 
-::v-deep .custom-checkbox-lg label.custom-control-label::after {
+:deep(.custom-checkbox-lg label.custom-control-label::after) {
   top: 0rem;
   left: -1.7rem;
   width: 1.5rem;
@@ -114,7 +103,7 @@ large checkbox
 }
 
 // Large switch
-::v-deep .custom-switch-lg {
+:deep(.custom-switch-lg) {
   padding-left: 3rem;
   .custom-control-input {
     left: 0;
@@ -123,25 +112,25 @@ large checkbox
   }
 }
 
-::v-deep .custom-switch-lg label.custom-control-label::before {
+:deep(.custom-switch-lg label.custom-control-label::before) {
   top: 0rem;
   left: -3.125rem;
   width: 2.625rem;
   height: 1.5rem;
 }
 
-::v-deep .custom-switch-lg label.custom-control-label::after {
+:deep(.custom-switch-lg label.custom-control-label::after) {
   top: 0.125rem;
   left: -3rem;
   width: 1.25rem;
   height: 1.25rem;
 }
 
-::v-deep .custom-switch .custom-control-input:checked ~ .custom-control-label::after {
+:deep(.custom-switch .custom-control-input:checked ~ .custom-control-label::after) {
   transform: translateX(1.125rem)
 }
 
-::v-deep .custom-checkbox {
+:deep(.custom-checkbox) {
   @include focus-within;
 }
 

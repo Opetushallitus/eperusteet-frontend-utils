@@ -103,6 +103,7 @@ import { metadataToLocalized } from '../../utils/perusteet';
 import { delay } from '../../utils/delay';
 import _ from 'lodash';
 import Kayttolistaus from './Kayttolistaus.vue';
+import { $kaanna, $kaannaPlaceholder, $t, $slang } from '@shared/utils/globals';
 
 const props = defineProps({
   modelValue: {
@@ -120,12 +121,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:modelValue']);
-
-const instance = getCurrentInstance();
-const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
-const $kaannaPlaceholder = instance?.appContext.config.globalProperties.$kaannaPlaceholder;
-const $t = instance?.appContext.config.globalProperties.$t;
-const $slang = instance?.appContext.config.globalProperties.$slang;
 
 const input = ref(null);
 const datalistContainer = ref(null);

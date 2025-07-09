@@ -34,6 +34,7 @@ import { Kielet } from '@shared/stores/kieli';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import { IDokumenttiStore } from '@shared/tyypit';
 import EpPdfDokumentti from '@shared/components/EpPdfLuonti/EpPdfDokumentti.vue';
+import { unref } from 'vue';
 
 const props = defineProps({
   store: {
@@ -52,34 +53,34 @@ const props = defineProps({
 
 const dokumentti = computed(() => {
   if (props.store) {
-    return props.store.dokumentti.value;
+    return unref(props.store.dokumentti);
   }
+
+  return null;
 });
 
 const dokumenttiHref = computed(() => {
-  return props.store?.dokumenttiHref.value;
+  return unref(props.store?.dokumenttiHref);
 });
 
 const dokumenttiJulkaisu = computed(() => {
   if (props.store) {
-    return props.store.dokumenttiJulkaisu.value;
+    return unref(props.store.dokumenttiJulkaisu);
   }
+
+  return null;
 });
 
 const dokumenttiJulkaisuHref = computed(() => {
-  return props.store?.dokumenttiJulkaisuHref.value;
-});
-
-const kieli = computed(() => {
-  return Kielet.getSisaltoKieli.value;
+  return unref(props.store?.dokumenttiJulkaisuHref);
 });
 
 const isPolling = computed(() => {
-  return props.store?.polling.value;
+  return unref(props.store?.polling);
 });
 
 const julkaisudokumenttiJaDokumenttiSamat = computed(() => {
-  return dokumenttiJulkaisu.value && dokumentti.value?.id === dokumenttiJulkaisu.value?.id;
+  return unref(dokumenttiJulkaisu) && unref(dokumentti)?.id === unref(dokumenttiJulkaisu)?.id;
 });
 
 function luoPdf() {

@@ -1,7 +1,7 @@
 <template>
-  <div v-if="editor" class="ep-content">
-    <ep-editor-menu-bar
-      v-sticky
+  <div class="ep-content">
+    <ep-editor-menu-bar-vue3
+      v-sticky="isSticky"
       :layout="layout"
       :is-editable="isEditable"
       :editor="editor"
@@ -11,8 +11,9 @@
     />
     <editor-content
       ref="content"
+      v-observe-visibility="visibilityChanged"
       :editor="editor"
-      :class="{ 'placeholder': placeholder }"
+      :class="{ 'content-invalid': validation && validationError, 'content-valid': validation && !validationError, 'placeholder': placeholder }"
     />
     <div
       v-if="!validationError && validMessage && isEditable"
@@ -41,42 +42,39 @@
 
 <script setup lang="ts">
 import * as _ from 'lodash';
-import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick, useAttrs, inject, getCurrentInstance, useTemplateRef } from 'vue';
-import { Editor, EditorContent } from 'tiptap';
+import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick, getCurrentInstance, useTemplateRef } from 'vue';
+import { useEditor, EditorContent } from '@tiptap/vue-3';
 import { delay } from '@shared/utils/delay';
 import { Kielet } from '@shared/stores/kieli';
-import {
-  Blockquote,
-  Bold,
-  Underline,
-  Strike,
-  Italic,
-  HardBreak,
-  History,
-  BulletList,
-  Link,
-  ListItem,
-  OrderedList,
-  Table,
-  TableCell,
-  TableHeader,
-  TableRow,
-  Placeholder,
-} from 'tiptap-extensions';
-
-import EpEditorMenuBar from './EpEditorMenuBar.vue';
 import { EditorLayout } from '@shared/tyypit';
 import { useVuelidate } from '@vuelidate/core';
 import { IKasiteHandler } from './KasiteHandler';
-import TermiExtension from './TermiExtension';
-import ImageExtension from './ImageExtension';
 import { IKuvaHandler } from './KuvaHandler';
-import CustomLink from './CustomLink';
-import { ObserveVisibility } from 'vue-observe-visibility';
 import { ILinkkiHandler } from './LinkkiHandler';
 import { fixTipTapContent } from '@shared/utils/helpers';
 import { unescapeStringHtml } from '@shared/utils/inputs';
 import { $t, $kaanna, $kaannaPlaceholder } from '@shared/utils/globals';
+import EpEditorMenuBarVue3 from './EpEditorMenuBarVue3.vue';
+import { ObserveVisibility } from 'vue-observe-visibility';
+import { inject } from 'vue';
+
+// Import TipTap extensions
+import StarterKit from '@tiptap/starter-kit';
+import Underline from '@tiptap/extension-underline';
+// import Table from '@tiptap/extension-table';
+// import TableRow from '@tiptap/extension-table-row';
+// import TableCell from '@tiptap/extension-table-cell';
+// import TableHeader from '@tiptap/extension-table-header';
+
+// Import custom extensions
+import { TermiExtensionVue3 } from './TermiExtensionVue3';
+import { ImageExtensionVue3 } from './ImageExtensionVue3';
+import { CustomLinkVue3 } from './CustomLinkVue3';
+import Document from '@tiptap/extension-document';
+import Paragraph from '@tiptap/extension-paragraph';
+import Text from '@tiptap/extension-text';
+import Bold from '@tiptap/extension-bold';
+
 
 // Create span element for stripping tags
 const striptag = document.createElement('span');
@@ -140,11 +138,11 @@ const validation = computed(() => v$.value);
 // Define emits
 const emit = defineEmits(['update:modelValue']);
 
-// Template refs
+// Get instance for accessing template refs
+const instance = getCurrentInstance();
 const content = useTemplateRef('content');
 
 // State
-const editor = ref<InstanceType<typeof Editor> | null>(null);
 const focused = ref(false);
 const isVisible = ref(true);
 
@@ -185,7 +183,6 @@ const placeholder = computed(() => {
   if (!focused.value) {
     return $kaannaPlaceholder?.(props.modelValue, !props.isEditable);
   }
-
   return undefined;
 });
 
@@ -200,6 +197,81 @@ const isSticky = computed(() => {
   return props.sticky && isVisible.value;
 });
 
+// Set up the editor
+const editor = useEditor({
+  content: fixTipTapContent(localizedValue.value),
+  editable: props.isEditable,
+  extensions: [StarterKit],
+  // extensions: [
+    // Text,
+    // StarterKit.configure({
+      // Disable the built-in link extension since we're using our custom one
+      // link: false,
+    // }),
+    // Underline,
+    // Table.configure({
+    //   resizable: true,
+    // }),
+    // TableHeader,
+    // TableCell,
+    // TableRow,
+    // Add custom extensions conditionally
+    // CustomLinkVue3(linkkiHandler),
+    // ...(annettuKasiteHandler.value ? [TermiExtensionVue3(annettuKasiteHandler.value)] : []),
+    // ...(annettuKuvaHandler.value ? [ImageExtensionVue3(annettuKuvaHandler.value)] : []),
+  // ],
+  onUpdate: ({ editor }) => {
+    const data = editor.getHTML();
+    striptag.innerHTML = data;
+    const isValid = !_.isEmpty(striptag.innerText || striptag.textContent) || striptag.getElementsByTagName('img').length > 0;
+    const stripped = isValid ? data : null;
+
+    if (!placeholder.value) {
+      if (props.isPlainString) {
+        emit('update:modelValue', stripped);
+      }
+      else {
+        emit('update:modelValue', {
+          ...props.modelValue,
+          [Kielet.getSisaltoKieli.value]: stripped,
+        });
+      }
+    }
+  },
+  onFocus: () => {
+    if (props.isEditable) {
+      focused.value = true;
+      if (!localizedValue.value && editor.value) {
+        editor.value.commands.setContent(fixTipTapContent(localizedValue.value));
+      }
+    }
+  },
+  onBlur: () => {
+    focused.value = false;
+  },
+});
+
+// Methods
+function visibilityChanged(isVisible) {
+  isVisible.value = isVisible;
+}
+
+async function setClass(c: string) {
+  // await delay();
+  // HACK: give prose mirror 10 vue ticks.
+  // for (let count = 0; count < 10; ++count) {
+  if (content.value) {
+    const el = content.value.$el || content.value;
+    const pm = el?.firstChild;
+    if (pm) {
+      el.firstChild.className = 'ProseMirror ' + c;
+      // break;
+    }
+  }
+  // await nextTick();
+  // }
+}
+
 // Watch for changes in isEditable
 watch(() => props.isEditable, (val, oldVal) => {
   if (val === oldVal) {
@@ -211,9 +283,7 @@ watch(() => props.isEditable, (val, oldVal) => {
       return;
     }
 
-    editor.value.setOptions({
-      editable: val,
-    });
+    editor.value.setEditable(val);
 
     if (val) {
       setClass('form-control');
@@ -225,118 +295,20 @@ watch(() => props.isEditable, (val, oldVal) => {
 }, { immediate: true });
 
 // Watch for changes in localizedValue
-watch(localizedValue, async (val) => {
+watch(localizedValue, (val) => {
   if (editor.value && !focused.value) {
-    await nextTick();
-    await nextTick();
-    // FIXME: RangeError: Applying a mismatched transaction
-    editor.value.setContent(localizedValue.value);
+    editor.value.commands.setContent(localizedValue.value);
   }
 }, { immediate: true });
 
 // Watch for changes in lang
-watch(lang, async () => {
+watch(lang, () => {
   if (editor.value) {
-    await nextTick();
-    editor.value.setContent(localizedValue.value);
+    editor.value.commands.setContent(localizedValue.value);
   }
 });
-
-// Methods
-function visibilityChanged(isVisible) {
-  isVisible.value = isVisible;
-}
-
-async function setClass(c: string) {
-  await delay();
-  // HACK: give prose mirror 10 vue ticks.
-  for (let count = 0; count < 10; ++count) {
-    if (content.value) {
-      const pm = content.value.$el?.firstChild;
-      if (pm) {
-        content.value.$el.firstChild.className = 'ProseMirror ' + c;
-        break;
-      }
-    }
-    await nextTick();
-  }
-}
-
-function setUpEditorEvents() {
-  const data = editor.value.getHTML();
-  striptag.innerHTML = data;
-  const isValid = !_.isEmpty(striptag.innerText || striptag.textContent) || striptag.getElementsByTagName('img').length > 0;
-  const stripped = isValid ? data : null;
-
-  if (!placeholder.value) {
-    if (props.isPlainString) {
-      emit('update:modelValue', stripped);
-    }
-    else {
-      emit('update:modelValue', {
-        ...props.modelValue,
-        [Kielet.getSisaltoKieli.value as unknown as string]: stripped,
-      });
-    }
-  }
-}
 
 // Lifecycle hooks
-onMounted(() => {
-  let linkImplementation: any = null;
-  try {
-    linkImplementation = new CustomLink(linkkiHandler);
-  }
-  catch (err) {
-    linkImplementation = new Link();
-  }
-
-  const extensions = [
-    new HardBreak(),
-    new History(),
-    new Blockquote(),
-    new Bold(),
-    new Italic(),
-    new Strike(),
-    linkImplementation,
-    new BulletList(),
-    new OrderedList(),
-    new ListItem(),
-    new Table({ resizable: true }),
-    new TableHeader(),
-    new TableCell(),
-    new TableRow(),
-  ];
-
-  if (annettuKasiteHandler.value) {
-    extensions.push(new TermiExtension(annettuKasiteHandler.value));
-  }
-
-  if (annettuKuvaHandler.value) {
-    extensions.push(new ImageExtension(annettuKuvaHandler.value));
-  }
-
-  editor.value = new Editor({
-    content: fixTipTapContent(localizedValue.value),
-    editable: props.isEditable,
-    onUpdate: () => {
-      setUpEditorEvents();
-    },
-    onFocus: () => {
-      if (props.isEditable) {
-        focused.value = true;
-        if (!localizedValue.value) {
-          editor.value.setContent(fixTipTapContent(localizedValue.value));
-        }
-      }
-    },
-    onBlur: () => {
-      focused.value = false;
-    },
-    extensions,
-  });
-});
-
 onBeforeUnmount(() => {
   if (editor.value) {
     editor.value.destroy();
@@ -345,7 +317,6 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped lang="scss">
-
 @import "../../styles/_variables.scss";
 
 .ep-content {
@@ -434,5 +405,4 @@ onBeforeUnmount(() => {
     display: none;
   }
 }
-
 </style>

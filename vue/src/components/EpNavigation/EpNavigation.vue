@@ -81,7 +81,6 @@
 import _ from 'lodash';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
-import Sticky from 'vue-sticky-directive';
 import { Kieli } from '@shared/tyypit';
 import { Kielet, UiKielet } from '@shared/stores/kieli';
 import { Murupolku } from '@shared/stores/murupolku';

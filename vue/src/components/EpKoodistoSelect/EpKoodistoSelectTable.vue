@@ -66,6 +66,7 @@ import { computed, getCurrentInstance } from 'vue';
 import EpButton from '../EpButton/EpButton.vue';
 import { KoodistoSelectStore } from './KoodistoSelectStore';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
+import { $t, $kaanna } from '@shared/utils/globals';
 
 const props = defineProps({
   modelValue: {
@@ -87,11 +88,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:modelValue', 'remove']);
-
-// Get instance to access global properties
-const instance = getCurrentInstance();
-const $t = instance?.appContext.config.globalProperties.$t;
-const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
 
 const koodi = computed({
   get: () => props.modelValue,

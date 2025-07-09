@@ -98,6 +98,7 @@ import EpMuutosvertailu from '@shared/components/EpJulkaisuHistoriaJulkinen/EpMu
 import { MaaraysLiiteDtoTyyppiEnum } from '@shared/generated/eperusteet';
 import { MaarayksetParams, baseURL } from '@shared/api/eperusteet';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import { $t, $sd, $kaanna, $slang } from '@shared/utils/globals';
 
 const props = defineProps({
   julkaisut: {
@@ -105,13 +106,6 @@ const props = defineProps({
     required: true,
   },
 });
-
-// Get instance to access global properties
-const instance = getCurrentInstance();
-const $t = instance?.appContext.config.globalProperties.$t;
-const $sd = instance?.appContext.config.globalProperties.$sd;
-const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
-const $slang = instance?.appContext.config.globalProperties.$slang;
 
 // Get route
 const route = useRoute();

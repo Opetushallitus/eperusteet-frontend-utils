@@ -97,6 +97,7 @@
 import _ from 'lodash';
 import { computed, watch, getCurrentInstance } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
+import { $t } from '@shared/utils/globals';
 
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 
@@ -156,10 +157,6 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue']);
 
-// Get global properties for translation
-const instance = getCurrentInstance();
-const $t = instance?.appContext.config.globalProperties.$t;
-
 const displayValue = computed(() => {
   return _.filter(props.items, (item) => _.includes(props.modelValue, item));
 });
@@ -198,6 +195,14 @@ const innerModel = computed({
 const v$ = useVuelidate(props.validation, innerModel);
 
 const validationError = computed(() => {
+  return v$.value.$invalid;
+});
+
+const isValid = computed(() => {
+  return v$.value.$valid;
+});
+
+const isInvalid = computed(() => {
   return v$.value.$invalid;
 });
 

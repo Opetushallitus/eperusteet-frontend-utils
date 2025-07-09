@@ -82,6 +82,7 @@ import EpButton from '../EpButton/EpButton.vue';
 import EpFormContent from '../forms/EpFormContent.vue';
 import EpTiedostoInput from '@shared/components/EpTiedosto/EpTiedostoInput.vue';
 import EpInfoPopover from '@shared/components/EpInfoPopover/EpInfoPopover.vue';
+import { $t} from '@shared/utils/globals';
 
 const props = defineProps({
   tyyppi: {
@@ -95,9 +96,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['saveImage', 'removeImage']);
-
-const $t = getCurrentInstance()?.appContext.config.globalProperties.$t;
-
 const file = ref(null);
 const previewUrl = ref(null);
 const fileMaxSize = 1 * 1024 * 1024;

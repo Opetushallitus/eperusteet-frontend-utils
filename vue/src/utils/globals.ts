@@ -1,4 +1,5 @@
 import { BvModal } from 'bootstrap-vue';
+import { inject } from 'vue';
 import { nextTick } from 'vue';
 import { computed } from 'vue';
 import { getCurrentInstance, ComputedRef } from 'vue';
@@ -86,6 +87,10 @@ export const $kaannaPlaceholder = (...args: any[]) => {
 };
 
 export const $t = (key: string, values?: Record<string, any>, options?: any) => {
+  if (!key) {
+    return '';
+  }
+
   const t = useGlobalProperties().$t;
   return t ? t(key, values, options) : key;
 };
@@ -113,27 +118,19 @@ export const $info = (title: string): any => {
   return useGlobalProperties().$info(title);
 };
 
-export const $fail = (title: string): any => {
-  return useGlobalProperties().$fail(title);
+export const $fail = (title: string, text?: string, duration?: number): any => {
+  return useGlobalProperties().$fail(title, text, duration);
 };
 
 export const $warning = (title: string): any => {
   return useGlobalProperties().$warning(title);
 };
 
+export let $bvModal;
 
-// TODO
-
-export const bvModalInstance = () =>{
-  let instanceModal;
-  const instance = getCurrentInstance() as any;
-  nextTick(() => {
-    instanceModal =instance.ctx._bv__modal as BvModal;
-  });
-  return instanceModal;
+export const setGlobalBvModal = (bvModal: BvModal) => {
+  $bvModal = bvModal;
 };
-
-export const $bvModal = {};
 
 export const $hasOikeus = (oikeus: any, kohde?: any) => {
   // return useGlobalProperties().$hasOikeus(oikeus, kohde);

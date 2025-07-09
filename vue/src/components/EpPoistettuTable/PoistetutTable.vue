@@ -31,11 +31,7 @@ import EpButton from '@shared/components/EpButton/EpButton.vue';
 import Poistettu from './PoistetutHakuTable.vue';
 import EpSpinnerInline from '@shared/components/EpSpinner/EpSpinnerInline.vue';
 import _ from 'lodash';
-
-const instance = getCurrentInstance();
-const $t = instance?.appContext.config.globalProperties.$t;
-const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
-const $ago = instance?.appContext.config.globalProperties.$ago;
+import { $t, $kaanna, $ago } from '@shared/utils/globals';
 
 const props = defineProps({
   poistetut: {

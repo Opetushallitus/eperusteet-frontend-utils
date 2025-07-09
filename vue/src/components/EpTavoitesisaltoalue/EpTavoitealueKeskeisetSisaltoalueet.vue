@@ -1,6 +1,6 @@
 <template>
   <div>
-    <draggable
+    <VueDraggable
       v-bind="keskeisetSisaltoalueetOptions"
       v-model="keskeisetSisaltoalueet"
       tag="div"
@@ -39,7 +39,7 @@
           </div>
         </b-col>
       </b-row>
-    </draggable>
+    </VueDraggable>
 
     <ep-button
       variant="outline"
@@ -54,10 +54,11 @@
 <script setup lang="ts">
 import { computed, getCurrentInstance } from 'vue';
 import _ from 'lodash';
-import draggable from 'vuedraggable';
+import { VueDraggable } from 'vue-draggable-plus';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import { $t } from '@shared/utils/globals';
 
 const props = defineProps({
   modelValue: {
@@ -67,9 +68,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:modelValue']);
-
-const instance = getCurrentInstance();
-const $t = instance?.appContext.config.globalProperties.$t;
 
 const keskeisetSisaltoalueet = computed({
   get: () => props.modelValue,

@@ -23,10 +23,7 @@
 import { computed, getCurrentInstance } from 'vue';
 import _ from 'lodash';
 import { Lops2019OpintojaksoDto } from '@shared/api/ylops';
-
-const instance = getCurrentInstance();
-const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
-const $t = instance?.appContext.config.globalProperties.$t;
+import { $kaanna, $t } from '@shared/utils/globals';
 
 const props = defineProps({
   options: {

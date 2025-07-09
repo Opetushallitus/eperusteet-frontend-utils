@@ -44,10 +44,7 @@ import { computed, getCurrentInstance } from 'vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import EpAlert from '@shared/components/EpAlert/EpAlert.vue';
 import * as _ from 'lodash';
-
-const instance = getCurrentInstance();
-const $t = instance?.appContext.config.globalProperties.$t;
-const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
+import { $t, $kaanna } from '@shared/utils/globals';
 
 const props = defineProps({
   arviointi: {

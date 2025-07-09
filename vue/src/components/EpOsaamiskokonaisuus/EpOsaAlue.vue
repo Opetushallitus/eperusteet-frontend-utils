@@ -135,7 +135,7 @@ import * as _ from 'lodash';
 import { computed } from 'vue';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import { Kielet } from '@shared/stores/kieli';
-import draggable from 'vuedraggable';
+import { VueDraggable } from 'vue-draggable-plus';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpOsaAlueSisalto from './EpOsaAlueSisalto.vue';
 

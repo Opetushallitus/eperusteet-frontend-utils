@@ -98,6 +98,7 @@ import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue
 import { muokkaustietoRoute, muokkaustietoIcon } from '@shared/utils/tapahtuma';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 import { IMuokkaustietoProvider, Muokkaustieto } from './types';
+import { $t, $kaanna, $ago } from '@shared/utils/globals';
 
 const props = defineProps({
   muokkaustietoStore: {
@@ -110,11 +111,6 @@ const props = defineProps({
     default: 'ops',
   },
 });
-
-const instance = getCurrentInstance();
-const $t = instance?.appContext.config.globalProperties.$t;
-const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
-const $ago = instance?.appContext.config.globalProperties.$ago;
 
 const lisahaku = ref(false);
 

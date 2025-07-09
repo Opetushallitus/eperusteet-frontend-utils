@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="isEditing">
-      <draggable
+      <VueDraggable
         v-bind="tavoitealueOptions"
         v-model="tavoitealueet"
         tag="div"
@@ -93,7 +93,7 @@
             </div>
           </div>
         </div>
-      </draggable>
+      </VueDraggable>
 
       <div class="d-flex flex-column">
         <ep-button
@@ -172,12 +172,13 @@ import { computed, getCurrentInstance } from 'vue';
 import _ from 'lodash';
 import { KoodistoSelectStore } from '../EpKoodistoSelect/KoodistoSelectStore';
 import { Koodisto } from '@shared/api/eperusteet';
-import draggable from 'vuedraggable';
+import { VueDraggable } from 'vue-draggable-plus';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
 import EpTavoitealueKeskeisetSisaltoalueet from './EpTavoitealueKeskeisetSisaltoalueet.vue';
 import EpTavoitealueTavoitteet from './EpTavoitealueTavoitteet.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import { $t, $kaanna } from '@shared/utils/globals';
 
 const props = defineProps({
   modelValue: {
@@ -192,10 +193,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:modelValue']);
-
-const instance = getCurrentInstance();
-const $t = instance?.appContext.config.globalProperties.$t;
-const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
 
 const tavoitealueet = computed({
   get: () => props.modelValue,

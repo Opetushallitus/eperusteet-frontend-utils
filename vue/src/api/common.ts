@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { createLogger } from '../utils/logger';
 import _ from 'lodash';
-import { fail } from '@shared/utils/notifications';
 import { Kielet } from '../stores/kieli';
+import { $fail, $t } from '../utils/globals';
 
 const logger = createLogger('AxiosCommon');
 
@@ -13,7 +13,7 @@ axios.defaults.xsrfHeaderName = 'CSRF';
 export function axiosHandler(msg: string) {
   return async (err: any) => {
     if (err?.response?.status === 500 || err?.response?.status === 403 || err?.response?.status === 400 || err?.response?.status === 409) {
-      fail(errorMessage(err), undefined, errorNotificationDuration());
+      $fail(errorMessage(err), undefined, errorNotificationDuration());
     }
     throw err;
   };
@@ -31,7 +31,7 @@ function errorMessage(err) {
     return Kielet.kaannaOlioTaiTeksti(err.response?.data?.syy);
   }
 
-  return 'jarjestelmavirhe-ohje';
+  return $t('jarjestelmavirhe-ohje');
 }
 
 function errorNotificationDuration() {

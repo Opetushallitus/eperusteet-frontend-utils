@@ -3,10 +3,10 @@ import Vue, { ref, computed, reactive } from 'vue';
 import VueScrollTo from 'vue-scrollto';
 import { Computed } from '../../utils/interfaces';
 import { ILukko, Revision } from '../../tyypit';
-import { fail } from '../../utils/notifications';
 import { createLogger } from '../../utils/logger';
 import { App } from 'vue';
 import { Router } from 'vue-router';
+import { $fail, $t } from '@shared/utils/globals';
 
 export interface EditointiKontrolliValidation {
   valid: boolean;
@@ -455,11 +455,11 @@ export class EditointiStore {
     catch (err: any) {
       const syy = _.get(err, 'response.data.syy');
       if (syy) {
-        fail('palautus-epaonnistui', err.response.data.syy);
+        $fail($t('palautus-epaonnistui'), err.response.data.syy);
       }
       else {
         this.logger.error('Palautus epäonnistui', err);
-        fail('palautus-epaonnistui');
+        $fail($t('palautus-epaonnistui'));
       }
     }
   }

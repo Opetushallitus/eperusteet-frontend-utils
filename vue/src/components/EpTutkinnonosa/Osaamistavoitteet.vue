@@ -54,9 +54,7 @@ import EpEditointi from '@shared/components/EpEditointi/EpEditointi.vue';
 import GeneerinenArviointiTaulukko from '@shared/components/EpTutkinnonosa/GeneerinenArviointiTaulukko.vue';
 import Arviointi2020Taulukko from '@shared/components/EpTutkinnonosa/Arviointi2020Taulukko.vue';
 import EpAmmattitaitovaatimukset from '@shared/components/EpAmmattitaitovaatimukset/EpAmmattitaitovaatimukset.vue';
-
-const instance = getCurrentInstance();
-const $t = instance?.appContext.config.globalProperties.$t;
+import { $t } from '@shared/utils/globals';
 
 const props = defineProps({
   isEditing: {

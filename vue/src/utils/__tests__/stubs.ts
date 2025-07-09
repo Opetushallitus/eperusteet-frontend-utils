@@ -1,8 +1,8 @@
-import { createUnhead } from "@unhead/vue";
-import { mount, RouterLinkStub } from "@vue/test-utils";
-import { createPinia } from "pinia";
+import { mount, RouterLinkStub } from '@vue/test-utils';
 import { h, renderSlot } from 'vue';
 import { createHead } from '@unhead/vue/client';
+import { setAppInstance } from '../globals';
+import { bTableStub } from './b-table-stub';
 
 const generateBootstrapStubs = () => {
   const stubs = {};
@@ -28,29 +28,40 @@ const generateBootstrapStubs = () => {
     'b-dd-item-button',
     'b-dropdown-divider',
     'b-dropdown-item',
+    'b-dropdown-item-button',
     'b-dropdown',
     'b-container',
     'b-link',
+    'b-form-checkbox-group',
+    'b-tabs',
+    'b-tab',
     // Add any other B components you use
   ];
 
   components.forEach(name => {
-    stubs[name] = {
-      render() {
-        return h('div', { class: name }, [
-          // Render default slot
-          renderSlot(this.$slots, 'default'),
-          // Dynamically render any other slots
-          ...Object.keys(this.$slots)
-            .filter(slotName => slotName !== 'default')
-            .map(slotName =>
-              h('div', { class: `${name}__slot-${slotName}` }, [
-                renderSlot(this.$slots, slotName),
-              ]),
-            ),
-        ]);
-      },
-    };
+    // Special handling for b-table component
+    if (name === 'b-table') {
+      stubs[name] = bTableStub;
+    }
+    else {
+      // Default stub for other components
+      stubs[name] = {
+        render() {
+          return h('div', { class: name }, [
+            // Render default slot
+            renderSlot(this.$slots, 'default'),
+            // Dynamically render any other slots
+            ...Object.keys(this.$slots)
+              .filter(slotName => slotName !== 'default')
+              .map(slotName =>
+                h('div', { class: `${name}__slot-${slotName}` }, [
+                  renderSlot(this.$slots, slotName),
+                ]),
+              ),
+          ]);
+        },
+      };
+    }
   });
 
   return stubs;
@@ -58,6 +69,9 @@ const generateBootstrapStubs = () => {
 
 export const testPlugin = {
   install(app) {
+    // Set the app instance so useGlobalProperties() can access it
+    setAppInstance(app);
+
     app.config.globalProperties.$kaanna = x => x ? x.fi : 'kaanna';
     app.config.globalProperties.$kaannaPlaceholder = (tKey) => tKey;
     app.config.globalProperties.$t = (tKey) => tKey;
@@ -66,6 +80,15 @@ export const testPlugin = {
     app.config.globalProperties.$sdt = (tKey) => tKey;
     app.config.globalProperties.$sdm = (tKey) => tKey;
     app.config.globalProperties.$kaannaOlioTaiTeksti = (tKey) => tKey;
+    app.config.globalProperties.$ld = (tKey) => tKey;
+    app.config.globalProperties.$ldm = (tKey) => tKey;
+    app.config.globalProperties.$ldt = (tKey) => tKey;
+    app.config.globalProperties.$fail = (tKey: string, text?: string, duration?: number) => tKey;
+    app.config.globalProperties.$success = (tKey: string) => tKey;
+    app.config.globalProperties.$ago = (date: any) => date;
+    app.config.globalProperties.$bvModal = {};
+    app.config.globalProperties.$isAdmin = () => true;
+    app.config.globalProperties.$hasOphCrud = () => true;
   },
 };
 
@@ -77,6 +100,23 @@ export const globalStubs = {
   stubs: {
     'router-link': RouterLinkStub,
     'oikeustarkastelu': true,
+    // TipTap component stubs to prevent Vue 2/3 compatibility issues
+    'editor-content': {
+      render() {
+        return h('div', { class: 'editor-content-stub' }, [
+          renderSlot(this.$slots, 'default'),
+        ]);
+      },
+    },
+    'ep-content': {
+      render() {
+        return h('div', { class: 'ep-content-stub' }, [
+          renderSlot(this.$slots, 'default'),
+        ]);
+      },
+    },
+    'ep-editor-menu-bar': true,
+    'ep-editor-menu-bar-vue3': true,
     ...generateBootstrapStubs(),
   },
   directives: {

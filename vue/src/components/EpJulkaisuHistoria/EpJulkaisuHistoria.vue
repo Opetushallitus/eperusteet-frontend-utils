@@ -75,6 +75,7 @@ import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import { $t, $kaanna, $sdt, $bvModal } from '@shared/utils/globals';
 
 interface Julkaisu {
   revision?: number;
@@ -98,9 +99,6 @@ const props = defineProps({
 });
 
 const palautuksessa = ref<number | null>(null);
-const instance = getCurrentInstance();
-const $t = instance?.appContext.config.globalProperties.$t;
-const $bvModal = (instance?.proxy?.$root as any)?.$bvModal;
 
 const julkaisutMapped = computed(() => {
   return _.chain(props.julkaisut)

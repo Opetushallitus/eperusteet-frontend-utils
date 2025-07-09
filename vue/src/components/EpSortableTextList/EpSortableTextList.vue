@@ -1,7 +1,7 @@
 <template>
   <div>
     <template v-if="isEditing">
-      <draggable
+      <VueDraggable
         v-bind="defaultDragOptions"
         v-model="innerModel"
         tag="div"
@@ -46,7 +46,7 @@
             </div>
           </b-col>
         </b-row>
-      </draggable>
+      </VueDraggable>
       <EpButton
         v-if="isEditing"
         variant="outline"
@@ -82,7 +82,8 @@ import EpButton from '../EpButton/EpButton.vue';
 import _ from 'lodash';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
-import draggable from 'vuedraggable';
+import { VueDraggable } from 'vue-draggable-plus';
+import { $t, $kaanna } from '@shared/utils/globals';
 
 const props = defineProps({
   modelValue: {
@@ -105,10 +106,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:modelValue']);
-
-const instance = getCurrentInstance();
-const $t = instance?.appContext.config.globalProperties.$t;
-const $kaanna = instance?.appContext.config.globalProperties.$kaanna;
 
 const innerModel = computed({
   get: () => props.modelValue,

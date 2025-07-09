@@ -37,10 +37,10 @@
           />
         </div>
         <div class="arvot">
-          <draggable
+          <VueDraggable
             class="arvot-group"
             v-bind="options"
-            :list="alue[arvot]"
+            :model-value="alue[arvot]"
           >
             <div
               v-for="(item, idx) in alue[arvot]"
@@ -63,7 +63,7 @@
                 </ep-button>
               </div>
             </div>
-          </draggable>
+          </VueDraggable>
           <ep-button
             icon="add"
             @click="lisaaArvo(alue)"
@@ -118,9 +118,10 @@
 <script setup lang="ts">
 import { computed, getCurrentInstance } from 'vue';
 import _ from 'lodash';
-import draggable from 'vuedraggable';
+import { VueDraggable } from 'vue-draggable-plus';
 
 import { Kielet } from '@shared/stores/kieli';
+import { $t } from '@shared/utils/globals';
 
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpInput from '@shared/components/forms/EpInput.vue';
@@ -212,9 +213,6 @@ const options = computed(() => {
     disabled: false,
   };
 });
-
-const instance = getCurrentInstance();
-const $t = instance?.appContext.config.globalProperties.$t;
 
 const poistaIndeksi = (arr: any[], alueIdx: number) => {
   arr.splice(alueIdx, 1);

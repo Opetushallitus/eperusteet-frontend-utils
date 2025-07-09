@@ -222,7 +222,7 @@ const termiAriaPiiloon = (termiAvain) => {
   @include teksti-sisalto;
 }
 
-::v-deep .termi {
+:deep(.termi) {
   text-decoration: dotted underline;
   border: 0;
   background: none;

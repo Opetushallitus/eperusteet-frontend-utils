@@ -1,13 +1,12 @@
 <template>
-  <draggable
+  <VueDraggable
     v-bind="options"
     :key="draggableKey"
+    v-model="innerValue"
     tag="div"
     class="tree-container"
     :class="draggableClass"
-    :model-value="modelValue"
     :move="move"
-    @update:model-value="emitter"
   >
     <div
       v-for="(node, idx) in modelValue"
@@ -78,12 +77,12 @@
         </ep-jarjesta>
       </div>
     </div>
-  </draggable>
+  </VueDraggable>
 </template>
 
 <script setup lang="ts">
 import { computed, useSlots } from 'vue';
-import draggable from 'vuedraggable';
+import { VueDraggable } from 'vue-draggable-plus';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import _ from 'lodash';
 
@@ -157,9 +156,10 @@ const toggle = (idx) => {
   emitter(updatedValue);
 };
 
-const emitter = (value) => {
-  emit('update:modelValue', value);
-};
+const innerValue = computed({
+  get: () => props.modelValue,
+  set: (value) => emit('update:modelValue', value),
+});
 
 const move = (event) => {
   if (props.allowMove) {

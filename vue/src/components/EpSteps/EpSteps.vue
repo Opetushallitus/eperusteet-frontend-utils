@@ -46,7 +46,6 @@
     <div class="clearfix">
       <div class="float-right mt-5">
         <ep-button
-          v-if="hasCancelEvent"
           variant="link"
           @click="cancel"
         >
@@ -82,7 +81,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, getCurrentInstance } from 'vue';
+import { ref, computed, watch, PropType } from 'vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import _ from 'lodash';
 
@@ -104,7 +103,7 @@ const props = defineProps({
     default: 0,
   },
   onSave: {
-    type: Function as () => () => Promise<void>,
+    type: Function as PropType<() => Promise<void>>,
     required: true,
   },
 });
@@ -133,10 +132,6 @@ const currentValid = computed(() => {
   return true;
 });
 
-const instance = getCurrentInstance();
-const hasCancelEvent = computed(() => {
-  return instance?.attrs?.onCancel !== undefined;
-});
 
 async function saveImpl() {
   const isValid = _.last(props.steps)?.isValid;

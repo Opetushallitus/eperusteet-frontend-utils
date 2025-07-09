@@ -141,10 +141,6 @@
 import { ref, computed, onMounted, useSlots, useTemplateRef, getCurrentInstance } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import VueMultiselect from 'vue-multiselect';
-import EpContent from '@shared/components/EpContent/EpContent.vue';
-import { Debounced } from '@shared/utils/delay';
-import EpInput from '@shared/components/forms/EpInput.vue';
-import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import _ from 'lodash';
 import { hasSlotContent } from '../../utils/vue-utils';
@@ -293,7 +289,6 @@ const filteredOptions = computed(() => {
 const model = computed({
   get: () => props.modelValue,
   set: (value) => {
-    console.log('value', value);
     emit('update:modelValue', value);
   },
 });

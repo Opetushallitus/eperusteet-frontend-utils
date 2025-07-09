@@ -12,6 +12,7 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
+import { $t, $bvModal } from '@shared/utils/globals';
 
 const props = defineProps({
   julkaise: {
@@ -31,9 +32,6 @@ const props = defineProps({
 });
 
 const julkaistaan = ref(false);
-const instance = getCurrentInstance();
-const $t = instance?.appContext.config.globalProperties.$t;
-const $bvModal = (instance?.proxy?.$root as any)?.$bvModal;
 
 const suoritaJulkaisu = async () => {
   // Access the modal through instance's appContext

@@ -1,8 +1,8 @@
 <template>
   <button
+    v-bind="$attrs"
     class="round-button"
     :class="'round-button-' + variant"
-    v-bind="$attrs"
     :disabled="disabled"
     @click="$emit('click')"
   >

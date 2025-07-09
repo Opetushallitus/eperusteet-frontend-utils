@@ -73,10 +73,6 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  value: {
-    type: Number,
-    required: true,
-  },
   perPage: {
     type: Number,
     default: 5,

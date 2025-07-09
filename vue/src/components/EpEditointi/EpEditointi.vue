@@ -10,9 +10,9 @@
     >
       <div
         v-if="!hasFooterSlot"
-        v-sticky
+        v-sticky="isEditing"
         sticky-offset="{ top: 56 }"
-        sticky-z-index="500"
+        sticky-z-index="600"
       >
         <template v-if="hasCustomHeaderSlot">
           <slot
@@ -331,7 +331,6 @@
               icon="menu"
             >
               <ep-versio-modaali
-                :value="current"
                 :versions="historia"
                 :current="current"
                 :per-page="10"
@@ -468,7 +467,6 @@
 import _ from 'lodash';
 import { ref, computed, watch, onMounted, getCurrentInstance } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import Sticky from 'vue-sticky-directive';
 import { EditointiStore } from './EditointiStore';
 import { setItem, getItem } from '../../utils/localstorage';
 import { Revision } from '../../tyypit';
@@ -480,6 +478,8 @@ import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import { useSlots } from 'vue';
+import { $t, $sdt, $ago, $success, $fail, $bvModal } from '@shared/utils/globals';
+import { useVuelidate } from '@vuelidate/core';
 
 const props = defineProps({
   store: {
@@ -619,14 +619,7 @@ const props = defineProps({
 
 const emit = defineEmits(['input']);
 
-const instance = getCurrentInstance();
-const $t = instance?.appContext.config.globalProperties.$t;
-const $sdt = instance?.appContext.config.globalProperties.$sdt;
-const $ago = instance?.appContext.config.globalProperties.$ago;
-const $success = instance?.appContext.config.globalProperties.$success;
-const $fail = instance?.appContext.config.globalProperties.$fail;
-const $v = instance?.appContext.config.globalProperties.$v;
-const $bvModal = (instance?.proxy as any)?.$bvModal;
+const instance = getCurrentInstance() as any;
 
 const router = useRouter();
 const route = useRoute();
@@ -638,7 +631,7 @@ const isInitialized = ref(false);
 const isValidating = ref(false);
 const currentPage = ref(1);
 
-onMounted(async () => {
+watch(() => props.store, async () => {
   if (props.store) {
     await props.store.clear();
     await props.store.init();
@@ -648,7 +641,7 @@ onMounted(async () => {
       sidebarState.value = sidebarStateData.value;
     }
   }
-});
+}, { immediate: true });
 
 watch(() => props.store?.data?.value, (newValue) => {
   if (newValue) {
@@ -684,9 +677,7 @@ const isSaving = computed(() => props.store.isSaving || false);
 
 const isEditable = computed(() => features.editable || false);
 
-const validation = computed(() => $v?.inner || null);
-
-const validator = computed(() => props.store.validator || null);
+const validator = computed(() => ({ inner: props.store.validator || null }));
 
 const isEditing = computed(() =>  props.store.isEditing || false);
 
@@ -697,6 +688,8 @@ const features = computed(() => props.store.features || {});
 const disabled = computed(() => props.store.disabled || false);
 
 const loading = computed(() => props.store.isLoading);
+
+const validation = useVuelidate(validator.value, { inner }, { $stopPropagation: true } );
 
 const historia = computed(() => {
   const revs = revisions.value || [];
@@ -721,9 +714,9 @@ const nimi = computed(() => {
 
 const poistoteksti = computed(() => {
   if (!props.type) {
-    return $t?.(props.labelRemove);
+    return $t(props.labelRemove);
   }
-  return $t?.('poista-' + props.type);
+  return $t('poista-' + props.type);
 });
 
 const katseluDropDownValinnatVisible = computed(() =>
@@ -804,16 +797,9 @@ const toggleSidebarState = (val: number) => {
   });
 };
 
-const onValidationImpl = async (validation: any) => {
-  $v?.$touch();
-  setTimeout(() => {
-    isValidating.value = false;
-  });
-};
-
 const vahvista = async (title: string, okTitle: string, label?: string) => {
   let modalContent = [
-    instance?.proxy?.$createElement('strong', $t?.(props.labelRemoveConfirm) as string),
+    instance?.proxy?.$createElement('strong', $t(props.labelRemoveConfirm) as string),
   ];
   if (label) {
     modalContent = [
@@ -829,7 +815,7 @@ const vahvista = async (title: string, okTitle: string, label?: string) => {
     okVariant: 'primary',
     okTitle: okTitle as any,
     cancelVariant: 'link',
-    cancelTitle: $t?.('peruuta') as any,
+    cancelTitle: $t('peruuta') as any,
     centered: true,
     ...{} as any,
   });
@@ -837,10 +823,10 @@ const vahvista = async (title: string, okTitle: string, label?: string) => {
 
 const remove = async () => {
   try {
-    if (!props.confirmRemove || await vahvista($t?.('varmista-poisto') as string, $t?.('poista') as string, props.labelRemoveClarification ? $t?.(props.labelRemoveClarification) as string : undefined)) {
-      const poistoTeksti = $t?.(props.labelRemoveSuccess);
+    if (!props.confirmRemove || await vahvista($t('varmista-poisto') as string, $t('poista') as string, props.labelRemoveClarification ? $t(props.labelRemoveClarification) as string : undefined)) {
+      const poistoTeksti = $t(props.labelRemoveSuccess);
       await props.store.remove();
-      $success?.(poistoTeksti as string);
+      $success(poistoTeksti as string);
 
       if (props.postRemove) {
         await props.postRemove();
@@ -848,34 +834,34 @@ const remove = async () => {
     }
   }
   catch (err) {
-    $fail?.($t?.(props.labelRemoveFail) as string);
+    $fail($t(props.labelRemoveFail) as string);
   }
 };
 
 const copy = async () => {
   try {
     if (!props.confirmCopy || await vahvista(
-        $t?.(props.labelCopyTopic) as string,
-        $t?.(props.labelCopyConfirmButton) as string,
-        $t?.(props.labelCopyConfirm) as string)) {
+        $t(props.labelCopyTopic) as string,
+        $t(props.labelCopyConfirmButton) as string,
+        $t(props.labelCopyConfirm) as string)) {
       await props.store.copy();
       if (props.confirmCopy) {
-        $success?.($t?.(props.labelCopySuccess) as string);
+        $success($t(props.labelCopySuccess) as string);
       }
     }
   }
   catch (err) {
-    $fail?.($t?.(props.labelCopyFail) as string);
+    $fail($t(props.labelCopyFail) as string);
   }
 };
 
 const restore = async (ev: any) => {
   try {
     await props.store.restore(ev);
-    $success?.($t?.(props.labelRestoreSuccess) as string);
+    $success($t(props.labelRestoreSuccess) as string);
   }
   catch (err) {
-    $fail?.($t?.(props.labelRestoreFail) as string);
+    $fail($t(props.labelRestoreFail) as string);
   }
 };
 
@@ -886,11 +872,11 @@ const save = async () => {
       if (props.postSave) {
         await props.postSave();
       }
-      $success?.($t?.(props.labelSaveSuccess) as string);
+      $success($t(props.labelSaveSuccess) as string);
     }
   }
   catch (err) {
-    $fail?.($t?.(props.labelSaveFail) as string);
+    $fail($t(props.labelSaveFail) as string);
     console.log(err);
   }
 };
@@ -904,20 +890,20 @@ const cancel = async () => {
 const hide = async () => {
   try {
     await props.store.hide();
-    $success?.($t?.(props.labelHideSuccess) as string);
+    $success($t(props.labelHideSuccess) as string);
   }
   catch (err) {
-    $fail?.($t?.(props.labelHideFail) as string);
+    $fail($t(props.labelHideFail) as string);
   }
 };
 
 const unHide = async () => {
   try {
     await props.store.unHide();
-    $success?.($t?.(props.labelUnHideSuccess) as string);
+    $success($t(props.labelUnHideSuccess) as string);
   }
   catch (err) {
-    $fail?.($t?.(props.labelUnHideFail) as string);
+    $fail($t(props.labelUnHideFail) as string);
   }
 };
 
@@ -986,7 +972,7 @@ const modify = async () => {
       padding-right: 50px;
     }
 
-    ::v-deep .pagination .page-item {
+    :deep(.pagination .page-item) {
       &.active {
         .page-link {
           font-weight: 600;

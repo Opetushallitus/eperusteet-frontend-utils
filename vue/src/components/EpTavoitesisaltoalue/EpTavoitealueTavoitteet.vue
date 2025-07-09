@@ -1,6 +1,6 @@
 <template>
   <div>
-    <draggable
+    <VueDraggable
       v-bind="tavoitteetOptions"
       v-model="tavoitteet"
       tag="div"
@@ -65,7 +65,7 @@
           </div>
         </b-col>
       </b-row>
-    </draggable>
+    </VueDraggable>
 
     <div class="d-flex justify-content-between">
       <ep-button
@@ -89,13 +89,15 @@ import { useVuelidate } from '@vuelidate/core';
 import _ from 'lodash';
 import { KoodistoSelectStore } from '../EpKoodistoSelect/KoodistoSelectStore';
 import { Koodisto } from '@shared/api/eperusteet';
-import draggable from 'vuedraggable';
+import { VueDraggable } from 'vue-draggable-plus';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import { koodistoKoodiValidator } from '@shared/validators/required';
 import { generateTemporaryKoodiUri } from '@shared/utils/koodi';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import { hasSlotContent } from '@shared/utils/vue-utils';
+import { helpers } from '@vuelidate/validators';
 
 const props = defineProps({
   modelValue: {
@@ -106,7 +108,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue']);
 
-const $slots = useSlots();
+const slots = useSlots();
 
 const tavoitteet = computed({
   get: () => props.modelValue,
@@ -115,9 +117,9 @@ const tavoitteet = computed({
 
 const rules = computed(() => ({
   tavoitteet: {
-    $each: {
+    $each: helpers.forEach({
       ...koodistoKoodiValidator(),
-    },
+    }),
   },
 }));
 
@@ -140,7 +142,11 @@ const lisaaTavoite = () => {
   tavoitteet.value = [
     ...tavoitteet.value,
     {
-      ...(!$slots['default'] && { uri: generateTemporaryKoodiUri('tavoitteetlukutaidot') }),
+      ...(!hasSlotContent(slots.default)
+        && {
+          nimi: null,
+          uri: generateTemporaryKoodiUri('tavoitteetlukutaidot')
+        }),
     },
   ];
 };
