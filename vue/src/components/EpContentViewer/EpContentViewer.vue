@@ -83,9 +83,13 @@ export default class EpContentViewer extends Vue {
 
         const kuva = _.find(this.kuvat, { id: datauid }) as LiiteDtoWrapper;
 
-        const id = _.get(this.$route, 'params.toteutussuunnitelmaId');
-        if (!kuva && id) {
-          img.setAttribute('src', `eperusteet-amosaa-service/api/opetussuunnitelmat/${id}/kuvat/${datauid}`);
+        const toteutussuunnitelmaId = _.get(this.$route, 'params.toteutussuunnitelmaId');
+        const opetussuunnitelmaId = _.get(this.$route, 'params.opetussuunnitelmaId');
+        if (!kuva && toteutussuunnitelmaId) {
+          img.setAttribute('src', `eperusteet-amosaa-service/api/opetussuunnitelmat/${toteutussuunnitelmaId}/kuvat/${datauid}`);
+        }
+        else if (!kuva && opetussuunnitelmaId) {
+          img.setAttribute('src', `eperusteet-ylops-service/api/opetussuunnitelmat/${opetussuunnitelmaId}/kuvat/${datauid}`);
         }
         else if (kuva) {
           img.setAttribute('src', kuva.src);
