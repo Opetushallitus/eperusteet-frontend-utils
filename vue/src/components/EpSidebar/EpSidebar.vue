@@ -9,14 +9,14 @@
   <Portal v-else to="globalNavigation">
     <slot name="bar" />
   </Portal>
-  <div class="view" :id="scrollAnchor">
+  <div class="view" ref="scrollAnchor" :id="scrollAnchor">
     <slot name="view" />
   </div>
 </div>
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 import EpToggle from '../forms/EpToggle.vue';
 import Sticky from 'vue-sticky-directive';
 import { BrowserStore } from '../../stores/BrowserStore';
@@ -40,13 +40,41 @@ export default class EpSidebar extends Vue {
     return this.browserStore.navigationVisible.value;
   }
 
-  private settings = {
-    autoScroll: true,
-    showSubchapter: true,
-  };
-
   get scrollAnchor() {
-    return this.scrollEnabled && !_.includes(['peruste', 'perusteTiedot'], this.$route?.name) ? 'scroll-anchor' : 'disabled-scroll-anchor';
+    return this.scrollEnabled ? 'scroll-anchor' : 'disabled-scroll-anchor';
+  }
+
+  get route() {
+    return this.$route;
+  }
+
+  @Watch('$route')
+  onRouteChange() {
+    if (this.scrollEnabled) {
+      this.updateScrollMargin();
+      this.scrollToView();
+    }
+  }
+
+  private scrollToView() {
+    const element = this.$refs.scrollAnchor as HTMLElement;
+    element.scrollIntoView();
+  }
+
+  private updateScrollMargin() {
+    const element = this.$refs.scrollAnchor as HTMLElement;
+    if (!element) return;
+
+    element.style.scrollMarginTop = `${this.offsetHeight}px`;
+  }
+
+  get offsetHeight() {
+    return this.getElementHeighById('navigation-bar') + this.getElementHeighById('notification-bar');
+  }
+
+  private getElementHeighById(id: string) {
+    const element = document.getElementById(id);
+    return element ? element.getBoundingClientRect().height : 0;
   }
 }
 </script>
