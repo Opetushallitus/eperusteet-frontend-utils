@@ -4489,5 +4489,7 @@
     "rakenteen-validointi-virhe-laskettu-koko-on-pienempi-kuin-ryhman-vaadittu-maksimi": "Virheellinen rakenne, laskettu koko on pienempi kuin ryhmän vaadittu maksimi",
     "rakenteen-validointi-virhe-ryhman-osaamisalaa-ei-perusteella": "Virheellinen rakenne, ryhmän osaamisalaa ei perusteella",
     "virheelliset-organisaatiot": "Virheelliset organisaatiot",
-    "nayta-kaikki-kommentit": "Näytä kaikki kommentit"
+    "nayta-kaikki-kommentit": "Näytä kaikki kommentit",
+    "vahvista-vuosiluokan-tietojen-valutus-teksti": "Haluatko viedä vuosiluokan tiedot myös koulujen opetussuunnitelmiin?",
+    "vahvista-vuosiluokan-tietojen-valutus-otsikko": "Vuosiluokan tietojen vienti"
 }
