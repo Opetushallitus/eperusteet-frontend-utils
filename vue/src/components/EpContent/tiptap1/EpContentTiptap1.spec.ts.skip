@@ -1,7 +1,7 @@
 import { mount, shallowMount } from '@vue/test-utils';
 import { createI18n } from 'vue-i18n';
-import EpEditorMenuBar from './EpEditorMenuBar.vue';
-import EpContent from './EpContent.vue';
+import EpEditorMenuBarTiptap1 from './EpEditorMenuBarTiptap1.vue';
+import EpContentTiptap1 from './EpContentTiptap1.vue';
 import { Kielet } from '../../stores/kieli';
 import { Editor } from 'tiptap';
 import { vi } from 'vitest';
@@ -62,7 +62,7 @@ function createWrapper(config: any = {}) {
     },
   });
 
-  const wrapper = mount(EpEditorMenuBar, {
+  const wrapper = mount(EpEditorMenuBarTiptap1, {
     global: {
       plugins: [i18n],
       provide: {
@@ -111,7 +111,7 @@ describe.skip('EpContent component', () => {
   };
 
   // Using shallowMount instead of mount to prevent DOM manipulation issues
-  const wrapper = shallowMount(EpContent, {
+  const wrapper = shallowMount(EpContentTiptap1, {
     global: {
       plugins: [i18n],
       provide: {
@@ -122,18 +122,18 @@ describe.skip('EpContent component', () => {
     // Removed attachTo: document.body
   });
 
-  test('Initializes', () => {
+  test.skip('Initializes', () => {
     expect(wrapper.html()).toBeTruthy();
     expect((wrapper.vm as any).editor).toBeTruthy();
   });
 
-  test('Value updates', async () => {
+  test.skip('Value updates', async () => {
     expect((wrapper.vm as any).localizedValue).toEqual('foo');
     await wrapper.setProps({ modelValue: 'bar' });
     expect((wrapper.vm as any).localizedValue).toEqual('bar');
   });
 
-  test('Renders', async () => {
+  test.skip('Renders', async () => {
     await wrapper.setProps({
       modelValue: {
         fi: 'teksti1234',
@@ -143,7 +143,7 @@ describe.skip('EpContent component', () => {
     expect(wrapper.html()).toContain('teksti1234');
   });
 
-  test('Language changing works', async () => {
+  test.skip('Language changing works', async () => {
     expect((wrapper.vm as any).lang).toEqual('fi');
     await wrapper.setProps({ locale: 'sv' });
     expect((wrapper.vm as any).locale).toEqual('sv');
@@ -152,7 +152,7 @@ describe.skip('EpContent component', () => {
     expect(wrapper.html()).toContain('sv');
   });
 
-  test('Renders with language placeholder', async () => {
+  test.skip('Renders with language placeholder', async () => {
     await wrapper.setProps({
       modelValue: {
         fi: 'teksti1234',
@@ -201,7 +201,7 @@ describe.skip('EpContentMenu component', () => {
     expect(wrapper.html()).toBeFalsy();
   });
 
-  it('Check that menu is rendered when edit is enabled', async () => {
+  test.skip('Check that menu is rendered when edit is enabled', async () => {
     const wrapper = createWrapper({
       isEditable: true,
     });
@@ -215,7 +215,7 @@ describe.skip('EpContentMenu component', () => {
     expect(wrapper.find('button[title="Lisää kuva"]').exists()).toBe(false);
   });
 
-  it('Check minimal editor mode', async () => {
+  test.skip('Check minimal editor mode', async () => {
     const wrapper = createWrapper({
       isEditable: true,
       layout: 'minimal',
@@ -228,7 +228,7 @@ describe.skip('EpContentMenu component', () => {
     expect(wrapper.find('button[title="Lisää taulukko"]').exists()).toBe(false);
   });
 
-  it('Check normal editor mode', async () => {
+  test.skip('Check normal editor mode', async () => {
     const wrapper = createWrapper({
       isEditable: true,
       layout: 'normal',

@@ -33,6 +33,8 @@ import { PerusteDto } from '@shared/api/eperusteet';
 import { koulutustyyppiTheme } from '@shared/utils/perusteet';
 import { buildPerusteEsikatseluUrl, buildEsikatseluUrl, buildToteutussuunnitelmaEsikatseluUrl } from '@shared/utils/esikatselu';
 import { useRoute } from 'vue-router';
+import EpToggle from '@shared/components/forms/EpToggle.vue';
+import EpExternalLink from '@shared/components/EpExternalLink/EpExternalLink.vue';
 
 interface Esikatseltavissa {
   id: number;
@@ -124,6 +126,8 @@ const externalUrl = computed(() => {
   if (props.toteutussuunnitelma) {
     return buildToteutussuunnitelmaEsikatseluUrl(model.value, amosaaToteutustyyppi.value);
   }
+
+  return '';
 });
 </script>
 

@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-form-checkbox
-      :value="innerValue"
+      :checked="innerValue"
       :disabled="!isEditing"
       :inline="inline"
       :switch="asSwitch"

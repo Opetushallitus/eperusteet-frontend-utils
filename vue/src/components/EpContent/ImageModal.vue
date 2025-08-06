@@ -1,6 +1,7 @@
 <template>
   <div class="imageselector">
     <ep-spinner v-if="isLoading" />
+
     <div v-else>
       <div>
         <div
@@ -12,7 +13,8 @@
           </div>
           <ep-form-content name="valitse-kuva">
             <vue-select
-              v-model="selected"
+              :value="selectedValue"
+              @input="selectedValue = $event"
               :disabled="options.length === 0"
               :filter-by="filterBy"
               :placeholder="options.length > 0 ? $t('valitse') : $t('ei-lisattyja-kuvia')"
@@ -41,7 +43,6 @@
           <ep-kuva-lataus
             v-model="imageData"
             :saved="imageSaved"
-            @saveImage="saveImage"
             @cancel="peruuta"
           />
         </div>
@@ -77,21 +78,20 @@
     </div>
 
     <div class="d-flex justify-content-end mt-3">
-      <b-button
+      <ep-button
         class="mr-3"
         variant="link"
         @click="close(false)"
       >
         {{ $t('peruuta') }}
-      </b-button>
-      <b-button
+      </ep-button>
+      <ep-button
         variant="primary"
-        squared
         :disabled="invalid"
         @click="close(true)"
       >
         {{ $t('lisaa-kuva') }}
-      </b-button>
+      </ep-button>
     </div>
   </div>
 </template>
@@ -99,10 +99,8 @@
 <script setup lang="ts">
 import _ from 'lodash';
 import { ref, computed, onMounted, getCurrentInstance } from 'vue';
-import VueSelect from 'vue-select';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import EpField from '@shared/components/forms/EpField.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
@@ -110,6 +108,8 @@ import { Kielet } from '@shared/stores/kieli';
 import EpKuvaLataus, { ImageData } from '@shared/components/EpTiedosto/EpKuvaLataus.vue';
 import { IKuvaHandler, ILiite } from './KuvaHandler';
 import { $t, $success, $fail } from '@shared/utils/globals';
+import VueSelect from 'vue-select';
+import EpButton from '@shared/components/EpButton/EpButton.vue';
 
 const props = defineProps({
   loader: {
@@ -140,11 +140,6 @@ const files = ref<ILiite[]>([]);
 const kuvateksti = ref<any>({});
 const vaihtoehtoinenteksti = ref<any>({});
 
-// Computed properties
-const id = computed(() => {
-  return instance?.uid;
-});
-
 const options = computed(() => {
   return files.value;
 });
@@ -159,11 +154,11 @@ const selectedValue = computed({
   },
   set: (liite: any) => {
     if (liite) {
-      emit('update:modelValue', { value: liite.id });
+      emit('update:modelValue', liite.id);
       v$.value.$touch();
     }
     else {
-      emit('update:modelValue', { value: null });
+      emit('update:modelValue', null);
     }
   },
 });
@@ -225,6 +220,7 @@ async function saveImage() {
       $success($t('kuva-tallennettu-onnistuneesti'));
     }
     catch (err) {
+      console.error(err);
       $fail($t('kuva-lisays-epaonnistui'));
     }
   }
@@ -258,11 +254,12 @@ onMounted(async () => {
     isLoading.value = true;
     files.value = await props.loader.hae();
   }
-  catch (er) {
-    throw er;
-  }
   finally {
     isLoading.value = false;
+  }
+
+  if (props.modelValue.value) {
+    selectedValue.value = files.value.find(f => f.id === props.modelValue.value);
   }
 
   emit('onKuvatekstichange', kuvateksti.value[Kielet.getSisaltoKieli.value]);

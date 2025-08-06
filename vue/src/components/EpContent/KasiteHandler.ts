@@ -9,10 +9,9 @@ export interface ITermi {
 }
 
 export interface ITermiStore {
-  getTermi: (avain: string) => Promise<any>;
-  getAllTermit: () => Promise<any>;
-  updateTermi: (termiId: number, termi: ITermi) => Promise<any>;
-  addTermi: (termi: ITermi) => Promise<any>;
+  getTermi: (avain: string) => any;
+  getAllTermit: () => ITermi[];
+  updateOrAddTermi: (termi: ITermi) => Promise<any>;
   alaviiteSupported?: () => boolean;
 }
 
@@ -20,36 +19,29 @@ export interface IKasiteHandler {
   /**
    * Hae yksi termi termin avainarvolla (UUID)
    */
-  getOne: (avain: string) => Promise<ITermi>,
+  getOne: (avain: string) => ITermi,
 
   /**
    * Hae kaikki termit
    */
-  getAll: () => Promise<ITermi[]>,
+  getAll: () => ITermi[],
 
   /**
    * Lisää uusi termi tai päivitä termiä. Vanhaa päivitetään jos `avain` ja `id` löytyy.
    */
   addOrUpdate: (termi: ITermi) => Promise<ITermi>,
-};
+}
 
 export function createKasiteHandler(store: ITermiStore): IKasiteHandler {
   return {
-    async getOne(avain: string) {
-      const res = await store.getTermi(avain);
-      return res.data;
+    getOne(avain: string) {
+      return store.getTermi(avain);
     },
-    async getAll() {
-      const res = await store.getAllTermit();
-      return res.data;
+    getAll() {
+      return store.getAllTermit();
     },
     async addOrUpdate(termi: ITermi) {
-      if (termi.avain && termi.id) {
-        return (await store.updateTermi(termi.id, termi)).data;
-      }
-      else {
-        return (await store.addTermi(termi)).data;
-      }
+      return (await store.updateOrAddTermi(termi));
     },
   };
-};
+}
