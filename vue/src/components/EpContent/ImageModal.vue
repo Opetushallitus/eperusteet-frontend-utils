@@ -1,6 +1,7 @@
 <template>
   <div class="imageselector">
     <ep-spinner v-if="isLoading" />
+
     <div v-else>
       <div>
         <div
@@ -140,11 +141,6 @@ const files = ref<ILiite[]>([]);
 const kuvateksti = ref<any>({});
 const vaihtoehtoinenteksti = ref<any>({});
 
-// Computed properties
-const id = computed(() => {
-  return instance?.uid;
-});
-
 const options = computed(() => {
   return files.value;
 });
@@ -225,6 +221,7 @@ async function saveImage() {
       $success($t('kuva-tallennettu-onnistuneesti'));
     }
     catch (err) {
+      console.error(err);
       $fail($t('kuva-lisays-epaonnistui'));
     }
   }
@@ -246,6 +243,9 @@ function peruuta() {
 
 // Lifecycle hooks
 onMounted(async () => {
+
+  console.log('props.handler', props.loader);
+
   kuvateksti.value = {
     [Kielet.getSisaltoKieli.value]: props.kuvatekstiProp || props.vaihtoehtotekstiProp,
   };

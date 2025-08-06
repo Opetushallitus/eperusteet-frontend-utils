@@ -150,14 +150,14 @@
           </template>
           <ep-content
             v-if="kuvaHandler"
-            :value="taitotaso.tavoitteet"
+            :model-value="taitotaso.tavoitteet"
             :kasite-handler="kasiteHandler"
             :kuva-handler="kuvaHandler"
             layout="normal"
           />
           <ep-content-viewer
             v-else
-            :value="$kaanna(taitotaso.tavoitteet)"
+            :model-value="$kaanna(taitotaso.tavoitteet)"
             :termit="termit"
             :kuvat="kuvat"
           />
@@ -186,14 +186,14 @@
             <h6>{{ $t('opiskelija') }}</h6>
             <ep-content
               v-if="kuvaHandler"
-              :value="taitotaso[keskeinenSisalto['object']]"
+              :model-value="taitotaso[keskeinenSisalto['object']]"
               :kasite-handler="kasiteHandler"
               :kuva-handler="kuvaHandler"
               layout="normal"
             />
             <ep-content-viewer
               v-else
-              :value="$kaanna(taitotaso[keskeinenSisalto['object']])"
+              :model-value="$kaanna(taitotaso[keskeinenSisalto['object']])"
               :termit="termit"
               :kuvat="kuvat"
             />

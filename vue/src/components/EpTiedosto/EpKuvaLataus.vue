@@ -96,12 +96,12 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue';
 import EpButton from '../EpButton/EpButton.vue';
-import { fail } from '@shared/utils/notifications';
 import _ from 'lodash';
 import EpField from '@shared/components/forms/EpField.vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import EpToggle from '@shared/components/forms/EpToggle.vue';
 import EpTiedostoInput from '@shared/components/EpTiedosto/EpTiedostoInput.vue';
+import { $fail, $t } from '@shared/utils/globals';
 
 export interface ImageData {
   file: File;
@@ -165,17 +165,17 @@ const fileSize = computed(() => {
   if (file.value) {
     size = file.value.size / 1024;
   }
-  return size > 1024 ? (size / 1024).toFixed(2) + '$t("megatavu-lyhenne")' : size.toFixed(1) + '$t("kilotavu-lyhenne")';
+  return size > 1024 ? (size / 1024).toFixed(2) + $t('megatavu-lyhenne') : size.toFixed(1) + $t('kilotavu-lyhenne');
 });
 
 // Luodaan esikatselukuva kuvan valitsemisen jälkeen
 async function onInput(file: File) {
   if (file != null && file.size > fileMaxSize.value) {
-    fail('pdf-tiedosto-kuva-liian-suuri');
+    $fail('pdf-tiedosto-kuva-liian-suuri');
   }
 
   if (file != null && !_.includes(fileTypes.value, file.type)) {
-    fail('pdf-tiedosto-kuva-vaara-tyyppi');
+    $fail('pdf-tiedosto-kuva-vaara-tyyppi');
   }
 
   if (file != null) {
