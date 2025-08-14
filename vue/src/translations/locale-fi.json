@@ -4490,5 +4490,7 @@
     "rakenteen-validointi-virhe-ryhman-osaamisalaa-ei-perusteella": "Virheellinen rakenne, ryhmän osaamisalaa ei perusteella",
     "virheelliset-organisaatiot": "Virheelliset organisaatiot",
     "nayta-kaikki-kommentit": "Näytä kaikki kommentit",
-    "tekstin-sisalto-virheellinen-html": "Teksti saa sisältää vain ennaltamääriteltyjä html-elementtejä"
+    "tekstin-sisalto-virheellinen-html": "Teksti saa sisältää vain ennaltamääriteltyjä html-elementtejä",
+    "vahvista-vuosiluokan-tietojen-valutus-teksti": "Haluatko viedä vuosiluokan tiedot myös koulujen opetussuunnitelmiin?",
+    "vahvista-vuosiluokan-tietojen-valutus-otsikko": "Vuosiluokan tietojen vienti"
 }
