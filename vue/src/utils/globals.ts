@@ -1,3 +1,4 @@
+import { LokalisoituTeksti } from '@shared/stores/kieli';
 import { BvModal } from 'bootstrap-vue';
 import { inject } from 'vue';
 import { nextTick } from 'vue';
@@ -81,9 +82,9 @@ export const $kaannaOlioTaiTeksti = (...args: any[]) => {
   return kaannaOlioTaiTeksti ? kaannaOlioTaiTeksti(...args) : args[0];
 };
 
-export const $kaannaPlaceholder = (...args: any[]) => {
+export const $kaannaPlaceholder = (value?: LokalisoituTeksti | undefined | null, squareBrackets = false) => {
   const kaannaPlaceholder = useGlobalProperties().$kaannaPlaceholder;
-  return kaannaPlaceholder ? kaannaPlaceholder(...args) : args[0];
+  return kaannaPlaceholder ? kaannaPlaceholder(value, squareBrackets) : value;
 };
 
 export const $t = (key: string, values?: Record<string, any>, options?: any) => {

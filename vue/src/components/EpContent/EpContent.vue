@@ -1,6 +1,7 @@
 <template>
   <div class="ep-content">
     <ep-editor-menu-bar
+      v-if="editor"
       :is-editable="isEditable"
       :editor="editor || {}"
       :layout="layout"
@@ -8,7 +9,7 @@
 
     <editor-content
       :editor="editor"
-      :class="{ 'is-editable': isEditable }"
+      :class="{ 'is-editable': isEditable, 'placeholder': placeholder }"
     />
   </div>
 </template>
@@ -28,8 +29,13 @@ import { TableKit } from '@tiptap/extension-table';
 import { watch } from 'vue';
 import { createImageExtension3 } from './ImageExtension';
 import { createTermiExtension3 } from './TermiExtension';
+import { createCustomLinkExtension } from './CustomLinkExtension';
 import { EditorLayout } from '@shared/tyypit';
 import { IKasiteHandler } from './KasiteHandler';
+import { ILinkkiHandler } from './LinkkiHandler';
+import { IKuvaHandler } from './KuvaHandler';
+import { nextTick } from 'vue';
+import { onMounted } from 'vue';
 
 const props = defineProps({
   modelValue: {
@@ -51,10 +57,17 @@ const props = defineProps({
   },
 });
 
+const striptag = document.createElement('span');
 const focused = ref(false);
 const emit = defineEmits(['update:modelValue']);
-const injectedKuvaHandler = inject<any>('kuvaHandler');
+const injectedKuvaHandler = inject<IKuvaHandler>('kuvaHandler');
 const injectedKasiteHandler = inject<IKasiteHandler>('kasiteHandler');
+const injectedNavigation = inject<any>('navigation');
+const injectedLinkkiHandler = inject<ILinkkiHandler>('linkkiHandler');
+
+const lang = computed(() => {
+  return Kielet.getSisaltoKieli.value;
+});
 
 const localizedValue = computed(() => {
   if (!props.modelValue) {
@@ -64,7 +77,7 @@ const localizedValue = computed(() => {
     return props.modelValue || '';
   }
   else if (_.isObject(props.modelValue)) {
-    return placeholder.value || (props.modelValue)[Kielet.getSisaltoKieli.value] || '';
+    return placeholder.value || (props.modelValue)[lang.value] || '';
   }
   else {
     return props.modelValue;
@@ -79,22 +92,61 @@ const placeholder = computed(() => {
   if (!focused.value) {
     return $kaannaPlaceholder(props.modelValue, !props.isEditable);
   }
-  return undefined;
 });
 
-watch(model, async (val) => {
-  if (!props.isEditable && editor.value) {
+// watch(model, async (val) => {
+//   if (!props.isEditable && editor.value) {
+//     editor.value.commands.setContent(localizedValue.value);
+//   }
+// }, { deep: true });
+
+watch(localizedValue, async (val) => {
+  if (editor.value && !focused.value) {
+    await nextTick();
+    await nextTick();
+    // FIXME: RangeError: Applying a mismatched transaction
     editor.value.commands.setContent(localizedValue.value);
   }
-}, { deep: true });
+});
+
+watch(lang, async () => {
+  if (editor.value) {
+    await nextTick();
+    editor.value.commands.setContent(localizedValue.value);
+  }
+});
+
+function setUpEditorEvents() {
+  if (editor.value) {
+    const data = editor.value.getHTML();
+    striptag.innerHTML = data;
+    const isValid = !_.isEmpty(striptag.innerText || striptag.textContent) || striptag.getElementsByTagName('img').length > 0;
+    const stripped = isValid ? data : null;
+
+    if (!placeholder.value) {
+      if (props.isPlainString) {
+        emit('update:modelValue', stripped);
+      }
+      else {
+        emit('update:modelValue', {
+            ...props.modelValue,
+            [Kielet.getSisaltoKieli.value as unknown as string]: stripped,
+        });
+      }
+    }
+  }
+}
 
 const editor = useEditor({
   content: localizedValue.value,
   extensions: [
-    StarterKit,
+    StarterKit.configure({
+      link: false,
+    }),
     TableKit,
-    ...(injectedKuvaHandler ? [createImageExtension3(injectedKuvaHandler)] : []),
-    ...(injectedKasiteHandler ? [createTermiExtension3(injectedKasiteHandler)] : []),
+    createCustomLinkExtension(injectedNavigation, injectedLinkkiHandler!),
+    createImageExtension3(injectedKuvaHandler!),
+    createTermiExtension3(injectedKasiteHandler!),
   ],
   editable: props.isEditable,
   editorProps: {
@@ -103,10 +155,22 @@ const editor = useEditor({
     },
   },
   onUpdate: ({ editor }) => {
-    emit('update:modelValue', {
-      ...props.modelValue,
-      [Kielet.getSisaltoKieli.value]: editor.getHTML(),
-    });
+    // emit('update:modelValue', {
+    //   ...props.modelValue,
+    //   [Kielet.getSisaltoKieli.value]: editor.getHTML(),
+    // });
+    setUpEditorEvents();
+  },
+  onFocus: () => {
+    if (props.isEditable) {
+        focused.value = true;
+        if (!localizedValue.value) {
+            editor.value?.commands.setContent(localizedValue.value);
+        }
+    }
+  },
+  onBlur: () => {
+    focused.value = false;
   },
 });
 
@@ -123,6 +187,10 @@ watch(isEditable, async (val) => {
   }
 });
 
+onMounted(async() => {
+    await nextTick();
+})
+
 onBeforeUnmount(() => {
   editor.value?.destroy();
 });
@@ -133,6 +201,10 @@ onBeforeUnmount(() => {
 .ep-content {
   padding: 0;
   word-break: break-word;
+
+  .placeholder {
+    opacity: 0.5;
+  }
 
   .is-editable {
     border: 1px solid $black;

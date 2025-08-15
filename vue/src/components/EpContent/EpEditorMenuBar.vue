@@ -66,6 +66,19 @@
         <EpMaterialIcon>strikethrough_s</EpMaterialIcon>
       </button>
 
+      <!-- Link button -->
+      <button
+        v-if="layoutCommands.includes('link')"
+        type="button"
+        class="menu-button"
+        :class="{ 'is-active': editor.isActive('link') }"
+        :disabled="!canToggleLink"
+        title="Linkki"
+        @click="toggleLink"
+      >
+        <EpMaterialIcon>add_link</EpMaterialIcon>
+      </button>
+
       <!-- Term button -->
       <button
         v-if="layoutCommands.includes('term')"
@@ -256,6 +269,12 @@ const canInsertImage = computed(() => {
   return props.editor && props.editor.commands && props.editor.commands.insertImage;
 });
 
+// Check if link extension is available and can be toggled
+const canToggleLink = computed(() => {
+  return props.editor && props.editor.commands && props.editor.commands.openLinkModal
+         && props.editor.state.selection.from !== props.editor.state.selection.to;
+});
+
 // Check if term extension is available and can be toggled
 const canToggleTerm = computed(() => {
   return props.editor && props.editor.commands && props.editor.commands.openTermModal
@@ -271,6 +290,13 @@ const canInsertTable = computed(() => {
 const isInTable = computed(() => {
   return props.editor && props.editor.isActive && props.editor.isActive('table');
 });
+
+// Link manipulation methods
+const toggleLink = () => {
+  if (props.editor && canToggleLink.value) {
+    props.editor.commands.openLinkModal();
+  }
+};
 
 // Term manipulation methods
 const toggleTerm = () => {
@@ -384,7 +410,7 @@ const layoutCommands = computed(() => {
   }
 
   if (props.layout === 'simplified_w_links' || props.layout === 'normal') {
-    commands.push('term');
+    commands.push('link', 'term');
   }
 
   if (props.layout === 'normal') {

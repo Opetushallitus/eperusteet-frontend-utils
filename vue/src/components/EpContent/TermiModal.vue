@@ -73,7 +73,7 @@
               </div>
             </template>
           </vue-select>
-          <!-- <div class="mt-3">
+          <div class="mt-3">
             <ep-button
               v-if="valittu"
               id="muokkaa-termia"
@@ -91,7 +91,7 @@
             >
               {{ $t('lisaa-uusi-kasite') }}
             </ep-button>
-          </div> -->
+          </div>
         </div>
       </div>
     </div>
