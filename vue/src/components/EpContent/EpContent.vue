@@ -28,6 +28,7 @@ import { TableKit } from '@tiptap/extension-table';
 import { watch } from 'vue';
 import { createImageExtension3 } from './ImageExtension';
 import { createTermiExtension3 } from './TermiExtension';
+import { createCustomLinkExtension } from './CustomLinkExtension';
 import { EditorLayout } from '@shared/tyypit';
 import { IKasiteHandler } from './KasiteHandler';
 
@@ -55,6 +56,7 @@ const focused = ref(false);
 const emit = defineEmits(['update:modelValue']);
 const injectedKuvaHandler = inject<any>('kuvaHandler');
 const injectedKasiteHandler = inject<IKasiteHandler>('kasiteHandler');
+const injectedNavigation = inject<any>('navigation');
 
 const localizedValue = computed(() => {
   if (!props.modelValue) {
@@ -91,8 +93,12 @@ watch(model, async (val) => {
 const editor = useEditor({
   content: localizedValue.value,
   extensions: [
-    StarterKit,
+    StarterKit.configure({
+      // Disable the built-in link extension to avoid conflicts with our custom one
+      link: false,
+    }),
     TableKit,
+    createCustomLinkExtension(injectedNavigation),
     ...(injectedKuvaHandler ? [createImageExtension3(injectedKuvaHandler)] : []),
     ...(injectedKasiteHandler ? [createTermiExtension3(injectedKasiteHandler)] : []),
   ],
