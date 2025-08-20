@@ -1,14 +1,40 @@
-Migrate given file from vue2 to vue3 as senior professional coder would.
-
-Use all these guidelines below!
-
+---
+description: Vue 2 to 3 migration rules
+globs:
+alwaysApply: false
+---
 Vue component might use vue-property-decorator or vue-facing-decorator, convert component away from these correctly.
 
 Use composition API and <script setup>
 
 Always file content order is <template>, <script>, <style>
 
-Always follow all these rules, separated by '-------------------------------------------------' below to the end of the file:
+Always follow all these rules:
+
+-------------------------------------------------
+
+Migrate old vue named slots to new vue 2.6 (or 3.0) syntax:
+
+If html-part contains slot="<slot name>" then
+  if slot name is in template-element then 
+    replace slot property with #<slot name>
+  if slot name is not a template-element then 
+    surround that element with new <template> element. That new <template> has #<slot name> with same name as the original element had. 
+    Remove slot property from original element but do not delete that element
+
+example
+
+  <div slot="testi" class="palikka>
+    tekstiä
+  </div>
+
+  becomes
+
+  <template #testi>
+    <div class="palikka>
+      tekstiä
+    </div>
+  </template
 
 -------------------------------------------------
 
@@ -86,10 +112,7 @@ import { $kaanna, $kaannaPlaceholder } from '@shared/utils/globals';
 IF component uses any of these
 this.$bvModal
 
-THEN get instance from proxy like
-
-const instance = getCurrentInstance();
-const $bvModal = (instance?.proxy?.$root as any)?.$bvModal;
+THEN get instance from '@shared/utils/globals'
 
 -------------------------------------------------
 
@@ -159,3 +182,14 @@ for example
 to
 
 :deep(.collapse-button)
+
+-------------------------------------------------
+
+IF component has
+get kasiteHandler() or get kuvaHandler
+THEN
+inject using
+
+const kasiteHandler = inject('kasiteHandler');
+const kuvaHandler = inject('kuvaHandler');
+
