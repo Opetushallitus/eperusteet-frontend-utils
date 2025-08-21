@@ -71,7 +71,7 @@
       </div>
       <div v-else-if="listausTyyppi === 'none'" />
       <div v-else>
-        <b-pagination
+        <ep-pagination
           v-model="sivu"
           align="center"
           no-local-sorting
@@ -90,6 +90,7 @@ import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import EpButton from '../EpButton/EpButton.vue';
 import { onkoUusi } from '@shared/utils/tiedote';
 import { $kaanna } from '@shared/utils/globals';
+import EpPagination from '@shared/components/EpPagination/EpPagination.vue';
 
 export interface JulkiRivi {
   otsikko?: { [key: string]: string; } | string;

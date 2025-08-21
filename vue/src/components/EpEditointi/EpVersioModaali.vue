@@ -44,7 +44,7 @@
           </div>
         </template>
       </b-table>
-      <b-pagination
+      <ep-pagination
         v-model="currentPage"
         :total-rows="rows"
         :per-page="perPage"
@@ -63,6 +63,7 @@ import { Revision } from '../../tyypit';
 import EpButton from '../../components/EpButton/EpButton.vue';
 import EpFormContent from '../../components/forms/EpFormContent.vue';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
+import EpPagination from '@shared/components/EpPagination/EpPagination.vue';
 
 const props = defineProps({
   versions: {

@@ -45,7 +45,7 @@
           />
         </template>
       </b-table>
-      <b-pagination
+      <ep-pagination
         v-model="currentPage"
         :total-rows="arkistoidutSortedFiltered.length"
         :per-page="perPage"
@@ -65,6 +65,7 @@ import EpSearch from '@shared/components/forms/EpSearch.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import { $t, $kaanna, $sdt } from '@shared/utils/globals';
+import EpPagination from '@shared/components/EpPagination/EpPagination.vue';
 
 interface Palautettava {
   nimi: any;

@@ -31,7 +31,6 @@ export class Oikeustarkastelu {
   public static install(app: App, config: OikeustarkasteluConfig) {
     app.config.globalProperties.$isAdmin = () => config.oikeusProvider.isAdmin?.value || false;
     app.config.globalProperties.$hasOphCrud = () => config.oikeusProvider.hasOphCrud?.value || false;
-
     app.config.globalProperties.$hasOikeus = function(oikeus: Oikeus, kohde?: any) {
       return config.oikeusProvider.hasOikeus(oikeus, kohde);
     };

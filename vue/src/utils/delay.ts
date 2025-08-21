@@ -34,38 +34,7 @@ export function asyncDebounce<T, F>(fn: F & any, ms: number): F & any {
   return wrapper as unknown as F;
 }
 
-/**
- * Debounced that can be used for functions as a decorator.
- *
- * + Can be awaited
- * + Can be used in multiple instances of the same class
- *
- * @param {number} ms
- */
-export function Debounced(ms = 300) {
-  const debounces = new WeakMap();
-  return function(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-    const original = descriptor.value;
-    descriptor.value = async function(this: any, ...params: any[]) {
-      if (debounces.has(this)) {
-        clearTimeout(debounces.get(this));
-      }
-      return new Promise((resolve, reject) => {
-        if (import.meta.env.NODE_ENV === 'test') {
-          original.apply(this, params).then(resolve)
-            .catch(reject);
-        }
-        else {
-          debounces.set(this, setTimeout(() => {
-            original.apply(this, params).then(resolve)
-              .catch(reject);
-            debounces.set(this, undefined);
-          }, ms));
-        }
-      });
-    };
-  };
-}
+export const debounced = (fn:any, delayMs:number = 300) => _.debounce(fn, delayMs);
 
 /**
  * Wraps a getter into a computed value

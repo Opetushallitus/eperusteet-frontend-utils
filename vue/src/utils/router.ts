@@ -30,3 +30,15 @@ export function removeQueryParam(to, router, queryParam) {
     router.push({ query: toquery });
   }
 }
+
+export function convertRouteParamsToNumbers(params: { [key: string]: string }) {
+  return Object.entries(params).reduce((acc, [key, value]) => {
+    if (typeof value === 'string' && !isNaN(Number(value)) && value.trim() !== '') {
+      acc[key] = Number(value);
+    }
+    else {
+      acc[key] = value;
+    }
+    return acc;
+  }, {} as any);
+}

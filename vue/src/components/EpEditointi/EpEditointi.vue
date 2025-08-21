@@ -308,7 +308,7 @@
             <span>{{ $t('muokkaushistoria') }}: {{ $t('versionumero') }} {{ versionumero }}</span>
           </div>
           <div class="flex-fill">
-            <b-pagination
+            <ep-pagination
               :value="versionumero"
               :total-rows="versions"
               :per-page="1"
@@ -323,7 +323,7 @@
               <template #next-text>
                 <EpMaterialIcon>chevron_right</EpMaterialIcon>
               </template>
-            </b-pagination>
+            </ep-pagination>
           </div>
           <div class="floating-editing-buttons">
             <ep-button
@@ -480,6 +480,7 @@ import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue
 import { useSlots } from 'vue';
 import { $t, $sdt, $ago, $success, $fail, $bvModal } from '@shared/utils/globals';
 import { useVuelidate } from '@vuelidate/core';
+import EpPagination from '@shared/components/EpPagination/EpPagination.vue';
 
 const props = defineProps({
   store: {

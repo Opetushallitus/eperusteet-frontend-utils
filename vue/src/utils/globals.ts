@@ -134,9 +134,7 @@ export const setGlobalBvModal = (bvModal: BvModal) => {
 };
 
 export const $hasOikeus = (oikeus: any, kohde?: any) => {
-  // return useGlobalProperties().$hasOikeus(oikeus, kohde);
-
-  return {};
+  return useGlobalProperties().$hasOikeus(oikeus, kohde);
 };
 
 export const $isAdmin = () => {
@@ -147,8 +145,14 @@ export const $hasOphCrud = () => {
   return useGlobalProperties().$hasOphCrud();
 };
 
-export const $vahvista = (title: string): any => {
-  // return useGlobalProperties().$vahvista(title);
-
-  return {};
+export const $vahvista = async (title = 'vahvista-toiminto', msg = 'vahvista-toiminto-viesti', config: any = {}): Promise<boolean> => {
+  return await $bvModal.msgBoxConfirm($t(msg) as any, {
+    title: $t(title) as any,
+    okVariant: 'primary',
+    okTitle: $t('ok') as any,
+    cancelVariant: 'link',
+    cancelTitle: $t('peruuta') as any,
+    centered: true,
+    ...config,
+  });
 };
