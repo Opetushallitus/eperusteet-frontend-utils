@@ -54,18 +54,18 @@ const perusteTyyppiTiles = {
 export function koulutustyyppiBanner(koulutustyyppi) {
   const themeType = themes[koulutustyyppi!] || 'lukiokoulutus';
   const imgUrl = koulutustyyppiRyhmaBanners[themeType] || bannerLukio;
-  return { 'background-image': `url('${imgUrl}')` };
+  return { 'background-image': `url("${imgUrl}")` };
 }
 
 export function koulutusTyyppiTile(koulutustyyppi) {
   const themeType = themes[koulutustyyppi!] || 'lukiokoulutus';
   const imgUrl = koulutustyyppiRyhmaTiles[themeType] || tileLukio;
-  return { 'background-image': `url('${imgUrl}')` };
+  return { 'background-image': `url("${imgUrl}")` };
 }
 
 export function toteutusBanner(toteutus) {
   const imgUrl = toteutusBanners[toteutus] || bannerAmmatillinen;
-  return { 'background-image': `url('${imgUrl}')` };
+  return { 'background-image': `url("${imgUrl}")` };
 }
 
 export const tileColors = {
@@ -89,5 +89,5 @@ export function tileBackgroundColor(koulutustyyppi) {
 
 export function perusteTile(peruste) {
   const imgUrl = perusteTyyppiTiles[peruste.tyyppi] || '';
-  return { ...(!!imgUrl && { 'background-image': `url('${imgUrl}')` }) };
+  return { ...(!!imgUrl && { 'background-image': `url("${imgUrl}")` }) };
 }

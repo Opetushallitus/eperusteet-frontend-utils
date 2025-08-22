@@ -206,7 +206,7 @@ const valitseSisaltoKieli = (kieli: Kieli) => {
 </script>
 
 <style scoped lang="scss">
-@import '../../styles/_variables.scss';
+@import '@/styles/_variables.scss';
 
 .topbar {
   background-image: inherit;

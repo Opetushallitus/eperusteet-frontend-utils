@@ -58,13 +58,14 @@
 <script setup lang="ts">
 import { ref, defineProps, defineEmits, useTemplateRef } from 'vue';
 import _ from 'lodash';
-import { aikataulutapahtuma, AikatauluRootModel } from '../../utils/aikataulu';
+import { aikataulutapahtuma, AikatauluRootModel, Tapahtuma } from '../../utils/aikataulu';
 import EpAikatauluListaus from './EpAikatauluListaus.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpDatepicker from '@shared/components/forms/EpDatepicker.vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import EpField from '@shared/components/forms/EpField.vue';
 import { Kielet } from '@shared/stores/kieli';
+import { $t } from '@shared/utils/globals';
 
 const props = defineProps({
   rootModel: Object as () => AikatauluRootModel,
@@ -83,7 +84,11 @@ const props = defineProps({
 const emit = defineEmits(['tallenna']);
 
 const invalid = ref(false);
-const aikataulutClone = ref([]);
+const aikataulutClone = ref<Tapahtuma[]>([]);
+
+// Template refs should be declared at the top level
+const aikataulumodal = useTemplateRef('aikataulumodal');
+const epAikatauluListaus = useTemplateRef('epAikatauluListaus');
 
 function openModal() {
   if (_.size(props.aikataulut) === 0) {
@@ -109,18 +114,21 @@ function openModal() {
     aikataulutClone.value = _.cloneDeep(props.aikataulut);
   }
 
-  const aikataulumodal = useTemplateRef('aikataulumodal');
   aikataulumodal.value?.show();
 }
 
 function tallenna() {
-  const epAikatauluListaus = useTemplateRef('epAikatauluListaus');
   emit('tallenna', epAikatauluListaus.value?.getAikataulu());
 }
 
 function setInvalid(value: boolean) {
   invalid.value = value;
 }
+
+// Expose methods to parent components
+defineExpose({
+  openModal,
+});
 </script>
 
 <style scoped lang="scss">

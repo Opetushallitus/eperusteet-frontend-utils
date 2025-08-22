@@ -18,6 +18,8 @@ import { ref, computed, onMounted } from 'vue';
 import * as _ from 'lodash';
 import { Maintenance } from '@shared/api/eperusteet';
 import { BrowserStore } from '@shared/stores/BrowserStore';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import EpExternalLink from '@shared/components/EpExternalLink/EpExternalLink.vue';
 
 const props = defineProps({
   yllapitoAvain: {

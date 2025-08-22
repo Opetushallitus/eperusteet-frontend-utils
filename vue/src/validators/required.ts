@@ -13,8 +13,17 @@ export function notNull() {
 
 const ValidoitavatKielet = ['fi', 'sv', 'se', 'en', 'ru'];
 
-const onlyCharacterOrNumber = helpers.regex('onlyLetterNumbers', /^[a-zA-Z0-9äöåÄÖÅ._-]*$/);
-const onlyNumbers = helpers.regex('onlyNumbers', /^[0-9._-]*$/);
+const onlyCharacterOrNumber = (value: any) => {
+  if (!value) return true; // Allow empty values
+  const regex = /^[a-zA-Z0-9äöåÄÖÅ._-]*$/;
+  return regex.test(String(value));
+};
+
+const onlyNumbers = (value: any) => {
+  if (!value) return true; // Allow empty values
+  const regex = /^[0-9._-]*$/;
+  return regex.test(String(value));
+};
 
 function exists(value: any, kieli: Kieli) {
   return _.has(value, kieli) && !_.isEmpty(value[kieli])

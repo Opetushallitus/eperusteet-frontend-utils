@@ -223,7 +223,11 @@ export class KieliStore {
       const kielet = _.reject(['fi', 'sv', 'en', 'se', 'ru'], kieli => kieli === this.getSisaltoKieli.value);
       const result = _.find(_.map(kielet, kieli => value[kieli] as string));
 
-      return squareBrackets ? `[${result}]` : result;
+      if (result) {
+        return squareBrackets ? `[${result}]` : result;
+      }
+
+      return undefined;
     }
   }
 

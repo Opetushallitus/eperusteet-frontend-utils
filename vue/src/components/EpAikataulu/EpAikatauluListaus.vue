@@ -195,6 +195,11 @@ watch(
   },
   { immediate: true }
 );
+
+// Expose methods to parent components
+defineExpose({
+  getAikataulu,
+});
 </script>
 
 <style scoped lang="scss">

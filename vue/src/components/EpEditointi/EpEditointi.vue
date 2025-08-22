@@ -23,7 +23,7 @@
             :cancel="cancel"
             :save="save"
             :disabled="disabled"
-            :validation="validation"
+            :validation="validation.inner"
             :is-saving="isSaving"
             :modify="modify"
             :remove="remove"
@@ -48,7 +48,7 @@
                   :is-editing="isEditing"
                   :data="inner"
                   :support-data="innerSupport"
-                  :validation="validation"
+                  :validation="validation.inner"
                 />
               </div>
               <div
@@ -379,7 +379,7 @@
                 :is-editing="isEditing"
                 :support-data="innerSupport"
                 :data="inner"
-                :validation="validation"
+                :validation="validation.inner"
                 :is-copyable="features.copyable"
               />
             </div>
@@ -397,7 +397,7 @@
                 :is-editing="isEditing"
                 :support-data="innerSupport"
                 :data="inner"
-                :validation="validation"
+                :validation="validation.inner"
               />
             </div>
           </div>
@@ -413,7 +413,7 @@
                 name="ohje"
                 :is-editing="isEditing"
                 :support-data="innerSupport"
-                :validation="validation"
+                :validation="validation.inner"
                 :data="inner"
               />
             </div>
@@ -430,7 +430,7 @@
                 name="peruste"
                 :is-editing="isEditing"
                 :support-data="innerSupport"
-                :validation="validation"
+                :validation="validation.inner"
                 :data="inner"
               />
             </div>
@@ -450,7 +450,7 @@
             :cancel="cancel"
             :save="save"
             :disabled="disabled"
-            :validation="validation"
+            :validation="validation.inner"
             :is-saving="isSaving"
             :modify="modify"
             :remove="remove"

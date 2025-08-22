@@ -215,15 +215,15 @@ const isDirty = computed(() => {
 });
 
 const isInvalid = computed(() => {
-  return props.validation?.error;
+  return props.validation?.$invalid;
 });
 
 const isValid = computed(() => {
-  return props.validation?.isValid;
+  return !isInvalid.value;
 });
 
 const message = computed(() => {
-  return props.validation?.message;
+  return props.validation?.invalidMessage;
 });
 
 const val = computed(() => {

@@ -267,6 +267,7 @@ import EpSearch from '@shared/components/forms/EpSearch.vue';
 import EpToggle from '@shared/components/forms/EpToggle.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import { useRouter } from 'vue-router';
+import { $kaanna } from '@shared/utils/globals';
 
 const props = defineProps({
   tiedot: {
@@ -324,7 +325,7 @@ const koulutustoimijatFilteredSorted = computed(() => {
     .map(kt => {
       return {
         ...kt,
-        kaannettyNimi: Kielet.i18n.t(kt.nimi),
+        kaannettyNimi: $kaanna(kt.nimi),
       };
     })
     .orderBy(['kaannettyNimi', 'id'], ['asc', 'asc'])
