@@ -77,12 +77,11 @@
 import { ref, computed, watch, useTemplateRef, getCurrentInstance } from 'vue';
 import { Kielet } from '../../stores/kieli';
 import _ from 'lodash';
-import { fail } from '@shared/utils/notifications';
 import EpButton from '../EpButton/EpButton.vue';
 import EpFormContent from '../forms/EpFormContent.vue';
 import EpTiedostoInput from '@shared/components/EpTiedosto/EpTiedostoInput.vue';
 import EpInfoPopover from '@shared/components/EpInfoPopover/EpInfoPopover.vue';
-import { $t} from '@shared/utils/globals';
+import { $fail, $t} from '@shared/utils/globals';
 
 const props = defineProps({
   tyyppi: {
@@ -132,14 +131,16 @@ watch(kieli, () => {
 
 // Luodaan esikatselukuva kuvan valitsemisen jälkeen
 function onInput(fileValue: any) {
+  console.log('onInput', fileValue);
   previewUrl.value = null;
   if (fileValue != null && fileValue.size > fileMaxSize) {
-    fail('pdf-tiedosto-kuva-liian-suuri');
+    $fail('pdf-tiedosto-kuva-liian-suuri');
   }
   else if (fileValue != null && !_.includes(fileTypes, fileValue.type)) {
-    fail('pdf-tiedosto-kuva-vaara-tyyppi');
+    $fail('pdf-tiedosto-kuva-vaara-tyyppi');
   }
   else if (fileValue != null) {
+    console.log('fileValue', fileValue);
     // Luodaan uusi lukija ja rekisteröidään kuuntelija
     const reader = new FileReader();
     reader.onload = (e: any) => {
@@ -148,6 +149,7 @@ function onInput(fileValue: any) {
 
     // Ladataan kuva Base64 muodossa
     reader.readAsDataURL(fileValue);
+    file.value = fileValue;
   }
 }
 

@@ -13,7 +13,7 @@ const props = defineProps({
 });
 
 const src = computed(() => {
-  return require(`../../../public/img/icons/${props.image}`);
+  return new URL(`../../../public/img/icons/${props.image}`, import.meta.url).href;
 });
 </script>
 

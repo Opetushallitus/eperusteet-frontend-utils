@@ -21,16 +21,8 @@
       </div>
 
       <div class="d-flex mt-3">
-        <b-form-checkbox
-          v-model="query.tuleva"
-          class="mr-4"
-        >
-          {{ $t('tulevat') }}
-        </b-form-checkbox>
-
-        <b-form-checkbox v-model="query.voimassaolo">
-          {{ $t('voimassaolevat') }}
-        </b-form-checkbox>
+        <EpToggle v-model="query.tuleva" :value="true" :label="$t('tulevat')" checkbox/>
+        <EpToggle v-model="query.voimassaolo" :value="true" :label="$t('voimassaolevat')" checkbox/>
       </div>
     </div>
 
@@ -84,6 +76,7 @@ import { buildKatseluUrl } from '@shared/utils/esikatselu';
 import { Kielet } from '@shared/stores/kieli';
 import EpExternalLink from '@shared/components/EpExternalLink/EpExternalLink.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import EpToggle from '@shared/components/forms/EpToggle.vue';
 
 const props = defineProps({
   koulutustyypit: {

@@ -8,7 +8,7 @@
       :class="{ 'custom-checkbox-lg': !asSwitch && lgSize, 'custom-switch-lg': asSwitch && lgSize }"
       @input="handleInput"
     >
-      <slot />
+      <slot>{{ label }}</slot>
     </b-form-checkbox>
   </div>
 </template>
@@ -25,6 +25,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
     required: false,
+  },
+  label: {
+    type: String,
+    default: '',
   },
   inline: {
     type: Boolean,
