@@ -131,7 +131,6 @@ watch(kieli, () => {
 
 // Luodaan esikatselukuva kuvan valitsemisen jälkeen
 function onInput(fileValue: any) {
-  console.log('onInput', fileValue);
   previewUrl.value = null;
   if (fileValue != null && fileValue.size > fileMaxSize) {
     $fail('pdf-tiedosto-kuva-liian-suuri');
@@ -140,7 +139,6 @@ function onInput(fileValue: any) {
     $fail('pdf-tiedosto-kuva-vaara-tyyppi');
   }
   else if (fileValue != null) {
-    console.log('fileValue', fileValue);
     // Luodaan uusi lukija ja rekisteröidään kuuntelija
     const reader = new FileReader();
     reader.onload = (e: any) => {
