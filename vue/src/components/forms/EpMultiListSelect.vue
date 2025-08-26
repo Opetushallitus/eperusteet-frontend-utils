@@ -1,8 +1,6 @@
 <template>
   <div v-if="isEditing">
 
-    {{ innerModels }}
-
     <div
       v-for="(innerModel, i) in innerModelValidations"
       :key="i"
@@ -10,7 +8,7 @@
     >
       <div class="col-11">
         <VueMultiselect
-          v-model="innerModels[i]"
+          :model-value="innerModels[i]"
           :disabled="isLoading"
           class="groupselect"
           :options="items"
@@ -22,7 +20,7 @@
           deselect-label=""
           :placeholder="''"
           :class="{'is-invalid': !innerModel.valid }"
-          @select="handleInput($event, i)"
+          @update:modelValue="handleInput($event, i)"
         >
           <template #option="{ option }">
             <div :class="{'child': option.child, 'unselectable': option.unselectable}">
@@ -231,6 +229,7 @@ const lisaaTeksti = computed(() => {
 });
 
 function updateValue() {
+  console.log('updateValue', innerModelsValues.value);
   if (props.multiple) {
     emit('update:modelValue', [...innerModelsValues.value]);
   }
@@ -252,12 +251,14 @@ function poistaValinta(index: number) {
 }
 
 function handleInput(selected: any, index: number) {
+  console.log('handleInput', selected, index);
   if (_.isEmpty(selected) || selected.unselectable) {
     poistaValinta(index);
     lisaaValinta();
   }
   else {
-    if (_.size(_.filter(innerModels.value, (innerModel) => innerModel === selected)) === 1) {
+    if (!_.find(innerModels.value, (innerModel) => innerModel === selected)) {
+      innerModels.value[index] = selected;
       updateValue();
     }
     else {
