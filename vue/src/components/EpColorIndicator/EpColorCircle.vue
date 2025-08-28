@@ -2,7 +2,7 @@
   <span
     ref="circle"
     :style="circleStyle"
-    :title="$t(help)"
+    :title="help ? $t(help) : ''"
     :class="circleClass"
   >
     <b-popover

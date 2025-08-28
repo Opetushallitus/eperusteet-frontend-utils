@@ -104,7 +104,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, getCurrentInstance } from 'vue';
+import { ref, computed, watch} from 'vue';
 import _ from 'lodash';
 import EpAikataulu from './EpAikataulu.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
@@ -114,7 +114,6 @@ import EpField from '@shared/components/forms/EpField.vue';
 import { Kielet } from '@shared/stores/kieli';
 import EpToggle from '@shared/components/forms/EpToggle.vue';
 import { aikataulutapahtuma, aikatauluTapahtumaSort, aikatauluTapahtumapaivaSort } from '@shared/utils/aikataulu';
-import { requiredIf } from 'vuelidate/lib/validators';
 
 const props = defineProps({
   aikataulutProp: {

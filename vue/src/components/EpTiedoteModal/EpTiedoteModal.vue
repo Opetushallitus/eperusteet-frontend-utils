@@ -454,7 +454,7 @@ import EpInput from '@shared/components/forms/EpInput.vue';
 import EpField from '@shared/components/forms/EpField.vue';
 import EpMultiListSelect, { MultiListSelectItem } from '@shared/components/forms/EpMultiListSelect.vue';
 import EpToggle from '@shared/components/forms/EpToggle.vue';
-import { required } from 'vuelidate/lib/validators';
+import { required } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
 import { success, fail } from '@shared/utils/notifications';
 import { julkaisupaikka, KoulutustyyppiRyhmaValinta } from '@shared/utils/tiedote';

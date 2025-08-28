@@ -148,18 +148,11 @@
               {{ tavoitteetOtsikko }}
             </h3>
           </template>
-          <ep-content
-            v-if="kuvaHandler"
-            :model-value="taitotaso.tavoitteet"
+          <EpContentViewer
+            :value="$kaanna(taitotaso.tavoitteet)"
             :kasite-handler="kasiteHandler"
             :kuva-handler="kuvaHandler"
             layout="normal"
-          />
-          <ep-content-viewer
-            v-else
-            :model-value="$kaanna(taitotaso.tavoitteet)"
-            :termit="termit"
-            :kuvat="kuvat"
           />
 
           <slot
@@ -184,18 +177,11 @@
               </h4>
             </template>
             <h6>{{ $t('opiskelija') }}</h6>
-            <ep-content
-              v-if="kuvaHandler"
-              :model-value="taitotaso[keskeinenSisalto['object']]"
+            <EpContentViewer
+              :value="$kaanna(taitotaso[keskeinenSisalto['object']])"
               :kasite-handler="kasiteHandler"
               :kuva-handler="kuvaHandler"
               layout="normal"
-            />
-            <ep-content-viewer
-              v-else
-              :model-value="$kaanna(taitotaso[keskeinenSisalto['object']])"
-              :termit="termit"
-              :kuvat="kuvat"
             />
           </b-form-group>
         </div>

@@ -316,7 +316,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:modelValue']);
-const instance = getCurrentInstance();
 
 const inner = computed({
   get: () => props.modelValue || { kohde: null, vaatimukset: [], kohdealueet: [] },

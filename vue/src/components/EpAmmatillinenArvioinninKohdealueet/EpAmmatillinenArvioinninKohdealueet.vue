@@ -56,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, computed, useSlots, getCurrentInstance } from 'vue';
+import { defineProps, computed, useSlots } from 'vue';
 import _ from 'lodash';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import { $kaanna, $t } from '@shared/utils/globals';

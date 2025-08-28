@@ -183,7 +183,7 @@ import EpPagination from '@shared/components/EpPagination/EpPagination.vue';
 
 // Define props
 const props = defineProps({
-  value: {
+  modelValue: {
     type: Array as () => KoulutuksenJarjestajaDto[],
     required: true,
   },
@@ -202,7 +202,7 @@ const props = defineProps({
 });
 
 // Define emits
-const emit = defineEmits(['input']);
+const emit = defineEmits(['update:modelValue']);
 
 // Reactive state
 const query = ref('');
@@ -218,9 +218,9 @@ onMounted(async () => {
 
 // Computed properties
 const innerModel = computed({
-  get: () => props.value,
+  get: () => props.modelValue,
   set: (value) => {
-    emit('input', value);
+    emit('update:modelValue', value);
   }
 });
 
@@ -277,7 +277,7 @@ const onRowSelected = (row: any) => {
     ...innerModel.value[valittuIndex.value],
     nimi: row[0].nimi,
   });
-  emit('input', newInnerModel);
+  emit('update:modelValue', newInnerModel);
 
   (editModal.value as any)?.hide();
 };
@@ -287,12 +287,12 @@ const lisaa = () => {
     ...innerModel.value,
     {},
   ];
-  emit('input', newInnerModel);
+  emit('update:modelValue', newInnerModel);
 };
 
 const poista = (poistettavaIndex: number) => {
   const newInnerModel = _.filter(innerModel.value, (teksti, index) => index !== poistettavaIndex);
-  emit('input', newInnerModel);
+  emit('update:modelValue', newInnerModel);
 };
 </script>
 

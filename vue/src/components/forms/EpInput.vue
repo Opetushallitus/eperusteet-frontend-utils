@@ -202,7 +202,7 @@ const inputClass = computed(() => {
     'right-padded': hasRightSlot.value,
     'is-invalid': !props.isWarning && isInvalid.value,
     'is-warning': props.isWarning && isInvalid.value,
-    'is-valid': isValid.value && props.showValidValidation,
+    'is-valid': isValid.value && props.showValidValidation && props.validation,
   };
 });
 

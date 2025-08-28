@@ -35,6 +35,7 @@
 import { computed } from 'vue';
 import { NavigationNodeDto } from '@shared/tyypit';
 import * as _ from 'lodash';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 const props = defineProps({
   node: {

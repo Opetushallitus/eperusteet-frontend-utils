@@ -29,9 +29,12 @@ const props = defineProps({
   help: { type: String, default: '' },
   showValidValidation: { type: Boolean, default: true },
   unit: { type: [String, Object], required: false },
+  validation: {
+    required: false,
+    type: Object,
+    default: null,
+  },
 });
 
 const emit = defineEmits(['update:modelValue']);
-
-const validation = useVuelidate();
 </script>
