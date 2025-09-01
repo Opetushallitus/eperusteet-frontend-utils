@@ -137,6 +137,7 @@ import { KoodistoSelectStore } from './KoodistoSelectStore';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import _ from 'lodash';
 import EpBPagination from '../EpBPagination/EpBPagination.vue';
+import { unref } from 'vue';
 
 const props = defineProps({
   modelValue: {
@@ -185,7 +186,7 @@ const raw = computed(() => {
   if (!props.store) {
     return null;
   }
-  return props.store.data.value;
+  return unref(props.store.data);
 });
 
 const items = computed(() => {

@@ -63,6 +63,8 @@ import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import { Ammattitaitovaatimukset } from '../../api/eperusteet';
 import { $kaanna, $t } from '@shared/utils/globals';
+import { nextTick } from 'vue';
+import { useTemplateRef } from 'vue';
 
 const props = defineProps({
   koodi: {
@@ -75,6 +77,7 @@ const isLoading = ref(true);
 const data = ref(null);
 const page = ref(1);
 const perPage = ref(8);
+const kaytossaRef = useTemplateRef('kaytossa');
 
 const id = computed(() => _.uniqueId('koodidialogi_'));
 
@@ -95,9 +98,11 @@ const shown = async () => {
   try {
     if (props.koodi?.uri) {
       await fetch();
+      console.log(data.value);
     }
   } finally {
     isLoading.value = false;
+    (kaytossaRef.value as any).$forceUpdate();
   }
 };
 
