@@ -98,7 +98,6 @@ const shown = async () => {
   try {
     if (props.koodi?.uri) {
       await fetch();
-      console.log(data.value);
     }
   } finally {
     isLoading.value = false;

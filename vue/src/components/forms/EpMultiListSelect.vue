@@ -229,7 +229,6 @@ const lisaaTeksti = computed(() => {
 });
 
 function updateValue() {
-  console.log('updateValue', innerModelsValues.value);
   if (props.multiple) {
     emit('update:modelValue', [...innerModelsValues.value]);
   }
@@ -251,7 +250,6 @@ function poistaValinta(index: number) {
 }
 
 function handleInput(selected: any, index: number) {
-  console.log('handleInput', selected, index);
   if (_.isEmpty(selected) || selected.unselectable) {
     poistaValinta(index);
     lisaaValinta();
