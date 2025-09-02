@@ -6,7 +6,7 @@
         type="radio"
         :name="name"
         :value="value"
-        :checked="modelValue === value"
+        :checked="equals"
         :disabled="!isEditing || disabled"
         @change="updateValue(value)"
       >
@@ -23,6 +23,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { $t } from '../../utils/globals';
+import _ from 'lodash';
 
 const props = defineProps({
   modelValue: {
@@ -68,6 +69,10 @@ const uniqueId = computed(() => {
 const updateValue = (value) => {
   emit('update:modelValue', value);
 };
+
+const equals = computed(() => {
+  return _.isEqual(props.modelValue, props.value);
+});
 </script>
 
 <style scoped lang="scss">

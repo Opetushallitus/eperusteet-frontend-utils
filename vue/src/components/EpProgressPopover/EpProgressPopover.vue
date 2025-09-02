@@ -27,10 +27,10 @@
       :show.sync="tilaPopupVisible"
       custom-class="progress-popover"
     >
-      <div
+      <!-- <div
         class="popup-top row flex-column align-items-center"
         :style="popupStyle"
-      >
+      > -->
         <!-- <div class="progress-area">
           <ep-progress
             :slices="processSlices"
@@ -42,9 +42,9 @@
         <!-- <div class="header">
           <slot name="header" />
         </div> -->
-      </div>
+      <!-- </div> -->
 
-      <div class="slot-area row justify-content-center">
+      <div class="slot-area row justify-content-center mr-1">
         <slot />
       </div>
 
@@ -52,7 +52,7 @@
         <hr>
       </div>
 
-      <div class="popup-bottom row flex-column align-items-center">
+      <div class="popup-bottom row flex-column align-items-center mx-3 my-2">
         <slot name="bottom" />
       </div>
     </b-popover>

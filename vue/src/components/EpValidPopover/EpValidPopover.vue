@@ -178,7 +178,7 @@
 
 <script setup lang="ts">
 import * as _ from 'lodash';
-import { computed } from 'vue';
+import { computed, watch, nextTick } from 'vue';
 import EpProgressPopover from '@shared/components/EpProgressPopover/EpProgressPopover.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { tileBackgroundColor } from '@shared/utils/bannerIcons';
@@ -328,6 +328,11 @@ const validointiOk = computed(() => {
 function toJulkaisuRoute() {
   router.push(props.julkaisuRoute);
 }
+
+watch(() => props.isValidating, async (newValue) => {
+  await nextTick();
+  progresspopover.value?.$forceUpdate();
+});
 </script>
 
 <style scoped lang="scss">
