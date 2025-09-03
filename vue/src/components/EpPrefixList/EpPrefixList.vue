@@ -38,8 +38,8 @@
         </div>
         <div class="arvot">
           <VueDraggable
-            class="arvot-group"
             v-bind="options"
+            class="arvot-group"
             :model-value="alue[arvot]"
           >
             <div

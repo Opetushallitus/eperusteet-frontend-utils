@@ -31,8 +31,7 @@ export class MaarayksetStore {
   public readonly maaraykset = computed(() => this.state.value.maaraykset);
   public readonly koulutustyypit = computed(() => this.state.value.koulutustyypit);
 
-  // Create a debounced fetch function
-  private debouncedFetch = _.debounce(async (query: MaaraysQueryDto) => {
+  public fetch = _.debounce(async (query: MaaraysQueryDto) => {
     this.state.value.maaraykset = null;
     this.state.value.maaraykset = (await Maaraykset.getMaaraykset(
       query.nimi,
@@ -49,14 +48,9 @@ export class MaarayksetStore {
       query.jarjestysTapa,
       query.jarjestys,
     )).data as any;
-  }, DEBOUNCE_WAIT_TIME);
+  });
 
   async init() {
     this.state.value.koulutustyypit = (await Maaraykset.getMaarayksienKoulutustyypit()).data;
-  }
-
-  // Public method that calls the debounced fetch
-  async fetch(query: MaaraysQueryDto) {
-    this.debouncedFetch(query);
   }
 }

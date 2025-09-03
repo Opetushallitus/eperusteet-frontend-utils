@@ -262,7 +262,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits, computed, ref, getCurrentInstance } from 'vue';
+import { computed, ref } from 'vue';
 import { VueDraggable } from 'vue-draggable-plus';
 import _ from 'lodash';
 import EpButton from '../EpButton/EpButton.vue';

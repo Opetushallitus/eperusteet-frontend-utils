@@ -56,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref, computed, getCurrentInstance } from 'vue';
+import { ref, computed, getCurrentInstance } from 'vue';
 import _ from 'lodash';
 import EpPagination from '../EpPagination/EpPagination.vue';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';

@@ -156,8 +156,8 @@
           />
 
           <slot
-            v-bind="taitotaso"
             name="paikallinentarkennus"
+            :taitotaso="taitotaso"
           />
         </b-form-group>
 

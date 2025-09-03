@@ -56,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, defineEmits, useTemplateRef } from 'vue';
+import { ref, useTemplateRef } from 'vue';
 import _ from 'lodash';
 import { aikataulutapahtuma, AikatauluRootModel, Tapahtuma } from '../../utils/aikataulu';
 import EpAikatauluListaus from './EpAikatauluListaus.vue';
