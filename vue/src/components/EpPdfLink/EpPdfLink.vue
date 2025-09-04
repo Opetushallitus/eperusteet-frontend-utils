@@ -4,7 +4,7 @@
     target="_blank"
     rel="noopener noreferrer"
   >
-    <div class="d-flex">
+    <div class="d-inline-flex">
       <EpMaterialIcon
         color="#3367E3"
         class="mr-2"

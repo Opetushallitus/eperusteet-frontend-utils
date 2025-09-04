@@ -2746,7 +2746,7 @@
     "piilota-sisaltoalue": "Piilota sisältöalue",
     "piilota-tekstikappale-julkisesta-opetussuunnitelmasta": "Piilota tekstikappale julkisesta opetussuunnitelmasta",
     "piilota-virheet": "Piilota virheet",
-    "piilotettu": "piilotettu",
+    "piilotettu": "Piilotettu",
     "piilotettu-julkisesta-opetussuunnitelmasta": "Piilotettu julkisesta opetussuunnitelmasta",
     "piilotettu-tavoitteista": "piilotettu tavoitteista",
     "piilotus-onnistui": "Piilotus onnistui",
@@ -4489,5 +4489,9 @@
     "rakenteen-validointi-virhe-laskettu-koko-on-pienempi-kuin-ryhman-vaadittu-maksimi": "Virheellinen rakenne, laskettu koko on pienempi kuin ryhmän vaadittu maksimi",
     "rakenteen-validointi-virhe-ryhman-osaamisalaa-ei-perusteella": "Virheellinen rakenne, ryhmän osaamisalaa ei perusteella",
     "virheelliset-organisaatiot": "Virheelliset organisaatiot",
-    "url-osoite-virheellinen": "URL-osoite on virheellinen"
+    "url-osoite-virheellinen": "URL-osoite on virheellinen",
+    "nayta-kaikki-kommentit": "Näytä kaikki kommentit",
+    "tekstin-sisalto-virheellinen-html": "Teksti saa sisältää vain ennaltamääriteltyjä html-elementtejä",
+    "vahvista-vuosiluokan-tietojen-valutus-teksti": "Haluatko viedä vuosiluokan tiedot myös koulujen opetussuunnitelmiin?",
+    "vahvista-vuosiluokan-tietojen-valutus-otsikko": "Vuosiluokan tietojen vienti"
 }

@@ -24,7 +24,7 @@
       </div>
     </Teleport>
     <div
-      :id="scrollAnchor"
+      :id="scrollAnchorId"
       class="view"
     >
       <slot name="view" />
@@ -39,6 +39,7 @@ import _ from 'lodash';
 import { useRoute } from 'vue-router';
 import { ref } from 'vue';
 import { onMounted } from 'vue';
+import { watch } from 'vue';
 
 const props = defineProps({
   scrollEnabled: {
@@ -51,6 +52,7 @@ const slots = useSlots();
 const route = useRoute();
 const browserStore = new BrowserStore();
 const mounted = ref(false);
+const scrollAnchor = ref('scroll-anchor');
 
 onMounted(() => {
   mounted.value = true;
@@ -65,11 +67,37 @@ const settings = {
   showSubchapter: true,
 };
 
-const scrollAnchor = computed(() => {
-  return props.scrollEnabled && !_.includes(['peruste', 'perusteTiedot'], route?.name)
-    ? 'scroll-anchor'
-    : 'disabled-scroll-anchor';
+const scrollAnchorId = computed(() => {
+  return props.scrollEnabled ? 'scroll-anchor' : 'disabled-scroll-anchor';
 });
+
+const scrollToView = () => {
+  const element = document.getElementById(scrollAnchorId.value);
+  element?.scrollIntoView();
+};
+
+watch(route, () => {
+  if (props.scrollEnabled) {
+    updateScrollMargin();
+    scrollToView();
+  }
+});
+
+const updateScrollMargin = () => {
+  const element = document.getElementById(scrollAnchorId.value);
+  if (!element) return;
+  element.style.scrollMarginTop = `${offsetHeight.value}px`;
+};
+
+const offsetHeight = computed(() => {
+  return getElementHeighById('navigation-bar') + getElementHeighById('notification-bar');
+});
+
+const getElementHeighById = (id: string) => {
+  const element = document.getElementById(id);
+  return element ? element.getBoundingClientRect().height : 0;
+};
+
 </script>
 <style scoped lang="scss">
 @import "../../styles/_variables.scss";

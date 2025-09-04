@@ -78,8 +78,8 @@ const linkkiHandler = inject<ILinkkiHandler>('linkkiHandler');
 const termiElements = ref<Element[]>([]);
 const nakyvatTermit = ref<string[]>([]);
 
-const $route = useRoute();
-const $router = useRouter();
+const route = useRoute();
+const router = useRouter();
 
 const valueFormatted = computed(() => {
   if (props.value) {
@@ -114,9 +114,13 @@ const valueFormatted = computed(() => {
 
       const kuva = _.find(props.kuvat, { id: datauid }) as LiiteDtoWrapper;
 
-      const id = _.get($route, 'params.toteutussuunnitelmaId');
-      if (!kuva && id) {
-        img.setAttribute('src', `eperusteet-amosaa-service/api/opetussuunnitelmat/${id}/kuvat/${datauid}`);
+      const toteutussuunnitelmaId = _.get(route, 'params.toteutussuunnitelmaId');
+      const opetussuunnitelmaId = _.get(route, 'params.opetussuunnitelmaId');
+      if (!kuva && toteutussuunnitelmaId) {
+        img.setAttribute('src', `eperusteet-amosaa-service/api/opetussuunnitelmat/${toteutussuunnitelmaId}/kuvat/${datauid}`);
+      }
+      else if (!kuva && opetussuunnitelmaId) {
+        img.setAttribute('src', `eperusteet-ylops-service/api/opetussuunnitelmat/${opetussuunnitelmaId}/kuvat/${datauid}`);
       }
       else if (kuva) {
         img.setAttribute('src', kuva.src);
@@ -149,7 +153,7 @@ const valueFormatted = computed(() => {
 
       const routeNode = link.getAttribute('routenode');
       if (routeNode && linkkiHandler) {
-        const newLocation = $router.resolve(linkkiHandler.nodeToRoute(JSON.parse(routeNode)));
+        const newLocation = router.resolve(linkkiHandler.nodeToRoute(JSON.parse(routeNode)));
         if (newLocation) {
           link.setAttribute('href', newLocation.href);
           link.removeAttribute('target');
