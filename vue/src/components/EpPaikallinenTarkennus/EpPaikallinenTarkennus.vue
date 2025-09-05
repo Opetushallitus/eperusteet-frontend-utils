@@ -52,6 +52,7 @@
 
 <script setup lang="ts">
 import * as _ from 'lodash';
+import EpCollapse from '@shared/components/EpCollapse/EpCollapse.vue';
 
 const props = defineProps({
   avattava: {
