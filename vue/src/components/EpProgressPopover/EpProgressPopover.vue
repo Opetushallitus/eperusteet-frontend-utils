@@ -24,25 +24,9 @@
       triggers="focus hover blur"
       size="md"
       placement="bottom"
-      :show.sync="tilaPopupVisible"
+      v-model:show="tilaPopupVisible"
       custom-class="progress-popover"
     >
-      <!-- <div
-        class="popup-top row flex-column align-items-center"
-        :style="popupStyle"
-      > -->
-        <!-- <div class="progress-area">
-          <ep-progress
-            :slices="processSlices"
-            :height="height"
-            :width="width"
-            :popup-style="{ 'background-color': '' }"
-          />
-        </div> -->
-        <!-- <div class="header">
-          <slot name="header" />
-        </div> -->
-      <!-- </div> -->
 
       <div class="slot-area row justify-content-center mr-1">
         <slot />
