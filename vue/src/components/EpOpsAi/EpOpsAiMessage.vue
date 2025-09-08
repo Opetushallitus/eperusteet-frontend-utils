@@ -1,7 +1,7 @@
 <template>
   <div
     class="message"
-    :class="{['role-' + message.role]: true, 'no-edit': !isEditing}"
+    :class="{['role-' + message.role]: true, 'no-edit': !isEditing, 'error': message.type === 'error'}"
     :ref="message.lastMessage ? 'lastMessage' : message.messageId">
     <EpSpinner v-if="!message.createdAt && message.lastMessage" class="mr-auto"/>
     <div class="d-flex" v-else>
