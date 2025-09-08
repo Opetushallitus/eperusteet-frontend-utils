@@ -44,19 +44,7 @@ export class KieliStore {
    */
   public install(app: App, config = {} as any) {
     moment.locale(Kieli.fi);
-    // if (!config.i18n) {
-    //   this.vi18n = createI18n({
-    //     legacy: false,
-    //     fallbackLocale: Kieli.fi,
-    //     locale: Kieli.fi,
-    //     ...config,
-    // messages: _.merge(getMessages(), config.messages),
-    // });
-    // app.use(this.vi18n);
-    // }
-    // else {
     this.vi18n = config.i18n;
-    // }
 
     // Register global properties
     app.config.globalProperties.$locale = this.uiKieli;
