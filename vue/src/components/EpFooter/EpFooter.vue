@@ -19,10 +19,11 @@
       </div>
       <div class="col-md col-slot">
         <slot name="palaute" />
-        <div class="d-flex link-style">
+        <div class="d-flex link-style" v-if="linkit.tietoapalvelusta">
           <EpMaterialIcon>chevron_right</EpMaterialIcon>
-          <EpExternalLink :url="$kaanna(linkit.yhteystiedot)" :showIcon="false">
-            {{ $t('yhteystiedot') }}: {{ yhteystiedotMail }}</EpExternalLink>
+          <EpExternalLink :url="$kaanna(linkit.tietoapalvelusta)" :showIcon="false">
+            {{ $t('tietoa-palvelusta') }}
+          </EpExternalLink>
         </div>
         <div class="d-flex link-style">
           <EpMaterialIcon>chevron_right</EpMaterialIcon>
@@ -41,6 +42,8 @@ import { Component, Vue } from 'vue-property-decorator';
 
 import EpLinkki from '@shared/components/EpLinkki/EpLinkki.vue';
 import EpExternalLink from '../EpExternalLink/EpExternalLink.vue';
+import { TietoapalvelustaStore } from '@shared/stores/TietoapalvelustaStore';
+import { buildEsikatseluUrl, buildKatseluUrl } from '@shared/utils/esikatselu';
 
 @Component({
   name: 'EpFooter',
@@ -49,6 +52,16 @@ import EpExternalLink from '../EpExternalLink/EpExternalLink.vue';
   },
 })
 export default class EpFooter extends Vue {
+  private tietoapalvelustaStore = new TietoapalvelustaStore();
+
+  async mounted() {
+    await this.tietoapalvelustaStore.fetch();
+  }
+
+  get tietoapalvelusta() {
+    return this.tietoapalvelustaStore.tietoapalvelusta;
+  }
+
   get linkit() {
     return {
       oph: {
@@ -67,10 +80,13 @@ export default class EpFooter extends Vue {
         fi: 'https://opintopolku.fi/konfo/fi/sivu/tietosuojaselosteet-ja-evasteet',
         sv: 'https://opintopolku.fi/konfo/sv/sivu/dataskyddsbeskrivningar-och-webbkakor',
       },
-      yhteystiedot: {
-        fi: 'mailto:' + this.yhteystiedotMail,
-        sv: 'mailto:' + this.yhteystiedotMail,
-      },
+      ...(this.tietoapalvelusta.value && {
+        tietoapalvelusta: {
+          fi: buildKatseluUrl('fi', `/opas/${this.tietoapalvelusta.value.id}`),
+          sv: buildKatseluUrl('sv', `/opas/${this.tietoapalvelusta.value.id}`),
+          en: buildKatseluUrl('en', `/opas/${this.tietoapalvelusta.value.id}`),
+        },
+      }),
     };
   }
 
