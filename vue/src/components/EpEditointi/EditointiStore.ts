@@ -410,11 +410,11 @@ export class EditointiStore {
       try {
         const after = await this.config.save(this.state.data);
         this.logger.success('Tallennettu onnistuneesti');
+        _.remove(EditointiStore.allEditingEditors, (editor) => editor === this);
         await this.unlock();
         await this.fetchRevisions();
         await this.init();
         this.state.isEditingState = false;
-        _.remove(EditointiStore.allEditingEditors, (editor) => editor === this);
         if (after && _.isFunction(after)) {
           await after();
         }
