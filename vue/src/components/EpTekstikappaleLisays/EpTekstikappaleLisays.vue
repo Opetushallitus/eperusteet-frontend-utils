@@ -176,11 +176,11 @@ const valittuTekstikappale = ref({});
 const taso = ref(props.paatasovalinta ? 'paataso' : 'alataso');
 const loading = ref(false);
 
-const rules = {
+const rules = computed(() => ({
   otsikko: {
     [Kielet.getSisaltoKieli.value]: notNull(),
   },
-};
+}));
 const v$ = useVuelidate(rules, { otsikko });
 
 // Computed properties

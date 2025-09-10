@@ -225,7 +225,7 @@ const multiselect = computed(() => {
 });
 
 const koodisto = computed(() => {
-  return props.store.koodisto.value;
+  return unref(props.store.koodisto);
 });
 
 const fields = computed(() => {

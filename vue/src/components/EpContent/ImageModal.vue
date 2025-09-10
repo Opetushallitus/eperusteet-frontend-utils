@@ -168,7 +168,7 @@ const kuvaValittu = computed(() => {
 });
 
 // Setup vuelidate
-const rules = {
+const rules = computed(() => ({
   vaihtoehtoinenteksti: {
     [Kielet.getSisaltoKieli.value]: {
       required,
@@ -177,7 +177,7 @@ const rules = {
   kuvaValittu: {
     required,
   },
-};
+}));
 
 const v$ = useVuelidate(rules, { vaihtoehtoinenteksti, kuvaValittu });
 
