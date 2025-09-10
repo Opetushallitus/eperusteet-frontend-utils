@@ -24,7 +24,7 @@
 <script lang="ts">
 
 import * as _ from 'lodash';
-import { Component, InjectReactive, Mixins, Prop, Watch } from 'vue-property-decorator';
+import { Component, Inject, InjectReactive, Mixins, Prop, Watch } from 'vue-property-decorator';
 import { Editor, EditorContent } from 'tiptap';
 import { delay } from '@shared/utils/delay';
 import { Kielet } from '@shared/stores/kieli';
@@ -114,6 +114,9 @@ export default class EpContent extends Mixins(EpValidation) {
   @InjectReactive('kasiteHandler')
   private injectedKasiteHandler!: IKasiteHandler;
 
+  @Inject('commentingDisabled')
+  private disableCommenting!: boolean;
+
   private editor: any = null;
 
   private focused = false;
@@ -176,7 +179,7 @@ export default class EpContent extends Mixins(EpValidation) {
       new TableHeader(),
       new TableCell(),
       new TableRow(),
-      new CommentExtension(),
+      ...(this.disableCommenting ? [] : [new CommentExtension()]),
     ];
 
     if (this.annettuKasiteHandler) {
