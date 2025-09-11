@@ -37,15 +37,12 @@
         </div>
         <div class="col-md col-slot">
           <slot name="palaute" />
-          <div class="d-flex link-style">
-            <EpMaterialIcon>chevron_right</EpMaterialIcon>
-            <EpExternalLink
-              :url="$kaanna(linkit.yhteystiedot)"
-              :show-icon="false"
-            >
-              {{ $t('yhteystiedot') }}: {{ yhteystiedotMail }}
-            </EpExternalLink>
-          </div>
+          <div class="d-flex link-style" v-if="linkit.tietoapalvelusta">
+          <EpMaterialIcon>chevron_right</EpMaterialIcon>
+          <EpExternalLink :url="$kaanna(linkit.tietoapalvelusta)" :showIcon="false">
+            {{ $t('tietoa-palvelusta') }}
+          </EpExternalLink>
+        </div>
           <div class="d-flex link-style">
             <EpMaterialIcon>chevron_right</EpMaterialIcon>
             <EpExternalLink
@@ -66,9 +63,18 @@ import { computed } from 'vue';
 import EpLinkki from '@shared/components/EpLinkki/EpLinkki.vue';
 import EpExternalLink from '../EpExternalLink/EpExternalLink.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import { onMounted } from 'vue';
+import { buildKatseluUrl } from '@shared/utils/esikatselu';
+import { TietoapalvelustaStore } from '@shared/stores/TietoapavelustaStore';
 
-const yhteystiedotMail = computed(() => {
-  return 'eperusteet@opintopolku.fi';
+const tietoapalvelustaStore = new TietoapalvelustaStore();
+
+onMounted(async () => {
+  await tietoapalvelustaStore.fetch();
+});
+
+const tietoapalvelusta = computed(() => {
+  return tietoapalvelustaStore.tietoapalvelusta.value;
 });
 
 const linkit = computed(() => {
@@ -89,10 +95,13 @@ const linkit = computed(() => {
       fi: 'https://opintopolku.fi/konfo/fi/sivu/tietosuojaselosteet-ja-evasteet',
       sv: 'https://opintopolku.fi/konfo/sv/sivu/dataskyddsbeskrivningar-och-webbkakor',
     },
-    yhteystiedot: {
-      fi: 'mailto:' + yhteystiedotMail.value,
-      sv: 'mailto:' + yhteystiedotMail.value,
-    },
+    ...(tietoapalvelusta.value && {
+        tietoapalvelusta: {
+          fi: buildKatseluUrl('fi', `/opas/${tietoapalvelusta.value.id}`),
+          sv: buildKatseluUrl('sv', `/opas/${tietoapalvelusta.value.id}`),
+          en: buildKatseluUrl('en', `/opas/${tietoapalvelusta.value.id}`),
+        },
+      }),
   };
 });
 </script>
