@@ -114,7 +114,7 @@ export default class EpContent extends Mixins(EpValidation) {
   @InjectReactive('kasiteHandler')
   private injectedKasiteHandler!: IKasiteHandler;
 
-  @Inject('commentingDisabled')
+  @Inject({ from: 'commentingDisabled', default: false })
   private disableCommenting!: boolean;
 
   private editor: any = null;
