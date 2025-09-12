@@ -97,16 +97,19 @@
                     </div>
                   </div>
                 </div>
-                <ep-button id="editointi-muokkaus"
-                           variant="link"
-                           icon="edit"
-                           v-oikeustarkastelu="muokkausOikeustarkastelu"
-                           @click="modify()"
-                           v-else-if="!isEditing && features.editable && !versiohistoriaVisible"
-                           :show-spinner="isSaving || loading"
-                           :disabled="disabled">
-                  <slot name="muokkaa">{{ $t('muokkaa') }}</slot>
-                </ep-button>
+                <template v-else-if="!isEditing && features.editable && !versiohistoriaVisible">
+                  <slot name="muokkaa-content" :data="inner">
+                    <ep-button id="editointi-muokkaus"
+                               variant="link"
+                               icon="edit"
+                               v-oikeustarkastelu="muokkausOikeustarkastelu"
+                               @click="modify()"
+                               :show-spinner="isSaving || loading"
+                               :disabled="disabled">
+                      <slot name="muokkaa">{{ $t('muokkaa') }}</slot>
+                    </ep-button>
+                  </slot>
+                </template>
                 <div v-else-if="!isEditing && features.copyable" v-oikeustarkastelu="muokkausOikeustarkastelu">
                   <slot name="kopioi" :data="inner" :support-data="innerSupport">
                     <ep-button id="editointi-kopiointi"
