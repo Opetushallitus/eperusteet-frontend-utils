@@ -16,6 +16,7 @@
 </template>
 
 <script setup lang="ts">
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 const props = defineProps({
   url: {
     type: String,
