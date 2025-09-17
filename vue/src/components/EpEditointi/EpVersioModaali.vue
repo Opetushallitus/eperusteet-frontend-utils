@@ -64,6 +64,7 @@ import EpButton from '../../components/EpButton/EpButton.vue';
 import EpFormContent from '../../components/forms/EpFormContent.vue';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 import EpPagination from '@shared/components/EpPagination/EpPagination.vue';
+import { $sdt, $t } from '@shared/utils/globals';
 
 const props = defineProps({
   versions: {
@@ -89,16 +90,17 @@ const router = useRouter();
 const fields = computed(() => {
   return [{
     key: 'index',
-    label: 'versio',
+    label: $t('versio'),
   }, {
     key: 'ajankohta',
-    label: 'ajankohta',
+    label: $t('ajankohta'),
+    formatter: (value) => $sdt(value),
   }, {
     key: 'muokkaaja',
-    label: 'muokkaaja',
+    label: $t('muokkaaja'),
   }, {
     key: 'actions',
-    label: '',
+    label: $t(''),
   }];
 });
 

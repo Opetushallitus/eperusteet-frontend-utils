@@ -3,6 +3,7 @@ import { createLogger } from '../utils/logger';
 import _ from 'lodash';
 import { Kielet } from '../stores/kieli';
 import { $fail, $t } from '../utils/globals';
+import { Virheet } from '@shared/stores/virheet';
 
 const logger = createLogger('AxiosCommon');
 
@@ -12,9 +13,11 @@ axios.defaults.xsrfHeaderName = 'CSRF';
 
 export function axiosHandler(msg: string) {
   return async (err: any) => {
-    if (err?.response?.status === 500 || err?.response?.status === 403 || err?.response?.status === 400 || err?.response?.status === 409) {
+    console.log('axiosHandler', err);
+    // if (err?.response?.status === 500 || err?.response?.status === 403 || err?.response?.status === 400 || err?.response?.status === 409) {
       $fail(errorMessage(err), undefined, errorNotificationDuration());
-    }
+    // }
+    Virheet.lisaaVirhe({});
     throw err;
   };
 }
