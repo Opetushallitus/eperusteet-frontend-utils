@@ -57,6 +57,8 @@
           </template>
         </ep-select>
       </div>
+
+      <slot name="custom-content"></slot>
     </ep-form-content>
 
     <template v-slot:modal-footer>
