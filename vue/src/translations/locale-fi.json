@@ -4492,5 +4492,6 @@
     "nayta-kaikki-kommentit": "Näytä kaikki kommentit",
     "tekstin-sisalto-virheellinen-html": "Teksti saa sisältää vain ennaltamääriteltyjä html-elementtejä",
     "vahvista-vuosiluokan-tietojen-valutus-teksti": "Haluatko viedä vuosiluokan tiedot myös koulujen opetussuunnitelmiin?",
-    "vahvista-vuosiluokan-tietojen-valutus-otsikko": "Vuosiluokan tietojen vienti"
+    "vahvista-vuosiluokan-tietojen-valutus-otsikko": "Vuosiluokan tietojen vienti",
+    "tekstikappaleen-tyyppi": "Tekstikappaleen tyyppi"
 }
