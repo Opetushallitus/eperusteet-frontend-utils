@@ -47,28 +47,22 @@
         <div class="font-weight-600">
           {{ $t('arviointi-asteikon-valinta') }}
         </div>
-        <b-form-radio-group
+        <EpRadio
+          v-for="arviointiasteikko in arviointiasteikot"
+          :key="'arviointiasteikko-' + arviointiasteikko.id"
           v-model="arvioinninKohde[arviointiasteikkoRef]"
-          stacked
-          class="mt-2"
-          @input="arviointiVaihdos(arvioinninKohde)"
+          :value="arviointiasteikko.id"
+          :is-editing="isEditing"
+          @update:model-value="arviointiVaihdos(arvioinninKohde)"
         >
-          <b-form-radio
-            v-for="arviointiasteikko in arviointiasteikot"
-            :key="'arviointiasteikko-' + arviointiasteikko.id"
-            class="mt-2"
-            name="arviointiasteikko"
-            :value="arviointiasteikko.id"
+          <span
+            v-for="(osaamistaso, index) in arviointiasteikko.osaamistasot"
+            :key="'osaamistaso' + osaamistaso.id"
           >
-            <span
-              v-for="(osaamistaso, index) in arviointiasteikko.osaamistasot"
-              :key="'osaamistaso' + osaamistaso.id"
-            >
-              <span v-if="index > 0"> / </span>
-              {{ $kaanna(osaamistaso.otsikko) }}
-            </span>
-          </b-form-radio>
-        </b-form-radio-group>
+            <span v-if="index > 0"> / </span>
+            {{ $kaanna(osaamistaso.otsikko) }}
+          </span>
+        </EpRadio>
       </template>
 
       <OsaamistasonKriteerit
@@ -111,6 +105,7 @@ import EpInput from '@shared/components/forms/EpInput.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import OsaamistasonKriteerit from '@shared/components/EpArviointi/OsaamistasonKriteerit.vue';
 import { $t, $kaanna } from '@shared/utils/globals';
+import EpRadio from '../forms/EpRadio.vue';
 
 const props = defineProps({
   modelValue: {

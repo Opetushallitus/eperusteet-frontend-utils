@@ -42,7 +42,7 @@
           :value="page"
           :per-page="perPage"
           :total-rows="data.kokonaismäärä"
-          @input="fetch"
+          @update:model-value="fetch"
         />
       </div>
       <div

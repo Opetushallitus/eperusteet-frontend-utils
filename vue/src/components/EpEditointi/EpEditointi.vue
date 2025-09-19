@@ -308,13 +308,13 @@
           </div>
           <div class="flex-fill">
             <ep-pagination
-              :value="versionumero"
+              :model-value="versionumero"
               :total-rows="versions"
               :per-page="1"
               :hide-goto-end-buttons="true"
               size="sm"
               class="mb-0"
-              @input="updateVersionumero"
+              @update:model-value="updateVersionumero"
             >
               <template #prev-text>
                 <EpMaterialIcon>chevron_left</EpMaterialIcon>
