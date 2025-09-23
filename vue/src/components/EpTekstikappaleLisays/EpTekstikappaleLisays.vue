@@ -25,9 +25,36 @@
       </slot>
     </template>
 
-    <ep-form-content :name="contentName" v-if="otsikkoRequired">
-      <ep-field class="mb-5" v-model="otsikko" :is-editing="true" :validation="$v.otsikko" :showValidValidation="true"/>
-    </ep-form-content>
+    <div class="mb-4">
+      <template v-if="osaamisalat && osaamisalat.length > 0 ">
+        <div class="mb-2">
+          <h3>{{ $t('tekstikappaleen-tyyppi') }}</h3>
+          <b-form-radio v-model="tekstikappaleTyyppi"
+                        value="tekstikappale"
+                        name="tekstikappaleTyyppi">{{ $t('tekstikappale') }}</b-form-radio>
+          <b-form-radio v-model="tekstikappaleTyyppi"
+                        value="osaamisala"
+                        name="tekstikappaleTyyppi">{{ $t('osaamisala') }}</b-form-radio>
+        </div>
+
+        <div class="mb-5 mt-2 ml-4" v-if="tekstikappaleTyyppi === 'osaamisala'">
+          <ep-select
+            v-model="osaamisala"
+            :items="osaamisalat"
+            :is-editing="true"
+            :enable-empty-option="true"
+            :emptyOptionDisabled="true">
+            <template slot-scope="{ item }">
+              {{ $kaanna(item.nimi) }}
+            </template>
+          </ep-select>
+        </div>
+      </template>
+
+      <ep-form-content :name="contentName" v-if="otsikkoRequired && tekstikappaleTyyppi === 'tekstikappale'">
+        <ep-field v-model="otsikko" :is-editing="true" :validation="$v.otsikko" :showValidValidation="true"/>
+      </ep-form-content>
+    </div>
 
     <ep-form-content v-if="!hideTaso">
       <div slot="header">
@@ -57,8 +84,6 @@
           </template>
         </ep-select>
       </div>
-
-      <slot name="custom-content"></slot>
     </ep-form-content>
 
     <template v-slot:modal-footer>
@@ -78,7 +103,7 @@
 
 <script lang="ts">
 import _ from 'lodash';
-import { Prop, Component, Vue } from 'vue-property-decorator';
+import { Prop, Component, Vue, Watch } from 'vue-property-decorator';
 import { requiredOneLang } from '@shared/validators/required';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpField from '@shared/components/forms/EpField.vue';
@@ -86,6 +111,7 @@ import EpSelect from '@shared/components/forms/EpSelect.vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import { Validations } from 'vuelidate-property-decorators';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import { required, requiredIf } from 'vuelidate/lib/validators';
 
 @Component({
   components: {
@@ -99,6 +125,7 @@ import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue
 export default class EpTekstikappaleLisays extends Vue {
   private otsikko: any = {};
   private valittuTekstikappale: any = {};
+  private osaamisala: any | null = null;
 
   @Prop({ required: true })
   private tekstikappaleet!: any[];
@@ -121,12 +148,18 @@ export default class EpTekstikappaleLisays extends Vue {
   @Prop({ required: true })
   private tallenna!: Function;
 
+  @Prop({ required: false })
+  private osaamisalat!: any[];
+
   private taso: 'paataso' | 'alataso' = 'paataso';
   private loading: boolean = false;
+  private tekstikappaleTyyppi: 'osaamisala' | 'tekstikappale' = 'tekstikappale';
 
   @Validations()
   validations = {
-    otsikko: requiredOneLang(),
+    ...(this.tekstikappaleTyyppi === 'tekstikappale' && {
+      otsikko: requiredOneLang(),
+    }),
   };
 
   mounted() {
@@ -134,6 +167,10 @@ export default class EpTekstikappaleLisays extends Vue {
   }
 
   get okDisabled() {
+    if (this.tekstikappaleTyyppi === 'osaamisala') {
+      return !this.osaamisala?.id || (this.taso === 'alataso' && _.isEmpty(this.valittuTekstikappale));
+    }
+
     return (this.otsikkoRequired && this.$v.otsikko.$invalid) || (this.taso === 'alataso' && _.isEmpty(this.valittuTekstikappale));
   }
 
@@ -150,7 +187,7 @@ export default class EpTekstikappaleLisays extends Vue {
     }
 
     this.loading = true;
-    await this.tallenna(this.otsikko, this.valittuTekstikappale);
+    await this.tallenna(this.otsikko, this.valittuTekstikappale, this.osaamisala);
     this.loading = false;
     this.$bvModal.hide(this.modalId);
   }
@@ -163,6 +200,12 @@ export default class EpTekstikappaleLisays extends Vue {
 
   cancel() {
     this.$bvModal.hide(this.modalId);
+  }
+
+  @Watch('tekstikappaleTyyppi')
+  onTekstikappaleTyyppiChange() {
+    this.osaamisala = null;
+    this.otsikko = {};
   }
 }
 
