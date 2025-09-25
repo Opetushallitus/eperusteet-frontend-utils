@@ -57,11 +57,11 @@ import { TiedoteDto } from '../../tyypit';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 
-const props = defineProps({
-  tiedotteet: {
-    type: Object as () => TiedoteDto,
-    required: true,
-  },
+const props = withDefaults(
+  defineProps<{
+    tiedotteet: TiedoteDto[] | null;
+  }>(), {
+  tiedotteet: null,
 });
 
 const sisaltoKieli = computed(() => {
@@ -69,7 +69,7 @@ const sisaltoKieli = computed(() => {
 });
 
 const url = computed(() => {
-  return `/eperusteet-app/#/${sisaltoKieli.value}/tiedotteet`;
+  return `/eperusteet-service/ui/#/${sisaltoKieli.value}/tiedotteet`;
 });
 </script>
 

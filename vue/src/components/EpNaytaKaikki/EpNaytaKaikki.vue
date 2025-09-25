@@ -25,7 +25,7 @@
 import { ref, computed } from 'vue';
 
 const props = defineProps({
-  value: {
+  modelValue: {
     type: Array,
     required: true,
   },
@@ -42,11 +42,11 @@ const props = defineProps({
 const naytaKaikki = ref(false);
 
 const model = computed(() => {
-  return naytaKaikki.value ? props.value : props.value.slice(0, props.collapsedSize);
+  return naytaKaikki.value ? props.modelValue : props.modelValue.slice(0, props.collapsedSize);
 });
 
 const totalListLength = computed(() => {
-  return props.value.length;
+  return props.modelValue.length;
 });
 
 const toggleNaytaKaikki = () => {
