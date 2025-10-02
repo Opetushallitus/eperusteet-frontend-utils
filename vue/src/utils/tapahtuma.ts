@@ -21,7 +21,8 @@ const perusteKohdeReititys = {
   aipevaihe: 'aipevaihe',
   aipekurssi: 'aipekurssi',
   aipeoppiaine: 'aipeoppiaine',
-  oppiaine: 'perusopetusoppiaine',
+  perusopetusoppiaine: 'perusopetusoppiaine',
+  oppiaine: 'lukio_oppiaine',
   perusopetuslaajaalainenosaaminen: 'perusopetusLaajaAlainenOsaaminen',
   vuosiluokkakokonaisuus: 'perusopetusVuosiluokkakokonaisuus',
 };
@@ -53,6 +54,7 @@ const perusteKohdereititysId = {
   aipevaihe: 'vaiheId',
   aipekurssi: 'kurssiId',
   aipeoppiaine: 'oppiaineId',
+  perusopetusoppiaine: 'oppiaineId',
   oppiaine: 'oppiaineId',
   perusopetuslaajaalainenosaaminen: 'laoId',
   vuosiluokkakokonaisuus: 'vlkId',
