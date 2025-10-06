@@ -1,7 +1,7 @@
 <template>
   <div class="ep-valid-popover">
     <EpProgressPopover
-      v-if="validoinnit"
+      v-if="!isValidating && validoinnit"
       ref="progresspopover"
       :slices="prosessi"
       :popup-style="popupStyle"
@@ -130,6 +130,18 @@
                 </div>
                 <div class="col">
                   <span>{{ $t(virhe) }}</span>
+                </div>
+              </div>
+              <div v-if="validoinnit.virheet.length > 5 && julkaistava && luonnos && !julkaistu && !arkistoitu" class="pt-2 pb-1 row">
+                <div class="col-1"></div>
+                <div class="col">
+                  <b-button
+                    class="p-0"
+                    variant="link"
+                    @click="toJulkaisuRoute"
+                  >
+                    {{ $t('yhteensa-kpl-virhetta', { kpl: validoinnit.virheet.length }) }}
+                  </b-button>
                 </div>
               </div>
             </template>
@@ -318,7 +330,7 @@ const huomautuksia = computed(() => {
 });
 
 const uniqueVirheet = computed(() => {
-  return _.uniq(props.validoinnit?.virheet);
+  return _.slice(_.uniq(props.validoinnit?.virheet), 0, 5);
 });
 
 const validointiOk = computed(() => {
