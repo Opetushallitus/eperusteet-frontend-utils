@@ -6,6 +6,8 @@
       class="label"
     ><slot name="label" /></label>
     <VueMultiselect
+      :id="id"
+      ref="multiselect"
       v-model="model"
       :track-by="track"
       :options="filteredOptions"
@@ -16,13 +18,11 @@
       selected-label=""
       deselect-label=""
       :multiple="multiple"
-      ref="multiselect"
       :class="inputClass"
       :label="label"
       :custom-label="customLabel"
       :group-values="groupValues"
       :group-label="groupLabel"
-      :id="id"
       :group-select="groupSelect"
       :searchable="searchable"
       :max-height="maxHeight"

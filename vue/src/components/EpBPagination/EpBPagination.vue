@@ -12,11 +12,11 @@
       prev-text="«"
       next-text="»"
       :label-first-page="$t('alkuun')"
-      @input="currentPage = $event"
       :label-last-page="$t('loppuun')"
       :label-page="$t('sivu')"
       :label-next-page="$t('seuraava-sivu')"
       :label-prev-page="$t('edellinen-sivu')"
+      @input="currentPage = $event"
     />
   </div>
 </template>

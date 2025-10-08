@@ -56,6 +56,10 @@ describe('EpMultiListSelect component', () => {
     return mount(TestComponent, {
       global: {
         ...globalStubs,
+        plugins: [
+          ...globalStubs.plugins,
+          i18n,
+        ],
       },
     });
   }
@@ -72,11 +76,18 @@ describe('EpMultiListSelect component', () => {
       update: () => {},
     });
 
+    // Open the dropdown by clicking on the multiselect input
+    const multiselectInput = wrapper.find('.multiselect__input');
+    await multiselectInput.trigger('focus');
+    await multiselectInput.trigger('mousedown');
+    await nextTick();
+
+    // Verify all options are rendered
+    expect(wrapper.findAll('.multiselect__element')).toHaveLength(3);
+
     expect(wrapper.html()).toContain('text1');
     expect(wrapper.html()).toContain('text2');
     expect(wrapper.html()).toContain('text3');
-
-    expect(wrapper.findAll('.multiselect__element')).toHaveLength(3);
 
     expect(wrapper.html()).toContain('lisaa-tyyppi1');
   });
@@ -159,13 +170,25 @@ describe('EpMultiListSelect component', () => {
 
     expect(wrapper.vm.modelValue).toEqual([]);
 
-    await wrapper.findAll('.multiselect__element').at(1)
+    // Open the dropdown
+    let multiselectInput = wrapper.find('.multiselect__input');
+    await multiselectInput.trigger('focus');
+    await multiselectInput.trigger('mousedown');
+    await nextTick();
+
+    await wrapper.findAll('.multiselect__element').at(1)!
       .find('.multiselect__option')
       .trigger('click');
 
     expect(wrapper.vm.modelValue).toEqual(['value2']);
 
-    await wrapper.findAll('.multiselect__element').at(2)
+    // Re-open the dropdown after clicking
+    multiselectInput = wrapper.find('.multiselect__input');
+    await multiselectInput.trigger('focus');
+    await multiselectInput.trigger('mousedown');
+    await nextTick();
+
+    await wrapper.findAll('.multiselect__element').at(2)!
       .find('.multiselect__option')
       .trigger('click');
 
@@ -192,25 +215,42 @@ describe('EpMultiListSelect component', () => {
     await wrapper.find('.lisaa-valinta').trigger('click');
     await nextTick();
 
-    await wrapper.findAll('.multiselect').at(0)
+    // Open first dropdown
+    const firstMultiselect = wrapper.findAll('.multiselect').at(0)!;
+    await firstMultiselect.find('.multiselect__input').trigger('focus');
+    await firstMultiselect.find('.multiselect__input').trigger('mousedown');
+    await nextTick();
+
+    await firstMultiselect
       .findAll('.multiselect__element')
-      .at(1)
+      .at(1)!
       .find('.multiselect__option')
       .trigger('click');
 
     expect(wrapper.vm.modelValue).toEqual(['value2']);
 
-    await wrapper.findAll('.multiselect').at(1)
+    // Open second dropdown
+    const secondMultiselect = wrapper.findAll('.multiselect').at(1)!;
+    await secondMultiselect.find('.multiselect__input').trigger('focus');
+    await secondMultiselect.find('.multiselect__input').trigger('mousedown');
+    await nextTick();
+
+    await secondMultiselect
       .findAll('.multiselect__element')
-      .at(1)
+      .at(1)!
       .find('.multiselect__option')
       .trigger('click');
 
     expect(wrapper.vm.modelValue).toEqual(['value2']); // already selected
 
-    await wrapper.findAll('.multiselect').at(1)
+    // Re-open the second dropdown
+    await secondMultiselect.find('.multiselect__input').trigger('focus');
+    await secondMultiselect.find('.multiselect__input').trigger('mousedown');
+    await nextTick();
+
+    await secondMultiselect
       .findAll('.multiselect__element')
-      .at(2)
+      .at(2)!
       .find('.multiselect__option')
       .trigger('click');
 
@@ -232,7 +272,7 @@ describe('EpMultiListSelect component', () => {
     expect(values).toEqual(['value1', 'value2']);
     expect(wrapper.findAll('.multiselect__select')).toHaveLength(2);
 
-    await wrapper.findAll('.roskalaatikko').at(0)
+    await wrapper.findAll('.roskalaatikko').at(0)!
       .trigger('click');
     await nextTick();
 
@@ -313,7 +353,13 @@ describe('EpMultiListSelect component', () => {
 
     expect(values).toEqual('value1');
 
-    await wrapper.findAll('.multiselect__element').at(1)
+    // Open the dropdown
+    const multiselectInput = wrapper.find('.multiselect__input');
+    await multiselectInput.trigger('focus');
+    await multiselectInput.trigger('mousedown');
+    await nextTick();
+
+    await wrapper.findAll('.multiselect__element').at(1)!
       .find('.multiselect__option')
       .trigger('click');
 
@@ -321,7 +367,12 @@ describe('EpMultiListSelect component', () => {
 
     expect(wrapper.vm.modelValue).toEqual('value2');
 
-    await wrapper.findAll('.multiselect__element').at(2)
+    // Re-open the dropdown after clicking
+    await multiselectInput.trigger('focus');
+    await multiselectInput.trigger('mousedown');
+    await nextTick();
+
+    await wrapper.findAll('.multiselect__element').at(2)!
       .find('.multiselect__option')
       .trigger('click');
 
