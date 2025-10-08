@@ -188,9 +188,6 @@ onMounted(async () => {
       valittu.value = _.find(kasitteet.value, (k) => k.avain === props.value) || null;
     }
   }
-  catch (err) {
-    throw err;
-  }
   finally {
     isLoading.value = false;
   }

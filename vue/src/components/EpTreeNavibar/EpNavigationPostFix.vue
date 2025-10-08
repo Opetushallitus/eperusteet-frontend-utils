@@ -29,8 +29,8 @@ import { computed } from 'vue';
 const props = defineProps({
   node: {
     type: Object as () => NavigationNodeDto,
-    required: true
-  }
+    required: true,
+  },
 });
 
 const postfixLabel = computed((): string => {

@@ -21,8 +21,18 @@
       </div>
 
       <div class="d-flex mt-3">
-        <EpToggle v-model="query.tuleva" :value="true" :label="$t('tulevat')" checkbox/>
-        <EpToggle v-model="query.voimassaolo" :value="true" :label="$t('voimassaolevat')" checkbox/>
+        <EpToggle
+          v-model="query.tuleva"
+          :value="true"
+          :label="$t('tulevat')"
+          checkbox
+        />
+        <EpToggle
+          v-model="query.voimassaolo"
+          :value="true"
+          :label="$t('voimassaolevat')"
+          checkbox
+        />
       </div>
     </div>
 
@@ -100,6 +110,7 @@ const oppaat = computed(() => {
   if (store.oppaat.value) {
     return store.oppaat.value.data;
   }
+  return undefined;
 });
 
 const mappedOppaat = computed(() => {

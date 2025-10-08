@@ -23,7 +23,7 @@ vi.mock('../../stores/kieli', () => ({
       },
       set value(val) {
         uiKieliRef.value = val;
-      }
+      },
     },
     setUiKieli: vi.fn((kieli) => {
       uiKieliRef.value = kieli;
@@ -96,7 +96,8 @@ describe('EpKayttaja component', () => {
     expect(wrapper.find('.uikieli small').text()).toBe('fi');
 
     // Open language selection dropdown
-    await wrapper.findAll('.ep-collapse').at(1).trigger('click');
+    await wrapper.findAll('.ep-collapse').at(1)
+      .trigger('click');
     await wrapper.vm.$nextTick();
 
     // Change language to Swedish using the component's method
@@ -111,7 +112,7 @@ describe('EpKayttaja component', () => {
 
     // Verify router was called with new language
     expect(mockRouter.push).toHaveBeenCalledWith(expect.objectContaining({
-      params: expect.objectContaining({ lang: 'sv' })
+      params: expect.objectContaining({ lang: 'sv' }),
     }));
 
     // Verify Kielet store was updated
@@ -124,7 +125,8 @@ describe('EpKayttaja component', () => {
     expect(wrapper.find('.valittu-sovellus small').text()).toBe('APP_EPERUSTEET');
 
     // Open application selection dropdown
-    await wrapper.findAll('.ep-collapse .collapse-button').at(1).trigger('click');
+    await wrapper.findAll('.ep-collapse .collapse-button').at(1)
+      .trigger('click');
     await nextTick();
 
     // Verify application options are shown

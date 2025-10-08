@@ -4,9 +4,9 @@
     <!-- router-link täytyy olla a, jotta navigointi onnistuu näppäimistöllä -->
     <router-link
       v-if="route"
+      v-slot="{ navigate }"
       :to="route && route"
       custom
-      v-slot="{ navigate }"
     >
       <a
         style="outline: none;"

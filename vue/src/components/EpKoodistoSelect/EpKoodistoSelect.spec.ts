@@ -10,7 +10,7 @@ import { globalStubs } from '@shared/utils/__tests__/stubs';
 import { nextTick } from 'vue';
 
 describe.skip('EpKoodistoSelect component', () => {
-  let mockData = {
+  const mockData = {
     data: [{
       koodiUri: 'koodiuri1',
       koodiArvo: 'koodiarvo1',
@@ -80,7 +80,8 @@ describe.skip('EpKoodistoSelect component', () => {
     wrapper.find('#open').trigger('click');
     await nextTick();
 
-    wrapper.findAll('tr[role="row"]').at(1).trigger('click');
+    wrapper.findAll('tr[role="row"]').at(1)
+      .trigger('click');
 
     await nextTick();
 

@@ -1,5 +1,8 @@
 <template>
-  <div v-if="editor" class="ep-content">
+  <div
+    v-if="editor"
+    class="ep-content"
+  >
     <ep-editor-menu-bar
       v-sticky
       :layout="layout"

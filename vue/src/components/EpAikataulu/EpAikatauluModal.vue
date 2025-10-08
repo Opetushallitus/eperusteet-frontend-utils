@@ -32,7 +32,7 @@
         :root-model="props.rootModel"
         :julkinen-valinta="props.julkinenValinta"
         :pakolliset-tapahtumat="props.pakollisetTapahtumat"
-        @setInvalid="setInvalid"
+        @set-invalid="setInvalid"
       >
         <template #luomispaiva-topic>
           <slot name="luomispaiva-topic" />
@@ -110,7 +110,8 @@ function openModal() {
         },
       },
     ];
-  } else {
+  }
+  else {
     aikataulutClone.value = _.cloneDeep(props.aikataulut);
   }
 

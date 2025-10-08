@@ -1,6 +1,5 @@
 <template>
   <div v-if="isEditing">
-
     <div
       v-for="(innerModel, i) in innerModelValidations"
       :key="i"
@@ -20,7 +19,7 @@
           deselect-label=""
           :placeholder="''"
           :class="{'is-invalid': !innerModel.valid }"
-          @update:modelValue="handleInput($event, i)"
+          @update:model-value="handleInput($event, i)"
         >
           <template #option="{ option }">
             <div :class="{'child': option.child, 'unselectable': option.unselectable}">

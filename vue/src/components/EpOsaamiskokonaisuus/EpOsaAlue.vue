@@ -158,9 +158,9 @@ const osaAlue = computed({
 });
 
 function otsikkoLkm(tasokuvaus) {
-  return (tasokuvaus.osaamiset?.length > 0 ? 1 : 0) +
-         (tasokuvaus.edelleenKehittyvatOsaamiset?.length > 0 ? 1 : 0) +
-         (tasokuvaus.edistynytOsaaminenKuvaukset?.length > 0 ? 1 : 0);
+  return (tasokuvaus.osaamiset?.length > 0 ? 1 : 0)
+         + (tasokuvaus.edelleenKehittyvatOsaamiset?.length > 0 ? 1 : 0)
+         + (tasokuvaus.edistynytOsaaminenKuvaukset?.length > 0 ? 1 : 0);
 }
 
 const defaultDragOptions = computed(() => {
@@ -186,9 +186,9 @@ function poistaKuvaus(listaKentta, kuvaus, taso) {
     tasokuvaukset: _.map(osaAlue.value.tasokuvaukset, tasokuvaus =>
       tasokuvaus.taso === taso
         ? {
-            ...tasokuvaus,
-            [listaKentta]: _.filter(tasokuvaus[listaKentta], tkuvaus => tkuvaus !== kuvaus)
-          }
+          ...tasokuvaus,
+          [listaKentta]: _.filter(tasokuvaus[listaKentta], tkuvaus => tkuvaus !== kuvaus),
+        }
         : tasokuvaus),
   });
 }
@@ -199,9 +199,9 @@ function lisaaKuvaus(listaKentta, taso) {
     tasokuvaukset: _.map(osaAlue.value.tasokuvaukset, tasokuvaus =>
       tasokuvaus.taso === taso
         ? {
-            ...tasokuvaus,
-            [listaKentta]: [...tasokuvaus[listaKentta], {}]
-          }
+          ...tasokuvaus,
+          [listaKentta]: [...tasokuvaus[listaKentta], {}],
+        }
         : tasokuvaus),
   });
 }

@@ -98,18 +98,18 @@
 const props = defineProps({
   text: {
     type: String,
-    required: true
+    required: true,
   },
   ops: {
     type: Boolean,
     default: false,
-    required: false
+    required: false,
   },
   onlyText: {
     type: Boolean,
     default: false,
-    required: false
-  }
+    required: false,
+  },
 });
 </script>
 

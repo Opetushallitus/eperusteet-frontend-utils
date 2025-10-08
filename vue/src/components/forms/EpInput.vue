@@ -104,7 +104,7 @@ function escapeHtml(str: string | null) {
 
 function removeHiddenCharacters(input: string): string {
   // Regular expression to match common hidden or invisible characters
-  const hiddenCharactersRegex = /[\u00AD\u200B\u200C\u200D\u2060\uFEFF\u2028\u2029\u00A0\u2009\u200A\u2003\u2002\u202A\u202B\u202C\u202D\u202E]/g;
+  const hiddenCharactersRegex = /[\u00AD\u200B-\u200D\u2060\uFEFF\u2028\u2029\u00A0\u2009\u200A\u2003\u2002\u202A-\u202E]/gu;
   return input.replace(hiddenCharactersRegex, '');
 }
 
@@ -113,46 +113,46 @@ const props = defineProps({
   type: {
     default: 'localized',
     type: String,
-    validator: (value: string) => ['localized', 'string', 'number'].includes(value)
+    validator: (value: string) => ['localized', 'string', 'number'].includes(value),
   },
   modelValue: {
-    required: true
+    required: true,
   },
   isHeader: {
     default: false,
-    type: Boolean
+    type: Boolean,
   },
   isEditing: {
     default: false,
-    type: Boolean
+    type: Boolean,
   },
   help: {
     default: '',
-    type: String
+    type: String,
   },
   placeholder: {
     default: '',
-    type: String
+    type: String,
   },
   showValidValidation: {
     default: true,
     required: false,
-    type: Boolean
+    type: Boolean,
   },
   showMessage: {
     default: true,
-    type: Boolean
+    type: Boolean,
   },
   unit: {
-    required: false
+    required: false,
   },
   disabled: {
     default: false,
-    type: Boolean
+    type: Boolean,
   },
   change: {
     required: false,
-    type: Function
+    type: Function,
   },
   validation: {
     required: false,
@@ -170,7 +170,7 @@ const props = defineProps({
   isWarning: {
     type: Boolean,
     default: false,
-  }
+  },
 });
 
 // Define emits

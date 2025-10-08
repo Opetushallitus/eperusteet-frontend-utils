@@ -196,7 +196,8 @@ function handleOk() {
     result = {
       href: linkValue.value,
     };
-  } else if (linkkiTyyppi.value === 'sisainen' && internalLink.value) {
+  }
+  else if (linkkiTyyppi.value === 'sisainen' && internalLink.value) {
     result = {
       href: '#',
       routenode: JSON.stringify(_.pick(internalLink.value, ['id', 'type', 'koodi', 'meta'])),
@@ -216,12 +217,14 @@ onMounted(() => {
   if (props.initialHref && props.initialHref !== '#') {
     linkkiTyyppi.value = 'ulkoinen';
     linkValue.value = props.initialHref;
-  } else if (props.initialRoutenode) {
+  }
+  else if (props.initialRoutenode) {
     linkkiTyyppi.value = 'sisainen';
     try {
       const routeData = JSON.parse(props.initialRoutenode);
       internalLink.value = deepFind({ id: routeData.id }, navigationFlattened.value);
-    } catch (e) {
+    }
+    catch (e) {
       console.error('Failed to parse route node:', e);
     }
   }

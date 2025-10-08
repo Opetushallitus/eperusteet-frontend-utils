@@ -151,9 +151,9 @@ const toggle = (idx) => {
   const updatedValue = [...props.modelValue];
   updatedValue[idx] = {
     ...updatedValue[idx],
-    $closed: !updatedValue[idx].$closed
+    $closed: !updatedValue[idx].$closed,
   };
-  emitter(updatedValue);
+  emit('update:modelValue', updatedValue);
 };
 
 const innerValue = computed({

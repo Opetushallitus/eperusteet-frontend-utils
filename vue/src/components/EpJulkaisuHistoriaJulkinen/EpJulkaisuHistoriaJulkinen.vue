@@ -58,7 +58,7 @@ const sliceSize = computed(() => {
 function muutosmaaraysLiite(julkaisu: Julkaisu) {
   if (julkaisu.liitteet && julkaisu.liitteet.length > 0) {
     julkaisu.liitteet.forEach(liiteData => {
-      liiteData.url = `/eperusteet-service/api/perusteet/${julkaisu.peruste?.id!}/julkaisu/liitteet/${liiteData.liite.id}`;
+      liiteData.url = `/eperusteet-service/api/perusteet/${julkaisu.peruste?.id ?? 0}/julkaisu/liitteet/${liiteData.liite.id}`;
     });
     return julkaisu.liitteet;
   }

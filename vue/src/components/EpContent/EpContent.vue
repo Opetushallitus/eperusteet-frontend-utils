@@ -92,6 +92,7 @@ const placeholder = computed(() => {
   if (!focused.value) {
     return $kaannaPlaceholder(props.modelValue, !props.isEditable);
   }
+  return undefined;
 });
 
 // watch(model, async (val) => {
@@ -129,8 +130,8 @@ function setUpEditorEvents() {
       }
       else {
         emit('update:modelValue', {
-            ...props.modelValue,
-            [Kielet.getSisaltoKieli.value as unknown as string]: stripped,
+          ...props.modelValue,
+          [Kielet.getSisaltoKieli.value as unknown as string]: stripped,
         });
       }
     }
@@ -163,10 +164,10 @@ const editor = useEditor({
   },
   onFocus: () => {
     if (props.isEditable) {
-        focused.value = true;
-        if (!localizedValue.value) {
-            editor.value?.commands.setContent(localizedValue.value);
-        }
+      focused.value = true;
+      if (!localizedValue.value) {
+        editor.value?.commands.setContent(localizedValue.value);
+      }
     }
   },
   onBlur: () => {
@@ -187,9 +188,9 @@ watch(isEditable, async (val) => {
   }
 });
 
-onMounted(async() => {
-    await nextTick();
-})
+onMounted(async () => {
+  await nextTick();
+});
 
 onBeforeUnmount(() => {
   editor.value?.destroy();

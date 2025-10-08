@@ -9,7 +9,7 @@
           <div v-if="oppiaineetMap[oppiaineOpintojakso.oppiaine.koodi]">
             {{ $kaanna(oppiaineetMap[oppiaineOpintojakso.oppiaine.koodi].nimi) }}
             <ep-opintojakso-select
-              v-model="value.paikallisetOpintojaksot"
+              v-model="paikallisetOpintojaksot"
               :options="oppiaineOpintojakso.opintojaksot"
               :is-editing="isEditing"
             />
@@ -66,6 +66,13 @@ const props = defineProps({
     required: true,
     type: Array,
   },
+});
+
+const emit = defineEmits(['update:value']);
+
+const paikallisetOpintojaksot = computed({
+  get: () => props.value.paikallisetOpintojaksot,
+  set: (newValue) => emit('update:value', { ...props.value, paikallisetOpintojaksot: newValue }),
 });
 
 const oppiaineidenModuulit = computed(() => {

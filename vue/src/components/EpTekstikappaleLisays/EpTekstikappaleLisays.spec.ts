@@ -61,7 +61,8 @@ describe('EpKoodistoSelect component', () => {
 
     expect(wrapper.findAll('button.btn-primary[disabled]')).toHaveLength(1);
 
-    wrapper.findAll('option').at(1).setSelected();
+    wrapper.findAll('option').at(1)
+      .setSelected();
 
     await Vue.nextTick();
 

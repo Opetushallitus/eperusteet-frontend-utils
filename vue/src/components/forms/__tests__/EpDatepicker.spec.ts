@@ -13,7 +13,7 @@ describe.skip('EpDatepicker component', () => {
         'validation-error-required': 'validation-error-required',
         'validi': 'validi',
       },
-    }
+    },
   });
 
   it('Render component', () => {

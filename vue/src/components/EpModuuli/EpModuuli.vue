@@ -32,8 +32,8 @@ interface Moduuli {
 const props = defineProps({
   moduuli: {
     type: Object as () => Moduuli,
-    required: true
-  }
+    required: true,
+  },
 });
 </script>
 

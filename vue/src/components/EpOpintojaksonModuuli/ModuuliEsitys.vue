@@ -100,18 +100,21 @@ const hasKuvaus = computed(() => {
   if (props.moduuli) {
     return props.moduuli.kuvaus;
   }
+  return undefined;
 });
 
 const tyyppi = computed(() => {
   if (props.moduuli) {
     return props.moduuli.pakollinen ? 'pakollinen' : 'valinnainen';
   }
+  return undefined;
 });
 
 const tavoitteet = computed(() => {
   if (props.moduuli) {
     return props.moduuli.tavoitteet;
   }
+  return undefined;
 });
 
 const hasTavoitteet = computed(() => {
@@ -122,6 +125,7 @@ const sisallot = computed(() => {
   if (props.moduuli) {
     return props.moduuli.sisallot;
   }
+  return undefined;
 });
 
 const hasSisallot = computed(() => {

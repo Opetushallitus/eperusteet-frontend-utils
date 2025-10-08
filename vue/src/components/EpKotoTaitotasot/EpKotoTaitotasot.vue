@@ -171,7 +171,10 @@
             v-if="taitotaso[keskeinenSisalto['object']]"
             class="mt-3 mb-2 p-0"
           >
-            <template v-if="keskeinenSisalto['otsikko']" #label>
+            <template
+              v-if="keskeinenSisalto['otsikko']"
+              #label
+            >
               <h4>
                 {{ $t(keskeinenSisalto['otsikko']) }}
               </h4>

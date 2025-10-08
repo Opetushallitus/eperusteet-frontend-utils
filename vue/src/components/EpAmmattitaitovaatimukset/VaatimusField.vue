@@ -2,7 +2,7 @@
   <div>
     <ep-koodisto-select
       v-if="props.modelValue"
-      v-model="props.modelValue.koodi"
+      v-model="koodiValue"
       :store="props.koodisto"
     >
       <template #default="{ open }">
@@ -133,6 +133,11 @@ const datalistId = _.uniqueId('datalist_');
 
 const vaatimus = computed(() => {
   return props.modelValue?.vaatimus ? _.unescape($kaanna(props.modelValue.vaatimus)) : '';
+});
+
+const koodiValue = computed({
+  get: () => props.modelValue?.koodi,
+  set: (value) => emit('update:modelValue', { ...props.modelValue, koodi: value }),
 });
 
 const isDatalistVisible = computed(() => {

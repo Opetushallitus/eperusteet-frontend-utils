@@ -2,7 +2,6 @@
   <div>
     <b-pagination
       :value="currentPage"
-      @input="currentPage = $event"
       class="mt-4"
       :total-rows="totalPages"
       :per-page="perPage"
@@ -13,6 +12,7 @@
       prev-text="«"
       next-text="»"
       :label-first-page="$t('alkuun')"
+      @input="currentPage = $event"
       :label-last-page="$t('loppuun')"
       :label-page="$t('sivu')"
       :label-next-page="$t('seuraava-sivu')"

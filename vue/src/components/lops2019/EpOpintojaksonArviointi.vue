@@ -30,7 +30,7 @@
       </div>
     </div>
     <ep-content
-      v-model="value.arviointi"
+      v-model="arviointi"
       :opetussuunnitelma-store="opetussuunnitelmaStore"
       layout="normal"
       :is-editable="isEditing"
@@ -46,10 +46,11 @@
           <h4>{{ $kaanna(paikallinenOpintojakso.nimi) }}</h4>
         </div>
         <ep-content
-          v-model="paikallinenOpintojakso.arviointi"
+          :model-value="paikallinenOpintojakso.arviointi"
           :opetussuunnitelma-store="opetussuunnitelmaStore"
           layout="normal"
           :is-editable="false"
+          @update:model-value="updatePaikallinenOpintojakso(index, $event)"
         />
       </div>
     </div>
@@ -90,6 +91,19 @@ const props = defineProps({
     type: Boolean,
   },
 });
+
+const emit = defineEmits(['update:value']);
+
+const arviointi = computed({
+  get: () => props.value.arviointi,
+  set: (newValue) => emit('update:value', { ...props.value, arviointi: newValue }),
+});
+
+const updatePaikallinenOpintojakso = (index: number, newArviointi: any) => {
+  const updated = [...props.value.paikallisetOpintojaksot];
+  updated[index] = { ...updated[index], arviointi: newArviointi };
+  emit('update:value', { ...props.value, paikallisetOpintojaksot: updated });
+};
 </script>
 
 <style lang="scss">

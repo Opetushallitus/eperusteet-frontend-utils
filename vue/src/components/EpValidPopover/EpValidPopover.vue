@@ -132,8 +132,11 @@
                   <span>{{ $t(virhe) }}</span>
                 </div>
               </div>
-              <div v-if="validoinnit.virheet.length > 5 && julkaistava && luonnos && !julkaistu && !arkistoitu" class="pt-2 pb-1 row">
-                <div class="col-1"></div>
+              <div
+                v-if="validoinnit.virheet.length > 5 && julkaistava && luonnos && !julkaistu && !arkistoitu"
+                class="pt-2 pb-1 row"
+              >
+                <div class="col-1" />
                 <div class="col">
                   <b-button
                     class="p-0"

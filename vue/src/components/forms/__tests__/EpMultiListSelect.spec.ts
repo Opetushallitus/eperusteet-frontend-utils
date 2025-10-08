@@ -32,7 +32,7 @@ describe('EpMultiListSelect component', () => {
         'ei-hakutuloksia': 'ei hakutuloksia',
         'ei-vaihtoehtoja': 'ei vaihtoehtoja',
       },
-    }
+    },
   });
 
   function mountWrapper(props: any) {
@@ -218,7 +218,7 @@ describe('EpMultiListSelect component', () => {
   });
 
   test('Value changed correctly when removed', async () => {
-    let values = ['value1', 'value2'];
+    const values = ['value1', 'value2'];
     const wrapper = mountWrapper({
       items: itemMock,
       modelValue: values,

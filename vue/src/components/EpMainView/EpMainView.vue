@@ -23,8 +23,8 @@ import { hasSlotContent } from '../../utils/vue-utils';
 const props = defineProps({
   container: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 
 const slots = useSlots();

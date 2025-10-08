@@ -6,9 +6,10 @@
       class="arviointi"
     >
       <EpArviointi
-        v-model="modelValue[index]"
+        :model-value="modelValue[index]"
         :is-editing="isEditing"
         :arviointiasteikot="arviointiasteikot"
+        @update:model-value="updateArvioinninKohdeAlue(index, $event)"
       >
         <template #poisto>
           <EpButton
@@ -47,6 +48,12 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits(['update:modelValue']);
+
+const updateArvioinninKohdeAlue = (index: number, value: any) => {
+  const updated = [...props.modelValue];
+  updated[index] = value;
+  emit('update:modelValue', updated);
+};
 
 const lisaaArvioinninKohdeAlue = () => {
   emit('update:modelValue', [

@@ -55,12 +55,12 @@ interface ListaTiedote extends TiedoteDto {
 const props = defineProps({
   tiedotteet: {
     type: Array as () => TiedoteDto[],
-    required: true
+    required: true,
   },
   tiedoteMaara: {
     type: Number,
-    required: false
-  }
+    required: false,
+  },
 });
 
 // Define emits

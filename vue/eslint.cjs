@@ -20,6 +20,7 @@ const lintModuleConfig = [{
   languageOptions: {
       globals: {
           ...globals.node,
+          ...globals.browser,
       },
 
       parser: parser,

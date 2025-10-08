@@ -106,7 +106,7 @@
           class="arvo"
         >
           <ep-input
-            :modelValue="arvo ? item[arvo] : item"
+            :model-value="arvo ? item[arvo] : item"
             :is-editing="false"
           />
         </li>
@@ -203,7 +203,7 @@ const internal = computed({
   },
   set: (value: any) => {
     emit('update:modelValue', value);
-  }
+  },
 });
 
 const options = computed(() => {

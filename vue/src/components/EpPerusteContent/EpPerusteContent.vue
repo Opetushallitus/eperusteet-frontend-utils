@@ -44,7 +44,7 @@
         <h4>{{ $t('paikallinen-teksti') }}</h4>
         <ep-content
           v-if="isEditing || hasContent"
-          v-model="object[teksti]"
+          v-model="objectTeksti"
           layout="normal"
           :is-editable="isEditing"
         />
@@ -116,8 +116,15 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(['update:object']);
+
 // Inject opetussuunnitelma
 const opetussuunnitelma = inject('opetussuunnitelma');
+
+const objectTeksti = computed({
+  get: () => props.object?.[props.teksti],
+  set: (value) => emit('update:object', { ...props.object, [props.teksti]: value }),
+});
 
 const hasContent = computed(() => {
   return props.object != null && props.object[props.teksti] != null;

@@ -61,8 +61,8 @@ const props = withDefaults(
   defineProps<{
     tiedotteet: TiedoteDto[] | null;
   }>(), {
-  tiedotteet: null,
-});
+    tiedotteet: null,
+  });
 
 const sisaltoKieli = computed(() => {
   return Kielet.getSisaltoKieli.value || null;

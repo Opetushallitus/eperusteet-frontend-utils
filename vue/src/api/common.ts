@@ -15,7 +15,7 @@ export function axiosHandler(msg: string) {
   return async (err: any) => {
     console.log('axiosHandler', err);
     // if (err?.response?.status === 500 || err?.response?.status === 403 || err?.response?.status === 400 || err?.response?.status === 409) {
-      $fail(errorMessage(err), undefined, errorNotificationDuration());
+    $fail(errorMessage(err), undefined, errorNotificationDuration());
     // }
     Virheet.lisaaVirhe({});
     throw err;

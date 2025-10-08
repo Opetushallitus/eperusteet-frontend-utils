@@ -76,7 +76,8 @@ describe('EpSelect component', () => {
     });
 
     expect(wrapper.props('modelValue')).toEqual(['arvo1']);
-    wrapper.findAll('option').at(3).setSelected();
+    wrapper.findAll('option').at(3)
+      .setSelected();
     await nextTick();
     expect(wrapper.props('modelValue')).toEqual(['arvo1', 'arvo3']);
 

@@ -40,13 +40,13 @@ import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue
 const props = defineProps({
   node: {
     type: Object as () => NavigationNodeDto,
-    required: true
+    required: true,
   },
   to: {
     type: [Object, String],
     required: false,
-    default: undefined
-  }
+    default: undefined,
+  },
 });
 
 const component = computed(() => {

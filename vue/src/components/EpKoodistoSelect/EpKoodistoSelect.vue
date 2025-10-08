@@ -96,7 +96,7 @@
             v-if="raw"
             v-model="sivu"
             :total="raw.kokonaismäärä"
-            :itemsPerPage="raw.sivukoko"
+            :items-per-page="raw.sivukoko"
             aria-controls="koodistot"
           />
 

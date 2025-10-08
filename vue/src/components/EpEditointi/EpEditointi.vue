@@ -164,15 +164,22 @@
                   </div>
                 </div>
                 <template v-else-if="!isEditing && features.editable && !versiohistoriaVisible">
-                  <slot name="muokkaa-content" :data="inner">
-                    <ep-button id="editointi-muokkaus"
-                               variant="link"
-                               icon="edit"
-                               v-oikeustarkastelu="muokkausOikeustarkastelu"
-                               @click="modify()"
-                               :show-spinner="isSaving || loading"
-                               :disabled="disabled">
-                      <slot name="muokkaa">{{ $t('muokkaa') }}</slot>
+                  <slot
+                    name="muokkaa-content"
+                    :data="inner"
+                  >
+                    <ep-button
+                      id="editointi-muokkaus"
+                      v-oikeustarkastelu="muokkausOikeustarkastelu"
+                      variant="link"
+                      icon="edit"
+                      :show-spinner="isSaving || loading"
+                      :disabled="disabled"
+                      @click="modify()"
+                    >
+                      <slot name="muokkaa">
+                        {{ $t('muokkaa') }}
+                      </slot>
                     </ep-button>
                   </slot>
                 </template>
@@ -667,7 +674,7 @@ const innerSupport = computed(() => {
   return null;
 });
 
-const errorValidationData = computed(() => inner || null);
+const errorValidationData = computed(() => inner.value || null);
 
 const hasPreview = computed(() => props.store.hasPreview || false);
 
@@ -675,7 +682,7 @@ const currentLock = computed(() => props.store.currentLock || null);
 
 const isSaving = computed(() => props.store.isSaving || false);
 
-const isEditable = computed(() => features.editable || false);
+const isEditable = computed(() => features.value.editable || false);
 
 const validator = computed(() => ({ inner: props.store.validator || null }));
 
@@ -723,13 +730,13 @@ const katseluDropDownValinnatVisible = computed(() =>
   !isEditing.value
   && !disabled.value
   && (features.value.recoverable || features.value.removable || features.value.hideable)
-  && !versiohistoriaVisible.value
+  && !versiohistoriaVisible.value,
 );
 
 const muokkausEiSallittu = computed(() =>
   !isEditing.value
   && latest.value
-  && !features.value.editable
+  && !features.value.editable,
 );
 
 const current = computed(() => {
@@ -755,7 +762,7 @@ const current = computed(() => {
 });
 
 const versiohistoriaVisible = computed(() =>
-  current.value && current.value !== latest.value
+  current.value && current.value !== latest.value,
 );
 
 const hasKeskusteluSlot = computed(() => !!slots.keskustelu);
@@ -773,9 +780,6 @@ const hasCustomHeaderSlot = computed(() => !!slots.customheader);
 const saveHelpText = computed(() => {
   if (disabled.value) {
     return 'tallenna-kaynnissa';
-  }
-  else if (disabled.value) {
-    return 'tallenna-tila-virhe-ohje';
   }
   else if (validation.value?.$invalid) {
     return 'tallenna-validointi-virhe-ohje';

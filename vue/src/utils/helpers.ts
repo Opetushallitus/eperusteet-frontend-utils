@@ -28,7 +28,7 @@ export function mapNodeAttrs(...fields: string[]) {
   }), {});
 }
 
-export function deepFind(filterObject: Object | string, searchObject: any) : any {
+export function deepFind(filterObject: object | string, searchObject: any) : any {
   if (typeof filterObject === 'string') {
     return _.get(searchObject, filterObject);
   }
@@ -39,7 +39,7 @@ export function deepFind(filterObject: Object | string, searchObject: any) : any
   }), 'parent');
 }
 
-export function deepFilter(filterObject: Object | string, searchObject: any) : any {
+export function deepFilter(filterObject: object | string, searchObject: any) : any {
   let objects : any[] = [];
   eachDeep(searchObject, object => {
     if (_.includes(_.keys(object), _.keys(filterObject)[0]) && _.get(object, _.keys(filterObject)[0]) === _.values(filterObject)[0]) {

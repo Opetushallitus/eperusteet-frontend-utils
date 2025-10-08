@@ -80,7 +80,8 @@ const validationError = computed(() => {
 
   if (isEditing === undefined || isEditing) {
     return _.first(errorValidators.value) || _.first(validators.value) || null;
-  } else {
+  }
+  else {
     return null;
   }
 });

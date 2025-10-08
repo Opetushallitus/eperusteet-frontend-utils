@@ -49,7 +49,7 @@
               >
                 <div class="d-flex align-items-center">
                   <ep-field
-                    v-model="modelValue.width"
+                    v-model="width"
                     :is-editing="true"
                     type="number"
                   />
@@ -63,7 +63,7 @@
               >
                 <div class="d-flex align-items-center">
                   <ep-field
-                    v-model="modelValue.height"
+                    v-model="height"
                     :is-editing="true"
                     type="number"
                   />
@@ -211,41 +211,57 @@ function cancel() {
   emit('cancel');
 }
 
-const width = computed(() => {
-  return props.modelValue?.width;
+const width = computed({
+  get: () => props.modelValue?.width,
+  set: (value) => {
+    if (keepAspectRatio.value && !changeBlock.value) {
+      changeBlock.value = true;
+      emit('update:modelValue', {
+        ...props.modelValue,
+        width: value,
+        height: round(value * originalHeightRatio.value),
+      });
+    }
+    else {
+      emit('update:modelValue', {
+        ...props.modelValue,
+        width: value,
+      });
+    }
+  },
 });
 
-const height = computed(() => {
-  return props.modelValue?.height;
+const height = computed({
+  get: () => props.modelValue?.height,
+  set: (value) => {
+    if (keepAspectRatio.value && !changeBlock.value) {
+      changeBlock.value = true;
+      emit('update:modelValue', {
+        ...props.modelValue,
+        height: value,
+        width: round(value * originalWidthRatio.value),
+      });
+    }
+    else {
+      emit('update:modelValue', {
+        ...props.modelValue,
+        height: value,
+      });
+    }
+  },
 });
 
-watch(width, (newVal) => {
-  if (newVal && keepAspectRatio.value && !changeBlock.value) {
-    changeBlock.value = true;
-    emit('update:modelValue', {
-      ...props.modelValue,
-      height: round(width.value * originalHeightRatio.value),
-    });
-  }
-  else if (changeBlock.value) {
+watch(width, () => {
+  if (changeBlock.value) {
     changeBlock.value = false;
   }
-
   recalcPreview();
 });
 
-watch(height, (newVal) => {
-  if (newVal && keepAspectRatio.value && !changeBlock.value) {
-    changeBlock.value = true;
-    emit('update:modelValue', {
-      ...props.modelValue,
-      width: round(height.value * originalWidthRatio.value),
-    });
-  }
-  else if (changeBlock.value) {
+watch(height, () => {
+  if (changeBlock.value) {
     changeBlock.value = false;
   }
-
   recalcPreview();
 });
 

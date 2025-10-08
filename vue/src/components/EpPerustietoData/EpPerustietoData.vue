@@ -22,12 +22,12 @@ import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue
 const props = defineProps({
   icon: {
     type: String,
-    required: true
+    required: true,
   },
   topic: {
     type: String,
-    required: false
-  }
+    required: false,
+  },
 });
 </script>
 

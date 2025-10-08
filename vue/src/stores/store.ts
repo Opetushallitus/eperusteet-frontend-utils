@@ -5,7 +5,7 @@ import _ from 'lodash';
 Vue.use(Vuex);
 const StoreConfigFieldName = '_storeconfig';
 
-type StoreConstructor = new(...args: any[]) => {};
+type StoreConstructor = new(...args: any[]) => object;
 
 function vuexCase(val: string) {
   return _.toUpper(_.snakeCase(val));

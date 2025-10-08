@@ -5,17 +5,25 @@
       :checked="innerValue"
       :value="innerValue"
       :stacked="stacked"
-      @input="innerValue = $event">
+      @input="innerValue = $event"
+    >
       <b-form-checkbox
         v-for="(item, index) in items"
         :key="uniqueId + index"
-        :value="item">
-        <slot :item="item"></slot>
+        :value="item"
+      >
+        <slot :item="item" />
       </b-form-checkbox>
     </b-form-checkbox-group>
     <div v-else>
-      <span v-for="(item, index) in innerValue" :key="uniqueId + index">
-        <slot :item="item"></slot><span class="mr-0" v-if="index < innerValue.length - 1">, </span>
+      <span
+        v-for="(item, index) in innerValue"
+        :key="uniqueId + index"
+      >
+        <slot :item="item" /><span
+          v-if="index < innerValue.length - 1"
+          class="mr-0"
+        >, </span>
       </span>
     </div>
   </div>

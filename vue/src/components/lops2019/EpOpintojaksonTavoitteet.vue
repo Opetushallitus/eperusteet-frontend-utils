@@ -29,10 +29,11 @@
           <h4>{{ $kaanna(paikallinenOpintojakso.nimi) }}</h4>
         </div>
         <ep-list
-          v-model="paikallinenOpintojakso.tavoitteet"
+          :model-value="paikallinenOpintojakso.tavoitteet"
           :is-editable="false"
           lisays="lisaa-tavoite"
           kentta="kuvaus"
+          @update:model-value="updatePaikallinenOpintojakso(idx, $event)"
         />
       </div>
     </div>
@@ -50,7 +51,7 @@
       {{ $t('ei-paikallista-tarkennusta') }}
     </div>
     <ep-list
-      v-model="modelValue.tavoitteet"
+      v-model="tavoitteet"
       :is-editable="isEditing"
       lisays="lisaa-tavoite"
       kentta="kuvaus"
@@ -60,6 +61,7 @@
 
 <script setup lang="ts">
 import _ from 'lodash';
+import { computed } from 'vue';
 import EpPrefixList from '@shared/components/EpPrefixList/EpPrefixList.vue';
 import EpList from '@shared/components/forms/EpList.vue';
 
@@ -83,6 +85,19 @@ const props = defineProps({
     type: Boolean,
   },
 });
+
+const emit = defineEmits(['update:modelValue']);
+
+const tavoitteet = computed({
+  get: () => props.modelValue.tavoitteet,
+  set: (newValue) => emit('update:modelValue', { ...props.modelValue, tavoitteet: newValue }),
+});
+
+const updatePaikallinenOpintojakso = (index: number, newTavoitteet: any) => {
+  const updated = [...props.modelValue.paikallisetOpintojaksot];
+  updated[index] = { ...updated[index], tavoitteet: newTavoitteet };
+  emit('update:modelValue', { ...props.modelValue, paikallisetOpintojaksot: updated });
+};
 </script>
 
 <style lang="scss">

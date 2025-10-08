@@ -145,7 +145,7 @@ const lisaaTavoite = () => {
       ...(!hasSlotContent(slots.default)
         && {
           nimi: null,
-          uri: generateTemporaryKoodiUri('tavoitteetlukutaidot')
+          uri: generateTemporaryKoodiUri('tavoitteetlukutaidot'),
         }),
     },
   ];

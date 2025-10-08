@@ -58,6 +58,52 @@ export default class TermiExtension extends Mark {
           abbrdata: null as ITermi | null,
         };
       },
+      computed: {
+        dataViite: {
+          get() {
+            return (this as any).node.attrs['data-viite'];
+          },
+          set(value: any) {
+            (this as any).updateAttrs({
+              'data-viite': value,
+            });
+          },
+        },
+        title() {
+          if ((this as any).abbrdata) {
+            const selitys = (this as any).$kaanna((this as any).abbrdata.selitys);
+            const data = document.createElement('div');
+            data.innerHTML = selitys;
+            if (data) {
+              return _.trim(data.textContent || data.innerText || '');
+            }
+            else {
+              return '';
+            }
+          }
+          else {
+            return (this as any).$t('termia-ei-kuvattu');
+          }
+        },
+      },
+      watch: {
+        dataViite: {
+          async handler(value: string) {
+            if (!value) {
+              return;
+            }
+
+            try {
+              (this as any).abbrdata = await handler.getOne(value);
+            }
+            catch (err) {
+              (this as any).abbrdata = null;
+              throw err;
+            }
+          },
+          immediate: true,
+        },
+      },
       mounted() {
         if (!(this as any).node.attrs['data-viite']) {
           (this as any).showTermiSelector();
@@ -90,52 +136,6 @@ export default class TermiExtension extends Mark {
             size: 'lg',
             title: [kasiteTitle],
           });
-        },
-      },
-      watch: {
-        dataViite: {
-          async handler(value: string) {
-            if (!value) {
-              return;
-            }
-
-            try {
-              (this as any).abbrdata = await handler.getOne(value);
-            }
-            catch (err) {
-              (this as any).abbrdata = null;
-              throw err;
-            }
-          },
-          immediate: true,
-        },
-      },
-      computed: {
-        dataViite: {
-          get() {
-            return (this as any).node.attrs['data-viite'];
-          },
-          set(value: any) {
-            (this as any).updateAttrs({
-              'data-viite': value,
-            });
-          },
-        },
-        title() {
-          if ((this as any).abbrdata) {
-            const selitys = (this as any).$kaanna((this as any).abbrdata.selitys);
-            const data = document.createElement('div');
-            data.innerHTML = selitys;
-            if (data) {
-              return _.trim(data.textContent || data.innerText || '');
-            }
-            else {
-              return '';
-            }
-          }
-          else {
-            return (this as any).$t('termia-ei-kuvattu');
-          }
         },
       },
       template: `

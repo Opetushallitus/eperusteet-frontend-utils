@@ -221,7 +221,7 @@ const innerModel = computed({
   get: () => props.modelValue,
   set: (value) => {
     emit('update:modelValue', value);
-  }
+  },
 });
 
 const kieli = computed(() => {

@@ -19,15 +19,14 @@
     <b-popover
       v-if="slots.default"
       ref="progresspopover"
+      v-model:show="tilaPopupVisible"
       container="tila-popover"
       target="tila-popover"
       triggers="focus hover blur"
       size="md"
       placement="bottom"
-      v-model:show="tilaPopupVisible"
       custom-class="progress-popover"
     >
-
       <div class="slot-area row justify-content-center mr-1">
         <slot />
       </div>
@@ -83,8 +82,8 @@ const processSlices = computed(() => {
       return props.slices;
     }
 
-    return [0.2, 0.5, 1];
   }
+  return [0.2, 0.5, 1];
 });
 
 defineExpose({

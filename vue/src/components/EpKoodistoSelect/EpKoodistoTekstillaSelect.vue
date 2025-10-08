@@ -42,7 +42,9 @@
       class="mb-4"
     >
       <template #button-content>
-        <slot name="default">Painike puuttuu</slot>
+        <slot name="default">
+          Painike puuttuu
+        </slot>
       </template>
       <b-dropdown-item-button
         v-for="(koodi, index) in koodit"
@@ -78,7 +80,7 @@ const props = defineProps({
   },
   kuvaHandler: {
     type: Object,
-    default: false,
+    default: null,
   },
   tekstiField: {
     type: String,

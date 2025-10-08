@@ -312,8 +312,8 @@ const uiKieli = computed(() => {
 
 const hasLukuOikeusKoulutustoimijoita = computed(() => {
   if (props.koulutustoimijat) {
-    return !_.isEmpty(_.filter(props.koulutustoimijat, { oikeus: 'luku' })) &&
-           !_.isEmpty(_.reject(props.koulutustoimijat, { oikeus: 'luku' }));
+    return !_.isEmpty(_.filter(props.koulutustoimijat, { oikeus: 'luku' }))
+           && !_.isEmpty(_.reject(props.koulutustoimijat, { oikeus: 'luku' }));
   }
   return false;
 });
@@ -355,7 +355,9 @@ async function valitseOrganisaatio(koulutustoimija: any) {
     await router.push(next);
     setItem('koulutustoimija', koulutustoimija.id);
   }
-  catch (err) { }
+  catch (err) {
+    // Silently ignore router push errors
+  }
 }
 
 async function valitseUiKieli(kieli: Kieli) {
@@ -377,7 +379,9 @@ async function valitseUiKieli(kieli: Kieli) {
   try {
     await router.push(next);
   }
-  catch (err) { }
+  catch (err) {
+    // Silently ignore router push errors
+  }
 }
 </script>
 

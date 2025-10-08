@@ -37,12 +37,18 @@
         </div>
         <div class="col-md col-slot">
           <slot name="palaute" />
-          <div class="d-flex link-style" v-if="linkit.tietoapalvelusta">
-          <EpMaterialIcon>chevron_right</EpMaterialIcon>
-          <EpExternalLink :url="$kaanna(linkit.tietoapalvelusta)" :showIcon="false">
-            {{ $t('tietoa-palvelusta') }}
-          </EpExternalLink>
-        </div>
+          <div
+            v-if="linkit.tietoapalvelusta"
+            class="d-flex link-style"
+          >
+            <EpMaterialIcon>chevron_right</EpMaterialIcon>
+            <EpExternalLink
+              :url="$kaanna(linkit.tietoapalvelusta)"
+              :show-icon="false"
+            >
+              {{ $t('tietoa-palvelusta') }}
+            </EpExternalLink>
+          </div>
           <div class="d-flex link-style">
             <EpMaterialIcon>chevron_right</EpMaterialIcon>
             <EpExternalLink
@@ -96,12 +102,12 @@ const linkit = computed(() => {
       sv: 'https://opintopolku.fi/konfo/sv/sivu/dataskyddsbeskrivningar-och-webbkakor',
     },
     ...(tietoapalvelusta.value && {
-        tietoapalvelusta: {
-          fi: buildKatseluUrl('fi', `/opas/${tietoapalvelusta.value.id}`),
-          sv: buildKatseluUrl('sv', `/opas/${tietoapalvelusta.value.id}`),
-          en: buildKatseluUrl('en', `/opas/${tietoapalvelusta.value.id}`),
-        },
-      }),
+      tietoapalvelusta: {
+        fi: buildKatseluUrl('fi', `/opas/${tietoapalvelusta.value.id}`),
+        sv: buildKatseluUrl('sv', `/opas/${tietoapalvelusta.value.id}`),
+        en: buildKatseluUrl('en', `/opas/${tietoapalvelusta.value.id}`),
+      },
+    }),
   };
 });
 </script>

@@ -214,7 +214,7 @@ watch(
       innerModel.value = _.first(props.items);
     }
   },
-  { immediate: true }
+  { immediate: true },
 );
 </script>
 

@@ -390,7 +390,8 @@ const lisaaVaatimus = () => {
 const vaatimusValidation = (kohdealueIdx, vaatimusIdx) => {
   if (!kohdealueIdx) {
     return props.validation?.vaatimukset?.$each?.$iter[vaatimusIdx]?.vaatimus;
-  } else {
+  }
+  else {
     return props.validation?.kohdealueet?.$each?.$iter[kohdealueIdx]?.vaatimukset?.$each?.$iter[vaatimusIdx]?.vaatimus;
   }
 };

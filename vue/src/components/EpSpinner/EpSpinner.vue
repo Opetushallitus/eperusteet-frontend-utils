@@ -27,12 +27,12 @@ const props = defineProps({
   small: {
     type: Boolean,
     required: false,
-    default: false
+    default: false,
   },
   color: {
     type: String,
-    required: false
-  }
+    required: false,
+  },
 });
 
 const style = computed(() => {

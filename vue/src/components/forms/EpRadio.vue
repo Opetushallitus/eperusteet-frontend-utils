@@ -14,7 +14,10 @@
         <slot>{{ label }}</slot>
       </label>
     </div>
-    <div v-if="showMessage && help" class="help-text">
+    <div
+      v-if="showMessage && help"
+      class="help-text"
+    >
       {{ $t(help) }}
     </div>
   </div>

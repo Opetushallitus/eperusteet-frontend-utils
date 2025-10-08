@@ -10,8 +10,8 @@ import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue
 const props = defineProps({
   index: {
     type: Number,
-    required: true
-  }
+    required: true,
+  },
 });
 
 const kohdealueVarit = ['#99B3F1', '#9BDCFF', '#B2B2B2', '#002D99', '#FFD900', '#E60895', '#C126B8', '#575757',

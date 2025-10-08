@@ -142,7 +142,7 @@ const activeIdx = computed(() => {
   }
 
   return _.findIndex(navigation.value, navItem =>
-    navItem.id != null ? navItem.id === active.value!.id : navItem.type === active.value?.type
+    navItem.id != null ? navItem.id === active.value!.id : navItem.type === active.value?.type,
   );
 });
 

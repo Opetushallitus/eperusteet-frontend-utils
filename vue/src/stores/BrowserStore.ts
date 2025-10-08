@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import _ from 'lodash';
-import { computed, reactive, ref } from '@vue/reactivity';
+import { computed, reactive, ref } from 'vue';
 
 const state = reactive({
   window: {

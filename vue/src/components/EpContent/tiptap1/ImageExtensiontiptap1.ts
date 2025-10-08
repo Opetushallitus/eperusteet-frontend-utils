@@ -60,7 +60,7 @@ export default class ImageExtension extends Node {
 
   get view() {
     const opsId = this.opsId;
-    const self = this;
+    const handler = this.handler;
     return Vue.extend({
       components: {
         ImageModal,
@@ -71,7 +71,7 @@ export default class ImageExtension extends Node {
       data() {
         return {
           isOpen: false,
-          liitteet: self.handler,
+          liitteet: handler,
         };
       },
       mounted() {

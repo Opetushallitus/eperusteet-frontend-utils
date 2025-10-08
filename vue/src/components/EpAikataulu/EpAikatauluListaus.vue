@@ -147,13 +147,13 @@ const paatavoitteet = computed(() =>
   _.chain(aikataulut.value)
     .filter((aikataulu) => aikataulu.tapahtuma !== aikataulutapahtuma.luominen)
     .filter((aikataulu) => aikataulu.tapahtuma !== aikataulutapahtuma.tavoite)
-    .value()
+    .value(),
 );
 
 const yleistavoitteet = computed(() =>
   _.chain(aikataulut.value)
     .filter((aikataulu) => aikataulu.tapahtuma === aikataulutapahtuma.tavoite)
-    .value()
+    .value(),
 );
 
 function lisaaTavoite() {
@@ -181,7 +181,7 @@ watch(
   (val) => {
     emit('setInvalid', false); // Replace with actual validation logic if needed
   },
-  { deep: true }
+  { deep: true },
 );
 
 // Initialize aikataulut on mount
@@ -192,7 +192,7 @@ watch(
       .sortBy([aikatauluTapahtumaSort, aikatauluTapahtumapaivaSort])
       .value();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 // Expose methods to parent components

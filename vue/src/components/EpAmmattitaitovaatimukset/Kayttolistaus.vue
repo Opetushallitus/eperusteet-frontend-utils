@@ -99,7 +99,8 @@ const shown = async () => {
     if (props.koodi?.uri) {
       await fetch();
     }
-  } finally {
+  }
+  finally {
     isLoading.value = false;
     (kaytossaRef.value as any).$forceUpdate();
   }

@@ -91,7 +91,7 @@ const internal = computed({
   get: () => sanitized.value,
   set: (value: any) => {
     emit('update:modelValue', value);
-  }
+  },
 });
 
 const options = computed(() => {

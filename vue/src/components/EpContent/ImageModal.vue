@@ -14,13 +14,13 @@
           <ep-form-content name="valitse-kuva">
             <vue-select
               :value="selectedValue"
-              @input="selectedValue = $event"
               :disabled="options.length === 0"
               :filter-by="filterBy"
               :placeholder="options.length > 0 ? $t('valitse') : $t('ei-lisattyja-kuvia')"
               :options="options"
               label="id"
               :clearable="true"
+              @input="selectedValue = $event"
             >
               <template #selected-option="option">
                 <img

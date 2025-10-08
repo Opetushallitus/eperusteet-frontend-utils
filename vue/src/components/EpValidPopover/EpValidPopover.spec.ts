@@ -10,7 +10,7 @@ describe('EpValidPopover component', () => {
     locale: 'fi',
     messages: {
       fi: {},
-    }
+    },
   });
 
   test('Renders', async () => {
@@ -23,7 +23,7 @@ describe('EpValidPopover component', () => {
         mocks: {
           $t: x => x,
           $sd: x => x,
-        }
+        },
       },
       props: {
         validoitava: {

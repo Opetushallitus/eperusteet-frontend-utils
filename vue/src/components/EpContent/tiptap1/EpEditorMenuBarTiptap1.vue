@@ -79,7 +79,7 @@
           @hidden="linkValue = null"
         >
           <b-form-group class="mx-4">
-            <template v-if="navigationFlattened">
+            <template v-if="navigationFlattenedComputed">
               <b-form-radio
                 v-model="linkkiTyyppi"
                 class="p-2"
@@ -93,7 +93,7 @@
                 v-model="internalLink"
                 :is-editing="true"
                 :search-identity="labelSearchIdentity"
-                :options="navigationFlattened"
+                :options="navigationFlattenedComputed"
                 :placeholder="$t('valitse-sivu') + '...'"
               >
                 <template #singleLabel="{ option }">
@@ -219,7 +219,7 @@ const linking = computed(() => {
 
         if (attrs.routenode) {
           linkkiTyyppi.value = 'sisainen';
-          internalLink.value = deepFind({ id: _.get(JSON.parse(attrs.routenode), 'id') }, navigationFlattened.value);
+          internalLink.value = deepFind({ id: _.get(JSON.parse(attrs.routenode), 'id') }, navigationFlattenedComputed.value);
         }
       }
 
@@ -361,7 +361,7 @@ const linkInvalid = computed(() => {
   return linkkiTyyppi.value === 'ulkoinen' && !linkValue.value?.startsWith('http');
 });
 
-const navigationFlattened = computed(() => {
+const navigationFlattenedComputed = computed(() => {
   if (navigation) {
     return _.chain(flattenedNavi(navigation))
       .filter(node => !!node.label)
@@ -373,6 +373,7 @@ const navigationFlattened = computed(() => {
       })
       .value();
   }
+  return props.navigationFlattened;
 });
 
 function flattenedNavi(navi: NavigationNodeDto, depth = -1) {

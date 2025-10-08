@@ -23,16 +23,16 @@ import { computed, useTemplateRef } from 'vue';
 const props = defineProps({
   color: {
     type: String,
-    default: '#000000'
+    default: '#000000',
   },
   help: {
     type: String,
-    required: false
+    required: false,
   },
   size: {
     type: Number,
-    default: 10
-  }
+    default: 10,
+  },
 });
 
 const circle = useTemplateRef('circle');

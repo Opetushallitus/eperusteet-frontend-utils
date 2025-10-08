@@ -1,7 +1,13 @@
 <template>
   <node-view-wrapper class="image-node-view">
-    <div v-if="editor.isEditable" class="ep-editor-component">
-      <figure v-if="dataUid" class="text-center">
+    <div
+      v-if="editor.isEditable"
+      class="ep-editor-component"
+    >
+      <figure
+        v-if="dataUid"
+        class="text-center"
+      >
         <img
           class="content-image"
           :data-uid="dataUid"
@@ -22,7 +28,10 @@
       </EpButton>
     </div>
 
-    <figure v-if="dataUid && !editor.isEditable" class="text-center">
+    <figure
+      v-if="dataUid && !editor.isEditable"
+      class="text-center"
+    >
       <img
         class="content-image"
         :data-uid="dataUid"
@@ -34,8 +43,15 @@
     </figure>
 
     <!-- Image Modal -->
-    <div v-if="isModalOpen && handler" class="modal-overlay" @click="closeModal">
-      <div class="modal-content" @click.stop>
+    <div
+      v-if="isModalOpen && handler"
+      class="modal-overlay"
+      @click="closeModal"
+    >
+      <div
+        class="modal-content"
+        @click.stop
+      >
         <ImageModal
           v-model="uidObs"
           :loader="handler"
@@ -61,11 +77,7 @@ import { $t } from '@shared/utils/globals';
 import { Kielet } from '@shared/stores/kieli';
 import _ from 'lodash';
 
-interface Props extends NodeViewProps {
-  // Additional props can be defined here if needed
-}
-
-const props = defineProps<Props>();
+const props = defineProps<NodeViewProps>();
 
 // Type assertion to help with node attrs
 interface NodeWithImageAttrs {
