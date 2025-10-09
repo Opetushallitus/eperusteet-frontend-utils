@@ -37,18 +37,36 @@
         </slot>
       </template>
 
-      <ep-form-content
-        v-if="otsikkoRequired"
-        :name="contentName"
-      >
-        <ep-field
-          v-model="otsikko"
-          class="mb-5"
-          :is-editing="true"
-          :validation="v$.otsikko"
-          :show-valid-validation="true"
-        />
-      </ep-form-content>
+      <div class="mb-4">
+        <template v-if="osaamisalat && osaamisalat.length > 0 ">
+          <div class="mb-2">
+            <h3>{{ $t('tekstikappaleen-tyyppi') }}</h3>
+            <b-form-radio v-model="tekstikappaleTyyppi"
+                          value="tekstikappale"
+                          name="tekstikappaleTyyppi">{{ $t('tekstikappale') }}</b-form-radio>
+            <b-form-radio v-model="tekstikappaleTyyppi"
+                          value="osaamisala"
+                          name="tekstikappaleTyyppi">{{ $t('osaamisala') }}</b-form-radio>
+          </div>
+
+          <div class="mb-5 mt-2 ml-4" v-if="tekstikappaleTyyppi === 'osaamisala'">
+            <ep-select
+              v-model="osaamisala"
+              :items="osaamisalat"
+              :is-editing="true"
+              :enable-empty-option="true"
+              :emptyOptionDisabled="true">
+              <template slot-scope="{ item }">
+                {{ $kaanna(item.nimi) }}
+              </template>
+            </ep-select>
+          </div>
+        </template>
+
+        <ep-form-content :name="contentName" v-if="otsikkoRequired && tekstikappaleTyyppi === 'tekstikappale'">
+          <ep-field v-model="otsikko" :is-editing="true" :validation="$v.otsikko" :showValidValidation="true"/>
+        </ep-form-content>
+      </div>
 
       <ep-form-content v-if="!hideTaso">
         <template #header>
@@ -97,6 +115,8 @@
             </template>
           </ep-select>
         </div>
+
+        <slot name="custom-content"></slot>
       </ep-form-content>
 
       <template #modal-footer>
@@ -130,11 +150,10 @@ import EpField from '@shared/components/forms/EpField.vue';
 import EpSelect from '@shared/components/forms/EpSelect.vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
-import { BvModal } from 'bootstrap-vue';
-import { nextTick } from 'vue';
 import { Kielet } from '@shared/stores/kieli';
 import EpRadio from '@shared/components/forms/EpRadio.vue';
 import { $bvModal } from '@shared/utils/globals';
+import { watch } from 'vue';
 
 const props = defineProps({
   tekstikappaleet: {
@@ -165,6 +184,10 @@ const props = defineProps({
     type: Function,
     required: true,
   },
+  osaamisalat: {
+    type: Array,
+    required: false,
+  },
 });
 
 // Template refs
@@ -172,19 +195,28 @@ const tekstikappalelisaysModal = ref<InstanceType<any> | null>(null);
 
 // Reactive state
 const otsikko = ref({});
+const tekstikappaleTyyppi = ref<'osaamisala' | 'tekstikappale'>('tekstikappale');
+const osaamisala = ref<any | null>(null);
 const valittuTekstikappale = ref({});
 const taso = ref(props.paatasovalinta ? 'paataso' : 'alataso');
 const loading = ref(false);
 
 const rules = computed(() => ({
-  otsikko: {
-    [Kielet.getSisaltoKieli.value]: notNull(),
-  },
+  ...(tekstikappaleTyyppi.value === 'tekstikappale' && {
+    otsikko: {
+      [Kielet.getSisaltoKieli.value]: notNull(),
+    }}),
 }));
+
+
 const v$ = useVuelidate(rules, { otsikko });
 
 // Computed properties
 const okDisabled = computed(() => {
+  if (tekstikappaleTyyppi.value === 'osaamisala') {
+      return !osaamisala.value?.id || (taso.value === 'alataso' && _.isEmpty(valittuTekstikappale.value));
+    }
+
   return (props.otsikkoRequired && v$.value.otsikko.$invalid)
     || (taso.value === 'alataso' && _.isEmpty(valittuTekstikappale.value));
 });
@@ -203,7 +235,7 @@ async function save() {
   }
 
   loading.value = true;
-  await props.tallenna(otsikko.value, valittuTekstikappale.value);
+  await props.tallenna(otsikko.value, valittuTekstikappale.value, osaamisala.value);
   loading.value = false;
   $bvModal.hide(props.modalId);
 }
@@ -217,6 +249,11 @@ function clear() {
 function cancel() {
   $bvModal.hide(props.modalId);
 }
+
+watch(tekstikappaleTyyppi, () => {
+  osaamisala.value = null;
+  otsikko.value = {};
+});
 
 // Lifecycle hooks
 onMounted(() => {

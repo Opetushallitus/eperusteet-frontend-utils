@@ -4495,5 +4495,6 @@
     "vahvista-vuosiluokan-tietojen-valutus-teksti": "Haluatko viedä vuosiluokan tiedot myös koulujen opetussuunnitelmiin?",
     "vahvista-vuosiluokan-tietojen-valutus-otsikko": "Vuosiluokan tietojen vienti",
     "avautuu-uuteen-valilehteen": "Avautuu uuteen valilehteen",
-    "yhteensa-kpl-virhetta": "Yhteensä {kpl} virhettä"
+    "yhteensa-kpl-virhetta": "Yhteensä {kpl} virhettä",
+    "tekstikappaleen-tyyppi": "Tekstikappaleen tyyppi"
 }
