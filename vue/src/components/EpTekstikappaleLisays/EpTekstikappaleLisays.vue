@@ -41,12 +41,20 @@
         <template v-if="osaamisalat && osaamisalat.length > 0 ">
           <div class="mb-2">
             <h3>{{ $t('tekstikappaleen-tyyppi') }}</h3>
-            <b-form-radio v-model="tekstikappaleTyyppi"
-                          value="tekstikappale"
-                          name="tekstikappaleTyyppi">{{ $t('tekstikappale') }}</b-form-radio>
-            <b-form-radio v-model="tekstikappaleTyyppi"
-                          value="osaamisala"
-                          name="tekstikappaleTyyppi">{{ $t('osaamisala') }}</b-form-radio>
+            <EpRadio
+              v-model="tekstikappaleTyyppi"
+              value="tekstikappale"
+              name="tekstikappaleTyyppi"
+            >
+              {{ $t('tekstikappale') }}
+            </EpRadio>
+            <EpRadio
+              v-model="tekstikappaleTyyppi"
+              value="osaamisala"
+              name="tekstikappaleTyyppi"
+            >
+              {{ $t('osaamisala') }}
+            </EpRadio>
           </div>
 
           <div class="mb-5 mt-2 ml-4" v-if="tekstikappaleTyyppi === 'osaamisala'">
@@ -56,7 +64,7 @@
               :is-editing="true"
               :enable-empty-option="true"
               :emptyOptionDisabled="true">
-              <template slot-scope="{ item }">
+              <template #default="{ item }">
                 {{ $kaanna(item.nimi) }}
               </template>
             </ep-select>
@@ -64,7 +72,7 @@
         </template>
 
         <ep-form-content :name="contentName" v-if="otsikkoRequired && tekstikappaleTyyppi === 'tekstikappale'">
-          <ep-field v-model="otsikko" :is-editing="true" :validation="$v.otsikko" :showValidValidation="true"/>
+          <ep-field v-model="otsikko" :is-editing="true" :validation="v$.otsikko" :showValidValidation="true"/>
         </ep-form-content>
       </div>
 
