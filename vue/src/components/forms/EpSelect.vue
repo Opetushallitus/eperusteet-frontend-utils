@@ -32,7 +32,8 @@
       </select>
       <b-form-group v-else>
         <b-form-checkbox-group
-          v-model="innerModel"
+          :value="innerModel"
+          @input="innerModel = $event"
           name="kielivalinta"
           stacked
           :class="{ 'is-invalid': isInvalid, 'is-valid': isValid }"
