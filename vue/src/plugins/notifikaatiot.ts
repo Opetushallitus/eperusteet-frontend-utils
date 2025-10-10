@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import { App } from 'vue';
 import Notifications, { useNotification } from '@kyvg/vue3-notification';
+import { $t } from '@shared/utils/globals';
 
 interface NotificationConfig {
   title: string;
@@ -38,21 +39,21 @@ export class Notifikaatiot {
 
     app.config.globalProperties.$success = function(title: string) {
       this.$notify({
-        title,
+        title: $t(title),
         type: 'success',
       });
     };
 
     app.config.globalProperties.$info = function(title: string) {
       this.$notify({
-        title,
+        title: $t(title),
         type: 'info',
       });
     };
 
     app.config.globalProperties.$fail = function(title: string, text: string = '', duration: number = 5000) {
       this.$notify({
-        title,
+        title: $t(title),
         type: 'error',
         text,
         duration,
@@ -61,7 +62,7 @@ export class Notifikaatiot {
 
     app.config.globalProperties.$warning = function(title: string, text: string = '') {
       this.$notify({
-        title,
+        title: $t(title),
         type: 'warn',
         text,
         duration: 5000,
