@@ -149,7 +149,7 @@ export const $vahvista = async (title = 'vahvista-toiminto', msg = 'vahvista-toi
   return await $bvModal.msgBoxConfirm($t(msg) as any, {
     title: $t(title) as any,
     okVariant: 'primary',
-    okTitle: $t('ok') as any,
+    okTitle: $t('kylla') as any,
     cancelVariant: 'link',
     cancelTitle: $t('peruuta') as any,
     centered: true,

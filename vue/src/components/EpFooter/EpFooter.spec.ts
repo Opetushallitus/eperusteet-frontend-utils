@@ -1,14 +1,25 @@
 import { mount } from '@vue/test-utils';
 import EpFooter from './EpFooter.vue';
-import { Kaannos } from '../../plugins/kaannos';
-import VueI18n from 'vue-i18n';
-import { Kielet } from '../../stores/kieli';
-import Vue from 'vue';
-import BootstrapVue from 'bootstrap-vue';
 import { globalStubs } from '../../utils/__tests__/stubs';
 import EpLinkki from '../EpLinkki/EpLinkki.vue';
 import EpMaterialIcon from '../EpMaterialIcon/EpMaterialIcon.vue';
 import EpExternalLink from '../EpExternalLink/EpExternalLink.vue';
+import { TietoapalvelustaStore } from '../../stores/TietoapavelustaStore';
+import { vi } from 'vitest';
+
+vi.mock('../../stores/TietoapavelustaStore', () => {
+  return {
+    TietoapalvelustaStore: vi.fn().mockImplementation(() => ({
+      state: {
+        tietoapalvelusta: null,
+      },
+      tietoapalvelusta: {
+        value: null,
+      },
+      fetch: vi.fn().mockResolvedValue(undefined),
+    })),
+  };
+});
 
 describe('EpFooter component', () => {
   test('Renders', async () => {

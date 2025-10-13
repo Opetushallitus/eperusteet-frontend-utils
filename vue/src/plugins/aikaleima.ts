@@ -65,6 +65,8 @@ export class Aikaleima {
     // Short date month
     app.config.globalProperties.$sdm = aikaleimaFnFactory('D MMM');
 
+    app.config.globalProperties.$cdt = aikaleimaFnFactory('LLLL');
+
     // Time until or ago an event counting from now
     app.config.globalProperties.$ago = function(value: number): string {
       if (!Kielet.i18n.global.locale) {

@@ -79,6 +79,7 @@ export const testPlugin = {
     app.config.globalProperties.$sd = (tKey) => tKey;
     app.config.globalProperties.$sdt = (tKey) => tKey;
     app.config.globalProperties.$sdm = (tKey) => tKey;
+    app.config.globalProperties.$cdt = (tKey) => tKey;
     app.config.globalProperties.$kaannaOlioTaiTeksti = (tKey) => tKey;
     app.config.globalProperties.$ld = (tKey) => tKey;
     app.config.globalProperties.$ldm = (tKey) => tKey;
