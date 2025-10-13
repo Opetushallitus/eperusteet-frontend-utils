@@ -32,7 +32,6 @@
         v-model="koodi[tekstiField]"
         layout="normal"
         :is-editable="isEditing"
-        :kuva-handler="kuvaHandler"
       />
     </div>
 
@@ -77,10 +76,6 @@ const props = defineProps({
   isEditing: {
     type: Boolean,
     default: false,
-  },
-  kuvaHandler: {
-    type: Object,
-    default: null,
   },
   tekstiField: {
     type: String,

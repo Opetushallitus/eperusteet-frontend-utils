@@ -52,7 +52,6 @@
                   v-model="model.kuvaus"
                   layout="normal"
                   :is-editable="isEditing"
-                  :kuva-handler="kuvaHandler"
                 />
               </b-form-group>
             </div>
@@ -158,7 +157,6 @@
               v-model="model.kuvaus"
               layout="normal"
               :is-editable="isEditing"
-              :kuva-handler="kuvaHandler"
             />
           </slot>
         </b-form-group>
@@ -195,9 +193,6 @@ const props = defineProps({
     type: String,
     required: false,
     default: 'koulutuksenjarjestajaSort',
-  },
-  kuvaHandler: {
-    default: false,
   },
 });
 

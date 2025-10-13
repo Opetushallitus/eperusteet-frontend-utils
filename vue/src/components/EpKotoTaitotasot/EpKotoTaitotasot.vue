@@ -82,8 +82,6 @@
               v-model="taitotaso.tavoitteet"
               layout="normal"
               :is-editable="isEditing"
-              :kasite-handler="kasiteHandler"
-              :kuva-handler="kuvaHandler"
             />
           </b-form-group>
 
@@ -102,8 +100,6 @@
               v-model="taitotaso[sisalto['object']]"
               layout="normal"
               :is-editable="isEditing"
-              :kasite-handler="kasiteHandler"
-              :kuva-handler="kuvaHandler"
             />
           </b-form-group>
 
@@ -150,8 +146,6 @@
           </template>
           <EpContentViewer
             :value="$kaanna(taitotaso.tavoitteet)"
-            :kasite-handler="kasiteHandler"
-            :kuva-handler="kuvaHandler"
             layout="normal"
           />
 
@@ -182,8 +176,6 @@
             <h6>{{ $t('opiskelija') }}</h6>
             <EpContentViewer
               :value="$kaanna(taitotaso[keskeinenSisalto['object']])"
-              :kasite-handler="kasiteHandler"
-              :kuva-handler="kuvaHandler"
               layout="normal"
             />
           </b-form-group>
@@ -202,8 +194,6 @@ import { VueDraggable } from 'vue-draggable-plus';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
 import EpInput from '@shared/components/forms/EpInput.vue';
-import { IKasiteHandler } from '../EpContent/KasiteHandler';
-import { IKuvaHandler } from '../EpContent/KuvaHandler';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
 import { LiiteDtoWrapper } from '@shared/tyypit';
 import EpContentViewer from '@shared/components/EpContentViewer/EpContentViewer.vue';
@@ -223,14 +213,6 @@ const props = defineProps({
   isEditing: {
     type: Boolean,
     default: false,
-  },
-  kasiteHandler: {
-    type: Object as () => IKasiteHandler,
-    required: false,
-  },
-  kuvaHandler: {
-    type: Object as () => IKuvaHandler,
-    required: false,
   },
   taitotasoTyyppi: {
     type: String as () => TaitotasoTyyppi,

@@ -213,7 +213,7 @@ const props = defineProps({
   },
   julkaisemattomiaMuutoksia: {
     type: Boolean,
-    required: true,
+    required: false,
   },
   julkaistava: {
     type: Boolean,

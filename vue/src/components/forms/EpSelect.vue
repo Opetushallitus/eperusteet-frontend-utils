@@ -33,10 +33,10 @@
       <b-form-group v-else>
         <b-form-checkbox-group
           :value="innerModel"
-          @input="innerModel = $event"
           name="kielivalinta"
           stacked
           :class="{ 'is-invalid': isInvalid, 'is-valid': isValid }"
+          @input="innerModel = $event"
         >
           <b-form-checkbox
             v-for="item in items"

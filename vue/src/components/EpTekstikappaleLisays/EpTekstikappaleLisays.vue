@@ -57,13 +57,17 @@
             </EpRadio>
           </div>
 
-          <div class="mb-5 mt-2 ml-4" v-if="tekstikappaleTyyppi === 'osaamisala'">
+          <div
+            v-if="tekstikappaleTyyppi === 'osaamisala'"
+            class="mb-5 mt-2 ml-4"
+          >
             <ep-select
               v-model="osaamisala"
               :items="osaamisalat"
               :is-editing="true"
               :enable-empty-option="true"
-              :emptyOptionDisabled="true">
+              :empty-option-disabled="true"
+            >
               <template #default="{ item }">
                 {{ $kaanna(item.nimi) }}
               </template>
@@ -71,8 +75,16 @@
           </div>
         </template>
 
-        <ep-form-content :name="contentName" v-if="otsikkoRequired && tekstikappaleTyyppi === 'tekstikappale'">
-          <ep-field v-model="otsikko" :is-editing="true" :validation="v$.otsikko" :showValidValidation="true"/>
+        <ep-form-content
+          v-if="otsikkoRequired && tekstikappaleTyyppi === 'tekstikappale'"
+          :name="contentName"
+        >
+          <ep-field
+            v-model="otsikko"
+            :is-editing="true"
+            :validation="v$.otsikko"
+            :show-valid-validation="true"
+          />
         </ep-form-content>
       </div>
 
@@ -124,7 +136,7 @@
           </ep-select>
         </div>
 
-        <slot name="custom-content"></slot>
+        <slot name="custom-content" />
       </ep-form-content>
 
       <template #modal-footer>
@@ -222,8 +234,8 @@ const v$ = useVuelidate(rules, { otsikko });
 // Computed properties
 const okDisabled = computed(() => {
   if (tekstikappaleTyyppi.value === 'osaamisala') {
-      return !osaamisala.value?.id || (taso.value === 'alataso' && _.isEmpty(valittuTekstikappale.value));
-    }
+    return !osaamisala.value?.id || (taso.value === 'alataso' && _.isEmpty(valittuTekstikappale.value));
+  }
 
   return (props.otsikkoRequired && v$.value.otsikko.$invalid)
     || (taso.value === 'alataso' && _.isEmpty(valittuTekstikappale.value));
