@@ -90,7 +90,7 @@
               <ep-input
                 v-model="kohdealue.kuvaus"
                 :is-editing="true"
-                :validation="validation && validation.kohdealueet.$each.$iter[kohdealueIdx].kuvaus"
+                :validation="validation && validation.kohdealueet.$each.$response.$data[kohdealueIdx].kuvaus"
                 class="ml-3 mr-4"
               />
             </b-form-group>
@@ -389,10 +389,10 @@ const lisaaVaatimus = () => {
 
 const vaatimusValidation = (kohdealueIdx, vaatimusIdx) => {
   if (!kohdealueIdx) {
-    return props.validation?.vaatimukset?.$each?.$iter[vaatimusIdx]?.vaatimus;
+    return props.validation?.vaatimukset?.$each?.$response.$data[vaatimusIdx]?.vaatimus;
   }
   else {
-    return props.validation?.kohdealueet?.$each?.$iter[kohdealueIdx]?.vaatimukset?.$each?.$iter[vaatimusIdx]?.vaatimus;
+    return props.validation?.kohdealueet?.$each?.$response.$data[kohdealueIdx]?.vaatimukset?.$each?.$response.$data[vaatimusIdx]?.vaatimus;
   }
 };
 

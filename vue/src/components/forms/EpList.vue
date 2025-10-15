@@ -43,7 +43,7 @@
         class="arvo"
       >
         <ep-input
-          :value="internal[idx][kentta]"
+          :model-value="internal[idx][kentta]"
           :is-editing="false"
         />
       </li>

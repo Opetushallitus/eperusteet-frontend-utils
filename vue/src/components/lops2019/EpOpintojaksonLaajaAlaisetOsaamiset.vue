@@ -13,7 +13,7 @@
           <ep-content
             layout="normal"
             :opetussuunnitelma-store="opetussuunnitelmaStore"
-            :value="oppiaine.laajaAlaisetOsaamiset.kuvaus"
+            :model-value="oppiaine.laajaAlaisetOsaamiset.kuvaus"
             help="ohje-lyhyt-laaja-alainen"
           />
         </div>
@@ -27,7 +27,7 @@
             :key="idx"
             layout="normal"
             :opetussuunnitelma-store="opetussuunnitelmaStore"
-            :value="laajalainenosaaminen.kuvaus"
+            :model-value="laajalainenosaaminen.kuvaus"
           />
         </div>
       </div>

@@ -10,7 +10,7 @@
           <h4>{{ $kaanna(moduulitMap[moduuli.koodiUri].nimi) }} {{ moduulitMap[moduuli.koodiUri].laajuus }} {{ $t('op') }}</h4>
         </div>
         <ep-prefix-list
-          :value="moduulitMap[moduuli.koodiUri].tavoitteet"
+          :model-value="moduulitMap[moduuli.koodiUri].tavoitteet"
           kohde="kohde"
           arvot="tavoitteet"
         />

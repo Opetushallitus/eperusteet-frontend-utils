@@ -39,7 +39,7 @@
           </div>
         </div>
         <EpPagination
-          :value="page"
+          :model-value="page"
           :per-page="perPage"
           :total-rows="data.kokonaismäärä"
           @update:model-value="fetch"

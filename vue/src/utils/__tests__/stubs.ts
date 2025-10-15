@@ -35,6 +35,8 @@ const generateBootstrapStubs = () => {
     'b-form-checkbox-group',
     'b-tabs',
     'b-tab',
+    'apexchart',
+    'b-form-datepicker',
     // Add any other B components you use
   ];
 

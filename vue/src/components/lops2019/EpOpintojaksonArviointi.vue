@@ -13,7 +13,7 @@
           <ep-content
             layout="normal"
             :opetussuunnitelma-store="opetussuunnitelmaStore"
-            :value="oppiaine.arviointi.kuvaus"
+            :model-value="oppiaine.arviointi.kuvaus"
           />
         </div>
       </div>

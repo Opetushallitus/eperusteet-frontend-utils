@@ -209,8 +209,8 @@ const innerModelsValues = computed(() => {
 const innerModelValidations = computed(() => {
   return _.map(innerModels.value, (innerModel, index) => {
     let valid = true;
-    if (props.validation && props.validation.$each && props.validation.$each.$iter[index]) {
-      valid = !props.validation.$each.$iter[index].$invalid;
+    if (props.validation && props.validation.$each && props.validation.$each.$response.$data[index]) {
+      valid = !props.validation.$each.$response.$data[index].$invalid;
     }
 
     return {

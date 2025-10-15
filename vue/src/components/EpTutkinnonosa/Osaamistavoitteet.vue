@@ -7,7 +7,7 @@
       <EpAmmattitaitovaatimukset
         v-if="perusteenOsaamistavoite"
         tavoitekoodisto="osaamistavoitteet"
-        :value="perusteenOsaamistavoite.tavoitteet"
+        :model-value="perusteenOsaamistavoite.tavoitteet"
         :is-editing="false"
       />
     </ep-collapse>
