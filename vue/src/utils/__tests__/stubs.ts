@@ -37,6 +37,8 @@ const generateBootstrapStubs = () => {
     'b-tab',
     'apexchart',
     'b-form-datepicker',
+    'b-navbar',
+    'b-navbar-nav',
     // Add any other B components you use
   ];
 
