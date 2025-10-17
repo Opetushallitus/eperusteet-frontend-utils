@@ -133,7 +133,7 @@ export interface EditointiStoreConfig {
 }
 
 export class EditointiStore {
-  private static allEditingEditors: EditointiStore[] = [];
+  private static editing: boolean = false;
   private static router: Router;
   private static kayttajaProvider: KayttajaProvider;
   private logger = createLogger(EditointiStore);
@@ -166,15 +166,11 @@ export class EditointiStore {
   });
 
   public static anyEditing() {
-    return EditointiStore.allEditingEditors.length > 0;
+    return EditointiStore.editing;
   }
 
   public static async cancelAll() {
-    for (const editor of EditointiStore.allEditingEditors) {
-      if (editor.cancel) {
-        await editor.cancel(true);
-      }
-    }
+    EditointiStore.editing = false;
   }
 
   public constructor(
@@ -308,10 +304,7 @@ export class EditointiStore {
       if (this.config.start) {
         await this.config.start();
       }
-      EditointiStore.allEditingEditors = [
-        ...EditointiStore.allEditingEditors,
-        this,
-      ];
+      EditointiStore.editing = true;
     }
     catch (err) {
       this.logger.error('Editoinnin aloitus epäonnistui:', err);
@@ -372,7 +365,7 @@ export class EditointiStore {
     }
     // this.config.setData!(JSON.parse(this.state.backup));
     this.state.isEditingState = false;
-    _.remove(EditointiStore.allEditingEditors, (editor) => editor === this);
+    EditointiStore.editing = false;
     this.state.disabled = false;
 
     await this.unlock();
@@ -385,7 +378,7 @@ export class EditointiStore {
   public async remove() {
     this.state.disabled = true;
     this.state.isEditingState = false;
-    _.remove(EditointiStore.allEditingEditors, (editor) => editor === this);
+    EditointiStore.editing = false;
     try {
       if (this.config.remove) {
         await this.config.remove(this.state.data);
@@ -411,7 +404,7 @@ export class EditointiStore {
       try {
         const after = await this.config.save(this.state.data);
         this.logger.success('Tallennettu onnistuneesti');
-        _.remove(EditointiStore.allEditingEditors, (editor) => editor === this);
+        EditointiStore.editing = false;
         await this.unlock();
         await this.fetchRevisions();
         await this.init();
