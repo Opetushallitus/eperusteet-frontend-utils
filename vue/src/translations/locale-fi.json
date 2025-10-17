@@ -4496,5 +4496,8 @@
     "vahvista-vuosiluokan-tietojen-valutus-otsikko": "Vuosiluokan tietojen vienti",
     "avautuu-uuteen-valilehteen": "Avautuu uuteen valilehteen",
     "yhteensa-kpl-virhetta": "Yhteensä {kpl} virhettä",
-    "tekstikappaleen-tyyppi": "Tekstikappaleen tyyppi"
+    "tekstikappaleen-tyyppi": "Tekstikappaleen tyyppi",
+    "perustetyyppi": "Perustetyyppi",
+    "perustetyyppi-amosaa_yhteinen": "Ammatillinen jaetun osan pohja",
+    "astuu-voimaan": "Astuu voimaan"
 }
