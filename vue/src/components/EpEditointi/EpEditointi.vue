@@ -587,6 +587,10 @@ const props = defineProps({
     type: Function,
     required: false,
   },
+  preSave: {
+    type: Function,
+    required: false,
+  },
   postSave: {
     type: Function,
     required: false,
@@ -838,6 +842,7 @@ const remove = async () => {
     }
   }
   catch (err) {
+    console.log(err);
     $fail($t(props.labelRemoveFail) as string);
   }
 };
@@ -872,6 +877,7 @@ const restore = async (ev: any) => {
 const save = async () => {
   try {
     if (!props.allowSave || await props.allowSave()) {
+      await props.preSave?.();
       await props.store.save();
       if (props.postSave) {
         await props.postSave();

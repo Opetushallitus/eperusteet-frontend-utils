@@ -4499,5 +4499,8 @@
     "tekstikappaleen-tyyppi": "Tekstikappaleen tyyppi",
     "perustetyyppi": "Perustetyyppi",
     "perustetyyppi-amosaa_yhteinen": "Ammatillinen jaetun osan pohja",
-    "astuu-voimaan": "Astuu voimaan"
+    "astuu-voimaan": "Astuu voimaan", 
+    "oppimaara-nimi-ohje": "Paikallisen oppimäärän nimi",
+    "vahvista-oppiaineen-tietojen-valutus-teksti": "Tallennettava oppimäärä puuttuu joidenkin koulujen opetussuunnitelmista. Lisätäänkö oppimäärä kouluille, joilla sitä ei jo ole?",
+    "vahvista-oppiaineen-tietojen-valutus-otsikko": "Oppiaineen lisäys kouluille"
 }
