@@ -401,6 +401,9 @@ export default class EpEditointi extends Mixins(validationMixin) {
   private allowSave!: Function;
 
   @Prop({ required: false })
+  private preSave!: Function;
+
+  @Prop({ required: false })
   private postSave!: Function;
 
   @Prop({ required: false })
@@ -714,6 +717,7 @@ export default class EpEditointi extends Mixins(validationMixin) {
   async save() {
     try {
       if (!this.allowSave || await this.allowSave()) {
+        await this.preSave?.();
         await this.store.save();
         if (this.postSave) {
           await this.postSave();

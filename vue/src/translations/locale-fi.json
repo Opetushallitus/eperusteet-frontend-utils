@@ -4494,5 +4494,7 @@
     "vahvista-vuosiluokan-tietojen-valutus-teksti": "Haluatko viedä vuosiluokan tiedot myös koulujen opetussuunnitelmiin?",
     "vahvista-vuosiluokan-tietojen-valutus-otsikko": "Vuosiluokan tietojen vienti",
     "tekstikappaleen-tyyppi": "Tekstikappaleen tyyppi",
-    "oppimaara-nimi-ohje": "Paikallisen oppimäärän nimi"
+    "oppimaara-nimi-ohje": "Paikallisen oppimäärän nimi",
+    "vahvista-oppiaineen-tietojen-valutus-teksti": "Tallennettava oppimäärä puuttuu joidenkin koulujen opetussuunnitelmista. Lisätäänkö oppimäärä kouluille, joilla sitä ei jo ole?",
+    "vahvista-oppiaineen-tietojen-valutus-otsikko": "Oppiaineen lisäys kouluille"
 }
