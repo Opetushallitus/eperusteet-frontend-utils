@@ -227,6 +227,7 @@ export const themeColors = {
   'kotoutumiskoulutus': [122, 174, 122],
   'muukoulutus': [230, 8, 149],
   'digiosaaminen': [217, 193, 242],
+  'kielikaantajatutkinto': [0, 102, 153],
 };
 
 export const tyyppiColors = {
@@ -255,6 +256,7 @@ export const ktToState = {
   'koulutustyyppi_35': 'vapaasivistystyolukutaito',
   'koulutustyyppi_40': 'tutkintoonvalmentava',
   'koulutustyyppi_muu': 'muukoulutus',
+  'kielikaantajatutkinto': 'kielikaantajatutkinto',
 };
 
 const ktToUrlShortParam = {
@@ -585,6 +587,18 @@ export function muuKoulutus() {
       },
     },
     alityypit: ['koulutustyyppi_muu'],
+  }];
+}
+
+export function kielikaantajatutkinto() {
+  return [{
+    name: 'kielikaantajatutkinto',
+    route: {
+      name: 'kooste',
+      params: {
+        koulutustyyppi: 'kielikaantajatutkinto',
+      },
+    },
   }];
 }
 
