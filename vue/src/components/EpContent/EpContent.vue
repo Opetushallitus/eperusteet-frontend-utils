@@ -1,7 +1,7 @@
 <template>
   <div class="ep-content">
     <ep-editor-menu-bar
-      v-if="editor"
+      v-if="editor && layout !== 'none'"
       :is-editable="isEditable"
       :editor="editor || {}"
       :layout="layout"
@@ -50,6 +50,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  placeholder: {
+    type: String,
+    default: '',
+  },
 });
 
 const striptag = document.createElement('span');
@@ -72,7 +76,7 @@ const localizedValue = computed(() => {
     return props.modelValue || '';
   }
   else if (_.isObject(props.modelValue)) {
-    return placeholder.value || (props.modelValue)[lang.value] || '';
+    return (props.modelValue)[lang.value] || placeholder.value || '';
   }
   else {
     return props.modelValue;
@@ -84,9 +88,14 @@ const model = computed(() => {
 });
 
 const placeholder = computed(() => {
-  if (!focused.value) {
-    return $kaannaPlaceholder(props.modelValue, !props.isEditable);
+if (!focused.value && !localizedValue.value) {
+    if ($kaannaPlaceholder(props.modelValue, !props.isEditable)) {
+      return $kaannaPlaceholder(props.modelValue, !props.isEditable);
+    }
+
+    return props.placeholder;
   }
+
   return undefined;
 });
 
@@ -212,6 +221,9 @@ onBeforeUnmount(() => {
 
   .is-editable {
     border: 1px solid $black;
+    :deep(.ProseMirror) {
+      padding: 10px;
+    }
   }
 
   // Remove focus outline from the editor
