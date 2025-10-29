@@ -2,8 +2,6 @@ export const ENV_PREFIX = import.meta.env.NODE_ENV === 'production' ? '' : 'http
 
 export const DEFAULT_DRAGGABLE_PROPERTIES = {
   animation: 300,
-  emptyInsertThreshold: 10,
   handle: '.order-handle',
   ghostClass: 'dragged',
-  forceFallback: true,
 };

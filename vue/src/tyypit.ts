@@ -53,7 +53,7 @@ export enum KoulutustyyppiToteutus {
   vst = 'vapaasivistystyo',
 }
 
-export type EditorLayout = 'minimal' | 'simplified' | 'simplified_w_links' | 'normal';
+export type EditorLayout = 'minimal' | 'simplified' | 'simplified_w_links' | 'normal' | 'none';
 
 export interface LokalisoituTekstiDto {
   [key: string]: string;

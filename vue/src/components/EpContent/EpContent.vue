@@ -1,7 +1,7 @@
 <template>
   <div class="ep-content">
     <ep-editor-menu-bar
-      v-if="editor"
+      v-if="editor && layout !== 'none'"
       :is-editable="isEditable"
       :editor="editor || {}"
       :layout="layout"
@@ -26,6 +26,7 @@ import _ from 'lodash';
 import { Kielet } from '@shared/stores/kieli';
 import EpEditorMenuBar from './EpEditorMenuBar.vue';
 import { TableKit } from '@tiptap/extension-table';
+import { Placeholder } from '@tiptap/extensions'
 import { watch } from 'vue';
 import { createImageExtension3 } from './ImageExtension';
 import { createTermiExtension3 } from './TermiExtension';
@@ -55,6 +56,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  placeholder: {
+    type: String,
+    default: '',
+  },
 });
 
 const striptag = document.createElement('span');
@@ -77,7 +82,7 @@ const localizedValue = computed(() => {
     return props.modelValue || '';
   }
   else if (_.isObject(props.modelValue)) {
-    return placeholder.value || (props.modelValue)[lang.value] || '';
+    return (props.modelValue)[lang.value] || placeholder.value || '';
   }
   else {
     return props.modelValue;
@@ -89,17 +94,16 @@ const model = computed(() => {
 });
 
 const placeholder = computed(() => {
-  if (!focused.value) {
-    return $kaannaPlaceholder(props.modelValue, !props.isEditable);
+if (!focused.value && !localizedValue.value) {
+    if ($kaannaPlaceholder(props.modelValue, !props.isEditable)) {
+      return $kaannaPlaceholder(props.modelValue, !props.isEditable);
+    }
+
+    return props.placeholder;
   }
+
   return undefined;
 });
-
-// watch(model, async (val) => {
-//   if (!props.isEditable && editor.value) {
-//     editor.value.commands.setContent(localizedValue.value);
-//   }
-// }, { deep: true });
 
 watch(localizedValue, async (val) => {
   if (editor.value && !focused.value) {
@@ -209,6 +213,9 @@ onBeforeUnmount(() => {
 
   .is-editable {
     border: 1px solid $black;
+    :deep(.ProseMirror) {
+      padding: 10px;
+    }
   }
 
   // Remove focus outline from the editor
@@ -216,7 +223,6 @@ onBeforeUnmount(() => {
     outline: none !important;
     border: none !important;
     box-shadow: none !important;
-    padding: 10px;
   }
 
   // Remove focus outline from any contenteditable elements

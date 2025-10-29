@@ -89,5 +89,8 @@ export function tileBackgroundColor(koulutustyyppi) {
 
 export function perusteTile(peruste) {
   const imgUrl = perusteTyyppiTiles[peruste.tyyppi] || '';
+  if (!imgUrl) {
+    return undefined;
+  }
   return { ...(!!imgUrl && { 'background-image': `url("${imgUrl}")` }) };
 }

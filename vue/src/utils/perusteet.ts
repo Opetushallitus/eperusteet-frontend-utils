@@ -297,6 +297,10 @@ export const koulutustyypitPdfTuki = [
   'koulutustyyppi_2', 'koulutustyyppi_14', 'koulutustyyppi_16', 'koulutustyyppi_23',
 ];
 
+export const perustetyypitPdfTuki = [
+  'normaali', 'opas', 'kieli_kaantaja_tutkinto',
+];
+
 export function koulutustyyppiStateName(koulutustyyppi: string) {
   return ktToState[koulutustyyppi] || koulutustyyppi;
 }
@@ -455,6 +459,10 @@ export function koulutustyyppiThemeColor(tyyppi: string) {
 
 export function isKoulutustyyppiPdfTuettu(koulutustyyppi: string | undefined) {
   return _.includes(koulutustyypitPdfTuki, koulutustyyppi);
+}
+
+export function isPerustePdfTuettu(peruste) {
+  return _.includes(koulutustyypitPdfTuki, peruste.koulutustyyppi) || _.includes(perustetyypitPdfTuki, peruste.tyyppi);
 }
 
 export function isKoulutustyyppiPdfTuettuOpintopolku(koulutustyyppi: string | undefined) {
