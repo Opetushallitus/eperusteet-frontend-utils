@@ -209,6 +209,9 @@ onBeforeUnmount(() => {
 
   .is-editable {
     border: 1px solid $black;
+    :deep(.ProseMirror) {
+      padding: 10px;
+    }
   }
 
   // Remove focus outline from the editor
@@ -216,7 +219,6 @@ onBeforeUnmount(() => {
     outline: none !important;
     border: none !important;
     box-shadow: none !important;
-    padding: 10px;
   }
 
   // Remove focus outline from any contenteditable elements
