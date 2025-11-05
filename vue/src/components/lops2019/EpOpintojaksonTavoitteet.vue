@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="modelValue">
     <div
       v-for="(moduuli, idx) in modelValue.moduulit"
       :key="idx + '-moduuli'"
