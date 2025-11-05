@@ -372,7 +372,7 @@ async function valitseUiKieli(kieli: Kieli) {
     ...current,
     params: {
       ...current.params,
-      lang: kieli || Kielet.i18n.fallbackLocale,
+      lang: kieli || Kielet.i18n.global.fallbackLocale,
     },
   };
 

@@ -30,8 +30,23 @@
           </slot>
         </option>
       </select>
-      <b-form-group v-else>
-        <b-form-checkbox-group
+      <b-form-group v-else class="m-0 p-0">
+        <EpToggleGroup
+          v-model="innerModel"
+          :items="items"
+          stacked
+          :class="{ 'is-invalid': isInvalid, 'is-valid': isValid }"
+        >
+          <template #default="{ item }">
+            <slot
+              name="default"
+              :item="item"
+            >
+              <span>{{ item }}</span>
+            </slot>
+          </template>
+        </EpToggleGroup>
+        <!-- <b-form-checkbox-group
           :value="innerModel"
           name="kielivalinta"
           stacked
@@ -41,7 +56,7 @@
           <b-form-checkbox
             v-for="item in items"
             :key="item"
-            :value="item"
+            :checked="item"
           >
             <slot
               name="default"
@@ -50,7 +65,7 @@
               <span>{{ item }}</span>
             </slot>
           </b-form-checkbox>
-        </b-form-checkbox-group>
+        </b-form-checkbox-group> -->
       </b-form-group>
       <div
         v-if="!validationError && validMessage"
@@ -101,6 +116,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { $t } from '@shared/utils/globals';
 
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
+import EpToggleGroup from './EpToggleGroup.vue';
 
 const props = defineProps({
   isEditing: {

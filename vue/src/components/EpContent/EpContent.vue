@@ -17,16 +17,12 @@
 <script setup lang="ts">
 import { useEditor, EditorContent } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit';
-import { onBeforeUnmount } from 'vue';
-import { computed } from 'vue';
-import { ref } from 'vue';
-import { inject } from 'vue';
+import { onBeforeUnmount, nextTick, onMounted, computed, ref, inject, watch } from 'vue';
 import { $kaannaPlaceholder } from '@shared/utils/globals';
 import _ from 'lodash';
 import { Kielet } from '@shared/stores/kieli';
 import EpEditorMenuBar from './EpEditorMenuBar.vue';
 import { TableKit } from '@tiptap/extension-table';
-import { watch } from 'vue';
 import { createImageExtension3 } from './ImageExtension';
 import { createTermiExtension3 } from './TermiExtension';
 import { createCustomLinkExtension } from './CustomLinkExtension';
@@ -34,8 +30,7 @@ import { EditorLayout } from '@shared/tyypit';
 import { IKasiteHandler } from './KasiteHandler';
 import { ILinkkiHandler } from './LinkkiHandler';
 import { IKuvaHandler } from './KuvaHandler';
-import { nextTick } from 'vue';
-import { onMounted } from 'vue';
+import { KommenttiTextStyle } from './KommenttiTextStyle';
 
 const props = defineProps({
   modelValue: {
@@ -101,14 +96,14 @@ const placeholder = computed(() => {
 //   }
 // }, { deep: true });
 
-watch(localizedValue, async (val) => {
-  if (editor.value && !focused.value) {
-    await nextTick();
-    await nextTick();
+// watch(localizedValue, async (val) => {
+//   if (editor.value && !focused.value) {
+//     await nextTick();
+//     await nextTick();
     // FIXME: RangeError: Applying a mismatched transaction
-    editor.value.commands.setContent(localizedValue.value);
-  }
-});
+    // editor.value.commands.setContent(localizedValue.value);
+  // }
+// });
 
 watch(lang, async () => {
   if (editor.value) {
@@ -144,6 +139,7 @@ const editor = useEditor({
     StarterKit.configure({
       link: false,
     }),
+    KommenttiTextStyle,  // Preserve custom attributes like 'kommentti'
     TableKit,
     createCustomLinkExtension(injectedNavigation, injectedLinkkiHandler!),
     createImageExtension3(injectedKuvaHandler!),
@@ -216,6 +212,9 @@ onBeforeUnmount(() => {
     outline: none !important;
     border: none !important;
     box-shadow: none !important;
+  }
+
+  :deep(.is-editable .ProseMirror) {
     padding: 10px;
   }
 

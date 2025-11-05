@@ -487,6 +487,7 @@ import { useSlots } from 'vue';
 import { $t, $sdt, $ago, $success, $fail, $bvModal } from '@shared/utils/globals';
 import { useVuelidate } from '@vuelidate/core';
 import EpPagination from '@shared/components/EpPagination/EpPagination.vue';
+import { inject } from 'vue';
 
 const props = defineProps({
   store: {
@@ -770,16 +771,13 @@ const versiohistoriaVisible = computed(() =>
 );
 
 const hasKeskusteluSlot = computed(() => !!slots.keskustelu);
-
 const hasPerusteSlot = computed(() => !!slots.peruste);
-
 const hasOhjeSlot = computed(() => !!slots.ohje);
-
 const hasInfoSlotContent = computed(() => !!slots.info);
-
 const hasFooterSlot = computed(() => !!slots.footer);
-
 const hasCustomHeaderSlot = computed(() => !!slots.customheader);
+
+const kommenttiHandler = inject('kommenttiHandler');
 
 const saveHelpText = computed(() => {
   if (disabled.value) {
@@ -923,6 +921,19 @@ const modify = async () => {
   }
   props.store.start();
 };
+
+watch(isEditing, (newValue, oldValue) => {
+  if (kommenttiHandler) {
+    kommenttiHandler.setActive(!newValue && sidebarState.value === 1);
+  }
+});
+
+watch(sidebarState, (newValue, oldValue) => {
+  if (kommenttiHandler) {
+    kommenttiHandler.setActive(!isEditing.value && newValue === 1);
+  }
+});
+
 </script>
 
 <style scoped lang="scss">
