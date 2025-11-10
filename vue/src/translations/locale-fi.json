@@ -4503,5 +4503,7 @@
     "oppimaara-nimi-ohje": "Paikallisen oppimäärän nimi",
     "vahvista-oppiaineen-tietojen-valutus-teksti": "Tallennettava oppimäärä puuttuu joidenkin koulujen opetussuunnitelmista. Lisätäänkö oppimäärä kouluille, joilla sitä ei jo ole?",
     "vahvista-oppiaineen-tietojen-valutus-otsikko": "Oppiaineen lisäys kouluille",
-    "uusi-kommentti": "Uusi kommentti"
+    "uusi-kommentti": "Uusi kommentti",
+    "valitse-opas": "Valitse opas",
+    "perusteen-uudistus": "Perusteen uudistus"
 }
