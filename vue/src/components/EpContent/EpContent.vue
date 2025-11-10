@@ -149,6 +149,8 @@ const editor = useEditor({
   editorProps: {
     attributes: {
       role: '',
+      // Add data-teksti-id attribute for comment system to find the text ID reliably in production
+      ...(props.modelValue?._id ? { 'data-teksti-id': String(props.modelValue._id) } : {}),
     },
   },
   onUpdate: ({ editor }) => {
@@ -181,6 +183,18 @@ watch(isEditable, async (val) => {
     const { tr } = editor.value.state;
     const newTr = tr.setMeta('forceUpdate', true);
     editor.value.view.dispatch(newTr);
+  }
+});
+
+// Update data-teksti-id attribute when modelValue._id changes
+watch(() => props.modelValue?._id, (newId) => {
+  if (editor.value) {
+    const editorElement = editor.value.view.dom;
+    if (newId) {
+      editorElement.setAttribute('data-teksti-id', String(newId));
+    } else {
+      editorElement.removeAttribute('data-teksti-id');
+    }
   }
 });
 
