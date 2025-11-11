@@ -188,7 +188,7 @@ export function osaToLocation(osa: OsanTyypillinen): Location {
     return {
       name: 'perusteKaantajaTaito',
       params: {
-        kaantajaTaitoId: String(osa.id),
+        kaantajataitoId: String(osa.id),
       },
     };
   case 'kaantajataitotasoasteikko':
@@ -620,7 +620,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
     node.location = {
       name: 'perusteKaantajaTaito',
       params: {
-        kaantajaTaitoId: _.toString(rawNode.id),
+        kaantajataitoId: _.toString(rawNode.id),
       },
     };
     break;

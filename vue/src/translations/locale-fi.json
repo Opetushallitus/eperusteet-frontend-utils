@@ -4536,5 +4536,13 @@
     "taitotasoasteikon-sijainti": "Taitotasoasteikon sijainti",
     "taidon-sijainti": "Taidon sijainti",
     "kaantajataito": "Kieli- ja kääntäjätutkinnon taito",
-    "kaantajataitotasoasteikko": "Kieli- ja kääntäjätutkinnon taitotasoasteikko"
+    "kaantajataitotasoasteikko": "Kieli- ja kääntäjätutkinnon taitotasoasteikko",
+    "tapahtuma-luonti-kaantajataito": "Lisäsi kieli- ja kääntäjätutkinnon taidon",
+    "tapahtuma-luonti-kaantajataitotasoasteikko": "Lisäsi kieli- ja kääntäjätutkinnon taitotasoasteikon",
+    "peruste-validointi-kaantaja-taito-nimi": "Kieli- ja kääntäjätutkinnon taidon nimeä ei ole lokalisoitu",
+    "peruste-validointi-kaantaja-taito-kuvaus": "Kieli- ja kääntäjätutkinnon taidon kuvausta ei ole lokalisoitu",
+    "peruste-validointi-kaantaja-taito-sisalto": "Kieli- ja kääntäjätutkinnon taidon sisältöä ei ole lokalisoitu",
+    "peruste-validointi-kaantaja-taitotaso-asteikko-nimi": "Kieli- ja kääntäjätutkinnon taitotasoasteikon nimeä ei ole lokalisoitu",
+    "peruste-validointi-kaantaja-taitotaso-asteikko-kuvaus": "Kieli- ja kääntäjätutkinnon taitotasoasteikon kuvausta ei ole lokalisoitu",
+    "peruste-validointi-kaantaja-taitotaso-asteikko-sisalto": "Kieli- ja kääntäjätutkinnon taitotasoasteikon sisältöä ei ole lokalisoitu"
 }
