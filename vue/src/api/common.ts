@@ -34,7 +34,7 @@ function errorMessage(err) {
     return Kielet.kaannaOlioTaiTeksti(err.response?.data?.syy);
   }
 
-  return $t('jarjestelmavirhe-ohje');
+  return 'jarjestelmavirhe-ohje';
 }
 
 function errorNotificationDuration() {
