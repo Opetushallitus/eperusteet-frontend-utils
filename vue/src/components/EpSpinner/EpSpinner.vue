@@ -1,30 +1,46 @@
 <template>
-<div class="spinner" :class="{'small': small}">
-  <div class="oph-spinner">
-    <div class="oph-bounce oph-bounce1" :style="style"></div>
-    <div class="oph-bounce oph-bounce2" :style="style"></div>
-    <div class="oph-bounce oph-bounce3" :style="style"></div>
+  <div
+    class="spinner"
+    :class="{'small': small}"
+  >
+    <div class="oph-spinner">
+      <div
+        class="oph-bounce oph-bounce1"
+        :style="style"
+      />
+      <div
+        class="oph-bounce oph-bounce2"
+        :style="style"
+      />
+      <div
+        class="oph-bounce oph-bounce3"
+        :style="style"
+      />
+    </div>
   </div>
-</div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed } from 'vue';
 
-@Component
-export default class EpSpinner extends Vue {
-  @Prop({ required: false, type: Boolean })
-  private small!: boolean;
+const props = defineProps({
+  small: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+  color: {
+    type: String,
+    required: false,
+  },
+});
 
-  @Prop({ required: false })
-  private color!: string;
-
-  get style() {
-    if (this.color) {
-      return { 'background-color': this.color + ' !important' };
-    }
+const style = computed(() => {
+  if (props.color) {
+    return { 'background-color': props.color + ' !important' };
   }
-}
+  return {};
+});
 </script>
 
 <style scoped lang="scss">

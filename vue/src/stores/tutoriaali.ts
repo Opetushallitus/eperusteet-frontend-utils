@@ -1,38 +1,30 @@
-import { Getter, State, Store } from '../stores/store';
+import { defineStore } from 'pinia';
+import { ref, computed } from 'vue';
 import _ from 'lodash';
 
-@Store
-export class TutoriaaliStore {
-  @State()
-  public avaimet: string[] = [];
+export const useTutoriaaliStore = defineStore('tutoriaali', () => {
+  // State
+  const avaimet = ref<string[]>([]);
+  const index = ref(0);
+  const active = ref(false);
 
-  @State()
-  private index = 0;
+  // Getters
+  const seuraavaAvain = computed(() => avaimet.value[index.value + 1]);
+  const current = computed(() => avaimet.value[index.value]);
+  const hasSeuraava = computed(() => index.value + 1 < _.size(avaimet.value));
+  const hasEdellinen = computed(() => index.value > 0);
+  const isActive = computed(() => active.value);
 
-  @State()
-  public active = false;
-
-  seuraava() {
-    this.index = this.index + 1;
+  // Actions
+  function seuraava() {
+    index.value = index.value + 1;
   }
 
-  edellinen() {
-    this.index = this.index - 1;
+  function edellinen() {
+    index.value = index.value - 1;
   }
 
-  @Getter(state => state.avaimet[state.index + 1])
-  public readonly seuraavaAvain: string | undefined;
-
-  @Getter(state => state.avaimet[state.index])
-  public readonly current: string | undefined;
-
-  @Getter(state => state.index + 1 < _.size(state.avaimet))
-  public readonly hasSeuraava!: boolean;
-
-  @Getter(state => state.index > 0)
-  public readonly hasEdellinen!: boolean;
-
-  public readonly paivitaAvaimet = _.debounce(() => {
+  const paivitaAvaimet = _.debounce(() => {
     const uudetAvaimet: string[] = [];
     document.querySelectorAll('[tutorial]').forEach(el => {
       const elId = el.getAttribute('id');
@@ -41,16 +33,31 @@ export class TutoriaaliStore {
       }
     });
 
-    this.avaimet = uudetAvaimet;
+    avaimet.value = uudetAvaimet;
   }, 100);
 
-  setActive(active: boolean) {
-    this.index = 0;
-    this.active = active;
+  function setActive(isActive: boolean) {
+    index.value = 0;
+    active.value = isActive;
   }
 
-  @Getter(state => state.active)
-  public readonly isActive!: boolean;
-}
+  return {
+    // State
+    avaimet,
+    index,
+    active,
 
-export const tutoriaaliStore = new TutoriaaliStore();
+    // Getters
+    seuraavaAvain,
+    current,
+    hasSeuraava,
+    hasEdellinen,
+    isActive,
+
+    // Actions
+    seuraava,
+    edellinen,
+    paivitaAvaimet,
+    setActive,
+  };
+});

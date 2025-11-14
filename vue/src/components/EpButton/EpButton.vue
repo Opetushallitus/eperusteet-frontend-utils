@@ -1,96 +1,97 @@
 <template>
-<div class="ep-button d-print-none" ref="button-container">
-  <b-button :variant="resolvedVariant"
-          v-bind="$attrs"
-          :disabled="disabled || showSpinner"
-          @click="$emit('click')"
-          :size="size"
-          :class="variantClass">
-    <EpMaterialIcon v-if="icon" class="float-left mr-1" icon-shape="outlined" :background="inherit" :color="inherit">{{ icon }}</EpMaterialIcon>
-    <div class="teksti" :class="{'pl-3 pr-3': paddingx && !noPadding}">
-      <slot />
-      <ep-spinner-inline v-if="showSpinner" :link="variant === 'link' || isOutline"/>
-    </div>
-  </b-button>
-  <b-tooltip v-if="help" :target="() => $refs['button-container']">{{ $t(help) }}</b-tooltip>
-</div>
+  <div
+    ref="button-container"
+    class="ep-button d-print-none"
+  >
+    <b-button
+      v-bind="$attrs"
+      :variant="resolvedVariant"
+      :disabled="disabled || showSpinner"
+      :size="size"
+      :class="variantClass"
+      @click="click"
+    >
+      <EpMaterialIcon
+        v-if="icon"
+        class="float-left mr-1"
+        icon-shape="outlined"
+        :background="inherit"
+        :color="inherit"
+      >
+        {{ icon }}
+      </EpMaterialIcon>
+      <div
+        class="teksti"
+        :class="{'pl-3 pr-3': paddingx && !noPadding}"
+      >
+        <slot />
+        <ep-spinner-inline
+          v-if="showSpinner"
+          :link="variant === 'link' || isOutline"
+        />
+      </div>
+    </b-button>
+    <b-tooltip
+      v-if="help"
+      :target="() => $refs['button-container']"
+    >
+      {{ $t(help) }}
+    </b-tooltip>
+  </div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed } from 'vue';
 import _ from 'lodash';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import EpSpinnerInline from '../EpSpinner/EpSpinnerInline.vue';
 
-@Component({
-  components: {
-    EpSpinnerInline,
-    EpMaterialIcon,
-  },
-})
-export default class EpButton extends Vue {
-  @Prop({ default: '' })
-  private icon!: string;
+const props = defineProps({
+  icon: { type: String, default: '' },
+  buttonClass: { type: String },
+  disabled: { type: Boolean, default: false },
+  showSpinner: { type: Boolean, default: false },
+  variant: { type: String, default: 'primary' },
+  size: { type: String, default: 'md' },
+  help: { type: String, default: '' },
+  paddingx: { type: Boolean, default: true },
+  link: { type: Boolean, default: false },
+  noPadding: { type: Boolean, default: false },
+});
 
-  @Prop()
-  private buttonClass!: string;
+const emit = defineEmits(['click']);
 
-  @Prop({ default: false, type: Boolean })
-  private disabled!: boolean;
-
-  @Prop({ default: false, type: Boolean })
-  private showSpinner!: boolean;
-
-  @Prop({ default: 'primary', type: String })
-  private variant!: string;
-
-  @Prop({ default: 'md', type: String })
-  private size!: string;
-
-  @Prop({ default: '', type: String })
-  private help!: string;
-
-  @Prop({ default: true, type: Boolean })
-  private paddingx!: boolean;
-
-  @Prop({ default: false, type: Boolean })
-  private link!: boolean;
-
-  @Prop({ default: false, type: Boolean })
-  private noPadding!: boolean;
-
-  get resolvedVariant() {
-    if (this.link) {
-      return 'link';
-    }
-
-    return this.variant;
-  }
-
-  get isOutline() {
-    return _.startsWith(this.resolvedVariant, 'outline');
-  }
-
-  get variantClass() {
-    let result = 'btn-' + this.resolvedVariant;
-    if (this.isOutline) {
-      result = 'no-outline ' + result;
-    }
-    if (this.buttonClass) {
-      result = this.buttonClass + ' ' + result;
-    }
-
-    if (this.noPadding) {
-      result = 'no-padding ' + result;
-    }
-
-    return result;
-  }
-
-  get inherit() {
-    return this.resolvedVariant === 'link' ? 'inherit' : '';
-  }
+function click() {
+  emit('click');
 }
+
+const resolvedVariant = computed(() => {
+  return props.link ? 'link' : props.variant;
+});
+
+const isOutline = computed(() => {
+  return _.startsWith(resolvedVariant.value, 'outline');
+});
+
+const variantClass = computed(() => {
+  let result = 'btn-' + resolvedVariant.value;
+  if (isOutline.value) {
+    result = 'no-outline ' + result;
+  }
+  if (props.buttonClass) {
+    result = props.buttonClass + ' ' + result;
+  }
+
+  if (props.noPadding) {
+    result = 'no-padding ' + result;
+  }
+
+  return result;
+});
+
+const inherit = computed(() => {
+  return resolvedVariant.value === 'link' ? 'inherit' : '';
+});
 </script>
 
 <style lang="scss" scoped>
@@ -105,7 +106,7 @@ export default class EpButton extends Vue {
     color: #2B2B2B;
   }
 
-  ::v-deep button.btn-outline-primary:not(.disabled):hover{
+  :deep(button.btn-outline-primary:not(.disabled):hover){
     div.teksti {
       color: $white;
     }
@@ -132,7 +133,7 @@ export default class EpButton extends Vue {
   }
 
   &.no-padding {
-    ::v-deep .btn-link, .btn {
+    :deep(.btn-link), .btn {
       padding-left: 0 !important;
       .teksti{
         padding-left: 0 !important;
@@ -141,7 +142,7 @@ export default class EpButton extends Vue {
   }
 
   .no-padding {
-    ::v-deep &.btn-link, &.btn {
+    :deep(&.btn-link), &.btn {
       padding-left: 0 !important;
       .teksti{
         padding-left: 0 !important;

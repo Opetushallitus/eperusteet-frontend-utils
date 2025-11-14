@@ -1,82 +1,103 @@
 <template>
-<div class="sidenav">
-  <div v-if="showNavigation" class="bar d-print-none">
-    <slot name="bar" />
-    <div v-if="$scopedSlots.bottom" class="bottom" v-sticky sticky-side="bottom" sticky-z-index="500">
-      <slot name="bottom" />
+  <div class="sidenav">
+    <div
+      v-if="showNavigation"
+      class="bar d-print-none"
+    >
+      <slot name="bar" />
+      <div
+        v-if="slots.bottom"
+        v-sticky
+        class="bottom"
+        sticky-side="bottom"
+        sticky-z-index="500"
+      >
+        <slot name="bottom" />
+      </div>
+    </div>
+    <Teleport
+      v-else-if="mounted"
+      to="#globalNavigation"
+    >
+      <div class="mb-5">
+        <slot name="bar" />
+      </div>
+    </Teleport>
+    <div
+      :id="scrollAnchorId"
+      class="view"
+    >
+      <slot name="view" />
     </div>
   </div>
-  <Portal v-else to="globalNavigation">
-    <slot name="bar" />
-  </Portal>
-  <div class="view" ref="scrollAnchor" :id="scrollAnchor">
-    <slot name="view" />
-  </div>
-</div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
-import EpToggle from '../forms/EpToggle.vue';
-import Sticky from 'vue-sticky-directive';
-import { BrowserStore } from '../../stores/BrowserStore';
+<script setup lang="ts">
+import { computed, useSlots } from 'vue';
+import { BrowserStore } from '@shared/stores/BrowserStore';
 import _ from 'lodash';
+import { useRoute } from 'vue-router';
+import { ref } from 'vue';
+import { onMounted } from 'vue';
+import { watch } from 'vue';
 
-@Component({
-  components: {
-    EpToggle,
+const props = defineProps({
+  scrollEnabled: {
+    type: Boolean,
+    default: false,
   },
-  directives: {
-    Sticky,
-  },
-})
-export default class EpSidebar extends Vue {
-  @Prop({ required: false, default: false, type: Boolean })
-  private scrollEnabled!: boolean;
+});
 
-  private browserStore = new BrowserStore();
+const slots = useSlots();
+const route = useRoute();
+const browserStore = new BrowserStore();
+const mounted = ref(false);
+const scrollAnchor = ref('scroll-anchor');
 
-  get showNavigation() {
-    return this.browserStore.navigationVisible.value;
+onMounted(() => {
+  mounted.value = true;
+});
+
+const showNavigation = computed(() => {
+  return browserStore.navigationVisible.value;
+});
+
+const settings = {
+  autoScroll: true,
+  showSubchapter: true,
+};
+
+const scrollAnchorId = computed(() => {
+  return props.scrollEnabled ? 'scroll-anchor' : 'disabled-scroll-anchor';
+});
+
+const scrollToView = () => {
+  const element = document.getElementById(scrollAnchorId.value);
+  element?.scrollIntoView();
+};
+
+watch(route, () => {
+  if (props.scrollEnabled) {
+    updateScrollMargin();
+    scrollToView();
   }
+});
 
-  get scrollAnchor() {
-    return this.scrollEnabled ? 'scroll-anchor' : 'disabled-scroll-anchor';
-  }
+const updateScrollMargin = () => {
+  const element = document.getElementById(scrollAnchorId.value);
+  if (!element) return;
+  element.style.scrollMarginTop = `${offsetHeight.value}px`;
+};
 
-  get route() {
-    return this.$route;
-  }
+const offsetHeight = computed(() => {
+  return getElementHeighById('navigation-bar') + getElementHeighById('notification-bar');
+});
 
-  @Watch('$route')
-  onRouteChange() {
-    if (this.scrollEnabled) {
-      this.updateScrollMargin();
-      this.scrollToView();
-    }
-  }
+const getElementHeighById = (id: string) => {
+  const element = document.getElementById(id);
+  return element ? element.getBoundingClientRect().height : 0;
+};
 
-  private scrollToView() {
-    const element = this.$refs.scrollAnchor as HTMLElement;
-    element.scrollIntoView();
-  }
-
-  private updateScrollMargin() {
-    const element = this.$refs.scrollAnchor as HTMLElement;
-    if (!element) return;
-
-    element.style.scrollMarginTop = `${this.offsetHeight}px`;
-  }
-
-  get offsetHeight() {
-    return this.getElementHeighById('navigation-bar') + this.getElementHeighById('notification-bar');
-  }
-
-  private getElementHeighById(id: string) {
-    const element = document.getElementById(id);
-    return element ? element.getBoundingClientRect().height : 0;
-  }
-}
 </script>
 <style scoped lang="scss">
 @import "../../styles/_variables.scss";

@@ -1,8 +1,15 @@
 <template>
   <div>
-    <div class="row justify-content-center" id="tila-popover">
+    <div
+      id="tila-popover"
+      class="row justify-content-center"
+    >
       <div class="col-12 progress-area">
-        <ep-progress :slices="processSlices" :height="height" :width="width"/>
+        <ep-progress
+          :slices="processSlices"
+          :height="height"
+          :width="width"
+        />
       </div>
       <div class="col-12 header">
         <slot name="header" />
@@ -10,28 +17,17 @@
     </div>
 
     <b-popover
+      v-if="slots.default"
+      ref="progresspopover"
+      v-model:show="tilaPopupVisible"
       container="tila-popover"
       target="tila-popover"
       triggers="focus hover blur"
       size="md"
       placement="bottom"
-      :show.sync="tilaPopupVisible"
-      ref="progresspopover"
       custom-class="progress-popover"
-      v-if="$slots.default"
-      >
-
-      <div class="popup-top row flex-column align-items-center" :style="popupStyle">
-        <div class="progress-area">
-          <ep-progress :slices="processSlices" :height="height" :width="width"
-                       :popup-style="{ 'background-color': '' }" />
-        </div>
-        <div class="header">
-          <slot name="header" />
-        </div>
-      </div>
-
-      <div class="slot-area row justify-content-center">
+    >
+      <div class="slot-area row justify-content-center mr-1">
         <slot />
       </div>
 
@@ -39,63 +35,60 @@
         <hr>
       </div>
 
-      <div class="popup-bottom row flex-column align-items-center">
+      <div class="popup-bottom row flex-column align-items-center mx-3 my-2">
         <slot name="bottom" />
       </div>
     </b-popover>
-
   </div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, ref, useSlots } from 'vue';
 import _ from 'lodash';
 import EpProgress from './EpProgress.vue';
 
-@Component({
-  components: {
-    EpProgress,
+const props = defineProps({
+  slices: {
+    type: Array as () => number[],
+    required: true,
   },
-})
-export default class EpProgressPopover extends Vue {
-  @Prop({ required: true })
-  private slices!: number[];
+  popupStyle: {
+    type: Object,
+    default: () => ({
+      'background-color': '#2146a3',
+    }),
+  },
+});
 
-  private height: number = 60;
-  private width: number = 60;
+const slots = useSlots();
+const height = ref(60);
+const width = ref(60);
+const tilaPopupVisible = ref(false);
 
-  @Prop({
-    default() {
-      return {
-        'background-color': '#2146a3',
-      };
-    },
-  })
-  private popupStyle!: string;
+const done = computed(() => {
+  return _.size(_.filter(props.slices, (slice) => slice === 1)) === _.size(props.slices);
+});
 
-  private tilaPopupVisible = false;
+const zero = computed(() => {
+  return _.isEqual(props.slices, [0]);
+});
 
-  get processSlices() {
-    if (this.slices) {
-      if (this.done) {
-        return this.slices;
-      }
-      if (this.zero) {
-        return this.slices;
-      }
-
-      return [0.2, 0.5, 1];
+const processSlices = computed(() => {
+  if (props.slices) {
+    if (done.value) {
+      return props.slices;
     }
-  }
+    if (zero.value) {
+      return props.slices;
+    }
 
-  get done() {
-    return _.size(_.filter(this.slices, (slice) => slice === 1)) === _.size(this.slices);
   }
+  return [0.2, 0.5, 1];
+});
 
-  get zero() {
-    return _.isEqual(this.slices, [0]);
-  }
-}
+defineExpose({
+  tilaPopupVisible,
+});
 </script>
 
 <style lang="scss" scoped>
@@ -114,11 +107,11 @@ export default class EpProgressPopover extends Vue {
   border-radius: 1rem;
   transform: translate3d(45px, 55px, 0px) !important;
 
-  ::v-deep .arrow {
+  :deep(.arrow) {
     display:none;
   }
 
-  ::v-deep .popover-body {
+  :deep(.popover-body) {
     padding: 0;
 
     .popup-top {

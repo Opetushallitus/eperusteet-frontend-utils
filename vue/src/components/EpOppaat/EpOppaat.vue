@@ -1,61 +1,79 @@
 <template>
   <ep-main-view :container="true">
-    <template slot="header">
+    <template #header>
       <h1>{{ $t('ohjeet-ja-materiaalit') }}</h1>
     </template>
 
     <div class="mb-4">
-
       <label>{{ $t('nimi') }}</label>
       <div class="d-flex justify-content-between">
-        <ep-search :placeholder="$t('etsi-ohjeita')" class="w-50" v-model="query.nimi"/>
-        <KoulutustyyppiSelect v-model="query.koulutustyyppi" :isEditing="true" class="w-50" :koulutustyypit="koulutustyypit"/>
+        <ep-search
+          v-model="query.nimi"
+          :placeholder="$t('etsi-ohjeita')"
+          class="w-50"
+        />
+        <KoulutustyyppiSelect
+          v-model="query.koulutustyyppi"
+          :is-editing="true"
+          class="w-50"
+          :koulutustyypit="koulutustyypit"
+        />
       </div>
 
       <div class="d-flex mt-3">
-        <b-form-checkbox v-model="query.tuleva" class="mr-4">
-          {{ $t('tulevat') }}
-        </b-form-checkbox>
-
-        <b-form-checkbox v-model="query.voimassaolo">
-          {{ $t('voimassaolevat') }}
-        </b-form-checkbox>
+        <EpToggle
+          v-model="query.tuleva"
+          :value="true"
+          :label="$t('tulevat')"
+          checkbox
+        />
+        <EpToggle
+          v-model="query.voimassaolo"
+          :value="true"
+          :label="$t('voimassaolevat')"
+          checkbox
+        />
       </div>
     </div>
 
-    <ep-spinner v-if="!oppaat"/>
+    <ep-spinner v-if="!oppaat" />
 
     <template v-else>
       <EpExternalLink
-        :showIcon="false"
         v-for="opas in mappedOppaat"
         :key="opas.id"
+        :show-icon="false"
         :url="opas.url"
-        class="opas mb-2">
+        class="opas mb-2"
+      >
         <div class="d-flex">
           <div class="icon mr-3">
             <EpMaterialIcon>menu_book</EpMaterialIcon>
           </div>
           <div class="pt-1 text">
-            <div class="nimi">{{$kaanna(opas.nimi)}}</div>
-            <div v-if="opas.voimassaoloAlkaa">{{$t('voimaantulo')}} {{$sd(opas.voimassaoloAlkaa)}}</div>
+            <div class="nimi">
+              {{ $kaanna(opas.nimi) }}
+            </div>
+            <div v-if="opas.voimassaoloAlkaa">
+              {{ $t('voimaantulo') }} {{ $sd(opas.voimassaoloAlkaa) }}
+            </div>
           </div>
         </div>
       </EpExternalLink>
 
       <ep-pagination
-        class="mt-3"
         v-model="sivu"
+        class="mt-3"
         :per-page="query.sivukoko"
-        :total-rows="kokonaismaara"/>
-
+        :total-rows="kokonaismaara"
+      />
     </template>
   </ep-main-view>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import _ from 'lodash';
-import { Prop, Vue, Component, Watch } from 'vue-property-decorator';
+import { ref, computed, watch } from 'vue';
 import EpMainView from '@shared/components//EpMainView/EpMainView.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import EpSearch from '@shared/components/forms/EpSearch.vue';
@@ -68,73 +86,64 @@ import { buildKatseluUrl } from '@shared/utils/esikatselu';
 import { Kielet } from '@shared/stores/kieli';
 import EpExternalLink from '@shared/components/EpExternalLink/EpExternalLink.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import EpToggle from '@shared/components/forms/EpToggle.vue';
 
-@Component({
-  components: {
-    EpMainView,
-    EpSpinner,
-    EpSearch,
-    KoulutustyyppiSelect,
-    EpPagination,
-    EpExternalLink,
-    EpMaterialIcon,
+const props = defineProps({
+  koulutustyypit: {
+    type: Array as () => string[],
+    default: () => EperusteetKoulutustyypit,
   },
-})
-export default class EpOppaat extends Vue {
-  @Prop({ default: () => EperusteetKoulutustyypit })
-  private koulutustyypit!: string[];
+});
 
-  private store = new OppaatStore();
+const store = new OppaatStore();
 
-  private query = {
-    sivu: 0,
-    sivukoko: 20,
-    nimi: '',
-    voimassaolo: true,
-    tuleva: true,
-    koulutustyyppi: [],
-  } as OppaatQuery;
+const query = ref({
+  sivu: 0,
+  sivukoko: 20,
+  nimi: '',
+  voimassaolo: true,
+  tuleva: true,
+  koulutustyyppi: [],
+} as OppaatQuery);
 
-  @Watch('query', { deep: true, immediate: true })
-  async queryChange() {
-    if (_.size(this.query.koulutustyyppi) === 0) {
-      await this.store.fetch({
-        ...this.query,
-        koulutustyyppi: this.koulutustyypit,
-      });
-    }
-    else {
-      await this.store.fetch(this.query);
-    }
+const oppaat = computed(() => {
+  if (store.oppaat.value) {
+    return store.oppaat.value.data;
   }
+  return undefined;
+});
 
-  get oppaat() {
-    if (this.store.oppaat.value) {
-      return this.store.oppaat.value.data;
-    }
-  }
+const mappedOppaat = computed(() => {
+  return _.map(oppaat.value, opas => {
+    return {
+      ...opas,
+      url: buildKatseluUrl(Kielet.getSisaltoKieli.value, `/opas/${_.get(opas, 'id')}`),
+    };
+  });
+});
 
-  get mappedOppaat() {
-    return _.map(this.oppaat, opas => {
-      return {
-        ...opas,
-        url: buildKatseluUrl(Kielet.getSisaltoKieli.value, `/opas/${_.get(opas, 'id')}`),
-      };
+const kokonaismaara = computed(() => {
+  return store.oppaat.value?.kokonaismäärä;
+});
+
+const sivu = computed({
+  get: () => query.value.sivu! + 1,
+  set: (value: number) => {
+    query.value.sivu = value - 1;
+  },
+});
+
+watch(() => query.value, async () => {
+  if (_.size(query.value.koulutustyyppi) === 0) {
+    await store.fetch({
+      ...query.value,
+      koulutustyyppi: props.koulutustyypit,
     });
   }
-
-  get kokonaismaara() {
-    return this.store.oppaat.value?.kokonaismäärä;
+  else {
+    await store.fetch(query.value);
   }
-
-  get sivu() {
-    return this.query?.sivu! + 1;
-  }
-
-  set sivu(value: number) {
-    this.query.sivu = value - 1;
-  }
-}
+}, { deep: true, immediate: true });
 </script>
 
 <style scoped lang="scss">

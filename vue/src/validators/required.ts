@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import he from 'he';
 import { Kieli } from '@shared/tyypit';
-import { CustomRule, ValidationRule, helpers, minLength, minValue as vMinValue, required, maxLength } from 'vuelidate/lib/validators';
+import { ValidationRule } from '@vuelidate/core';
+import { helpers, minLength, minValue as vMinValue, required, maxLength } from '@vuelidate/validators';
 import { Kielet } from '@shared/stores/kieli';
 
 export function notNull() {
@@ -12,15 +13,24 @@ export function notNull() {
 
 const ValidoitavatKielet = ['fi', 'sv', 'se', 'en', 'ru'];
 
-const onlyCharacterOrNumber = helpers.regex('onlyLetterNumbers', /^[a-zA-Z0-9äöåÄÖÅ._-]*$/);
-const onlyNumbers = helpers.regex('onlyNumbers', /^[0-9._-]*$/);
+const onlyCharacterOrNumber = (value: any) => {
+  if (!value) return true; // Allow empty values
+  const regex = /^[a-zA-Z0-9äöåÄÖÅ._-]*$/;
+  return regex.test(String(value));
+};
+
+const onlyNumbers = (value: any) => {
+  if (!value) return true; // Allow empty values
+  const regex = /^[0-9._-]*$/;
+  return regex.test(String(value));
+};
 
 function exists(value: any, kieli: Kieli) {
   return _.has(value, kieli) && !_.isEmpty(value[kieli])
     && !_.isEmpty(he.decode(value[kieli].replace(/<[^>]+>/g, '')).trim());
 }
 
-export function warning(x: CustomRule | ValidationRule) {
+export function warning(x: ValidationRule) {
   return helpers.withParams({ type: 'warning' }, x);
 }
 

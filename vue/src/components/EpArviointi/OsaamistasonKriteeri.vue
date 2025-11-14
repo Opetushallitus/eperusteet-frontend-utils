@@ -1,23 +1,48 @@
 <template>
   <b-row>
-    <b-col cols="3" >{{$kaanna(arviointiasteikko.osaamistasot[osaamistasonkriteeri._osaamistaso].otsikko)}}</b-col>
+    <b-col cols="3">
+      {{ $kaanna(arviointiasteikko.osaamistasot[osaamistasonkriteeri._osaamistaso].otsikko) }}
+    </b-col>
     <b-col class="d-flex flex-column">
       <template v-if="!isEditing">
         <ul>
-          <li v-for="(kriteeri, kriteeriIndex) in osaamistasonkriteeri.kriteerit" :key="'kriteeri'+kriteeriIndex">
-            {{$kaanna(osaamistasonkriteeri.kriteerit[kriteeriIndex])}}
+          <li
+            v-for="(kriteeri, kriteeriIndex) in osaamistasonkriteeri.kriteerit"
+            :key="'kriteeri'+kriteeriIndex"
+          >
+            {{ $kaanna(osaamistasonkriteeri.kriteerit[kriteeriIndex]) }}
           </li>
         </ul>
       </template>
 
       <template v-else>
-        <div v-for="(kriteeri, kriteeriIndex) in osaamistasonkriteeri.kriteerit" :key="'kriteeri'+kriteeriIndex" class="mb-2">
+        <div
+          v-for="(kriteeri, kriteeriIndex) in osaamistasonkriteeri.kriteerit"
+          :key="'kriteeri'+kriteeriIndex"
+          class="mb-2"
+        >
           <div class="d-flex">
-            <EpInput class="w-100" :isEditing="isEditing" v-model="osaamistasonkriteeri.kriteerit[kriteeriIndex]" />
-            <EpButton v-if="isEditing" variant="link" icon="delete" @click="poistaKriteeri(kriteeri)"/>
+            <EpInput
+              v-model="osaamistasonkriteeri.kriteerit[kriteeriIndex]"
+              class="w-100"
+              :is-editing="isEditing"
+            />
+            <EpButton
+              v-if="isEditing"
+              variant="link"
+              icon="delete"
+              @click="poistaKriteeri(kriteeri)"
+            />
           </div>
         </div>
-        <EpButton :paddingx="false" v-if="isEditing" class="mb-3" variant="link" icon="add" @click="lisaaKriteeri()">
+        <EpButton
+          v-if="isEditing"
+          :paddingx="false"
+          class="mb-3"
+          variant="link"
+          icon="add"
+          @click="lisaaKriteeri()"
+        >
           {{ $t('lisaa-kriteeri') }}
         </EpButton>
       </template>
@@ -25,46 +50,46 @@
   </b-row>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, getCurrentInstance } from 'vue';
 import * as _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
+import { $t, $kaanna } from '@shared/utils/globals';
 
-@Component({
-  components: {
-    EpInput,
-    EpButton,
+const props = defineProps({
+  modelValue: {
+    type: Object,
+    required: true,
   },
-})
-export default class OsaamistasonKriteeri extends Vue {
-  @Prop({ required: true })
-  private value!: any;
+  isEditing: {
+    type: Boolean,
+    required: true,
+  },
+  arviointiasteikko: {
+    type: Object,
+    required: true,
+  },
+});
 
-  @Prop({ required: true })
-  private isEditing!: boolean;
+const emit = defineEmits(['update:modelValue']);
 
-  @Prop({ required: true })
-  private arviointiasteikko!: any;
+const osaamistasonkriteeri = computed({
+  get: () => props.modelValue,
+  set: (val) => {
+    emit('update:modelValue', val);
+  },
+});
 
-  get osaamistasonkriteeri() {
-    return this.value;
-  }
+async function lisaaKriteeri() {
+  osaamistasonkriteeri.value.kriteerit = [
+    ...osaamistasonkriteeri.value.kriteerit,
+    {},
+  ];
+}
 
-  set osaamistasonkriteeri(val) {
-    this.$emit('input', val);
-  }
-
-  async lisaaKriteeri() {
-    this.osaamistasonkriteeri.kriteerit = [
-      ...this.osaamistasonkriteeri.kriteerit,
-      {},
-    ];
-  }
-
-  async poistaKriteeri(poistettavaKriteeri) {
-    this.osaamistasonkriteeri.kriteerit = _.filter(this.osaamistasonkriteeri.kriteerit, kriteeri => kriteeri !== poistettavaKriteeri);
-  }
+async function poistaKriteeri(poistettavaKriteeri) {
+  osaamistasonkriteeri.value.kriteerit = _.filter(osaamistasonkriteeri.value.kriteerit, kriteeri => kriteeri !== poistettavaKriteeri);
 }
 </script>
 

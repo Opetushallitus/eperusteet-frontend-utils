@@ -1,38 +1,31 @@
 <template>
-  <span :class="'material-icons' + shape"
-        class="icon"
-        :style="{color: color, fontSize: size, background: background}">
-    <slot></slot>
+  <span
+    :class="'material-icons' + shape"
+    class="icon"
+    :style="{color: color, fontSize: size, background: background}"
+  >
+    <slot />
   </span>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed } from 'vue';
 
-@Component
-export default class EpMaterialIcon extends Vue {
-  @Prop({ required: false, default: '' })
-  iconShape?: string;
+const props = defineProps({
+  iconShape: { type: String, required: false, default: '' },
+  color: { type: String, required: false },
+  background: { type: String, required: false },
+  size: { type: String, required: false },
+});
 
-  @Prop({ required: false })
-  color?: string;
-
-  @Prop({ required: false })
-  background?: string;
-
-  @Prop({ required: false })
-  size?: string;
-
-  get shape() {
-    if (this.iconShape === 'outlined' || this.iconShape === 'rounded') {
-      return '-' + this.iconShape;
-    }
-    else {
-      // default = filled
-      return '';
-    }
+const shape = computed(() => {
+  if (props.iconShape === 'outlined' || props.iconShape === 'rounded') {
+    return '-' + props.iconShape;
   }
-};
+  else {
+    return '';
+  }
+});
 </script>
 
 <style lang="scss" scoped>

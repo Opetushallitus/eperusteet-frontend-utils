@@ -2,7 +2,7 @@ import { Link } from 'tiptap-extensions';
 import { domAttrsGetter, mapNodeAttrs } from '@shared/utils/helpers';
 import Vue from 'vue';
 import _ from 'lodash';
-import { ILinkkiHandler } from './LinkkiHandler';
+import { ILinkkiHandler } from '../LinkkiHandler';
 
 export default class CustomLink extends Link {
   constructor(private linkkiHandler?: ILinkkiHandler) {

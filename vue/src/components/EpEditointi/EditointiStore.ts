@@ -1,12 +1,12 @@
 import * as _ from 'lodash';
-import Vue from 'vue';
+import Vue, { ref, computed, reactive } from 'vue';
 import VueScrollTo from 'vue-scrollto';
-import { reactive, computed } from '@vue/composition-api';
 import { Computed } from '../../utils/interfaces';
 import { ILukko, Revision } from '../../tyypit';
-import VueRouter, { RawLocation } from 'vue-router';
-import { fail } from '../../utils/notifications';
 import { createLogger } from '../../utils/logger';
+import { App } from 'vue';
+import { Router } from 'vue-router';
+import { $fail, $t } from '@shared/utils/globals';
 
 export interface EditointiKontrolliValidation {
   valid: boolean;
@@ -83,7 +83,7 @@ export interface IEditoitava {
   /**
    * Get preview url location
    */
-  preview?: () => Promise<RawLocation | null>;
+  preview?: () => Promise<any | null>;
 
   /**
    * Hide the resource
@@ -128,19 +128,19 @@ export interface EditointiKontrolliRestore {
 }
 
 export interface EditointiStoreConfig {
-  router: VueRouter;
+  router: Router;
   kayttajaProvider: KayttajaProvider;
 }
 
 export class EditointiStore {
-  private static allEditingEditors: EditointiStore[] = [];
-  private static router: VueRouter;
+  private static editing: boolean = false;
+  private static router: Router;
   private static kayttajaProvider: KayttajaProvider;
   private logger = createLogger(EditointiStore);
   private isFirstRun = true;
 
   public static install(
-    vue: typeof Vue,
+    app: App,
     config: EditointiStoreConfig,
   ) {
     if (!config.router) {
@@ -166,15 +166,11 @@ export class EditointiStore {
   });
 
   public static anyEditing() {
-    return EditointiStore.allEditingEditors.length > 0;
+    return EditointiStore.editing;
   }
 
   public static async cancelAll() {
-    for (const editor of EditointiStore.allEditingEditors) {
-      if (editor.cancel) {
-        await editor.cancel(true);
-      }
-    }
+    EditointiStore.editing = false;
   }
 
   public constructor(
@@ -261,6 +257,7 @@ export class EditointiStore {
 
   public async init() {
     this.logger.debug('init');
+
     this.state.isNew = !!(this.config.editAfterLoad && await this.config.editAfterLoad());
     await this.fetch();
     await this.updateRevisions();
@@ -282,7 +279,7 @@ export class EditointiStore {
     this.state.isLoading = true;
 
     // Ei editointia uudestaan
-    if (this.isEditing.value) {
+    if (this.isEditing) {
       this.logger.warn('Editointi jo käynnissä');
       this.state.disabled = false;
       return;
@@ -307,10 +304,7 @@ export class EditointiStore {
       if (this.config.start) {
         await this.config.start();
       }
-      EditointiStore.allEditingEditors = [
-        ...EditointiStore.allEditingEditors,
-        this,
-      ];
+      EditointiStore.editing = true;
     }
     catch (err) {
       this.logger.error('Editoinnin aloitus epäonnistui:', err);
@@ -356,7 +350,7 @@ export class EditointiStore {
 
   public async cancel(skipRedirectBack = false) {
     this.state.disabled = true;
-    if (!this.isEditing.value) {
+    if (!this.isEditing) {
       this.logger.warn('Ei voi perua');
       return;
     }
@@ -371,7 +365,7 @@ export class EditointiStore {
     }
     // this.config.setData!(JSON.parse(this.state.backup));
     this.state.isEditingState = false;
-    _.remove(EditointiStore.allEditingEditors, (editor) => editor === this);
+    EditointiStore.editing = false;
     this.state.disabled = false;
 
     await this.unlock();
@@ -384,7 +378,7 @@ export class EditointiStore {
   public async remove() {
     this.state.disabled = true;
     this.state.isEditingState = false;
-    _.remove(EditointiStore.allEditingEditors, (editor) => editor === this);
+    EditointiStore.editing = false;
     try {
       if (this.config.remove) {
         await this.config.remove(this.state.data);
@@ -403,14 +397,14 @@ export class EditointiStore {
     this.state.disabled = true;
     this.state.isSaving = true;
 
-    if (!this.isEditing.value) {
+    if (!this.isEditing) {
       this.logger.warn('Ei voi tallentaa ilman editointia');
     }
     else if (this.config.save) {
       try {
         const after = await this.config.save(this.state.data);
         this.logger.success('Tallennettu onnistuneesti');
-        _.remove(EditointiStore.allEditingEditors, (editor) => editor === this);
+        EditointiStore.editing = false;
         await this.unlock();
         await this.fetchRevisions();
         await this.init();
@@ -454,11 +448,11 @@ export class EditointiStore {
     catch (err: any) {
       const syy = _.get(err, 'response.data.syy');
       if (syy) {
-        fail('palautus-epaonnistui', err.response.data.syy);
+        $fail($t('palautus-epaonnistui'), err.response.data.syy);
       }
       else {
         this.logger.error('Palautus epäonnistui', err);
-        fail('palautus-epaonnistui');
+        $fail($t('palautus-epaonnistui'));
       }
     }
   }

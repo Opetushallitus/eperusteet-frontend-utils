@@ -1,11 +1,7 @@
-import Vue from 'vue';
-import VueCompositionApi, { reactive, computed } from '@vue/composition-api';
 import { Location } from 'vue-router';
-import { Computed } from '@shared/utils/interfaces';
 import { LokalisoituTekstiDto, NavigationNodeType, NavigationNodeDto } from '@shared/tyypit';
 import _ from 'lodash';
-
-Vue.use(VueCompositionApi);
+import { computed, Ref } from 'vue';
 
 interface NodeConfig {
   disableNesting?: boolean;
@@ -25,12 +21,11 @@ export interface FlattenedNodeDto {
 
 export class EpTreeNavibarStore {
   constructor(
-    private navigation: Computed<NavigationNodeDto>,
+    private navigation: Ref<NavigationNodeDto>,
     private readonly routeToNodeImpl: (route: Location) => NavigationNodeDto | null,
     private config: NodeConfigs = {
     },
-  ) {
-  }
+  ) {}
 
   public routeToNode(route: Location) {
     return this.routeToNodeImpl(route);

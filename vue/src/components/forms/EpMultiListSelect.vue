@@ -1,12 +1,15 @@
 <template>
   <div v-if="isEditing">
-
-    <div v-for="(innerModel, i) in innerModelValidations" :key="i" class="row mb-2">
+    <div
+      v-for="(innerModel, i) in innerModelValidations"
+      :key="i"
+      class="row mb-2"
+    >
       <div class="col-11">
-        <multiselect
+        <VueMultiselect
+          :model-value="innerModels[i]"
           :disabled="isLoading"
           class="groupselect"
-          v-model="innerModels[i]"
           :options="items"
           :multiple="false"
           track-by="text"
@@ -16,65 +19,117 @@
           deselect-label=""
           :placeholder="''"
           :class="{'is-invalid': !innerModel.valid }"
-          @input="handleInput($event, i)" >
-
-          <template slot="option" slot-scope="{ option }">
+          @update:model-value="handleInput($event, i)"
+        >
+          <template #option="{ option }">
             <div :class="{'child': option.child, 'unselectable': option.unselectable}">
-              <slot name="option" :option="option">{{option.text}}</slot>
+              <slot
+                name="option"
+                :option="option"
+              >
+                {{ option.text }}
+              </slot>
             </div>
           </template>
 
-          <template slot="singleLabel" slot-scope="{ option }">
-            <slot name="singleLabel" :option="option" v-if="option.value">{{option.text}}</slot>
-            <div class="valitse" v-else>{{$t('valitse')}}</div>
+          <template #singleLabel="{ option }">
+            <slot
+              v-if="option.value"
+              name="singleLabel"
+              :option="option"
+            >
+              {{ option.text }}
+            </slot>
+            <div
+              v-else
+              class="valitse"
+            >
+              {{ $t('valitse') }}
+            </div>
           </template>
 
-          <template slot="noResult">
+          <template #noResult>
             <div>{{ $t('ei-hakutuloksia') }}</div>
           </template>
-          <template slot="noOptions">
+          <template #noOptions>
             <div>{{ $t('ei-vaihtoehtoja') }}</div>
           </template>
-
-        </multiselect>
-
+        </VueMultiselect>
       </div>
       <div class="col-1">
-        <ep-button v-if="!required || (i > 0 && !isLoading)"
-                   buttonClass="p-0 pt-2 roskalaatikko"
-                   variant="link"
-                   icon="delete"
-                   @click="poistaValinta(i)"/>
+        <ep-button
+          v-if="!required || (i > 0 && !isLoading)"
+          button-class="p-0 pt-2 roskalaatikko"
+          variant="link"
+          icon="delete"
+          @click="poistaValinta(i)"
+        />
       </div>
     </div>
 
-    <ep-spinner v-if="isLoading"/>
-    <ep-button buttonClass="pl-0 lisaa-valinta" variant="outline-primary" icon="add" @click="lisaaValinta" v-else-if="multiple" >
-      <slot name="lisaaTeksti">{{ $t(lisaaTeksti) }}</slot>
+    <ep-spinner v-if="isLoading" />
+    <ep-button
+      v-else-if="multiple"
+      button-class="pl-0 lisaa-valinta"
+      variant="outline-primary"
+      icon="add"
+      @click="lisaaValinta()"
+    >
+      <slot name="lisaaTeksti">
+        {{ $t(lisaaTeksti) }}
+      </slot>
     </ep-button>
 
-    <div class="valid-feedback" v-if="!validationError && validMessage">{{ $t(validMessage) }}</div>
-    <div class="invalid-feedback" v-else-if="validationError && invalidMessage ">{{ $t(invalidMessage) }}</div>
-    <div class="invalid-feedback" v-else-if="validationError && !invalidMessage">{{ $t('validation-error-' + validationError, validation.$params[validationError]) }}</div>
-    <small class="form-text text-muted" v-if="help && isEditing">{{ $t(help) }}</small>
-
+    <div
+      v-if="!validationError && validMessage"
+      class="valid-feedback"
+    >
+      {{ $t(validMessage) }}
+    </div>
+    <div
+      v-else-if="validationError && invalidMessage "
+      class="invalid-feedback"
+    >
+      {{ $t(invalidMessage) }}
+    </div>
+    <div
+      v-else-if="validationError && !invalidMessage"
+      class="invalid-feedback"
+    >
+      {{ $t('validation-error-' + validationError, validation.$params[validationError]) }}
+    </div>
+    <small
+      v-if="help && isEditing"
+      class="form-text text-muted"
+    >{{ $t(help) }}</small>
   </div>
   <div v-else>
-    <div v-for="(innerModel, i) in innerModelValidations" :key="i" class="row" :class="{'mb-2': i < innerModelValidations.length-1}">
+    <div
+      v-for="(innerModel, i) in innerModelValidations"
+      :key="i"
+      class="row"
+      :class="{'mb-2': i < innerModelValidations.length-1}"
+    >
       <div class="col-11">
-        <slot name="singleLabel" :option="innerModels[i]" v-if="innerModels[i].value">{{innerModels[i].text}}</slot>
+        <slot
+          v-if="innerModels[i].value"
+          name="singleLabel"
+          :option="innerModels[i]"
+        >
+          {{ innerModels[i].text }}
+        </slot>
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import _ from 'lodash';
-import { Component, Prop, Mixins, Watch, Vue } from 'vue-property-decorator';
+import { ref, computed, watch } from 'vue';
+import { useVuelidate } from '@vuelidate/core';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
-import EpValidation from '../../mixins/EpValidation';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
-import Multiselect from 'vue-multiselect';
+import VueMultiselect from 'vue-multiselect';
 
 export interface InnerModelValidations {
   innerModel: any;
@@ -88,143 +143,158 @@ export interface MultiListSelectItem {
   child: boolean,
 }
 
-@Component({
-  components: {
-    EpSpinner,
-    EpButton,
-    Multiselect,
+const props = defineProps({
+  items: {
+    required: true,
+    type: Array as () => MultiListSelectItem[],
   },
-})
-export default class EpMultiListSelect extends Mixins(EpValidation) {
-  @Prop({ required: true })
-  private items!: MultiListSelectItem[];
+  modelValue: {
+    required: true,
+  },
+  tyyppi: {
+    required: false,
+    type: String,
+  },
+  validationError: {
+    type: String,
+  },
+  validMessage: {
+    type: String,
+  },
+  invalidMessage: {
+    type: String,
+  },
+  validation: {
+    default: null,
+  },
+  required: {
+    required: false,
+    default: false,
+    type: Boolean,
+  },
+  isLoading: {
+    default: false,
+    type: Boolean,
+  },
+  multiple: {
+    default: true,
+    type: Boolean,
+  },
+  isEditing: {
+    default: true,
+    type: Boolean,
+  },
+  help: {
+    default: '',
+    type: String,
+  },
+  equality: {
+    required: false,
+    default: _.isEqual,
+    type: Function,
+  },
+});
 
-  @Prop({ required: true })
-  private value!: any[] | any;
+const emit = defineEmits(['update:modelValue']);
+const v$ = useVuelidate();
+const innerModels = ref<any[]>([]);
 
-  @Prop({ required: false })
-  private tyyppi!: string;
+const innerModelsValues = computed(() => {
+  return _.chain(innerModels.value)
+    .filter(innerModel => (_.isArray(innerModel.value) && !_.isEmpty(innerModel.value)) || !_.isNil(innerModel.value))
+    .map(innerModel => innerModel.value)
+    .value();
+});
 
-  @Prop({ default: null })
-  public validation!: any;
-
-  @Prop({ required: false, default: false })
-  private required!: boolean;
-
-  private innerModels: any[] = [];
-
-  @Prop({ default: false })
-  public isLoading!: boolean;
-
-  @Prop({ default: true })
-  private multiple!: boolean;
-
-  @Prop({ default: true, type: Boolean })
-  private isEditing!: boolean;
-
-  @Prop({ default: '', type: String })
-  private help!: string;
-
-  @Prop({ required: false, default: () => _.isEqual })
-  private equality!: Function;
-
-  @Watch('value', { immediate: true })
-  valueChange(value: any) {
-    if ((_.isArray(value) && _.isEmpty(value))) {
-      this.innerModels = [];
-    }
-  }
-
-  private updateValue() {
-    if (this.multiple) {
-      this.$emit('input', [...this.innerModelsValues]);
-    }
-    else {
-      this.$emit('input', this.innerModelsValues[0]);
-    }
-  }
-
-  get innerModelValidations(): InnerModelValidations[] {
-    return _.map(this.innerModels, (innerModel, index) => {
-      let valid = true;
-      if (this.validation && this.validation.$each && this.validation.$each.$iter[index]) {
-        valid = !this.validation.$each.$iter[index].$invalid;
-      }
-
-      return {
-        innerModel,
-        valid,
-      } as InnerModelValidations;
-    });
-  }
-
-  @Watch('items', { immediate: true })
-  itemsChange(items: any) {
-    this.changeInnerModels(items, this.value);
-
-    if (this.required && _.isEmpty(this.innerModels)) {
-      this.innerModels = [
-        {},
-      ];
-    }
-  }
-
-  private changeInnerModels(items, value) {
-    let valueArray = _.isArray(value) ? value : [value];
-
-    if (_.size(items) > 0) {
-      this.innerModels = _.chain(valueArray)
-        .map((singleValue) => _.head(_.filter(items, (item) => {
-          return this.equality(item.value, singleValue);
-        })))
-        .filter(singleValue => _.isObject(singleValue))
-        .value();
-      this.updateValue();
-    }
-  }
-
-  get lisaaTeksti() {
-    if (this.tyyppi) {
-      return 'lisaa-' + this.tyyppi;
+const innerModelValidations = computed(() => {
+  return _.map(innerModels.value, (innerModel, index) => {
+    let valid = true;
+    if (props.validation && props.validation.$each && props.validation.$each.$response.$data[index]) {
+      valid = !props.validation.$each.$response.$data[index].$invalid;
     }
 
-    return 'lisaa';
-  }
+    return {
+      innerModel,
+      valid,
+    } as InnerModelValidations;
+  });
+});
 
-  lisaaValinta() {
-    this.innerModels = [
-      ...(this.innerModels as any),
-      {},
-    ];
+const lisaaTeksti = computed(() => {
+  if (props.tyyppi) {
+    return 'lisaa-' + props.tyyppi;
   }
+  return 'lisaa';
+});
 
-  poistaValinta(index) {
-    this.innerModels = _.filter(this.innerModels, (val, valIndex) => index !== valIndex);
-    this.updateValue();
+function updateValue() {
+  if (props.multiple) {
+    emit('update:modelValue', [...innerModelsValues.value]);
   }
-
-  handleInput(selected, index) {
-    if (_.isEmpty(selected) || selected.unselectable) {
-      this.poistaValinta(index);
-      this.lisaaValinta();
-    }
-    else {
-      if (_.size(_.filter(this.innerModels, (innerModel) => innerModel === selected)) === 1) {
-        this.updateValue();
-      }
-      else {
-        Vue.set(this.innerModels, index, {});
-      }
-    }
-  }
-
-  get innerModelsValues() {
-    return _.chain(this.innerModels)
-      .filter(innerModel => (_.isArray(innerModel.value) && !_.isEmpty(innerModel.value)) || !_.isNil(innerModel.value))
-      .map(innerModel => innerModel.value)
-      .value();
+  else {
+    emit('update:modelValue', innerModelsValues.value[0]);
   }
 }
+
+function lisaaValinta() {
+  innerModels.value = [
+    ...innerModels.value,
+    {},
+  ];
+}
+
+function poistaValinta(index: number) {
+  innerModels.value = _.filter(innerModels.value, (val, valIndex) => index !== valIndex);
+  updateValue();
+}
+
+function handleInput(selected: any, index: number) {
+  if (_.isEmpty(selected) || selected.unselectable) {
+    poistaValinta(index);
+    lisaaValinta();
+  }
+  else {
+    if (!_.find(innerModels.value, (innerModel) => innerModel === selected)) {
+      innerModels.value[index] = selected;
+      updateValue();
+    }
+    else {
+      // Need to directly set the value in the array
+      innerModels.value[index] = {};
+    }
+  }
+}
+
+function changeInnerModels(items: any[], value: any) {
+  let valueArray = _.isArray(value) ? value : [value];
+
+  if (_.size(items) > 0) {
+    innerModels.value = _.chain(valueArray)
+      .map((singleValue) => _.head(_.filter(items, (item) => {
+        return props.equality(item.value, singleValue);
+      })))
+      .filter(singleValue => _.isObject(singleValue))
+      .value();
+
+    updateValue();
+  }
+}
+
+// Watch for changes in props.items
+watch(() => props.items, (newItems) => {
+  changeInnerModels(newItems, props.modelValue);
+  if (props.required && _.isEmpty(innerModels.value)) {
+    innerModels.value = [{}];
+  }
+
+}, { immediate: true });
+
+// Watch for changes in props.modelValue
+watch(() => props.modelValue, (newValue) => {
+  if ((_.isArray(newValue) && _.isEmpty(newValue)) && !props.required) {
+    innerModels.value = [];
+  }
+}, { immediate: true });
 </script>
 
 <style scoped lang="scss">
@@ -234,69 +304,68 @@ export default class EpMultiListSelect extends Mixins(EpValidation) {
     cursor: default;
   }
 
-  ::v-deep .multiselect__tags {
+  :deep(.multiselect__tags) {
     border: 2px solid #E0E0E1;
     border-radius: 10px;
     font-size: 1rem;
     background-color: $white;
   }
 
-  ::v-deep .multiselect__element {
+  :deep(.multiselect__element) {
     margin: 0px;
     padding: 0px;
     line-height: 1rem;
   }
 
-  ::v-deep .multiselect__option {
+  :deep(.multiselect__option) {
     padding: 0px;
     margin: 0px;
     background-color: $white;
     color: $black;
   }
 
-  ::v-deep .multiselect__option div {
+  :deep(.multiselect__option div) {
     padding: 12px;
     margin: 0px;
   }
 
-  ::v-deep .multiselect__option div.child {
+  :deep(.multiselect__option div.child) {
     padding-left: 35px;
   }
 
-  ::v-deep .multiselect__option--highlight div {
+  :deep(.multiselect__option--highlight div) {
     background-color: $blue-lighten-1;
     color: $white;
   }
 
-  ::v-deep .multiselect__option .unselectable {
+  :deep(.multiselect__option .unselectable) {
     background-color: $white;
     color: $gray-lighten-1;
   }
 
-  ::v-deep .is-invalid .multiselect__content-wrapper {
+  :deep(.is-invalid .multiselect__content-wrapper) {
     border-color: #dc3545;
   }
 
-  ::v-deep .is-valid .multiselect__content-wrapper {
+  :deep(.is-valid .multiselect__content-wrapper) {
     border-color: $valid;
   }
 
-  ::v-deep .is-invalid .multiselect__tags {
+  :deep(.is-invalid .multiselect__tags) {
     border-color: #dc3545;
   }
 
-  ::v-deep .is-valid .multiselect__tags {
+  :deep(.is-valid .multiselect__tags) {
     border-color: $valid;
   }
 
   // Piilotettu Bootstrapissa oletuksena
-  ::v-deep .invalid-feedback,
-  ::v-deep .valid-feedback {
+  :deep(.invalid-feedback),
+  :deep(.valid-feedback) {
     display: block;
   }
 
   .valitse {
     color: $gray-lighten-2;
   }
-
 </style>

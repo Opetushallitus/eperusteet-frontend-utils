@@ -1,46 +1,59 @@
 <template>
-<div>
-  <b-modal ref="epConfirmDialogModal" id="epConfirmDialog" size="lg" v-model="visible" @ok="cancelSave">
-    <template v-slot:modal-title>
-     {{ $t('haluatko-poistua-tallentamatta')}}
-    </template>
+  <div>
+    <b-modal
+      id="epConfirmDialog"
+      ref="epConfirmDialogModal"
+      v-model="visible"
+      size="lg"
+      @ok="cancelSave"
+    >
+      <template #modal-title>
+        {{ $t('haluatko-poistua-tallentamatta') }}
+      </template>
 
-    <span>{{$t('poistumisen-varmistusteksti-dialogi')}}</span>
+      <span>{{ $t('poistumisen-varmistusteksti-dialogi') }}</span>
 
-    <template v-slot:modal-cancel>
-      {{ $t('peruuta')}}
-    </template>
-    <template v-slot:modal-ok>
-      {{ $t('poistu-tallentamatta')}}
-    </template>
-
-  </b-modal>
-</div>
+      <template #modal-cancel>
+        {{ $t('peruuta') }}
+      </template>
+      <template #modal-ok>
+        {{ $t('poistu-tallentamatta') }}
+      </template>
+    </b-modal>
+  </div>
 </template>
 
-<script lang="ts">
-import { Prop, Component, Vue, Mixins } from 'vue-property-decorator';
+<script setup lang="ts">
+import { ref, useTemplateRef } from 'vue';
 import _ from 'lodash';
 
-@Component({ name: 'EpConfirmDialog' })
-export default class EpConfirmDialog extends Vue {
-  @Prop({ required: true })
-  private redirect!: Function;
+const props = defineProps({
+  redirect: {
+    type: Function,
+    required: true,
+  },
+  ctrls: {
+    type: Object,
+    required: true,
+  },
+});
 
-  @Prop({ required: true })
-  private ctrls!: any;
+const epConfirmDialogModal = useTemplateRef('epConfirmDialogModal');
+const visible = ref(false);
 
-  private visible: boolean = false;
-
-  setVisible() {
-    this.visible = true;
-  }
-
-  async cancelSave() {
-    await this.ctrls.cancel();
-    this.redirect();
-  }
+function setVisible() {
+  visible.value = true;
 }
+
+async function cancelSave() {
+  await props.ctrls.cancel();
+  props.redirect();
+}
+
+// Expose methods to parent components
+defineExpose({
+  setVisible,
+});
 </script>
 
 <style scoped lang="scss">

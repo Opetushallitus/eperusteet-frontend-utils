@@ -1,91 +1,157 @@
 <template>
   <div class="editointi-container">
-    <ep-spinner class="mt-5" v-if="!store || !store.data.value"></ep-spinner>
-    <div class="editointikontrolli" v-else>
-      <div v-sticky sticky-offset="{ top: 56 }" sticky-z-index="500" v-if="!hasFooterSlot">
+    <ep-spinner
+      v-if="!store || !store.data"
+      class="mt-5"
+    />
+    <div
+      v-else
+      class="editointikontrolli"
+    >
+      <div
+        v-if="!hasFooterSlot"
+        v-sticky="isEditing"
+        sticky-offset="{ top: 56 }"
+        sticky-z-index="600"
+      >
         <template v-if="hasCustomHeaderSlot">
-          <slot name="customheader"
-            :isEditing="isEditing"
+          <slot
+            name="customheader"
+            :is-editing="isEditing"
             :support-data="innerSupport"
             :data="inner"
             :cancel="cancel"
             :save="save"
             :disabled="disabled"
-            :validation="validation"
-            :isSaving="isSaving"
+            :validation="validation.inner"
+            :is-saving="isSaving"
             :modify="modify"
             :remove="remove"
-            :editable="features.editable"/>
+            :editable="features.editable"
+          />
         </template>
-        <div v-else class="ylapaneeli d-print-none">
-          <div class="d-flex align-items-center flex-md-row flex-column justify-content-between" :class="{ container: useContainer }">
+        <div
+          v-else
+          class="ylapaneeli d-print-none"
+        >
+          <div
+            class="d-flex align-items-center flex-md-row flex-column justify-content-between"
+            :class="{ container: useContainer }"
+          >
             <div class="d-flex flex-wrap flex-xl-nowrap align-items-center justify-content-between">
-              <div class="headerline" v-if="inner">
-                <slot name="header"
-                      :isEditing="isEditing"
-                      :data="inner"
-                      :support-data="innerSupport"
-                      :validation="validation"/>
+              <div
+                v-if="inner"
+                class="headerline"
+              >
+                <slot
+                  name="header"
+                  :is-editing="isEditing"
+                  :data="inner"
+                  :support-data="innerSupport"
+                  :validation="validation.inner"
+                />
               </div>
-              <div class="muokattu text-nowrap" v-if="!isEditing">
-                <slot name="postHeader" :data="inner"></slot>
-                <slot name="additionalInfo" :data="inner"></slot>
-                <span class="text-truncate" v-if="latest">{{ $t('muokattu') }}: {{ $sdt(latest.pvm) }}, {{ nimi }}</span>
+              <div
+                v-if="!isEditing"
+                class="muokattu text-nowrap"
+              >
+                <slot
+                  name="postHeader"
+                  :data="inner"
+                />
+                <slot
+                  name="additionalInfo"
+                  :data="inner"
+                />
+                <span
+                  v-if="latest"
+                  class="text-truncate"
+                >{{ $t('muokattu') }}: {{ $sdt(latest.pvm) }}, {{ nimi }}</span>
               </div>
             </div>
             <div>
-              <div class="floating-editing-buttons d-flex align-items-center" v-if="!versiohistoriaVisible">
-                <ep-button class="ml-4"
-                           v-if="isEditing"
-                           @click="cancel()"
-                           :disabled="disabled"
-                           variant="link">
-                  <slot name="peruuta">{{ $t('peruuta') }}</slot>
+              <div
+                v-if="!versiohistoriaVisible"
+                class="floating-editing-buttons d-flex align-items-center"
+              >
+                <ep-button
+                  v-if="isEditing"
+                  class="ml-4"
+                  :disabled="disabled"
+                  variant="link"
+                  @click="cancel()"
+                >
+                  <slot name="peruuta">
+                    {{ $t('peruuta') }}
+                  </slot>
                 </ep-button>
-                <ep-button class="ml-4"
-                           @click="save()"
-                           v-if="isEditing"
-                           :disabled="disabled || (validation && validation.$invalid)"
-                           variant="primary"
-                           :show-spinner="isSaving"
-                           :help="saveHelpText">
-                  <slot name="tallenna">{{ $t('tallenna') }}</slot>
+                <ep-button
+                  v-if="isEditing"
+                  class="ml-4"
+                  :disabled="disabled || (validation && validation.$invalid)"
+                  variant="primary"
+                  :show-spinner="isSaving"
+                  :help="saveHelpText"
+                  @click="save()"
+                >
+                  <slot name="tallenna">
+                    {{ $t('tallenna') }}
+                  </slot>
                 </ep-button>
-                <b-dropdown class="mx-4"
-                            v-if="isEditing && !disabled && (features.removable || features.hideable)"
-                            size="md"
-                            variant="link"
-                            :disabled="disabled"
-                            toggle-class="text-decoration-none"
-                            no-caret="no-caret"
-                            right>
-                  <template slot="button-content">
+                <b-dropdown
+                  v-if="isEditing && !disabled && (features.removable || features.hideable)"
+                  class="mx-4"
+                  size="md"
+                  variant="link"
+                  :disabled="disabled"
+                  toggle-class="text-decoration-none"
+                  no-caret="no-caret"
+                  right
+                >
+                  <template #button-content>
                     <EpMaterialIcon>more_horiz</EpMaterialIcon>
                   </template>
                   <b-dropdown-item
-                    @click="remove()"
                     key="poista"
-                    :disabled="!features.removable || disabled">
-                    <slot name="poista">{{ poistoteksti }}</slot>
+                    :disabled="!features.removable || disabled"
+                    @click="remove()"
+                  >
+                    <slot name="poista">
+                      {{ poistoteksti }}
+                    </slot>
                   </b-dropdown-item>
                   <b-dropdown-item
                     v-if="!hidden && features.hideable"
-                    @click="hide()"
                     key="piilota"
-                    :disabled="disabled">
-                    <slot name="piilota">{{ $t('piilota') }}</slot>
+                    :disabled="disabled"
+                    @click="hide()"
+                  >
+                    <slot name="piilota">
+                      {{ $t('piilota') }}
+                    </slot>
                   </b-dropdown-item>
                   <b-dropdown-item
                     v-if="hidden"
-                    @click="unHide()"
                     key="palauta"
-                    :disabled="!features.hideable || disabled">
-                    <slot name="palauta">{{ $t('palauta') }}</slot>
+                    :disabled="!features.hideable || disabled"
+                    @click="unHide()"
+                  >
+                    <slot name="palauta">
+                      {{ $t('palauta') }}
+                    </slot>
                   </b-dropdown-item>
                 </b-dropdown>
-                <div v-if="currentLock && features.lockable" class="d-flex align-items-center ml-2 mr-2">
+                <div
+                  v-if="currentLock && features.lockable"
+                  class="d-flex align-items-center ml-2 mr-2"
+                >
                   <div>
-                    <EpMaterialIcon class="mr-1" :color="'#555'">lock</EpMaterialIcon>
+                    <EpMaterialIcon
+                      class="mr-1"
+                      :color="'#555'"
+                    >
+                      lock
+                    </EpMaterialIcon>
                     {{ $t('sivu-lukittu') }}
                   </div>
                   <div class="flex-grow-1 ml-3">
@@ -98,66 +164,98 @@
                   </div>
                 </div>
                 <template v-else-if="!isEditing && features.editable && !versiohistoriaVisible">
-                  <slot name="muokkaa-content" :data="inner">
-                    <ep-button id="editointi-muokkaus"
-                               variant="link"
-                               icon="edit"
-                               v-oikeustarkastelu="muokkausOikeustarkastelu"
-                               @click="modify()"
-                               :show-spinner="isSaving || loading"
-                               :disabled="disabled">
-                      <slot name="muokkaa">{{ $t('muokkaa') }}</slot>
+                  <slot
+                    name="muokkaa-content"
+                    :data="inner"
+                  >
+                    <ep-button
+                      id="editointi-muokkaus"
+                      v-oikeustarkastelu="muokkausOikeustarkastelu"
+                      variant="link"
+                      icon="edit"
+                      :show-spinner="isSaving || loading"
+                      :disabled="disabled"
+                      @click="modify()"
+                    >
+                      <slot name="muokkaa">
+                        {{ $t('muokkaa') }}
+                      </slot>
                     </ep-button>
                   </slot>
                 </template>
-                <div v-else-if="!isEditing && features.copyable" v-oikeustarkastelu="muokkausOikeustarkastelu">
-                  <slot name="kopioi" :data="inner" :support-data="innerSupport">
-                    <ep-button id="editointi-kopiointi"
-                              variant="link"
-                              icon="edit"
-                              v-oikeustarkastelu="muokkausOikeustarkastelu"
-                              @click="copy()"
-                              :show-spinner="isSaving"
-                              :disabled="disabled">
-                      <slot name="kopioi-teksti">{{ $t('kopioi-muokattavaksi') }}</slot>
+                <div
+                  v-else-if="!isEditing && features.copyable"
+                  v-oikeustarkastelu="muokkausOikeustarkastelu"
+                >
+                  <slot
+                    name="kopioi"
+                    :data="inner"
+                    :support-data="innerSupport"
+                  >
+                    <ep-button
+                      id="editointi-kopiointi"
+                      v-oikeustarkastelu="muokkausOikeustarkastelu"
+                      variant="link"
+                      icon="edit"
+                      :show-spinner="isSaving"
+                      :disabled="disabled"
+                      @click="copy()"
+                    >
+                      <slot name="kopioi-teksti">
+                        {{ $t('kopioi-muokattavaksi') }}
+                      </slot>
                     </ep-button>
                   </slot>
                 </div>
-                <span v-else-if="muokkausEiSallittu" class="disabled-text">
-                  {{$t('muokkausta-ei-sallittu')}}
+                <span
+                  v-else-if="muokkausEiSallittu"
+                  class="disabled-text"
+                >
+                  {{ $t('muokkausta-ei-sallittu') }}
                 </span>
-                <b-dropdown class="mx-4"
-                            v-if="katseluDropDownValinnatVisible"
-                            size="md"
-                            variant="link"
-                            :disabled="disabled"
-                            toggle-class="text-decoration-none"
-                            no-caret="no-caret"
-                            right
-                            v-oikeustarkastelu="{ oikeus: 'luku' }">
-                  <template slot="button-content">
+                <b-dropdown
+                  v-if="katseluDropDownValinnatVisible"
+                  v-oikeustarkastelu="{ oikeus: 'luku' }"
+                  class="mx-4"
+                  size="md"
+                  variant="link"
+                  :disabled="disabled"
+                  toggle-class="text-decoration-none"
+                  no-caret="no-caret"
+                  right
+                >
+                  <template #button-content>
                     <EpMaterialIcon>more_horiz</EpMaterialIcon>
                   </template>
                   <b-dropdown-item
+                    v-if="features.removable && !disabled"
+                    key="poista"
                     v-oikeustarkastelu="muokkausOikeustarkastelu"
                     @click="remove()"
-                    key="poista"
-                    v-if="features.removable && !disabled">
-                    <slot name="poista">{{ poistoteksti }}</slot>
+                  >
+                    <slot name="poista">
+                      {{ poistoteksti }}
+                    </slot>
                   </b-dropdown-item>
                   <b-dropdown-item
-                  v-oikeustarkastelu="muokkausOikeustarkastelu"
                     v-if="!hidden && features.hideable && !disabled"
+                    key="piilota"
+                    v-oikeustarkastelu="muokkausOikeustarkastelu"
                     @click="hide()"
-                    key="piilota">
-                    <slot name="piilota">{{ $t('piilota') }}</slot>
+                  >
+                    <slot name="piilota">
+                      {{ $t('piilota') }}
+                    </slot>
                   </b-dropdown-item>
                   <b-dropdown-item
-                  v-oikeustarkastelu="muokkausOikeustarkastelu"
                     v-if="hidden && features.hideable && !disabled"
+                    key="palauta"
+                    v-oikeustarkastelu="muokkausOikeustarkastelu"
                     @click="unHide()"
-                    key="palauta">
-                    <slot name="palauta">{{ $t('palauta') }}</slot>
+                  >
+                    <slot name="palauta">
+                      {{ $t('palauta') }}
+                    </slot>
                   </b-dropdown-item>
                   <b-dropdown-item :disabled="!features.previewable || disabled">
                     {{ $t('esikatsele-sivua') }}
@@ -165,77 +263,103 @@
                   <b-dropdown-item v-if="store.validate && !disabled">
                     {{ $t('validoi') }}
                   </b-dropdown-item>
-                  <b-dropdown-item v-if="features.recoverable" :disabled="!historia || disabled">
-                    <ep-versio-modaali :value="current"
+                  <b-dropdown-item
+                    v-if="features.recoverable"
+                    :disabled="!historia || disabled"
+                  >
+                    <ep-versio-modaali
+                      :value="current"
                       :versions="historia"
                       :current="current"
                       :per-page="10"
-                      @restore="restore($event)" />
+                      @restore="restore($event)"
+                    />
                   </b-dropdown-item>
                 </b-dropdown>
-                <ep-round-button class="ml-2"
-                                 :disabled="disabled"
-                                 id="editointi-muokkaus-comments"
-                                 v-if="hasKeskusteluSlot"
-                                 @click="toggleSidebarState(1)"
-                                 icon="comment"
-                                 variant="lightblue fa-flip-horizontal" />
-                <ep-round-button class="ml-2"
-                                 :disabled="disabled"
-                                 id="editointi-muokkaus-question"
-                                 v-if="hasOhjeSlot"
-                                 @click="toggleSidebarState(2)"
-                                 icon="question_mark"
-                                 variant="green" />
-                <ep-round-button class="ml-2"
-                                 :disabled="disabled"
-                                 v-if="hasPerusteSlot"
-                                 @click="toggleSidebarState(3)"
-                                 icon="account_balance"
-                                 variant="pink" />
+                <ep-round-button
+                  v-if="hasKeskusteluSlot"
+                  id="editointi-muokkaus-comments"
+                  class="ml-2"
+                  :disabled="disabled"
+                  icon="comment"
+                  variant="lightblue fa-flip-horizontal"
+                  @click="toggleSidebarState(1)"
+                />
+                <ep-round-button
+                  v-if="hasOhjeSlot"
+                  id="editointi-muokkaus-question"
+                  class="ml-2"
+                  :disabled="disabled"
+                  icon="question_mark"
+                  variant="green"
+                  @click="toggleSidebarState(2)"
+                />
+                <ep-round-button
+                  v-if="hasPerusteSlot"
+                  class="ml-2"
+                  :disabled="disabled"
+                  icon="account_balance"
+                  variant="pink"
+                  @click="toggleSidebarState(3)"
+                />
               </div>
             </div>
           </div>
         </div>
-        <div class="d-flex align-items-center versiohistoria" v-if="versiohistoriaVisible">
+        <div
+          v-if="versiohistoriaVisible"
+          class="d-flex align-items-center versiohistoria"
+        >
           <div class="headerline">
             <span>{{ $t('muokkaushistoria') }}: {{ $t('versionumero') }} {{ versionumero }}</span>
           </div>
           <div class="flex-fill">
-            <b-pagination :value="versionumero"
-              @input="updateVersionumero"
+            <ep-pagination
+              :model-value="versionumero"
               :total-rows="versions"
               :per-page="1"
               :hide-goto-end-buttons="true"
               size="sm"
-              class="mb-0">
-              <template v-slot:prev-text>
+              class="mb-0"
+              @update:model-value="updateVersionumero"
+            >
+              <template #prev-text>
                 <EpMaterialIcon>chevron_left</EpMaterialIcon>
               </template>
-              <template v-slot:next-text>
+              <template #next-text>
                 <EpMaterialIcon>chevron_right</EpMaterialIcon>
               </template>
-            </b-pagination>
+            </ep-pagination>
           </div>
           <div class="floating-editing-buttons">
-            <ep-button variant="link"
-                       icon="menu">
-              <ep-versio-modaali :value="current"
+            <ep-button
+              variant="link"
+              icon="menu"
+            >
+              <ep-versio-modaali
                 :versions="historia"
                 :current="current"
                 :per-page="10"
-                @restore="restore($event)">
+                @restore="restore($event)"
+              >
                 {{ $t('palaa-listaan') }}
               </ep-versio-modaali>
             </ep-button>
-            <ep-button variant="link"
-                       @click="restore({ numero: current.numero, routePushLatest: true })"
-                       icon="keyboard_return">
+            <ep-button
+              variant="link"
+              icon="keyboard_return"
+              @click="restore({ numero: current.numero, routePushLatest: true })"
+            >
               {{ $t('palauta-tama-versio') }}
             </ep-button>
             <div class="btn">
               <router-link :to="{ query: {} }">
-                <EpMaterialIcon :background="'inherit'" :color="'inherit'">close</EpMaterialIcon>
+                <EpMaterialIcon
+                  :background="'inherit'"
+                  :color="'inherit'"
+                >
+                  close
+                </EpMaterialIcon>
               </router-link>
             </div>
           </div>
@@ -244,48 +368,100 @@
       <div v-if="inner">
         <div class="threads">
           <div class="actual-content">
-            <div v-if="hasInfoSlotContent" class="info d-flex">
-              <EpMaterialIcon class="mr-1" :color="'#2a2a2a'">info</EpMaterialIcon>
-              <slot name="info"></slot>
+            <div
+              v-if="hasInfoSlotContent"
+              class="info d-flex"
+            >
+              <EpMaterialIcon
+                class="mr-1"
+                :color="'#2a2a2a'"
+              >
+                info
+              </EpMaterialIcon>
+              <slot name="info" />
             </div>
             <div class="sisalto">
-              <slot :isEditing="isEditing" :support-data="innerSupport" :data="inner" :validation="validation" :isCopyable="features.copyable"></slot>
+              <slot
+                :is-editing="isEditing"
+                :support-data="innerSupport"
+                :data="inner"
+                :validation="validation.inner"
+                :is-copyable="features.copyable"
+              />
             </div>
           </div>
-          <div class="rightbar rb-keskustelu" v-if="hasKeskusteluSlot && sidebarState === 1">
-            <div class="rbheader"><b>{{ $t('keskustelu') }}</b></div>
+          <div
+            v-if="hasKeskusteluSlot && sidebarState === 1"
+            class="rightbar rb-keskustelu"
+          >
+            <div class="rbheader">
+              <b>{{ $t('keskustelu') }}</b>
+            </div>
             <div class="rbcontent">
-              <slot name="keskustelu" :isEditing="isEditing" :support-data="innerSupport" :data="inner" :validation="validation"></slot>
+              <slot
+                name="keskustelu"
+                :is-editing="isEditing"
+                :support-data="innerSupport"
+                :data="inner"
+                :validation="validation.inner"
+              />
             </div>
           </div>
-          <div class="rightbar rb-ohje" v-if="hasOhjeSlot && sidebarState === 2">
-            <div class="rbheader"><b>{{ $t('ohje') }}</b></div>
+          <div
+            v-if="hasOhjeSlot && sidebarState === 2"
+            class="rightbar rb-ohje"
+          >
+            <div class="rbheader">
+              <b>{{ $t('ohje') }}</b>
+            </div>
             <div class="rbcontent">
-              <slot name="ohje" :isEditing="isEditing" :support-data="innerSupport" :validation="validation" :data="inner"></slot>
+              <slot
+                name="ohje"
+                :is-editing="isEditing"
+                :support-data="innerSupport"
+                :validation="validation.inner"
+                :data="inner"
+              />
             </div>
           </div>
-          <div class="rightbar rb-peruste" v-if="hasPerusteSlot && sidebarState === 3">
-            <div class="rbheader"><b>{{ $t('perusteen-teksti') }}</b></div>
+          <div
+            v-if="hasPerusteSlot && sidebarState === 3"
+            class="rightbar rb-peruste"
+          >
+            <div class="rbheader">
+              <b>{{ $t('perusteen-teksti') }}</b>
+            </div>
             <div class="rbcontent">
-              <slot name="peruste" :isEditing="isEditing" :support-data="innerSupport" :validation="validation" :data="inner"></slot>
+              <slot
+                name="peruste"
+                :is-editing="isEditing"
+                :support-data="innerSupport"
+                :validation="validation.inner"
+                :data="inner"
+              />
             </div>
           </div>
         </div>
       </div>
       <template v-if="hasFooterSlot">
-        <div v-if="inner" class="alapaneeli py-3 px-2">
-          <slot name="footer"
-            :isEditing="isEditing"
+        <div
+          v-if="inner"
+          class="alapaneeli py-3 px-2"
+        >
+          <slot
+            name="footer"
+            :is-editing="isEditing"
             :support-data="innerSupport"
             :data="inner"
             :cancel="cancel"
             :save="save"
             :disabled="disabled"
-            :validation="validation"
-            :isSaving="isSaving"
+            :validation="validation.inner"
+            :is-saving="isSaving"
             :modify="modify"
             :remove="remove"
-            :editable="features.editable"/>
+            :editable="features.editable"
+          />
         </div>
         <EpSpinner v-else />
       </template>
@@ -293,11 +469,10 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import _ from 'lodash';
-import { Watch, Component, Mixins, Prop, InjectReactive } from 'vue-property-decorator';
-import { validationMixin } from 'vuelidate';
-import Sticky from 'vue-sticky-directive';
+import { ref, computed, watch, onMounted, getCurrentInstance } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import { EditointiStore } from './EditointiStore';
 import { setItem, getItem } from '../../utils/localstorage';
 import { Revision } from '../../tyypit';
@@ -308,488 +483,459 @@ import EpRoundButton from '@shared/components/EpButton/EpRoundButton.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import { useSlots } from 'vue';
+import { $t, $sdt, $ago, $success, $fail, $bvModal } from '@shared/utils/globals';
+import { useVuelidate } from '@vuelidate/core';
+import EpPagination from '@shared/components/EpPagination/EpPagination.vue';
+import { inject } from 'vue';
 
-@Component({
-  validations() {
-    return {
-      inner: this.validator,
-    };
+const props = defineProps({
+  store: {
+    type: Object as () => EditointiStore,
+    required: true,
   },
-  directives: {
-    Sticky,
+  type: {
+    type: String,
+    required: false,
+    default: null,
   },
-  components: {
-    EpMaterialIcon,
-    EpButton,
-    EpRoundButton,
-    EpSpinner,
-    EpVersioModaali,
+  versionumero: {
+    type: Number,
+    required: false,
+    default: null,
   },
-})
-export default class EpEditointi extends Mixins(validationMixin) {
-  @Prop({ required: true })
-  private store!: EditointiStore;
-
-  @Prop({ required: false })
-  private type!: string | null;
-
-  /// Tämä on esitettävä versionumero eikä rev.numero
-  @Prop({ required: false, type: Number })
-  private versionumero!: number | null;
-
-  @Prop({ default: 'palautus-onnistui' })
-  private labelRestoreSuccess!: string;
-
-  @Prop({ default: 'palautus-epaonnistui' })
-  private labelRestoreFail!: string;
-
-  @Prop({ default: 'tallennus-onnistui' })
-  private labelSaveSuccess!: string;
-
-  @Prop({ default: 'tallennus-epaonnistui' })
-  private labelSaveFail!: string;
-
-  @Prop({ default: 'poista' })
-  private labelRemove!: string;
-
-  @Prop({ required: false })
-  private labelRemoveClarification!: string;
-
-  @Prop({ default: 'tata-toimintoa-ei-voida-perua' })
-  private labelRemoveConfirm!: string;
-
-  @Prop({ default: 'poisto-onnistui' })
-  private labelRemoveSuccess!: string;
-
-  @Prop({ default: 'poisto-epaonnistui' })
-  private labelRemoveFail!: string;
-
-  @Prop({ default: 'piilotus-onnistui' })
-  private labelHideSuccess!: string;
-
-  @Prop({ default: 'piilotus-epaonnistui' })
-  private labelHideFail!: string;
-
-  @Prop({ default: 'palautus-onnistui' })
-  private labelUnHideSuccess!: string;
-
-  @Prop({ default: 'palautus-epaonnistui' })
-  private labelUnHideFail!: string;
-
-  @Prop({ default: 'kopio-varmistus' })
-  private labelCopyConfirm!: string;
-
-  @Prop({ default: 'varmista-kopiointi' })
-  private labelCopyTopic!: string;
-
-  @Prop({ default: 'kopioi' })
-  private labelCopyConfirmButton!: string;
-
-  @Prop({ default: 'kopion-luonti-onnistui' })
-  private labelCopySuccess!: string;
-
-  @Prop({ default: 'kopion-luonti-epaonnistui' })
-  private labelCopyFail!: string;
-
-  @Prop({ required: false })
-  private preModify!: Function;
-
-  @Prop({ required: false })
-  private allowCancel!: Function;
-
-  @Prop({ required: false })
-  private allowSave!: Function;
-
-  @Prop({ required: false })
-  private preSave!: Function;
-
-  @Prop({ required: false })
-  private postSave!: Function;
-
-  @Prop({ required: false })
-  private postRemove!: Function;
-
-  @Prop({ required: false, default: false })
-  private useContainer!: boolean;
-
-  @Prop({ required: false, default: true })
-  private confirmRemove!: boolean;
-
-  @Prop({ required: false, default: true })
-  private confirmCopy!: boolean;
-
-  @Prop({ required: false, default: false })
-  private skipRedirectBack!: boolean;
-
-  @Prop({ required: false,
+  labelRestoreSuccess: {
+    type: String,
+    default: 'palautus-onnistui',
+  },
+  labelRestoreFail: {
+    type: String,
+    default: 'palautus-epaonnistui',
+  },
+  labelSaveSuccess: {
+    type: String,
+    default: 'tallennus-onnistui',
+  },
+  labelSaveFail: {
+    type: String,
+    default: 'tallennus-epaonnistui',
+  },
+  labelRemove: {
+    type: String,
+    default: 'poista',
+  },
+  labelRemoveClarification: {
+    type: String,
+    required: false,
+  },
+  labelRemoveConfirm: {
+    type: String,
+    default: 'tata-toimintoa-ei-voida-perua',
+  },
+  labelRemoveSuccess: {
+    type: String,
+    default: 'poisto-onnistui',
+  },
+  labelRemoveFail: {
+    type: String,
+    default: 'poisto-epaonnistui',
+  },
+  labelHideSuccess: {
+    type: String,
+    default: 'piilotus-onnistui',
+  },
+  labelHideFail: {
+    type: String,
+    default: 'piilotus-epaonnistui',
+  },
+  labelUnHideSuccess: {
+    type: String,
+    default: 'palautus-onnistui',
+  },
+  labelUnHideFail: {
+    type: String,
+    default: 'palautus-epaonnistui',
+  },
+  labelCopyConfirm: {
+    type: String,
+    default: 'kopio-varmistus',
+  },
+  labelCopyTopic: {
+    type: String,
+    default: 'varmista-kopiointi',
+  },
+  labelCopyConfirmButton: {
+    type: String,
+    default: 'kopioi',
+  },
+  labelCopySuccess: {
+    type: String,
+    default: 'kopion-luonti-onnistui',
+  },
+  labelCopyFail: {
+    type: String,
+    default: 'kopion-luonti-epaonnistui',
+  },
+  preModify: {
+    type: Function,
+    required: false,
+  },
+  allowCancel: {
+    type: Function,
+    required: false,
+  },
+  allowSave: {
+    type: Function,
+    required: false,
+  },
+  preSave: {
+    type: Function,
+    required: false,
+  },
+  postSave: {
+    type: Function,
+    required: false,
+  },
+  postRemove: {
+    type: Function,
+    required: false,
+  },
+  useContainer: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+  confirmRemove: {
+    type: Boolean,
+    required: false,
+    default: true,
+  },
+  confirmCopy: {
+    type: Boolean,
+    required: false,
+    default: true,
+  },
+  muokkausOikeustarkastelu: {
+    type: Object,
+    required: false,
     default: () => ({
       oikeus: 'muokkaus',
-    }) })
-  private muokkausOikeustarkastelu!: any;
+    }),
+  },
+  skipRedirectBack: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+});
 
-  private sidebarState = 0;
+const emit = defineEmits(['input']);
 
-  private state: any = null;
-  private isInitialized = false;
-  private isValidating = false;
+const instance = getCurrentInstance() as any;
 
-  private currentPage = 1;
+const router = useRouter();
+const route = useRoute();
+const slots = useSlots();
 
-  @InjectReactive('kommenttiHandler')
-  private kommenttiHandler!: any;
+const sidebarState = ref(0);
+const state = ref(null);
+const isInitialized = ref(false);
+const isValidating = ref(false);
+const currentPage = ref(1);
 
-  private updateVersionumero(versionumero) {
-    this.$router.push({ query: { versionumero } }).catch(() => {});
-  }
-
-  @Watch('data')
-  private onDataChange(newValue: any, oldValue: any) {
-    this.$emit('input', newValue);
-  }
-
-  @Watch('store', { immediate: true })
-  async onStoreChange(newValue: EditointiStore | null, oldValue: EditointiStore | null) {
-    if (!newValue) {
-      return;
-    }
-
-    if (!(newValue instanceof EditointiStore)) {
-      throw new Error('Store must be EditointiStore');
-    }
-
-    await this.store.clear();
-    await this.store.init();
-    this.isInitialized = true;
-    const sidebarState = await getItem('ep-editointi-sidebar-state') as any;
-    if (sidebarState) {
-      this.sidebarState = sidebarState!.value;
+watch(() => props.store, async () => {
+  if (props.store) {
+    await props.store.clear();
+    await props.store.init();
+    isInitialized.value = true;
+    const sidebarStateData = await getItem('ep-editointi-sidebar-state') as any;
+    if (sidebarStateData) {
+      sidebarState.value = sidebarStateData.value;
     }
   }
+}, { immediate: true });
 
-  get nimi() {
-    if (this.latest) {
-      return parsiEsitysnimi(this.latest.kayttajanTieto) || parsiEsitysnimi(this.latest);
-    }
+watch(() => props.store?.data?.value, (newValue) => {
+  if (newValue) {
+    emit('input', newValue);
   }
+});
 
-  get inner() {
-    if (this.store && this.store.data) {
-      return this.store.data.value;
-    }
-    return null;
+const updateVersionumero = (versionumero: number) => {
+  router.push({ query: { versionumero } }).catch(() => {});
+};
+
+const inner = computed(() => {
+  if (props.store && props.store.data) {
+    return props.store.data;
   }
+  return null;
+});
 
-  get innerSupport() {
-    if (this.store && this.store.supportData) {
-      return this.store.supportData.value;
-    }
-    return null;
+const innerSupport = computed(() => {
+  if (props.store && props.store.supportData) {
+    return props.store.supportData;
   }
+  return null;
+});
 
-  get errorValidationData() {
-    return this.inner || null;
+const errorValidationData = computed(() => inner.value || null);
+
+const hasPreview = computed(() => props.store.hasPreview || false);
+
+const currentLock = computed(() => props.store.currentLock || null);
+
+const isSaving = computed(() => props.store.isSaving || false);
+
+const isEditable = computed(() => features.value.editable || false);
+
+const validator = computed(() => ({ inner: props.store.validator || null }));
+
+const isEditing = computed(() =>  props.store.isEditing || false);
+
+const revisions = computed(() => props.store.revisions || []);
+
+const features = computed(() => props.store.features || {});
+
+const disabled = computed(() => props.store.disabled || false);
+
+const loading = computed(() => props.store.isLoading);
+
+const validation = useVuelidate(validator.value, { inner }, { $stopPropagation: true } );
+
+const historia = computed(() => {
+  const revs = revisions.value || [];
+  return _.map(revs, (rev, index: number) => ({
+    ...rev,
+    index: revs.length - index,
+  } as Revision & { index: number }));
+});
+
+const latest = computed(() => _.first(historia.value) || null);
+
+const versions = computed(() => historia.value.length - 1); // Ei näytetä nykyistä versiota
+
+const hidden = computed(() => features.value.isHidden || false);
+
+const nimi = computed(() => {
+  if (latest.value) {
+    return parsiEsitysnimi(latest.value.kayttajanTieto) || parsiEsitysnimi(latest.value);
   }
+  return '';
+});
 
-  get hasPreview() {
-    return this.store.hasPreview || false;
+const poistoteksti = computed(() => {
+  if (!props.type) {
+    return $t(props.labelRemove);
   }
+  return $t('poista-' + props.type);
+});
 
-  get currentLock() {
-    return this.store.currentLock?.value || null;
-  }
+const katseluDropDownValinnatVisible = computed(() =>
+  !isEditing.value
+  && !disabled.value
+  && (features.value.recoverable || features.value.removable || features.value.hideable)
+  && !versiohistoriaVisible.value,
+);
 
-  get isSaving() {
-    return this.store.isSaving?.value || false;
-  }
+const muokkausEiSallittu = computed(() =>
+  !isEditing.value
+  && latest.value
+  && !features.value.editable,
+);
 
-  get isEditable() {
-    return this.features.editable || false;
-  }
-
-  get validation() {
-    return this.$v?.inner || null;
-  }
-
-  get validator() {
-    return this.store.validator.value || null;
-  }
-
-  get isEditing() {
-    return this.store.isEditing?.value || false;
-  }
-
-  get revisions() {
-    return this.store.revisions?.value || [];
-  }
-
-  get features() {
-    return this.store.features?.value || {};
-  }
-
-  get disabled() {
-    return this.store.disabled?.value || false;
-  }
-
-  get loading() {
-    return this.store.isLoading.value;
-  }
-
-  get versions() {
-    return this.historia.length - 1; // Ei näytetä nykyistä versiota
-  }
-
-  get hidden() {
-    return this.features.isHidden || false;
-  }
-
-  get poistoteksti() {
-    if (!this.type) {
-      return this.$t(this.labelRemove);
-    }
-    return this.$t('poista-' + this.type);
-  }
-
-  get katseluDropDownValinnatVisible() {
-    return !this.isEditing
-      && !this.disabled
-      && (this.features.recoverable || this.features.removable || this.features.hideable)
-      && !this.versiohistoriaVisible;
-  }
-
-  get muokkausEiSallittu() {
-    return !this.isEditing
-      && this.latest
-      && !this.features.editable;
-  }
-
-  get versiohistoriaVisible() {
-    return this.current && this.current !== this.latest;
-  }
-
-  get hasKeskusteluSlot() {
-    return this.$scopedSlots.keskustelu;
-  }
-
-  get hasPerusteSlot() {
-    return this.$scopedSlots.peruste;
-  }
-
-  get hasOhjeSlot() {
-    return this.$scopedSlots.ohje;
-  }
-
-  get hasInfoSlotContent() {
-    return this.$slots.info;
-  }
-
-  get hasFooterSlot() {
-    return this.$scopedSlots.footer;
-  }
-
-  get hasCustomHeaderSlot() {
-    return this.$scopedSlots.customheader;
-  }
-
-  @Watch('isEditing')
-  onChangeEditing(newValue: number, oldValue: number) {
-    if (this.kommenttiHandler) {
-      this.kommenttiHandler.setActive(!this.isEditing && this.sidebarState === 1);
-    }
-  }
-
-  @Watch('sidebarState')
-  onChange(newValue: number, oldValue: number) {
-    if (this.kommenttiHandler) {
-      this.kommenttiHandler.setActive(!this.isEditing && newValue === 1);
-    }
-  }
-
-  private toggleSidebarState(val: number) {
-    if (val === this.sidebarState) {
-      this.sidebarState = 0;
-    }
-    else {
-      this.sidebarState = val;
-    }
-    setItem('ep-editointi-sidebar-state', {
-      value: this.sidebarState,
-    });
-  }
-
-  get saveHelpText() {
-    if (this.disabled) {
-      return 'tallenna-kaynnissa';
-    }
-    else if (this.disabled) {
-      return 'tallenna-tila-virhe-ohje';
-    }
-    else if (this.validation?.$invalid) {
-      return 'tallenna-validointi-virhe-ohje';
-    }
-    else {
-      return '';
-    }
-  }
-
-  get current() {
-    if (!_.isEmpty(this.historia)) {
-      if (this.versionumero) {
-        const current = this.historia[this.historia.length - this.versionumero];
-        if (current) {
-          return current;
-        }
-        else {
-          // Poistetaan ei olemassa oleva versionumero tilasta
-          let query = _.assign({}, this.$route.query);
-          delete query.versionumero;
-          this.$router.replace({ query });
-        }
+const current = computed(() => {
+  if (!_.isEmpty(historia.value)) {
+    if (props.versionumero) {
+      const current = historia.value[historia.value.length - props.versionumero];
+      if (current) {
+        return current;
       }
       else {
-        return this.latest;
+        // Poistetaan ei olemassa oleva versionumero tilasta
+        let query = _.assign({}, route.query);
+        delete query.versionumero;
+        router.replace({ query });
+        return null;
       }
     }
-  }
-
-  get latest() {
-    return _.first(this.historia) || null;
-  }
-
-  get historia() {
-    const revs = this.revisions || [];
-    return _.map(revs, (rev, index: number) => ({
-      ...rev,
-      index: revs.length - index,
-    } as Revision & { index: number }));
-  }
-
-  async onValidationImpl(validation) {
-    this.$v.$touch();
-    setTimeout(() => {
-      this.isValidating = false;
-    });
-  }
-
-  async remove() {
-    try {
-      if (!this.confirmRemove || await this.vahvista(this.$t('varmista-poisto') as string, this.$t('poista') as string, this.labelRemoveClarification ? this.$t(this.labelRemoveClarification) as string : undefined)) {
-        const poistoTeksti = this.$t(this.labelRemoveSuccess);
-        await this.store.remove();
-        this.$success(poistoTeksti as string);
-
-        if (this.postRemove) {
-          await this.postRemove();
-        }
-      }
-    }
-    catch (err) {
-      this.$fail(this.$t(this.labelRemoveFail) as string);
+    else {
+      return latest.value;
     }
   }
+  return null;
+});
 
-  async copy() {
-    try {
-      if (!this.confirmCopy || await this.vahvista(
-          this.$t(this.labelCopyTopic) as string,
-          this.$t(this.labelCopyConfirmButton) as string,
-          this.$t(this.labelCopyConfirm) as string)) {
-        await this.store.copy();
-        if (this.confirmCopy) {
-          this.$success(this.$t(this.labelCopySuccess) as string);
-        }
-      }
-    }
-    catch (err) {
-      this.$fail(this.$t(this.labelCopyFail) as string);
-    }
+const versiohistoriaVisible = computed(() =>
+  current.value && current.value !== latest.value,
+);
+
+const hasKeskusteluSlot = computed(() => !!slots.keskustelu);
+const hasPerusteSlot = computed(() => !!slots.peruste);
+const hasOhjeSlot = computed(() => !!slots.ohje);
+const hasInfoSlotContent = computed(() => !!slots.info);
+const hasFooterSlot = computed(() => !!slots.footer);
+const hasCustomHeaderSlot = computed(() => !!slots.customheader);
+
+const kommenttiHandler = inject('kommenttiHandler');
+
+const saveHelpText = computed(() => {
+  if (disabled.value) {
+    return 'tallenna-kaynnissa';
   }
-
-  async restore(ev: any) {
-    try {
-      await this.store.restore(ev);
-      this.$success(this.$t(this.labelRestoreSuccess) as string);
-    }
-    catch (err) {
-      this.$fail(this.$t(this.labelRestoreFail) as string);
-    }
+  else if (validation.value?.$invalid) {
+    return 'tallenna-validointi-virhe-ohje';
   }
-
-  async save() {
-    try {
-      if (!this.allowSave || await this.allowSave()) {
-        await this.preSave?.();
-        await this.store.save();
-        if (this.postSave) {
-          await this.postSave();
-        }
-        this.$success(this.$t(this.labelSaveSuccess) as string);
-      }
-    }
-    catch (err) {
-      this.$fail(this.$t(this.labelSaveFail) as string);
-      console.log(err);
-    }
+  else {
+    return '';
   }
+});
 
-  async cancel() {
-    if (!this.allowCancel || await this.allowCancel()) {
-      this.store.cancel(this.skipRedirectBack);
-    }
+const toggleSidebarState = (val: number) => {
+  if (val === sidebarState.value) {
+    sidebarState.value = 0;
   }
-
-  async hide() {
-    try {
-      await this.store.hide();
-      this.$success(this.$t(this.labelHideSuccess) as string);
-    }
-    catch (err) {
-      this.$fail(this.$t(this.labelHideFail) as string);
-    }
+  else {
+    sidebarState.value = val;
   }
+  setItem('ep-editointi-sidebar-state', {
+    value: sidebarState.value,
+  });
+};
 
-  async unHide() {
-    try {
-      await this.store.unHide();
-      this.$success(this.$t(this.labelUnHideSuccess) as string);
-    }
-    catch (err) {
-      this.$fail(this.$t(this.labelUnHideFail) as string);
-    }
-  }
-
-  async modify() {
-    if (this.preModify) {
-      await this.preModify();
-    }
-    this.store.start();
-  }
-
-  public async vahvista(title: string, okTitle: string, label?: string) {
-    let modalContent = [
-      this.$createElement('strong', this.$t(this.labelRemoveConfirm) as string),
+const vahvista = async (title: string, okTitle: string, label?: string) => {
+  let modalContent = [
+    instance?.proxy?.$createElement('strong', $t(props.labelRemoveConfirm) as string),
+  ];
+  if (label) {
+    modalContent = [
+      instance?.proxy?.$createElement('div', label),
+      instance?.proxy?.$createElement('br', ''),
+      ...modalContent,
     ];
-    if (label) {
-      modalContent = [
-        this.$createElement('div', label),
-        this.$createElement('br', ''),
-        ...modalContent,
-      ];
-    }
-
-    const vahvistusSisalto = this.$createElement('div', {}, modalContent).children;
-    return this.$bvModal.msgBoxConfirm((vahvistusSisalto as any), {
-      title: title,
-      okVariant: 'primary',
-      okTitle: okTitle as any,
-      cancelVariant: 'link',
-      cancelTitle: this.$t('peruuta') as any,
-      centered: true,
-      ...{} as any,
-    });
   }
-}
+
+  const vahvistusSisalto = instance?.proxy?.$createElement('div', {}, modalContent).children;
+  return $bvModal?.msgBoxConfirm((vahvistusSisalto as any), {
+    title: title,
+    okVariant: 'primary',
+    okTitle: okTitle as any,
+    cancelVariant: 'link',
+    cancelTitle: $t('peruuta') as any,
+    centered: true,
+    ...{} as any,
+  });
+};
+
+const remove = async () => {
+  try {
+    if (!props.confirmRemove || await vahvista($t('varmista-poisto') as string, $t('poista') as string, props.labelRemoveClarification ? $t(props.labelRemoveClarification) as string : undefined)) {
+      const poistoTeksti = $t(props.labelRemoveSuccess);
+      await props.store.remove();
+      $success(poistoTeksti as string);
+
+      if (props.postRemove) {
+        await props.postRemove();
+      }
+    }
+  }
+  catch (err) {
+    console.log(err);
+    $fail($t(props.labelRemoveFail) as string);
+  }
+};
+
+const copy = async () => {
+  try {
+    if (!props.confirmCopy || await vahvista(
+        $t(props.labelCopyTopic) as string,
+        $t(props.labelCopyConfirmButton) as string,
+        $t(props.labelCopyConfirm) as string)) {
+      await props.store.copy();
+      if (props.confirmCopy) {
+        $success($t(props.labelCopySuccess) as string);
+      }
+    }
+  }
+  catch (err) {
+    $fail($t(props.labelCopyFail) as string);
+  }
+};
+
+const restore = async (ev: any) => {
+  try {
+    await props.store.restore(ev);
+    $success($t(props.labelRestoreSuccess) as string);
+  }
+  catch (err) {
+    $fail($t(props.labelRestoreFail) as string);
+  }
+};
+
+const save = async () => {
+  try {
+    if (!props.allowSave || await props.allowSave()) {
+      await props.preSave?.();
+      await props.store.save();
+      if (props.postSave) {
+        await props.postSave();
+      }
+      $success($t(props.labelSaveSuccess) as string);
+    }
+  }
+  catch (err) {
+    $fail($t(props.labelSaveFail) as string);
+    console.log(err);
+  }
+};
+
+const cancel = async () => {
+  if (!props.allowCancel || await props.allowCancel()) {
+    props.store.cancel(props.skipRedirectBack);
+  }
+};
+
+const hide = async () => {
+  try {
+    await props.store.hide();
+    $success($t(props.labelHideSuccess) as string);
+  }
+  catch (err) {
+    $fail($t(props.labelHideFail) as string);
+  }
+};
+
+const unHide = async () => {
+  try {
+    await props.store.unHide();
+    $success($t(props.labelUnHideSuccess) as string);
+  }
+  catch (err) {
+    $fail($t(props.labelUnHideFail) as string);
+  }
+};
+
+const modify = async () => {
+  if (props.preModify) {
+    await props.preModify();
+  }
+  props.store.start();
+};
+
+watch(isEditing, (newValue, oldValue) => {
+  if (kommenttiHandler) {
+    kommenttiHandler.setActive(!newValue && sidebarState.value === 1);
+  }
+});
+
+watch(sidebarState, (newValue, oldValue) => {
+  if (kommenttiHandler) {
+    kommenttiHandler.setActive(!isEditing.value && newValue === 1);
+  }
+});
 
 </script>
+
 <style scoped lang="scss">
 @import '../../styles/variables';
 
@@ -847,7 +993,7 @@ export default class EpEditointi extends Mixins(validationMixin) {
       padding-right: 50px;
     }
 
-    ::v-deep .pagination .page-item {
+    :deep(.pagination .page-item) {
       &.active {
         .page-link {
           font-weight: 600;

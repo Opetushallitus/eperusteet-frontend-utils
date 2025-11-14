@@ -1,10 +1,10 @@
 <template>
-<div class="ep-date-picker"
-     v-if="isEditing">
-
+  <div
+    v-if="isEditing"
+    class="ep-date-picker"
+  >
     <b-form-datepicker
-      :value="modelValue"
-      @input="onInput"
+      :value="modelValueComputed"
       :locale="locale"
       start-weekday="1"
       :placeholder="$t('valitse-pvm')"
@@ -12,7 +12,6 @@
       :state="state"
       reset-button
       close-button
-      @blur="onBlur"
       :label-reset-button="$t('tyhjenna')"
       :label-close-button="$t('sulje')"
       :label-no-date-selected="$t('valitse-pvm')"
@@ -20,125 +19,180 @@
       :value-as-date="true"
       :hide-header="true"
       :no-flip="true"
-      />
+      @input="onInput"
+      @blur="onBlur"
+    />
 
-    <div class="valid-feedback"
-         v-if="!validationError && validMessage">{{ $t(validMessage) }}</div>
-    <div v-else-if="validationError && isDirty" :class="{ 'is-warning': isWarning }">
-      <div class="invalid-feedback" v-if="invalidMessage">{{ $t(invalidMessage) }}</div>
-      <div class="invalid-feedback" v-else>{{ message }}</div>
+    <div
+      v-if="!validationError && validMessage"
+      class="valid-feedback"
+    >
+      {{ $t(validMessage) }}
     </div>
-    <small class="form-text text-muted"
-           v-if="help && isEditing">{{ $t(help) }}</small>
-</div>
-<div v-else>{{ locdate }}</div>
+    <div
+      v-else-if="validationError && isDirty"
+      :class="{ 'is-warning': isWarning }"
+    >
+      <div
+        v-if="invalidMessage"
+        class="invalid-feedback"
+      >
+        {{ $t(invalidMessage) }}
+      </div>
+      <div
+        v-else
+        class="invalid-feedback"
+      >
+        {{ message }}
+      </div>
+    </div>
+    <small
+      v-if="help && isEditing"
+      class="form-text text-muted"
+    >{{ $t(help) }}</small>
+  </div>
+  <div v-else>
+    {{ locdate }}
+  </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Mixins } from 'vue-property-decorator';
+<script setup lang="ts">
 import _ from 'lodash';
-import DatePicker from 'vue2-datepicker';
+import { computed } from 'vue';
 import { Kielet } from '../../stores/kieli';
-import EpFormContent from './EpFormContent.vue';
-import EpValidation from '../../mixins/EpValidation';
+import { useVuelidate } from '@vuelidate/core';
+import { $sd, $ldt, $ld, $t } from '@shared/utils/globals';
 
-@Component({
-  components: {
-    DatePicker,
-    EpFormContent,
+// Define props
+const props = defineProps({
+  modelValue: {
+    type: [Date, Number, String],
+    required: true,
   },
-})
-export default class EpDatepicker extends Mixins(EpValidation) {
-  @Prop({ required: true })
-  private value!: any;
-
-  @Prop({
+  type: {
+    type: String,
     default: 'sd',
-    validator(value) {
+    validator(value: string) {
       return _.includes(['date', 'datetime', 'sd'], value);
     },
-  })
-  private type!: string;
+  },
+  isEditing: {
+    type: Boolean,
+    default: false,
+  },
+  help: {
+    type: String,
+    default: '',
+  },
+  showValidValidation: {
+    type: Boolean,
+    default: true,
+    required: false,
+  },
+  endOfDay: {
+    type: Boolean,
+    default: false,
+  },
+  validation: {
+    type: Object,
+    default: null,
+  },
+  validMessage: {
+    type: String,
+    default: null,
+  },
+  invalidMessage: {
+    type: String,
+    default: null,
+  },
+  isWarning: {
+    type: Boolean,
+    default: false,
+  },
+});
 
-  @Prop({ default: false, type: Boolean })
-  private isEditing!: boolean;
+// Define emits
+const emit = defineEmits(['update:modelValue', 'blur']);
 
-  @Prop({ default: '', type: String })
-  private help!: string;
+// Validation setup
+const v$ = useVuelidate();
 
-  @Prop({ default: true, required: false })
-  private showValidValidation!: boolean;
-
-  @Prop({ default: false, type: Boolean })
-  private endOfDay!: boolean;
-
-  get modelValue() {
-    if (_.isNumber(this.value)) {
-      return new Date(this.value);
-    }
-
-    return this.value;
+// Computed properties
+const modelValueComputed = computed(() => {
+  if (_.isNumber(props.modelValue)) {
+    return new Date(props.modelValue);
   }
+  return props.modelValue;
+});
 
-  get state() {
-    if (!this.showValidValidation || this.isValid) {
-      return null;
-    }
-
-    return this.isValid;
+const state = computed(() => {
+  if (!props.showValidValidation || props.validation?.isValid) {
+    return null;
   }
+  return props.validation?.isValid;
+});
 
-  get locdate() {
-    if (!this.value) {
-      return this.$t('ei-asetettu');
-    }
-    else if (this.type === 'datetime') {
-      return (this as any).$ldt(this.value);
-    }
-    else if (this.type === 'sd') {
-      return (this as any).$sd(this.value);
-    }
-    else {
-      return (this as any).$ld(this.value);
-    }
+const locdate = computed(() => {
+  if (!props.modelValue) {
+    return $t('ei-asetettu');
   }
+  else if (props.type === 'datetime') {
+    return $ldt(props.modelValue);
+  }
+  else if (props.type === 'sd') {
+    return $sd(props.modelValue);
+  }
+  else {
+    return $ld(props.modelValue);
+  }
+});
 
-  get lang() {
-    return Kielet.getAikakaannokset;
-  }
+const locale = computed(() => {
+  return Kielet.getUiKieli.value;
+});
 
-  get locale() {
-    return Kielet.getUiKieli.value;
-  }
+const validationError = computed(() => {
+  return props.validation?.error;
+});
 
-  private onInput(event: any) {
-    if (event && this.endOfDay) {
-      event.setHours(23);
-      event.setMinutes(59);
-      event.setSeconds(59);
-    }
-    this.$emit('input', event);
-    if (this.validation) {
-      (this.validation as any).$touch();
-    }
+const isDirty = computed(() => {
+  return props.validation?.$dirty;
+});
+
+const message = computed(() => {
+  return props.validation?.message;
+});
+
+// Methods
+const onInput = (event: any) => {
+  if (event && props.endOfDay) {
+    event.setHours(23);
+    event.setMinutes(59);
+    event.setSeconds(59);
   }
-}
+  emit('update:modelValue', event);
+  if (props.validation) {
+    props.validation.$touch();
+  }
+};
+
+const onBlur = () => {
+  emit('blur');
+};
 </script>
 
 <style scoped lang="scss">
-
-::v-deep .ep-datepicker-validation {
+:deep(.ep-datepicker-validation) {
   padding-right: calc(3em + .75rem) !important;
 }
 
-::v-deep .ep-datepicker-validation ~ .mx-input-append {
+:deep(.ep-datepicker-validation ~ .mx-input-append) {
   right: 30px;
 }
 
 // Piilotettu Bootstrapissa oletuksena
-::v-deep .invalid-feedback,
-::v-deep .valid-feedback {
+:deep(.invalid-feedback),
+:deep(.valid-feedback) {
   display: block;
 }
-
 </style>

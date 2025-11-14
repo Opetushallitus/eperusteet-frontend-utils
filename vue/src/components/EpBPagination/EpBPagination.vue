@@ -1,89 +1,96 @@
 <template>
   <div>
-    <b-pagination v-model="currentPage"
-                  class="mt-4"
-                  :total-rows="totalPages"
-                  :per-page="perPage"
-                  align="center"
-                  :aria-controls="controls"
-                  :first-text="$t('alkuun')"
-                  :last-text="$t('loppuun')"
-                  prev-text="«"
-                  next-text="»"
-                  :label-first-page="$t('alkuun')"
-                  :label-last-page="$t('loppuun')"
-                  :label-page="$t('sivu')"
-                  :label-next-page="$t('seuraava-sivu')"
-                  :label-prev-page="$t('edellinen-sivu')"/>
+    <b-pagination
+      :value="currentPage"
+      class="mt-4"
+      :total-rows="totalPages"
+      :per-page="perPage"
+      align="center"
+      :aria-controls="controls"
+      :first-text="$t('alkuun')"
+      :last-text="$t('loppuun')"
+      prev-text="«"
+      next-text="»"
+      :label-first-page="$t('alkuun')"
+      :label-last-page="$t('loppuun')"
+      :label-page="$t('sivu')"
+      :label-next-page="$t('seuraava-sivu')"
+      :label-prev-page="$t('edellinen-sivu')"
+      @input="currentPage = $event"
+    />
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { nextTick } from 'vue/types/umd';
+<script setup lang="ts">
+import { computed, ref, onMounted, watch, useTemplateRef } from 'vue';
+import { nextTick } from 'vue';
 
-@Component
-export default class EpBPagination extends Vue {
-  @Prop({ required: true, default: 1 })
-  private value!: number;
+const props = defineProps({
+  modelValue: {
+    type: Number,
+    required: true,
+    default: 1,
+  },
+  itemsPerPage: {
+    type: Number,
+    required: true,
+  },
+  total: {
+    type: Number,
+    required: true,
+  },
+  ariaControls: {
+    type: String,
+    required: false,
+  },
+});
 
-  @Prop({ required: true })
-  private itemsPerPage!: number;
+const emit = defineEmits(['update:modelValue']);
 
-  @Prop({ required: true })
-  private total!: number;
-
-  @Prop({ required: false })
-  private ariaControls?: string;
-
-  async mounted() {
-    this.fixButtonRoles();
+const fixButtonRoles = async () => {
+  const buttons = document.querySelectorAll('button');
+  if (buttons) {
+    buttons.forEach((button) => {
+      button.setAttribute('role', 'navigation');
+      button.setAttribute('tabindex', '0');
+    });
   }
+};
 
-  async fixButtonRoles() {
-    const buttons = this.$el.querySelectorAll('button');
-    if (buttons) {
-      buttons.forEach((button) => {
-        button.setAttribute('role', 'navigation');
-        button.setAttribute('tabindex', '0');
-      });
-    }
-  }
+onMounted(async () => {
+  await fixButtonRoles();
+});
 
-  get currentPage() {
-    return this.value;
-  }
+const currentPage = computed({
+  get: () => props.modelValue,
+  set: (value) => {
+    emit('update:modelValue', value);
+  },
+});
 
-  set currentPage(value) {
-    this.$emit('input', value);
-  }
+watch(() => props.modelValue, async () => {
+  await nextTick();
+  await fixButtonRoles();
+});
 
-  @Watch('value')
-  async onPageChange() {
-    await this.$nextTick();
-    this.fixButtonRoles();
-  }
+const controls = computed(() => {
+  return props.ariaControls;
+});
 
-  get controls() {
-    return this.ariaControls;
-  }
+const perPage = computed(() => {
+  return props.itemsPerPage;
+});
 
-  get perPage() {
-    return this.itemsPerPage;
-  }
-
-  get totalPages() {
-    return this.total;
-  }
-}
+const totalPages = computed(() => {
+  return props.total;
+});
 </script>
 
 <style scoped lang="scss">
 @import '@shared/styles/_variables.scss';
 
-::v-deep .page-item.disabled{
+:deep(.page-item.disabled) {
   color: $disabled;
   opacity: 0.5;
 }
-
 </style>

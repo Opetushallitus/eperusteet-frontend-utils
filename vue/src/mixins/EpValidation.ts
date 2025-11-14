@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { Component, Prop, Mixins } from 'vue-property-decorator';
+import { Component, Prop, Mixins } from 'vue-facing-decorator';
 import { validationMixin } from 'vuelidate';
 import { createLogger } from '../utils/logger';
 

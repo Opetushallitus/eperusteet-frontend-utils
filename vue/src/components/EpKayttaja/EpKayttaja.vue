@@ -1,164 +1,261 @@
 <template>
-<div class="kayttaja">
-  <b-nav-item-dropdown id="kayttaja-dropdown" right no-caret>
-    <template slot="button-content">
-      <div class="d-flex flex-row">
-        <div class="kayttaja-valikko d-flex flex-column">
-          <span class="kielivalitsin text-right">{{ esitysnimi }}</span>
-          <small v-if="koulutustoimija" class="valittu-koulutustoimija text-right">{{ $kaanna(koulutustoimija.nimi) }}</small>
-        </div>
-        <EpMaterialIcon>expand_more</EpMaterialIcon>
-      </div>
-    </template>
-
-    <!-- Koulutustoimija -->
-    <ep-collapse :expanded-by-default="false" v-if="koulutustoimija" :use-padding="false" :border-bottom="false">
-      <div slot="header">
-        <div class="pl-3 pt-2 text-nowrap kieli">
-          <EpMaterialIcon class="icon mr-3">group</EpMaterialIcon>
-          <span>{{ $t('organisaatio') }}</span>
-        </div>
-        <div class="pl-3 text-nowrap">
-          <span class="icon mr-3" />
-          <small>{{ $kaanna(koulutustoimija.nimi) }}</small>
-        </div>
-      </div>
-
-      <template slot="icon" slot-scope="{ toggled }">
-        <div class="ml-auto align-self-start" style="padding: 0.8rem 1rem;">
-          <EpMaterialIcon v-if="toggled">expand_less</EpMaterialIcon>
-          <EpMaterialIcon v-else>expand_more</EpMaterialIcon>
+  <div class="kayttaja">
+    <b-nav-item-dropdown
+      id="kayttaja-dropdown"
+      right
+      no-caret
+    >
+      <template #button-content>
+        <div class="d-flex flex-row">
+          <div class="kayttaja-valikko d-flex flex-column">
+            <span class="kielivalitsin text-right">{{ esitysnimi }}</span>
+            <small
+              v-if="koulutustoimija"
+              class="valittu-koulutustoimija text-right"
+            >{{ $kaanna(koulutustoimija.nimi) }}</small>
+          </div>
+          <EpMaterialIcon>expand_more</EpMaterialIcon>
         </div>
       </template>
 
-      <div class="collapse-tausta text-left mt-2">
-        <template v-if="koulutustoimijat && koulutustoimijat.length > 10">
-          <hr class="m-0"/>
-          <EpSearch class="rajain pl-2" v-model="koulutustoimijaQuery" />
-          <hr class="mt-0"/>
+      <!-- Koulutustoimija -->
+      <ep-collapse
+        v-if="koulutustoimija"
+        :expanded-by-default="false"
+        :use-padding="false"
+        :border-bottom="false"
+      >
+        <template #header>
+          <div class="pl-3 pt-2 text-nowrap kieli">
+            <EpMaterialIcon class="icon mr-3">
+              group
+            </EpMaterialIcon>
+            <span>{{ $t('organisaatio') }}</span>
+          </div>
+          <div class="pl-3 text-nowrap">
+            <span class="icon mr-3" />
+            <small>{{ $kaanna(koulutustoimija.nimi) }}</small>
+          </div>
         </template>
 
-        <div class="koulutustoimijat mb-2">
-          <div class="d-flex justify-content-end" v-if="hasLukuOikeusKoulutustoimijoita">
-            <EpMaterialIcon class="vain-luku mr-3">visibility</EpMaterialIcon>
-            <ep-toggle v-model="naytaLukuoikeusKoulutustoimijat" :title="$t('lukuoikeus')"/>
+        <template #icon="{ toggled }">
+          <div
+            class="ml-auto align-self-start"
+            style="padding: 0.8rem 1rem;"
+          >
+            <EpMaterialIcon v-if="toggled">
+              expand_less
+            </EpMaterialIcon>
+            <EpMaterialIcon v-else>
+              expand_more
+            </EpMaterialIcon>
           </div>
-          <b-dd-item-button @click="valitseOrganisaatio(kt)"
-                            v-for="kt in koulutustoimijatFilteredSorted"
-                            :key="kt.id"
-                            :disabled="koulutustoimija.id === kt.id">
-            <div class="row">
-              <div class="collapse-tausta-valinta-icon col-1">
-                <EpMaterialIcon v-if="koulutustoimija === kt.id" class="valittu">done</EpMaterialIcon>
-              </div>
-              <div class="col-10 koulutustoimija">
-                {{ $kaanna(kt.nimi) }}
-                <EpMaterialIcon v-if="kt.oikeus === 'luku'" class="vain-luku" size="16px">visibility</EpMaterialIcon>
-              </div>
+        </template>
+
+        <div class="collapse-tausta text-left mt-2">
+          <template v-if="koulutustoimijat && koulutustoimijat.length > 10">
+            <hr class="m-0">
+            <EpSearch
+              v-model="koulutustoimijaQuery"
+              class="rajain pl-2"
+            />
+            <hr class="mt-0">
+          </template>
+
+          <div class="koulutustoimijat mb-2">
+            <div
+              v-if="hasLukuOikeusKoulutustoimijoita"
+              class="d-flex justify-content-end"
+            >
+              <EpMaterialIcon class="vain-luku mr-3">
+                visibility
+              </EpMaterialIcon>
+              <ep-toggle
+                v-model="naytaLukuoikeusKoulutustoimijat"
+                :title="$t('lukuoikeus')"
+              />
             </div>
+            <b-dd-item-button
+              v-for="kt in koulutustoimijatFilteredSorted"
+              :key="kt.id"
+              :disabled="koulutustoimija.id === kt.id"
+              @click="valitseOrganisaatio(kt)"
+            >
+              <div class="row">
+                <div class="collapse-tausta-valinta-icon col-1">
+                  <EpMaterialIcon
+                    v-if="koulutustoimija === kt.id"
+                    class="valittu"
+                  >
+                    done
+                  </EpMaterialIcon>
+                </div>
+                <div class="col-10 koulutustoimija">
+                  {{ $kaanna(kt.nimi) }}
+                  <EpMaterialIcon
+                    v-if="kt.oikeus === 'luku'"
+                    class="vain-luku"
+                    size="16px"
+                  >
+                    visibility
+                  </EpMaterialIcon>
+                </div>
+              </div>
+            </b-dd-item-button>
+          </div>
+        </div>
+      </ep-collapse>
+
+      <!-- Käyttöliittymän kieli -->
+      <ep-collapse
+        :expanded-by-default="false"
+        :use-padding="false"
+        :border-bottom="false"
+      >
+        <template #header>
+          <div class="pl-3 pt-2 text-nowrap kieli">
+            <EpMaterialIcon class="icon mr-3">
+              language
+            </EpMaterialIcon>
+            <span>{{ $t('kieli') }}</span>
+          </div>
+          <div class="pl-3 uikieli">
+            <span class="icon mr-3" />
+            <small>{{ $t(uiKieli) }}</small>
+          </div>
+        </template>
+
+        <template #icon="{ toggled }">
+          <div
+            class="ml-auto align-self-start"
+            style="padding: 0.8rem 1rem;"
+          >
+            <EpMaterialIcon v-if="toggled">
+              expand_less
+            </EpMaterialIcon>
+            <EpMaterialIcon v-else>
+              expand_more
+            </EpMaterialIcon>
+          </div>
+        </template>
+
+        <div class="collapse-tausta text-left">
+          <b-dd-item-button
+            v-for="kieli in sovelluksenKielet"
+            :key="kieli"
+            :disabled="kieli === uiKieli"
+            @click="valitseUiKieli(kieli)"
+          >
+            <div class="collapse-tausta-valinta-icon">
+              <EpMaterialIcon
+                v-if="kieli === uiKieli"
+                class="mr-3 valittu"
+              >
+                done
+              </EpMaterialIcon>
+            </div>
+            {{ $t(kieli) }}
           </b-dd-item-button>
         </div>
-      </div>
-    </ep-collapse>
+      </ep-collapse>
 
-    <!-- Käyttöliittymän kieli -->
-    <ep-collapse :expanded-by-default="false" :use-padding="false" :border-bottom="false">
-      <div slot="header">
-        <div class="pl-3 pt-2 text-nowrap kieli">
-          <EpMaterialIcon class="icon mr-3">language</EpMaterialIcon>
-          <span>{{ $t('kieli') }}</span>
-        </div>
-        <div class="pl-3 uikieli">
-          <span class="icon mr-3" />
-          <small>{{ $t(uiKieli) }}</small>
-        </div>
-      </div>
+      <b-dd-item href="/henkilo-ui/omattiedot">
+        <EpMaterialIcon class="icon mr-3">
+          person
+        </EpMaterialIcon>
+        <span>{{ $t('kayttajan-asetukset') }}</span>
+      </b-dd-item>
 
-      <template slot="icon" slot-scope="{ toggled }">
-        <div class="ml-auto align-self-start" style="padding: 0.8rem 1rem;">
-          <EpMaterialIcon v-if="toggled">expand_less</EpMaterialIcon>
-          <EpMaterialIcon v-else>expand_more</EpMaterialIcon>
-        </div>
-      </template>
+      <b-dropdown-divider />
 
-      <div class="collapse-tausta text-left">
-        <b-dd-item-button @click="valitseUiKieli(kieli)"
-                          v-for="kieli in sovelluksenKielet"
-                          :key="kieli"
-                          :disabled="kieli === uiKieli">
-          <div class="collapse-tausta-valinta-icon">
-            <EpMaterialIcon v-if="kieli === uiKieli" class="mr-3 valittu">done</EpMaterialIcon>
+      <b-dd-item
+        v-if="!sovellusOikeudet || sovellusOikeudet.length === 1"
+        href="/virkailijan-tyopoyta"
+      >
+        <EpMaterialIcon class="icon mr-3">
+          launch
+        </EpMaterialIcon>
+        <span>{{ $t('palaa-virkailijan-tyopyodalle') }}</span>
+      </b-dd-item>
+
+      <!-- Sovellussiisrtymä  -->
+      <ep-collapse
+        v-else
+        :expanded-by-default="false"
+        :use-padding="false"
+        :border-bottom="false"
+      >
+        <template #header>
+          <div class="pl-3 pt-2 text-nowrap kieli">
+            <EpMaterialIcon class="icon mr-3">
+              launch
+            </EpMaterialIcon>
+            <span>{{ $t('vaihda-sovellusta') }}</span>
           </div>
-          {{ $t(kieli) }}
-        </b-dd-item-button>
-      </div>
-    </ep-collapse>
-
-    <b-dd-item href="/henkilo-ui/omattiedot">
-      <EpMaterialIcon class="icon mr-3">person</EpMaterialIcon>
-      <span>{{ $t('kayttajan-asetukset') }}</span>
-    </b-dd-item>
-
-    <b-dropdown-divider/>
-
-    <b-dd-item href="/virkailijan-tyopoyta" v-if="!sovellusOikeudet || sovellusOikeudet.length === 1">
-      <EpMaterialIcon class="icon mr-3">launch</EpMaterialIcon>
-      <span>{{ $t('palaa-virkailijan-tyopyodalle') }}</span>
-    </b-dd-item>
-
-    <!-- Sovellussiisrtymä  -->
-    <ep-collapse :expanded-by-default="false" :use-padding="false" :border-bottom="false" v-else>
-      <div slot="header">
-        <div class="pl-3 pt-2 text-nowrap kieli">
-          <EpMaterialIcon class="icon mr-3">launch</EpMaterialIcon>
-          <span>{{ $t('vaihda-sovellusta') }}</span>
-        </div>
-        <div class="pl-3 valittu-sovellus pb-2" v-if="valittuSovellus">
-          <span class="icon mr-3" />
-          <small>{{ $t(valittuSovellus.eperusteSovellus.sovellus) }}</small>
-        </div>
-      </div>
-
-      <template slot="icon" slot-scope="{ toggled }">
-        <div class="ml-auto align-self-start" style="padding: 0.8rem 1rem;">
-          <EpMaterialIcon v-if="toggled">expand_less</EpMaterialIcon>
-          <EpMaterialIcon v-else>expand_more</EpMaterialIcon>
-        </div>
-      </template>
-
-      <div class="collapse-tausta text-left">
-        <b-dd-item :href="sovellusOikeus.eperusteSovellus.url"
-                    v-for="sovellusOikeus in sovellusOikeudet"
-                    :key="sovellusOikeus.eperusteSovellus.sovellus"
-                    :disabled="sovellusOikeus.valittu"
-                    class="sovellusoikeus">
-          <div class="collapse-tausta-valinta-icon">
-            <EpMaterialIcon v-if="sovellusOikeus.valittu" class="mr-3 valittu">done</EpMaterialIcon>
+          <div
+            v-if="valittuSovellus"
+            class="pl-3 valittu-sovellus pb-2"
+          >
+            <span class="icon mr-3" />
+            <small>{{ $t(valittuSovellus.eperusteSovellus.sovellus) }}</small>
           </div>
-          {{ $t(sovellusOikeus.eperusteSovellus.sovellus) }}
-        </b-dd-item>
+        </template>
 
-        <b-dd-item href="/virkailijan-tyopoyta">
-          <div class="collapse-tausta-valinta-icon" />
-          {{ $t('virkailijan-tyopoyta') }}
-        </b-dd-item>
-      </div>
-    </ep-collapse>
+        <template #icon="{ toggled }">
+          <div
+            class="ml-auto align-self-start"
+            style="padding: 0.8rem 1rem;"
+          >
+            <EpMaterialIcon v-if="toggled">
+              expand_less
+            </EpMaterialIcon>
+            <EpMaterialIcon v-else>
+              expand_more
+            </EpMaterialIcon>
+          </div>
+        </template>
 
-    <b-dropdown-divider/>
+        <div class="collapse-tausta text-left">
+          <b-dd-item
+            v-for="sovellusOikeus in sovellusOikeudet"
+            :key="sovellusOikeus.eperusteSovellus.sovellus"
+            :href="sovellusOikeus.eperusteSovellus.url"
+            :disabled="sovellusOikeus.valittu"
+            class="sovellusoikeus"
+          >
+            <div class="collapse-tausta-valinta-icon">
+              <EpMaterialIcon
+                v-if="sovellusOikeus.valittu"
+                class="mr-3 valittu"
+              >
+                done
+              </EpMaterialIcon>
+            </div>
+            {{ $t(sovellusOikeus.eperusteSovellus.sovellus) }}
+          </b-dd-item>
 
-    <b-dd-item :href="logoutHref">
-      <EpMaterialIcon class="mr-3 valittu">logout</EpMaterialIcon>
-      <span>{{ $t('kirjaudu-ulos') }}</span>
-    </b-dd-item>
+          <b-dd-item href="/virkailijan-tyopoyta">
+            <div class="collapse-tausta-valinta-icon" />
+            {{ $t('virkailijan-tyopoyta') }}
+          </b-dd-item>
+        </div>
+      </ep-collapse>
 
-  </b-nav-item-dropdown>
-</div>
+      <b-dropdown-divider />
+
+      <b-dd-item :href="logoutHref">
+        <EpMaterialIcon class="mr-3 valittu">
+          logout
+        </EpMaterialIcon>
+        <span>{{ $t('kirjaudu-ulos') }}</span>
+      </b-dd-item>
+    </b-nav-item-dropdown>
+  </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, computed } from 'vue';
 import * as _ from 'lodash';
-import { Prop, Component, Vue } from 'vue-property-decorator';
 import { Kielet, UiKielet } from '../../stores/kieli';
 import { Kieli } from '../../tyypit';
 import { IEsitysnimi, parsiEsitysnimi } from '../../utils/kayttaja';
@@ -169,123 +266,130 @@ import { SovellusOikeus } from '@shared/plugins/oikeustarkastelu';
 import EpSearch from '@shared/components/forms/EpSearch.vue';
 import EpToggle from '@shared/components/forms/EpToggle.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import { useRouter } from 'vue-router';
+import { $kaanna } from '@shared/utils/globals';
 
-@Component({
-  components: {
-    EpCollapse,
-    EpSpinner,
-    EpSearch,
-    EpToggle,
-    EpMaterialIcon,
+const props = defineProps({
+  tiedot: {
+    type: Object as () => IEsitysnimi,
+    required: true,
   },
-})
-export default class EpKayttaja extends Vue {
-  @Prop({ required: true })
-  private tiedot!: IEsitysnimi;
+  koulutustoimija: {
+    type: Object,
+    required: false,
+  },
+  koulutustoimijat: {
+    type: Array,
+    required: false,
+  },
+  sovellusOikeudet: {
+    type: Array as () => SovellusOikeus[],
+    required: false,
+  },
+  logoutHref: {
+    type: String,
+    default: '/service-provider-app/saml/logout',
+  },
+});
 
-  @Prop({})
-  private koulutustoimija!: any | null;
+// State
+const koulutustoimijaQuery = ref('');
+const naytaLukuoikeusKoulutustoimijat = ref(true);
+const router = useRouter();
 
-  @Prop({})
-  private koulutustoimijat!: any[] | null;
+// Computed properties
+const esitysnimi = computed(() => {
+  return parsiEsitysnimi(props.tiedot);
+});
 
-  @Prop({ required: false })
-  private sovellusOikeudet!: SovellusOikeus[];
+const sovelluksenKielet = computed(() => {
+  return UiKielet;
+});
 
-  @Prop({ required: false, default: '/service-provider-app/saml/logout' })
-  private logoutHref!: string;
+const uiKieli = computed(() => {
+  return Kielet.uiKieli.value;
+});
 
-  private koulutustoimijaQuery = '';
-  private naytaLukuoikeusKoulutustoimijat = true;
+const hasLukuOikeusKoulutustoimijoita = computed(() => {
+  if (props.koulutustoimijat) {
+    return !_.isEmpty(_.filter(props.koulutustoimijat, { oikeus: 'luku' }))
+           && !_.isEmpty(_.reject(props.koulutustoimijat, { oikeus: 'luku' }));
+  }
+  return false;
+});
 
-  get esitysnimi() {
-    return parsiEsitysnimi(this.tiedot);
+const koulutustoimijatFilteredSorted = computed(() => {
+  return _.chain(props.koulutustoimijat)
+    .filter(kt => Kielet.search(koulutustoimijaQuery.value, kt.nimi))
+    .filter(kt => naytaLukuoikeusKoulutustoimijat.value || kt.oikeus !== 'luku')
+    .map(kt => {
+      return {
+        ...kt,
+        kaannettyNimi: $kaanna(kt.nimi),
+      };
+    })
+    .orderBy(['kaannettyNimi', 'id'], ['asc', 'asc'])
+    .value();
+});
+
+const valittuSovellus = computed(() => {
+  return _.find(props.sovellusOikeudet, 'valittu');
+});
+
+// Methods
+async function valitseOrganisaatio(koulutustoimija: any) {
+  if (!router) {
+    return;
   }
 
-  get sovelluksenKielet() {
-    return UiKielet;
+  const current: any = router.currentRoute;
+  const next = {
+    ...current,
+    params: {
+      ...current.params,
+      koulutustoimijaId: _.toString(koulutustoimija.id),
+    },
+  };
+
+  try {
+    await router.push(next);
+    setItem('koulutustoimija', koulutustoimija.id);
+  }
+  catch (err) {
+    // Silently ignore router push errors
+  }
+}
+
+async function valitseUiKieli(kieli: Kieli) {
+  Kielet.setUiKieli(kieli);
+
+  if (!router) {
+    return;
   }
 
-  get uiKieli() {
-    return Kielet.uiKieli.value;
+  const current: any = router.currentRoute;
+  const next = {
+    ...current,
+    params: {
+      ...current.params,
+      lang: kieli || Kielet.i18n.global.fallbackLocale,
+    },
+  };
+
+  try {
+    await router.push(next);
   }
-
-  get hasLukuOikeusKoulutustoimijoita() {
-    if (this.koulutustoimijat) {
-      return !_.isEmpty(_.filter(this.koulutustoimijat, { oikeus: 'luku' })) && !_.isEmpty(_.reject(this.koulutustoimijat, { oikeus: 'luku' }));
-    }
-  }
-
-  get koulutustoimijatFilteredSorted() {
-    return _.chain(this.koulutustoimijat)
-      .filter(kt => Kielet.search(this.koulutustoimijaQuery, kt.nimi))
-      .filter(kt => this.naytaLukuoikeusKoulutustoimijat || kt.oikeus !== 'luku')
-      .map(kt => {
-        return {
-          ...kt,
-          kaannettyNimi: this.$kaanna(kt.nimi),
-        };
-      })
-      .orderBy(['kaannettyNimi', 'id'], ['asc', 'asc'])
-      .value();
-  }
-
-  private async valitseOrganisaatio(koulutustoimija: any) {
-    if (!this.$router) {
-      return;
-    }
-
-    const router = this.$router;
-    const current: any = router.currentRoute;
-    const next = {
-      ...current,
-      params: {
-        ...current.params,
-        koulutustoimijaId: _.toString(koulutustoimija.id),
-      },
-    };
-
-    try {
-      await router.push(next);
-      setItem('koulutustoimija', koulutustoimija.id);
-    }
-    catch (err) { }
-  }
-
-  private async valitseUiKieli(kieli: Kieli) {
-    Kielet.setUiKieli(kieli);
-
-    if (!this.$router) {
-      return;
-    }
-
-    const router = this.$router;
-    const current: any = router.currentRoute;
-    const next = {
-      ...current,
-      params: {
-        ...current.params,
-        lang: kieli || this.$i18n.fallbackLocale,
-      },
-    };
-
-    try {
-      await router.push(next);
-    }
-    catch (err) { }
-  }
-
-  get valittuSovellus() {
-    return _.find(this.sovellusOikeudet, 'valittu');
+  catch (err) {
+    // Silently ignore router push errors
   }
 }
 </script>
 
 <style scoped lang="scss">
-@import '~@shared/styles/_variables.scss';
+@import '@shared/styles/_variables.scss';
 .kayttaja {
 
-  ::v-deep ul.dropdown-menu {
+  :deep(ul.dropdown-menu) {
     width: 350px;
   }
 
@@ -305,7 +409,7 @@ export default class EpKayttaja extends Vue {
   .rajain {
     background-color: $white;
 
-    ::v-deep .form-control {
+    :deep(.form-control) {
       background-color: $white;
     }
   }
@@ -324,7 +428,7 @@ export default class EpKayttaja extends Vue {
     }
   }
 
-  ::v-deep .ep-collapse {
+  :deep(.ep-collapse) {
     padding-top: 0;
     padding-bottom: 0;
   }
@@ -335,7 +439,7 @@ export default class EpKayttaja extends Vue {
     white-space: nowrap;
     overflow: hidden;
 
-    ::v-deep .dropdown-item {
+    :deep(.dropdown-item) {
       padding: 0.25rem 1rem;
     }
 
@@ -354,16 +458,16 @@ export default class EpKayttaja extends Vue {
     font-weight: normal;
   }
 
-  ::v-deep .dropdown-menu {
+  :deep(.dropdown-menu) {
     padding: 0;
     color: #000000;
   }
 
-  ::v-deep .dropdown-divider {
+  :deep(.dropdown-divider) {
     margin: 0;
   }
 
-  ::v-deep .dropdown-item {
+  :deep(.dropdown-item) {
     padding: 0.5rem 1rem;
     color: #000000;
     white-space: nowrap;
@@ -371,15 +475,15 @@ export default class EpKayttaja extends Vue {
     text-overflow: ellipsis;
   }
 
-  ::v-deep .dropdown-item:disabled {
+  :deep(.dropdown-item:disabled) {
     color: inherit;
   }
 
-  ::v-deep .dropdown-item:hover {
+  :deep(.dropdown-item:hover) {
     background-color: inherit;
   }
 
-  ::v-deep .dropdown-item:active {
+  :deep(.dropdown-item:active) {
     color: inherit;
     background-color: inherit;
   }

@@ -1,42 +1,47 @@
 <template>
   <router-link :to="route">
     <div class="d-inline-flex align-items-start flex-column kortti ml-0 mr-3 my-3 pl-3 pt-3 pr-2 pb-2">
-      <div class="font-weight-bold mb-auto nimi">{{$kaanna(koulutuksenosa.nimi)}}</div>
+      <div class="font-weight-bold mb-auto nimi">
+        {{ $kaanna(koulutuksenosa.nimi) }}
+      </div>
       <div class="w-100 text-right laajuus">
         <span class="pr-1">
-          {{koulutuksenosa.laajuusMinimi}}-{{koulutuksenosa.laajuusMaksimi}} {{$t('viikkoa')}}
+          {{ koulutuksenosa.laajuusMinimi }}-{{ koulutuksenosa.laajuusMaksimi }} {{ $t('viikkoa') }}
         </span>
 
-        <EpColorCircle class="laajuusmerkki" v-for="(laajuusmerkki, index) in laajuusmerkit" :key="'laajuusmerkki'+index" :color="laajuusmerkki"/>
+        <EpColorCircle
+          v-for="(laajuusmerkki, index) in laajuusmerkit"
+          :key="'laajuusmerkki'+index"
+          class="laajuusmerkki"
+          :color="laajuusmerkki"
+        />
       </div>
     </div>
   </router-link>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed } from 'vue';
 import EpColorCircle from '@shared/components/EpColorIndicator/EpColorCircle.vue';
 
-@Component({
-  components: {
-    EpColorCircle,
+const props = defineProps({
+  koulutuksenosa: {
+    type: Object,
+    required: true,
   },
-})
-export default class EpKoulutuksenOsaKortti extends Vue {
-    @Prop({ required: true })
-    private koulutuksenosa!: any;
+  route: {
+    type: [Object, String],
+    required: true,
+  },
+});
 
-    @Prop({ required: true })
-    private route!: any;
-
-    get laajuusmerkit() {
-      return [
-        this.koulutuksenosa.laajuusMaksimi >= 10 ? '#E75B00' : '#FCBF88',
-        this.koulutuksenosa.laajuusMaksimi >= 20 ? '#E75B00' : '#FCBF88',
-        this.koulutuksenosa.laajuusMaksimi >= 30 ? '#E75B00' : '#FCBF88',
-      ];
-    }
-}
+const laajuusmerkit = computed(() => {
+  return [
+    props.koulutuksenosa.laajuusMaksimi >= 10 ? '#E75B00' : '#FCBF88',
+    props.koulutuksenosa.laajuusMaksimi >= 20 ? '#E75B00' : '#FCBF88',
+    props.koulutuksenosa.laajuusMaksimi >= 30 ? '#E75B00' : '#FCBF88',
+  ];
+});
 </script>
 
 <style scoped lang="scss">

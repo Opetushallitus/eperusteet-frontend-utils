@@ -4489,12 +4489,22 @@
     "rakenteen-validointi-virhe-laskettu-koko-on-pienempi-kuin-ryhman-vaadittu-maksimi": "Virheellinen rakenne, laskettu koko on pienempi kuin ryhmän vaadittu maksimi",
     "rakenteen-validointi-virhe-ryhman-osaamisalaa-ei-perusteella": "Virheellinen rakenne, ryhmän osaamisalaa ei perusteella",
     "virheelliset-organisaatiot": "Virheelliset organisaatiot",
+    "url-osoite-virheellinen": "URL-osoite on virheellinen",
     "nayta-kaikki-kommentit": "Näytä kaikki kommentit",
     "tekstin-sisalto-virheellinen-html": "Teksti saa sisältää vain ennaltamääriteltyjä html-elementtejä",
     "vahvista-vuosiluokan-tietojen-valutus-teksti": "Haluatko viedä vuosiluokan tiedot myös koulujen opetussuunnitelmiin?",
     "vahvista-vuosiluokan-tietojen-valutus-otsikko": "Vuosiluokan tietojen vienti",
+    "avautuu-uuteen-valilehteen": "Avautuu uuteen valilehteen",
+    "yhteensa-kpl-virhetta": "Yhteensä {kpl} virhettä",
     "tekstikappaleen-tyyppi": "Tekstikappaleen tyyppi",
+    "perustetyyppi": "Perustetyyppi",
+    "perustetyyppi-amosaa_yhteinen": "Ammatillinen jaetun osan pohja",
+    "astuu-voimaan": "Astuu voimaan", 
     "oppimaara-nimi-ohje": "Paikallisen oppimäärän nimi",
     "vahvista-oppiaineen-tietojen-valutus-teksti": "Tallennettava oppimäärä puuttuu joidenkin koulujen opetussuunnitelmista. Lisätäänkö oppimäärä kouluille, joilla sitä ei jo ole?",
-    "vahvista-oppiaineen-tietojen-valutus-otsikko": "Oppiaineen lisäys kouluille"
+    "vahvista-oppiaineen-tietojen-valutus-otsikko": "Oppiaineen lisäys kouluille",
+    "uusi-kommentti": "Uusi kommentti",
+    "valitse-opas": "Valitse opas",
+    "perusteen-uudistus": "Perusteen uudistus",
+    "sisallon-kommentointi-ei-sallittu": "Valitun sisällön kommentointia ei ole sallittu."
 }

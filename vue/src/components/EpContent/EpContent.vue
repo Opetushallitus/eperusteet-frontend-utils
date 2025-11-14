@@ -1,309 +1,212 @@
 <template>
   <div class="ep-content">
     <ep-editor-menu-bar
-      :layout="layout"
+      v-if="editor"
       :is-editable="isEditable"
-      :editor="editor"
-      :help="toolbarHelp"
-      v-sticky="isSticky"
-      sticky-offset="{ top: 114 }"
-      sticky-z-index="500"
-      />
+      :editor="editor || {}"
+      :layout="layout"
+    />
+
     <editor-content
-      ref="content"
       :editor="editor"
-      :class="{ 'content-invalid': validation && validationError, 'content-valid': validation && !validationError, 'placeholder': placeholder }"
-      v-observe-visibility="visibilityChanged"/>
-    <div class="valid-feedback" v-if="!validationError && validMessage && isEditable">{{ $t(validMessage) }}</div>
-    <div class="invalid-feedback" v-else-if="validationError && invalidMessage && isEditable">{{ $t(invalidMessage) }}</div>
-    <div class="invalid-feedback" v-else-if="validationError && !invalidMessage && isEditable">{{ $t('validation-error-' + validationError, validation.$params[validationError]) }}</div>
-    <small class="form-text text-muted" v-if="help && isEditable">{{ $t(help) }}</small>
+      :class="{ 'is-editable': isEditable, 'placeholder': placeholder }"
+    />
   </div>
 </template>
 
-<script lang="ts">
-
-import * as _ from 'lodash';
-import { Component, Inject, InjectReactive, Mixins, Prop, Watch } from 'vue-property-decorator';
-import { Editor, EditorContent } from 'tiptap';
-import { delay } from '@shared/utils/delay';
+<script setup lang="ts">
+import { useEditor, EditorContent } from '@tiptap/vue-3';
+import StarterKit from '@tiptap/starter-kit';
+import { onBeforeUnmount, nextTick, onMounted, computed, ref, inject, watch } from 'vue';
+import { $kaannaPlaceholder } from '@shared/utils/globals';
+import _ from 'lodash';
 import { Kielet } from '@shared/stores/kieli';
-import {
-  Blockquote,
-  Bold,
-  Underline,
-  Strike,
-  Italic,
-  HardBreak,
-  History,
-  BulletList,
-  Link,
-  ListItem,
-  OrderedList,
-  Table,
-  TableCell,
-  TableHeader,
-  TableRow,
-  Placeholder,
-} from 'tiptap-extensions';
-
 import EpEditorMenuBar from './EpEditorMenuBar.vue';
-import Sticky from 'vue-sticky-directive';
+import { TableKit } from '@tiptap/extension-table';
+import { createImageExtension3 } from './ImageExtension';
+import { createTermiExtension3 } from './TermiExtension';
+import { createCustomLinkExtension } from './CustomLinkExtension';
 import { EditorLayout } from '@shared/tyypit';
-import EpValidation from '@shared/mixins/EpValidation';
 import { IKasiteHandler } from './KasiteHandler';
-import TermiExtension from './TermiExtension';
-import ImageExtension from './ImageExtension';
-import { IKuvaHandler } from './KuvaHandler';
-import CustomLink from './CustomLink';
-import { ObserveVisibility } from 'vue-observe-visibility';
 import { ILinkkiHandler } from './LinkkiHandler';
-import { fixTipTapContent } from '@shared/utils/helpers';
-import { unescapeStringHtml } from '@shared/utils/inputs';
-import CommentExtension from './CommentExtension';
+import { IKuvaHandler } from './KuvaHandler';
+import { KommenttiTextStyle } from './KommenttiTextStyle';
+
+const props = defineProps({
+  modelValue: {
+    type: Object || null,
+    required: true,
+  },
+  isEditable: {
+    type: Boolean,
+    default: false,
+  },
+  layout: {
+    type: String as () => EditorLayout,
+    required: false,
+    default: 'normal',
+  },
+  isPlainString: {
+    type: Boolean,
+    default: false,
+  },
+});
 
 const striptag = document.createElement('span');
+const focused = ref(false);
+const emit = defineEmits(['update:modelValue']);
+const injectedKuvaHandler = inject<IKuvaHandler>('kuvaHandler');
+const injectedKasiteHandler = inject<IKasiteHandler>('kasiteHandler');
+const injectedNavigation = inject<any>('navigation');
+const injectedLinkkiHandler = inject<ILinkkiHandler>('linkkiHandler');
 
-@Component({
-  components: {
-    EditorContent,
-    EpEditorMenuBar,
-  },
-  directives: {
-    Sticky,
-    ObserveVisibility,
-  },
-})
-export default class EpContent extends Mixins(EpValidation) {
-  @Prop({ required: true })
-  value!: Object;
+const lang = computed(() => {
+  return Kielet.getSisaltoKieli.value;
+});
 
-  @Prop({ default: false })
-  isEditable!: boolean;
-
-  @Prop()
-  locale!: string;
-
-  @Prop({ required: true })
-  layout!: EditorLayout;
-
-  @Prop({ default: false })
-  isPlainString!: boolean;
-
-  @Prop({ default: '' })
-  toolbarHelp!: string;
-
-  @Prop({ default: '' })
-  help!: string;
-
-  @Prop({ default: true })
-  sticky!: boolean;
-
-  @Prop({ required: false })
-  kasiteHandler!: IKasiteHandler;
-
-  @Prop({ required: false })
-  kuvaHandler!: IKuvaHandler;
-
-  @InjectReactive('linkkiHandler')
-  private linkkiHandler!: ILinkkiHandler;
-
-  @InjectReactive('kuvaHandler')
-  private injectedKuvaHandler!: IKuvaHandler;
-
-  @InjectReactive('kasiteHandler')
-  private injectedKasiteHandler!: IKasiteHandler;
-
-  @Inject({ from: 'commentingDisabled', default: false })
-  private disableCommenting!: boolean;
-
-  private editor: any = null;
-
-  private focused = false;
-  private isVisible = true;
-
-  get annettuKuvaHandler() {
-    return this.kuvaHandler || this.injectedKuvaHandler;
+const localizedValue = computed(() => {
+  if (!props.modelValue) {
+    return null;
   }
-
-  get annettuKasiteHandler() {
-    return this.kasiteHandler || this.injectedKasiteHandler;
+  else if (props.isPlainString) {
+    return props.modelValue || '';
   }
-
-  get lang() {
-    return this.locale || Kielet.getSisaltoKieli.value || 'fi';
+  else if (_.isObject(props.modelValue)) {
+    return placeholder.value || (props.modelValue)[lang.value] || '';
   }
-
-  get localizedValue() {
-    if (!this.value) {
-      return null;
-    }
-    else if (this.isPlainString) {
-      return this.value || '';
-    }
-    else if (_.isObject(this.value)) {
-      return this.placeholder || (this.value as any)[this.lang] || '';
-    }
-    else {
-      return this.value;
-    }
+  else {
+    return props.modelValue;
   }
+});
 
-  get placeholder() {
-    if (!this.focused) {
-      return this.$kaannaPlaceholder(this.value, !this.isEditable);
-    }
+const model = computed(() => {
+  return props.modelValue;
+});
+
+const placeholder = computed(() => {
+  if (!focused.value) {
+    return $kaannaPlaceholder(props.modelValue, !props.isEditable);
   }
+  return undefined;
+});
 
-  mounted() {
-    let linkImplementation: any = null;
-    try {
-      linkImplementation = new CustomLink(this.linkkiHandler);
-    }
-    catch (err) {
-      linkImplementation = new Link();
-    }
+// watch(model, async (val) => {
+//   if (!props.isEditable && editor.value) {
+//     editor.value.commands.setContent(localizedValue.value);
+//   }
+// }, { deep: true });
 
-    const extensions = [
-      new HardBreak(),
-      new History(),
-      new Blockquote(),
-      new Bold(),
-      new Italic(),
-      new Strike(),
-      linkImplementation,
-      new BulletList(),
-      new OrderedList(),
-      new ListItem(),
-      new Table({ resizable: true }),
-      new TableHeader(),
-      new TableCell(),
-      new TableRow(),
-      ...(this.disableCommenting ? [] : [new CommentExtension()]),
-    ];
+// watch(localizedValue, async (val) => {
+//   if (editor.value && !focused.value) {
+//     await nextTick();
+//     await nextTick();
+    // FIXME: RangeError: Applying a mismatched transaction
+    // editor.value.commands.setContent(localizedValue.value);
+  // }
+// });
 
-    if (this.annettuKasiteHandler) {
-      extensions.push(new TermiExtension(this.annettuKasiteHandler));
-    }
-
-    if (this.annettuKuvaHandler) {
-      extensions.push(new ImageExtension(this.annettuKuvaHandler));
-    }
-
-    this.editor = new Editor({
-      content: fixTipTapContent(this.localizedValue),
-      editable: this.isEditable,
-      onUpdate: () => {
-        this.setUpEditorEvents();
-      },
-      onFocus: () => {
-        if (this.isEditable) {
-          this.focused = true;
-          if (!this.localizedValue) {
-            this.editor.setContent(fixTipTapContent(this.localizedValue));
-          }
-        }
-      },
-      onBlur: () => {
-        this.focused = false;
-      },
-      extensions,
-    });
+watch(lang, async () => {
+  if (editor.value) {
+    await nextTick();
+    editor.value.commands.setContent(localizedValue.value);
   }
+});
 
-  @Watch('isEditable', { immediate: true })
-  onChange(val: boolean, oldVal: boolean) {
-    if (val === oldVal) {
-      return;
-    }
-
-    this.$nextTick(() => {
-      if (!this.editor) {
-        return;
-      }
-
-      this.editor.setOptions({
-        editable: val,
-      });
-
-      if (val) {
-        this.setClass('form-control');
-      }
-      else {
-        this.setClass('');
-      }
-    });
-  }
-
-  async setClass(c: string) {
-    await delay();
-    // HACK: give prose mirror 10 vue ticks.
-    for (let count = 0; count < 10; ++count) {
-      if (this.$refs.content) {
-        const pm = (this.$refs.content as any).$el?.firstChild;
-        if (pm) {
-          (this.$refs.content as any).$el.firstChild.className = 'ProseMirror ' + c;
-          break;
-        }
-      }
-      await this.$nextTick();
-    }
-  }
-
-  beforeDestroy() {
-    if (this.editor) {
-      this.editor.destroy();
-    }
-  }
-
-  @Watch('localizedValue', {
-    immediate: true,
-  })
-  onValueUpdate(val: string) {
-    if (this.editor && !this.focused) {
-      this.editor.setContent(this.localizedValue);
-    }
-  }
-
-  setUpEditorEvents() {
-    const data = this.editor.getHTML();
+function setUpEditorEvents() {
+  if (editor.value) {
+    const data = editor.value.getHTML();
     striptag.innerHTML = data;
     const isValid = !_.isEmpty(striptag.innerText || striptag.textContent) || striptag.getElementsByTagName('img').length > 0;
     const stripped = isValid ? data : null;
 
-    if (!this.placeholder) {
-      if (this.isPlainString) {
-        this.$emit('input', stripped);
+    if (!placeholder.value) {
+      if (props.isPlainString) {
+        emit('update:modelValue', stripped);
       }
       else {
-        this.$emit('input', {
-          ...this.value,
+        emit('update:modelValue', {
+          ...props.modelValue,
           [Kielet.getSisaltoKieli.value as unknown as string]: stripped,
         });
       }
     }
   }
-
-  @Watch('lang')
-  onEditableChange(val: boolean) {
-    if (this.editor) {
-      this.editor.setContent(this.localizedValue);
-    }
-  }
-
-  visibilityChanged(isVisible) {
-    this.isVisible = isVisible;
-  }
-
-  get isSticky() {
-    return this.sticky && this.isVisible;
-  }
 }
 
+const editor = useEditor({
+  content: localizedValue.value,
+  extensions: [
+    StarterKit.configure({
+      link: false,
+    }),
+    KommenttiTextStyle,  // Preserve custom attributes like 'kommentti'
+    TableKit,
+    createCustomLinkExtension(injectedNavigation, injectedLinkkiHandler!),
+    createImageExtension3(injectedKuvaHandler!),
+    createTermiExtension3(injectedKasiteHandler!),
+  ],
+  editable: props.isEditable,
+  editorProps: {
+    attributes: {
+      role: '',
+      // Add data-teksti-id attribute for comment system to find the text ID reliably in production
+      ...(props.modelValue?._id ? { 'data-teksti-id': String(props.modelValue._id) } : {}),
+    },
+  },
+  onUpdate: ({ editor }) => {
+    // emit('update:modelValue', {
+    //   ...props.modelValue,
+    //   [Kielet.getSisaltoKieli.value]: editor.getHTML(),
+    // });
+    setUpEditorEvents();
+  },
+  onFocus: () => {
+    if (props.isEditable) {
+      focused.value = true;
+      if (!localizedValue.value) {
+        editor.value?.commands.setContent(localizedValue.value);
+      }
+    }
+  },
+  onBlur: () => {
+    focused.value = false;
+  },
+});
+
+const isEditable = computed(() => {
+  return props.isEditable;
+});
+
+watch(isEditable, async (val) => {
+  if (editor.value) {
+    editor.value.setEditable(val);
+    const { tr } = editor.value.state;
+    const newTr = tr.setMeta('forceUpdate', true);
+    editor.value.view.dispatch(newTr);
+  }
+});
+
+// Update data-teksti-id attribute when modelValue._id changes
+watch(() => props.modelValue?._id, (newId) => {
+  if (editor.value) {
+    const editorElement = editor.value.view.dom;
+    if (newId) {
+      editorElement.setAttribute('data-teksti-id', String(newId));
+    } else {
+      editorElement.removeAttribute('data-teksti-id');
+    }
+  }
+});
+
+onMounted(async () => {
+  await nextTick();
+});
+
+onBeforeUnmount(() => {
+  editor.value?.destroy();
+});
 </script>
-
 <style scoped lang="scss">
-
 @import "../../styles/_variables.scss";
 
 .ep-content {
@@ -314,17 +217,33 @@ export default class EpContent extends Mixins(EpValidation) {
     opacity: 0.5;
   }
 
-  ::v-deep abbr {
-    text-decoration: none !important;
-    border-bottom: 1px dotted #999;
-    cursor: help;
+  .is-editable {
+    border: 1px solid $black;
   }
 
-  ::v-deep .form-control {
-    height: auto !important;
+  // Remove focus outline from the editor
+  :deep(.ProseMirror) {
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
   }
 
-  ::v-deep table {
+  :deep(.is-editable .ProseMirror) {
+    padding: 10px;
+  }
+
+  // Remove focus outline from any contenteditable elements
+  :deep([contenteditable]:focus) {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  // Style for the editor content wrapper
+  :deep(.ProseMirror-focused) {
+    outline: none !important;
+  }
+
+  :deep(table) {
     border-collapse: collapse;
     border-color: #999;
     border-spacing: 1px;
@@ -341,56 +260,26 @@ export default class EpContent extends Mixins(EpValidation) {
     }
   }
 
-  ::v-deep abbr.virheellinen {
+  // Term styles
+  :deep(abbr[data-viite]) {
+    text-decoration: none !important;
+    border-bottom: 1px dotted #999;
+    cursor: help;
+    background-color: rgba(0, 123, 255, 0.1);
+    padding: 1px 2px;
+    border-radius: 2px;
+  }
+
+  :deep(abbr.virheellinen) {
     color: $invalid;
+    background-color: rgba(220, 53, 69, 0.1);
   }
 
-  ::v-deep .form-control.ProseMirror {
-    border-top-right-radius: 0;
-    border-top-left-radius: 0;
+  // Style terms that don't have a viite (empty or invalid)
+  :deep(abbr[data-viite=""]) {
+    background-color: rgba(220, 53, 69, 0.1);
+    border-bottom-color: #dc3545;
   }
 
-  ::v-deep [contenteditable]:focus {
-    outline: none !important;
-    box-shadow: none !important;
-  }
-
-  ::v-deep .tableWrapper .selectedCell {
-    background-color: $gray-lighten-5;
-  }
-
-  .content-invalid ::v-deep .form-control {
-    border-color: $invalid;
-  }
-
-  .content-valid ::v-deep .form-control {
-    border-color: $valid;
-  }
-
-  // Alleviivataan editorissa oleva virheellinen linkki, jolla ei ole hreffiä.
-  ::v-deep a:not([href]):not([class]) {
-    text-decoration: underline;
-    text-decoration-style: dotted;
-    text-decoration-color: red;
-  }
 }
-
-// Piilotettu Bootstrapissa oletuksena
-::v-deep .invalid-feedback,
-::v-deep .valid-feedback {
-  display: block;
-}
-
-::v-deep .ProseMirror p.is-editor-empty:first-child::before {
-  content: attr(data-empty-text);
-  // float: left;
-  color: #adb5bd;
-  pointer-events: none;
-  // height: 0;
-
-  br {
-    display: none;
-  }
-}
-
 </style>

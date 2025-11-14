@@ -1,77 +1,116 @@
 <template>
-<div class="topbar" v-sticky="sticky" sticky-z-index="600">
-  <b-sidebar id="sisaltobar">
-    <PortalTarget ref="innerPortal" name="globalNavigation"></PortalTarget>
-  </b-sidebar>
+  <div
+    v-sticky="sticky"
+    class="topbar"
+    sticky-z-index="600"
+  >
+    <b-sidebar id="sisaltobar">
+      <div
+        id="globalNavigation"
+        ref="innerPortal"
+      />
+    </b-sidebar>
 
-  <b-navbar id="navigation-bar"
-            class="ep-navbar"
-            type="dark"
-            toggleable="lg">
+    <b-navbar
+      id="navigation-bar"
+      class="ep-navbar"
+      type="dark"
+      toggleable="lg"
+    >
+      <b-navbar-nav
+        v-if="showNavigation"
+        class="ml-2"
+      >
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <router-link
+                id="nav-admin"
+                :to="rootNavigation"
+              >
+                <EpMaterialIcon size="20px">
+                  home
+                </EpMaterialIcon>
+              </router-link>
+            </li>
+            <li
+              v-for="(route, idx) in routePath"
+              :key="idx"
+              class="breadcrumb-item"
+            >
+              <router-link
+                v-if="route.muru && route.muru.location"
+                :to="route.muru.location"
+              >
+                {{ route.muru.name }}
+              </router-link>
+              <span v-else-if="route.muru">
+                {{ route.muru.name }}
+              </span>
+              <span v-else>{{ $t('route-' + route.name) }}</span>
+            </li>
+          </ol>
+        </nav>
+      </b-navbar-nav>
+      <b-button
+        v-else
+        v-b-toggle.sisaltobar
+        class="text-white"
+        variant="icon"
+      >
+        <EpMaterialIcon>menu</EpMaterialIcon>
+      </b-button>
 
-    <b-navbar-nav v-if="showNavigation" class="ml-2">
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">
-            <router-link id="nav-admin" :to="rootNavigation">
-              <EpMaterialIcon size="20px">home</EpMaterialIcon>
-            </router-link>
-          </li>
-          <li class="breadcrumb-item" v-for="(route, idx) in routePath" :key="idx">
-            <router-link v-if="route.muru && route.muru.location" :to="route.muru.location">
-              {{ route.muru.name }}
-            </router-link>
-            <span v-else-if="route.muru">
-              {{ route.muru.name }}
-            </span>
-            <span v-else>{{ $t('route-' + route.name) }}</span>
-          </li>
-        </ol>
-      </nav>
-    </b-navbar-nav>
-    <b-button class="text-white" v-else v-b-toggle.sisaltobar variant="icon">
-      <EpMaterialIcon>menu</EpMaterialIcon>
-    </b-button>
-
-    <b-navbar-nav class="ml-auto">
-
-      <!-- Sisällön kieli-->
-      <b-nav-item-dropdown id="content-lang-selector" right no-caret>
-        <template slot="button-content">
-          <div class="d-flex flex-row">
-            <div class="kieli-valikko d-flex">
-              <span class="kielivalitsin text-left">{{ $t("kieli-sisalto") }}: </span>
-              <span class="valittu-kieli text-right ml-2">{{ $t(sisaltoKieli) }}</span>
-              <EpMaterialIcon>expand_more</EpMaterialIcon>
+      <b-navbar-nav class="ml-auto">
+        <!-- Sisällön kieli-->
+        <b-nav-item-dropdown
+          id="content-lang-selector"
+          right
+          no-caret
+        >
+          <template #button-content>
+            <div class="d-flex flex-row">
+              <div class="kieli-valikko d-flex">
+                <span class="kielivalitsin text-left">{{ $t("kieli-sisalto") }}: </span>
+                <span class="valittu-kieli text-right ml-2">{{ $t(sisaltoKieli) }}</span>
+                <EpMaterialIcon>expand_more</EpMaterialIcon>
+              </div>
             </div>
+          </template>
+          <div class="kielet">
+            <b-dd-item
+              v-for="kieli in sovelluksenKielet"
+              :key="kieli"
+              :disabled="kieli === sisaltoKieli"
+              @click="valitseSisaltoKieli(kieli)"
+            >
+              <EpMaterialIcon
+                v-if="kieli === sisaltoKieli"
+                class="mr-3 valittu"
+              >
+                check
+              </EpMaterialIcon>
+              {{ $t(kieli) }}
+            </b-dd-item>
           </div>
-        </template>
-        <div class="kielet">
-          <b-dd-item @click="valitseSisaltoKieli(kieli)"
-            v-for="kieli in sovelluksenKielet"
-            :key="kieli"
-            :disabled="kieli === sisaltoKieli">
-            <EpMaterialIcon v-if="kieli === sisaltoKieli" class="mr-3 valittu">check</EpMaterialIcon>
-            {{ $t(kieli) }}
-          </b-dd-item>
-        </div>
-      </b-nav-item-dropdown>
+        </b-nav-item-dropdown>
 
-      <ep-kayttaja :tiedot="kayttaja"
-                   :koulutustoimijat="koulutustoimijat"
-                   :koulutustoimija="koulutustoimija"
-                   :sovellusOikeudet="sovellusOikeudet"
-                   :logoutHref="logoutHref"/>
-
-    </b-navbar-nav>
-  </b-navbar>
-</div>
+        <ep-kayttaja
+          :tiedot="kayttaja"
+          :koulutustoimijat="koulutustoimijat"
+          :koulutustoimija="koulutustoimija"
+          :sovellus-oikeudet="sovellusOikeudet"
+          :logout-href="logoutHref"
+        />
+      </b-navbar-nav>
+    </b-navbar>
+  </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import Sticky from 'vue-sticky-directive';
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 import { Kieli } from '../../tyypit';
 import { Kielet, UiKielet } from '../../stores/kieli';
 import { Murupolku } from '../../stores/murupolku';
@@ -87,87 +126,87 @@ interface Breadcrumb {
   route: Location;
 }
 
-@Component({
-  directives: {
-    Sticky,
+const props = defineProps({
+  kayttaja: {
+    type: Object,
+    required: true,
   },
-  components: {
-    EpButton,
-    EpKayttaja,
-    EpMaterialIcon,
+  sticky: {
+    type: Boolean,
+    default: true,
   },
-})
-export default class EpNavbar extends Vue {
-  private browserStore = new BrowserStore();
+  tyyli: {
+    type: String,
+    default: 'normaali',
+  },
+  koulutustoimijat: {
+    type: Array,
+    required: false,
+  },
+  koulutustoimija: {
+    type: Object,
+    required: false,
+  },
+  rootNavigation: {
+    type: Object,
+    default: () => ({ name: 'root' }),
+  },
+  sovellusOikeudet: {
+    type: Array as () => SovellusOikeus[],
+    required: false,
+  },
+  logoutHref: {
+    type: String,
+    required: false,
+  },
+});
 
-  @Prop({ required: true })
-  private kayttaja!: any;
+const browserStore = new BrowserStore();
+const route = useRoute();
 
-  @Prop({ default: true })
-  private sticky!: boolean;
+const showNavigation = computed(() => {
+  return browserStore.navigationVisible.value;
+});
 
-  @Prop({ default: 'normaali' })
-  private tyyli!: string;
+const murut = computed(() => {
+  return Murupolku.murut;
+});
 
-  @Prop({ required: false })
-  private koulutustoimijat!: any;
+const sisaltoKieli = computed(() => {
+  return Kielet.getSisaltoKieli.value;
+});
 
-  @Prop({ required: false })
-  private koulutustoimija!: any;
+const sovelluksenKielet = computed(() => {
+  return UiKielet;
+});
 
-  @Prop({ required: false, type: Object, default: () => ({ name: 'root' }) })
-  private rootNavigation!:any;
+const matched = computed(() => {
+  return route?.matched;
+});
 
-  @Prop({ required: false })
-  private sovellusOikeudet!: SovellusOikeus[];
+const routePath = computed(() => {
+  return _(route?.matched)
+    .filter('name')
+    .map(routeItem => {
+      const computeds = _.get(routeItem, 'instances.default');
+      const result = {
+        ...routeItem,
+        muru: murut.value[routeItem!.name!],
+        // breadname: computeds && computeds.breadcrumb,
+      };
+      return result;
+    })
+    .uniqBy('muru.name')
+    .value();
+});
 
-  @Prop({ required: false })
-  private logoutHref!: string;
-
-  get showNavigation() {
-    return this.browserStore.navigationVisible.value;
-  }
-
-  get murut() {
-    return Murupolku.murut;
-  }
-
-  get sisaltoKieli() {
-    return Kielet.getSisaltoKieli.value;
-  }
-
-  get sovelluksenKielet() {
-    return UiKielet;
-  }
-
-  get matched() {
-    return this.$route?.matched;
-  }
-
-  get routePath() {
-    return _(this.$route?.matched)
-      .filter('name')
-      .map(route => {
-        const computeds = _.get(route, 'instances.default');
-        const result = {
-          ...route,
-          muru: this.murut[route!.name!],
-          // breadname: computeds && computeds.breadcrumb,
-        };
-        return result;
-      })
-      .uniqBy('muru.name')
-      .value();
-  }
-
-  private valitseSisaltoKieli(kieli: Kieli) {
-    Kielet.setSisaltoKieli(kieli);
-  }
-}
+const valitseSisaltoKieli = (kieli: Kieli) => {
+  Kielet.setSisaltoKieli(kieli);
+};
 </script>
 
 <style scoped lang="scss">
-@import '../../styles/_variables.scss';
+@import '@/styles/_variables.scss';
 
 .topbar {
   background-image: inherit;
@@ -227,18 +266,18 @@ export default class EpNavbar extends Vue {
       }
     }
 
-    ::v-deep .dropdown-menu {
+    :deep(.dropdown-menu) {
       padding: 0;
       color: #000000;
       min-width: initial;
     }
 
-    ::v-deep .dropdown-item {
+    :deep(.dropdown-item) {
       // padding: 0.5rem 1rem;
       color: #000000;
     }
 
-    ::v-deep .dropdown-item:hover {
+    :deep(.dropdown-item:hover) {
       background-color: inherit;
     }
 

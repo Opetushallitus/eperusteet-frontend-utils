@@ -1,84 +1,87 @@
 <template>
   <div v-if="inner">
-    <b-form-group :label="$t('laajuus')" v-if="showLaajuus">
-      <ep-laajuus-input v-model="inner.laajuus" :is-editing="isEditing" />
+    <b-form-group
+      v-if="showLaajuus"
+      :label="$t('laajuus')"
+    >
+      <ep-laajuus-input
+        v-model="inner.laajuus"
+        :is-editing="isEditing"
+      />
     </b-form-group>
     <b-form-group class="m-0 p-0">
       <slot name="osaamistavoitteet">
         <h4>{{ $t('osaamistavoitteet') }}</h4>
       </slot>
-      <EpAmmattitaitovaatimukset v-model="tavoitteet"
-                                 :kohdealueettomat="false"
-                                 :kaannos-tavoiteet="$t('tavoitteet')"
-                                 :kaannos-lisaa-kohdealue="$t('lisaa-tavoiteryhma')"
-                                 :kaannos-lisaa-ammattitaitovaatimus="$t('lisaa-tavoite')"
-                                 kaannos-kohdealueet=""
-                                 :kaannos-kohdealue="$t('tavoitteiden-otsikko')"
-                                 :kaannos-vaatimukset="$t('tavoitteet')"
-                                 :kohde="{ fi: $t('opiskelija') }"
-                                 :tavoitekoodisto="'osaamistavoitteet'"
-                                 :show-kohde="true"
-                                 :is-editing="isEditing"
-                                 :showKoodiArvo="showKoodiArvo" />
+      <EpAmmattitaitovaatimukset
+        v-model="tavoitteet"
+        :kohdealueettomat="false"
+        :kaannos-tavoiteet="$t('tavoitteet')"
+        :kaannos-lisaa-kohdealue="$t('lisaa-tavoiteryhma')"
+        :kaannos-lisaa-ammattitaitovaatimus="$t('lisaa-tavoite')"
+        kaannos-kohdealueet=""
+        :kaannos-kohdealue="$t('tavoitteiden-otsikko')"
+        :kaannos-vaatimukset="$t('tavoitteet')"
+        :kohde="{ fi: $t('opiskelija') }"
+        :tavoitekoodisto="'osaamistavoitteet'"
+        :show-kohde="true"
+        :is-editing="isEditing"
+        :show-koodi-arvo="showKoodiArvo"
+      />
     </b-form-group>
   </div>
 </template>
 
-<script lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed } from 'vue';
 import EpLaajuusInput from '@shared/components/forms/EpLaajuusInput.vue';
 import EpAmmattitaitovaatimukset from '@shared/components/EpAmmattitaitovaatimukset/EpAmmattitaitovaatimukset.vue';
-
 import _ from 'lodash';
 
-@Component({
-  components: {
-    EpAmmattitaitovaatimukset,
-    EpLaajuusInput,
+const props = defineProps({
+  modelValue: {
+    type: Object,
+    required: true,
   },
-})
-export default class Osaamistavoite extends Vue {
-  @Prop({ required: true })
-  value!: any;
+  isValinnainen: {
+    type: Boolean,
+    required: true,
+  },
+  showLaajuus: {
+    type: Boolean,
+    default: true,
+  },
+  showKoodiArvo: {
+    type: Boolean,
+    default: true,
+  },
+  isEditing: {
+    type: Boolean,
+    default: false,
+  },
+  validation: {
+    type: Object,
+    required: false,
+  },
+});
 
-  @Prop({ required: true })
-  isValinnainen!: boolean;
+const emit = defineEmits(['update:modelValue']);
 
-  @Prop({ default: true })
-  showLaajuus!: boolean;
+const inner = computed({
+  get: () => props.modelValue || {
+    laajuus: 0,
+    tavoitteet: {},
+  },
+  set: (v) => emit('update:modelValue', v),
+});
 
-  @Prop({ default: true })
-  public showKoodiArvo!: boolean;
-
-  get inner() {
-    return this.value || {
-      laajuus: 0,
-      tavoitteet: {
-      },
-    };
-  }
-
-  set inner(v) {
-    this.$emit('input', v);
-  }
-
-  get tavoitteet() {
-    return this.inner.tavoitteet || null;
-  }
-
-  set tavoitteet(tavoitteet) {
-    this.$emit('input', {
-      ...this.inner,
-      tavoitteet,
-    });
-  }
-
-  @Prop({ default: false })
-  isEditing!: boolean;
-
-  @Prop({ required: false })
-  validation!: any;
-}
+const tavoitteet = computed({
+  get: () => inner.value.tavoitteet || null,
+  set: (tavoitteet) => emit('update:modelValue', {
+    ...inner.value,
+    tavoitteet,
+  }),
+});
 </script>
 
 <style lang="scss" scoped>

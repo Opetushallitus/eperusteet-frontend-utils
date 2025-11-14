@@ -1,17 +1,13 @@
-import { mount, createLocalVue } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import EpAlert from './EpAlert.vue';
 import Vue from 'vue';
-import BootstrapVue from 'bootstrap-vue';
-
-Vue.use(BootstrapVue);
+import { nextTick } from 'vue';
 
 describe('EpToggle component', () => {
-  const localVue = createLocalVue();
 
   test('Renders toggle and change changes value', async () => {
     const wrapper = mount(EpAlert, {
-      localVue,
-      propsData: {
+      props: {
         text: 'tässä tekstiä',
         ops: false,
       },
@@ -24,6 +20,9 @@ describe('EpToggle component', () => {
       text: 'tässä tekstiä',
       ops: true,
     });
+
+    await nextTick();
+
     expect(wrapper.html()).not.toEqual(old);
   });
 });

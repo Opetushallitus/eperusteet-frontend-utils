@@ -1,108 +1,136 @@
 <template>
-<div>
-  <div v-if="hasKuvaus">
-    <ep-content-viewer v-if="moduuli.kuvaus"
-                       :value="$kaanna(moduuli.kuvaus)"
-                       :termit="termit"
-                       :kuvat="kuvat" />
-  </div>
-  <div class="d-lg-flex justify-content-between w-60 my-4">
-    <div v-if="moduuli.koodi">
-      <span class="font-weight-bold">{{ $t('koodi') }}</span>
-      <p>{{ moduuli.koodi.arvo }}</p>
+  <div>
+    <div v-if="hasKuvaus">
+      <ep-content-viewer
+        v-if="moduuli.kuvaus"
+        :value="$kaanna(moduuli.kuvaus)"
+        :termit="termit"
+        :kuvat="kuvat"
+      />
     </div>
-    <div>
-      <span class="font-weight-bold">{{ $t('tyyppi') }}</span>
-      <p v-if="moduuli.pakollinen">{{ $t('pakollinen') }}</p>
-      <p v-if="!moduuli.pakollinen">{{ $t('valinnainen') }}</p>
+    <div class="d-lg-flex justify-content-between w-60 my-4">
+      <div v-if="moduuli.koodi">
+        <span class="font-weight-bold">{{ $t('koodi') }}</span>
+        <p>{{ moduuli.koodi.arvo }}</p>
+      </div>
+      <div>
+        <span class="font-weight-bold">{{ $t('tyyppi') }}</span>
+        <p v-if="moduuli.pakollinen">
+          {{ $t('pakollinen') }}
+        </p>
+        <p v-if="!moduuli.pakollinen">
+          {{ $t('valinnainen') }}
+        </p>
+      </div>
+      <div v-if="moduuli.laajuus">
+        <span class="font-weight-bold">{{ $t('laajuus') }}</span>
+        <p>{{ moduuli.laajuus }} {{ $t('opintopiste') }}</p>
+      </div>
     </div>
-    <div v-if="moduuli.laajuus">
-      <span class="font-weight-bold">{{ $t('laajuus') }}</span>
-      <p>{{ moduuli.laajuus }} {{ $t('opintopiste') }}</p>
-    </div>
-  </div>
-  <div v-if="hasTavoitteet">
-    <h3>{{ $t('yleiset-tavoitteet') }}</h3>
-    <div v-if="tavoitteet.kohde">{{ $kaanna(tavoitteet.kohde) }}</div>
-    <ul>
-      <li v-for="(tavoite, idx) in tavoitteet.tavoitteet" :key="idx">{{ $kaanna(tavoite) }}</li>
-    </ul>
-  </div>
-
-  <div v-if="hasSisallot">
-    <h3>{{ $t('keskeiset-sisallot') }}</h3>
-    <div v-for="(sisalto, idx) in sisallot" :key="idx">
-      <div v-if="sisalto.kohde">{{ $kaanna(sisalto.kohde) }}</div>
+    <div v-if="hasTavoitteet">
+      <h3>{{ $t('yleiset-tavoitteet') }}</h3>
+      <div v-if="tavoitteet.kohde">
+        {{ $kaanna(tavoitteet.kohde) }}
+      </div>
       <ul>
-        <li v-for="(osa, idx) in sisalto.sisallot" :key="idx">{{ $kaanna(osa) }}</li>
+        <li
+          v-for="(tavoite, idx) in tavoitteet.tavoitteet"
+          :key="idx"
+        >
+          {{ $kaanna(tavoite) }}
+        </li>
       </ul>
     </div>
+
+    <div v-if="hasSisallot">
+      <h3>{{ $t('keskeiset-sisallot') }}</h3>
+      <div
+        v-for="(sisalto, idx) in sisallot"
+        :key="idx"
+      >
+        <div v-if="sisalto.kohde">
+          {{ $kaanna(sisalto.kohde) }}
+        </div>
+        <ul>
+          <li
+            v-for="(osa, idx) in sisalto.sisallot"
+            :key="idx"
+          >
+            {{ $kaanna(osa) }}
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
-</div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import * as _ from 'lodash';
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { computed } from 'vue';
 
 import EpColorIndicator from '@shared/components/EpColorIndicator/EpColorIndicator.vue';
 import EpContentViewer from '@shared/components/EpContentViewer/EpContentViewer.vue';
 
-@Component({
-  components: {
-    EpColorIndicator,
-    EpContentViewer,
+const props = defineProps({
+  isPerusteView: {
+    type: Boolean,
+    default: true,
   },
-})
-export default class ModuuliEsitys extends Vue {
-  @Prop({ required: false, default: true })
-  private isPerusteView!: boolean;
+  moduuli: {
+    type: Object,
+    required: true,
+  },
+  termit: {
+    type: Array,
+    required: false,
+    default: () => [],
+  },
+  kuvat: {
+    type: Array,
+    required: false,
+    default: () => [],
+  },
+});
 
-  @Prop({ required: true })
-  private moduuli!: any;
+const koodi = computed(() => {
+  return props.moduuli.koodi;
+});
 
-  @Prop({ required: false, type: Array })
-  private termit!: any[];
-
-  @Prop({ required: false, type: Array })
-  private kuvat!: any[];
-
-  get koodi() {
-    return this.moduuli.koodi;
+const hasKuvaus = computed(() => {
+  if (props.moduuli) {
+    return props.moduuli.kuvaus;
   }
+  return undefined;
+});
 
-  get hasKuvaus() {
-    if (this.moduuli) {
-      return this.moduuli.kuvaus;
-    }
+const tyyppi = computed(() => {
+  if (props.moduuli) {
+    return props.moduuli.pakollinen ? 'pakollinen' : 'valinnainen';
   }
+  return undefined;
+});
 
-  get tyyppi() {
-    if (this.moduuli) {
-      return this.moduuli.pakollinen ? 'pakollinen' : 'valinnainen';
-    }
+const tavoitteet = computed(() => {
+  if (props.moduuli) {
+    return props.moduuli.tavoitteet;
   }
+  return undefined;
+});
 
-  get tavoitteet() {
-    if (this.moduuli) {
-      return this.moduuli.tavoitteet;
-    }
-  }
+const hasTavoitteet = computed(() => {
+  return !_.isEmpty(tavoitteet.value);
+});
 
-  get hasTavoitteet() {
-    return !_.isEmpty(this.tavoitteet);
+const sisallot = computed(() => {
+  if (props.moduuli) {
+    return props.moduuli.sisallot;
   }
+  return undefined;
+});
 
-  get sisallot() {
-    if (this.moduuli) {
-      return this.moduuli.sisallot;
-    }
-  }
-
-  get hasSisallot() {
-    return !_.isEmpty(this.sisallot);
-  }
-}
+const hasSisallot = computed(() => {
+  return !_.isEmpty(sisallot.value);
+});
 </script>
 
 <style scoped lang="scss">

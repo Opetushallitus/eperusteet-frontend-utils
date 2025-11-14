@@ -1,11 +1,10 @@
-import Vue from 'vue';
-import VueCompositionApi, { reactive, computed } from '@vue/composition-api';
+import Vue, { computed, ref } from 'vue';
 import { MaaraysDto, Maaraykset, MaaraysDtoTyyppiEnum } from '@shared/api/eperusteet';
 import _ from 'lodash';
 import { Koulutustyyppi, Page } from '@shared/tyypit';
-import { Debounced, DEFAULT_PUBLIC_WAIT_TIME_MS } from '@shared/utils/delay';
 
-Vue.use(VueCompositionApi);
+// Define the debounce wait time constant
+const DEBOUNCE_WAIT_TIME = 300; // Same as DEFAULT_PUBLIC_WAIT_TIME_MS
 
 export interface MaaraysQueryDto {
   nimi?: string;
@@ -24,22 +23,17 @@ export interface MaaraysQueryDto {
 }
 
 export class MaarayksetStore {
-  private state = reactive({
+  private state = ref({
     maaraykset: null as Page<MaaraysDto> | null,
     koulutustyypit: null as string[] | null,
   });
 
-  public readonly maaraykset = computed(() => this.state.maaraykset);
-  public readonly koulutustyypit = computed(() => this.state.koulutustyypit);
+  public readonly maaraykset = computed(() => this.state.value.maaraykset);
+  public readonly koulutustyypit = computed(() => this.state.value.koulutustyypit);
 
-  async init() {
-    this.state.koulutustyypit = (await Maaraykset.getMaarayksienKoulutustyypit()).data;
-  }
-
-  @Debounced(DEFAULT_PUBLIC_WAIT_TIME_MS)
-  async fetch(query: MaaraysQueryDto) {
-    this.state.maaraykset = null;
-    this.state.maaraykset = (await Maaraykset.getMaaraykset(
+  public fetch = _.debounce(async (query: MaaraysQueryDto) => {
+    this.state.value.maaraykset = null;
+    this.state.value.maaraykset = (await Maaraykset.getMaaraykset(
       query.nimi,
       query.kieli,
       query.tyyppi,
@@ -54,5 +48,9 @@ export class MaarayksetStore {
       query.jarjestysTapa,
       query.jarjestys,
     )).data as any;
+  });
+
+  async init() {
+    this.state.value.koulutustyypit = (await Maaraykset.getMaarayksienKoulutustyypit()).data;
   }
 }

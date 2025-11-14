@@ -1,89 +1,108 @@
 <template>
   <div>
-    <draggable
+    <VueDraggable
       v-bind="defaultDragOptions"
+      v-model="model"
       tag="div"
-      v-model="model">
-
-      <b-row v-for="(sisalto, index) in model" :key="'edKehOsaaminen'+index" class="pb-2">
+    >
+      <b-row
+        v-for="(sisalto, index) in model"
+        :key="'edKehOsaaminen'+index"
+        class="pb-2"
+      >
         <b-col cols="11">
-          <ep-input v-model="sisalto[sisaltokieli]" :is-editing="isEditing" type="string" class="flex-grow-1">
-            <div class="order-handle m-2" slot="left">
-              <EpMaterialIcon>drag_indicator</EpMaterialIcon>
-            </div>
+          <ep-input
+            v-model="sisalto[sisaltokieli]"
+            :is-editing="isEditing"
+            type="string"
+            class="flex-grow-1"
+          >
+            <template #left>
+              <div
+                class="order-handle m-2"
+              >
+                <EpMaterialIcon>drag_indicator</EpMaterialIcon>
+              </div>
+            </template>
           </ep-input>
         </b-col>
         <b-col cols="1">
-          <div class="clickable mt-2" @click="poistaKuvaus(sisalto)">
-            <EpMaterialIcon class="default-icon">delete</EpMaterialIcon>
+          <div
+            class="clickable mt-2"
+            @click="poistaKuvaus(sisalto)"
+          >
+            <EpMaterialIcon class="default-icon">
+              delete
+            </EpMaterialIcon>
           </div>
         </b-col>
       </b-row>
-    </draggable>
+    </VueDraggable>
 
-    <ep-button @click="lisaaKuvaus()" variant="outline" icon="add" class="mt-1">
+    <ep-button
+      variant="outline"
+      icon="add"
+      class="mt-1"
+      @click="lisaaKuvaus()"
+    >
       {{ $t('lisaa-kuvaus') }}
     </ep-button>
-
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue';
 import * as _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import { Kielet } from '@shared/stores/kieli';
-import draggable from 'vuedraggable';
+import { VueDraggable } from 'vue-draggable-plus';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
-@Component({
-  components: {
-    EpInput,
-    draggable,
-    EpButton,
-    EpMaterialIcon,
+const props = defineProps({
+  modelValue: {
+    type: Array,
+    required: true,
   },
-})
-export default class EpOsaAlueSisalto extends Vue {
-  @Prop({ required: true })
-  value!: any;
+  isEditing: {
+    type: Boolean,
+    default: false,
+  },
+});
 
-  @Prop({ required: false, default: false })
-  isEditing!: boolean;
+const emit = defineEmits(['update:modelValue']);
 
-  get model() {
-    return this.value;
-  }
+// Two-way binding for v-model
+const model = computed({
+  get: () => props.modelValue,
+  set: (val) => emit('update:modelValue', val),
+});
 
-  set model(val) {
-    this.$emit('input', val);
-  }
+// Computed properties
+const defaultDragOptions = computed(() => {
+  return {
+    animation: 300,
+    emptyInsertThreshold: 10,
+    handle: '.order-handle',
+    disabled: !props.isEditing,
+    ghostClass: 'dragged',
+    group: {
+      name: 'kuvaukset',
+    },
+  };
+});
 
-  get defaultDragOptions() {
-    return {
-      animation: 300,
-      emptyInsertThreshold: 10,
-      handle: '.order-handle',
-      disabled: !this.isEditing,
-      ghostClass: 'dragged',
-      group: {
-        name: 'kuvaukset',
-      },
-    };
-  }
+const sisaltokieli = computed(() => {
+  return Kielet.getSisaltoKieli.value;
+});
 
-  get sisaltokieli() {
-    return Kielet.getSisaltoKieli.value;
-  }
+// Methods
+function poistaKuvaus(sisalto) {
+  emit('update:modelValue', _.filter(props.modelValue, row => row !== sisalto));
+}
 
-  poistaKuvaus(sisalto) {
-    this.$emit('input', _.filter(this.value, row => row !== sisalto));
-  }
-
-  lisaaKuvaus() {
-    this.$emit('input', [...this.value, {}]);
-  }
+function lisaaKuvaus() {
+  emit('update:modelValue', [...props.modelValue, {}]);
 }
 </script>
 

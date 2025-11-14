@@ -1,113 +1,127 @@
 <template>
   <div>
-    <slot name="header"></slot>
+    <slot name="header" />
 
     <b-table
-      v-if="value && value.length > 0"
+      v-if="modelValue && modelValue.length > 0"
       responsive
       borderless
       striped
       fixed
       hover
-      :items="value"
+      :items="modelValue"
       :fields="fields"
       :selectable="true"
       select-mode="single"
-      selected-variant=''>
-
-      <template v-slot:cell(nimi)="{ item }">
+      selected-variant=""
+    >
+      <template #cell(nimi)="{ item }">
         <span>
           {{ $kaanna(item.nimi) }}
         </span>
       </template>
 
-      <template v-slot:cell(poisto)="{ item }" v-if="isEditing">
-        <ep-button variant="link" icon="delete" @click="remove(item)" />
+      <template
+        v-if="isEditing"
+        #cell(poisto)="{ item }"
+      >
+        <ep-button
+          variant="link"
+          icon="delete"
+          @click="remove(item)"
+        />
       </template>
-
     </b-table>
 
-    <ep-koodisto-select v-if="isEditing"
-      :store="store"
+    <ep-koodisto-select
+      v-if="isEditing"
       v-model="koodi"
+      :store="store"
       :is-editing="isEditing"
-      :naytaArvo="false"
+      :nayta-arvo="false"
       :multiple="true"
-      :defaultFields="koodistoSelectDefaultFields">
+      :default-fields="koodistoSelectDefaultFields"
+    >
       <template #default="{ open }">
-        <ep-button @click="open" icon="add" variant="outline">
-          <slot name="button-text">lisaa-koodi</slot>
+        <ep-button
+          icon="add"
+          variant="outline"
+          @click="open"
+        >
+          <slot name="button-text">
+            lisaa-koodi
+          </slot>
         </ep-button>
-
       </template>
 
-      <span slot="empty"></span>
+      <template #empty>
+        <span />
+      </template>
     </ep-koodisto-select>
-
   </div>
-
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, getCurrentInstance } from 'vue';
 import EpButton from '../EpButton/EpButton.vue';
 import { KoodistoSelectStore } from './KoodistoSelectStore';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
+import { $t, $kaanna } from '@shared/utils/globals';
 
-@Component({
-  components: {
-    EpButton,
-    EpKoodistoSelect,
+const props = defineProps({
+  modelValue: {
+    type: Array,
+    default: null,
   },
-})
-export default class EpKoodistoSelectTable extends Vue {
-  @Prop({ default: null })
-  private value!: any;
+  isEditing: {
+    type: Boolean,
+    default: true,
+  },
+  showKoodiArvo: {
+    type: Boolean,
+    default: true,
+  },
+  store: {
+    type: Object as () => KoodistoSelectStore,
+    required: true,
+  },
+});
 
-  @Prop({ default: true })
-  private isEditing!: boolean;
+const emit = defineEmits(['update:modelValue', 'remove']);
 
-  @Prop({ default: true })
-  private showKoodiArvo!: boolean;
+const koodi = computed({
+  get: () => props.modelValue,
+  set: (val) => {
+    emit('update:modelValue', val);
+  },
+});
 
-  @Prop({ required: true })
-  private store!: KoodistoSelectStore;
+const koodistoSelectDefaultFields = computed(() => {
+  return props.showKoodiArvo ? ['nimi', 'arvo'] : ['nimi'];
+});
 
-  get koodi() {
-    return this.value;
-  }
+const fields = computed(() => {
+  return [{
+    key: 'nimi',
+    label: $t('nimi'),
+  },
+  ...(props.showKoodiArvo
+    ? [
+      {
+        key: 'arvo',
+        label: $t('koodi'),
+        thStyle: { width: '10rem' },
+      },
+    ] : []),
+  {
+    key: 'poisto',
+    label: '',
+    thStyle: { width: '5rem' },
+  }];
+});
 
-  set koodi(koodi) {
-    this.$emit('input', koodi);
-  }
-
-  remove(koodi) {
-    this.$emit('remove', koodi);
-  }
-
-  get koodistoSelectDefaultFields() {
-    return this.showKoodiArvo ? ['nimi', 'arvo'] : ['nimi'];
-  }
-
-  get fields() {
-    return [{
-      key: 'nimi',
-      label: this.$t('nimi'),
-    },
-    ...(this.showKoodiArvo
-      ? [
-        {
-          key: 'arvo',
-          label: this.$t('koodi'),
-          thStyle: { width: '10rem' },
-        },
-      ] : []),
-    {
-      key: 'poisto',
-      label: '',
-      thStyle: { width: '5rem' },
-    }];
-  }
+function remove(koodi) {
+  emit('remove', koodi);
 }
 </script>
 

@@ -1,231 +1,270 @@
 <template>
   <div class="imageselector">
     <ep-spinner v-if="isLoading" />
+
     <div v-else>
       <div>
-        <div class="imgselect" v-if="!imageData">
-          <div class="mb-4">{{$t('kuvalisays-modal-selite')}}</div>
+        <div
+          v-if="!imageData"
+          class="imgselect"
+        >
+          <div class="mb-4">
+            {{ $t('kuvalisays-modal-selite') }}
+          </div>
           <ep-form-content name="valitse-kuva">
             <vue-select
+              :value="selectedValue"
               :disabled="options.length === 0"
-              v-model="selected"
               :filter-by="filterBy"
               :placeholder="options.length > 0 ? $t('valitse') : $t('ei-lisattyja-kuvia')"
               :options="options"
               label="id"
-              :clearable="true">
+              :clearable="true"
+              @input="selectedValue = $event"
+            >
               <template #selected-option="option">
-                <img class="preview-selected" :src="option.src">
+                <img
+                  class="preview-selected"
+                  :src="option.src"
+                >
               </template>
               <template #option="option">
-                <img class="preview" :src="option.src">
+                <img
+                  class="preview"
+                  :src="option.src"
+                >
                 {{ option.nimi }}
               </template>
             </vue-select>
           </ep-form-content>
         </div>
 
-        <div v-if="!selected || imageData">
-          <ep-kuva-lataus v-model="imageData" :saved="imageSaved" @saveImage="saveImage" @cancel="peruuta"></ep-kuva-lataus>
+        <div v-if="!selectedValue || imageData">
+          <ep-kuva-lataus
+            v-model="imageData"
+            :saved="imageSaved"
+            @cancel="peruuta"
+          />
         </div>
 
-        <div v-if="selected || imageData">
-          <ep-form-content name="kuvateksti" class="mt-3">
+        <div v-if="selectedValue || imageData">
+          <ep-form-content
+            name="kuvateksti"
+            class="mt-3"
+          >
             <ep-field
               v-model="kuvateksti"
-              @input="onKuvatekstichange"
               :is-editing="true"
-              :validation="$v.kuvateksti"
-              :help="'teksti-naytetaan-kuvan-alla'"/>
+              :validation="v$.kuvateksti"
+              :help="'teksti-naytetaan-kuvan-alla'"
+              @input="onKuvatekstichange"
+            />
           </ep-form-content>
 
           <ep-form-content class="mt-3">
-            <label slot="header">{{$t('kuvan-vaihtoehtoinen-teksti')}} *</label>
+            <template #header>
+              <label>{{ $t('kuvan-vaihtoehtoinen-teksti') }} *</label>
+            </template>
             <ep-field
               v-model="vaihtoehtoinenteksti"
-              @input="onVaihtoehtoinentekstiChange"
               :is-editing="true"
-              :validation="$v.vaihtoehtoinenteksti"
-              :help="'teksti-naytetaan-ruudunlukijalaitteelle'"/>
+              :validation="v$.vaihtoehtoinenteksti"
+              :help="'teksti-naytetaan-ruudunlukijalaitteelle'"
+              @input="onVaihtoehtoinentekstiChange"
+            />
           </ep-form-content>
         </div>
       </div>
     </div>
 
     <div class="d-flex justify-content-end mt-3">
-      <b-button class="mr-3" variant="link" @click="close(false)">{{$t('peruuta')}}</b-button>
-      <b-button variant="primary" squared @click="close(true)" :disabled="invalid">{{$t('lisaa-kuva')}}</b-button>
+      <ep-button
+        class="mr-3"
+        variant="link"
+        @click="close(false)"
+      >
+        {{ $t('peruuta') }}
+      </ep-button>
+      <ep-button
+        variant="primary"
+        :disabled="invalid"
+        @click="close(true)"
+      >
+        {{ $t('lisaa-kuva') }}
+      </ep-button>
     </div>
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import _ from 'lodash';
-import { Vue, Component, Prop, Mixins } from 'vue-property-decorator';
-import VueSelect from 'vue-select';
-
+import { ref, computed, onMounted, getCurrentInstance } from 'vue';
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import EpField from '@shared/components/forms/EpField.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
-import { validationMixin } from 'vuelidate';
-import { required } from 'vuelidate/lib/validators';
 import { Kielet } from '@shared/stores/kieli';
 import EpKuvaLataus, { ImageData } from '@shared/components/EpTiedosto/EpKuvaLataus.vue';
 import { IKuvaHandler, ILiite } from './KuvaHandler';
-import { Validations } from 'vuelidate-property-decorators';
+import { $t, $success, $fail } from '@shared/utils/globals';
+import VueSelect from 'vue-select';
+import EpButton from '@shared/components/EpButton/EpButton.vue';
 
-@Component({
-  components: {
-    EpSpinner,
-    VueSelect,
-    EpFormContent,
-    EpField,
-    EpKuvaLataus,
+const props = defineProps({
+  loader: {
+    type: Object as () => IKuvaHandler,
+    required: true,
   },
-})
-export default class ImageModal extends Mixins(validationMixin) {
-  @Prop({ required: true })
-  private loader!: IKuvaHandler;
+  modelValue: {
+    type: Object as () => { value?: string },
+    required: true,
+  },
+  kuvatekstiProp: {
+    type: Object,
+    required: true,
+  },
+  vaihtoehtotekstiProp: {
+    type: Object,
+    required: true,
+  },
+});
 
-  @Prop({ required: true })
-  private value!: {value?: string};
+const emit = defineEmits(['update:modelValue', 'onClose', 'onKuvatekstichange', 'onVaihtoehtoinentekstiChange']);
 
-  @Prop({ required: true })
-  private kuvatekstiProp!: {};
+// State variables
+const imageSaved = ref(false);
+const imageData = ref<ImageData | null>(null);
+const isLoading = ref(true);
+const files = ref<ILiite[]>([]);
+const kuvateksti = ref<any>({});
+const vaihtoehtoinenteksti = ref<any>({});
 
-  @Prop({ required: true })
-  private vaihtoehtotekstiProp!: {};
+const options = computed(() => {
+  return files.value;
+});
 
-  private imageSaved: boolean = false;
-  private imageData: ImageData | null = null;
-  private isLoading = true;
-  private files: ILiite[] = [];
-  private kuvateksti: any = {};
-  private vaihtoehtoinenteksti: any = {};
-
-  async mounted() {
-    this.kuvateksti = {
-      [Kielet.getSisaltoKieli.value]: this.kuvatekstiProp || this.vaihtoehtotekstiProp,
-    };
-
-    this.vaihtoehtoinenteksti = {
-      [Kielet.getSisaltoKieli.value]: this.vaihtoehtotekstiProp,
-    };
-
-    try {
-      this.isLoading = true;
-      this.files = await this.loader.hae();
+const selectedValue = computed({
+  get: () => {
+    const it = _.findIndex(files.value, f => f.id === props.modelValue.value);
+    if (it >= 0) {
+      return files.value[it];
     }
-    catch (er) {
-      throw er;
-    }
-    finally {
-      this.isLoading = false;
-    }
-
-    this.$emit('onKuvatekstichange', this.kuvateksti[Kielet.getSisaltoKieli.value]);
-    this.$emit('onVaihtoehtoinentekstiChange', this.vaihtoehtoinenteksti[Kielet.getSisaltoKieli.value]);
-  }
-
-  get id() {
-    return (this as any)._uid;
-  }
-
-  get options() {
-    return this.files;
-  }
-
-  async close(save) {
-    if (save && !this.imageSaved) {
-      await this.saveImage();
-    }
-
-    this.$emit('onClose', save);
-  }
-
-  private filterBy(option, label, search) {
-    return (option.nimi || '')
-      .toLowerCase()
-      .indexOf(search.toLowerCase()) > -1;
-  }
-
-  private async saveImage() {
-    if (this.imageData) {
-      const formData = new FormData();
-      formData.append('file', this.imageData.file);
-      formData.append('nimi', this.imageData.file.name);
-      formData.append('width', _.toString(this.imageData.width));
-      formData.append('height', _.toString(this.imageData.height));
-      try {
-        const tallenettuId = await this.loader.api().post(this.loader.endpoint(), formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-        this.imageSaved = true;
-        this.files = await this.loader.hae();
-        this.selected = { id: tallenettuId.data };
-
-        (this as any).$success(this.$t('kuva-tallennettu-onnistuneesti'));
-      }
-      catch (err) {
-        (this as any).$fail(this.$t('kuva-lisays-epaonnistui'));
-      }
-    }
-  }
-
-  set selected(liite: any) {
+    return undefined;
+  },
+  set: (liite: any) => {
     if (liite) {
-      this.$emit('input', liite.id);
-      (this as any).$v.$touch();
+      emit('update:modelValue', liite.id);
+      v$.value.$touch();
     }
     else {
-      this.$emit('input', null);
+      emit('update:modelValue', null);
     }
+  },
+});
+
+const kuvaValittu = computed(() => {
+  return selectedValue.value || imageData.value;
+});
+
+// Setup vuelidate
+const rules = computed(() => ({
+  vaihtoehtoinenteksti: {
+    [Kielet.getSisaltoKieli.value]: {
+      required,
+    },
+  },
+  kuvaValittu: {
+    required,
+  },
+}));
+
+const v$ = useVuelidate(rules, { vaihtoehtoinenteksti, kuvaValittu });
+
+const invalid = computed(() => {
+  return v$.value.$invalid;
+});
+
+// Methods
+async function close(save: boolean) {
+  if (save && !imageSaved.value) {
+    await saveImage();
   }
 
-  get selected() {
-    const it = _.findIndex(this.files, f => f.id === this.value.value);
-    if (it >= 0) {
-      return this.files[it];
-    }
-  }
-
-  private onKuvatekstichange(kuvateksti) {
-    this.$emit('onKuvatekstichange', kuvateksti[Kielet.getSisaltoKieli.value]);
-  }
-
-  private onVaihtoehtoinentekstiChange(vaihtoehtoinenteksti) {
-    this.$emit('onVaihtoehtoinentekstiChange', vaihtoehtoinenteksti[Kielet.getSisaltoKieli.value]);
-  }
-
-  private peruuta() {
-    this.imageData = null;
-    this.selected = null;
-    this.imageSaved = false;
-  }
-
-  get kuvaValittu() {
-    return this.selected || this.imageData;
-  }
-
-  get invalid() {
-    return this.$v.$invalid;
-  }
-
-  @Validations()
-    validations = {
-      vaihtoehtoinenteksti: {
-        [Kielet.getSisaltoKieli.value]: {
-          required,
-        },
-      },
-      kuvaValittu: {
-        required,
-      },
-    };
+  emit('onClose', save);
 }
 
+function filterBy(option: any, label: string, search: string) {
+  return (option.nimi || '')
+    .toLowerCase()
+    .indexOf(search.toLowerCase()) > -1;
+}
+
+async function saveImage() {
+  if (imageData.value) {
+    const formData = new FormData();
+    formData.append('file', imageData.value.file);
+    formData.append('nimi', imageData.value.file.name);
+    formData.append('width', _.toString(imageData.value.width));
+    formData.append('height', _.toString(imageData.value.height));
+    try {
+      const tallenettuId = await props.loader.api().post(props.loader.endpoint(), formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      imageSaved.value = true;
+      files.value = await props.loader.hae();
+      selectedValue.value = { id: tallenettuId.data };
+
+      $success($t('kuva-tallennettu-onnistuneesti'));
+    }
+    catch (err) {
+      console.error(err);
+      $fail($t('kuva-lisays-epaonnistui'));
+    }
+  }
+}
+
+function onKuvatekstichange(value: any) {
+  emit('onKuvatekstichange', value[Kielet.getSisaltoKieli.value]);
+}
+
+function onVaihtoehtoinentekstiChange(value: any) {
+  emit('onVaihtoehtoinentekstiChange', value[Kielet.getSisaltoKieli.value]);
+}
+
+function peruuta() {
+  imageData.value = null;
+  selectedValue.value = null;
+  imageSaved.value = false;
+}
+
+// Lifecycle hooks
+onMounted(async () => {
+  kuvateksti.value = {
+    [Kielet.getSisaltoKieli.value]: props.kuvatekstiProp || props.vaihtoehtotekstiProp,
+  };
+
+  vaihtoehtoinenteksti.value = {
+    [Kielet.getSisaltoKieli.value]: props.vaihtoehtotekstiProp,
+  };
+
+  try {
+    isLoading.value = true;
+    files.value = await props.loader.hae();
+  }
+  finally {
+    isLoading.value = false;
+  }
+
+  if (props.modelValue.value) {
+    selectedValue.value = files.value.find(f => f.id === props.modelValue.value);
+  }
+
+  emit('onKuvatekstichange', kuvateksti.value[Kielet.getSisaltoKieli.value]);
+  emit('onVaihtoehtoinentekstiChange', vaihtoehtoinenteksti.value[Kielet.getSisaltoKieli.value]);
+});
 </script>
 
 <style scoped lang="scss">
@@ -260,7 +299,7 @@ export default class ImageModal extends Mixins(validationMixin) {
     width: 100%;
   }
 
-  ::v-deep #fileInput {
+  :deep(#fileInput) {
     display: none;
   }
 }

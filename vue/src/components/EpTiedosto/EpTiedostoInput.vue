@@ -1,62 +1,77 @@
 <template>
   <div>
-    <div class="tiedosto-lataus ei-tiedostoa" v-if="!fileSelected">
+    <div
+      v-if="!fileSelected"
+      class="tiedosto-lataus ei-tiedostoa"
+    >
       <b-form-file
-        ref="file-input"
+        ref="fileInput"
         :accept="accept"
         :placeholder="placeholder"
         :drop-placeholder="dropPlaceholder"
         :browse-text="browseText"
-        @input="onInput"></b-form-file>
+        @input="onInput"
+      />
     </div>
     <div>
-      <slot></slot>
+      <slot />
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, getCurrentInstance, useTemplateRef } from 'vue';
 import _ from 'lodash';
+import { $t } from '@shared/utils/globals';
 
-@Component
-export default class EpTiedostoInput extends Vue {
-  @Prop({ required: false })
-  private file!: any;
+const props = defineProps({
+  file: {
+    required: false,
+    default: null,
+  },
+  fileTypes: {
+    type: Array as () => string[],
+    required: true,
+  },
+});
 
-  @Prop({ required: true })
-  private fileTypes!: string[];
+const emit = defineEmits(['input']);
+const fileInput = useTemplateRef('fileInput');
 
-  async onInput(file: File) {
-    this.$emit('input', file);
+const onInput = async (file: File) => {
+  emit('input', file);
+};
+
+const accept = computed(() => {
+  return _.join(props.fileTypes, ', ');
+});
+
+const fileSelected = computed(() => {
+  return !!props.file;
+});
+
+const placeholder = computed(() => {
+  return $t('fu-placeholder');
+});
+
+const dropPlaceholder = computed(() => {
+  return $t('fu-placeholder');
+});
+
+const browseText = computed(() => {
+  return $t('fu-browse-text');
+});
+
+const resetFile = () => {
+  if (!fileSelected.value) {
+    fileInput.value?.reset();
   }
+};
 
-  get accept() {
-    return _.join(this.fileTypes, ', ');
-  }
-
-  get fileSelected() {
-    return !!this.file;
-  }
-
-  get placeholder() {
-    return this.$t('fu-placeholder');
-  }
-
-  get dropPlaceholder() {
-    return this.$t('fu-placeholder');
-  }
-
-  get browseText() {
-    return this.$t('fu-browse-text');
-  }
-
-  resetFile() {
-    if (!this.fileSelected) {
-      (this as any).$refs['file-input'].reset();
-    }
-  }
-}
+// Expose resetFile method for external components to use
+defineExpose({
+  resetFile,
+});
 </script>
 
 <style lang="scss" scoped>
@@ -81,7 +96,7 @@ export default class EpTiedostoInput extends Vue {
       background-color: $gray-lighten-7;
     }
 
-  .custom-file::v-deep{
+  .custom-file:deep() {
     height: 100%;
     flex-direction: column;
     justify-content: center;
@@ -93,7 +108,7 @@ export default class EpTiedostoInput extends Vue {
 
     .custom-file-label {
       width: 100%;
-      background-image: url('~@assets/img/icons/lataus_ikoni.svg');
+      background-image: url('@assets/img/icons/lataus_ikoni.svg');
       background-repeat: no-repeat;
       background-position: left;
       border: 0;

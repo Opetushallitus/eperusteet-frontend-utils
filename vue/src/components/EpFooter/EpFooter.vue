@@ -1,99 +1,115 @@
 <template>
-<footer>
-  <div class="footer-content link-style">
-    <div class="row">
-      <div class="col-lg col-slot">
-        <img src="@assets/img/banners/oph_logo.svg" slot="footer-logo" :alt="$t('oph')" />
-      </div>
-      <div class="col-md col-slot">
-        <p class="linkki-kuvaus">{{ $t('opetushallitus') }}</p>
-        <ep-linkki :url="$kaanna(linkit.oph)" icon="launch"></ep-linkki>
-      </div>
-      <div class="col-md col-slot">
-        <p class="linkki-kuvaus">{{ $t('opintopolku') }}</p>
-        <ep-linkki :url="$kaanna(linkit.opintopolku)" icon="launch"></ep-linkki>
-      </div>
-      <div class="col-md col-slot">
-        <p class="linkki-kuvaus">{{ $t('eperusteet') }}</p>
-        <ep-linkki :url="$kaanna(linkit.eperusteet)" icon="launch"></ep-linkki>
-      </div>
-      <div class="col-md col-slot">
-        <slot name="palaute" />
-        <div class="d-flex link-style" v-if="linkit.tietoapalvelusta">
-          <EpMaterialIcon>chevron_right</EpMaterialIcon>
-          <EpExternalLink :url="$kaanna(linkit.tietoapalvelusta)" :showIcon="false">
-            {{ $t('tietoa-palvelusta') }}
-          </EpExternalLink>
+  <footer>
+    <div class="footer-content link-style">
+      <div class="row">
+        <div class="col-lg col-slot">
+          <img
+            src="@assets/img/banners/oph_logo.svg"
+            :alt="$t('oph')"
+          >
         </div>
-        <div class="d-flex link-style">
-          <EpMaterialIcon>chevron_right</EpMaterialIcon>
-          <EpExternalLink :url="$kaanna(linkit.seloste)" :showIcon="false">
-            {{ $t('tietosuojaseloste') }}
-          </EpExternalLink>
+        <div class="col-md col-slot">
+          <p class="linkki-kuvaus">
+            {{ $t('opetushallitus') }}
+          </p>
+          <ep-linkki
+            :url="$kaanna(linkit.oph)"
+            icon="launch"
+          />
+        </div>
+        <div class="col-md col-slot">
+          <p class="linkki-kuvaus">
+            {{ $t('opintopolku') }}
+          </p>
+          <ep-linkki
+            :url="$kaanna(linkit.opintopolku)"
+            icon="launch"
+          />
+        </div>
+        <div class="col-md col-slot">
+          <p class="linkki-kuvaus">
+            {{ $t('eperusteet') }}
+          </p>
+          <ep-linkki
+            :url="$kaanna(linkit.eperusteet)"
+            icon="launch"
+          />
+        </div>
+        <div class="col-md col-slot">
+          <slot name="palaute" />
+          <div
+            v-if="linkit.tietoapalvelusta"
+            class="d-flex link-style"
+          >
+            <EpMaterialIcon>chevron_right</EpMaterialIcon>
+            <EpExternalLink
+              :url="$kaanna(linkit.tietoapalvelusta)"
+              :show-icon="false"
+            >
+              {{ $t('tietoa-palvelusta') }}
+            </EpExternalLink>
+          </div>
+          <div class="d-flex link-style">
+            <EpMaterialIcon>chevron_right</EpMaterialIcon>
+            <EpExternalLink
+              :url="$kaanna(linkit.seloste)"
+              :show-icon="false"
+            >
+              {{ $t('tietosuojaseloste') }}
+            </EpExternalLink>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</footer>
+  </footer>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-
+<script setup lang="ts">
+import { computed } from 'vue';
 import EpLinkki from '@shared/components/EpLinkki/EpLinkki.vue';
 import EpExternalLink from '../EpExternalLink/EpExternalLink.vue';
-import { TietoapalvelustaStore } from '@shared/stores/TietoapalvelustaStore';
-import { buildEsikatseluUrl, buildKatseluUrl } from '@shared/utils/esikatselu';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import { onMounted } from 'vue';
+import { buildKatseluUrl } from '@shared/utils/esikatselu';
+import { TietoapalvelustaStore } from '@shared/stores/TietoapavelustaStore';
 
-@Component({
-  name: 'EpFooter',
-  components: {
-    EpLinkki,
-  },
-})
-export default class EpFooter extends Vue {
-  private tietoapalvelustaStore = new TietoapalvelustaStore();
+const tietoapalvelustaStore = new TietoapalvelustaStore();
 
-  async mounted() {
-    await this.tietoapalvelustaStore.fetch();
-  }
+onMounted(async () => {
+  await tietoapalvelustaStore.fetch();
+});
 
-  get tietoapalvelusta() {
-    return this.tietoapalvelustaStore.tietoapalvelusta;
-  }
+const tietoapalvelusta = computed(() => {
+  return tietoapalvelustaStore.tietoapalvelusta.value;
+});
 
-  get linkit() {
-    return {
-      oph: {
-        fi: 'https://www.oph.fi/fi',
-        sv: 'https://www.oph.fi/sv',
+const linkit = computed(() => {
+  return {
+    oph: {
+      fi: 'https://www.oph.fi/fi',
+      sv: 'https://www.oph.fi/sv',
+    },
+    opintopolku: {
+      fi: 'https://opintopolku.fi/konfo/fi',
+      sv: 'https://opintopolku.fi/konfo/sv',
+    },
+    eperusteet: {
+      fi: 'https://eperusteet.opintopolku.fi/#/fi',
+      sv: 'https://eperusteet.opintopolku.fi/#/sv',
+    },
+    seloste: {
+      fi: 'https://opintopolku.fi/konfo/fi/sivu/tietosuojaselosteet-ja-evasteet',
+      sv: 'https://opintopolku.fi/konfo/sv/sivu/dataskyddsbeskrivningar-och-webbkakor',
+    },
+    ...(tietoapalvelusta.value && {
+      tietoapalvelusta: {
+        fi: buildKatseluUrl('fi', `/opas/${tietoapalvelusta.value.id}`),
+        sv: buildKatseluUrl('sv', `/opas/${tietoapalvelusta.value.id}`),
+        en: buildKatseluUrl('en', `/opas/${tietoapalvelusta.value.id}`),
       },
-      opintopolku: {
-        fi: 'https://opintopolku.fi/konfo/fi',
-        sv: 'https://opintopolku.fi/konfo/sv',
-      },
-      eperusteet: {
-        fi: 'https://eperusteet.opintopolku.fi/#/fi',
-        sv: 'https://eperusteet.opintopolku.fi/#/sv',
-      },
-      seloste: {
-        fi: 'https://opintopolku.fi/konfo/fi/sivu/tietosuojaselosteet-ja-evasteet',
-        sv: 'https://opintopolku.fi/konfo/sv/sivu/dataskyddsbeskrivningar-och-webbkakor',
-      },
-      ...(this.tietoapalvelusta.value && {
-        tietoapalvelusta: {
-          fi: buildKatseluUrl('fi', `/opas/${this.tietoapalvelusta.value.id}`),
-          sv: buildKatseluUrl('sv', `/opas/${this.tietoapalvelusta.value.id}`),
-          en: buildKatseluUrl('en', `/opas/${this.tietoapalvelusta.value.id}`),
-        },
-      }),
-    };
-  }
-
-  get yhteystiedotMail() {
-    return 'eperusteet@opintopolku.fi';
-  }
-}
+    }),
+  };
+});
 </script>
 
 <style scoped lang="scss">

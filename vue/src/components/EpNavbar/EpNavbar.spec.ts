@@ -1,33 +1,30 @@
-import { mount, createLocalVue, RouterLinkStub } from '@vue/test-utils';
+import { mount, RouterLinkStub } from '@vue/test-utils';
 import EpNavbar from './EpNavbar.vue';
-import Vue from 'vue';
-import BootstrapVue from 'bootstrap-vue';
-import VueRouter from 'vue-router';
-import { Kielet } from '../../stores/kieli';
-import { Kaannos } from '../../plugins/kaannos';
-import VueI18n from 'vue-i18n';
-
-Vue.use(BootstrapVue);
+import { globalStubs } from '@shared/utils/__tests__/stubs';
+import { createPinia, setActivePinia } from 'pinia';
+import { useRouter } from 'vue-router/types/composables';
 
 describe('EpNavbar component', () => {
-  const localVue = createLocalVue();
-  localVue.use(VueI18n);
-  localVue.use(VueRouter);
-  Kielet.install(localVue);
-  localVue.use(new Kaannos());
+  beforeEach(() => {
+    // creates a fresh pinia and makes it active
+    // so it's automatically picked up by any useStore() call
+    // without having to pass it to it: `useStore(pinia)`
+    setActivePinia(createPinia());
+  });
+
+  vi.mock('vue-router', () => (
+    {
+      useRoute: vi.fn(),
+      useRouter: vi.fn(),
+    }));
 
   test('Renders toggle and change changes value', async () => {
     const wrapper = mount(EpNavbar, {
-      localVue,
-      propsData: {
-        kayttaja: null,
+      props: {
+        kayttaja: {},
       },
-      mocks: {
-        $t: x => x,
-      },
-      stubs: {
-        PortalTarget: '<div />',
-        'router-link': RouterLinkStub,
+      global: {
+        ...globalStubs,
       },
     });
 

@@ -1,164 +1,201 @@
 <template>
-<div v-if="valueFormatted">
-  <div class="teksti" v-html="valueFormatted" />
-  <div v-for="(viite, idx) in termitWrapped" :key="idx">
-    <template v-if="viite">
-      <b-popover v-if="viite.el && viite.termi"
-                 :target="viite.el"
-                 triggers="click blur"
-                 placement="bottom"
-                 @shown="termiAriaNakyviin(viite.termi.avain)"
-                 @hidden="termiAriaPiiloon(viite.termi.avain)">
-        <template v-slot:title v-if="viite.termi.selitys">
-          {{ $kaanna(viite.termi.termi) }}
-        </template>
-        <div v-if="!viite.termi.selitys">{{ $kaanna(viite.termi.termi) }}</div>
-        <div v-if="viite.termi.selitys" v-html="$kaanna(viite.termi.selitys)"></div>
-      </b-popover>
-      <div class="sr-only" aria-live="polite">
-        <span v-if="nakyvatTermit.includes(viite.termi.avain)">
-          {{ $kaanna(viite.termi.selitys) }}
-        </span>
-      </div>
-    </template>
+  <div
+    v-if="valueFormatted"
+    ref="contentContainer"
+  >
+    <div
+      class="teksti"
+      v-html="valueFormatted"
+    />
+    <div
+      v-for="(viite, idx) in termitWrapped"
+      :key="idx"
+    >
+      <template v-if="viite">
+        <b-popover
+          v-if="viite.el && viite.termi"
+          :target="viite.el"
+          triggers="click blur"
+          placement="bottom"
+          @shown="termiAriaNakyviin(viite.termi.avain)"
+          @hidden="termiAriaPiiloon(viite.termi.avain)"
+        >
+          <template
+            v-if="viite.termi.selitys"
+            #title
+          >
+            {{ $kaanna(viite.termi.termi) }}
+          </template>
+          <div v-if="!viite.termi.selitys">
+            {{ $kaanna(viite.termi.termi) }}
+          </div>
+          <div
+            v-if="viite.termi.selitys"
+            v-html="$kaanna(viite.termi.selitys)"
+          />
+        </b-popover>
+        <div
+          class="sr-only"
+          aria-live="polite"
+        >
+          <span v-if="nakyvatTermit.includes(viite.termi.avain)">
+            {{ $kaanna(viite.termi.selitys) }}
+          </span>
+        </div>
+      </template>
+    </div>
   </div>
-</div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, computed, watch, nextTick, inject } from 'vue';
 import _ from 'lodash';
-import { Vue, Component, Prop, Watch, InjectReactive } from 'vue-property-decorator';
 import { LiiteDtoWrapper } from '../../tyypit';
 import { Kielet } from '../../stores/kieli';
 import { ILinkkiHandler } from '../EpContent/LinkkiHandler';
-import { RawLocation } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
-@Component
-export default class EpContentViewer extends Vue {
-  @Prop({ required: false, type: String })
-  private value!: string; // Käännetty versio
+const props = defineProps({
+  value: {
+    type: String,
+    required: false,
+  },
+  termit: {
+    type: Array,
+    required: false,
+    default: () => [],
+  },
+  kuvat: {
+    type: Array as () => LiiteDtoWrapper[],
+    required: false,
+    default: () => [],
+  },
+});
 
-  @Prop({ required: false, type: Array })
-  private termit!: any[];
+const contentContainer = ref<HTMLDivElement | null>(null);
+const linkkiHandler = inject<ILinkkiHandler>('linkkiHandler');
 
-  @Prop({ required: false, type: Array })
-  private kuvat!: LiiteDtoWrapper[];
+const termiElements = ref<Element[]>([]);
+const nakyvatTermit = ref<string[]>([]);
 
-  @InjectReactive('linkkiHandler')
-  private linkkiHandler!: ILinkkiHandler;
+const route = useRoute();
+const router = useRouter();
 
-  private termiElements: Element[] = [];
-  private nakyvatTermit: string[] = [];
+const valueFormatted = computed(() => {
+  if (props.value) {
+    const template = document.createElement('template');
+    template.innerHTML = props.value;
 
-  get valueFormatted() {
-    if (this.value) {
-      const template = document.createElement('template');
-      template.innerHTML = this.value;
+    // Taulukot
+    const tables = template.content.querySelectorAll('table');
+    _.each(tables, table => {
+      table.setAttribute('class', 'table table-bordered');
+      const wrapper = document.createElement('div');
+      wrapper.setAttribute('class', 'table-responsive');
+      table.parentNode!.insertBefore(wrapper, table);
+      wrapper.appendChild(table);
+    });
 
-      // Taulukot
-      const tables = template.content.querySelectorAll('table');
-      _.each(tables, table => {
-        table.setAttribute('class', 'table table-bordered');
-        const wrapper = document.createElement('div');
-        wrapper.setAttribute('class', 'table-responsive');
-        table.parentNode!.insertBefore(wrapper, table);
-        wrapper.appendChild(table);
-      });
+    // Kuvat
+    const images = template.content.querySelectorAll('img');
+    _.each(images, img => {
+      // Kääritään figureen
+      const wrapper = document.createElement('figure');
+      if (img.parentNode) {
+        img.parentNode.insertBefore(wrapper, img);
+        wrapper.appendChild(img);
+      }
 
-      // Kuvat
-      const images = template.content.querySelectorAll('img');
-      _.each(images, img => {
-        // Kääritään figureen
-        const wrapper = document.createElement('figure');
-        if (img.parentNode) {
-          img.parentNode.insertBefore(wrapper, img);
-          wrapper.appendChild(img);
+      const datauid = img.getAttribute('data-uid');
+      if (!datauid) {
+        console.error('virheellinen kuva id');
+        return;
+      }
+
+      const kuva = _.find(props.kuvat, { id: datauid }) as LiiteDtoWrapper;
+
+      const toteutussuunnitelmaId = _.get(route, 'params.toteutussuunnitelmaId');
+      const opetussuunnitelmaId = _.get(route, 'params.opetussuunnitelmaId');
+      if (!kuva && toteutussuunnitelmaId) {
+        img.setAttribute('src', `eperusteet-amosaa-service/api/opetussuunnitelmat/${toteutussuunnitelmaId}/kuvat/${datauid}`);
+      }
+      else if (!kuva && opetussuunnitelmaId) {
+        img.setAttribute('src', `eperusteet-ylops-service/api/opetussuunnitelmat/${opetussuunnitelmaId}/kuvat/${datauid}`);
+      }
+      else if (kuva) {
+        img.setAttribute('src', kuva.src);
+        const altteksti = !!img.getAttribute('alt') && img.getAttribute('alt') !== 'undefined' ? img.getAttribute('alt') : '';
+        const kuvateksti = img.getAttribute('figcaption');
+        const figcaption = document.createElement('figcaption');
+        if (!kuvateksti) {
+          figcaption.textContent = altteksti;
+          img.setAttribute('alt', Kielet.t('kuvituskuva'));
+        }
+        else {
+          figcaption.textContent = kuvateksti;
         }
 
-        const datauid = img.getAttribute('data-uid');
-        if (!datauid) {
-          console.error('virheellinen kuva id');
-          return;
-        }
-
-        const kuva = _.find(this.kuvat, { id: datauid }) as LiiteDtoWrapper;
-
-        const toteutussuunnitelmaId = _.get(this.$route, 'params.toteutussuunnitelmaId');
-        const opetussuunnitelmaId = _.get(this.$route, 'params.opetussuunnitelmaId');
-        if (!kuva && toteutussuunnitelmaId) {
-          img.setAttribute('src', `eperusteet-amosaa-service/api/opetussuunnitelmat/${toteutussuunnitelmaId}/kuvat/${datauid}`);
-        }
-        else if (!kuva && opetussuunnitelmaId) {
-          img.setAttribute('src', `eperusteet-ylops-service/api/opetussuunnitelmat/${opetussuunnitelmaId}/kuvat/${datauid}`);
-        }
-        else if (kuva) {
-          img.setAttribute('src', kuva.src);
-          const altteksti = !!img.getAttribute('alt') && img.getAttribute('alt') !== 'undefined' ? img.getAttribute('alt') : '';
-          const kuvateksti = img.getAttribute('figcaption');
-          const figcaption = document.createElement('figcaption');
-          if (!kuvateksti) {
-            figcaption.textContent = altteksti;
-            img.setAttribute('alt', this.$t('kuvituskuva') as string);
-          }
-          else {
-            figcaption.textContent = kuvateksti;
-          }
-
-          if (figcaption.textContent) {
-            wrapper.appendChild(figcaption);
-          }
-        }
-      });
-
-      // Linkit
-      const links = template.content.querySelectorAll('a');
-      _.each(links, link => {
-        const href = link.getAttribute('href');
-        // Jos ulkoinen linkki
-        if (href && href.charAt(0) !== '#') {
-          link.setAttribute('target', '_blank');
-          link.setAttribute('rel', 'noopener noreferrer');
-        }
-
-        const routeNode = link.getAttribute('routenode');
-        if (routeNode && this.linkkiHandler) {
-          const newLocation = this.$router.resolve(this.linkkiHandler.nodeToRoute(JSON.parse(routeNode)) as RawLocation);
-          if (newLocation) {
-            link.setAttribute('href', newLocation.href);
-            link.removeAttribute('target');
-            link.removeAttribute('rel');
-          }
-        }
-      });
-
-      return template.innerHTML;
-    }
-  }
-
-  get termitWrapped() {
-    return _.map(this.termiElements, el => {
-      const dataviite = el.getAttribute('data-viite');
-      if (dataviite) {
-        const termi: any = _.find(this.termit, { 'avain': dataviite });
-        if (termi) {
-          el.setAttribute('title', Kielet.kaanna(termi.termi));
-          el.setAttribute('aria-label', Kielet.kaanna(termi.termi));
-          return {
-            el,
-            termi,
-          };
+        if (figcaption.textContent) {
+          wrapper.appendChild(figcaption);
         }
       }
     });
-  }
 
-  @Watch('valueFormatted', { immediate: true })
-  async onValueChanged(newVal) {
-    await this.$nextTick(); // Odotetaan DOM-elementtien rendausta
-    if (newVal) {
-      // Termit
-      this.termiElements = [];
-      const abbrs = this.$el.querySelectorAll('abbr');
+    // Linkit
+    const links = template.content.querySelectorAll('a');
+    _.each(links, link => {
+      const href = link.getAttribute('href');
+      // Jos ulkoinen linkki
+      if (href && href.charAt(0) !== '#') {
+        link.setAttribute('target', '_blank');
+        link.setAttribute('rel', 'noopener noreferrer');
+      }
+
+      const routeNode = link.getAttribute('routenode');
+      if (routeNode && linkkiHandler) {
+        const newLocation = router.resolve(linkkiHandler.nodeToRoute(JSON.parse(routeNode)));
+        if (newLocation) {
+          link.setAttribute('href', newLocation.href);
+          link.removeAttribute('target');
+          link.removeAttribute('rel');
+        }
+      }
+    });
+
+    return template.innerHTML;
+  }
+  return '';
+});
+
+const termitWrapped = computed(() => {
+  return _.map(termiElements.value, el => {
+    const dataviite = el.getAttribute('data-viite');
+    if (dataviite) {
+      const termi: any = _.find(props.termit, { 'avain': dataviite });
+      if (termi) {
+        el.setAttribute('title', Kielet.kaanna(termi.termi));
+        el.setAttribute('aria-label', Kielet.kaanna(termi.termi));
+        return {
+          el,
+          termi,
+        };
+      }
+    }
+    return null;
+  });
+});
+
+// Watch for valueFormatted changes
+watch(valueFormatted, async (newVal) => {
+  await nextTick(); // Wait for initial DOM updates'
+  if (newVal && contentContainer.value) {
+    // Termit
+    termiElements.value = [];
+
+    // Find abbr elements within the component's content
+    const abbrs = contentContainer.value.querySelectorAll('abbr');
+
+    if (abbrs && abbrs.length) {
       _.each(abbrs, abbr => {
         const termi = document.createElement('a');
         termi.setAttribute('class', 'termi');
@@ -166,19 +203,19 @@ export default class EpContentViewer extends Vue {
         termi.setAttribute('data-viite', abbr.getAttribute('data-viite') || '');
         termi.textContent = abbr.textContent;
         abbr.parentNode!.replaceChild(termi, abbr);
-        this.termiElements.push(termi);
+        termiElements.value.push(termi);
       });
     }
   }
+}, { immediate: true });
 
-  termiAriaNakyviin(termiAvain) {
-    this.nakyvatTermit.push(termiAvain);
-  }
+const termiAriaNakyviin = (termiAvain) => {
+  nakyvatTermit.value.push(termiAvain);
+};
 
-  termiAriaPiiloon(termiAvain) {
-    this.nakyvatTermit = _.filter(this.nakyvatTermit, t => t !== termiAvain);
-  }
-}
+const termiAriaPiiloon = (termiAvain) => {
+  nakyvatTermit.value = _.filter(nakyvatTermit.value, t => t !== termiAvain);
+};
 </script>
 
 <style lang="scss" scoped>
@@ -189,7 +226,7 @@ export default class EpContentViewer extends Vue {
   @include teksti-sisalto;
 }
 
-::v-deep .termi {
+:deep(.termi) {
   text-decoration: dotted underline;
   border: 0;
   background: none;

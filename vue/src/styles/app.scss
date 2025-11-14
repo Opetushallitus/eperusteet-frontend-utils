@@ -33,7 +33,7 @@ img.content-image {
     }
   }
 
-  ::v-deep a {
+  :deep(a) {
     &:hover {
       text-decoration: none;
     }
@@ -118,6 +118,10 @@ img.content-image {
     padding: 0;
   }
 
+  .w-10 {
+    width: 10% !important;
+  }
+
   .w-40 {
     width: 40% !important;
   }
@@ -169,7 +173,7 @@ img.content-image {
 .vue-notification-wrapper {
   .vue-notification {
     &.error {
-      background-image: url('~@assets/img/icons/info-white.svg');
+      background-image: url('@assets/img/icons/info-white.svg');
       padding-left: 35px;
       background-repeat:no-repeat;
       background-position: 5px 10px;

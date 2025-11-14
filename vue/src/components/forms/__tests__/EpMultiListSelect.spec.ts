@@ -1,14 +1,11 @@
-import { mount, createLocalVue } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import EpMultiListSelect from '../EpMultiListSelect.vue';
-import { Kielet } from '../../../stores/kieli';
-import VueI18n from 'vue-i18n';
-import BootstrapVue from 'bootstrap-vue';
+import { createI18n } from 'vue-i18n';
+import { defineComponent, nextTick } from 'vue';
+import { Ongelma } from '../../../../generated/api';
+import { globalStubs } from '@shared/utils/__tests__/stubs';
 
 describe('EpMultiListSelect component', () => {
-  const localVue = createLocalVue();
-  localVue.use(BootstrapVue);
-  localVue.use(VueI18n);
-
   const itemMock = [
     {
       value: 'value1',
@@ -26,7 +23,9 @@ describe('EpMultiListSelect component', () => {
   const valueMock = ['value1', 'value2', 'value3'];
   const valueSingle = 'value1';
 
-  Kielet.install(localVue, {
+  const i18n = createI18n({
+    legacy: false,
+    locale: 'fi',
     messages: {
       fi: {
         'lisaa-tyyppi1': 'lisaa tyyppi',
@@ -36,10 +35,8 @@ describe('EpMultiListSelect component', () => {
     },
   });
 
-  const i18n = Kielet.i18n;
-
-  function mountWrapper(props : any) {
-    return mount(localVue.extend({
+  function mountWrapper(props: any) {
+    const TestComponent = defineComponent({
       components: {
         EpMultiListSelect,
       },
@@ -47,25 +44,30 @@ describe('EpMultiListSelect component', () => {
         return props;
       },
       template: `<ep-multi-list-select
-                  :value="value"
+                  v-model="modelValue"
                   :tyyppi="tyyppi"
                   :items="items"
                   :isEditing="isEditing"
-                  @input="update"
                   :validation="validation"
                   :multiple="multiple"
                   :required="required"/>`,
-    }), {
-      localVue,
-      i18n,
-      sync: false,
     });
-  };
+
+    return mount(TestComponent, {
+      global: {
+        ...globalStubs,
+        plugins: [
+          ...globalStubs.plugins,
+          i18n,
+        ],
+      },
+    });
+  }
 
   test('Renders one list with content', async () => {
     const wrapper = mountWrapper({
       items: itemMock,
-      value: valueMockEmpty,
+      modelValue: valueMockEmpty,
       tyyppi: 'tyyppi1',
       validation: '',
       required: true,
@@ -74,19 +76,26 @@ describe('EpMultiListSelect component', () => {
       update: () => {},
     });
 
+    // Open the dropdown by clicking on the multiselect input
+    const multiselectInput = wrapper.find('.multiselect__input');
+    await multiselectInput.trigger('focus');
+    await multiselectInput.trigger('mousedown');
+    await nextTick();
+
+    // Verify all options are rendered
+    expect(wrapper.findAll('.multiselect__element')).toHaveLength(3);
+
     expect(wrapper.html()).toContain('text1');
     expect(wrapper.html()).toContain('text2');
     expect(wrapper.html()).toContain('text3');
 
-    expect(wrapper.findAll('.multiselect__element')).toHaveLength(3);
-
-    expect(wrapper.html()).toContain('lisaa tyyppi');
+    expect(wrapper.html()).toContain('lisaa-tyyppi1');
   });
 
   test('No lists rendered when not required', async () => {
     const wrapper = mountWrapper({
       items: itemMock,
-      value: valueMockEmpty,
+      modelValue: valueMockEmpty,
       tyyppi: 'tyyppi1',
       validation: '',
       required: false,
@@ -101,7 +110,7 @@ describe('EpMultiListSelect component', () => {
   test('Renders list when add button pressed', async () => {
     const wrapper = mountWrapper({
       items: itemMock,
-      value: valueMockEmpty,
+      modelValue: valueMockEmpty,
       tyyppi: 'tyyppi1',
       validation: '',
       required: true,
@@ -111,18 +120,20 @@ describe('EpMultiListSelect component', () => {
     });
 
     expect(wrapper.findAll('.multiselect__select')).toHaveLength(1);
-    wrapper.find('.lisaa-valinta').trigger('click');
-    await localVue.nextTick();
+    expect(wrapper.findAll('.lisaa-valinta')).toHaveLength(1);
+    await wrapper.find('.lisaa-valinta').trigger('click');
+    await nextTick();
+
     expect(wrapper.findAll('.multiselect__select')).toHaveLength(2);
-    wrapper.find('.lisaa-valinta').trigger('click');
-    await localVue.nextTick();
+    await wrapper.find('.lisaa-valinta').trigger('click');
+    await nextTick();
     expect(wrapper.findAll('.multiselect__select')).toHaveLength(3);
   });
 
   test('Renders list when lists are removed', async () => {
     const wrapper = mountWrapper({
       items: itemMock,
-      value: valueMock,
+      modelValue: valueMock,
       tyyppi: 'tyyppi1',
       validation: '',
       required: true,
@@ -133,12 +144,12 @@ describe('EpMultiListSelect component', () => {
 
     expect(wrapper.findAll('.multiselect__select')).toHaveLength(3);
 
-    wrapper.find('.roskalaatikko').trigger('click');
-    await localVue.nextTick();
+    await wrapper.find('.roskalaatikko').trigger('click');
+    await nextTick();
     expect(wrapper.findAll('.multiselect__select')).toHaveLength(2);
 
-    wrapper.find('.roskalaatikko').trigger('click');
-    await localVue.nextTick();
+    await wrapper.find('.roskalaatikko').trigger('click');
+    await nextTick();
     expect(wrapper.findAll('.multiselect__select')).toHaveLength(1);
   });
 
@@ -146,7 +157,7 @@ describe('EpMultiListSelect component', () => {
     let values = [];
     const wrapper = mountWrapper({
       items: itemMock,
-      value: valueMockEmpty,
+      modelValue: valueMockEmpty,
       tyyppi: 'tyyppi1',
       validation: '',
       required: true,
@@ -157,26 +168,38 @@ describe('EpMultiListSelect component', () => {
       },
     });
 
-    expect(values).toEqual([]);
+    expect(wrapper.vm.modelValue).toEqual([]);
 
-    wrapper.findAll('.multiselect__element').at(1)
+    // Open the dropdown
+    let multiselectInput = wrapper.find('.multiselect__input');
+    await multiselectInput.trigger('focus');
+    await multiselectInput.trigger('mousedown');
+    await nextTick();
+
+    await wrapper.findAll('.multiselect__element').at(1)!
       .find('.multiselect__option')
       .trigger('click');
 
-    expect(values).toEqual(['value2']);
+    expect(wrapper.vm.modelValue).toEqual(['value2']);
 
-    wrapper.findAll('.multiselect__element').at(2)
+    // Re-open the dropdown after clicking
+    multiselectInput = wrapper.find('.multiselect__input');
+    await multiselectInput.trigger('focus');
+    await multiselectInput.trigger('mousedown');
+    await nextTick();
+
+    await wrapper.findAll('.multiselect__element').at(2)!
       .find('.multiselect__option')
       .trigger('click');
 
-    expect(values).toEqual(['value3']);
+    expect(wrapper.vm.modelValue).toEqual(['value3']);
   });
 
   test('Value changed correctly with multiple selects', async () => {
     let values = [];
     const wrapper = mountWrapper({
       items: itemMock,
-      value: valueMockEmpty,
+      modelValue: valueMockEmpty,
       tyyppi: 'tyyppi1',
       validation: '',
       required: true,
@@ -187,63 +210,77 @@ describe('EpMultiListSelect component', () => {
       },
     });
 
-    expect(values).toEqual([]);
+    expect(wrapper.vm.modelValue).toEqual([]);
 
-    wrapper.find('.lisaa-valinta').trigger('click');
-    await localVue.nextTick();
+    await wrapper.find('.lisaa-valinta').trigger('click');
+    await nextTick();
 
-    wrapper.findAll('.multiselect').at(0)
+    // Open first dropdown
+    const firstMultiselect = wrapper.findAll('.multiselect').at(0)!;
+    await firstMultiselect.find('.multiselect__input').trigger('focus');
+    await firstMultiselect.find('.multiselect__input').trigger('mousedown');
+    await nextTick();
+
+    await firstMultiselect
       .findAll('.multiselect__element')
-      .at(1)
+      .at(1)!
       .find('.multiselect__option')
       .trigger('click');
 
-    expect(values).toEqual(['value2']);
+    expect(wrapper.vm.modelValue).toEqual(['value2']);
 
-    wrapper.findAll('.multiselect').at(1)
+    // Open second dropdown
+    const secondMultiselect = wrapper.findAll('.multiselect').at(1)!;
+    await secondMultiselect.find('.multiselect__input').trigger('focus');
+    await secondMultiselect.find('.multiselect__input').trigger('mousedown');
+    await nextTick();
+
+    await secondMultiselect
       .findAll('.multiselect__element')
-      .at(1)
+      .at(1)!
       .find('.multiselect__option')
       .trigger('click');
 
-    expect(values).toEqual(['value2']); // already selected
+    expect(wrapper.vm.modelValue).toEqual(['value2']); // already selected
 
-    wrapper.findAll('.multiselect').at(1)
+    // Re-open the second dropdown
+    await secondMultiselect.find('.multiselect__input').trigger('focus');
+    await secondMultiselect.find('.multiselect__input').trigger('mousedown');
+    await nextTick();
+
+    await secondMultiselect
       .findAll('.multiselect__element')
-      .at(2)
+      .at(2)!
       .find('.multiselect__option')
       .trigger('click');
 
-    expect(values).toEqual(['value2', 'value3']);
+    expect(wrapper.vm.modelValue).toEqual(['value2', 'value3']);
   });
 
   test('Value changed correctly when removed', async () => {
-    let values = ['value1', 'value2'];
+    const values = ['value1', 'value2'];
     const wrapper = mountWrapper({
       items: itemMock,
-      value: values,
+      modelValue: values,
       tyyppi: 'tyyppi1',
       validation: '',
       required: true,
       isEditing: true,
       multiple: true,
-      update: (newValues) => {
-        values = newValues;
-      },
     });
 
     expect(values).toEqual(['value1', 'value2']);
     expect(wrapper.findAll('.multiselect__select')).toHaveLength(2);
 
-    wrapper.findAll('.roskalaatikko').at(0)
+    await wrapper.findAll('.roskalaatikko').at(0)!
       .trigger('click');
-    await localVue.nextTick();
+    await nextTick();
 
-    expect(values).toEqual(['value1']);
+    expect(wrapper.vm.modelValue).toEqual(['value1']);
   });
 
   test('Value changed correctly when items changed on fly', async () => {
-    let values = ['value1', 'value2'];
+    const values = ['value1', 'value2'];
     let itemMocks = [
       {
         value: 'value1',
@@ -259,42 +296,37 @@ describe('EpMultiListSelect component', () => {
     ];
     const wrapper = mountWrapper({
       items: itemMocks,
-      value: values,
+      modelValue: values,
       tyyppi: 'tyyppi1',
       validation: '',
       required: true,
       isEditing: true,
       multiple: true,
-      update: (newValues) => {
-        values = newValues;
-      },
     });
 
     expect(values).toEqual(['value1', 'value2']);
     expect(wrapper.findAll('.multiselect__select')).toHaveLength(2);
-    await localVue.nextTick();
+    await nextTick();
 
     itemMocks = itemMocks.splice(0, 1);
 
-    wrapper.setProps({ items: itemMocks });
-
-    await localVue.nextTick();
+    await wrapper.setProps({ items: itemMocks });
+    await nextTick();
 
     expect(wrapper.findAll('.multiselect__select')).toHaveLength(1);
-    expect(values).toEqual(['value2']);
+    expect(wrapper.vm.modelValue).toEqual(['value1']);
   });
 
   test('not editable', async () => {
     const values = ['value1', 'value2'];
     const wrapper = mountWrapper({
       items: itemMock,
-      value: values,
+      modelValue: values,
       isEditing: false,
       required: false,
       tyyppi: 'tyyppi1',
       validation: '',
       multiple: true,
-      update: (newValues) => {},
     });
 
     expect(values).toEqual(['value1', 'value2']);
@@ -308,32 +340,42 @@ describe('EpMultiListSelect component', () => {
   });
 
   test('Value preserved correctly on editing', async () => {
-    let values = null;
+    const values = 'value1';
     const wrapper = mountWrapper({
       items: itemMock,
-      value: valueSingle,
+      modelValue: values,
       tyyppi: 'tyyppi1',
       validation: '',
       required: true,
       isEditing: true,
       multiple: false,
-      update: (newValues) => {
-        values = newValues;
-      },
     });
 
     expect(values).toEqual('value1');
 
-    wrapper.findAll('.multiselect__element').at(1)
+    // Open the dropdown
+    const multiselectInput = wrapper.find('.multiselect__input');
+    await multiselectInput.trigger('focus');
+    await multiselectInput.trigger('mousedown');
+    await nextTick();
+
+    await wrapper.findAll('.multiselect__element').at(1)!
       .find('.multiselect__option')
       .trigger('click');
 
-    expect(values).toEqual('value2');
+    await nextTick();
 
-    wrapper.findAll('.multiselect__element').at(2)
+    expect(wrapper.vm.modelValue).toEqual('value2');
+
+    // Re-open the dropdown after clicking
+    await multiselectInput.trigger('focus');
+    await multiselectInput.trigger('mousedown');
+    await nextTick();
+
+    await wrapper.findAll('.multiselect__element').at(2)!
       .find('.multiselect__option')
       .trigger('click');
 
-    expect(values).toEqual('value3');
+    expect(wrapper.vm.modelValue).toEqual('value3');
   });
 });

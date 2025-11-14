@@ -27,7 +27,7 @@ const PillWarning = pillRight('#fff7bc');
 const PillInfo = pillRight('#def2ff');
 
 abstract class Logger<T> {
-  // eslint-disable-next-line
+   
   public constructor(protected readonly name: string) { }
   public abstract error(...args: any[]): void;
   public abstract info(...args: any[]): void;
@@ -37,7 +37,7 @@ abstract class Logger<T> {
   public abstract log(...args: any[]): void;
 
   protected impl(method: string, style: string, ...args: any[]) {
-    // eslint-disable-next-line no-console
+     
     (console as any)[method](`%c${this.name}%c${method}`, PillStyle, style, '»',
       ...args);
   }
@@ -67,10 +67,10 @@ class ProdLogger<T> extends Logger<T> {
     super(name);
   }
 
-  // eslint-disable-next-line no-console
+   
   public error = (...args: any[]) => console.error(...args);
 
-  // eslint-disable-next-line no-console
+   
   public warn = (...args: any[]) => console.warn(...args);
 }
 
@@ -78,7 +78,7 @@ type Loggable<T> = new(...args: any[]) => T;
 
 export function createLogger<T>(t: Loggable<T> | string) {
   const target = _.isString(t) ? t : (t as any).name;
-  if (process.env.NODE_ENV === 'development') {
+  if (import.meta.env.NODE_ENV === 'development') {
     return new DevLogger<T>(target);
   }
   else {

@@ -3,7 +3,6 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "esModuleInterop": true,
-    "experimentalDecorators": true,
     "importHelpers": true,
     "jsx": "preserve",
     "module": "esnext",
@@ -13,17 +12,13 @@
     "sourceMap": true,
     "strict": true,
     "strictPropertyInitialization": true,
-    "suppressImplicitAnyIndexErrors": true,
     "target": "es6",
-    "types": [
-      "webpack-env",
-      "jest"
-    ],
+    "types": ["vitest/globals", "vitest/jsdom"],
     "paths": {
       "@shared/*": ["src/*"],
       "@assets/*": ["public/*"],
       "@/*": ["src/*"],
-      "&/*": ["tests/*"]
+      "&/*": ["tests/*"],
     },
     "lib": [
       "esnext",
@@ -31,13 +26,15 @@
       "dom",
       "dom.iterable",
       "scripthost"
-    ]
+    ],
+    "resolveJsonModule": true,
   },
   "include": [
     "src/**/*.ts.d",
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
+    "src/*.d.ts",
     "tests/integration/**/*.ts",
     "tests/integration/**/*.tsx",
   ],

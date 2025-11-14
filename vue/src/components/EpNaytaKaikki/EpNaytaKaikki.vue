@@ -1,46 +1,57 @@
 <template>
   <div>
-    <div class="row" :class="striped ? 'striped' : ''" v-for="(modelObject, index) in model" :key="'item'+index">
-      <slot :data="modelObject" :index="index"></slot>
+    <div
+      v-for="(modelObject, index) in model"
+      :key="'item'+index"
+      class="row"
+      :class="striped ? 'striped' : ''"
+    >
+      <slot
+        :data="modelObject"
+        :index="index"
+      />
     </div>
-    <div v-if="totalListLength > collapsedSize"
-         @click="toggleNaytaKaikki()"
-         class="nayta-btn">
-      <span v-html="naytaKaikki ? $t('nayta-vahemman') : $t('nayta-kaikki')"></span>
+    <div
+      v-if="totalListLength > collapsedSize"
+      class="nayta-btn"
+      @click="toggleNaytaKaikki()"
+    >
+      <span v-html="naytaKaikki ? $t('nayta-vahemman') : $t('nayta-kaikki')" />
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { ref, computed } from 'vue';
 
-@Component({
-  components: {},
-})
-export default class EpNaytaKaikki extends Vue {
-  @Prop({ required: true })
-  private value!: any[];
+const props = defineProps({
+  value: {
+    type: Array,
+    required: true,
+  },
+  collapsedSize: {
+    type: Number,
+    default: 3,
+  },
+  striped: {
+    type: Boolean,
+    default: false,
+  },
+});
 
-  @Prop({ required: false, default: 3 })
-  private collapsedSize!: number;
+const naytaKaikki = ref(false);
 
-  @Prop({ required: false, default: false, type: Boolean })
-  private striped!: boolean;
+const model = computed(() => {
+  return naytaKaikki.value ? props.value : props.value.slice(0, props.collapsedSize);
+});
 
-  private naytaKaikki: boolean = false;
+const totalListLength = computed(() => {
+  return props.value.length;
+});
 
-  get model() {
-    return this.naytaKaikki ? this.value : this.value.slice(0, this.collapsedSize);
-  }
-
-  get totalListLength() {
-    return this.value.length;
-  }
-
-  toggleNaytaKaikki() {
-    this.naytaKaikki = !this.naytaKaikki;
-  }
-}
+const toggleNaytaKaikki = () => {
+  naytaKaikki.value = !naytaKaikki.value;
+};
 </script>
 
 <style scoped lang="scss">

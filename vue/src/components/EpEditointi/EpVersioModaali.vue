@@ -1,122 +1,136 @@
 <template>
-<div v-b-modal.epversiomodaali>
-  <slot>{{ $t('muokkaushistoria') }}</slot>
-  <b-modal id="epversiomodaali"
-           ref="epversiomodaali"
-           size="lg"
-           :title="$t('historia')"
-           :hide-footer="true">
-    <b-table responsive
-             striped
-             :items="versionsFormatted"
-             :fields="fields"
-             :per-page="perPage"
-             :current-page="currentPage">
-      <template v-slot:cell(actions)="row">
-        <div class="float-right">
-          <div v-if="!row.item.valittu">
-            <ep-button variant="link"
-                       icon="visibility"
-                       @click="changeVersion(row.item.index)">
-              {{ $t('katsele') }}
-            </ep-button>
-            <ep-button variant="link"
-                       icon="keyboard_return"
-                       @click="$emit('restore', { numero: row.item.numero, modal: $refs['epversiomodaali'] })">
-              {{ $t('palauta') }}
+  <div v-b-modal.epversiomodaali>
+    <slot>{{ $t('muokkaushistoria') }}</slot>
+    <b-modal
+      id="epversiomodaali"
+      ref="epversiomodaali"
+      size="lg"
+      :title="$t('historia')"
+      :hide-footer="true"
+    >
+      <b-table
+        responsive
+        striped
+        :items="versionsFormatted"
+        :fields="fields"
+        :per-page="perPage"
+        :current-page="currentPage"
+      >
+        <template #cell(actions)="row">
+          <div class="float-right">
+            <div v-if="!row.item.valittu">
+              <ep-button
+                variant="link"
+                icon="visibility"
+                @click="changeVersion(row.item.index)"
+              >
+                {{ $t('katsele') }}
+              </ep-button>
+              <ep-button
+                variant="link"
+                icon="keyboard_return"
+                @click="$emit('restore', { numero: row.item.numero, modal: epversiomodaali })"
+              >
+                {{ $t('palauta') }}
+              </ep-button>
+            </div>
+            <ep-button
+              v-else
+              variant="link"
+              disabled
+            >
+              {{ $t('valittu-versio') }}
             </ep-button>
           </div>
-          <ep-button v-else
-                     variant="link"
-                     disabled>
-            {{ $t('valittu-versio') }}
-          </ep-button>
-        </div>
-      </template>
-    </b-table>
-    <b-pagination
-      v-model="currentPage"
-      :total-rows="rows"
-      :per-page="perPage"
-      align="center"
-      aria-controls="epversiomodaali"></b-pagination>
-  </b-modal>
-</div>
+        </template>
+      </b-table>
+      <ep-pagination
+        v-model="currentPage"
+        :total-rows="rows"
+        :per-page="perPage"
+        align="center"
+        aria-controls="epversiomodaali"
+      />
+    </b-modal>
+  </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import _ from 'lodash';
-import { Prop, Component, Mixins } from 'vue-property-decorator';
+import { ref, computed, useTemplateRef } from 'vue';
+import { useRouter } from 'vue-router';
 import { Revision } from '../../tyypit';
 import EpButton from '../../components/EpButton/EpButton.vue';
 import EpFormContent from '../../components/forms/EpFormContent.vue';
-import EpValidation from '../../mixins/EpValidation';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
+import EpPagination from '@shared/components/EpPagination/EpPagination.vue';
+import { $sdt, $t } from '@shared/utils/globals';
 
-@Component({
-  components: {
-    EpButton,
-    EpFormContent,
+const props = defineProps({
+  versions: {
+    type: Array as () => Revision[],
+    required: true,
   },
-})
-export default class EpVersioModaali extends Mixins(EpValidation) {
-  @Prop({ required: true })
-  private versions!: Revision[];
+  current: {
+    type: Object,
+    required: true,
+  },
+  perPage: {
+    type: Number,
+    default: 5,
+  },
+});
 
-  @Prop({ required: true })
-  private current!: any;
+const emit = defineEmits(['restore']);
 
-  @Prop({ required: true })
-  private value!: number;
+const currentPage = ref(1);
+const epversiomodaali = useTemplateRef('epversiomodaali');
+const router = useRouter();
 
-  private currentPage = 1;
+const fields = computed(() => {
+  return [{
+    key: 'index',
+    label: $t('versio'),
+  }, {
+    key: 'ajankohta',
+    label: $t('ajankohta'),
+    formatter: (value) => $sdt(value),
+  }, {
+    key: 'muokkaaja',
+    label: $t('muokkaaja'),
+  }, {
+    key: 'actions',
+    label: $t(''),
+  }];
+});
 
-  @Prop({ default: 5 })
-  private perPage!: number;
+const currentIndex = computed(() => {
+  return _.findIndex(props.versions, props.current);
+});
 
-  get fields() {
-    return [{
-      key: 'index',
-      label: this.$t('versio'),
-    }, {
-      key: 'ajankohta',
-      label: this.$t('ajankohta'),
-    }, {
-      key: 'muokkaaja',
-      label: this.$t('muokkaaja'),
-    }, {
-      key: 'actions',
-      label: '',
-    }];
+const versionsFormatted = computed(() => {
+  const versions = _.map(props.versions, (rev) => ({
+    ...rev,
+    muokkaaja: parsiEsitysnimi(rev.kayttajanTieto) || parsiEsitysnimi(rev),
+    ajankohta: rev.pvm ? rev.pvm : '-', // Note: $sdt formatter needs to be handled differently
+    kommentti: rev.kommentti || '-',
+    valittu: false,
+  }));
+
+  if (versions.length > 0) {
+    versions[currentIndex.value].valittu = true;
   }
 
-  get currentIndex() {
-    return _.findIndex(this.versions, this.current);
-  }
+  return versions;
+});
 
-  get versionsFormatted() {
-    const versions = _.map(this.versions, (rev) => ({
-      ...rev,
-      muokkaaja: parsiEsitysnimi(rev.kayttajanTieto) || parsiEsitysnimi(rev),
-      ajankohta: rev.pvm ? (this as any).$sdt(rev.pvm) : '-',
-      kommentti: rev.kommentti || '-',
-      valittu: false,
-    }));
-    if (versions.length > 0) {
-      versions[this.currentIndex].valittu = true;
-    }
-    return versions;
-  }
+const rows = computed(() => {
+  return versionsFormatted.value.length;
+});
 
-  changeVersion(versionumero) {
-    this.$router.push({ query: { versionumero } }).catch(() => {});
-  };
-
-  get rows() {
-    return this.versionsFormatted.length;
-  }
-}
-
+const changeVersion = (versionumero) => {
+  router.push({ query: { versionumero } }).catch(() => {});
+};
 </script>
 
 <style scoped lang="scss">

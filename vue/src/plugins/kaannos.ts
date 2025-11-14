@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import { App } from 'vue';
 import { createLogger } from '../utils/logger';
 import { Kielet } from '../stores/kieli';
 import * as _ from 'lodash';
@@ -6,8 +6,8 @@ import { unescapeStringHtml } from '@shared/utils/inputs';
 
 const logger = createLogger('Kaannos');
 
-declare module 'vue/types/vue' {
-  interface Vue {
+declare module '@vue/runtime-core' {
+  interface ComponentCustomProperties {
     $suodatin: (query: string) => <T extends object>(value: T) => string;
     $filterBy: (field: string, query: string) => <T extends object>(value: T) => boolean;
     $kaanna: <T extends object>(value?: T, emptyWhenNotFound?: boolean, squareBrackets?: boolean, forcedLang?: string) => string;
@@ -17,26 +17,26 @@ declare module 'vue/types/vue' {
 }
 
 export class Kaannos {
-  public install(vue: typeof Vue, options) {
+  public install(app: App, options?: any) {
     // Sisällön kääntäminen
-    vue.prototype.$suodatin = (str: string) => Kielet.searchFn(str);
+    app.config.globalProperties.$suodatin = (str: string) => (value: any) => this.handleUnescaping(Kielet.searchFn(str)(value));
 
-    vue.prototype.$filterBy = function(field: string, query: string) {
+    app.config.globalProperties.$filterBy = function(field: string, query: string) {
       return Kielet.filterBy(field, query);
     };
 
-    vue.prototype.$kaanna = (value?: any, emptyWhenNotFound = false, squareBrackets = true, forcedLang = null) => {
+    app.config.globalProperties.$kaanna = (value?: any, emptyWhenNotFound = false, squareBrackets = true, forcedLang = null) => {
       return this.handleUnescaping(Kielet.kaanna(value, emptyWhenNotFound, _.has(options, 'squareBrackets') ? options.squareBrackets : squareBrackets, forcedLang));
     };
 
-    vue.prototype.$kaannaOlioTaiTeksti = (value: any, emptyWhenNotFound = false, squareBrackets = true) => {
+    app.config.globalProperties.$kaannaOlioTaiTeksti = (value: any, emptyWhenNotFound = false, squareBrackets = true) => {
       return this.handleUnescaping(Kielet.kaannaOlioTaiTeksti(
         value,
         _.has(options, 'emptyWhenNotFound') ? options.emptyWhenNotFound : emptyWhenNotFound,
         _.has(options, 'squareBrackets') ? options.squareBrackets : squareBrackets));
     };
 
-    vue.prototype.$kaannaPlaceholder = (value?: any, squareBrackets = false) => {
+    app.config.globalProperties.$kaannaPlaceholder = (value?: any, squareBrackets = false) => {
       return this.handleUnescaping(Kielet.kaannaPlaceholder(value, squareBrackets));
     };
   }
@@ -47,4 +47,5 @@ export class Kaannos {
   }
 }
 
-export default new Kaannos();
+const kaannos = new Kaannos();
+export default kaannos;

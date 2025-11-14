@@ -2,7 +2,9 @@
   <div class="subview">
     <div class="top d-flex align-items-center">
       <slot name="header">
-        <h2 class="header">{{ header }}</h2>
+        <h2 class="header">
+          {{ header }}
+        </h2>
       </slot>
     </div>
     <div class="content">
@@ -11,16 +13,13 @@
   </div>
 </template>
 
-<script lang="ts">
-import _ from 'lodash';
-import { Component, Watch, Prop, Vue } from 'vue-property-decorator';
-
-@Component
-export default class EpSubview extends Vue {
-  @Prop({ required: false })
-  private header!: string;
-}
-
+<script setup lang="ts">
+const props = defineProps({
+  header: {
+    type: String,
+    required: false,
+  },
+});
 </script>
 
 <style lang="scss" scoped>

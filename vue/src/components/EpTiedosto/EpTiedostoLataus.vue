@@ -1,15 +1,25 @@
 <template>
   <div>
-    <EpTiedostoInput @input="onInput"
-                     :file-types="fileTypes"
-                     :file="file"
-                     ref="fileInput">
+    <EpTiedostoInput
+      ref="fileInput"
+      :file-types="fileTypes"
+      :file="file"
+      @input="onInput"
+    >
       <slot>
-        <div v-if="file" class="pl-2 d-inline-block">
+        <div
+          v-if="file"
+          class="pl-2 d-inline-block"
+        >
           <div>{{ $t('valittu-tiedosto') }}: {{ file ? file.name : '' }}</div>
           <div class="text-right pl-2 pt-4">
-            <ep-button @click="cancel" class="pl-5">
-              <slot name="peruuta">{{ $t('peruuta') }}</slot>
+            <ep-button
+              class="pl-5"
+              @click="cancel"
+            >
+              <slot name="peruuta">
+                {{ $t('peruuta') }}
+              </slot>
             </ep-button>
           </div>
         </div>
@@ -18,11 +28,12 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, useTemplateRef, getCurrentInstance } from 'vue';
 import EpButton from '../EpButton/EpButton.vue';
 import _ from 'lodash';
 import EpTiedostoInput from '@shared/components/EpTiedosto/EpTiedostoInput.vue';
+import { $t, $fail } from '@shared/utils/globals';
 
 export interface FileData {
   file: File;
@@ -30,89 +41,98 @@ export interface FileData {
   content?: string;
 }
 
-@Component({
-  components: {
-    EpButton,
-    EpTiedostoInput,
+const props = defineProps({
+  modelValue: {
+    type: Object as () => FileData | null,
+    default: null,
   },
-})
-export default class EpTiedostoLataus extends Vue {
-  @Prop({ default: null })
-  private value!: FileData;
+  fileTypes: {
+    type: Array as () => string[],
+    required: true,
+  },
+  asBinary: {
+    type: Boolean,
+    default: false,
+  },
+  fileMaxSize: {
+    type: Number,
+    default: 10 * 1024 * 1024, // 10Mt
+  },
+});
 
-  @Prop({ required: true })
-  private fileTypes!: string[];
+const emit = defineEmits(['update:modelValue']);
+const fileInput = useTemplateRef('fileInput');
 
-  @Prop({ default: false })
-  private asBinary!: boolean;
-
-  private fileMaxSize = 10 * 1024 * 1024; // 10Mt
-
-  get file() {
-    if (this.value) {
-      return this.value.file;
-    }
+const file = computed(() => {
+  if (props.modelValue) {
+    return props.modelValue.file;
   }
+  return undefined;
+});
 
-  handleFail() {
-    this.$fail((this as any).$t('tiedosto-luku-virhe'));
-    this.$emit('input', null);
-    this.resetFile();
+function handleFail() {
+  $fail($t('tiedosto-luku-virhe'));
+  emit('update:modelValue', null);
+  resetFile();
+}
+
+async function onInput(file: File) {
+  if (file != null && file.size > props.fileMaxSize) {
+    $fail($t('tiedosto-liian-suuri', { koko: 10 }));
   }
-
-  async onInput(file: File) {
-    if (file != null && file.size > this.fileMaxSize) {
-      this.$fail((this as any).$t('tiedosto-liian-suuri', { koko: 10 }));
-    }
-    else if (file != null && !_.includes(this.fileTypes, file.type)) {
-      this.$fail((this as any).$t('tiedostotyyppi-ei-sallittu'));
-    }
-    else if (file != null) {
-      // Luodaan uusi lukija ja rekisteröidään kuuntelija
-      const reader = new FileReader();
-      if (this.asBinary) {
-        reader.onload = () => {
-          try {
-            if (reader.result) {
-              this.$emit('input', {
-                file,
-                binary: reader.result,
-              } as FileData);
-            }
-          }
-          catch (e) {
-            this.handleFail();
-          }
-        };
-        reader.readAsBinaryString(file);
-      }
-      else {
-        reader.onload = evt => {
-          try {
-            if (evt.target) {
-              this.$emit('input', {
-                file,
-                content: JSON.parse((evt.target.result as any)),
-              } as FileData);
-            }
-          }
-          catch (e) {
-            this.handleFail();
-          }
-        };
-        reader.readAsText(file);
-      }
-    }
+  else if (file != null && !_.includes(props.fileTypes, file.type)) {
+    $fail($t('tiedostotyyppi-ei-sallittu'));
   }
-
-  cancel() {
-    this.$emit('input', null);
-  }
-
-  resetFile() {
-    (this as any).$refs['fileInput'].resetFile();
+  else if (file != null) {
+    // Luodaan uusi lukija ja rekisteröidään kuuntelija
+    const reader = new FileReader();
+    if (props.asBinary) {
+      reader.onload = () => {
+        try {
+          if (reader.result) {
+            emit('update:modelValue', {
+              file,
+              binary: reader.result,
+            } as FileData);
+          }
+        }
+        catch (e) {
+          console.log(e);
+          handleFail();
+        }
+      };
+      reader.readAsBinaryString(file);
+    }
+    else {
+      reader.onload = evt => {
+        try {
+          if (evt.target) {
+            emit('update:modelValue', {
+              file,
+              content: JSON.parse((evt.target.result as any)),
+            } as FileData);
+          }
+        }
+        catch (e) {
+          handleFail();
+        }
+      };
+      reader.readAsText(file);
+    }
   }
 }
+
+function cancel() {
+  emit('update:modelValue', null);
+}
+
+function resetFile() {
+  fileInput.value?.resetFile();
+}
+
+defineExpose({
+  resetFile,
+});
 </script>
 
 <style lang="scss" scoped>

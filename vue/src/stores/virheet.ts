@@ -1,26 +1,42 @@
-import { Store, Action, State } from './store';
+import { defineStore } from 'pinia';
 import { SovellusVirhe } from '../tyypit';
+import { ref, computed } from 'vue';
 
 export type ErrorHandler = (virhe: SovellusVirhe) => Promise<void> | void;
 
-@Store
-class VirheStore {
-  private onErrorHandlers: ErrorHandler[] = [];
+export const useVirheStore = defineStore('virhe', () => {
+  // State as refs
+  const onErrorHandlers = ref<ErrorHandler[]>([]);
+  const virheet = ref<SovellusVirhe[]>([]);
 
-  @State()
-  private virheet: SovellusVirhe[] = [];
-
-  @Action()
-  public async lisaaVirhe(virhe: SovellusVirhe) {
-    // this.virheet = [...this.virheet, virhe];
-    for (const handler of this.onErrorHandlers) {
+  // Actions as functions
+  async function lisaaVirhe(virhe: SovellusVirhe) {
+    // virheet.value = [...virheet.value, virhe];
+    for (const handler of onErrorHandlers.value) {
       handler(virhe);
     }
   }
 
-  public onError(handler: ErrorHandler) {
-    this.onErrorHandlers.push(handler);
+  function onError(handler: ErrorHandler) {
+    onErrorHandlers.value.push(handler);
   }
-}
 
-export const Virheet = new VirheStore();
+  return {
+    virheet,
+    onErrorHandlers,
+    lisaaVirhe,
+    onError,
+  };
+});
+
+// For backwards compatibility
+export const Virheet = {
+  lisaaVirhe: async (virhe: SovellusVirhe) => {
+    const store = useVirheStore();
+    await store.lisaaVirhe(virhe);
+  },
+  onError: (handler: ErrorHandler) => {
+    const store = useVirheStore();
+    store.onError(handler);
+  },
+};

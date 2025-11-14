@@ -1,81 +1,83 @@
 <template>
-  <b-table responsive
-           striped
-           hover
-           :items="items"
-           :fields="fields">
-    <template v-slot:cell(nimi)="data">
+  <b-table
+    responsive
+    striped
+    hover
+    :items="items"
+    :fields="fields"
+  >
+    <template #cell(nimi)="data">
       {{ $kaanna(data.value) }}
     </template>
-    <template v-slot:cell(muokattu)="data">
+    <template #cell(muokattu)="data">
       {{ $ago(data.value) }}
     </template>
-    <template v-slot:cell(actions)="row">
-      <ep-button variant="link"
-                 icon="keyboard_return"
-                 @click="palauta(row.item)"
-                 :showSpinner="isPalautettu(row.item)">
+    <template #cell(actions)="row">
+      <ep-button
+        variant="link"
+        icon="keyboard_return"
+        :show-spinner="isPalautettu(row.item)"
+        @click="palauta(row.item)"
+      >
         {{ $t('palauta') }}
       </ep-button>
     </template>
   </b-table>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { ref, computed, getCurrentInstance } from 'vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import Poistettu from './PoistetutHakuTable.vue';
 import EpSpinnerInline from '@shared/components/EpSpinner/EpSpinnerInline.vue';
 import _ from 'lodash';
+import { $t, $kaanna, $ago } from '@shared/utils/globals';
 
-@Component({
-  components: {
-    EpButton,
-    EpSpinnerInline,
+const props = defineProps({
+  poistetut: {
+    type: Array as () => Poistettu[],
+    required: true,
   },
-})
-export default class PoistettuTable extends Vue {
-  @Prop({ required: true })
-  private poistetut!: Poistettu[];
+});
 
-  palautettu: Poistettu[] = [];
+const emit = defineEmits(['palauta']);
 
-  get items() {
-    return this.poistetut;
-  }
+const palautettu = ref<Poistettu[]>([]);
 
-  get fields() {
-    return [{
-      label: this.$t('nimi'),
-      key: 'nimi',
-      sortable: true,
-      class: 'align-middle',
-    }, {
-      label: this.$t('poistoajankohta'),
-      key: 'muokattu',
-      sortable: true,
-      class: 'align-middle',
-    }, {
-      label: this.$t('poistaja'),
-      key: 'muokkaaja',
-      sortable: true,
-      class: 'align-middle',
-    }, {
-      key: 'actions',
-      label: '',
-      thStyle: { borderBottom: '0px' },
-      class: 'align-middle',
-    }];
-  }
+const items = computed(() => {
+  return props.poistetut;
+});
 
-  isPalautettu(item) {
-    return _.includes(this.palautettu, item);
-  }
+const fields = computed(() => {
+  return [{
+    label: $t('nimi'),
+    key: 'nimi',
+    sortable: true,
+    class: 'align-middle',
+  }, {
+    label: $t('poistoajankohta'),
+    key: 'muokattu',
+    sortable: true,
+    class: 'align-middle',
+  }, {
+    label: $t('poistaja'),
+    key: 'muokkaaja',
+    sortable: true,
+    class: 'align-middle',
+  }, {
+    key: 'actions',
+    label: '',
+    thStyle: { borderBottom: '0px' },
+    class: 'align-middle',
+  }];
+});
 
-  palauta(poistettu) {
-    this.palautettu = [...this.palautettu, poistettu];
-    this.$emit('palauta', poistettu);
-  }
-}
+const isPalautettu = (item: Poistettu) => {
+  return _.includes(palautettu.value, item);
+};
 
+const palauta = (poistettu: Poistettu) => {
+  palautettu.value = [...palautettu.value, poistettu];
+  emit('palauta', poistettu);
+};
 </script>

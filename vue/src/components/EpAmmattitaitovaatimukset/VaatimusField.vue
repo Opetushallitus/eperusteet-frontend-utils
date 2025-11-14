@@ -1,50 +1,76 @@
 <template>
   <div>
-    <ep-koodisto-select :store="koodisto" v-model="value.koodi" v-if="value">
+    <ep-koodisto-select
+      v-if="props.modelValue"
+      v-model="koodiValue"
+      :store="props.koodisto"
+    >
       <template #default="{ open }">
         <div class="d-flex flex-column">
           <div>
-            <ep-error-wrapper :validation="validation">
+            <ep-error-wrapper :validation="props.validation">
               <b-input-group>
                 <div class="handle text-muted">
                   <EpMaterialIcon>drag_indicator</EpMaterialIcon>
                 </div>
                 <b-form-input
+                  v-if="!props.modelValue.koodi"
+                  ref="input"
                   class="vaatimus"
                   :class="{ 'placeholder': placeholder }"
                   :value="vaatimus"
+                  :placeholder="placeholder"
                   @input="onInput"
                   @resize="onResize"
                   @focus="focused = true"
                   @blur="onBlur"
-                  :placeholder="placeholder"
-                  ref="input"
-                  v-if="!value.koodi" />
+                />
                 <b-form-input
+                  v-if="props.modelValue.koodi"
                   class="vaatimus"
-                  :value="($kaanna(value.koodi.nimi) || vaatimus) + ' (' + koodiArvo + ')'"
+                  :value="($kaanna(props.modelValue.koodi.nimi) || vaatimus) + ' (' + koodiArvo + ')'"
                   disabled
-                  v-if="value.koodi"></b-form-input>
+                />
                 <b-input-group-append>
-                  <b-button @click="open" variant="primary">
+                  <b-button
+                    variant="primary"
+                    @click="open"
+                  >
                     {{ $t('hae-koodistosta') }}
                   </b-button>
                 </b-input-group-append>
               </b-input-group>
             </ep-error-wrapper>
           </div>
-          <div class="datalist-wrapper" v-if="isDatalistVisible">
-            <div class="datalist-container" ref="datalistContainer">
-              <div v-if="isLoading" class="m-2">
+          <div
+            v-if="isDatalistVisible"
+            class="datalist-wrapper"
+          >
+            <div
+              ref="datalistContainer"
+              class="datalist-container"
+            >
+              <div
+                v-if="isLoading"
+                class="m-2"
+              >
                 <ep-spinner />
               </div>
-              <div class="datalist" v-else>
-                <div class="item"
-                     v-for="(item, idx) in koodit"
-                     ref="datalist"
-                     :key="'autocomplete-' + idx">
+              <div
+                v-else
+                class="datalist"
+              >
+                <div
+                  v-for="(item, idx) in koodit"
+                  ref="datalist"
+                  :key="'autocomplete-' + idx"
+                  class="item"
+                >
                   <div class="d-flex align-items-center">
-                    <div role="button" @click="valitse(item)">
+                    <div
+                      role="button"
+                      @click="valitse(item)"
+                    >
                       <span>{{ item.completion.left }}</span>
                       <span class="font-weight-bold">{{ item.completion.hit }}</span>
                       <span>{{ item.completion.right }}</span>
@@ -63,8 +89,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, ref, onMounted, getCurrentInstance } from 'vue';
 import EpButton from '../EpButton/EpButton.vue';
 import EpInput from '../forms/EpInput.vue';
 import EpErrorWrapper from '../forms/EpErrorWrapper.vue';
@@ -77,125 +103,131 @@ import { metadataToLocalized } from '../../utils/perusteet';
 import { delay } from '../../utils/delay';
 import _ from 'lodash';
 import Kayttolistaus from './Kayttolistaus.vue';
+import { $kaanna, $kaannaPlaceholder, $t, $slang } from '@shared/utils/globals';
 
-@Component({
-  components: {
-    EpButton,
-    EpErrorWrapper,
-    EpExternalLink,
-    EpInput,
-    EpKoodistoSelect,
-    EpSpinner,
-    Kayttolistaus,
-    EpMaterialIcon,
+const props = defineProps({
+  modelValue: {
+    type: Object,
+    required: true,
   },
-})
-export default class VaatimusField extends Vue {
-  @Prop({ required: true })
-  private value!: any;
+  koodisto: {
+    type: Object as () => KoodistoSelectStore,
+    required: true,
+  },
+  validation: {
+    type: Object,
+    default: null,
+  },
+});
 
-  @Prop({ required: true })
-  private koodisto!: KoodistoSelectStore;
+const emit = defineEmits(['update:modelValue']);
 
-  @Prop({ default: null })
-  private validation!: any;
+const input = ref(null);
+const datalistContainer = ref(null);
+const datalist = ref(null);
 
-  private focused = false;
-  private hasChanged = false;
-  private isLoading = false;
+const focused = ref(false);
+const hasChanged = ref(false);
+const isLoading = ref(false);
+const datalistId = _.uniqueId('datalist_');
 
-  get vaatimus() {
-    return this.value?.vaatimus ? _.unescape(this.value.vaatimus[this.$slang.value]) : '';
-  }
+const vaatimus = computed(() => {
+  return props.modelValue?.vaatimus ? _.unescape($kaanna(props.modelValue.vaatimus)) : '';
+});
 
-  get isDatalistVisible() {
-    return this.focused
-      && this.hasChanged
-      && (this.isLoading || this.koodit.length > 0);
-  }
+const koodiValue = computed({
+  get: () => props.modelValue?.koodi,
+  set: (value) => emit('update:modelValue', { ...props.modelValue, koodi: value }),
+});
 
-  get koodit() {
-    const res = _.map(this.koodisto?.data.value?.data || [], koodi => {
-      const localized = metadataToLocalized(koodi.metadata!, 'nimi');
-      const nimi = localized[this.$slang.value] || '';
-      const idx = nimi.indexOf(this.vaatimus);
-      return {
-        ...koodi,
-        nimi: localized,
-        completion: {
-          left: nimi.substring(0, idx),
-          hit: this.vaatimus,
-          right: nimi.substring(idx + this.vaatimus.length),
-        },
-        uri: koodi.koodiUri,
-      };
-    });
-    return res;
-  }
+const isDatalistVisible = computed(() => {
+  return focused.value
+    && hasChanged.value
+    && (isLoading.value || koodit.value.length > 0);
+});
 
-  async fetchKoodisto(query: string) {
-    this.hasChanged = true;
-    try {
-      this.isLoading = true;
-      await this.koodisto.query(query || '');
-    }
-    catch (err) {
-      console.error(err);
-    }
-    finally {
-      this.isLoading = false;
-    }
-  }
-
-  async onInput(ev: string) {
-    this.$emit('input', {
-      ...this.value,
-      vaatimus: {
-        ...this.value.vaatimus,
-        [this.$slang.value]: _.escape(ev),
+const koodit = computed(() => {
+  const res = _.map(props.koodisto?.data.value?.data || [], koodi => {
+    const localized = metadataToLocalized(koodi.metadata!, 'nimi');
+    const nimi = localized[$slang.value] || '';
+    const idx = nimi.indexOf(vaatimus.value);
+    return {
+      ...koodi,
+      nimi: localized,
+      completion: {
+        left: nimi.substring(0, idx),
+        hit: vaatimus.value,
+        right: nimi.substring(idx + vaatimus.value.length),
       },
-    });
-    await this.fetchKoodisto(ev);
+      uri: koodi.koodiUri,
+    };
+  });
+  return res;
+});
+
+const koodiArvo = computed(() => {
+  return _.size(props.modelValue.koodi.uri?.split('_')) === 2 ? props.modelValue.koodi.uri?.split('_')[1] : props.modelValue.koodi.arvo;
+});
+
+const placeholder = computed(() => {
+  if (!focused.value && props.modelValue?.vaatimus) {
+    return $kaannaPlaceholder(props.modelValue.vaatimus as any);
   }
+  return undefined;
+});
 
-  mounted() {
+async function fetchKoodisto(query: string) {
+  hasChanged.value = true;
+  try {
+    isLoading.value = true;
+    await props.koodisto.query(query || '');
   }
-
-  onResize() {
+  catch (err) {
+    console.error(err);
   }
-
-  onBlur() {
-    setTimeout(() => {
-      this.focused = false;
-    }, 300);
-  }
-
-  async valitse(koodi) {
-    await delay(100);
-    this.focused = false;
-    this.$emit('input', {
-      koodi: {
-        uri: koodi.koodiUri,
-        arvo: koodi.koodiArvo,
-        nimi: koodi.nimi,
-        versio: koodi.versio,
-        koodisto: koodi.koodisto.koodistoUri,
-      },
-    });
-  }
-
-  private readonly datalist = _.uniqueId('datalist_');
-
-  get koodiArvo() {
-    return _.size(this.value.koodi.uri?.split('_')) === 2 ? this.value.koodi.uri?.split('_')[1] : this.value.koodi.arvo;
-  }
-
-  get placeholder() {
-    if (!this.focused && this.value?.vaatimus) {
-      return this.$kaannaPlaceholder(this.value.vaatimus as any);
-    }
+  finally {
+    isLoading.value = false;
   }
 }
+
+async function onInput(ev: string) {
+  emit('update:modelValue', {
+    ...props.modelValue,
+    vaatimus: {
+      ...props.modelValue.vaatimus,
+      [$slang.value]: _.escape(ev),
+    },
+  });
+  await fetchKoodisto(ev);
+}
+
+function onResize() {
+  // Kept for backward compatibility
+}
+
+function onBlur() {
+  setTimeout(() => {
+    focused.value = false;
+  }, 300);
+}
+
+async function valitse(koodi) {
+  await delay(100);
+  focused.value = false;
+  emit('update:modelValue', {
+    koodi: {
+      uri: koodi.koodiUri,
+      arvo: koodi.koodiArvo,
+      nimi: koodi.nimi,
+      versio: koodi.versio,
+      koodisto: koodi.koodisto.koodistoUri,
+    },
+  });
+}
+
+onMounted(() => {
+  // Component initialization logic
+});
 </script>
 
 <style scoped lang="scss">

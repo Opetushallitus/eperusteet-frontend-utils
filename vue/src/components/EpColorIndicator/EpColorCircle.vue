@@ -1,44 +1,53 @@
 <template>
-<span ref="circle"
-      :style="circleStyle"
-      :title="$t(help)"
-      :class="circleClass">
-  <b-popover v-if="help"
-             :target="() => $refs['circle']"
-             :placement="'top'"
-             triggers="hover"
-             variant="primary">
-    <span>{{$t(help)}}</span>
-  </b-popover>
-</span>
+  <span
+    ref="circle"
+    :style="circleStyle"
+    :title="help ? $t(help) : ''"
+    :class="circleClass"
+  >
+    <b-popover
+      v-if="help"
+      :target="() => circle"
+      :placement="'top'"
+      triggers="hover"
+      variant="primary"
+    >
+      <span>{{ $t(help) }}</span>
+    </b-popover>
+  </span>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, useTemplateRef } from 'vue';
 
-@Component
-export default class EpColorCircle extends Vue {
-  @Prop({ default: '#000000' })
-  color!: string;
+const props = defineProps({
+  color: {
+    type: String,
+    default: '#000000',
+  },
+  help: {
+    type: String,
+    required: false,
+  },
+  size: {
+    type: Number,
+    default: 10,
+  },
+});
 
-  @Prop({ required: false })
-  help!: string | undefined;
+const circle = useTemplateRef('circle');
 
-  @Prop({ default: 10 })
-  size!: number;
+const circleStyle = computed(() => {
+  return {
+    'min-height': props.size + 'px',
+    'min-width': props.size + 'px',
+    'background': props.color,
+  };
+});
 
-  get circleStyle() {
-    return {
-      'min-height': this.size + 'px',
-      'min-width': this.size + 'px',
-      'background': this.color,
-    };
-  }
-
-  get circleClass() {
-    return this.help ? 'circle circle-tooltip' : 'circle';
-  }
-}
+const circleClass = computed(() => {
+  return props.help ? 'circle circle-tooltip' : 'circle';
+});
 </script>
 
 <style lang="scss" scoped>

@@ -3,38 +3,46 @@
     <slot name="preHeading" />
     <slot name="heading" />
     <div class="content">
-      <div v-html="$kaannaOlioTaiTeksti(content)" :class="{'limited-content': showReadMore && !readMore}"></div>
-      <button v-if="showReadMore" class="read-more" @click="onReadMore">
+      <div
+        :class="{'limited-content': showReadMore && !readMore}"
+        v-html="$kaannaOlioTaiTeksti(content)"
+      />
+      <button
+        v-if="showReadMore"
+        class="read-more"
+        @click="onReadMore"
+      >
         {{ readMore ? $t('nayta-vahemman') : $t('lue-lisaa') }}
       </button>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { ref, computed } from 'vue';
 import _ from 'lodash';
-
 import { Kielet } from '../../stores/kieli';
 
-@Component
-export default class EpContentReadMore extends Vue {
-  @Prop({ required: false, default: 400 })
-  private charLimit!: number;
+const props = defineProps({
+  charLimit: {
+    type: Number,
+    default: 400,
+  },
+  content: {
+    type: [String, Object],
+    required: true,
+  },
+});
 
-  @Prop({ required: true })
-  private content!: string | {};
+const readMore = ref(false);
 
-  private readMore = false;
+const onReadMore = () => {
+  readMore.value = !readMore.value;
+};
 
-  onReadMore() {
-    this.readMore = !this.readMore;
-  }
-
-  get showReadMore() {
-    return Kielet.kaannaOlioTaiTeksti(this.content).length > this.charLimit;
-  }
-}
+const showReadMore = computed(() => {
+  return Kielet.kaannaOlioTaiTeksti(props.content).length > props.charLimit;
+});
 </script>
 
 <style scoped lang="scss">
@@ -66,7 +74,7 @@ export default class EpContentReadMore extends Vue {
 }
 
 .content {
-  ::v-deep p:last-of-type {
+  :deep(p:last-of-type) {
     display: inline;
     margin-right: 0.5rem;
   }

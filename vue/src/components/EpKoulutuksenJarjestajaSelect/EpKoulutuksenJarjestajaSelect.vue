@@ -1,61 +1,91 @@
 <template>
   <div>
     <template v-if="isEditing">
-      <draggable
+      <VueDraggable
         v-bind="defaultDragOptions"
+        v-model="innerModel"
         tag="div"
-        v-model="innerModel">
-        <div v-for="(model, i) in innerModel" :key="group+i" class="pt-3 pb-2 px-3 mb-2 jarjestaja">
+      >
+        <div
+          v-for="(model, i) in innerModel"
+          :key="group+i"
+          class="pt-3 pb-2 px-3 mb-2 jarjestaja"
+        >
           <div class="d-flex">
-            <div class="order-handle mr-3 pt-1" slot="left">
+            <div class="order-handle mr-3 pt-1">
               <EpMaterialIcon>drag_indicator</EpMaterialIcon>
             </div>
             <div class="w-100">
-
-              <b-input-group :label="$t('organisaation-nimi')" class="mb-4">
-                <b-form-input :value="$kaanna(model.nimi)" :disabled="true"></b-form-input>
+              <b-input-group
+                :label="$t('organisaation-nimi')"
+                class="mb-4"
+              >
+                <b-form-input
+                  :value="$kaanna(model.nimi)"
+                  :disabled="true"
+                />
                 <b-input-group-append>
-                  <b-button @click="open(i)" variant="primary">
+                  <b-button
+                    variant="primary"
+                    @click="open(i)"
+                  >
                     {{ $t('hae-organisaatio') }}
                   </b-button>
                 </b-input-group-append>
               </b-input-group>
 
-              <b-form-group :label="$t('linkki-toteutussuunnitelmaan-tai-koulutuksen-jarjestajan-kotisivuille')" class="mb-4">
+              <b-form-group
+                :label="$t('linkki-toteutussuunnitelmaan-tai-koulutuksen-jarjestajan-kotisivuille')"
+                class="mb-4"
+              >
                 <ep-input
                   v-model="model.url"
-                  :is-editing="isEditing"/>
+                  :is-editing="isEditing"
+                />
               </b-form-group>
 
-              <b-form-group :label="$t('kaytannon-toteutus')" class="mb-0">
+              <b-form-group
+                :label="$t('kaytannon-toteutus')"
+                class="mb-0"
+              >
                 <ep-content
-                  layout="normal"
                   v-model="model.kuvaus"
+                  layout="normal"
                   :is-editable="isEditing"
-                  :kuvaHandler="kuvaHandler"/>
+                />
               </b-form-group>
             </div>
           </div>
 
           <div class="text-right">
-            <ep-button variant="link" icon="delete" @click="poista(i)">
+            <ep-button
+              variant="link"
+              icon="delete"
+              @click="poista(i)"
+            >
               {{ $t('poista-koulutuksen-jarjestaja') }}
             </ep-button>
           </div>
         </div>
-      </draggable>
-      <EpButton v-if="isEditing"
-                variant="outline"
-                icon="add"
-                @click="lisaa()">
-        <slot name="default">{{ $t('lisaa-koulutuksen-jarjestaja') }}</slot>
+      </VueDraggable>
+      <EpButton
+        v-if="isEditing"
+        variant="outline"
+        icon="add"
+        @click="lisaa()"
+      >
+        <slot name="default">
+          {{ $t('lisaa-koulutuksen-jarjestaja') }}
+        </slot>
       </EpButton>
 
-      <b-modal id="koulutuksenjarjestajaModal"
-            ref="editModal"
-            size="xl"
-            :ok-title="$t('peruuta')"
-            :ok-only="true">
+      <b-modal
+        id="koulutuksenjarjestajaModal"
+        ref="editModal"
+        size="xl"
+        :ok-title="$t('peruuta')"
+        :ok-only="true"
+      >
         <template #modal-header>
           <h2>{{ $t('valitse-koulutuksen-jarjestaja') }}</h2>
         </template>
@@ -65,7 +95,7 @@
           <template v-else>
             <div class="d-flex flex-row align-items-center">
               <div class="flex-grow-1">
-                <ep-search v-model="query"></ep-search>
+                <ep-search v-model="query" />
               </div>
             </div>
             <div v-if="items">
@@ -78,60 +108,68 @@
                 :items="items"
                 :fields="fields"
                 :selectable="true"
-                @row-selected="onRowSelected"
                 select-mode="single"
-                selected-variant=''>
-
-                <template v-slot:cell(nimi)="{ item }">
+                selected-variant=""
+                @row-selected="onRowSelected"
+              >
+                <template #cell(nimi)="{ item }">
                   <span class="btn-link">
                     {{ $kaanna(item.nimi) }}
                   </span>
                 </template>
-
               </b-table>
 
-              <b-pagination
+              <ep-pagination
                 v-model="sivu"
                 :total-rows="kokonaismaara"
                 :per-page="10"
                 aria-controls="koodistot"
-                align="center" />
-
+                align="center"
+              />
             </div>
           </template>
         </template>
       </b-modal>
-
     </template>
     <template v-else-if="innerModel.length > 0">
-      <div v-for="(model, i) in innerModel" :key="group+i" class="pt-3 pb-2 px-3 mb-2 jarjestaja">
-
-        <h3>{{$kaanna(model.nimi)}}</h3>
-         <b-form-group :label="$t('toteutussuunnitelman-tai-koulutuksen-jarjestajan-verkkosivut')" class="mb-4">
+      <div
+        v-for="(model, i) in innerModel"
+        :key="group+i"
+        class="pt-3 pb-2 px-3 mb-2 jarjestaja"
+      >
+        <h3>{{ $kaanna(model.nimi) }}</h3>
+        <b-form-group
+          :label="$t('toteutussuunnitelman-tai-koulutuksen-jarjestajan-verkkosivut')"
+          class="mb-4"
+        >
           <EpLinkki :url="model.url[kieli]" />
         </b-form-group>
 
-        <b-form-group :label="$t('kaytannon-toteutus')" class="mb-0">
-          <slot name="kuvaus" v-bind="{ model }">
+        <b-form-group
+          :label="$t('kaytannon-toteutus')"
+          class="mb-0"
+        >
+          <slot
+            name="kuvaus"
+            v-bind="{ model }"
+          >
             <ep-content
-              layout="normal"
               v-model="model.kuvaus"
+              layout="normal"
               :is-editable="isEditing"
-              :kuvaHandler="kuvaHandler"/>
+            />
           </slot>
         </b-form-group>
-
       </div>
     </template>
   </div>
-
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { ref, computed, onMounted } from 'vue';
 import _ from 'lodash';
 import EpInput from '@shared/components/forms/EpInput.vue';
-import draggable from 'vuedraggable';
+import { VueDraggable } from 'vue-draggable-plus';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import { Koulutustoimijat, KoulutuksenJarjestajaDto } from '@shared/api/amosaa';
 import { Kielet } from '@shared/stores/kieli';
@@ -139,114 +177,118 @@ import EpSearch from '@shared/components/forms/EpSearch.vue';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
 import EpLinkki from '@shared/components/EpLinkki/EpLinkki.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import EpPagination from '@shared/components/EpPagination/EpPagination.vue';
 
-@Component({
-  components: {
-    EpButton,
-    EpInput,
-    draggable,
-    EpSearch,
-    EpContent,
-    EpLinkki,
-    EpMaterialIcon,
+// Define props
+const props = defineProps({
+  modelValue: {
+    type: Array as () => KoulutuksenJarjestajaDto[],
+    required: true,
   },
-})
-export default class EpKoulutuksenJarjestajaSelect extends Vue {
-  @Prop({ required: true })
-  private value!: KoulutuksenJarjestajaDto[];
+  isEditing: {
+    type: Boolean,
+    default: false,
+  },
+  group: {
+    type: String,
+    required: false,
+    default: 'koulutuksenjarjestajaSort',
+  },
+});
 
-  @Prop({ default: false })
-  private isEditing!: boolean;
+// Define emits
+const emit = defineEmits(['update:modelValue']);
 
-  @Prop({ required: false, default: 'koulutuksenjarjestajaSort' })
-  private group!: string;
+// Reactive state
+const query = ref('');
+const koulutuksenJarjestajat = ref<any[] | null>(null);
+const sivu = ref(1);
+const valittuIndex = ref(-1);
+const editModal = ref(null);
 
-  @Prop({ default: false })
-  private kuvaHandler!: any;
+// Lifecycle hooks
+onMounted(async () => {
+  koulutuksenJarjestajat.value = (await Koulutustoimijat.getKoulutuksenJarjestajat()).data;
+});
 
-  private query = '';
-  private koulutuksenJarjestajat: any[] | null = null;
-  private sivu = 1;
-  private valittuIndex = -1;
+// Computed properties
+const innerModel = computed({
+  get: () => props.modelValue,
+  set: (value) => {
+    emit('update:modelValue', value);
+  },
+});
 
-  async mounted() {
-    this.koulutuksenJarjestajat = (await Koulutustoimijat.getKoulutuksenJarjestajat()).data;
-  }
+const kieli = computed(() => {
+  return Kielet.getSisaltoKieli.value;
+});
 
-  get innerModel() {
-    return this.value;
-  }
+const defaultDragOptions = computed(() => {
+  return {
+    animation: 300,
+    emptyInsertThreshold: 10,
+    handle: '.order-handle',
+    disabled: !props.isEditing,
+    ghostClass: 'dragged',
+    group: {
+      name: props.group,
+    },
+  };
+});
 
-  set innerModel(innerModel) {
-    this.$emit('input', innerModel);
-  }
+const koulutuksenjarjestajatSorted = computed(() => {
+  return _.chain(koulutuksenJarjestajat.value)
+    .filter(kt => _.includes(_.toLower(kt['nimi'][Kielet.getSisaltoKieli.value]), _.toLower(query.value)))
+    .sortBy(kt => kt['nimi'][Kielet.getSisaltoKieli.value])
+    .value();
+});
 
-  open(i) {
-    (this.$refs.editModal as any).show();
-    this.valittuIndex = i;
-  }
+const items = computed(() => {
+  return _.slice(koulutuksenjarjestajatSorted.value, (sivu.value - 1) * 10, ((sivu.value - 1) * 10) + 10);
+});
 
-  onRowSelected(row) {
-    this.innerModel.splice(this.valittuIndex, 1, {
-      ...this.innerModel[this.valittuIndex],
-      nimi: row[0].nimi,
-    });
+const kokonaismaara = computed(() => {
+  return _.size(koulutuksenjarjestajatSorted.value);
+});
 
-    (this.$refs.editModal as any).hide();
-  }
+const fields = computed(() => {
+  return [
+    {
+      key: 'nimi',
+      label: 'nimi', // Replace this.$t('nimi')
+    },
+  ];
+});
 
-  lisaa() {
-    this.innerModel = [
-      ...this.innerModel,
-      {},
-    ];
-  }
+// Methods
+const open = (i: number) => {
+  (editModal.value as any)?.show();
+  valittuIndex.value = i;
+};
 
-  get kieli() {
-    return Kielet.getSisaltoKieli.value;
-  }
+const onRowSelected = (row: any) => {
+  const newInnerModel = [...innerModel.value];
+  newInnerModel.splice(valittuIndex.value, 1, {
+    ...innerModel.value[valittuIndex.value],
+    nimi: row[0].nimi,
+  });
+  emit('update:modelValue', newInnerModel);
 
-  poista(poistettavaIndex) {
-    this.innerModel = _.filter(this.innerModel, (teksti, index) => index !== poistettavaIndex);
-  }
+  (editModal.value as any)?.hide();
+};
 
-  get defaultDragOptions() {
-    return {
-      animation: 300,
-      emptyInsertThreshold: 10,
-      handle: '.order-handle',
-      disabled: !this.isEditing,
-      ghostClass: 'dragged',
-      group: {
-        name: this.group,
-      },
-    };
-  }
+const lisaa = () => {
+  const newInnerModel = [
+    ...innerModel.value,
+    {},
+  ];
+  emit('update:modelValue', newInnerModel);
+};
 
-  get koulutuksenjarjestajatSorted() {
-    return _.chain(this.koulutuksenJarjestajat)
-      .filter(kt => _.includes(_.toLower(kt['nimi'][Kielet.getSisaltoKieli.value]), _.toLower(this.query)))
-      .sortBy(kt => kt['nimi'][Kielet.getSisaltoKieli.value])
-      .value();
-  }
-
-  get items() {
-    return _.slice(this.koulutuksenjarjestajatSorted, (this.sivu - 1) * 10, ((this.sivu - 1) * 10) + 10);
-  }
-
-  get kokonaismaara() {
-    return _.size(this.koulutuksenjarjestajatSorted);
-  }
-
-  get fields() {
-    return [
-      {
-        key: 'nimi',
-        label: this.$t('nimi'),
-      },
-    ];
-  }
-}
+const poista = (poistettavaIndex: number) => {
+  const newInnerModel = _.filter(innerModel.value, (teksti, index) => index !== poistettavaIndex);
+  emit('update:modelValue', newInnerModel);
+};
 </script>
 
 <style lang="scss" scoped>
@@ -256,5 +298,4 @@ export default class EpKoulutuksenJarjestajaSelect extends Vue {
     border: 1px solid $gray-lighten-8;
     border-radius: 3px;
   }
-
 </style>

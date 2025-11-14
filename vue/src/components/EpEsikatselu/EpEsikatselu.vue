@@ -1,29 +1,40 @@
 <template>
-  <div >
+  <div>
     <label class="font-weight-600">
       <slot name="header">
-        {{$t(header)}}
+        {{ $t(header) }}
       </slot>
     </label>
-    <ep-toggle v-model="model.esikatseltavissa" :is-editing="isEditing" v-if="isEditing" :class="{'disabled-events': model.tila === 'poistettu'}">
+    <ep-toggle
+      v-if="isEditing"
+      v-model="model.esikatseltavissa"
+      :is-editing="isEditing"
+      :class="{'disabled-events': model.tila === 'poistettu'}"
+    >
       <slot name="toggle-text">
-        {{$t(toggleText)}}
+        {{ $t(toggleText) }}
       </slot>
     </ep-toggle>
-    <ep-external-link :url="externalUrl" v-if="!isEditing && model.esikatseltavissa"/>
+    <ep-external-link
+      v-if="!isEditing && model.esikatseltavissa"
+      :url="externalUrl"
+    />
     <div v-if="!isEditing && !model.esikatseltavissa">
-      {{$t('et-ole-sallinut-esikatselua')}}
+      {{ $t('et-ole-sallinut-esikatselua') }}
     </div>
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import * as _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { computed } from 'vue';
 import { Kielet } from '@shared/stores/kieli';
 import { PerusteDto } from '@shared/api/eperusteet';
 import { koulutustyyppiTheme } from '@shared/utils/perusteet';
 import { buildPerusteEsikatseluUrl, buildEsikatseluUrl, buildToteutussuunnitelmaEsikatseluUrl } from '@shared/utils/esikatselu';
+import { useRoute } from 'vue-router';
+import EpToggle from '@shared/components/forms/EpToggle.vue';
+import EpExternalLink from '@shared/components/EpExternalLink/EpExternalLink.vue';
 
 interface Esikatseltavissa {
   id: number;
@@ -35,80 +46,89 @@ interface Esikatseltavissa {
   peruste?: PerusteDto
 }
 
-@Component
-export default class EpEsikatselu extends Vue {
-  @Prop()
-  private value!: Esikatseltavissa;
+const props = defineProps({
+  modelValue: {
+    type: Object as () => Esikatseltavissa,
+    required: true,
+  },
+  isEditing: {
+    type: Boolean,
+    default: false,
+  },
+  peruste: {
+    type: Boolean,
+    default: false,
+  },
+  opetussuunnitelma: {
+    type: Boolean,
+    default: false,
+  },
+  toteutussuunnitelma: {
+    type: Boolean,
+    default: false,
+  },
+  opas: {
+    type: Boolean,
+    default: false,
+  },
+});
 
-  @Prop({ default: false })
-  private isEditing!: Boolean;
+const emit = defineEmits(['update:modelValue']);
 
-  @Prop({ default: false, type: Boolean })
-  private peruste!: Boolean;
+const route = useRoute();
 
-  @Prop({ default: false, type: Boolean })
-  private opetussuunnitelma!: Boolean;
+const model = computed({
+  get: () => props.modelValue,
+  set: (value) => emit('update:modelValue', value),
+});
 
-  @Prop({ default: false, type: Boolean })
-  private toteutussuunnitelma!: Boolean;
-
-  @Prop({ default: false, type: Boolean })
-  private opas!: Boolean;
-
-  get model() {
-    return this.value;
-  }
-
-  set model(value) {
-    this.$emit('input', value);
-  }
-
-  get type() {
-    if (this.peruste) {
-      return 'peruste';
-    }
-    else if (this.opetussuunnitelma) {
-      return 'opetussuunnitelma';
-    }
-    else if (this.toteutussuunnitelma) {
-      return 'toteutussuunnitelma';
-    }
-    else if (this.opas) {
-      return 'opas';
-    }
+const type = computed(() => {
+  if (props.peruste) {
     return 'peruste';
   }
+  else if (props.opetussuunnitelma) {
+    return 'opetussuunnitelma';
+  }
+  else if (props.toteutussuunnitelma) {
+    return 'toteutussuunnitelma';
+  }
+  else if (props.opas) {
+    return 'opas';
+  }
+  return 'peruste';
+});
 
-  get header() {
-    return 'esikatsele-' + this.type;
+const header = computed(() => {
+  return 'esikatsele-' + type.value;
+});
+
+const toggleText = computed(() => {
+  return 'salli-esikatselu-' + type.value;
+});
+
+const amosaaToteutustyyppi = computed(() => {
+  return route.params.toteutus;
+});
+
+const externalUrl = computed(() => {
+  if (props.peruste) {
+    return buildPerusteEsikatseluUrl(model.value.peruste);
   }
 
-  get toggleText() {
-    return 'salli-esikatselu-' + this.type;
+  if (props.opas) {
+    return buildEsikatseluUrl(Kielet.getSisaltoKieli.value, `/opas/${model.value.id}`);
   }
 
-  get externalUrl() {
-    if (this.peruste) {
-      return buildPerusteEsikatseluUrl(this.value.peruste);
-    }
-
-    if (this.opas) {
-      return buildEsikatseluUrl(Kielet.getSisaltoKieli.value, `/opas/${this.value.id}`);
-    }
-
-    if (this.opetussuunnitelma) {
-      return buildEsikatseluUrl(Kielet.getSisaltoKieli.value, `/opetussuunnitelma/${this.value.id}`, `/${koulutustyyppiTheme(this.value.koulutustyyppi!)}/tiedot`);
-    }
-
-    if (this.toteutussuunnitelma) {
-      return buildToteutussuunnitelmaEsikatseluUrl(this.value, this.amosaaToteutustyyppi);
-    }
+  if (props.opetussuunnitelma) {
+    return buildEsikatseluUrl(Kielet.getSisaltoKieli.value, `/opetussuunnitelma/${model.value.id}`, `/${koulutustyyppiTheme(model.value.koulutustyyppi!)}/tiedot`);
   }
 
-  get amosaaToteutustyyppi() {
-    return (this.$route as any).params.toteutus;
+  if (props.toteutussuunnitelma) {
+    return buildToteutussuunnitelmaEsikatseluUrl(model.value, amosaaToteutustyyppi.value);
   }
-}
+
+  return '';
+});
 </script>
 
 <style scoped lang="scss">

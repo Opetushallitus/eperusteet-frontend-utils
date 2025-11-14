@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { createLogger } from '../utils/logger';
 import _ from 'lodash';
-import { fail } from '@shared/utils/notifications';
 import { Kielet } from '../stores/kieli';
+import { $fail, $t } from '../utils/globals';
+import { Virheet } from '@shared/stores/virheet';
 
 const logger = createLogger('AxiosCommon');
 
@@ -12,19 +13,21 @@ axios.defaults.xsrfHeaderName = 'CSRF';
 
 export function axiosHandler(msg: string) {
   return async (err: any) => {
-    if (err.response.status === 500 || err.response.status === 403 || err.response.status === 400 || err.response.status === 409) {
-      fail(errorMessage(err), undefined, errorNotificationDuration());
-    }
+    console.log('axiosHandler', err);
+    // if (err?.response?.status === 500 || err?.response?.status === 403 || err?.response?.status === 400 || err?.response?.status === 409) {
+    $fail(errorMessage(err), undefined, errorNotificationDuration());
+    // }
+    Virheet.lisaaVirhe({});
     throw err;
   };
 }
 
 function errorMessage(err) {
-  if (err.response.status === 403) {
+  if (err?.response?.status === 403) {
     return 'ei-oikeutta-suorittaa';
   }
 
-  if (err.response.status === 400 && !!err.response?.data?.syy) {
+  if (err?.response?.status === 400 && !!err.response?.data?.syy) {
     if (_.isArray(err.response.data.syy)) {
       return err.response.data.syy.map(s => Kielet.kaannaOlioTaiTeksti(s)).join(', ');
     }

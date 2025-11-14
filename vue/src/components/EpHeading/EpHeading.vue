@@ -1,22 +1,32 @@
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
 
-@Component({
-  name: 'EpHeading',
-})
-export default class EpHeading extends Vue {
-  @Prop({ required: true, type: Number })
-  private level!: number;
+<template>
+  <component
+    :is="`h${headingLevel}`"
+    v-bind="$attrs"
+  >
+    <slot />
+  </component>
+</template>
+<script setup lang="ts">
+import { h, computed, useSlots } from 'vue';
 
-  render(createElement) {
-    let level = this.level;
-    if (this.level < 1) {
-      level = 1;
-    }
-    else if (this.level > 6) {
-      level = 6;
-    }
-    return createElement('h' + level, this.$slots.default);
+const props = defineProps({
+  level: {
+    type: Number,
+    required: true,
+  },
+});
+
+const slots = useSlots();
+
+// Compute actual heading level
+const headingLevel = computed(() => {
+  if (props.level < 1) {
+    return 1;
   }
-}
+  else if (props.level > 6) {
+    return 6;
+  }
+  return props.level;
+});
 </script>

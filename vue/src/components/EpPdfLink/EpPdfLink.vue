@@ -1,25 +1,28 @@
 <template>
-  <a :href="url" target="_blank" rel="noopener noreferrer">
+  <a
+    :href="url"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
     <div class="d-inline-flex">
-      <EpMaterialIcon color="#3367E3" class="mr-2" alt="pdf">picture_as_pdf</EpMaterialIcon>
-      <slot></slot>
+      <EpMaterialIcon
+        color="#3367E3"
+        class="mr-2"
+        alt="pdf"
+      >picture_as_pdf</EpMaterialIcon>
+      <slot />
     </div>
   </a>
 </template>
 
-<script lang="ts">
-import * as _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
-
-@Component({
-  components: {
-
+<script setup lang="ts">
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+const props = defineProps({
+  url: {
+    type: String,
+    required: true,
   },
-})
-export default class EpPdfLink extends Vue {
-  @Prop({ required: true })
-  url!: string;
-}
+});
 </script>
 
 <style scoped lang="scss">

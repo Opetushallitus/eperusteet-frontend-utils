@@ -1,21 +1,27 @@
 <template>
   <div class="julkaisuhistoria mt-4">
-    <EpSpinner v-if="!julkaisut"/>
+    <EpSpinner v-if="!julkaisut" />
     <template v-else>
-      <div class="alert alert-info" v-if="julkaisut.length === 0">
-        <slot name="empty">{{ $t('ei-julkaisuja') }}</slot>
+      <div
+        v-if="julkaisut.length === 0"
+        class="alert alert-info"
+      >
+        <slot name="empty">
+          {{ $t('ei-julkaisuja') }}
+        </slot>
       </div>
       <div v-else>
         <EpJulkaisuLista
-          :julkaisut="julkaisutMapped"/>
+          :julkaisut="julkaisutMapped"
+        />
       </div>
     </template>
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { computed } from 'vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import EpCollapse from '@shared/components/EpCollapse/EpCollapse.vue';
@@ -28,59 +34,58 @@ interface Julkaisu {
   luotu?: Date;
   tila?: 'JULKAISTU' | 'KESKEN' | 'VIRHE';
   liitteet?: any;
+  peruste?: {
+    id: number;
+  };
 }
 
-@Component({
-  components: {
-    EpJulkaisuLista,
-    EpButton,
-    EpSpinner,
-    EpCollapse,
+const props = defineProps({
+  julkaisut: {
+    type: Array as () => Julkaisu[],
+    required: false,
+    default: () => [],
   },
-})
-export default class EpJulkaisuHistoriaJulkinen extends Vue {
-  @Prop({ required: false })
-  private julkaisut!: Julkaisu[];
+  naytaKaikki: {
+    type: Boolean,
+    default: false,
+  },
+});
 
-  @Prop({ required: false, type: Boolean, default: false })
-  private naytaKaikki!: boolean;
+const sliceSize = computed(() => {
+  return props.naytaKaikki ? props.julkaisut.length : 2;
+});
 
-  get sliceSize() {
-    return this.naytaKaikki ? this.julkaisut.length : 2;
+function muutosmaaraysLiite(julkaisu: Julkaisu) {
+  if (julkaisu.liitteet && julkaisu.liitteet.length > 0) {
+    julkaisu.liitteet.forEach(liiteData => {
+      liiteData.url = `/eperusteet-service/api/perusteet/${julkaisu.peruste?.id ?? 0}/julkaisu/liitteet/${liiteData.liite.id}`;
+    });
+    return julkaisu.liitteet;
   }
-
-  get julkaisutMapped() {
-    return _.chain(this.julkaisut)
-      .map(julkaisu => {
-        return {
-          ...julkaisu,
-          tila: julkaisu.tila || 'JULKAISTU',
-          liitteet: this.muutosmaaraysLiite(julkaisu),
-        };
-      })
-      .sortBy('revision')
-      .reverse()
-      .value();
-  }
-
-  muutosmaaraysLiite(julkaisu) {
-    if (julkaisu.liitteet && julkaisu.liitteet.length > 0) {
-      julkaisu.liitteet.forEach(liiteData => {
-        liiteData.url = `/eperusteet-service/api/perusteet/${julkaisu.peruste.id!}/julkaisu/liitteet/${liiteData.liite.id}`;
-      });
-      return julkaisu.liitteet;
-    }
-    else {
-      return [];
-    }
+  else {
+    return [];
   }
 }
+
+const julkaisutMapped = computed(() => {
+  return _.chain(props.julkaisut)
+    .map(julkaisu => {
+      return {
+        ...julkaisu,
+        tila: julkaisu.tila || 'JULKAISTU',
+        liitteet: muutosmaaraysLiite(julkaisu),
+      };
+    })
+    .sortBy('revision')
+    .reverse()
+    .value();
+});
 </script>
 
 <style scoped lang="scss">
 @import '@shared/styles/_variables';
 
-::v-deep .ep-collapse .header {
+:deep(.ep-collapse .header) {
   color: #3367E3;
 }
 

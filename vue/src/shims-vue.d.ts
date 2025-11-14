@@ -1,6 +1,11 @@
-declare module '*.vue' {
-  import Vue from 'vue';
+// export {};
+
+declare module 'vue' {
+  import { CompatVue } from 'vue';
+  const Vue: CompatVue;
   export default Vue;
+  import { configureCompat } from '@vue/compat';
+  export { configureCompat };
 }
 
 declare module '*.svg' {

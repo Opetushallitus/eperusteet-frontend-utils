@@ -1,49 +1,54 @@
 <template>
-  <ep-button class="mt-3"
-             @click="suoritaJulkaisu()"
-             :showSpinner="julkaistaan || julkaisuKesken"
-             :disabled="disabled">
+  <ep-button
+    class="mt-3"
+    :show-spinner="julkaistaan || julkaisuKesken"
+    :disabled="disabled"
+    @click="suoritaJulkaisu()"
+  >
     {{ $t('julkaise') }}
   </ep-button>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { ref, getCurrentInstance } from 'vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
+import { $t, $bvModal } from '@shared/utils/globals';
 
-@Component({
-  components: {
-    EpButton,
+const props = defineProps({
+  julkaise: {
+    type: Function,
+    required: true,
   },
-})
-export default class EpJulkaisuButton extends Vue {
-  @Prop({ required: true })
-  protected julkaise!: Function;
+  julkaisuKesken: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+  disabled: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+});
 
-  @Prop({ required: false })
-  protected julkaisuKesken!: boolean;
+const julkaistaan = ref(false);
 
-  @Prop({ required: false, default: false })
-  protected disabled?: boolean;
-
-  private julkaistaan = false;
-
-  async suoritaJulkaisu() {
-    if (await this.$bvModal.msgBoxConfirm((this.$t('julkaisu-varmistus-modal-teksti') as any), {
-      title: this.$t('vahvista-julkaisu'),
-      okVariant: 'primary',
-      okTitle: this.$t('julkaise') as any,
-      cancelVariant: 'link',
-      cancelTitle: this.$t('peruuta') as any,
-      centered: true,
-      ...{} as any,
-    })) {
-      this.julkaistaan = true;
-      await this.julkaise();
-      this.julkaistaan = false;
-    }
+const suoritaJulkaisu = async () => {
+  // Access the modal through instance's appContext
+  if (await $bvModal.msgBoxConfirm($t('julkaisu-varmistus-modal-teksti') as any, {
+    title: $t('vahvista-julkaisu'),
+    okVariant: 'primary',
+    okTitle: $t('julkaise') as any,
+    cancelVariant: 'link',
+    cancelTitle: $t('peruuta') as any,
+    centered: true,
+    ...{} as any,
+  })) {
+    julkaistaan.value = true;
+    await props.julkaise();
+    julkaistaan.value = false;
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

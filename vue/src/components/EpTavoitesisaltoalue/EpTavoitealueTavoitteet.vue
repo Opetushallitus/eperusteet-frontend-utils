@@ -1,17 +1,26 @@
 <template>
   <div>
-    <draggable
+    <VueDraggable
       v-bind="tavoitteetOptions"
+      v-model="tavoitteet"
       tag="div"
-      v-model="tavoitteet">
-      <b-row v-for="(tavoite, tavoiteIndex) in tavoitteet" :key="tavoite+tavoiteIndex" class="pb-2">
+    >
+      <b-row
+        v-for="(tavoite, tavoiteIndex) in tavoitteet"
+        :key="tavoite+tavoiteIndex"
+        class="pb-2"
+      >
         <b-col cols="11">
-          <slot :tavoite="tavoite" :tavoiteIndex="tavoiteIndex">
+          <slot
+            :tavoite="tavoite"
+            :tavoite-index="tavoiteIndex"
+          >
             <EpKoodistoSelect
-              :store="tavoitteetlukutaidotKoodisto"
               v-model="tavoitteet[tavoiteIndex]"
+              :store="tavoitteetlukutaidotKoodisto"
               :is-editing="true"
-              :naytaArvo="false">
+              :nayta-arvo="false"
+            >
               <template #default="{ open }">
                 <b-input-group>
                   <EpInput
@@ -19,13 +28,21 @@
                     :is-editing="true"
                     :disabled="!tavoite.uri.startsWith('temporary')"
                     class="input-wrapper"
-                    :validation="$v.tavoitteet.$each.$iter[tavoiteIndex].nimi">
-                    <div class="order-handle m-2" slot="left">
-                      <EpMaterialIcon>drag_indicator</EpMaterialIcon>
-                    </div>
+                    :validation="v$.tavoitteet.$each.$response.$data[tavoiteIndex]?.nimi"
+                  >
+                    <template #left>
+                      <div
+                        class="order-handle m-2"
+                      >
+                        <EpMaterialIcon>drag_indicator</EpMaterialIcon>
+                      </div>
+                    </template>
                   </EpInput>
                   <b-input-group-append>
-                    <b-button @click="open" variant="primary">
+                    <b-button
+                      variant="primary"
+                      @click="open"
+                    >
                       {{ $t('hae-koodistosta') }}
                     </b-button>
                   </b-input-group-append>
@@ -35,119 +52,132 @@
           </slot>
         </b-col>
         <b-col cols="1">
-          <div class="default-icon clickable mt-2" @click="poistaTavoite(tavoite)">
-            <EpMaterialIcon icon-shape="outlined" :color="'inherit'">delete</EpMaterialIcon>
+          <div
+            class="default-icon clickable mt-2"
+            @click="poistaTavoite(tavoite)"
+          >
+            <EpMaterialIcon
+              icon-shape="outlined"
+              :color="'inherit'"
+            >
+              delete
+            </EpMaterialIcon>
           </div>
         </b-col>
       </b-row>
-    </draggable>
+    </VueDraggable>
 
     <div class="d-flex justify-content-between">
-      <ep-button variant="outline" icon="add" @click="lisaaTavoite()">
+      <ep-button
+        variant="outline"
+        icon="add"
+        @click="lisaaTavoite()"
+      >
         <slot name="lisaaBtnText">
           {{ $t('lisaa-tavoite') }}
         </slot>
       </ep-button>
 
-      <slot name="footer"></slot>
+      <slot name="footer" />
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, useSlots } from 'vue';
+import { useVuelidate } from '@vuelidate/core';
 import _ from 'lodash';
 import { KoodistoSelectStore } from '../EpKoodistoSelect/KoodistoSelectStore';
 import { Koodisto } from '@shared/api/eperusteet';
-import draggable from 'vuedraggable';
+import { VueDraggable } from 'vue-draggable-plus';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import { koodistoKoodiValidator } from '@shared/validators/required';
-import { Validations } from 'vuelidate-property-decorators';
 import { generateTemporaryKoodiUri } from '@shared/utils/koodi';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import { hasSlotContent } from '@shared/utils/vue-utils';
+import { helpers } from '@vuelidate/validators';
 
-@Component({
-  components: {
-    EpKoodistoSelect,
-    EpButton,
-    draggable,
-    EpInput,
-    EpMaterialIcon,
+const props = defineProps({
+  modelValue: {
+    type: Array,
+    required: true,
   },
-})
-export default class EpTavoitealueTavoitteet extends Vue {
-  @Prop({ required: true })
-  private value!: any[];
+});
 
-  get tavoitteet() {
-    return this.value;
-  }
+const emit = defineEmits(['update:modelValue']);
 
-  set tavoitteet(value) {
-    this.$emit('input', value);
-  }
+const slots = useSlots();
 
-  @Validations()
-    validations = {
-      tavoitteet: {
-        $each: {
-          ...koodistoKoodiValidator(),
-        },
+const tavoitteet = computed({
+  get: () => props.modelValue,
+  set: (value) => emit('update:modelValue', value),
+});
+
+const rules = computed(() => ({
+  tavoitteet: {
+    $each: helpers.forEach({
+      ...koodistoKoodiValidator(),
+    }),
+  },
+}));
+
+const v$ = useVuelidate(rules, { tavoitteet });
+
+const tavoitteetlukutaidotKoodisto = new KoodistoSelectStore({
+  koodisto: 'tavoitteetlukutaidot',
+  async query(query: string, sivu = 0, koodisto: string) {
+    const { data } = (await Koodisto.kaikkiSivutettuna(koodisto, query, {
+      params: {
+        sivu,
+        sivukoko: 10,
       },
-    };
+    }));
+    return data as any;
+  },
+});
 
-  private readonly tavoitteetlukutaidotKoodisto = new KoodistoSelectStore({
-    koodisto: 'tavoitteetlukutaidot',
-    async query(query: string, sivu = 0, koodisto: string) {
-      const { data } = (await Koodisto.kaikkiSivutettuna(koodisto, query, {
-        params: {
-          sivu,
-          sivukoko: 10,
-        },
-      }));
-      return data as any;
+const lisaaTavoite = () => {
+  tavoitteet.value = [
+    ...tavoitteet.value,
+    {
+      ...(!hasSlotContent(slots.default)
+        && {
+          nimi: null,
+          uri: generateTemporaryKoodiUri('tavoitteetlukutaidot'),
+        }),
     },
-  });
+  ];
+};
 
-  lisaaTavoite() {
-    this.tavoitteet = [
-      ...this.tavoitteet,
-      {
-        ...(!this.$scopedSlots['default'] && { uri: generateTemporaryKoodiUri('tavoitteetlukutaidot') }),
-      },
-    ];
-  }
+const poistaTavoite = (tavoite) => {
+  tavoitteet.value = _.filter(tavoitteet.value, rivi => rivi !== tavoite);
+};
 
-  poistaTavoite(tavoite) {
-    this.tavoitteet = _.filter(this.tavoitteet, rivi => rivi !== tavoite);
-  }
+const defaultDragOptions = computed(() => {
+  return {
+    animation: 300,
+    emptyInsertThreshold: 10,
+    handle: '.order-handle',
+    ghostClass: 'dragged',
+  };
+});
 
-  get defaultDragOptions() {
-    return {
-      animation: 300,
-      emptyInsertThreshold: 10,
-      handle: '.order-handle',
-      ghostClass: 'dragged',
-    };
-  }
-
-  get tavoitteetOptions() {
-    return {
-      ...this.defaultDragOptions,
-      group: {
-        name: 'tavoitteet',
-      },
-    };
-  }
-}
+const tavoitteetOptions = computed(() => {
+  return {
+    ...defaultDragOptions.value,
+    group: {
+      name: 'tavoitteet',
+    },
+  };
+});
 </script>
 
 <style scoped lang="scss">
 @import "../../styles/_variables.scss";
 
-  ::v-deep .input-group-append {
+  :deep(.input-group-append) {
     display: inline-block;
   }
 </style>

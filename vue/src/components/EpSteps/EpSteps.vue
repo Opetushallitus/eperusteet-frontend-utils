@@ -1,43 +1,87 @@
 <template>
-<div class="ep-steps">
-  <div class="steps d-flex justify-content-center mr-5 ml-5 mb-5" v-if="steps.length > 1">
-    <div role="button" v-for="(step, idx) in steps" :key="step.key" class="text-center step" @click="stepIdx = idx">
-      <div class="connection" v-if="steps.length > 1" :class="{ left: idx === steps.length - 1, right: idx === 0 }"/>
-      <div class="p-4">
-        <div class="d-inline-block" :class="{ ball: true, active: idx <= stepIdx }">
-          {{ idx + 1 }}
-        </div>
-        <div :class="{ name: true, active: idx === stepIdx }">
-          {{ step.name }}
+  <div class="ep-steps">
+    <div
+      v-if="steps.length > 1"
+      class="steps d-flex justify-content-center mr-5 ml-5 mb-5"
+    >
+      <div
+        v-for="(step, idx) in steps"
+        :key="step.key"
+        role="button"
+        class="text-center step"
+        @click="stepIdx = idx"
+      >
+        <div
+          v-if="steps.length > 1"
+          class="connection"
+          :class="{ left: idx === steps.length - 1, right: idx === 0 }"
+        />
+        <div class="p-4">
+          <div
+            class="d-inline-block"
+            :class="{ ball: true, active: idx <= stepIdx }"
+          >
+            {{ idx + 1 }}
+          </div>
+          <div :class="{ name: true, active: idx === stepIdx }">
+            {{ step.name }}
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <h2 class="heading">
-    {{ currentStep.name }}
-  </h2>
-  <p class="description" v-if="currentStep.description" v-html="currentStep.description"></p>
+    <h2 class="heading">
+      {{ currentStep.name }}
+    </h2>
+    <p
+      v-if="currentStep.description"
+      class="description"
+      v-html="currentStep.description"
+    />
 
-  <div>
-    <slot :name="currentStep.key" />
-  </div>
+    <div>
+      <slot :name="currentStep.key" />
+    </div>
 
-  <div class="clearfix">
-    <div class="float-right mt-5">
-      <ep-button variant="link" @click="cancel" v-if="hasCancelEvent">{{ $t('peruuta')}}</ep-button>
-      <ep-button variant="link" @click="previous" v-if="stepIdx > 0">{{ $t('edellinen') }}</ep-button>
-      <ep-button @click="next" v-if="stepIdx < steps.length - 1" :disabled="!currentValid">{{ $t('seuraava') }}</ep-button>
-      <ep-button @click="saveImpl" v-else :disabled="!currentValid" :showSpinner="saving">
-        <slot name="luo">{{ $t('tallenna') }}</slot>
-      </ep-button>
+    <div class="clearfix">
+      <div class="float-right mt-5">
+        <ep-button
+          variant="link"
+          @click="cancel"
+        >
+          {{ $t('peruuta') }}
+        </ep-button>
+        <ep-button
+          v-if="stepIdx > 0"
+          variant="link"
+          @click="previous"
+        >
+          {{ $t('edellinen') }}
+        </ep-button>
+        <ep-button
+          v-if="stepIdx < steps.length - 1"
+          :disabled="!currentValid"
+          @click="next"
+        >
+          {{ $t('seuraava') }}
+        </ep-button>
+        <ep-button
+          v-else
+          :disabled="!currentValid"
+          :show-spinner="saving"
+          @click="saveImpl"
+        >
+          <slot name="luo">
+            {{ $t('tallenna') }}
+          </slot>
+        </ep-button>
+      </div>
     </div>
   </div>
-</div>
 </template>
 
-<script lang="ts">
-import { Watch, Component, Prop, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { ref, computed, watch, PropType } from 'vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import _ from 'lodash';
 
@@ -49,79 +93,71 @@ export interface Step {
   onNext?: () => void;
 }
 
-@Component({
-  components: {
-    EpButton,
+const props = defineProps({
+  steps: {
+    type: Array as () => Step[],
+    required: true,
   },
-})
-export default class EpSteps extends Vue {
-  @Prop({ required: true })
-  private steps!: Step[];
+  initialStep: {
+    type: Number,
+    default: 0,
+  },
+  onSave: {
+    type: Function as PropType<() => Promise<void>>,
+    required: true,
+  },
+});
 
-  @Prop({ default: 0 })
-  private initialStep!: number;
+const emit = defineEmits(['stepChange', 'cancel']);
 
-  @Prop({ required: true })
-  private onSave!: () => Promise<void>;
+const stepIdx = ref(props.initialStep);
+const saving = ref(false);
 
-  private stepIdx = 0;
-  private saving = false;
+watch(() => props.initialStep, (value) => {
+  stepIdx.value = value;
+});
 
-  async saveImpl() {
-    const isValid = _.last(this.steps)?.isValid;
-    if (isValid && !isValid()) {
-      return;
+const currentStep = computed(() => {
+  return props.steps[stepIdx.value];
+});
+
+watch(currentStep, (newVal) => {
+  emit('stepChange', newVal);
+}, { immediate: true });
+
+const currentValid = computed(() => {
+  if (currentStep.value.isValid) {
+    return currentStep.value.isValid();
+  }
+  return true;
+});
+
+
+async function saveImpl() {
+  const isValid = _.last(props.steps)?.isValid;
+  if (isValid && !isValid()) {
+    return;
+  }
+  saving.value = true;
+  await props.onSave();
+  saving.value = false;
+}
+
+function previous() {
+  stepIdx.value--;
+}
+
+function next() {
+  if (!currentStep.value.isValid || currentStep.value.isValid()) {
+    if (currentStep.value.onNext) {
+      currentStep.value.onNext();
     }
-    this.saving = true;
-    await this.onSave();
-    this.saving = false;
+    stepIdx.value++;
   }
+}
 
-  @Watch('initialStep', { immediate: true })
-  onInitialStepUpdate(value: number) {
-    this.stepIdx = value;
-  }
-
-  @Watch('currentStep', { immediate: true })
-  onStepChange(newVal) {
-    this.$emit('stepChange', newVal);
-  }
-
-  get currentStep() {
-    return this.steps[this.stepIdx];
-  }
-
-  previous() {
-    --this.stepIdx;
-  }
-
-  get currentValid() {
-    if (this.currentStep.isValid) {
-      return this.currentStep.isValid();
-    }
-
-    return true;
-  }
-
-  next() {
-    if (!this.currentStep.isValid || this.currentStep.isValid()) {
-      if (this.currentStep.onNext) {
-        this.currentStep.onNext();
-      }
-
-      ++this.stepIdx;
-    }
-    else {
-    }
-  }
-
-  get hasCancelEvent() {
-    return this.$listeners && this.$listeners.cancel;
-  }
-
-  cancel() {
-    this.$emit('cancel');
-  }
+function cancel() {
+  emit('cancel');
 }
 </script>
 

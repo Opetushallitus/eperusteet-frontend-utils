@@ -1,22 +1,23 @@
-import { Getter, State, Store } from '@shared/stores/store';
+import { defineStore } from 'pinia';
 import _ from 'lodash';
 import { Location } from 'vue-router';
+import { ref, computed } from 'vue';
 
-@Store
-class MurupolkuStore {
-  @State()
-  public polku: { [avain: string]: any } = {};
+export const useMurupolkuStore = defineStore('murupolku', () => {
+  // State as refs
+  const polku = ref<{ [avain: string]: any }>({});
 
-  @Getter(state => {
+  // Getters as computed
+  const murut = computed(() => {
     return {
-      ...state.polku,
+      ...polku.value,
     };
-  })
-  public readonly murut!: object;
+  });
 
-  aseta(key: string, value: any, location?: Location) {
-    this.polku = {
-      ...this.polku,
+  // Actions as functions
+  function aseta(key: string, value: any, location?: Location) {
+    polku.value = {
+      ...polku.value,
       [key]: {
         name: value,
         location,
@@ -24,9 +25,30 @@ class MurupolkuStore {
     };
   }
 
-  tyhjenna() {
-    this.polku = [];
+  function tyhjenna() {
+    polku.value = {};
   }
-}
 
-export const Murupolku = new MurupolkuStore();
+  return {
+    polku,
+    murut,
+    aseta,
+    tyhjenna,
+  };
+});
+
+// For backwards compatibility
+export const Murupolku = {
+  aseta: (key: string, value: any, location?: Location) => {
+    const store = useMurupolkuStore();
+    store.aseta(key, value, location);
+  },
+  tyhjenna: () => {
+    const store = useMurupolkuStore();
+    store.tyhjenna();
+  },
+  get murut() {
+    const store = useMurupolkuStore();
+    return store.murut;
+  },
+};

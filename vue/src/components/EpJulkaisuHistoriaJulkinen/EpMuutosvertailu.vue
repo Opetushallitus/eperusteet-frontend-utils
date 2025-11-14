@@ -1,20 +1,39 @@
 <template>
-  <div v-if="muutostiedot" class="muutostiedot">
+  <div
+    v-if="muutostiedot"
+    class="muutostiedot"
+  >
     <div v-if="muutostiedot.length > 0">
-      <div v-for="(kohdeTapahtumat, index) in muutostiedot" :key="index">
-        <ep-form-content :name="kohdeTapahtumat.kohde" headerType="h3" headerClass="h6">
+      <div
+        v-for="(kohdeTapahtumat, index) in muutostiedot"
+        :key="index"
+      >
+        <ep-form-content
+          :name="kohdeTapahtumat.kohde"
+          header-type="h3"
+          header-class="h6"
+        >
           <div v-if="yhteenvetoTapahtumat.includes(kohdeTapahtumat.kohde)">
-            <div v-for="(tapahtuma, index) in kohdeTapahtumat.tapahtumat" :key="index">
-              {{ $t(kohdeTapahtumat.kohde + '-muutoshistoria-' + tapahtuma.tapahtuma, {kpl: tapahtuma.muokkaustiedot.length})}}
+            <div
+              v-for="(tapahtuma, index) in kohdeTapahtumat.tapahtumat"
+              :key="index"
+            >
+              {{ $t(kohdeTapahtumat.kohde + '-muutoshistoria-' + tapahtuma.tapahtuma, {kpl: tapahtuma.muokkaustiedot.length}) }}
             </div>
           </div>
           <template v-else>
-            <div v-for="(tapahtuma, index) in kohdeTapahtumat.tapahtumat" :key="index">
-              {{ $t('muutoshistoria-' + tapahtuma.tapahtuma)}}
+            <div
+              v-for="(tapahtuma, index) in kohdeTapahtumat.tapahtumat"
+              :key="index"
+            >
+              {{ $t('muutoshistoria-' + tapahtuma.tapahtuma) }}
 
               <ul v-if="tapahtuma.muokkaustiedot && tapahtuma.muokkaustiedot.length > 0">
-                <li v-for="(tieto, i) in tapahtuma.muokkaustiedot" :key="i">
-                  <EpRouterLink :muokkaustieto="tieto"></EpRouterLink>
+                <li
+                  v-for="(tieto, i) in tapahtuma.muokkaustiedot"
+                  :key="i"
+                >
+                  <EpRouterLink :muokkaustieto="tieto" />
                 </li>
               </ul>
             </div>
@@ -28,70 +47,66 @@
     </div>
   </div>
   <div v-else>
-    <EpSpinner/>
+    <EpSpinner />
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { ref, computed, onMounted } from 'vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import { MuokkaustietoStore } from '@shared/stores/MuokkaustietoStore';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import EpRouterLink from '@shared/components/EpJulkaisuHistoriaJulkinen/EpRouterLink.vue';
 import _ from 'lodash';
 
-@Component({
-  components: {
-    EpFormContent,
-    EpSpinner,
-    EpRouterLink,
+const props = defineProps({
+  julkaisu: {
+    type: Object,
+    required: true,
   },
-})
-export default class EpMuutosvertailu extends Vue {
-  @Prop({ required: true })
-  private julkaisu!: any;
+});
 
-  private muokkaustietoStore = new MuokkaustietoStore();
+const muokkaustietoStore = new MuokkaustietoStore();
 
-  async mounted() {
-    await this.muokkaustietoStore.getVersionMuutokset(this.julkaisu.peruste.id, this.julkaisu.revision);
+onMounted(async () => {
+  await muokkaustietoStore.getVersionMuutokset(props.julkaisu.peruste.id, props.julkaisu.revision);
+});
+
+const muutostiedot = computed(() => {
+  if (muokkaustietoStore.muutostiedot.value) {
+    return _.map(muokkaustietoStore.muutostiedot.value, tieto => {
+      return {
+        ...tieto,
+        tapahtumat: _.map(tieto.tapahtumat, tapahtuma => {
+          return {
+            ...tapahtuma,
+            muokkaustiedot: _.map(tapahtuma.muokkaustiedot, muokkaustieto => {
+              return {
+                ...muokkaustieto,
+                kohde: solveTapahtuma(muokkaustieto),
+              };
+            }),
+          };
+        }),
+      };
+    });
   }
+  return [];
+});
 
-  get muutostiedot() {
-    if (this.muokkaustietoStore.muutostiedot.value) {
-      return _.map(this.muokkaustietoStore.muutostiedot.value, tieto => {
-        return {
-          ...tieto,
-          tapahtumat: _.map(tieto.tapahtumat, tapahtuma => {
-            return {
-              ...tapahtuma,
-              muokkaustiedot: _.map(tapahtuma.muokkaustiedot, muokkaustieto => {
-                return {
-                  ...muokkaustieto,
-                  kohde: this.solveTapahtuma(muokkaustieto),
-                };
-              }),
-            };
-          }),
-        };
-      });
+function solveTapahtuma(muokkaustieto) {
+  if (props.julkaisu?.peruste?.toteutus === 'perusopetus') {
+    if (muokkaustieto.kohde === 'oppiaine') {
+      return 'perusopetusoppiaine';
     }
   }
 
-  solveTapahtuma(muokkaustieto) {
-    if (this.julkaisu?.peruste?.toteutus === 'perusopetus') {
-      if (muokkaustieto.kohde === 'oppiaine') {
-        return 'perusopetusoppiaine';
-      }
-    }
-
-    return muokkaustieto.kohde;
-  }
-
-  get yhteenvetoTapahtumat() {
-    return ['termi'];
-  }
+  return muokkaustieto.kohde;
 }
+
+const yhteenvetoTapahtumat = computed(() => {
+  return ['termi'];
+});
 </script>
 
 <style scoped lang="scss">

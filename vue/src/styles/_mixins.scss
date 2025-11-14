@@ -15,13 +15,13 @@
   overflow-wrap: break-word;
   word-wrap: break-word;
 
-  & ::v-deep figure {
+  & :deep(figure) {
     text-align: center;
     font-size: smaller;
     text-indent: 0;
   }
 
-  & ::v-deep img {
+  & :deep(img) {
     display: block;
     max-width: 100%;
     width: auto !important;
@@ -29,7 +29,7 @@
     margin: 0 auto;
   }
 
-  & ::v-deep table {
+  & :deep(table) {
     max-width: 100%;
     width: auto !important;
     height: auto !important;

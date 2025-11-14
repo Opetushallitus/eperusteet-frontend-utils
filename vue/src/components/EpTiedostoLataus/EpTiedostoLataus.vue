@@ -1,16 +1,34 @@
 <template>
   <div>
-    <div class="tiedosto-lataus" :class="file ? 'tiedosto' : 'ei-tiedosto'">
-
-      <b-form-file ref="file-input" v-if="!file" :accept="accept" :placeholder="placeholder" :drop-placeholder="dropPlaceholder" :browse-text="browseText" @input="onInput"></b-form-file>
+    <div
+      class="tiedosto-lataus"
+      :class="file ? 'tiedosto' : 'ei-tiedosto'"
+    >
+      <b-form-file
+        v-if="!file"
+        ref="fileInput"
+        :accept="accept"
+        :placeholder="placeholder"
+        :drop-placeholder="dropPlaceholder"
+        :browse-text="browseText"
+        @input="onInput"
+      />
 
       <template v-if="file">
-        <slot name="file-selected" :file="file">
+        <slot
+          name="file-selected"
+          :file="file"
+        >
           <div class="pl-2 d-inline-block">
             <div>{{ $t('valittu-tiedosto') }}: {{ file ? file.name : '' }}</div>
             <div class="text-right pl-2 pt-4">
-              <ep-button @click="cancel" class="pl-5">
-                <slot name="peruuta">{{ $t('peruuta') }}</slot>
+              <ep-button
+                class="pl-5"
+                @click="cancel"
+              >
+                <slot name="peruuta">
+                  {{ $t('peruuta') }}
+                </slot>
               </ep-button>
             </div>
           </div>
@@ -20,11 +38,11 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Watch, Prop } from 'vue-property-decorator';
-
+<script setup lang="ts">
+import { computed, useTemplateRef, getCurrentInstance } from 'vue';
 import EpButton from '../EpButton/EpButton.vue';
 import _ from 'lodash';
+import { $t, $fail } from '@shared/utils/globals';
 
 export interface FileData {
   file: File;
@@ -32,111 +50,113 @@ export interface FileData {
   content?: string;
 }
 
-@Component({
-  components: {
-    EpButton,
+const props = defineProps({
+  value: {
+    type: Object as () => FileData | null,
+    default: null,
   },
-})
-export default class EpTiedostoLataus extends Vue {
-  // private fileMaxSize = 1 * 1024 * 1024;
+  fileTypes: {
+    type: Array as () => string[],
+    required: true,
+  },
+  asBinary: {
+    type: Boolean,
+    default: false,
+  },
+  fileMaxSize: {
+    type: Number,
+    default: 1 * 1024 * 1024,
+  },
+});
 
-  @Prop({ default: null })
-  private value!: FileData;
+const emit = defineEmits(['input']);
+const instance = getCurrentInstance();
+const fileInput = useTemplateRef('fileInput');
 
-  @Prop({ required: true })
-  private fileTypes!: string[];
+const accept = computed(() => {
+  return _.join(props.fileTypes, ', ');
+});
 
-  @Prop({ default: false })
-  private asBinary!: boolean;
+const file = computed(() => {
+  if (props.value) {
+    return props.value.file;
+  }
+  return null;
+});
 
-  @Prop({ default: 1 * 1024 * 1024 })
-  private fileMaxSize!: number;
+const placeholder = computed(() => {
+  return $t('fu-placeholder');
+});
 
-  get accept() {
-    return _.join(this.fileTypes, ', ');
+const dropPlaceholder = computed(() => {
+  return $t('fu-placeholder');
+});
+
+const browseText = computed(() => {
+  return $t('fu-browse-text');
+});
+
+function handleFail() {
+  $fail($t('tiedosto-luku-virhe'));
+  emit('input', null);
+  resetFile();
+}
+
+// Luodaan esikatselukuva kuvan valitsemisen jälkeen
+async function onInput(file: File) {
+  if (file != null && file.size > props.fileMaxSize) {
+    $fail($t('pdf-tiedosto-kuva-liian-suuri'));
   }
 
-  get file() {
-    if (this.value) {
-      return this.value.file;
-    }
+  if (file != null && !_.includes(props.fileTypes, file.type)) {
+    $fail($t('pdf-tiedosto-kuva-vaara-tyyppi'));
   }
 
-  get placeholder() {
-    return this.$t('fu-placeholder');
-  }
-
-  get dropPlaceholder() {
-    return this.$t('fu-placeholder');
-  }
-
-  get browseText() {
-    return this.$t('fu-browse-text');
-  }
-
-  handleFail() {
-    this.$fail((this as any).$t('tiedosto-luku-virhe'));
-    this.$emit('input', null);
-    this.resetFile();
-  }
-
-  // Luodaan esikatselukuva kuvan valitsemisen jälkeen
-  async onInput(file: File) {
-    if (file != null && file.size > this.fileMaxSize) {
-      this.$fail((this as any).$t('pdf-tiedosto-kuva-liian-suuri'));
-    }
-
-    if (file != null && !_.includes(this.fileTypes, file.type)) {
-      this.$fail((this as any).$t('pdf-tiedosto-kuva-vaara-tyyppi'));
-    }
-
-    if (file != null) {
-      // Luodaan uusi lukija ja rekisteröidään kuuntelija
-      const reader = new FileReader();
-      if (this.asBinary) {
-        reader.onload = () => {
-          try {
-            if (reader.result) {
-              this.$emit('input', {
-                file,
-                binary: reader.result,
-              } as FileData);
-            }
+  if (file != null) {
+    // Luodaan uusi lukija ja rekisteröidään kuuntelija
+    const reader = new FileReader();
+    if (props.asBinary) {
+      reader.onload = () => {
+        try {
+          if (reader.result) {
+            emit('input', {
+              file,
+              binary: reader.result,
+            } as FileData);
           }
-          catch (e) {
-            this.handleFail();
-          }
-        };
-        reader.readAsBinaryString(file);
-      }
-      else {
-        reader.onload = evt => {
-          try {
-            if (evt.target) {
-              this.$emit('input', {
-                file,
-                content: JSON.parse((evt.target.result as any)),
-              } as FileData);
-            }
-          }
-          catch (e) {
-            this.handleFail();
-          }
-        };
-        reader.readAsText(file);
-      }
+        }
+        catch (e) {
+          handleFail();
+        }
+      };
+      reader.readAsBinaryString(file);
     }
-  }
-
-  cancel() {
-    this.$emit('input', null);
-  }
-
-  resetFile() {
-    (this as any).$refs['file-input'].reset();
+    else {
+      reader.onload = evt => {
+        try {
+          if (evt.target) {
+            emit('input', {
+              file,
+              content: JSON.parse((evt.target.result as any)),
+            } as FileData);
+          }
+        }
+        catch (e) {
+          handleFail();
+        }
+      };
+      reader.readAsText(file);
+    }
   }
 }
 
+function cancel() {
+  emit('input', null);
+}
+
+function resetFile() {
+  fileInput.value?.reset();
+}
 </script>
 
 <style lang="scss" scoped>
@@ -171,7 +191,7 @@ export default class EpTiedostoLataus extends Vue {
     background-color: $gray-lighten-7;
   }
 
-  .custom-file::v-deep{
+  .custom-file:deep() {
     height: 100%;
     flex-direction: column;
     justify-content: center;

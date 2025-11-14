@@ -1,100 +1,116 @@
 <template>
-<div v-if="isEditable">
-  <div class="arvo" v-for="(value, idx) in internal" :key="idx">
-    <ep-input v-model="internal[idx][kentta]" :is-editing="true" class="mb-2">
-      <div slot="left" style="padding: 8px">
-        <i>&#8226;</i>
-      </div>
-      <div slot="right">
-        <b-button variant="link" @click="poista(idx)">
-          <EpMaterialIcon>close</EpMaterialIcon>
-        </b-button>
-      </div>
-    </ep-input>
+  <div v-if="isEditable">
+    <div
+      v-for="(value, idx) in internal"
+      :key="idx"
+      class="arvo"
+    >
+      <ep-input
+        v-model="internal[idx][kentta]"
+        :is-editing="true"
+        class="mb-2"
+      >
+        <template #left>
+          <div style="padding: 8px">
+            <i>&#8226;</i>
+          </div>
+        </template>
+        <template #right>
+          <b-button
+            variant="link"
+            @click="poista(idx)"
+          >
+            <EpMaterialIcon>close</EpMaterialIcon>
+          </b-button>
+        </template>
+      </ep-input>
+    </div>
+    <div style="margin-top: 20px;">
+      <ep-button
+        variant="outline-primary"
+        icon="add"
+        @click="lisaaRivi()"
+      >
+        {{ $t(lisays) }}
+      </ep-button>
+    </div>
   </div>
-  <div style="margin-top: 20px;">
-    <ep-button
-      variant="outline-primary"
-      icon="add"
-      @click="lisaaRivi()">
-      {{ $t(lisays) }}
-    </ep-button>
+  <div v-else>
+    <ul class="arvot">
+      <li
+        v-for="(value, idx) in internal"
+        :key="idx"
+        class="arvo"
+      >
+        <ep-input
+          :model-value="internal[idx][kentta]"
+          :is-editing="false"
+        />
+      </li>
+    </ul>
   </div>
-</div>
-<div v-else>
-  <ul class="arvot">
-    <li class="arvo" v-for="(value, idx) in internal" :key="idx">
-      <ep-input :value="internal[idx][kentta]" :is-editing="false" />
-    </li>
-  </ul>
-</div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed } from 'vue';
+import _ from 'lodash';
 import EpButton from '../EpButton/EpButton.vue';
 import EpInput from './EpInput.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
-import _ from 'lodash';
 
-@Component({
-  components: {
-    EpButton,
-    EpInput,
-    EpMaterialIcon,
-  },
-})
-export default class EpList extends Vue {
-  @Prop({
+const props = defineProps({
+  isEditable: {
     type: Boolean,
     default: false,
-  })
-  private isEditable!: boolean;
+  },
+  modelValue: {
+    required: true,
+  },
+  lisays: {
+    default: 'lisaa-sisalto',
+    type: String,
+  },
+  kentta: {
+    required: true,
+    type: String,
+  },
+});
 
-  @Prop({ required: true })
-  private value!: any;
+const emit = defineEmits(['update:modelValue']);
 
-  @Prop({ default: 'lisaa-sisalto', type: String })
-  private lisays!: string;
-
-  @Prop({ required: true, type: String })
-  private kentta!: string;
-
-  get sanitized() {
-    if (_.isArray(this.value)) {
-      return this.value;
-    }
-    else {
-      return [this.value];
-    }
+const sanitized = computed(() => {
+  if (_.isArray(props.modelValue)) {
+    return props.modelValue;
   }
-
-  get internal() {
-    return this.sanitized;
+  else {
+    return [props.modelValue];
   }
+});
 
-  set internal(value: any) {
-    this.$emit('input', value);
-  }
+const internal = computed({
+  get: () => sanitized.value,
+  set: (value: any) => {
+    emit('update:modelValue', value);
+  },
+});
 
-  get options() {
-    return {
-      // handle: '.handle',
-      animation: 300,
-      disabled: false,
-    };
-  }
+const options = computed(() => {
+  return {
+    // handle: '.handle',
+    animation: 300,
+    disabled: false,
+  };
+});
 
-  lisaaRivi() {
-    this.internal.push({ });
-  }
+function lisaaRivi() {
+  internal.value.push({ });
+}
 
-  poista(idx) {
-    this.internal = [
-      ...this.internal.slice(0, idx),
-      ...this.internal.slice(idx + 1),
-    ];
-  }
+function poista(idx: number) {
+  internal.value = [
+    ...internal.value.slice(0, idx),
+    ...internal.value.slice(idx + 1),
+  ];
 }
 </script>
 
@@ -147,7 +163,6 @@ export default class EpList extends Vue {
         }
       }
     }
-
   }
 }
 </style>

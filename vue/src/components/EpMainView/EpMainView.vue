@@ -1,30 +1,41 @@
 <template>
-<div class="content">
-  <div :class="{'container': container}">
-    <div v-if="hasHeaderSlot">
-      <slot name="header"></slot>
+  <div class="content">
+    <div :class="{'container': container}">
+      <div v-if="hasHeaderSlot">
+        <slot name="header" />
+      </div>
+      <div
+        v-if="hasDefaultSlot"
+        :class="{'view-content': hasHeaderSlot}"
+      >
+        <slot name="default" />
+      </div>
+      <slot name="custom-content" />
     </div>
-    <div :class="{'view-content': hasHeaderSlot}" v-if="$slots['default']">
-      <slot name="default"></slot>
-    </div>
-    <slot name="custom-content"></slot>
+    <slot name="after" />
   </div>
-  <slot name="after"></slot>
-</div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, useSlots } from 'vue';
+import { hasSlotContent } from '../../utils/vue-utils';
 
-@Component
-export default class EpMainView extends Vue {
-  @Prop({ required: false, default: false, type: Boolean })
-  private container!: boolean;
+const props = defineProps({
+  container: {
+    type: Boolean,
+    default: false,
+  },
+});
 
-  get hasHeaderSlot() {
-    return this.$scopedSlots.header;
-  }
-}
+const slots = useSlots();
+
+const hasHeaderSlot = computed(() => {
+  return hasSlotContent(slots.header);
+});
+
+const hasDefaultSlot = computed(() => {
+  return hasSlotContent(slots.default);
+});
 </script>
 
 <style scoped lang="scss">

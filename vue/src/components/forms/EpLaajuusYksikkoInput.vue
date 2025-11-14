@@ -1,36 +1,41 @@
 <template>
   <div class="d-flex">
     <EpLaajuusInput
-      v-model="value.laajuus"
+      v-model="model.laajuus"
       :is-editing="isEditing"
-      :validation="validation.laajuus">
-      <span></span>
+      :validation="validation.laajuus"
+    >
+      <span />
     </EpLaajuusInput>
 
     <EpMultiSelect
       v-if="isEditing"
-      v-model="value.laajuusYksikko"
+      v-model="model.laajuusYksikko"
       :options="laajuusYksikot"
       :close-on-select="true"
       :clear-on-select="false"
       :placeholder="$t('valitse-laajuus-yksikko')"
-      :validation="validation.laajuusYksikko">
-      <template slot="singleLabel" slot-scope="{ option }">
+      :validation="validation.laajuusYksikko"
+    >
+      <template #singleLabel="{ option }">
         {{ $t(option.toLowerCase() + '-lyhenne') }}
       </template>
-      <template slot="option" slot-scope="{ option }">
+      <template #option="{ option }">
         {{ $t(option.toLowerCase() + '-partitiivi') }}
       </template>
     </EpMultiSelect>
-    <div v-if="!isEditing && value.laajuusYksikko && value.laajuus" class="ml-2">
-      <span> {{ laajuusYksikkoLyhenne }}</span>
+    <div
+      v-if="!isEditing && model.laajuusYksikko && model.laajuus"
+      class="ml-2"
+    >
+      <span> {{ $t(laajuusYksikkoLyhenne) }}</span>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Mixins, Prop } from 'vue-property-decorator';
-import EpValidation from '../../mixins/EpValidation';
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useVuelidate } from '@vuelidate/core';
 import EpErrorWrapper from '../forms/EpErrorWrapper.vue';
 import EpMultiSelect from '@shared/components/forms/EpMultiSelect.vue';
 import EpLaajuusInput from '@shared/components/forms/EpLaajuusInput.vue';
@@ -42,44 +47,51 @@ export interface Laajuus {
   laajuusYksikko?: LaajuusYksikkoEnum;
 }
 
-@Component({
-  components: {
-    EpErrorWrapper,
-    EpMultiSelect,
-    EpLaajuusInput,
+const props = defineProps({
+  modelValue: {
+    required: true,
+    type: Object as () => Laajuus,
   },
-})
-export default class EpLaajuusYksikkoInput extends Mixins(EpValidation) {
-  @Prop({ required: true })
-  private value!: Laajuus;
+  isEditing: {
+    default: false,
+    type: Boolean,
+  },
+  validationError: {
+    type: Object,
+  },
+});
 
-  @Prop({ default: false })
-  private isEditing!: boolean;
+const emit = defineEmits(['update:modelValue']);
 
-  get model() {
-    return this.value;
-  }
+const model = computed({
+  get: () => props.modelValue,
+  set: (value) => {
+    emit('update:modelValue', value);
+  },
+});
 
-  set model(value) {
-    this.$emit('input', value);
-  }
+const v$ = useVuelidate();
 
-  get laajuusYksikot() {
-    return [
-      LaajuusYksikkoEnum.OPINTOPISTE,
-      LaajuusYksikkoEnum.OPINTOVIIKKO,
-      LaajuusYksikkoEnum.TUNTI,
-      LaajuusYksikkoEnum.VIIKKO,
-      LaajuusYksikkoEnum.OSAAMISPISTE,
-      LaajuusYksikkoEnum.VUOSI,
-      LaajuusYksikkoEnum.VUOSIVIIKKOTUNTI,
-    ];
-  }
+const validation = computed(() => {
+  // Adapt to component's validation structure
+  return v$.value || {};
+});
 
-  get laajuusYksikkoLyhenne() {
-    return this.$t(_.lowerCase(this.value.laajuusYksikko) + '-lyhenne');
-  }
-};
+const laajuusYksikot = computed(() => {
+  return [
+    LaajuusYksikkoEnum.OPINTOPISTE,
+    LaajuusYksikkoEnum.OPINTOVIIKKO,
+    LaajuusYksikkoEnum.TUNTI,
+    LaajuusYksikkoEnum.VIIKKO,
+    LaajuusYksikkoEnum.OSAAMISPISTE,
+    LaajuusYksikkoEnum.VUOSI,
+    LaajuusYksikkoEnum.VUOSIVIIKKOTUNTI,
+  ];
+});
+
+const laajuusYksikkoLyhenne = computed(() => {
+  return _.lowerCase(props.modelValue.laajuusYksikko) + '-lyhenne';
+});
 </script>
 
 <style lang="scss" scoped>

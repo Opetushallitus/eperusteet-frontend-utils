@@ -1,39 +1,44 @@
 <template>
-  <EpNaytaKaikki v-model="virhehuomautukset" striped>
+  <EpNaytaKaikki
+    :value="virhehuomautukset"
+    striped
+  >
     <template #default="{ data }">
-      <router-link v-if="data.route" :to="data.route">
+      <router-link
+        v-if="data.route"
+        :to="data.route"
+      >
         <IkoniTeksti :tyyppi="tyyppi">
-          {{$t(data.kuvaus)}}
-          <span v-if="data.navigationNode && data.navigationNode.label">({{$kaanna(data.navigationNode.label)}})</span>
+          {{ $t(data.kuvaus) }}
+          <span v-if="data.navigationNode && data.navigationNode.label">({{ $kaanna(data.navigationNode.label) }})</span>
         </IkoniTeksti>
       </router-link>
-      <IkoniTeksti v-else :tyyppi="tyyppi">
-        {{$t(data.kuvaus)}}
-        <span v-if="data.navigationNode &&  data.navigationNode.label">({{$kaanna(data.navigationNode.label)}})</span>
+      <IkoniTeksti
+        v-else
+        :tyyppi="tyyppi"
+      >
+        {{ $t(data.kuvaus) }}
+        <span v-if="data.navigationNode && data.navigationNode.label">({{ $kaanna(data.navigationNode.label) }})</span>
       </IkoniTeksti>
     </template>
   </EpNaytaKaikki>
 </template>
 
-<script lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
 import { VirheHuomautus } from './EpJulkaisuValidointi.vue';
 import IkoniTeksti from './IkoniTeksti.vue';
 import EpNaytaKaikki from '@shared/components//EpNaytaKaikki/EpNaytaKaikki.vue';
 
-@Component({
-  components: {
-    EpNaytaKaikki,
-    IkoniTeksti,
+defineProps({
+  virhehuomautukset: {
+    type: Array as () => VirheHuomautus[],
+    required: true,
   },
-})
-export default class VirheHuomautukset extends Vue {
-  @Prop({ required: true })
-  private virhehuomautukset!: VirheHuomautus[];
-
-  @Prop({ required: true })
-  private tyyppi!: 'virhe' | 'huomautus';
-}
+  tyyppi: {
+    type: String as () => 'virhe' | 'huomautus',
+    required: true,
+  },
+});
 </script>
 
 <style scoped lang="scss">

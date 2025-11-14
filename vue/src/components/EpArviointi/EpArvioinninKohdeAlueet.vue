@@ -1,78 +1,80 @@
 <template>
   <div>
-    <div v-for="(arvioinninKohdeAlue, index) in model" :key="'arvioinninKohdeAlue' + index" class="arviointi">
+    <div
+      v-for="(arvioinninKohdeAlue, index) in modelValue"
+      :key="'arvioinninKohdeAlue' + index"
+      class="arviointi"
+    >
       <EpArviointi
-        v-model="model[index]"
-        :isEditing="isEditing"
-        :arviointiasteikot="arviointiasteikot">
-
-        <div slot="poisto">
-          <EpButton v-if="isEditing" variant="link" icon="delete" @click="poistaArvioinninKohdealue(arvioinninKohdeAlue)">{{$t('poista-arvioinnin-kohdealue')}}</EpButton>
-        </div>
-        </EpArviointi>
+        :model-value="modelValue[index]"
+        :is-editing="isEditing"
+        :arviointiasteikot="arviointiasteikot"
+        @update:model-value="updateArvioinninKohdeAlue(index, $event)"
+      >
+        <template #poisto>
+          <EpButton
+            v-if="isEditing"
+            variant="link"
+            icon="delete"
+            @click="poistaArvioinninKohdealue(arvioinninKohdeAlue)"
+          >
+            {{ $t('poista-arvioinnin-kohdealue') }}
+          </EpButton>
+        </template>
+      </EpArviointi>
     </div>
     <EpButton
-      class="mt-3"
       v-if="isEditing"
+      class="mt-3"
       variant="outline"
       icon="add"
-      @click="lisaaArvioinninKohdeAlue">
-        {{$t(lisaaBtnTeksti)}}
-      </EpButton>
+      @click="lisaaArvioinninKohdeAlue"
+    >
+      {{ $t(lisaaBtnTeksti) }}
+    </EpButton>
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import * as _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { computed } from 'vue';
 import EpArviointi from '@shared/components/EpArviointi/EpArviointi.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 
-@Component({
-  components: {
-    EpArviointi,
-    EpButton,
-  },
-})
-export default class EpArvioinninKohdeAlueet extends Vue {
-  @Prop({ required: true })
-  private value!: any[];
+const props = defineProps<{
+  modelValue: any[];
+  isEditing: boolean;
+  arviointiasteikot: any;
+}>();
 
-  @Prop({ required: true })
-  private isEditing!: boolean;
+const emit = defineEmits(['update:modelValue']);
 
-  @Prop({ required: true })
-  private arviointiasteikot!: any;
+const updateArvioinninKohdeAlue = (index: number, value: any) => {
+  const updated = [...props.modelValue];
+  updated[index] = value;
+  emit('update:modelValue', updated);
+};
 
-  get model() {
-    return this.value;
+const lisaaArvioinninKohdeAlue = () => {
+  emit('update:modelValue', [
+    ...props.modelValue,
+    {
+      arvioinninKohteet: [],
+    },
+  ]);
+};
+
+const poistaArvioinninKohdealue = (arvioinninKohdeAlue: any) => {
+  emit('update:modelValue', _.filter(props.modelValue, arv => arv !== arvioinninKohdeAlue));
+};
+
+const lisaaBtnTeksti = computed(() => {
+  if (_.size(props.modelValue) > 0) {
+    return 'lisaa-arvioinnin-kohdealue';
   }
 
-  set model(val) {
-    this.$emit('input', val);
-  }
-
-  lisaaArvioinninKohdeAlue() {
-    this.model = [
-      ...this.model,
-      {
-        arvioinninKohteet: [],
-      },
-    ];
-  }
-
-  poistaArvioinninKohdealue(arvioinninKohdeAlue) {
-    this.model = _.filter(this.model, arv => arv !== arvioinninKohdeAlue);
-  }
-
-  get lisaaBtnTeksti() {
-    if (_.size(this.model) > 0) {
-      return 'lisaa-arvioinnin-kohdealue';
-    }
-
-    return 'lisaa-tutkinnon-osa-kohtainen-arviointi';
-  }
-}
+  return 'lisaa-tutkinnon-osa-kohtainen-arviointi';
+});
 </script>
 
 <style scoped lang="scss">

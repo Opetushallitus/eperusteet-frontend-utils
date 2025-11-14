@@ -1,8 +1,6 @@
 import Vue from 'vue';
-import VueCompositionApi, { reactive, computed } from '@vue/composition-api';
 import _ from 'lodash';
-
-Vue.use(VueCompositionApi);
+import { computed, reactive, ref } from 'vue';
 
 const state = reactive({
   window: {
@@ -51,7 +49,7 @@ export class BrowserStore {
   public readonly latestKeypress = computed(() => state.latestKeypress);
   public readonly navigationVisible = computed(() => state.window.width > 991);
 
-  public static location = Vue.observable({ href: '' });
+  public static location = reactive({ href: '' });
 
   public static changeLocation(href: string) {
     BrowserStore.location.href = href;

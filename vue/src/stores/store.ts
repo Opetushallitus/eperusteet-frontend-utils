@@ -5,7 +5,7 @@ import _ from 'lodash';
 Vue.use(Vuex);
 const StoreConfigFieldName = '_storeconfig';
 
-type StoreConstructor = new(...args: any[]) => {};
+type StoreConstructor = new(...args: any[]) => object;
 
 function vuexCase(val: string) {
   return _.toUpper(_.snakeCase(val));
@@ -54,7 +54,7 @@ function overrideStates(store: any, config: any, target: any) {
 function vuexBaseConfig(config: any) {
   return {
     namespaced: true,
-    strict: process.env.NODE_ENV !== 'production',
+    strict: import.meta.env.NODE_ENV !== 'production',
     state: config.state,
     mutations: {
       ...config.stateSetters,

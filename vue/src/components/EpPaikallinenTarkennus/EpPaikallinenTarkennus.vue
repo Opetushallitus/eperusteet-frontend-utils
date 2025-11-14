@@ -1,42 +1,73 @@
 <template>
   <div class="paikallinen-tarkennus-alue">
-    <ep-collapse tyyppi="paikallinen-teksti" v-if="avattava && !noheader" :borderBottom="false" :usePadding="false">
-      <template v-slot:header>
+    <ep-collapse
+      v-if="avattava && !noheader"
+      tyyppi="paikallinen-teksti"
+      :border-bottom="false"
+      :use-padding="false"
+    >
+      <template #header>
         <div class="otsikko">
           <slot name="header">
-            <h4 class="mb-0" v-if="headerh4">{{ $t('paikallinen-teksti') }}</h4>
-            <div v-else class="otsikko">{{ $t('paikallinen-teksti') }}</div>
+            <h4
+              v-if="headerh4"
+              class="mb-0"
+            >
+              {{ $t('paikallinen-teksti') }}
+            </h4>
+            <div
+              v-else
+              class="otsikko"
+            >
+              {{ $t('paikallinen-teksti') }}
+            </div>
           </slot>
         </div>
       </template>
-      <slot/>
+      <slot />
     </ep-collapse>
 
-    <div class="vain-teksti" v-else>
-      <slot name="header" v-if="!noheader">
-        <h4 v-if="headerh4">{{ $t('paikallinen-teksti') }}</h4>
-        <div v-else class="otsikko">{{ $t('paikallinen-teksti') }}</div>
+    <div
+      v-else
+      class="vain-teksti"
+    >
+      <slot
+        v-if="!noheader"
+        name="header"
+      >
+        <h4 v-if="headerh4">
+          {{ $t('paikallinen-teksti') }}
+        </h4>
+        <div
+          v-else
+          class="otsikko"
+        >
+          {{ $t('paikallinen-teksti') }}
+        </div>
       </slot>
-      <slot/>
+      <slot />
     </div>
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import * as _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import EpCollapse from '@shared/components/EpCollapse/EpCollapse.vue';
 
-@Component
-export default class EpPaikallinenTarkennus extends Vue {
-  @Prop({ required: false, default: true, type: Boolean })
-  private avattava!: boolean;
-
-  @Prop({ required: false, default: false, type: Boolean })
-  private headerh4!: boolean;
-
-  @Prop({ required: false, default: false, type: Boolean })
-  private noheader!: boolean;
-}
+const props = defineProps({
+  avattava: {
+    type: Boolean,
+    default: true,
+  },
+  headerh4: {
+    type: Boolean,
+    default: false,
+  },
+  noheader: {
+    type: Boolean,
+    default: false,
+  },
+});
 </script>
 
 <style scoped lang="scss">
@@ -57,5 +88,4 @@ export default class EpPaikallinenTarkennus extends Vue {
     font-weight: 600;
   }
 }
-
 </style>

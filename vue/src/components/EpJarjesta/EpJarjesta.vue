@@ -1,146 +1,175 @@
 <template>
-<draggable v-bind="options"
-           tag="div"
-           class="tree-container"
-           :class="draggableClass"
-           :value="value"
-           @input="emitter"
-           :key="value.length"
-           :move="move">
-  <div v-for="(node, idx) in value" :key="idx">
-    <div class="box d-flex align-items-center" :class="{ 'new-box': node.$uusi, 'box-draggable': isEditable }" >
-      <div class="handle">
-        <EpMaterialIcon v-if="isEditable && !options.disabled">drag_indicator</EpMaterialIcon>
-      </div>
-      <slot name="chapter">
-        <div class="chapter">
-          {{ prefix }}{{ idx + 1 }}
+  <VueDraggable
+    v-bind="options"
+    :key="draggableKey"
+    v-model="innerValue"
+    tag="div"
+    class="tree-container"
+    :class="draggableClass"
+    :move="move"
+  >
+    <div
+      v-for="(node, idx) in modelValue"
+      :key="idx"
+    >
+      <div
+        class="box d-flex align-items-center"
+        :class="{ 'new-box': node.$uusi, 'box-draggable': isEditable }"
+      >
+        <div class="handle">
+          <EpMaterialIcon v-if="isEditable && !options.disabled">
+            drag_indicator
+          </EpMaterialIcon>
         </div>
-      </slot>
-      <div class="name">
-        <slot :node="node"></slot>
+        <slot name="chapter">
+          <div class="chapter">
+            {{ prefix }}{{ idx + 1 }}
+          </div>
+        </slot>
+        <div class="name">
+          <slot :node="node" />
+        </div>
+        <div
+          v-if="node[childField] && node[childField] != null && node[childField].length > 0"
+          class="actions ml-auto"
+          role="button"
+          tabindex="0"
+          :aria-expanded="!node.$closed"
+          @click="toggle(idx)"
+          @keyup.enter="toggle(idx)"
+        >
+          <EpMaterialIcon
+            v-if="node.$closed"
+            size="28px"
+          >
+            expand_more
+          </EpMaterialIcon>
+          <EpMaterialIcon
+            v-else
+            size="28px"
+          >
+            expand_less
+          </EpMaterialIcon>
+        </div>
       </div>
       <div
-        v-if="node[childField] && node[childField] != null && node[childField].length > 0"
-        class="actions ml-auto"
-        role="button"
-        tabindex="0"
-        @click="toggle(idx)"
-        @keyup.enter="toggle(idx)"
-        :aria-expanded="!node.$closed">
-        <EpMaterialIcon v-if="node.$closed" size="28px">expand_more</EpMaterialIcon>
-        <EpMaterialIcon v-else size="28px">expand_less</EpMaterialIcon>
-      </div>
-    </div>
-    <div class="children" v-if="!node.$closed && node[childField] && node[childField] != null">
-      <ep-jarjesta
+        v-if="!node.$closed && node[childField] && node[childField] != null"
+        class="children"
+      >
+        <ep-jarjesta
           v-model="node[childField]"
           :is-editable="isEditable"
           :prefix="prefix + (idx + 1) + '.'"
           :child-field="childField"
           :sortable="node.sortable"
           :group="node.group ? node.group + idx : (uniqueChildGroups ? group + idx : group)"
-          :allowMove="allowMove">
-        <slot v-for="(_, name) in $slots" :name="name" :slot="name"></slot>
-        <template v-for="(_, name) in $scopedSlots" :slot="name" slot-scope="data">
-          <slot :name="name" v-bind="data" />
-        </template>
-      </ep-jarjesta>
+          :allow-move="allowMove"
+        >
+          <template
+            v-for="(_, name) in $slots"
+            #[name]="slotData"
+          >
+            <slot
+              :name="name"
+              v-bind="slotData"
+            />
+          </template>
+        </ep-jarjesta>
+      </div>
     </div>
-  </div>
-</draggable>
+  </VueDraggable>
 </template>
 
-<script lang="ts">
-
-import { Vue, Prop, Component } from 'vue-property-decorator';
-import draggable from 'vuedraggable';
+<script setup lang="ts">
+import { computed, useSlots } from 'vue';
+import { VueDraggable } from 'vue-draggable-plus';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import _ from 'lodash';
 
-@Component({
-  name: 'EpJarjesta',
-  components: {
-    draggable,
-    EpMaterialIcon,
-  },
-})
-export default class EpJarjesta extends Vue {
-  @Prop({
-    required: false,
+const props = defineProps({
+  prefix: {
     type: String,
     default: '',
-  })
-  private prefix!: string;
-
-  @Prop({
-    required: false,
+  },
+  isEditable: {
     type: Boolean,
     default: false,
-  })
-  private isEditable!: boolean;
-
-  @Prop({
-    required: true,
+  },
+  modelValue: {
     type: Array,
-    default: null,
-  })
-  private value!: any[];
-
-  @Prop({
-    required: false,
+    required: true,
+  },
+  childField: {
+    type: String,
     default: 'lista',
-  })
-  private childField!: string;
+  },
+  rootGroup: {
+    type: String,
+    default: null,
+  },
+  group: {
+    type: String,
+    default: null,
+  },
+  sortable: {
+    type: Boolean,
+    default: true,
+  },
+  uniqueChildGroups: {
+    type: Boolean,
+    default: false,
+  },
+  useHandle: {
+    type: Boolean,
+    default: false,
+  },
+  draggableClass: {
+    type: String,
+    default: null,
+  },
+  allowMove: {
+    type: Function,
+    required: false,
+  },
+});
 
-  @Prop({ default: null })
-  private rootGroup!: string | null;
+const emit = defineEmits(['update:modelValue']);
+const $slots = useSlots();
 
-  @Prop({ default: null })
-  private group!: string | null;
+const options = computed(() => {
+  return {
+    animation: 300,
+    disabled: !props.isEditable || !props.sortable,
+    forceFallback: true,
+    ghostClass: 'placeholder',
+    group: props.rootGroup ? props.rootGroup : props.group,
+    handle: props.useHandle && '.handle',
+  };
+});
 
-  @Prop({ required: false, default: true })
-  private sortable!: boolean;
+const toggle = (idx) => {
+  const updatedValue = [...props.modelValue];
+  updatedValue[idx] = {
+    ...updatedValue[idx],
+    $closed: !updatedValue[idx].$closed,
+  };
+  emit('update:modelValue', updatedValue);
+};
 
-  @Prop({ default: false, required: false })
-  private uniqueChildGroups!: boolean;
+const innerValue = computed({
+  get: () => props.modelValue,
+  set: (value) => emit('update:modelValue', value),
+});
 
-  @Prop({ default: false })
-  private useHandle!: boolean;
-
-  @Prop({ default: null })
-  private draggableClass!: string | null;
-
-  @Prop({ required: false })
-  private allowMove!: Function;
-
-  get options() {
-    return {
-      animation: 300,
-      disabled: !this.isEditable || !this.sortable,
-      forceFallback: true,
-      ghostClass: 'placeholder',
-      group: this.rootGroup ? this.rootGroup : this.group,
-      handle: this.useHandle && '.handle',
-    };
+const move = (event) => {
+  if (props.allowMove) {
+    return props.allowMove(event);
   }
 
-  toggle(idx) {
-    Vue.set(this.value[idx], '$closed', !this.value[idx].$closed);
-    this.emitter(this.value);
-  }
+  return true;
+};
 
-  emitter(value) {
-    this.$emit('input', value);
-  }
-
-  move(event) {
-    if (this.allowMove) {
-      return this.allowMove(event);
-    }
-
-    return true;
-  }
-}
+const draggableKey = _.uniqueId('draggable-');
 </script>
 
 <style scoped lang="scss">
@@ -211,5 +240,4 @@ export default class EpJarjesta extends Vue {
 .box-draggable {
   cursor: grab;
 }
-
 </style>

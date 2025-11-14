@@ -1,66 +1,78 @@
 <template>
   <div :class="{ 'innertile': true, 'route-button': effectEnabled}">
-    <div class="tile-header" :style="tileHeaderStyle">
+    <div
+      class="tile-header"
+      :style="tileHeaderStyle"
+    >
       <h3 class="oph-h3 tileheader">
-        <slot name="header"></slot>
+        <slot name="header" />
       </h3>
     </div>
     <div class="iconline">
-      <ep-icon :icon="icon" :color="correctColor" background-color="white">
-        <template slot="fas">
-          <slot name="fas"></slot>
+      <ep-icon
+        :icon="icon"
+        :color="correctColor"
+        background-color="white"
+      >
+        <template #fas>
+          <slot name="fas" />
         </template>
       </ep-icon>
-      <div class="count" v-if="count">{{count}}</div>
+      <div
+        v-if="count"
+        class="count"
+      >
+        {{ count }}
+      </div>
     </div>
     <div class="tile-content px-3">
-      <slot name="content"></slot>
+      <slot name="content" />
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { Vue, Prop, Component, Inject } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, inject } from 'vue';
 import EpIcon from '@shared/components/EpIcon/EpIcon.vue';
 
-@Component({
-  components: {
-    EpIcon,
+const props = defineProps({
+  icon: {
+    type: String,
+    required: true,
   },
-})
-export default class InnerTile extends Vue {
-  @Prop({ required: true })
-  private icon!: string;
+  color: {
+    type: String,
+    default: '#071A58',
+  },
+  effects: {
+    type: Object,
+    default: () => ({ hover: false, focus: false }),
+  },
+  count: {
+    type: Number,
+    required: false,
+  },
+  headerStyle: {
+    type: String,
+    required: false,
+  },
+});
 
-  @Prop({ default: '#071A58' })
-  private color!: string;
+const tileHeaderStyle = inject('tileHeaderStyle', {});
 
-  @Prop({ default: { hover: false, focus: false } })
-  private effects!: any;
-
-  @Prop({ required: false })
-  private count!: number;
-
-  @Prop({ required: false })
-  private headerStyle!: string;
-
-  @Inject({ from: 'tileHeaderStyle', default: '' })
-  private readonly tileHeaderStyle!: object;
-
-  get effectEnabled() {
-    if (this.effects.hover || this.effects.focus) {
-      return true;
-    }
-    return false;
+const effectEnabled = computed(() => {
+  if (props.effects.hover || props.effects.focus) {
+    return true;
   }
+  return false;
+});
 
-  get correctColor() {
-    if (this.effectEnabled) {
-      return '#3467e3';
-    }
-    return this.color;
+const correctColor = computed(() => {
+  if (effectEnabled.value) {
+    return '#3467e3';
   }
-}
+  return props.color;
+});
 </script>
 
 <style scoped lang="scss">
@@ -118,5 +130,4 @@ $tile-width: 540px;
 .route-button {
   @include tile-background-shadow-selected;
 }
-
 </style>

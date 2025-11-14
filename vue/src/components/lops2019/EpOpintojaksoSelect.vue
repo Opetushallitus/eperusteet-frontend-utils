@@ -1,7 +1,14 @@
 <template>
   <div>
-    <div v-for="(opintojakso, index) in opintojaksot" :key="index">
-      <div class="oj-content" @click="select(opintojakso)" :class="{'selected': opintojakso.selected || !isEditing, 'selectable': isEditing}">
+    <div
+      v-for="(opintojakso, index) in opintojaksot"
+      :key="index"
+    >
+      <div
+        class="oj-content"
+        :class="{'selected': opintojakso.selected || !isEditing, 'selectable': isEditing}"
+        @click="select(opintojakso)"
+      >
         <span class="nimi">
           <span class="mr-2">{{ $kaanna(opintojakso.nimi) }}</span>
           <span v-if="opintojakso.koodi">({{ opintojakso.koodi }})</span>
@@ -12,51 +19,57 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, getCurrentInstance } from 'vue';
 import _ from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Lops2019OpintojaksoDto } from '@shared/api/ylops';
+import { $kaanna, $t } from '@shared/utils/globals';
 
-@Component
-export default class EpOpintojaksoSelect extends Vue {
-  @Prop({ required: false })
-  private options!: Lops2019OpintojaksoDto[];
+const props = defineProps({
+  options: {
+    type: Array as () => Lops2019OpintojaksoDto[],
+    required: false,
+  },
+  modelValue: {
+    type: Array as () => Lops2019OpintojaksoDto[],
+    required: true,
+  },
+  isEditing: {
+    type: Boolean,
+    default: false,
+  },
+});
 
-  @Prop({ required: true })
-  private value!: Lops2019OpintojaksoDto[];
+const emit = defineEmits(['update:modelValue']);
 
-  @Prop({ required: false, default: false })
-  private isEditing!: boolean;
-
-  get opintojaksot() {
-    if (!this.isEditing) {
-      return this.value;
-    }
-
-    return _.map(this.options, (option) => {
-      return {
-        ...option,
-        selected: _.includes(_.map(this.value, 'koodi'), option.koodi),
-      };
-    });
+const opintojaksot = computed(() => {
+  if (!props.isEditing) {
+    return props.modelValue;
   }
 
-  select(opintojakso) {
-    if (!this.isEditing) {
-      return;
-    }
+  return _.map(props.options, (option) => {
+    return {
+      ...option,
+      selected: _.includes(_.map(props.modelValue, 'koodi'), option.koodi),
+    };
+  });
+});
 
-    if (_.includes(_.map(this.value, 'koodi'), opintojakso.koodi)) {
-      this.$emit('input', _.filter(this.value, (oj) => oj.koodi !== opintojakso.koodi));
-    }
-    else {
-      this.$emit('input', [
-        ...this.value,
-        opintojakso,
-      ]);
-    }
+const select = (opintojakso: any) => {
+  if (!props.isEditing) {
+    return;
   }
-}
+
+  if (_.includes(_.map(props.modelValue, 'koodi'), opintojakso.koodi)) {
+    emit('update:modelValue', _.filter(props.modelValue, (oj) => oj.koodi !== opintojakso.koodi));
+  }
+  else {
+    emit('update:modelValue', [
+      ...props.modelValue,
+      opintojakso,
+    ]);
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -96,5 +109,4 @@ export default class EpOpintojaksoSelect extends Vue {
       background-color: #C3EAFF;
     }
   }
-
 </style>

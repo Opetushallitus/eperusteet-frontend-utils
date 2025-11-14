@@ -1,17 +1,14 @@
-import { mount, createLocalVue, shallowMount } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import EpSpinner from './EpSpinner.vue';
-import VueI18n from 'vue-i18n';
-import { Kielet } from '../../stores/kieli';
-import Vue from 'vue';
-import BootstrapVue from 'bootstrap-vue';
-
-Vue.use(BootstrapVue);
+import { globalStubs } from '@shared/utils/__tests__/stubs';
 
 describe('EpSpinner component', () => {
-  const localVue = createLocalVue();
-
   test('Renders', async () => {
-    const wrapper = mount(EpSpinner);
+    const wrapper = mount(EpSpinner, {
+      globals: {
+        ...globalStubs,
+      },
+    });
     expect(wrapper.html()).toMatchSnapshot();
   });
 });

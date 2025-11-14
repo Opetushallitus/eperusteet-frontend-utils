@@ -1,70 +1,76 @@
 <template>
   <div>
-    <draggable
+    <VueDraggable
       v-bind="defaultDragOptions"
+      v-model="inner"
       tag="div"
-      v-model="inner">
-
-      <div class="balloon-wrapper" v-for="(item, idx) in inner" :key="idx">
+    >
+      <div
+        v-for="(item, idx) in inner"
+        :key="idx"
+        class="balloon-wrapper"
+      >
         <div class="balloon d-flex">
-          <div class="order-handle mr-2" slot="left" v-if="draggable">
+          <div
+            v-if="isDraggable"
+            class="order-handle mr-2"
+          >
             <EpMaterialIcon>drag_indicator</EpMaterialIcon>
           </div>
-          <slot v-bind="{ item }">
-          </slot>
+          <slot v-bind="{ item }" />
         </div>
       </div>
-
-    </draggable>
+    </VueDraggable>
   </div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
-import draggable from 'vuedraggable';
+<script setup lang="ts">
+import { computed } from 'vue';
+import { VueDraggable } from 'vue-draggable-plus';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
-@Component({
-  components: {
-    EpMaterialIcon,
-    draggable,
+const props = defineProps({
+  modelValue: {
+    type: Array,
+    required: true,
   },
-})
-export default class EpBalloonList extends Vue {
-  @Prop({ required: true, type: Array })
-  private value!: any[];
+  isEditing: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+  sortable: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+});
 
-  @Prop({ required: false, default: false, type: Boolean })
-  private isEditing!: boolean;
+const emit = defineEmits(['update:modelValue']);
 
-  @Prop({ required: false, default: false, type: Boolean })
-  private sortable!: boolean;
+const inner = computed({
+  get: () => props.modelValue,
+  set: (value: any[]) => {
+    emit('update:modelValue', value);
+  },
+});
 
-  get inner() {
-    return this.value;
-  }
+const isDraggable = computed(() => {
+  return props.isEditing && props.sortable;
+});
 
-  set inner(value: any[]) {
-    this.$emit('input', value);
-  }
-
-  get defaultDragOptions() {
-    return {
-      animation: 300,
-      emptyInsertThreshold: 10,
-      handle: '.order-handle',
-      disabled: !this.draggable,
-      ghostClass: 'dragged',
-      group: {
-        name: 'balloonsorts',
-      },
-    };
-  }
-
-  get draggable() {
-    return this.isEditing && this.sortable;
-  }
-}
+const defaultDragOptions = computed(() => {
+  return {
+    animation: 300,
+    emptyInsertThreshold: 10,
+    handle: '.order-handle',
+    disabled: !isDraggable.value,
+    ghostClass: 'dragged',
+    group: {
+      name: 'balloonsorts',
+    },
+  };
+});
 </script>
 
 <style lang="scss" scoped>

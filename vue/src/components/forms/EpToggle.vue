@@ -1,59 +1,76 @@
 <template>
-<div>
-  <b-form-checkbox :disabled="!isEditing"
-                   v-model="innerValue"
-                   :inline="inline"
-                   :switch="asSwitch"
-                   :class="{ 'custom-checkbox-lg': !asSwitch && lgSize, 'custom-switch-lg': asSwitch && lgSize }">
-    <slot/>
-  </b-form-checkbox>
-</div>
+  <div>
+    <b-form-checkbox
+      :checked="innerValue"
+      :disabled="!isEditing"
+      :inline="inline"
+      :switch="asSwitch"
+      :class="{ 'custom-checkbox-lg': !asSwitch && lgSize, 'custom-switch-lg': asSwitch && lgSize }"
+      @input="handleInput"
+    >
+      <slot>{{ label }}</slot>
+    </b-form-checkbox>
+  </div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
-import EpFormContent from './EpFormContent.vue';
+<script setup lang="ts">
+import { computed } from 'vue';
 
-@Component({
-  components: {
-    EpFormContent,
+const props = defineProps({
+  isEditing: {
+    type: Boolean,
+    default: true,
   },
-})
-export default class EpToggle extends Vue {
-  @Prop({ default: true, type: Boolean })
-  private isEditing!: boolean;
+  modelValue: {
+    type: Boolean,
+    default: false,
+    required: false,
+  },
+  label: {
+    type: String,
+    default: '',
+  },
+  inline: {
+    type: Boolean,
+    default: true,
+  },
+  isSwitch: {
+    type: Boolean,
+    default: true,
+  },
+  checkbox: {
+    type: Boolean,
+    default: false,
+  },
+  size: {
+    type: String,
+    required: false,
+    default: undefined,
+  },
+});
 
-  @Prop({ required: false, type: Boolean, default: false })
-  private value!: boolean;
+const emit = defineEmits(['update:modelValue']);
 
-  @Prop({ default: true, type: Boolean })
-  private inline!: boolean;
+const lgSize = computed(() => {
+  return props.size ? props.size === 'lg' : false;
+});
 
-  @Prop({ default: true })
-  private isSWitch!: boolean;
+const innerValue = computed({
+  get: () => props.modelValue,
+  set: (value) => emit('update:modelValue', value),
+});
 
-  @Prop({ default: false, type: Boolean })
-  private checkbox!: Boolean;
+const asSwitch = computed(() => {
+  return !props.checkbox && props.isSwitch;
+});
 
-  @Prop({ required: false })
-  private size!: string | undefined;
+const handleInput = (val) =>{
+  innerValue.value = val;
+};
 
-  get lgSize() {
-    return this.size ? this.size === 'lg' : false;
-  }
-
-  get innerValue() {
-    return this.value;
-  }
-
-  set innerValue(value) {
-    this.$emit('input', value);
-  }
-
-  get asSwitch() {
-    return !this.checkbox && this.isSWitch;
-  }
-}
+const uniqueId = computed(() => {
+  return `ep-toggle-${Math.random().toString(36)}`;
+});
 </script>
 
 <style scoped lang="scss">
@@ -61,12 +78,12 @@ export default class EpToggle extends Vue {
 @import '@shared/styles/bootstrap.scss';
 @import '@shared/styles/_mixins.scss';
 
-::v-deep .custom-checkbox .custom-control-input:disabled:checked ~ .custom-control-label::before {
+:deep(.custom-checkbox .custom-control-input:disabled:checked ~ .custom-control-label::before) {
   border-width: 0;
 }
 
 large checkbox
-::v-deep .custom-checkbox-lg {
+:deep(.custom-checkbox-lg) {
   padding-left: 2rem;
   .custom-control-input {
     left: 0;
@@ -75,14 +92,14 @@ large checkbox
   }
 }
 
-::v-deep .custom-checkbox-lg label.custom-control-label::before {
+:deep(.custom-checkbox-lg label.custom-control-label::before) {
   top: 0rem;
   left: -1.7rem;
   width: 1.5rem;
   height: 1.5rem;
 }
 
-::v-deep .custom-checkbox-lg label.custom-control-label::after {
+:deep(.custom-checkbox-lg label.custom-control-label::after) {
   top: 0rem;
   left: -1.7rem;
   width: 1.5rem;
@@ -90,7 +107,7 @@ large checkbox
 }
 
 // Large switch
-::v-deep .custom-switch-lg {
+:deep(.custom-switch-lg) {
   padding-left: 3rem;
   .custom-control-input {
     left: 0;
@@ -99,25 +116,25 @@ large checkbox
   }
 }
 
-::v-deep .custom-switch-lg label.custom-control-label::before {
+:deep(.custom-switch-lg label.custom-control-label::before) {
   top: 0rem;
   left: -3.125rem;
   width: 2.625rem;
   height: 1.5rem;
 }
 
-::v-deep .custom-switch-lg label.custom-control-label::after {
+:deep(.custom-switch-lg label.custom-control-label::after) {
   top: 0.125rem;
   left: -3rem;
   width: 1.25rem;
   height: 1.25rem;
 }
 
-::v-deep .custom-switch .custom-control-input:checked ~ .custom-control-label::after {
+:deep(.custom-switch .custom-control-input:checked ~ .custom-control-label::after) {
   transform: translateX(1.125rem)
 }
 
-::v-deep .custom-checkbox {
+:deep(.custom-checkbox) {
   @include focus-within;
 }
 
