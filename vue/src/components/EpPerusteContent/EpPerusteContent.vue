@@ -72,7 +72,6 @@ import EpContent from '@shared/components/EpContent/EpContent.vue';
 import EpAlert from '@shared/components/EpAlert/EpAlert.vue';
 import EpContentViewer from '@shared/components/EpContentViewer/EpContentViewer.vue';
 import EpPaikallinenTarkennus from '@shared/components/EpPaikallinenTarkennus/EpPaikallinenTarkennus.vue';
-import { unref } from 'vue';
 
 const props = defineProps({
   perusteObject: {
@@ -132,7 +131,7 @@ const hasContent = computed(() => {
 });
 
 const pohjaNimi = computed(() => {
-  return unref(opetussuunnitelma)?.pohja?.nimi;
+  return opetussuunnitelma?.pohja?.nimi;
 });
 </script>
 
