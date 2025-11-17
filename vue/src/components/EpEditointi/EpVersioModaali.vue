@@ -100,7 +100,7 @@ const fields = computed(() => {
     label: $t('muokkaaja'),
   }, {
     key: 'actions',
-    label: $t(''),
+    label: '',
   }];
 });
 
