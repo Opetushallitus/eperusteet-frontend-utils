@@ -90,25 +90,22 @@ const placeholder = computed(() => {
   return undefined;
 });
 
-// watch(model, async (val) => {
-//   if (!props.isEditable && editor.value) {
-//     editor.value.commands.setContent(localizedValue.value);
-//   }
-// }, { deep: true });
-
-// watch(localizedValue, async (val) => {
-//   if (editor.value && !focused.value) {
-//     await nextTick();
-//     await nextTick();
-    // FIXME: RangeError: Applying a mismatched transaction
-    // editor.value.commands.setContent(localizedValue.value);
-  // }
-// });
-
 watch(lang, async () => {
   if (editor.value) {
     await nextTick();
     editor.value.commands.setContent(localizedValue.value);
+  }
+});
+
+watch(model, async (newValue, oldValue) => {
+  if (editor.value && newValue !== oldValue) {
+    await nextTick();
+    const currentContent = editor.value.getHTML();
+    const newContent = localizedValue.value;
+    // Only update if content is actually different to avoid cursor position issues
+    if (currentContent !== newContent) {
+      editor.value.commands.setContent(newContent);
+    }
   }
 });
 
@@ -154,10 +151,6 @@ const editor = useEditor({
     },
   },
   onUpdate: ({ editor }) => {
-    // emit('update:modelValue', {
-    //   ...props.modelValue,
-    //   [Kielet.getSisaltoKieli.value]: editor.getHTML(),
-    // });
     setUpEditorEvents();
   },
   onFocus: () => {
