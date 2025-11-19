@@ -25,6 +25,8 @@ const perusteKohdeReititys = {
   oppiaine: 'lukio_oppiaine',
   perusopetuslaajaalainenosaaminen: 'perusopetusLaajaAlainenOsaaminen',
   vuosiluokkakokonaisuus: 'perusopetusVuosiluokkakokonaisuus',
+  kaantajataito: 'kaantajataito',
+  kaantajataitotasoasteikko: 'kaantajataitotasoasteikko',
 };
 
 const opasKohdeReititys = {
@@ -36,6 +38,7 @@ const tyypitettyReititys = {
   'normaali': { ...oletusKohdereititys, ...perusteKohdeReititys },
   'pohja': { ...oletusKohdereititys, ...perusteKohdeReititys },
   'opas': { ...oletusKohdereititys, ...opasKohdeReititys },
+  'kieli_kaantaja_tutkinto': { ...oletusKohdereititys, ...perusteKohdeReititys },
 };
 
 const kohdereititysId = {
@@ -58,6 +61,8 @@ const perusteKohdereititysId = {
   oppiaine: 'oppiaineId',
   perusopetuslaajaalainenosaaminen: 'laoId',
   vuosiluokkakokonaisuus: 'vlkId',
+  kaantajataito: 'kaantajataitoId',
+  kaantajataitotasoasteikko: 'kaantajataitotasoasteikkoId',
 };
 
 const tyypitettyKohdereititysId = {
@@ -65,6 +70,7 @@ const tyypitettyKohdereititysId = {
   'normaali': { ...kohdereititysId, ...perusteKohdereititysId },
   'pohja': { ...kohdereititysId, ...perusteKohdereititysId },
   'opas': { ...kohdereititysId, ...perusteKohdereititysId },
+  'kieli_kaantaja_tutkinto': { ...kohdereititysId, ...perusteKohdereititysId },
 };
 
 const kohdeIcon = {

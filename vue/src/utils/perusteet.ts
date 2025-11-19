@@ -227,6 +227,7 @@ export const themeColors = {
   'kotoutumiskoulutus': [122, 174, 122],
   'muukoulutus': [230, 8, 149],
   'digiosaaminen': [217, 193, 242],
+  'kielikaantajatutkinto': [0, 102, 153],
 };
 
 export const tyyppiColors = {
@@ -255,6 +256,7 @@ export const ktToState = {
   'koulutustyyppi_35': 'vapaasivistystyolukutaito',
   'koulutustyyppi_40': 'tutkintoonvalmentava',
   'koulutustyyppi_muu': 'muukoulutus',
+  'kielikaantajatutkinto': 'kielikaantajatutkinto',
 };
 
 const ktToUrlShortParam = {
@@ -293,6 +295,10 @@ export const koulutustyypitPdfTuki = [
   'koulutustyyppi_20', 'koulutustyyppi_22', 'koulutustyyppi_999907', 'koulutustyyppi_10', 'koulutustyyppi_40',
   'koulutustyyppi_35', 'koulutustyyppi_30',
   'koulutustyyppi_2', 'koulutustyyppi_14', 'koulutustyyppi_16', 'koulutustyyppi_23',
+];
+
+export const perustetyypitPdfTuki = [
+  'normaali', 'opas', 'kieli_kaantaja_tutkinto',
 ];
 
 export function koulutustyyppiStateName(koulutustyyppi: string) {
@@ -455,6 +461,10 @@ export function isKoulutustyyppiPdfTuettu(koulutustyyppi: string | undefined) {
   return _.includes(koulutustyypitPdfTuki, koulutustyyppi);
 }
 
+export function isPerustePdfTuettu(peruste) {
+  return _.includes(koulutustyypitPdfTuki, peruste.koulutustyyppi) || _.includes(perustetyypitPdfTuki, peruste.tyyppi);
+}
+
 export function isKoulutustyyppiPdfTuettuOpintopolku(koulutustyyppi: string | undefined) {
   return _.includes(koulutustyypitPdfTukiOpintopolku, koulutustyyppi);
 }
@@ -585,6 +595,18 @@ export function muuKoulutus() {
       },
     },
     alityypit: ['koulutustyyppi_muu'],
+  }];
+}
+
+export function kielikaantajatutkinto() {
+  return [{
+    name: 'kielikaantajatutkinto',
+    route: {
+      name: 'kooste',
+      params: {
+        koulutustyyppi: 'kielikaantajatutkinto',
+      },
+    },
   }];
 }
 

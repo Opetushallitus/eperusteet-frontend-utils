@@ -53,7 +53,7 @@ export enum KoulutustyyppiToteutus {
   vst = 'vapaasivistystyo',
 }
 
-export type EditorLayout = 'minimal' | 'simplified' | 'simplified_w_links' | 'normal';
+export type EditorLayout = 'minimal' | 'simplified' | 'simplified_w_links' | 'normal' | 'none';
 
 export interface LokalisoituTekstiDto {
   [key: string]: string;
@@ -117,7 +117,8 @@ export type NavigationNodeType =
   | 'perusopetusLaajaAlaisetOsaamiset' | 'perusopetusVuosiluokkakokonaisuudet' | 'perusopetuslaajaalainenosaaminen' | 'perusopetusVuosiluokkakokonaisuus'
   | 'tutkinnonosat_tuodut'| 'tutkinnonosat_pakolliset' | 'tutkinnonosat_paikalliset'
   | 'osaamiskokonaisuus' | 'osaamiskokonaisuus_paa_alue'
-  | 'aipe_laajaalaisetosaamiset' | 'aipe_laajaalainenosaaminen' | 'aipeoppiaine' | 'aipevaihe' | 'aipekurssi' | 'osaamismerkkikappale';
+  | 'aipe_laajaalaisetosaamiset' | 'aipe_laajaalainenosaaminen' | 'aipeoppiaine' | 'aipevaihe' | 'aipekurssi' | 'osaamismerkkikappale'
+  | 'kaantajataito' | 'kaantajataitotasoasteikko';
 
 export interface NavigationNodeDto {
   id?: number;

@@ -184,6 +184,20 @@ export function osaToLocation(osa: OsanTyypillinen): Location {
         osaamiskokonaisuusPaaAlueId: String(osa.id),
       },
     };
+  case 'kaantajataito':
+    return {
+      name: 'perusteKaantajaTaito',
+      params: {
+        kaantajataitoId: String(osa.id),
+      },
+    };
+  case 'kaantajataitotasoasteikko':
+    return {
+      name: 'perusteKaantajaTaitotasoasteikko',
+      params: {
+        kaantajaTaitotasoasteikkoId: String(osa.id),
+      },
+    };
   case 'tavoitesisaltoalue':
     return {
       name: 'perusteTavoitesisaltoalue',
@@ -599,6 +613,22 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       name: 'perusteOsaamiskokonaisuusPaaAlue',
       params: {
         osaamiskokonaisuusPaaAlueId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'kaantajataito':
+    node.location = {
+      name: 'perusteKaantajaTaito',
+      params: {
+        kaantajataitoId: _.toString(rawNode.id),
+      },
+    };
+    break;
+  case 'kaantajataitotasoasteikko':
+    node.location = {
+      name: 'perusteKaantajaTaitotasoasteikko',
+      params: {
+        kaantajaTaitotasoasteikkoId: _.toString(rawNode.id),
       },
     };
     break;
