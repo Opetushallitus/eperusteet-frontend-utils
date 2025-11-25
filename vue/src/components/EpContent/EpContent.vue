@@ -147,9 +147,9 @@ const editor = useEditor({
     }),
     KommenttiTextStyle,  // Preserve custom attributes like 'kommentti'
     TableKit,
-    createCustomLinkExtension(injectedNavigation, injectedLinkkiHandler!),
-    createImageExtension3(injectedKuvaHandler!),
-    createTermiExtension3(injectedKasiteHandler!),
+    ...(injectedLinkkiHandler ? [createCustomLinkExtension(injectedNavigation, injectedLinkkiHandler)] : []),
+    ...(injectedKuvaHandler ? [createImageExtension3(injectedKuvaHandler)] : []),
+    ...(injectedKasiteHandler ? [createTermiExtension3(injectedKasiteHandler)] : []),
   ],
   editable: props.isEditable,
   editorProps: {
