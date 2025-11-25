@@ -4,6 +4,7 @@ import _ from 'lodash';
 import { Kielet } from '../stores/kieli';
 import { $fail, $t } from '../utils/globals';
 import { Virheet } from '@shared/stores/virheet';
+import { Kieli } from '@shared/tyypit';
 
 const logger = createLogger('AxiosCommon');
 
@@ -70,11 +71,11 @@ export function successfulResponseHandler() {
 export async function getCasKayttajaKieli() {
   try {
     const casKayttaja = _.get(await axios.get(`${location.protocol}//${location.host}/kayttooikeus-service/cas/me`), 'data');
-    return _.get(casKayttaja, 'lang');
+    return _.get(casKayttaja, 'lang') || Kieli.fi;
   }
   catch (e) {
     logger.error(e);
-    return 'fi';
+    return Kieli.fi;
   }
 }
 
