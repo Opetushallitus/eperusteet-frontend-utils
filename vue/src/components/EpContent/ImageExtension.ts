@@ -106,8 +106,8 @@ function openImageModal(node: any, getPos: any, editor: any, handler: IKuvaHandl
     modalApp = createApp(ImageModal, {
       modelValue: savedUid,
       loader: handler,
-      kuvatekstiProp:null,
-      vaihtoehtotekstiProp: null,
+      kuvatekstiProp: currentFigcaption,
+      vaihtoehtotekstiProp: currentAlt,
       'onUpdate:modelValue': (value: any) => {
         savedUid.value = value || '';
       },
@@ -253,11 +253,19 @@ export default function createImageExtension3(handler: IKuvaHandler) {
 
     renderHTML({ HTMLAttributes }) {
 
-      // Only include data-uid in the serialized HTML
+      // Include data-uid, alt, and figcaption in the serialized HTML
       const attrs: Record<string, any> = {};
 
       if (HTMLAttributes['data-uid']) {
         attrs['data-uid'] = HTMLAttributes['data-uid'];
+      }
+
+      if (HTMLAttributes['alt']) {
+        attrs['alt'] = HTMLAttributes['alt'];
+      }
+
+      if (HTMLAttributes['figcaption']) {
+        attrs['figcaption'] = HTMLAttributes['figcaption'];
       }
 
       return ['img', attrs];

@@ -57,7 +57,7 @@
               :is-editing="true"
               :validation="v$.kuvateksti"
               :help="'teksti-naytetaan-kuvan-alla'"
-              @input="onKuvatekstichange"
+              @update:modelValue="onKuvatekstiChange"
             />
           </ep-form-content>
 
@@ -70,7 +70,7 @@
               :is-editing="true"
               :validation="v$.vaihtoehtoinenteksti"
               :help="'teksti-naytetaan-ruudunlukijalaitteelle'"
-              @input="onVaihtoehtoinentekstiChange"
+              @update:modelValue="onVaihtoehtoinentekstiChange"
             />
           </ep-form-content>
         </div>
@@ -130,7 +130,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['update:modelValue', 'onClose', 'onKuvatekstichange', 'onVaihtoehtoinentekstiChange']);
+const emit = defineEmits(['update:modelValue', 'onClose', 'onKuvatekstiChange', 'onVaihtoehtoinentekstiChange']);
 
 // State variables
 const imageSaved = ref(false);
@@ -226,8 +226,8 @@ async function saveImage() {
   }
 }
 
-function onKuvatekstichange(value: any) {
-  emit('onKuvatekstichange', value[Kielet.getSisaltoKieli.value]);
+function onKuvatekstiChange(value: any) {
+  emit('onKuvatekstiChange', value[Kielet.getSisaltoKieli.value]);
 }
 
 function onVaihtoehtoinentekstiChange(value: any) {
@@ -262,7 +262,7 @@ onMounted(async () => {
     selectedValue.value = files.value.find(f => f.id === props.modelValue.value);
   }
 
-  emit('onKuvatekstichange', kuvateksti.value[Kielet.getSisaltoKieli.value]);
+  emit('onKuvatekstiChange', kuvateksti.value[Kielet.getSisaltoKieli.value]);
   emit('onVaihtoehtoinentekstiChange', vaihtoehtoinenteksti.value[Kielet.getSisaltoKieli.value]);
 });
 </script>
