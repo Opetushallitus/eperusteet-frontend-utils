@@ -57,7 +57,6 @@
             v-model="muokattavaTiedote.sisalto"
             :is-editable="editing"
             layout="simplified_w_links"
-            :validation="v$.muokattavaTiedote.sisalto"
           />
         </ep-form-content>
 
