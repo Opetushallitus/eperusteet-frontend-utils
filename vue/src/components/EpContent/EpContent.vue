@@ -31,6 +31,7 @@ import { IKasiteHandler } from './KasiteHandler';
 import { ILinkkiHandler } from './LinkkiHandler';
 import { IKuvaHandler } from './KuvaHandler';
 import { KommenttiTextStyle } from './KommenttiTextStyle';
+import OfficePaste from "@intevation/tiptap-extension-office-paste";
 
 const props = defineProps({
   modelValue: {
@@ -143,6 +144,7 @@ const editor = useEditor({
   content: localizedValue.value,
   extensions: [
     StarterKit,
+    OfficePaste,
     KommenttiTextStyle,  // Preserve custom attributes like 'kommentti'
     TableKit,
     createCustomLinkExtension(injectedNavigation, injectedLinkkiHandler),
@@ -156,6 +158,19 @@ const editor = useEditor({
       // Add data-teksti-id attribute for comment system to find the text ID reliably in production
       ...(props.modelValue?._id ? { 'data-teksti-id': String(props.modelValue._id) } : {}),
     },
+    // Clean up pasted HTML from Word and other sources
+    // transformPastedHTML(html) {
+    //   // Remove all span tags but keep their content
+    //   let cleaned = html.replace(/<span[^>]*>/g, '').replace(/<\/span>/g, '');
+
+    //   // Replace multiple nbsp with a single space
+    //   cleaned = cleaned.replace(/(&nbsp;|\u00A0)+/g, ' ');
+
+    //   // Remove Word-specific attributes
+    //   cleaned = cleaned.replace(/\s+(class|style|lang|xml:lang)="[^"]*"/g, '');
+
+    //   return cleaned;
+    // },
   },
   onUpdate: ({ editor }) => {
     setUpEditorEvents();
