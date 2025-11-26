@@ -7,6 +7,7 @@ import { createLogger } from '../../utils/logger';
 import { App } from 'vue';
 import { Router } from 'vue-router';
 import { $fail, $t } from '@shared/utils/globals';
+import { nextTick } from 'vue';
 
 export interface EditointiKontrolliValidation {
   valid: boolean;
@@ -360,13 +361,15 @@ export class EditointiStore {
       await this.config.cancel!();
     }
 
-    if (this.state.backup) {
-      this.state.data = JSON.parse(this.state.backup);
-    }
-    // this.config.setData!(JSON.parse(this.state.backup));
     this.state.isEditingState = false;
     EditointiStore.editing = false;
     this.state.disabled = false;
+
+    await nextTick();
+
+    if (this.state.backup) {
+      this.state.data = JSON.parse(this.state.backup);
+    }
 
     await this.unlock();
 
