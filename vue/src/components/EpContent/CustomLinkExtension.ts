@@ -51,7 +51,7 @@ function openLinkModal(editor: any, selection: { from: number; to: number }, nav
   const isActive = editor.isActive('link');
   let currentHref = '';
   let currentRoutenode = '';
-  
+
   if (isActive) {
     const attrs = editor.getAttributes('link');
     currentHref = attrs.href || '';
@@ -72,7 +72,7 @@ function openLinkModal(editor: any, selection: { from: number; to: number }, nav
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 1060;
   `;
 
   const modalContent = document.createElement('div');

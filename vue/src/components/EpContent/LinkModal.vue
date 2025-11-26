@@ -21,7 +21,7 @@
               {{ $t('sisainen-linkki') }}
             </label>
           </div>
-          
+
           <div
             v-if="linkkiTyyppi === 'sisainen'"
             class="mb-3"
@@ -54,7 +54,7 @@
               {{ $t('ulkoinen-linkki') }}
             </label>
           </div>
-          
+
           <div
             v-if="linkkiTyyppi === 'ulkoinen'"
             class="mb-3"
@@ -281,7 +281,7 @@ onMounted(() => {
   padding: 0.375rem 0.75rem;
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
-  
+
   &.is-invalid {
     border-color: #dc3545;
   }

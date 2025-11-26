@@ -142,12 +142,10 @@ function setUpEditorEvents() {
 const editor = useEditor({
   content: localizedValue.value,
   extensions: [
-    StarterKit.configure({
-      link: false,
-    }),
+    StarterKit,
     KommenttiTextStyle,  // Preserve custom attributes like 'kommentti'
     TableKit,
-    ...(injectedLinkkiHandler ? [createCustomLinkExtension(injectedNavigation, injectedLinkkiHandler)] : []),
+    createCustomLinkExtension(injectedNavigation, injectedLinkkiHandler),
     ...(injectedKuvaHandler ? [createImageExtension3(injectedKuvaHandler)] : []),
     ...(injectedKasiteHandler ? [createTermiExtension3(injectedKasiteHandler)] : []),
   ],
