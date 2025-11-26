@@ -410,11 +410,11 @@ const layoutCommands = computed(() => {
   }
 
   if (props.layout === 'simplified_w_links' || props.layout === 'normal') {
-    commands.push('link', 'term');
+    commands.push('link');
   }
 
   if (props.layout === 'normal') {
-    commands.push('image', 'table');
+    commands.push('term','image', 'table');
   }
 
   return commands;

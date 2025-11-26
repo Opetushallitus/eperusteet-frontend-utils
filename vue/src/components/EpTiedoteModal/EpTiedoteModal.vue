@@ -17,6 +17,7 @@
       size="lg"
       static
       lazy
+      :no-enforce-focus="true"
     >
       <template #modal-header>
         <div class="row w-100">
@@ -55,7 +56,7 @@
           <ep-content
             v-model="muokattavaTiedote.sisalto"
             :is-editable="editing"
-            layout="simplified"
+            layout="simplified_w_links"
             :validation="v$.muokattavaTiedote.sisalto"
           />
         </ep-form-content>
