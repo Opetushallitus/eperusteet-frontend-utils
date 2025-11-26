@@ -159,18 +159,18 @@ const editor = useEditor({
       ...(props.modelValue?._id ? { 'data-teksti-id': String(props.modelValue._id) } : {}),
     },
     // Clean up pasted HTML from Word and other sources
-    // transformPastedHTML(html) {
-    //   // Remove all span tags but keep their content
-    //   let cleaned = html.replace(/<span[^>]*>/g, '').replace(/<\/span>/g, '');
+    transformPastedHTML(html) {
+      // Remove all span tags but keep their content
+      let cleaned = html.replace(/<span[^>]*>/g, '').replace(/<\/span>/g, '');
 
-    //   // Replace multiple nbsp with a single space
-    //   cleaned = cleaned.replace(/(&nbsp;|\u00A0)+/g, ' ');
+      // Replace multiple nbsp with a single space
+      cleaned = cleaned.replace(/(&nbsp;|\u00A0)+/g, ' ');
 
-    //   // Remove Word-specific attributes
-    //   cleaned = cleaned.replace(/\s+(class|style|lang|xml:lang)="[^"]*"/g, '');
+      // Remove Word-specific attributes
+      cleaned = cleaned.replace(/\s+(class|style|lang|xml:lang)="[^"]*"/g, '');
 
-    //   return cleaned;
-    // },
+      return cleaned;
+    },
   },
   onUpdate: ({ editor }) => {
     setUpEditorEvents();
