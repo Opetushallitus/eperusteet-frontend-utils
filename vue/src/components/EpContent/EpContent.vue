@@ -89,8 +89,9 @@ const model = computed(() => {
 });
 
 const placeholder = computed(() => {
-if (!focused.value && !localizedValue.value) {
+  if (!focused.value) {
     if ($kaannaPlaceholder(props.modelValue, !props.isEditable)) {
+
       return $kaannaPlaceholder(props.modelValue, !props.isEditable);
     }
 
