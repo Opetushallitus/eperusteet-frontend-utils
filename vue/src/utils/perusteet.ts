@@ -91,6 +91,7 @@ export const themes = {
 
 export const tyyppiThemes = {
   'digitaalinen_osaaminen': 'digiosaaminen',
+  'kieli_kaantaja_tutkinto': 'kielikaantajatutkinto',
 };
 
 export enum Toteutus {
