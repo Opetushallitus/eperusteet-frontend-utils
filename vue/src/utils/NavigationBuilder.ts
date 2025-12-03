@@ -96,7 +96,7 @@ export function traverseNavigation(rawNode: NavigationNodeDto, isOps: boolean, r
       ...node.location,
       params: {
         ...(!!node.location?.params && node.location.params),
-        ...(revision && { revision }),
+        ...(revision && { revision: _.toString(revision) }),
       },
     };
   }
