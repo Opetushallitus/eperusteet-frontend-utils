@@ -811,7 +811,7 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
       name: _.get(rawNode, 'meta.vlkId') ? 'opetussuunnitelmaperusopetusvuosiluokanoppiaine' : 'opetussuunnitelmaperusopetusoppiaine',
       params: {
         oppiaineId: _.toString(rawNode.id),
-        ...(_.get(rawNode, 'meta.vlkId') && { vlkId: rawNode.meta!.vlkId }) as any,
+        ...(_.get(rawNode, 'meta.vlkId') && { vlkId: _.toString(rawNode.meta!.vlkId) }) as any,
       },
     };
     break;
@@ -826,7 +826,7 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
     node.location = {
       name: 'opetussuunnitelmaperusopetusvalinnaisetoppiaineet',
       params: {
-        ...(_.get(rawNode, 'meta.vlkId') && { vlkId: rawNode.meta!.vlkId }) as any,
+        ...(_.get(rawNode, 'meta.vlkId') && { vlkId: _.toString(rawNode.meta!.vlkId) }) as any,
       },
     };
     break;
