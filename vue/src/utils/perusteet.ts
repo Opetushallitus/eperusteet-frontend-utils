@@ -466,8 +466,8 @@ export function isPerustePdfTuettu(peruste) {
   return _.includes(koulutustyypitPdfTuki, peruste.koulutustyyppi) || _.includes(perustetyypitPdfTuki, peruste.tyyppi);
 }
 
-export function isKoulutustyyppiPdfTuettuOpintopolku(koulutustyyppi: string | undefined) {
-  return _.includes(koulutustyypitPdfTukiOpintopolku, koulutustyyppi);
+export function isKoulutustyyppiPdfTuettuOpintopolku(peruste) {
+  return _.includes(koulutustyypitPdfTukiOpintopolku, peruste.koulutustyyppi) || _.includes(perustetyypitPdfTuki, peruste.tyyppi);
 }
 
 export function rgb2string(color: number[]) {
