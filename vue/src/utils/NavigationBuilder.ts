@@ -51,14 +51,14 @@ export function navigationNodeDtoToPerusteRoute(node: NavigationNodeDto) {
     return {
       name: 'tutkinnonosa',
       params: {
-        tutkinnonOsaId: _.toString(node.id),
+        tutkinnonOsaId: String(node.id),
       },
     };
   case 'osaamiskokonaisuus':
     return {
       name: 'osaamiskokonaisuus',
       params: {
-        osaamiskokonaisuusId: _.toString(node.id),
+        osaamiskokonaisuusId: String(node.id),
       },
     };
   case 'osaamiskokonaisuus_paa_alue':
@@ -66,7 +66,7 @@ export function navigationNodeDtoToPerusteRoute(node: NavigationNodeDto) {
       name: 'osaamiskokonaisuus_paa_alue',
       params: {
         osaamiskokonaisuusId: '840',
-        osaamiskokonaisuusPaaAlueId: _.toString(node.id),
+        osaamiskokonaisuusPaaAlueId: String(node.id),
       },
     };
   }
@@ -96,7 +96,7 @@ export function traverseNavigation(rawNode: NavigationNodeDto, isOps: boolean, r
       ...node.location,
       params: {
         ...(!!node.location?.params && node.location.params),
-        ...(revision && { revision: _.toString(revision) }),
+        ...(revision && { revision: String(revision) }),
       },
     };
   }
@@ -316,7 +316,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
     node.location = {
       name: 'perusteTekstikappale',
       params: {
-        viiteId: _.toString(rawNode.id),
+        viiteId: String(rawNode.id),
       },
     };
     break;
@@ -357,7 +357,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
     node.location = {
       name: 'lops2019oppiaine',
       params: {
-        oppiaineId: _.toString(rawNode.id),
+        oppiaineId: String(rawNode.id),
       },
     };
     break;
@@ -365,7 +365,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
     node.location = {
       name: 'lukioOppiaine',
       params: {
-        oppiaineId: _.toString(rawNode.id),
+        oppiaineId: String(rawNode.id),
       },
     };
     break;
@@ -379,8 +379,8 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
     node.location = {
       name: 'lukiokurssi',
       params: {
-        kurssiId: _.toString(rawNode.id),
-        oppiaineId: _.toString(rawNode.meta!.oppiaine),
+        kurssiId: String(rawNode.id),
+        oppiaineId: String(rawNode.meta!.oppiaine),
       },
     };
     break;
@@ -391,8 +391,8 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
     node.location = {
       name: 'lops2019moduuli',
       params: {
-        oppiaineId: _.toString(rawNode.meta!.oppiaine),
-        moduuliId: _.toString(rawNode.id),
+        oppiaineId: String(rawNode.meta!.oppiaine),
+        moduuliId: String(rawNode.id),
       },
     };
     break;
@@ -431,7 +431,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
     node.location = {
       name: 'tutkinnonosa',
       params: {
-        tutkinnonOsaViiteId: _.toString(rawNode.id),
+        tutkinnonOsaViiteId: String(rawNode.id),
       },
     };
     break;
@@ -445,7 +445,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
     node.location = {
       name: 'vuosiluokkakokonaisuus',
       params: {
-        vlkId: _.toString(rawNode.id),
+        vlkId: String(rawNode.id),
       },
     };
     break;
@@ -453,8 +453,8 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
     node.location = {
       name: _.get(rawNode, 'meta.vlkId') ? 'vuosiluokanoppiaine' : 'perusopetusoppiaine',
       params: {
-        oppiaineId: _.toString(rawNode.id),
-        ...(_.get(rawNode, 'meta.vlkId') && { vlkId: rawNode.meta!.vlkId }) as any,
+        oppiaineId: String(rawNode.id),
+        ...(_.get(rawNode, 'meta.vlkId') && { vlkId: String(rawNode.meta!.vlkId) }) as any,
       },
     };
     break;
@@ -468,7 +468,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
     node.location = {
       name: 'aipevaihe',
       params: {
-        vaiheId: _.toString(rawNode.id),
+        vaiheId: String(rawNode.id),
       },
     };
     break;
@@ -476,8 +476,8 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
     node.location = {
       name: 'aipeoppiaine',
       params: {
-        oppiaineId: _.toString(rawNode.id),
-        ...(_.get(rawNode, 'meta.vaiheId') && { vaiheId: rawNode.meta!.vaiheId }) as any,
+        oppiaineId: String(rawNode.id),
+        ...(_.get(rawNode, 'meta.vaiheId') && { vaiheId: String(rawNode.meta!.vaiheId) }) as any,
       },
     };
     break;
@@ -485,9 +485,9 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
     node.location = {
       name: 'aipekurssi',
       params: {
-        kurssiId: _.toString(rawNode.id),
-        ...(_.get(rawNode, 'meta.vaiheId') && { vaiheId: rawNode.meta!.vaiheId }) as any,
-        ...(_.get(rawNode, 'meta.oppiaineId') && { oppiaineId: rawNode.meta!.oppiaineId }) as any,
+        kurssiId: String(rawNode.id),
+        ...(_.get(rawNode, 'meta.vaiheId') && { vaiheId: String(rawNode.meta!.vaiheId) }) as any,
+        ...(_.get(rawNode, 'meta.oppiaineId') && { oppiaineId: String(rawNode.meta!.oppiaineId) }) as any,
       },
     };
     break;
@@ -504,8 +504,8 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       node.location = {
         name: 'tekstikappaleVapaaOsa',
         params: {
-          vapaatekstiId: _.get(rawNode.meta, 'vapaateksti_id') as any,
-          viiteId: _.get(rawNode.meta, 'viiteId') as any,
+          vapaatekstiId: String(_.get(rawNode.meta, 'vapaateksti_id')) as any,
+          viiteId: String(_.get(rawNode.meta, 'viiteId')) as any,
         },
       };
     }
@@ -515,7 +515,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
         name: 'tekstikappaleOsa',
         params: {
           osa: _.get(rawNode.meta, 'alaosa') as any,
-          viiteId: _.get(rawNode.meta, 'viiteId') as any,
+          viiteId: String(_.get(rawNode.meta, 'viiteId')) as any,
         },
       };
     }
@@ -524,7 +524,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
     node.location = {
       name: 'perusteOpintokokonaisuus',
       params: {
-        opintokokonaisuusId: _.toString(rawNode.id),
+        opintokokonaisuusId: String(rawNode.id),
       },
     };
     break;
@@ -532,7 +532,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
     node.location = {
       name: 'perusteTavoitesisaltoalue',
       params: {
-        tavoitesisaltoalueId: _.toString(rawNode.id),
+        tavoitesisaltoalueId: String(rawNode.id),
       },
     };
     break;
@@ -540,7 +540,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
     node.location = {
       name: 'perusteKoulutuksenOsa',
       params: {
-        koulutuksenosaId: _.toString(rawNode.id),
+        koulutuksenosaId: String(rawNode.id),
       },
     };
     break;
@@ -548,7 +548,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
     node.location = {
       name: 'perusteLaajaalainenOsaaminen',
       params: {
-        laajaalainenosaaminenId: _.toString(rawNode.id),
+        laajaalainenosaaminenId: String(rawNode.id),
       },
     };
     break;
@@ -556,7 +556,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
     node.location = {
       name: 'perusteKotoKielitaitotaso',
       params: {
-        kotokielitaitotasoId: _.toString(rawNode.id),
+        kotokielitaitotasoId: String(rawNode.id),
       },
     };
     break;
@@ -564,7 +564,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
     node.location = {
       name: 'perusteKotoOpinto',
       params: {
-        kotoOpintoId: _.toString(rawNode.id),
+        kotoOpintoId: String(rawNode.id),
       },
     };
     break;
@@ -572,7 +572,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
     node.location = {
       name: 'perusteKotoLaajaalainenOsaaminen',
       params: {
-        kotoLaajaalainenOsaaminenId: _.toString(rawNode.id),
+        kotoLaajaalainenOsaaminenId: String(rawNode.id),
       },
     };
     break;
@@ -580,7 +580,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
     node.location = {
       name: 'linkkisivu',
       params: {
-        linkkisivuId: _.toString(rawNode.id),
+        linkkisivuId: String(rawNode.id),
       },
     };
     break;
@@ -588,7 +588,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
     node.location = {
       name: 'perusteYleisettavoitteet',
       params: {
-        yleistavoiteId: _.toString(rawNode.id),
+        yleistavoiteId: String(rawNode.id),
       },
     };
     break;
@@ -596,7 +596,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
     node.location = {
       name: 'perusteAihekokonaisuudet',
       params: {
-        aihekokonaisuudetId: _.toString(rawNode.id),
+        aihekokonaisuudetId: String(rawNode.id),
       },
     };
     break;
@@ -604,7 +604,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
     node.location = {
       name: 'perusteOsaamiskokonaisuus',
       params: {
-        osaamiskokonaisuusId: _.toString(rawNode.id),
+        osaamiskokonaisuusId: String(rawNode.id),
       },
     };
     break;
@@ -612,7 +612,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
     node.location = {
       name: 'perusteOsaamiskokonaisuusPaaAlue',
       params: {
-        osaamiskokonaisuusPaaAlueId: _.toString(rawNode.id),
+        osaamiskokonaisuusPaaAlueId: String(rawNode.id),
       },
     };
     break;
@@ -620,7 +620,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
     node.location = {
       name: 'perusteKaantajaTaito',
       params: {
-        kaantajataitoId: _.toString(rawNode.id),
+        kaantajataitoId: String(rawNode.id),
       },
     };
     break;
@@ -628,7 +628,7 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
     node.location = {
       name: 'perusteKaantajaTaitotasoasteikko',
       params: {
-        kaantajataitotasoasteikkoId: _.toString(rawNode.id),
+        kaantajataitotasoasteikkoId: String(rawNode.id),
       },
     };
     break;
@@ -651,7 +651,7 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
     node.location = {
       name: 'opetussuunnitelmaTekstikappale',
       params: {
-        viiteId: _.toString(rawNode.id),
+        viiteId: String(rawNode.id),
       },
     };
     break;
@@ -671,7 +671,7 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
     node.location = {
       name: 'lops2019OpetussuunnitelmaOppiaine',
       params: {
-        oppiaineId: _.toString(rawNode.id),
+        oppiaineId: String(rawNode.id),
       },
     };
     break;
@@ -679,7 +679,7 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
     node.location = {
       name: 'lopsOpetussuunnitelmaOppiaine',
       params: {
-        oppiaineId: _.toString(rawNode.id),
+        oppiaineId: String(rawNode.id),
       },
     };
     break;
@@ -687,7 +687,7 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
     node.location = {
       name: 'lopsOpetussuunnitelmaKurssi',
       params: {
-        kurssiId: _.toString(rawNode.id),
+        kurssiId: String(rawNode.id),
       },
     };
     break;
@@ -695,7 +695,7 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
     node.location = {
       name: 'lops2019OpetussuunnitelmaPoppiaine',
       params: {
-        oppiaineId: _.toString(rawNode.id),
+        oppiaineId: String(rawNode.id),
       },
     };
     break;
@@ -709,8 +709,8 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
     node.location = {
       name: 'lops2019OpetussuunnitelmaModuuli',
       params: {
-        oppiaineId: _.toString(rawNode.meta!.oppiaine),
-        moduuliId: _.toString(rawNode.id),
+        oppiaineId: String(rawNode.meta!.oppiaine),
+        moduuliId: String(rawNode.id),
       },
     };
     break;
@@ -721,7 +721,7 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
     node.location = {
       name: 'lops2019OpetussuunnitelmaOpintojakso',
       params: {
-        opintojaksoId: _.toString(rawNode.id),
+        opintojaksoId: String(rawNode.id),
       },
     };
     break;
@@ -754,7 +754,7 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
     node.location = {
       name: 'toteutussuunnitelmaSuorituspolut',
       params: {
-        sisaltoviiteId: _.toString(rawNode.id),
+        sisaltoviiteId: String(rawNode.id),
       },
     };
     break;
@@ -762,7 +762,7 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
     node.location = {
       name: 'toteutussuunnitelmaSisalto',
       params: {
-        sisaltoviiteId: _.toString(rawNode.id),
+        sisaltoviiteId: String(rawNode.id),
       },
     };
     break;
@@ -770,7 +770,7 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
     node.location = {
       name: 'toteutussuunnitelmaSisalto',
       params: {
-        sisaltoviiteId: _.toString(rawNode.id),
+        sisaltoviiteId: String(rawNode.id),
       },
     };
     break;
@@ -778,7 +778,7 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
     node.location = {
       name: 'toteutussuunnitelmaSisalto',
       params: {
-        sisaltoviiteId: _.toString(rawNode.id),
+        sisaltoviiteId: String(rawNode.id),
       },
     };
     break;
@@ -786,7 +786,7 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
     node.location = {
       name: 'toteutussuunnitelmaSisalto',
       params: {
-        sisaltoviiteId: _.toString(rawNode.id),
+        sisaltoviiteId: String(rawNode.id),
       },
     };
     break;
@@ -794,7 +794,7 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
     node.location = {
       name: 'toteutussuunnitelmaSisalto',
       params: {
-        sisaltoviiteId: _.toString(rawNode.id),
+        sisaltoviiteId: String(rawNode.id),
       },
     };
     break;
@@ -802,7 +802,7 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
     node.location = {
       name: 'opetussuunnitelmanvuosiluokkakokonaisuus',
       params: {
-        vlkId: _.toString(rawNode.id),
+        vlkId: String(rawNode.id),
       },
     };
     break;
@@ -810,8 +810,8 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
     node.location = {
       name: _.get(rawNode, 'meta.vlkId') ? 'opetussuunnitelmaperusopetusvuosiluokanoppiaine' : 'opetussuunnitelmaperusopetusoppiaine',
       params: {
-        oppiaineId: _.toString(rawNode.id),
-        ...(_.get(rawNode, 'meta.vlkId') && { vlkId: _.toString(rawNode.meta!.vlkId) }) as any,
+        oppiaineId: String(rawNode.id),
+        ...(_.get(rawNode, 'meta.vlkId') && { vlkId: String(rawNode.meta!.vlkId) }) as any,
       },
     };
     break;
@@ -826,7 +826,7 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
     node.location = {
       name: 'opetussuunnitelmaperusopetusvalinnaisetoppiaineet',
       params: {
-        ...(_.get(rawNode, 'meta.vlkId') && { vlkId: _.toString(rawNode.meta!.vlkId) }) as any,
+        ...(_.get(rawNode, 'meta.vlkId') && { vlkId: String(rawNode.meta!.vlkId) }) as any,
       },
     };
     break;
@@ -834,7 +834,7 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
     node.location = {
       name: 'toteutussuunnitelmaSisalto',
       params: {
-        sisaltoviiteId: _.toString(rawNode.id),
+        sisaltoviiteId: String(rawNode.id),
       },
     };
     break;
@@ -843,7 +843,7 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
     node.location = {
       name: 'toteutussuunnitelmaSisalto',
       params: {
-        sisaltoviiteId: _.toString(rawNode.id),
+        sisaltoviiteId: String(rawNode.id),
       },
     };
     break;
@@ -851,7 +851,7 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
     node.location = {
       name: 'toteutussuunnitelmaSisalto',
       params: {
-        sisaltoviiteId: _.toString(rawNode.id),
+        sisaltoviiteId: String(rawNode.id),
       },
     };
     break;
@@ -859,7 +859,7 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
     node.location = {
       name: 'toteutussuunnitelmaSisalto',
       params: {
-        sisaltoviiteId: _.toString(rawNode.id),
+        sisaltoviiteId: String(rawNode.id),
       },
     };
     break;
@@ -867,7 +867,7 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
     node.location = {
       name: 'toteutussuunnitelmaSisalto',
       params: {
-        sisaltoviiteId: _.toString(rawNode.id),
+        sisaltoviiteId: String(rawNode.id),
       },
     };
     break;
@@ -875,7 +875,7 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
     node.location = {
       name: 'toteutussuunnitelmaSisalto',
       params: {
-        sisaltoviiteId: _.toString(rawNode.id),
+        sisaltoviiteId: String(rawNode.id),
       },
     };
     break;
@@ -883,7 +883,7 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
     node.location = {
       name: 'toteutussuunnitelmaSisalto',
       params: {
-        sisaltoviiteId: _.toString(rawNode.id),
+        sisaltoviiteId: String(rawNode.id),
       },
     };
     break;
@@ -891,7 +891,7 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
     node.location = {
       name: 'toteutussuunnitelmaSisalto',
       params: {
-        sisaltoviiteId: _.toString(rawNode.id),
+        sisaltoviiteId: String(rawNode.id),
       },
     };
     break;
@@ -899,8 +899,8 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
     node.location = {
       name: 'toteutussuunnitelmaOsaAlue',
       params: {
-        sisaltoviiteId: _.toString(rawNode.meta?.sisaltoviiteId),
-        osaalueId: _.toString(rawNode.id),
+        sisaltoviiteId: String(rawNode.meta?.sisaltoviiteId),
+        osaalueId: String(rawNode.id),
       },
     };
     break;
