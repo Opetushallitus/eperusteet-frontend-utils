@@ -201,7 +201,7 @@
           </template>
         </ep-form-content>
 
-        <ep-form-content name="liita-tutkinnon-osa-tiedotteeseen">
+        <ep-form-content name="liita-tutkinnon-osa-tiedotteeseen" v-if="ammatillisetLisayksetSallittu">
           <div
             v-for="(tutkinnonOsa, index) in muokattavaTiedote.tutkinnonosat"
             :key="'tutkinnonOsa' + index"
@@ -247,7 +247,7 @@
           </ep-button>
         </ep-form-content>
 
-        <ep-form-content name="liita-osaamisala-tiedotteeseen">
+        <ep-form-content name="liita-osaamisala-tiedotteeseen" v-if="ammatillisetLisayksetSallittu">
           <div
             v-for="(osaamisala, index) in muokattavaTiedote.osaamisalat"
             :key="'osaamisala' + index"
@@ -460,7 +460,7 @@ import { success, fail } from '@shared/utils/notifications';
 import { julkaisupaikka, KoulutustyyppiRyhmaValinta } from '@shared/utils/tiedote';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
 import EpKielivalinta from '@shared/components/EpKielivalinta/EpKielivalinta.vue';
-import { themes, ktToState, koulutustyyppiRyhmat, KoulutustyyppiRyhma, koulutustyyppiRyhmaSort } from '@shared/utils/perusteet';
+import { themes, ktToState, koulutustyyppiRyhmat, KoulutustyyppiRyhma, koulutustyyppiRyhmaSort, isAmmatillinenKoulutustyyppi } from '@shared/utils/perusteet';
 import EpColorIndicator from '@shared/components/EpColorIndicator/EpColorIndicator.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { KoodistoSelectStore } from '../EpKoodistoSelect/KoodistoSelectStore';
@@ -821,6 +821,10 @@ function lisaaOsaamisala() {
     ],
   };
 }
+
+const ammatillisetLisayksetSallittu = computed(() => {
+  return !props.peruste || isAmmatillinenKoulutustyyppi(props.peruste.koulutustyyppi);
+});
 
 defineExpose({
   muokkaa,
