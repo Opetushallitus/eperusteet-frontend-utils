@@ -11,8 +11,8 @@
         class="w-100"
         :model-value="modelValue"
         :is-editing="isEditing"
-        @update:model-value="$emit('update:modelValue', $event)"
         :placeholder="placeholder"
+        @update:model-value="$emit('update:modelValue', $event)"
       />
     </div>
     <ep-button

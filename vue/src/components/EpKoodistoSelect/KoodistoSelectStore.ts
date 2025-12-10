@@ -20,7 +20,12 @@ export class KoodistoSelectStore {
   constructor(private config: IKoodisto) {
   }
 
+  public clear = () => {
+    this.state.data = null;
+  };
+
   public query = debounced(async (query: string = '', sivu = 0, onlyValidKoodis = true) => {
+    this.clear();
     const result = await this.config.query(query, sivu, this.config.koodisto, onlyValidKoodis);
     this.state.data = result as any;
   });

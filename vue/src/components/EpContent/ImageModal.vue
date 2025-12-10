@@ -57,7 +57,7 @@
               :is-editing="true"
               :validation="v$.kuvateksti"
               :help="'teksti-naytetaan-kuvan-alla'"
-              @update:modelValue="onKuvatekstiChange"
+              @update:model-value="onKuvatekstiChange"
             />
           </ep-form-content>
 
@@ -70,7 +70,7 @@
               :is-editing="true"
               :validation="v$.vaihtoehtoinenteksti"
               :help="'teksti-naytetaan-ruudunlukijalaitteelle'"
-              @update:modelValue="onVaihtoehtoinentekstiChange"
+              @update:model-value="onVaihtoehtoinentekstiChange"
             />
           </ep-form-content>
         </div>
