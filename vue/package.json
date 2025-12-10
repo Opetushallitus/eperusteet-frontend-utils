@@ -24,6 +24,7 @@
     "@tiptap/extension-table-cell": "^3.0.9",
     "@tiptap/extension-table-header": "^3.0.9",
     "@tiptap/extension-table-row": "^3.0.9",
+    "@tiptap/extension-text-style": "^3.0.9",
     "@tiptap/pm": "^3.0.9",
     "@tiptap/starter-kit": "^3.0.9",
     "@tiptap/vue-3": "^3.0.9",
@@ -48,6 +49,7 @@
     "deepdash": "^5.3.9",
     "eslint": "9.37.0",
     "eslint-plugin-vue": "^10.5.0",
+    "exceljs": "^4.4.0",
     "file-loader": "^5.0.2",
     "file-saver": "^2.0.5",
     "globals": "^16.4.0",
@@ -62,7 +64,7 @@
     "pinia": "^2.2.4",
     "qs": "^6.9.0",
     "register-service-worker": "^1.6.2",
-    "sass": "^1.94.1",
+    "sass": "^1.95.1",
     "svg-url-loader": "^8.0.0",
     "tslib": "^2.2.0",
     "typescript": "^5.8.3",
@@ -89,6 +91,7 @@
     "vue-sticky-directive": "^0.0.10",
     "vue-template-compiler": "^2.7.16",
     "vue-upload-component": "^2.8.22",
+    "vue3-text-clamp": "^0.1.2",
     "webpack": "^5.58.0"
   },
   "engines": {
