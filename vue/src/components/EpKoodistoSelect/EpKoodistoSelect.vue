@@ -12,9 +12,6 @@
       id="koodistoModal"
       ref="editModal"
       size="xl"
-      :ok-title="multiselect ? $t('lisaa-valitut') : $t('lisaa-valittu')"
-      :cancel-title="$t('peruuta')"
-      :ok-disabled="innerModel.length === 0"
       @ok="lisaaValitut"
       @hidden="alusta"
     >
@@ -22,6 +19,23 @@
         <slot name="header">
           <h2>{{ $t('hae-koodistosta') }} ({{ koodisto }})</h2>
         </slot>
+      </template>
+
+      <template #modal-footer="{ ok, cancel }">
+        <b-button
+          v-if="multiselect"
+          variant="primary"
+          :disabled="innerModel.length === 0"
+          @click="ok()"
+        >
+          {{ $t('lisaa-valitut') }}
+        </b-button>
+        <b-button
+          variant="secondary"
+          @click="cancel()"
+        >
+          {{ multiselect ? $t('peruuta') : $t('sulje') }}
+        </b-button>
       </template>
 
       <template #default>
@@ -138,6 +152,7 @@ import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue
 import _ from 'lodash';
 import EpBPagination from '../EpBPagination/EpBPagination.vue';
 import { unref } from 'vue';
+import { $t } from '@shared/utils/globals';
 
 const props = defineProps({
   modelValue: {
@@ -232,14 +247,14 @@ const fields = computed(() => {
   return [
     ..._.filter([{
       key: 'nimi',
-      label: 'nimi',
+      label: $t('nimi'),
     }, {
       key: 'arvo',
-      label: 'arvo',
+      label: $t('arvo'),
       thStyle: { width: '6rem' },
     }, {
       key: 'voimaantulo',
-      label: 'voimaantulo',
+      label: $t('voimaantulo'),
       thStyle: { width: '10rem' },
     }], field => _.includes(props.defaultFields, field.key)),
     ...(props.additionalFields ? props.additionalFields : []),
@@ -253,16 +268,19 @@ const initStoreQuery = async (queryVal: string, sivuVal: number, vanhentuneetVal
 };
 
 watch(() => query.value, async (newValue) => {
-  await initStoreQuery(newValue, sivu.value - 1, vanhentuneet.value);
+  if (newValue.length > 2) {
+    await initStoreQuery(newValue, sivu.value - 1, vanhentuneet.value);
+  }
 });
 
 watch(() => vanhentuneet.value, async (newValue) => {
   await initStoreQuery(query.value, sivu.value - 1, newValue);
 });
 
-const openDialog = () => {
+const openDialog = async () => {
+  props.store.clear();
+  await initStoreQuery('', 0, vanhentuneet.value);
   editModal.value?.show?.();
-  initStoreQuery('', 0, vanhentuneet.value);
 };
 
 const onRowSelected = (items: any[]) => {
@@ -305,6 +323,10 @@ const lisaaValitut = () => {
 const alusta = () => {
   innerModel.value = [];
 };
+
+defineExpose({
+  openDialog,
+});
 </script>
 
 <style lang="scss" scoped>

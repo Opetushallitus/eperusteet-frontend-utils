@@ -2,45 +2,45 @@
   <div>
     <ep-koodisto-select
       v-if="props.modelValue"
+      ref="koodistoSelect"
       v-model="koodiValue"
       :store="props.koodisto"
+      @add="koodistoAdd"
     >
       <template #default="{ open }">
         <div class="d-flex flex-column">
           <div>
-            <ep-error-wrapper :validation="props.validation">
-              <b-input-group>
-                <div class="handle text-muted">
-                  <EpMaterialIcon>drag_indicator</EpMaterialIcon>
-                </div>
-                <b-form-input
-                  v-if="!props.modelValue.koodi"
-                  ref="input"
-                  class="vaatimus"
-                  :class="{ 'placeholder': placeholder }"
-                  :value="vaatimus"
-                  :placeholder="placeholder"
-                  @input="onInput"
-                  @resize="onResize"
-                  @focus="focused = true"
-                  @blur="onBlur"
-                />
-                <b-form-input
-                  v-if="props.modelValue.koodi"
-                  class="vaatimus"
-                  :value="($kaanna(props.modelValue.koodi.nimi) || vaatimus) + ' (' + koodiArvo + ')'"
-                  disabled
-                />
-                <b-input-group-append>
-                  <b-button
-                    variant="primary"
-                    @click="open"
-                  >
-                    {{ $t('hae-koodistosta') }}
-                  </b-button>
-                </b-input-group-append>
-              </b-input-group>
-            </ep-error-wrapper>
+            <b-input-group>
+              <div class="handle text-muted">
+                <EpMaterialIcon>drag_indicator</EpMaterialIcon>
+              </div>
+              <b-form-input
+                v-if="!props.modelValue.koodi"
+                ref="input"
+                class="vaatimus"
+                :class="{ 'placeholder': placeholder }"
+                :value="vaatimus"
+                :placeholder="placeholder"
+                :state="isValid"
+                @input="onInput"
+                @focus="focused = true"
+                @blur="onBlur"
+              />
+              <b-form-input
+                v-if="props.modelValue.koodi"
+                class="vaatimus"
+                :value="koodiDisplayValue"
+                disabled
+              />
+              <b-input-group-append>
+                <b-button
+                  variant="primary"
+                  @click="open"
+                >
+                  {{ $t('hae-koodistosta') }}
+                </b-button>
+              </b-input-group-append>
+            </b-input-group>
           </div>
           <div
             v-if="isDatalistVisible"
@@ -60,26 +60,25 @@
                 v-else
                 class="datalist"
               >
-                <div
-                  v-for="(item, idx) in koodit"
-                  ref="datalist"
-                  :key="'autocomplete-' + idx"
-                  class="item"
+                <b-table
+                  :items="koodit"
+                  :fields="fields"
                 >
-                  <div class="d-flex align-items-center">
-                    <div
-                      role="button"
-                      @click="valitse(item)"
-                    >
-                      <span>{{ item.completion.left }}</span>
-                      <span class="font-weight-bold">{{ item.completion.hit }}</span>
-                      <span>{{ item.completion.right }}</span>
+                  <template #cell(nimi)="{ item }">
+                    <div class="d-flex align-items-center">
+                      <div
+                        class="link-style"
+                        role="button"
+                        @click="valitse(item)"
+                        v-html="highlight(item.nimi[$slang], vaatimus)"
+                      />
+                      <Kayttolistaus
+                        v-if="haeKayttoLista"
+                        :koodi="item"
+                      />
                     </div>
-                    <div>
-                      <Kayttolistaus :koodi="item" />
-                    </div>
-                  </div>
-                </div>
+                  </template>
+                </b-table>
               </div>
             </div>
           </div>
@@ -100,10 +99,12 @@ import EpKoodistoSelect from '../EpKoodistoSelect/EpKoodistoSelect.vue';
 import { KoodistoSelectStore } from '@shared/components/EpKoodistoSelect/KoodistoSelectStore';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import { metadataToLocalized } from '../../utils/perusteet';
-import { delay } from '../../utils/delay';
+import { debounced, delay } from '../../utils/delay';
 import _ from 'lodash';
 import Kayttolistaus from './Kayttolistaus.vue';
-import { $kaanna, $kaannaPlaceholder, $t, $slang } from '@shared/utils/globals';
+import { $kaanna, $kaannaPlaceholder, $t, $slang, $sd } from '@shared/utils/globals';
+import { useRoute } from 'vue-router';
+import { highlight } from '@shared/utils/kieli';
 
 const props = defineProps({
   modelValue: {
@@ -118,9 +119,13 @@ const props = defineProps({
     type: Object,
     default: null,
   },
+  nimiKey: {
+    type: String,
+    default: 'vaatimus',
+  },
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'add']);
 
 const input = ref(null);
 const datalistContainer = ref(null);
@@ -130,14 +135,20 @@ const focused = ref(false);
 const hasChanged = ref(false);
 const isLoading = ref(false);
 const datalistId = _.uniqueId('datalist_');
+const route = useRoute();
 
+const koodistoSelect = ref<InstanceType<typeof EpKoodistoSelect> | null>(null);
 const vaatimus = computed(() => {
-  return props.modelValue?.vaatimus ? _.unescape($kaanna(props.modelValue.vaatimus)) : '';
+  return props.modelValue?.[props.nimiKey] ? _.unescape($kaanna(props.modelValue[props.nimiKey])) : '';
 });
 
 const koodiValue = computed({
   get: () => props.modelValue?.koodi,
   set: (value) => emit('update:modelValue', { ...props.modelValue, koodi: value }),
+});
+
+const koodiDisplayValue = computed(() => {
+  return $kaanna(props.modelValue?.koodi?.nimi) + (koodiArvo.value ? ' (' + koodiArvo.value + ')' : '');
 });
 
 const isDatalistVisible = computed(() => {
@@ -154,11 +165,6 @@ const koodit = computed(() => {
     return {
       ...koodi,
       nimi: localized,
-      completion: {
-        left: nimi.substring(0, idx),
-        hit: vaatimus.value,
-        right: nimi.substring(idx + vaatimus.value.length),
-      },
       uri: koodi.koodiUri,
     };
   });
@@ -190,20 +196,19 @@ async function fetchKoodisto(query: string) {
   }
 }
 
-async function onInput(ev: string) {
+const onInput = debounced(async (ev: string) => {
   emit('update:modelValue', {
     ...props.modelValue,
-    vaatimus: {
-      ...props.modelValue.vaatimus,
+    [props.nimiKey]: {
+      ...props.modelValue[props.nimiKey],
       [$slang.value]: _.escape(ev),
     },
   });
-  await fetchKoodisto(ev);
-}
 
-function onResize() {
-  // Kept for backward compatibility
-}
+  if (ev.length > 2) {
+    await fetchKoodisto(ev);
+  }
+});
 
 function onBlur() {
   setTimeout(() => {
@@ -223,10 +228,44 @@ async function valitse(koodi) {
       koodisto: koodi.koodisto.koodistoUri,
     },
   });
+  emit('add', koodi);
 }
 
-onMounted(() => {
-  // Component initialization logic
+const fields = computed(() => {
+  return [
+    {
+      key: 'nimi',
+      label: $t('nimi'),
+    },
+    {
+      key: 'koodiArvo',
+      label: $t('arvo'),
+    },
+    {
+      key: 'voimassaAlkuPvm',
+      label: $t('voimaantulo'),
+      formatter: (value: any, key: string, item: any) => {
+        return $sd(value);
+      },
+    },
+
+  ];
+});
+
+const haeKayttoLista = computed(() => {
+  return !!route.params.projektiId;
+});
+
+const koodistoAdd = (koodi) => {
+  emit('add', koodi);
+};
+
+const isValid = computed(() => {
+  return !props.validation || !props.validation.$invalid;
+});
+
+defineExpose({
+  openDialog: async () => await koodistoSelect.value?.openDialog(),
 });
 </script>
 

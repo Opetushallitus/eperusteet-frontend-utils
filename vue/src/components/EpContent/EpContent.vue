@@ -31,7 +31,7 @@ import { IKasiteHandler } from './KasiteHandler';
 import { ILinkkiHandler } from './LinkkiHandler';
 import { IKuvaHandler } from './KuvaHandler';
 import { KommenttiTextStyle } from './KommenttiTextStyle';
-import OfficePaste from "@intevation/tiptap-extension-office-paste";
+import OfficePaste from '@intevation/tiptap-extension-office-paste';
 
 const props = defineProps({
   modelValue: {
@@ -208,7 +208,8 @@ watch(() => props.modelValue?._id, (newId) => {
     const editorElement = editor.value.view.dom;
     if (newId) {
       editorElement.setAttribute('data-teksti-id', String(newId));
-    } else {
+    }
+    else {
       editorElement.removeAttribute('data-teksti-id');
     }
   }

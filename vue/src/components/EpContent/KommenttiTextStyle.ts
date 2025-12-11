@@ -1,4 +1,4 @@
-import { Node } from '@tiptap/core'
+import { Node } from '@tiptap/core';
 
 export const KommenttiTextStyle = Node.create({
   name: 'span',
@@ -7,10 +7,10 @@ export const KommenttiTextStyle = Node.create({
   content: 'inline*',
   whitespace: 'pre',
   parseHTML() {
-    return [{ tag: 'span' }]
+    return [{ tag: 'span' }];
   },
   renderHTML({ HTMLAttributes }) {
-    return ['span', HTMLAttributes, 0]
+    return ['span', HTMLAttributes, 0];
   },
   addAttributes() {
     return {
@@ -18,11 +18,11 @@ export const KommenttiTextStyle = Node.create({
         default: null,
         parseHTML: element => element.getAttribute('kommentti'),
         renderHTML: attributes => {
-          if (!attributes.kommentti) return {}
-          return { kommentti: attributes.kommentti }
+          if (!attributes.kommentti) return {};
+          return { kommentti: attributes.kommentti };
         },
       },
-    }
+    };
   },
-})
+});
 

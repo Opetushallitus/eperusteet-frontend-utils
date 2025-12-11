@@ -30,7 +30,10 @@
           </slot>
         </option>
       </select>
-      <b-form-group v-else class="m-0 p-0">
+      <b-form-group
+        v-else
+        class="m-0 p-0"
+      >
         <EpToggleGroup
           v-model="innerModel"
           :items="items"

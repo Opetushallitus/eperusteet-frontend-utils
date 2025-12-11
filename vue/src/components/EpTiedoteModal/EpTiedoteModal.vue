@@ -201,7 +201,10 @@
           </template>
         </ep-form-content>
 
-        <ep-form-content name="liita-tutkinnon-osa-tiedotteeseen" v-if="ammatillisetLisayksetSallittu">
+        <ep-form-content
+          v-if="ammatillisetLisayksetSallittu"
+          name="liita-tutkinnon-osa-tiedotteeseen"
+        >
           <div
             v-for="(tutkinnonOsa, index) in muokattavaTiedote.tutkinnonosat"
             :key="'tutkinnonOsa' + index"
@@ -247,7 +250,10 @@
           </ep-button>
         </ep-form-content>
 
-        <ep-form-content name="liita-osaamisala-tiedotteeseen" v-if="ammatillisetLisayksetSallittu">
+        <ep-form-content
+          v-if="ammatillisetLisayksetSallittu"
+          name="liita-osaamisala-tiedotteeseen"
+        >
           <div
             v-for="(osaamisala, index) in muokattavaTiedote.osaamisalat"
             :key="'osaamisala' + index"

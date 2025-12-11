@@ -37,7 +37,8 @@ export function findIndexWithTagsIncluded(innerHtml: string, targetIdx: number) 
         while (idx < innerHtml.length && innerHtml[idx].match(/\d/)) {
           idx++;
         }
-      } else {
+      }
+      else {
         while (idx < innerHtml.length && innerHtml[idx].match(/[a-zA-Z]/)) {
           idx++;
         }
@@ -49,7 +50,8 @@ export function findIndexWithTagsIncluded(innerHtml: string, targetIdx: number) 
         const size = idx - start - 1;
         entities += size;
         continue;
-      } else {
+      }
+      else {
         // Not a valid entity, reset to after '&'
         idx = start + 1;
       }
