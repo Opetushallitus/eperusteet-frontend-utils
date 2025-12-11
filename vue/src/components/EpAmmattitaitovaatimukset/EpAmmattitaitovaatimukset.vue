@@ -330,9 +330,7 @@ const kaannokset = computed(() => ({
   vaatimukset: props.kaannosVaatimukset || $t('vaatimukset'),
 }));
 
-const koodisto = ref(null);
-if (props.tavoitekoodisto) {
-  koodisto.value = new KoodistoSelectStore({
+const koodisto = new KoodistoSelectStore({
     koodisto: props.tavoitekoodisto,
     async query(query, sivu = 0, koodisto) {
       return (await Koodisto.kaikkiSivutettuna(koodisto, query, {
@@ -340,7 +338,6 @@ if (props.tavoitekoodisto) {
       })).data;
     },
   });
-}
 
 const vaatimusOptions = computed(() => ({
   animation: 300,
