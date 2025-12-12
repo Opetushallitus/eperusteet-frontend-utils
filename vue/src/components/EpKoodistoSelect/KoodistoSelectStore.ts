@@ -25,11 +25,8 @@ export class KoodistoSelectStore {
   };
 
   public query = async (query: string = '', sivu = 0, onlyValidKoodis = true) => {
-    console.log('query', query);
     this.clear();
-    console.log('clear');
     const result = await this.config.query(query, sivu, this.config.koodisto, onlyValidKoodis);
     this.state.data = result as any;
-    console.log('result', result);
   };
 }
