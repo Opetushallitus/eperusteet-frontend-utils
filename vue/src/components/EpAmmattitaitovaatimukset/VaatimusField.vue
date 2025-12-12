@@ -10,37 +10,41 @@
       <template #default="{ open }">
         <div class="d-flex flex-column">
           <div>
-            <b-input-group>
-              <div class="handle text-muted">
-                <EpMaterialIcon>drag_indicator</EpMaterialIcon>
-              </div>
-              <b-form-input
-                v-if="!props.modelValue.koodi"
-                ref="input"
-                class="vaatimus"
-                :class="{ 'placeholder': placeholder }"
-                :value="vaatimus"
-                :placeholder="placeholder"
-                :state="isValid"
-                @input="onInput"
-                @focus="focused = true"
-                @blur="onBlur"
-              />
-              <b-form-input
+            <ep-error-wrapper
+              :validation="props.validation"
+            >
+              <b-input-group>
+                <div class="handle text-muted">
+                  <EpMaterialIcon>drag_indicator</EpMaterialIcon>
+                </div>
+                <b-form-input
+                  v-if="!props.modelValue.koodi"
+                  ref="input"
+                  class="vaatimus"
+                  :class="{ 'placeholder': placeholder }"
+                  :value="vaatimus"
+                  :placeholder="placeholder"
+                  :state="isValid"
+                  @input="onInput"
+                  @focus="onFocus"
+                  @blur="onBlur"
+                />
+                <b-form-input
                 v-if="props.modelValue.koodi"
                 class="vaatimus"
                 :value="koodiDisplayValue"
                 disabled
-              />
-              <b-input-group-append>
-                <b-button
+                />
+                <b-input-group-append>
+                  <b-button
                   variant="primary"
                   @click="open"
-                >
+                  >
                   {{ $t('hae-koodistosta') }}
                 </b-button>
               </b-input-group-append>
             </b-input-group>
+          </ep-error-wrapper>
           </div>
           <div
             v-if="isDatalistVisible"
@@ -105,6 +109,7 @@ import Kayttolistaus from './Kayttolistaus.vue';
 import { $kaanna, $kaannaPlaceholder, $t, $slang, $sd } from '@shared/utils/globals';
 import { useRoute } from 'vue-router';
 import { highlight } from '@shared/utils/kieli';
+import { nextTick } from 'vue';
 
 const props = defineProps({
   modelValue: {
@@ -215,6 +220,13 @@ function onBlur() {
     focused.value = false;
   }, 300);
 }
+
+const onFocus = async () => {
+  if (vaatimus.value.length > 2) {
+    await fetchKoodisto(vaatimus.value);
+  }
+  focused.value = true;
+};
 
 async function valitse(koodi) {
   await delay(100);

@@ -153,6 +153,7 @@ import _ from 'lodash';
 import EpBPagination from '../EpBPagination/EpBPagination.vue';
 import { unref } from 'vue';
 import { $t } from '@shared/utils/globals';
+import { debounced } from '@shared/utils/delay';
 
 const props = defineProps({
   modelValue: {
@@ -261,14 +262,14 @@ const fields = computed(() => {
   ];
 });
 
-const initStoreQuery = async (queryVal: string, sivuVal: number, vanhentuneetVal: boolean) => {
+const initStoreQuery = debounced(async (queryVal: string, sivuVal: number, vanhentuneetVal: boolean) => {
   isLoading.value = true;
   await props.store.query(queryVal, _.max([sivuVal, 0]), !vanhentuneetVal);
   isLoading.value = false;
-};
+});
 
 watch(() => query.value, async (newValue) => {
-  if (newValue.length > 2) {
+  if (newValue.length > 2 || newValue.length === 0) {
     await initStoreQuery(newValue, sivu.value - 1, vanhentuneet.value);
   }
 });
@@ -279,7 +280,8 @@ watch(() => vanhentuneet.value, async (newValue) => {
 
 const openDialog = async () => {
   props.store.clear();
-  await initStoreQuery('', 0, vanhentuneet.value);
+  query.value = '';
+  await initStoreQuery(query.value, sivu.value - 1, vanhentuneet.value);
   editModal.value?.show?.();
 };
 
