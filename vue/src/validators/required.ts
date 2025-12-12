@@ -12,7 +12,7 @@ export function notNull() {
 }
 
 const ValidoitavatKielet = ['fi', 'sv', 'se', 'en', 'ru'];
-const onlyCharacterOrNumberRegex = /^[a-zA-Z0-9äöåÄÖÅ ]*$/;
+const onlyCharacterOrNumberRegex = /^[a-zA-Z0-9äöåÄÖÅ ,]*$/;
 
 export const onlyCharacterOrNumber = (value: any) => {
   if (!value) return true; // Allow empty values
@@ -21,7 +21,7 @@ export const onlyCharacterOrNumber = (value: any) => {
 
 export const langOnlyCharacterOrNumber = () => {
   return {
-    'lang-only-character-or-number': (value: any) => {
+    'only-character-or-number': (value: any) => {
       if (!value) return true;
       const sisaltoKieli = Kielet.getSisaltoKieli.value;
       const langValue = _.get(value, sisaltoKieli);
@@ -56,7 +56,7 @@ export const requiredOneLang = () => {
 
 export const langMaxLength = (length: number) => {
   return {
-    'lang-max-length': (value: any) => {
+    'max-length': (value: any) => {
       return _.every(ValidoitavatKielet, kieli => _.size(_.get(value, kieli)) <= length);
     },
   };
@@ -64,7 +64,7 @@ export const langMaxLength = (length: number) => {
 
 export const langMinLength = (length: number) => {
   return {
-    'lang-min-length': (value: any) => {
+    ['min-length-' + length]: (value: any) => {
       return _.some(ValidoitavatKielet, kieli => _.size(_.get(value, kieli)) >= length);
     },
   };

@@ -29,9 +29,10 @@
             <div class="flex-grow-1">
               <vaatimus-field
                 v-if="koodisto"
+                ref="koodistoSelect"
                 v-model="inner.vaatimukset[vaatimusIdx]"
                 :koodisto="koodisto"
-                :validation="vaatimusValidation(null, vaatimusIdx)"
+                :validation="props.validation?.vaatimukset?.$each?.$response.$data[vaatimusIdx]?.vaatimus"
               />
               <EpInput
                 v-else
@@ -90,9 +91,9 @@
               <ep-input
                 v-model="kohdealue.kuvaus"
                 :is-editing="true"
-                :validation="validation && validation.kohdealueet.$each.$response.$data[kohdealueIdx].kuvaus"
                 class="ml-3 mr-4"
-              />
+                :validation="props.validation?.kohdealueet?.$each?.$response.$data[kohdealueIdx]?.kuvaus"
+                />
             </b-form-group>
             <b-form-group
               :label="kaannokset.vaatimukset"
@@ -114,10 +115,11 @@
                   <div class="flex-grow-1">
                     <vaatimus-field
                       v-if="koodisto"
+                      ref="koodistoSelect"
                       v-model="kohdealue.vaatimukset[vaatimusIdx]"
                       :koodisto="koodisto"
-                      :validation="vaatimusValidation(kohdealueIdx, vaatimusIdx)"
-                    />
+                      :validation="props.validation?.kohdealueet?.$each?.$response.$data[kohdealueIdx]?.vaatimukset?.$each.$data[vaatimusIdx]?.vaatimus"
+                      />
                     <EpInput
                       v-else
                       v-model="v.vaatimus"
@@ -273,6 +275,7 @@ import VaatimusField from './VaatimusField.vue';
 import { KoodistoSelectStore } from '@shared/components/EpKoodistoSelect/KoodistoSelectStore';
 import { Koodisto } from '../../api/eperusteet';
 import { $kaanna, $t, $vahvista } from '@shared/utils/globals';
+import { nextTick } from 'vue';
 
 const props = defineProps({
   modelValue: {
@@ -316,6 +319,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:modelValue']);
+
+const koodistoSelect = ref<InstanceType<typeof VaatimusField>[]>([]);
 
 const inner = computed({
   get: () => props.modelValue || { kohde: null, vaatimukset: [], kohdealueet: [] },
@@ -376,21 +381,16 @@ const lisaaKohdealue = (value) => {
   };
 };
 
-const lisaaKohdealueVaatimus = (kohdealue) => {
+const lisaaKohdealueVaatimus = async (kohdealue) => {
   kohdealue.vaatimukset = [...(kohdealue.vaatimukset || []), { vaatimus: null, koodi: null }];
+  await nextTick();
+  await koodistoSelect.value?.[koodistoSelect.value?.length - 1]?.openDialog();
 };
 
-const lisaaVaatimus = () => {
+const lisaaVaatimus = async () => {
   inner.value.vaatimukset = [...(inner.value.vaatimukset || []), { vaatimus: null, koodi: null }];
-};
-
-const vaatimusValidation = (kohdealueIdx, vaatimusIdx) => {
-  if (!kohdealueIdx) {
-    return props.validation?.vaatimukset?.$each?.$response.$data[vaatimusIdx]?.vaatimus;
-  }
-  else {
-    return props.validation?.kohdealueet?.$each?.$response.$data[kohdealueIdx]?.vaatimukset?.$each?.$response.$data[vaatimusIdx]?.vaatimus;
-  }
+  await nextTick();
+  await koodistoSelect.value?.[koodistoSelect.value?.length - 1]?.openDialog();
 };
 
 const koodistoPalveluUrl = (uri) => `${window.location.origin}/koodisto-app/koodi/view/${uri}/1`;

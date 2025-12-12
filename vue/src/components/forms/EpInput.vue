@@ -206,8 +206,20 @@ const inputClass = computed(() => {
   };
 });
 
+// Get all failed validators (keys without $ prefix that have value === false)
+const failedValidators = computed(() => {
+  if (!props.validation) {
+    return [];
+  }
+  return _(props.validation)
+    .keys()
+    .reject((key) => _.startsWith(key, '$'))
+    .filter((key) => props.validation[key] === false)
+    .value();
+});
+
 const validationError = computed(() => {
-  return props.validation?.error;
+  return _.first(failedValidators.value) || null;
 });
 
 const isDirty = computed(() => {
@@ -223,7 +235,10 @@ const isValid = computed(() => {
 });
 
 const message = computed(() => {
-  return props.validation?.invalidMessage;
+  if (validationError.value && !props.invalidMessage) {
+    return `validation-error-${validationError.value}`;
+  }
+  return props.invalidMessage || '';
 });
 
 const val = computed(() => {
