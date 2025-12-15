@@ -4051,6 +4051,7 @@
     "validation-error-required": "Pakollinen tieto",
     "validation-error-required-one-lang": "Pakollinen vähintään yhdellä kielellä",
     "validation-error-only-character-or-number": "Arvo sisältää virheellisiä merkkejä.",
+    "validation-error-strict-code-validator": "Arvo sisältää virheellisiä merkkejä.",
     "validation-warning-all-translations": "Käännöstä ei ole kaikilla julkaisukielillä",
     "validation-warning-allTranslations": "Käännöksiä ei ole luotu kaikilla julkaisukielillä",
     "validation-warning-min-value": "Laajuus liian pieni",
