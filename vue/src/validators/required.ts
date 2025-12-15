@@ -12,21 +12,21 @@ export function notNull() {
 }
 
 const ValidoitavatKielet = ['fi', 'sv', 'se', 'en', 'ru'];
-const onlyCharacterOrNumberRegex = /^[a-zA-Z0-9äöåÄÖÅ]([a-zA-Z0-9äöåÄÖÅ ,.\-]*[a-zA-Z0-9äöåÄÖÅ])?$/;
+const strictCodeValidator = /^[a-zA-Z0-9äöåÄÖÅ]([a-zA-Z0-9äöåÄÖÅ ,.-]*[a-zA-Z0-9äöåÄÖÅ])?$/;
 
 export const onlyCharacterOrNumber = (value: any) => {
   if (!value) return true; // Allow empty values
-  return onlyCharacterOrNumberRegex.test(String(value));
+  return strictCodeValidator.test(String(value));
 };
 
-export const langOnlyCharacterOrNumber = () => {
+export const langStrictCodeValidator = () => {
   return {
-    'only-character-or-number': (value: any) => {
+    'strict-code-validator': (value: any) => {
       if (!value) return true;
       const sisaltoKieli = Kielet.getSisaltoKieli.value;
       const langValue = _.get(value, sisaltoKieli);
       if (!langValue) return true;
-      return onlyCharacterOrNumberRegex.test(String(langValue));
+      return strictCodeValidator.test(String(langValue));
     },
   };
 };
