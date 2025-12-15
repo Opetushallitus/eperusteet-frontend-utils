@@ -12,7 +12,7 @@ export function notNull() {
 }
 
 const ValidoitavatKielet = ['fi', 'sv', 'se', 'en', 'ru'];
-const onlyCharacterOrNumberRegex = /^[a-zA-Z0-9äöåÄÖÅ ,]*$/;
+const onlyCharacterOrNumberRegex = /^[a-zA-Z0-9äöåÄÖÅ]([a-zA-Z0-9äöåÄÖÅ ,.\-]*[a-zA-Z0-9äöåÄÖÅ])?$/;
 
 export const onlyCharacterOrNumber = (value: any) => {
   if (!value) return true; // Allow empty values
