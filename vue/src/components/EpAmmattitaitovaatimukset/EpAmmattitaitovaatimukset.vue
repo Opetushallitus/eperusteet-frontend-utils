@@ -394,6 +394,10 @@ const lisaaVaatimus = async () => {
 };
 
 const koodistoPalveluUrl = (uri) => `${window.location.origin}/koodisto-app/koodi/view/${uri}/1`;
+
+const innerKohde = computed(() => {
+  return inner?.value?.kohde;
+});
 </script>
 
 <style scoped lang="scss">
