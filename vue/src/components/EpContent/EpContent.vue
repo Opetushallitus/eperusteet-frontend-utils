@@ -88,14 +88,19 @@ const model = computed(() => {
   return props.modelValue;
 });
 
+const testi = computed(() => {
+  return $kaannaPlaceholder(props.modelValue, !props.isEditable);
+});
+
 const placeholder = computed(() => {
   if (!focused.value) {
     if ($kaannaPlaceholder(props.modelValue, !props.isEditable)) {
-
       return $kaannaPlaceholder(props.modelValue, !props.isEditable);
     }
 
-    return props.placeholder;
+    if (_.isObject(props.modelValue) && !(props.modelValue)[lang.value]) {
+      return props.placeholder;
+    }
   }
 
   return undefined;
