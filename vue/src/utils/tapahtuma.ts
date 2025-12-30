@@ -27,6 +27,10 @@ const perusteKohdeReititys = {
   vuosiluokkakokonaisuus: 'perusopetusVuosiluokkakokonaisuus',
   kaantajataito: 'kaantajataito',
   kaantajataitotasoasteikko: 'kaantajataitotasoasteikko',
+  kaantajakielitaito: 'kaantajakielitaito',
+  kaantajataitotasokuvaus: 'kaantajataitotasokuvaus',
+  kaantajaaihealue: 'kaantajaaihealue',
+  kaantajatodistusmalli: 'kaantajatodistusmalli',
 };
 
 const opasKohdeReititys = {
@@ -63,6 +67,10 @@ const perusteKohdereititysId = {
   vuosiluokkakokonaisuus: 'vlkId',
   kaantajataito: 'kaantajataitoId',
   kaantajataitotasoasteikko: 'kaantajataitotasoasteikkoId',
+  kaantajakielitaito: 'kaantajakielitaitoId',
+  kaantajataitotasokuvaus: 'kaantajataitotasokuvausId',
+  kaantajaaihealue: 'kaantajaaihealueId',
+  kaantajatodistusmalli: 'kaantajatodistusmalliId',
 };
 
 const tyypitettyKohdereititysId = {
