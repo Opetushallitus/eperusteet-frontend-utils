@@ -198,6 +198,34 @@ export function osaToLocation(osa: OsanTyypillinen): Location {
         kaantajaTaitotasoasteikkoId: String(osa.id),
       },
     };
+  case 'kaantajatodistusmalli':
+    return {
+      name: 'perusteKaantajaTodistusmalli',
+      params: {
+        kaantajatodistusmalliId: String(osa.id),
+      },
+    };
+  case 'kaantajaaihealue':
+    return {
+      name: 'perusteKaantajaAihealue',
+      params: {
+        kaantajaaihealueId: String(osa.id),
+      },
+    };
+  case 'kaantajataitotasokuvaus':
+    return {
+      name: 'perusteKaantajaTaitotasokuvaus',
+      params: {
+        kaantajataitotasokuvausId: String(osa.id),
+      },
+    };
+  case 'kaantajakielitaito':
+    return {
+      name: 'perusteKaantajaKielitaito',
+      params: {
+        kaantajakielitaitoId: String(osa.id),
+      },
+    };
   case 'tavoitesisaltoalue':
     return {
       name: 'perusteTavoitesisaltoalue',
@@ -629,6 +657,38 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       name: 'perusteKaantajaTaitotasoasteikko',
       params: {
         kaantajataitotasoasteikkoId: String(rawNode.id),
+      },
+    };
+    break;
+  case 'kaantajatodistusmalli':
+    node.location = {
+      name: 'perusteKaantajaTodistusmalli',
+      params: {
+        kaantajatodistusmalliId: String(rawNode.id),
+      },
+    };
+    break;
+  case 'kaantajaaihealue':
+    node.location = {
+      name: 'perusteKaantajaAihealue',
+      params: {
+        kaantajaaihealueId: String(rawNode.id),
+      },
+    };
+    break;
+  case 'kaantajataitotasokuvaus':
+    node.location = {
+      name: 'perusteKaantajaTaitotasokuvaus',
+      params: {
+        kaantajataitotasokuvausId: String(rawNode.id),
+      },
+    };
+    break;
+  case 'kaantajakielitaito':
+    node.location = {
+      name: 'perusteKaantajaKielitaito',
+      params: {
+        kaantajakielitaitoId: String(rawNode.id),
       },
     };
     break;
