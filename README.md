@@ -17,8 +17,10 @@ Ympäristön pystytys ja käyttöönotto on kuvattu tarkemmin kunkin projektin y
 ### Kehitysympäristön vaatimukset
 
 ```
-Node.js 10 LTS
+Node.js 21
 ```
+
+Projekti käyttää Yarn 4.9.2 pakettienhallintaan.
 
 ### Riippuvuuksien asentaminen
 
@@ -31,19 +33,18 @@ yarn install
 
 ### Testaaminen
 
+Projekti käyttää Vitest-testauskirjastoa.
+
 ```sh
 
 # Run all tests
 yarn test
 
-# Run unit tests only
-yarn test:unit
+# Run tests in watch mode
+yarn test --watch
 
-# Run e2e tests
-yarn test:e2e
-
-# Edit e2e tests
-yarn dev:e2e
+# Run tests with UI
+yarn test --ui
 
 ```
 
@@ -53,14 +54,23 @@ yarn dev:e2e
 
 yarn lint
 
+# Korjaus automaattisesti
+yarn lint --fix
+
 ```
 
-### Yksikkötestien ajaminen
+### API-rajapintojen generointi
 
 ```sh
 
-yarn test:unit
-yarn test:unit:dev # Pitää testit käynnissä
+# Generoi rajapinnat eperusteet-backendista
+yarn gen:api
+
+# Generoi rajapinnat eperusteet-backendista
+yarn gen:api:eperusteet
+
+# Generoi rajapinnat ylops-backendista
+yarn gen:api:ylops
 
 ```
 
