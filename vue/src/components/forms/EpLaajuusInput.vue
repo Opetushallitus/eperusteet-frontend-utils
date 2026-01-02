@@ -23,6 +23,7 @@
           max="999"
           :is-editing="isEditing"
           :validation="validation"
+          @focus="onInputFocus"
         />
       </div>
       <div class="ml-2">
@@ -75,6 +76,12 @@ watch(() => model.value, (newValue) => {
   // Emit the update event with the new value
   emit('update:modelValue', model.value);
 }, { immediate: true });
+
+const onInputFocus = () => {
+  if (model.value === 0) {
+    emit('update:modelValue', undefined);
+  }
+};
 </script>
 
 <style lang="scss" scoped>
