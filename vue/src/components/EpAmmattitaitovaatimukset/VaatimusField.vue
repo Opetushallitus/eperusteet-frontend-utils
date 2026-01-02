@@ -30,21 +30,21 @@
                   @blur="onBlur"
                 />
                 <b-form-input
-                v-if="props.modelValue.koodi"
-                class="vaatimus"
-                :value="koodiDisplayValue"
-                disabled
+                  v-if="props.modelValue.koodi"
+                  class="vaatimus"
+                  :value="koodiDisplayValue"
+                  disabled
                 />
                 <b-input-group-append>
                   <b-button
-                  variant="primary"
-                  @click="open"
+                    variant="primary"
+                    @click="open"
                   >
-                  {{ $t('hae-koodistosta') }}
-                </b-button>
-              </b-input-group-append>
-            </b-input-group>
-          </ep-error-wrapper>
+                    {{ $t('hae-koodistosta') }}
+                  </b-button>
+                </b-input-group-append>
+              </b-input-group>
+            </ep-error-wrapper>
           </div>
           <div
             v-if="isDatalistVisible"
