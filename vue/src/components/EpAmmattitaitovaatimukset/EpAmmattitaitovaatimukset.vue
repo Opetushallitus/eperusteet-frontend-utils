@@ -93,7 +93,7 @@
                 :is-editing="true"
                 class="ml-3 mr-4"
                 :validation="props.validation?.kohdealueet?.$each?.$response.$data[kohdealueIdx]?.kuvaus"
-                />
+              />
             </b-form-group>
             <b-form-group
               :label="kaannokset.vaatimukset"
@@ -119,7 +119,7 @@
                       v-model="kohdealue.vaatimukset[vaatimusIdx]"
                       :koodisto="koodisto"
                       :validation="props.validation?.kohdealueet?.$each?.$response.$data[kohdealueIdx]?.vaatimukset?.$each.$data[vaatimusIdx]?.vaatimus"
-                      />
+                    />
                     <EpInput
                       v-else
                       v-model="v.vaatimus"
@@ -336,13 +336,13 @@ const kaannokset = computed(() => ({
 }));
 
 const koodisto = new KoodistoSelectStore({
-    koodisto: props.tavoitekoodisto,
-    async query(query, sivu = 0, koodisto) {
-      return (await Koodisto.kaikkiSivutettuna(koodisto, query, {
-        params: { sivu, sivukoko: 10 },
-      })).data;
-    },
-  });
+  koodisto: props.tavoitekoodisto,
+  async query(query, sivu = 0, koodisto) {
+    return (await Koodisto.kaikkiSivutettuna(koodisto, query, {
+      params: { sivu, sivukoko: 10 },
+    })).data;
+  },
+});
 
 const vaatimusOptions = computed(() => ({
   animation: 300,
