@@ -9,6 +9,11 @@ export function rakenneNodecolor(node, parentMandatory) {
     if (mapped) {
       return ColorMap[mapped];
     }
+
+    if (!node.nimi) {
+      return ColorMap.valinnainen;
+    }
+
     if (node.rooli === 'määritelty') {
       if (node.nimi[Kielet.getUiKieli.value] === $t('rakenne-moduuli-pakollinen')) {
         return ColorMap.pakollinen;
