@@ -2651,6 +2651,7 @@
     "peruste-validointi-vlk-sisalto": "Kaikkien vuosiluokkakokonaisuuksien sisältöjä ei ole lokalisoitu",
     "peruste-validointi-vlk-tehtava-otsikko": "Kaikkien vuosiluokkakokonaisuuksien tehtävien otsikoita ei ole lokalisoitu",
     "peruste-validointi-vlk-tehtava-teksti": "Kaikkien vuosiluokkakokonaisuuksien tehtävien sisältötekstejä ei ole lokalisoitu",
+    "peruste-validointi-moduuli-sisalto": "Moduulin sisältöä ei ole käännettyä vaadituilla kielillä",
     "peruste-valmis-varmistus": "Valmista perustetta ei pysty asettamaan enää takaisin luonnostilaan, mutta se voidaan arkistoida.",
     "perusteella-ei-julkaisuja": "Perusteella ei julkaisuja",
     "perusteella-ei-paikallisia-opetussuunnitelmia": "Perusteelle ei löytynyt paikallisia toteutuksia",
