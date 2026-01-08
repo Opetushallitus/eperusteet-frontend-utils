@@ -62,6 +62,7 @@
               <input
                 v-if="multiple"
                 type="checkbox"
+                class="mr-2"
                 :checked="optionChecked(option)"
               >
             </slot>
