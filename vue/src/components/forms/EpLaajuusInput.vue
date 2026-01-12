@@ -71,9 +71,9 @@ watch(() => props.modelValue, (newValue) => {
 
 // Watch for changes to the model
 watch(() => model.value, (newValue) => {
-  // Constrain the value between 0 and 999
-  model.value = Math.max(Math.min(999, Number(newValue)), 0);
-  // Emit the update event with the new value
+  if (!isNaN(Number(newValue))) {
+    model.value = Math.max(Math.min(9999, Number(newValue)), 0);
+  }
   emit('update:modelValue', model.value);
 }, { immediate: true });
 

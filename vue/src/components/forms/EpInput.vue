@@ -6,8 +6,7 @@
         class="input-style form-control"
         :class="[ inputClass ]"
         :placeholder="placeholderValue"
-        :type="type === 'number' ? 'number' : 'text'"
-        step="any"
+        type="text"
         :value="val"
         :disabled="disabled"
         @focus="onInputFocus"
@@ -277,7 +276,12 @@ const onInput = (input: any) => {
   }
 
   if (props.type === 'number') {
-    emit('update:modelValue', Number(input));
+    if (!isNaN(Number(input.replace(',', '.')))) {
+      emit('update:modelValue', Number(input.replace(',', '.')));
+    }
+    else {
+      emit('update:modelValue', 0);
+    }
   }
   else if (props.type !== 'localized' || _.isString(props.modelValue)) {
     emit('update:modelValue', escapeHtml(input));

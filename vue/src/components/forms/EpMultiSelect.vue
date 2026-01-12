@@ -101,12 +101,22 @@
         </slot>
       </template>
       <template #selection="{ values, search, isOpen }">
-        <slot
-          name="selection"
-          :values="values"
-          :search="search"
-          :is-open="isOpen"
-        />
+        <div class="d-flex align-items-center">
+          <slot
+            name="selection"
+            :values="values"
+            :search="search"
+            :is-open="isOpen"
+          />
+          <span
+            v-if="multiple && values.length > 0"
+            class="ml-auto clickable border-right pr-2 remove-all"
+            @click.prevent
+            @mousedown.prevent.stop="removeAll()"
+          >
+            <ep-material-icon>close</ep-material-icon>
+          </span>
+        </div>
       </template>
       <template #afterList>
         <slot name="afterList" />
@@ -339,6 +349,10 @@ const inputClass = computed(() => {
 
 function remove(option) {
   emit('remove', option);
+}
+
+function removeAll() {
+  emit('update:modelValue', []);
 }
 
 function sulje() {
