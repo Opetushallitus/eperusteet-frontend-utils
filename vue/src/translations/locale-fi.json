@@ -4604,5 +4604,6 @@
     "tapahtuma-luonti-kaantajataitotasokuvaus": "Lisäsi taitotasokuvauksen",
     "tapahtuma-luonti-kaantajaaihealue": "Lisäsi aihealueen",
     "tapahtuma-luonti-kaantajatodistusmalli": "Lisäsi todistusmallin",
-    "nayta-vanhentuneet-suunnitelmat": "Näytä vanhentuneet suunnitelmat"
+    "nayta-vanhentuneet-suunnitelmat": "Näytä vanhentuneet suunnitelmat",
+    "koodi-kaytossa-pohja-opetussuunnitelmassa": "Koodi on jo käytössä pohjan opetussuunnitelmassa"
 }

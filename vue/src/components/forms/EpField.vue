@@ -9,10 +9,14 @@
     :help="help"
     :show-valid-validation="showValidValidation"
     :unit="unit"
+    :is-warning="isWarning"
     @update:model-value="$emit('update:modelValue', $event)"
   >
     <template #suffix>
       <slot />
+    </template>
+    <template #right>
+      <slot name="right" />
     </template>
   </ep-input>
 </template>
@@ -29,6 +33,7 @@ const props = defineProps({
   help: { type: String, default: '' },
   showValidValidation: { type: Boolean, default: true },
   unit: { type: [String, Object], required: false },
+  isWarning: { type: Boolean, default: false },
   validation: {
     required: false,
     type: Object,
