@@ -11,7 +11,7 @@ export const useVirheStore = defineStore('virhe', () => {
 
   // Actions as functions
   async function lisaaVirhe(virhe: SovellusVirhe) {
-    // virheet.value = [...virheet.value, virhe];
+    virheet.value = [...virheet.value, virhe];
     for (const handler of onErrorHandlers.value) {
       handler(virhe);
     }
@@ -21,11 +21,16 @@ export const useVirheStore = defineStore('virhe', () => {
     onErrorHandlers.value.push(handler);
   }
 
+  function clearVirheet() {
+    virheet.value = [];
+  }
+
   return {
     virheet,
     onErrorHandlers,
     lisaaVirhe,
     onError,
+    clearVirheet,
   };
 });
 
@@ -38,5 +43,13 @@ export const Virheet = {
   onError: (handler: ErrorHandler) => {
     const store = useVirheStore();
     store.onError(handler);
+  },
+  clearVirheet: () => {
+    const store = useVirheStore();
+    store.clearVirheet();
+  },
+  virheet: () => {
+    const store = useVirheStore();
+    return store.virheet;
   },
 };
