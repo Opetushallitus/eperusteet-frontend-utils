@@ -18,13 +18,14 @@
 
 <script setup lang="ts">
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import _ from 'lodash';
 
 const props = defineProps({
   // Käytä komponentin proppina uniqueId:tä, jos EpInfoPopover on käytössä useamman kerran samassa komponentissa, jotta popover näytetään oikeassa ikonissa.
   uniqueId: {
     type: String,
     required: false,
-    default: '0',
+    default: () => _.uniqueId('infopopup-'),
   },
 });
 </script>

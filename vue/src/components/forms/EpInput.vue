@@ -200,7 +200,7 @@ const inputClass = computed(() => {
     'left-padded': hasLeftSlot.value,
     'right-padded': hasRightSlot.value,
     'is-invalid': !props.isWarning && isInvalid.value,
-    'is-warning': props.isWarning && isInvalid.value,
+    'is-warning': props.isWarning,
     'is-valid': isValid.value && props.showValidValidation && props.validation,
   };
 });
@@ -345,7 +345,7 @@ input.input-style {
   }
 }
 
-input.is-warning:focus {
+input.is-warning {
   border-color: #ffc107;
 }
 
