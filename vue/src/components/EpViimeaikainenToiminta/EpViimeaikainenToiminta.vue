@@ -37,7 +37,9 @@
                 <div class="col nimi">
                   {{ muokkaustieto.kayttajaNimi }}
                 </div>
-                <div class="col aika text-right">
+                <div
+                  :title="$sdt(muokkaustieto.luotu)"
+                  class="col aika text-right">
                   {{ $ago(muokkaustieto.luotu) }}
                 </div>
               </div>
