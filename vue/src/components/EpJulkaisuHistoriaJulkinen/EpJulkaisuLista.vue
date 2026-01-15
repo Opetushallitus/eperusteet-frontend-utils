@@ -20,7 +20,7 @@
           </span>
           <router-link
             v-if="versio !== julkaisu.revision"
-            :to="{ name: 'perusteTiedot', params: { perusteId: julkaisu.peruste.id, revision: julkaisu.revision } }"
+            :to="julkaisu.route"
           >
             {{ $t('siirry-julkaisuun') }}
           </router-link>
@@ -156,6 +156,13 @@ const julkaisutMapped = computed(() => {
             url: muutosmaaraysUrl(julkaisu.muutosmaarays),
           },
         }),
+        route: {
+          name: 'perusteTiedot',
+          params: {
+            perusteId: julkaisu.peruste.id,
+            revision: julkaisu.revision,
+          }
+        },
       };
     })
     .map(julkaisu => {
