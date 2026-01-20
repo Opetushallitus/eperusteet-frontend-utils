@@ -3,7 +3,7 @@
     class="spinner"
     :class="{'small': small, 'full-screen': fullScreen}"
   >
-    <div class="oph-spinner">
+    <div class="oph-spinner" v-if="!fullScreen">
       <div
         class="oph-bounce oph-bounce1"
         :style="style"
@@ -21,7 +21,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { onUnmounted, onMounted, computed, ref } from 'vue';
+import { useLoading } from 'vue-loading-overlay';
 
 const props = defineProps({
   small: {
@@ -38,6 +39,25 @@ const props = defineProps({
     required: false,
     default: false,
   },
+});
+
+const $loading = useLoading({
+  isFullPage: true,
+  color: '#159ecb',
+  loader: 'dots',
+});
+const loader = ref<any>(null);
+
+onMounted(() => {
+  if (props.fullScreen) {
+    loader.value = $loading.show();
+  }
+});
+
+onUnmounted(() => {
+  if (loader.value) {
+    loader.value.hide();
+  }
 });
 
 const style = computed(() => {
@@ -67,20 +87,7 @@ const style = computed(() => {
   }
 
   &.full-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.8);
-    z-index: 1000;
-
-    .oph-spinner {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
+    height: 50vh;
   }
 }
 </style>
