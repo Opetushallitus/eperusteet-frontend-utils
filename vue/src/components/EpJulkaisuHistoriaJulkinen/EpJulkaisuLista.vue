@@ -161,7 +161,7 @@ const julkaisutMapped = computed(() => {
           params: {
             perusteId: julkaisu.peruste.id,
             revision: julkaisu.revision,
-          }
+          },
         },
       };
     })
