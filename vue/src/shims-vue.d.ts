@@ -1,12 +1,12 @@
-// export {};
-
+/* eslint-disable vue/prefer-import-from-vue */
 declare module 'vue' {
-  import { CompatVue } from 'vue';
+  import { CompatVue } from '@vue/compat';
   const Vue: CompatVue;
   export default Vue;
-  import { configureCompat } from '@vue/compat';
-  export { configureCompat };
+  export * from '@vue/compat';
+  export * from '@vue/runtime-core';
 }
+/* eslint-enable vue/prefer-import-from-vue */
 
 declare module '*.svg' {
   const value: any;
