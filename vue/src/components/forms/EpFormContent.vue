@@ -1,5 +1,5 @@
 <template>
-  <div class="form-group form-content">
+  <div class="mb-4 form-content">
     <div v-if="showHeader">
       <div v-if="name">
         <h3

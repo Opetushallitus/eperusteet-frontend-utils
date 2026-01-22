@@ -16,9 +16,9 @@
       <slot>
         <div
           v-if="file"
-          class="justify-content-around align-items-center h-100"
+          class="justify-content-around items-center h-full"
         >
-          <div class="h-100 justify-content-around align-items-center">
+          <div class="h-full justify-content-around items-center">
             <figure>
               <img
                 v-if="previewUrl"
@@ -42,12 +42,12 @@
             v-if="!saved"
             class="mb-3"
           >
-            <div class="d-flex align-items-center">
+            <div class="flex items-center">
               <ep-form-content
                 name="kuvan-leveys"
                 class="mb-3"
               >
-                <div class="d-flex align-items-center">
+                <div class="flex items-center">
                   <ep-field
                     v-model="width"
                     :is-editing="true"
@@ -61,7 +61,7 @@
                 name="kuvan-korkeus"
                 class="mb-3"
               >
-                <div class="d-flex align-items-center">
+                <div class="flex items-center">
                   <ep-field
                     v-model="height"
                     :is-editing="true"
