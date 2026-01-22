@@ -11,21 +11,21 @@
         size="16px"
       >visibility_off</EpMaterialIcon>
       <template v-if="postfixLabel">
-        <span
-          v-if="node.meta && node.meta.postfix_label"
-          :id="'item-popover'+node.id"
-          class="postfix"
+        <EpPopover
+          :triggers="['hover', 'click']"
+          :disabled="!node.meta || !node.meta.postfix_tooltip"
         >
-          ({{ $t(postfixLabel) }})
-        </span>
-        <b-popover
-          v-if="node.meta && node.meta.postfix_tooltip"
-          :target="'item-popover'+node.id"
-          triggers="click hover"
-          placement="right"
-        >
+          <template #trigger>
+            <span
+              v-if="node.meta && node.meta.postfix_label"
+              :id="'item-popover'+node.id"
+              class="postfix"
+            >
+              ({{ $t(postfixLabel) }})
+            </span>
+          </template>
           {{ $t(postfixTooltip) }}
-        </b-popover>
+        </EpPopover>
       </template>
     </span>
   </component>
@@ -36,6 +36,7 @@ import { computed } from 'vue';
 import { NavigationNodeDto } from '@shared/tyypit';
 import * as _ from 'lodash';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import EpPopover from '../EpPopover/EpPopover.vue';
 
 const props = defineProps({
   node: {

@@ -35,10 +35,10 @@
           class="ylapaneeli d-print-none"
         >
           <div
-            class="d-flex align-items-center flex-md-row flex-column justify-content-between"
+            class="flex items-center flex-md-row flex-col justify-between"
             :class="{ container: useContainer }"
           >
-            <div class="d-flex flex-wrap flex-xl-nowrap align-items-center justify-content-between">
+            <div class="flex flex-wrap flex-xl-nowrap items-center justify-between">
               <div
                 v-if="inner"
                 class="headerline"
@@ -53,7 +53,7 @@
               </div>
               <div
                 v-if="!isEditing"
-                class="muokattu text-nowrap"
+                class="muokattu whitespace-nowrap"
               >
                 <slot
                   name="postHeader"
@@ -65,14 +65,14 @@
                 />
                 <span
                   v-if="latest"
-                  class="text-truncate"
+                  class="truncate"
                 >{{ $t('muokattu') }}: {{ $sdt(latest.pvm) }}, {{ nimi }}</span>
               </div>
             </div>
             <div>
               <div
                 v-if="!versiohistoriaVisible"
-                class="floating-editing-buttons d-flex align-items-center"
+                class="floating-editing-buttons flex items-center"
               >
                 <ep-button
                   v-if="isEditing"
@@ -143,7 +143,7 @@
                 </b-dropdown>
                 <div
                   v-if="currentLock && features.lockable"
-                  class="d-flex align-items-center ml-2 mr-2"
+                  class="flex items-center ml-2 mr-2"
                 >
                   <div>
                     <EpMaterialIcon
@@ -154,11 +154,11 @@
                     </EpMaterialIcon>
                     {{ $t('sivu-lukittu') }}
                   </div>
-                  <div class="flex-grow-1 ml-3">
+                  <div class="grow ml-3">
                     <div>
                       {{ currentLock.haltijaNimi || currentLock.haltijaOid }}
                     </div>
-                    <div class="text-muted">
+                    <div class="text-gray-500">
                       {{ $t('vapautuu') }}: {{ $ago(currentLock.vanhentuu) }}
                     </div>
                   </div>
@@ -328,28 +328,19 @@
         </div>
         <div
           v-if="versiohistoriaVisible"
-          class="d-flex align-items-center versiohistoria"
+          class="flex items-center versiohistoria"
         >
           <div class="headerline">
             <span>{{ $t('muokkaushistoria') }}: {{ $t('versionumero') }} {{ versionumero }}</span>
           </div>
-          <div class="flex-fill">
-            <ep-pagination
+          <div class="flex-1">
+            <ep-b-pagination
               :model-value="versionumero"
-              :total-rows="versions"
-              :per-page="1"
-              :hide-goto-end-buttons="true"
-              size="sm"
+              :total="versions"
+              :items-per-page="1"
               class="mb-0"
               @update:model-value="updateVersionumero"
-            >
-              <template #prev-text>
-                <EpMaterialIcon>chevron_left</EpMaterialIcon>
-              </template>
-              <template #next-text>
-                <EpMaterialIcon>chevron_right</EpMaterialIcon>
-              </template>
-            </ep-pagination>
+            />
           </div>
           <div class="floating-editing-buttons">
             <ep-button
@@ -390,7 +381,7 @@
           <div class="actual-content">
             <div
               v-if="hasInfoSlotContent"
-              class="info d-flex"
+              class="info flex"
             >
               <EpMaterialIcon
                 class="mr-1"
@@ -511,7 +502,7 @@ import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue
 import { useSlots } from 'vue';
 import { $t, $sdt, $ago, $success, $fail, $bvModal, $vahvista } from '@shared/utils/globals';
 import { useVuelidate } from '@vuelidate/core';
-import EpPagination from '@shared/components/EpPagination/EpPagination.vue';
+import EpBPagination from '@shared/components/EpBPagination/EpBPagination.vue';
 import { inject } from 'vue';
 import EpEditointiKoodistoSelect from './EpEditointiKoodistoSelect.vue';
 
@@ -998,8 +989,8 @@ watch(sidebarState, (newValue, oldValue) => {
 @import '../../styles/variables';
 
 .info {
-  background: $blue-lighten-9;
-  border: $blue-lighten-10 solid 1px;
+  background: $lightBlue2;
+  border: $grey300 solid 1px;
   padding: 20px;
 }
 
@@ -1042,7 +1033,7 @@ watch(sidebarState, (newValue, oldValue) => {
   }
 
   .versiohistoria {
-    background-color: #E6F6FF;
+    background-color: $lightBlue2;
     border-bottom: 1px solid #E7E7E7;
     padding: 2px 15px;
     color: #2B2B2B;

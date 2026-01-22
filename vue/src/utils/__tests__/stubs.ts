@@ -2,73 +2,12 @@ import { mount, RouterLinkStub } from '@vue/test-utils';
 import { h, renderSlot } from 'vue';
 import { createHead } from '@unhead/vue/client';
 import { setAppInstance } from '../globals';
-import { bTableStub } from './b-table-stub';
+import { setPrimeVue } from '../../primevue';
 
-const generateBootstrapStubs = () => {
-  const stubs = {};
-  const components = [
-    'b-form-checkbox',
-    'b-form-group',
-    'b-form-input',
-    'b-button',
-    'b-form-select',
-    'b-card',
-    'b-row',
-    'b-col',
-    'b-input-group-append',
-    'b-input-group',
-    'b-table',
-    'b-modal',
-    'b-pagination',
-    'b-form-invalid-feedback',
-    'b-popover',
-    'b-tooltip',
-    'b-nav-item-dropdown',
-    'b-dd-item',
-    'b-dd-item-button',
-    'b-dropdown-divider',
-    'b-dropdown-item',
-    'b-dropdown-item-button',
-    'b-dropdown',
-    'b-container',
-    'b-link',
-    'b-form-checkbox-group',
-    'b-tabs',
-    'b-tab',
-    'apexchart',
-    'b-form-datepicker',
-    'b-navbar',
-    'b-navbar-nav',
-    // Add any other B components you use
-  ];
-
-  components.forEach(name => {
-    // Special handling for b-table component
-    if (name === 'b-table') {
-      stubs[name] = bTableStub;
-    }
-    else {
-      // Default stub for other components
-      stubs[name] = {
-        render() {
-          return h('div', { class: name }, [
-            // Render default slot
-            renderSlot(this.$slots, 'default'),
-            // Dynamically render any other slots
-            ...Object.keys(this.$slots)
-              .filter(slotName => slotName !== 'default')
-              .map(slotName =>
-                h('div', { class: `${name}__slot-${slotName}` }, [
-                  renderSlot(this.$slots, slotName),
-                ]),
-              ),
-          ]);
-        },
-      };
-    }
-  });
-
-  return stubs;
+const primeVuePlugin = {
+  install(app: any) {
+    setPrimeVue(app);
+  },
 };
 
 export const testPlugin = {
@@ -100,6 +39,7 @@ export const testPlugin = {
 export const globalStubs = {
   plugins: [
     testPlugin,
+    primeVuePlugin,
     createHead(),
   ],
   stubs: {
@@ -122,7 +62,6 @@ export const globalStubs = {
     },
     'ep-editor-menu-bar': true,
     'ep-editor-menu-bar-vue3': true,
-    ...generateBootstrapStubs(),
   },
   directives: {
     oikeustarkastelu: {
