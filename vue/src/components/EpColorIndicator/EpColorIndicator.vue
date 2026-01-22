@@ -1,28 +1,28 @@
 <template>
-  <span
-    ref="ball"
-    class="material-icons"
-    :style="dynstyle"
-    :title="$t(kind)"
-    :class="spanClass"
-    aria-hidden="true"
+  <EpPopover
+    :triggers="['hover']"
+    :disabled="!tooltip"
   >
-    circle
-    <b-popover
-      v-if="tooltip"
-      :target="() => ball"
-      :placement="'top'"
-      triggers="hover"
-      variant="primary"
-    >
-      <span>{{ $t(kind) }}</span>
-    </b-popover>
-  </span>
+    <template #trigger>
+      <span
+        ref="ball"
+        class="material-icons"
+        :style="dynstyle"
+        :title="$t(kind)"
+        :class="spanClass"
+        aria-hidden="true"
+      >
+        circle
+      </span>
+    </template>
+    <span>{{ $t(kind) }}</span>
+  </EpPopover>
 </template>
 
 <script setup lang="ts">
 import { computed, useTemplateRef } from 'vue';
 import { themeColors, themes, rgb2string } from '../../utils/perusteet';
+import EpPopover from '../EpPopover/EpPopover.vue';
 
 const moduuliColors = {
   'normaali': [0, 0, 0],

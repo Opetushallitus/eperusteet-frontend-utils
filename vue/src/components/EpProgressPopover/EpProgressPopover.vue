@@ -1,10 +1,48 @@
 <template>
   <div>
-    <div
-      id="tila-popover"
-      class="row justify-content-center"
+    <EpPopover
+      v-if="slots.default"
+      :triggers="['hover', 'focus']"
+      @show="tilaPopupVisible = true"
+      @hide="tilaPopupVisible = false"
     >
-      <div class="col-12 progress-area">
+      <template #trigger>
+        <div
+          id="tila-popover"
+          class="flex flex-col justify-center"
+        >
+          <div class="progress-area">
+            <ep-progress
+              :slices="processSlices"
+              :height="height"
+              :width="width"
+            />
+          </div>
+          <div class="header">
+            <slot name="header" />
+          </div>
+        </div>
+      </template>
+
+      <div class="slot-area flex justify-center mr-1">
+        <slot />
+      </div>
+
+      <div class="popup-hr">
+        <hr>
+      </div>
+
+      <div class="popup-bottom row flex-col items-center mx-3 my-2">
+        <slot name="bottom" />
+      </div>
+    </EpPopover>
+
+    <div
+      v-else
+      id="tila-popover"
+      class="flex flex-col justify-center"
+    >
+      <div class="progress-area">
         <ep-progress
           :slices="processSlices"
           :height="height"
@@ -46,6 +84,7 @@
 import { computed, ref, useSlots } from 'vue';
 import _ from 'lodash';
 import EpProgress from './EpProgress.vue';
+import EpPopover from '../EpPopover/EpPopover.vue';
 
 const props = defineProps({
   slices: {

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="moduulibox d-flex justify-content-between p-2"
+    class="moduulibox flex justify-between p-2"
     :class="{'moduulibox-valittu': valittu, 'selectable': isEditing}"
     role="button"
     tabindex="0"
@@ -11,7 +11,7 @@
     <div class="name">
       {{ moduuliNimi }} ({{ moduuli.koodi.arvo }})
     </div>
-    <div class="d-flex bd-highlight align-items-center">
+    <div class="flex bd-highlight items-center">
       <span class="pr-2">{{ moduuli.laajuus }} {{ $t('opintopiste') }}</span>
       <ep-color-indicator :kind="moduuli.pakollinen ? 'pakollinen' : 'valinnainen'" />
     </div>
@@ -91,8 +91,8 @@ const toggle = () => {
 @import "@shared/styles/_variables.scss";
 
 .moduulibox {
-  background-color: #E6F6FF;
-  color: $blue-darken-1;
+  background-color: $lightBlue2;
+  color: $blue1;
   user-select: none;
   border-radius: 5px;
 
@@ -111,10 +111,10 @@ const toggle = () => {
       width: 0.5em;
     }
     &::-webkit-scrollbar-track {
-      background-color: $blue-lighten-4;
+      background-color: $lightBlue2;
     }
     &::-webkit-scrollbar-thumb {
-      background-color: $blue-lighten-3;
+      background-color: $lightBlue2;
       border-radius: 0.5em;
     }
   }

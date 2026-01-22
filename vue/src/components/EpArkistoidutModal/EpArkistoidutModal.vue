@@ -23,13 +23,12 @@
       <div class="search">
         <EpSearch v-model="query" />
       </div>
-      <b-table
+      <EpTable
         responsive
         borderless
         striped
         :items="arkistoidutSortedFiltered"
         :fields="fields"
-        :current-page="currentPage"
         :per-page="perPage"
       >
         <template #cell(nimi)="data">
@@ -44,14 +43,7 @@
             :data="data"
           />
         </template>
-      </b-table>
-      <ep-pagination
-        v-model="currentPage"
-        :total-rows="arkistoidutSortedFiltered.length"
-        :per-page="perPage"
-        aria-controls="arkistoidut"
-        align="center"
-      />
+      </EpTable>
     </b-modal>
   </div>
 </template>
@@ -65,7 +57,7 @@ import EpSearch from '@shared/components/forms/EpSearch.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import { $t, $kaanna, $sdt } from '@shared/utils/globals';
-import EpPagination from '@shared/components/EpPagination/EpPagination.vue';
+import EpTable from '@shared/components/EpTable/EpTable.vue';
 
 interface Palautettava {
   nimi: any;
@@ -81,7 +73,6 @@ const props = defineProps({
 });
 
 const query = ref('');
-const currentPage = ref(1);
 const perPage = ref(10);
 
 const arkistoidutSortedFiltered = computed(() => {
@@ -107,7 +98,7 @@ const fields = computed(() => {
 </script>
 
 <style lang="scss" scoped>
-:deep(.b-table.table-borderless thead th) {
+:deep(.ep-table.borderless .p-datatable thead th) {
   border: none;
 }
 </style>

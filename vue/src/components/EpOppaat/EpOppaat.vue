@@ -6,21 +6,21 @@
 
     <div class="mb-4">
       <label>{{ $t('nimi') }}</label>
-      <div class="d-flex justify-content-between">
+      <div class="flex justify-between">
         <ep-search
           v-model="query.nimi"
           :placeholder="$t('etsi-ohjeita')"
-          class="w-50"
+          class="w-1/2"
         />
         <KoulutustyyppiSelect
           v-model="query.koulutustyyppi"
           :is-editing="true"
-          class="w-50"
+          class="w-1/2"
           :koulutustyypit="koulutustyypit"
         />
       </div>
 
-      <div class="d-flex mt-3">
+      <div class="flex mt-3">
         <EpToggle
           v-model="query.tuleva"
           :value="true"
@@ -46,7 +46,7 @@
         :url="opas.url"
         class="opas mb-2"
       >
-        <div class="d-flex">
+        <div class="flex">
           <div class="icon mr-3">
             <EpMaterialIcon>menu_book</EpMaterialIcon>
           </div>
@@ -61,11 +61,11 @@
         </div>
       </EpExternalLink>
 
-      <ep-pagination
+      <ep-b-pagination
         v-model="sivu"
         class="mt-3"
-        :per-page="query.sivukoko"
-        :total-rows="kokonaismaara"
+        :items-per-page="query.sivukoko"
+        :total="kokonaismaara"
       />
     </template>
   </ep-main-view>
@@ -80,7 +80,7 @@ import EpSearch from '@shared/components/forms/EpSearch.vue';
 import { OppaatStore } from '@shared/stores/OppaatStore';
 import KoulutustyyppiSelect from '@shared/components/forms/EpKoulutustyyppiSelect.vue';
 import { EperusteetKoulutustyypit } from '@shared/utils/perusteet';
-import EpPagination from '@shared/components/EpPagination/EpPagination.vue';
+import EpBPagination from '@shared/components/EpBPagination/EpBPagination.vue';
 import { OppaatQuery } from '@shared/api/eperusteet';
 import { buildKatseluUrl } from '@shared/utils/esikatselu';
 import { Kielet } from '@shared/stores/kieli';
@@ -151,13 +151,13 @@ watch(() => query.value, async () => {
 
   .opas {
     color: $black;
-    border: 1px solid $gray-lighten-8;
+    border: 1px solid $grey200;
     padding: 0.3rem 0.5rem;
     border-radius: 0.2rem;
 
     .icon {
       font-size: 1.5rem;
-      color: $blue-lighten-5;
+      color: $blue3;
     }
 
     .text {
@@ -169,7 +169,7 @@ watch(() => query.value, async () => {
     }
 
     &:hover {
-      background-color: $gray-lighten-5;
+      background-color: $grey50;
       cursor: pointer;
     }
   }

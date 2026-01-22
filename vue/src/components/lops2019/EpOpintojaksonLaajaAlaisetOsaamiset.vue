@@ -44,14 +44,14 @@
       >
         <div>
           <span v-if="laajaAlaisetKooditByUri[lo.koodi]">
-            <h5 class="d-inline">{{ $kaanna(laajaAlaisetKooditByUri[lo.koodi].nimi) }}</h5>
-            <b-button
+            <h5 class="inline">{{ $kaanna(laajaAlaisetKooditByUri[lo.koodi].nimi) }}</h5>
+            <ep-button
               v-if="isEditing"
               variant="link"
               @click.stop="poistaLaaja(lo)"
             >
               <EpMaterialIcon>close</EpMaterialIcon>
-            </b-button>
+            </ep-button>
           </span>
         </div>
         <ep-content
@@ -119,6 +119,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import _ from 'lodash';
+import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
 

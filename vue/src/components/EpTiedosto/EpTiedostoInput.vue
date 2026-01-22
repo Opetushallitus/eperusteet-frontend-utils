@@ -81,7 +81,7 @@ defineExpose({
   margin: 0;
   width:100%;
   border-width: 1px;
-  border-color: $gray-lighten-2;
+  border-color: $grey300;
   border-style: dashed;
   border-radius: 10px;
   position: relative;
@@ -93,7 +93,7 @@ defineExpose({
 
     &.ei-tiedostoa {
       height: 100px;
-      background-color: $gray-lighten-7;
+      background-color: $grey50;
     }
 
   .custom-file:deep() {
@@ -128,7 +128,7 @@ defineExpose({
       padding: 0 0 0 0.20rem;
       display: inline;
       position: relative;
-      background-color: $gray-lighten-7;
+      background-color: $grey50;
     }
   }
 }

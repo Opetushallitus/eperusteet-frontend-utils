@@ -2,7 +2,7 @@
   <div>
     <slot name="header" />
 
-    <b-table
+    <EpTable
       v-if="modelValue && modelValue.length > 0"
       responsive
       borderless
@@ -31,7 +31,7 @@
           @click="remove(item)"
         />
       </template>
-    </b-table>
+    </EpTable>
 
     <ep-koodisto-select
       v-if="isEditing"
@@ -67,6 +67,7 @@ import EpButton from '../EpButton/EpButton.vue';
 import { KoodistoSelectStore } from './KoodistoSelectStore';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
 import { $t, $kaanna } from '@shared/utils/globals';
+import EpTable from '@shared/components/EpTable/EpTable.vue';
 
 const props = defineProps({
   modelValue: {

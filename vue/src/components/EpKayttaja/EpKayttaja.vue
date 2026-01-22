@@ -6,8 +6,8 @@
       no-caret
     >
       <template #button-content>
-        <div class="d-flex flex-row">
-          <div class="kayttaja-valikko d-flex flex-column">
+        <div class="flex flex-row">
+          <div class="kayttaja-valikko flex flex-col">
             <span class="kielivalitsin text-right">{{ esitysnimi }}</span>
             <small
               v-if="koulutustoimija"
@@ -26,13 +26,13 @@
         :border-bottom="false"
       >
         <template #header>
-          <div class="pl-3 pt-2 text-nowrap kieli">
+          <div class="pl-3 pt-2 whitespace-nowrap kieli">
             <EpMaterialIcon class="icon mr-3">
               group
             </EpMaterialIcon>
             <span>{{ $t('organisaatio') }}</span>
           </div>
-          <div class="pl-3 text-nowrap">
+          <div class="pl-3 whitespace-nowrap">
             <span class="icon mr-3" />
             <small>{{ $kaanna(koulutustoimija.nimi) }}</small>
           </div>
@@ -40,7 +40,7 @@
 
         <template #icon="{ toggled }">
           <div
-            class="ml-auto align-self-start"
+            class="ml-auto self-start"
             style="padding: 0.8rem 1rem;"
           >
             <EpMaterialIcon v-if="toggled">
@@ -65,7 +65,7 @@
           <div class="koulutustoimijat mb-2">
             <div
               v-if="hasLukuOikeusKoulutustoimijoita"
-              class="d-flex justify-content-end"
+              class="flex justify-end"
             >
               <EpMaterialIcon class="vain-luku mr-3">
                 visibility
@@ -81,8 +81,8 @@
               :disabled="koulutustoimija.id === kt.id"
               @click="valitseOrganisaatio(kt)"
             >
-              <div class="row">
-                <div class="collapse-tausta-valinta-icon col-1">
+              <div class="grid grid-cols-12 gap-2">
+                <div class="collapse-tausta-valinta-icon col-span-1">
                   <EpMaterialIcon
                     v-if="koulutustoimija === kt.id"
                     class="valittu"
@@ -90,7 +90,7 @@
                     done
                   </EpMaterialIcon>
                 </div>
-                <div class="col-10 koulutustoimija">
+                <div class="col-span-10 koulutustoimija">
                   {{ $kaanna(kt.nimi) }}
                   <EpMaterialIcon
                     v-if="kt.oikeus === 'luku'"
@@ -113,7 +113,7 @@
         :border-bottom="false"
       >
         <template #header>
-          <div class="pl-3 pt-2 text-nowrap kieli">
+          <div class="pl-3 pt-2 whitespace-nowrap kieli">
             <EpMaterialIcon class="icon mr-3">
               language
             </EpMaterialIcon>
@@ -127,7 +127,7 @@
 
         <template #icon="{ toggled }">
           <div
-            class="ml-auto align-self-start"
+            class="ml-auto self-start"
             style="padding: 0.8rem 1rem;"
           >
             <EpMaterialIcon v-if="toggled">
@@ -186,7 +186,7 @@
         :border-bottom="false"
       >
         <template #header>
-          <div class="pl-3 pt-2 text-nowrap kieli">
+          <div class="pl-3 pt-2 whitespace-nowrap kieli">
             <EpMaterialIcon class="icon mr-3">
               launch
             </EpMaterialIcon>
@@ -203,7 +203,7 @@
 
         <template #icon="{ toggled }">
           <div
-            class="ml-auto align-self-start"
+            class="ml-auto self-start"
             style="padding: 0.8rem 1rem;"
           >
             <EpMaterialIcon v-if="toggled">

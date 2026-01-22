@@ -1,10 +1,10 @@
 <template>
   <router-link :to="route">
-    <div class="d-inline-flex align-items-start flex-column kortti ml-0 mr-3 my-3 pl-3 pt-3 pr-2 pb-2">
-      <div class="font-weight-bold mb-auto nimi">
+    <div class="inline-flex align-items-start flex-col kortti ml-0 mr-3 my-3 pl-3 pt-3 pr-2 pb-2">
+      <div class="font-bold mb-auto nimi">
         {{ $kaanna(koulutuksenosa.nimi) }}
       </div>
-      <div class="w-100 text-right laajuus">
+      <div class="w-full text-right laajuus">
         <span class="pr-1">
           {{ koulutuksenosa.laajuusMinimi }}-{{ koulutuksenosa.laajuusMaksimi }} {{ $t('viikkoa') }}
         </span>

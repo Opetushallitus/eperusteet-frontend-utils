@@ -19,9 +19,9 @@
           :key="'julkaisu'+index"
           class="julkaisu pb-2 ml-1 px-3"
         >
-          <div class="d-flex justify-content-between align-items-center">
+          <div class="flex justify-between items-center">
             <div>
-              <span class="font-weight-bold pr-1">{{ $t('julkaisu') }} {{ julkaisu.revision }}</span>
+              <span class="font-bold pr-1">{{ $t('julkaisu') }} {{ julkaisu.revision }}</span>
               <span
                 v-if="latestJulkaisuRevision && latestJulkaisuRevision.revision === julkaisu.revision"
                 class="julkaistu"
@@ -36,7 +36,7 @@
               >{{ $t('julkaisu-epaonnistui') }}</span>
             </div>
 
-            <div class="d-flex align-items-center">
+            <div class="flex items-center">
               <slot
                 v-if="julkaisu.tila !== 'VIRHE'"
                 name="katsele"
@@ -141,12 +141,12 @@ const palautaConfirm = async (julkaisu: Julkaisu) => {
 <style scoped lang="scss">
 @import '@shared/styles/_variables';
 .julkaisu:nth-of-type(even) {
-  background-color: $gray-lighten-13;
+  background-color: $grey50;
 }
 
 .julkaistu {
   border-radius: 25px;
-  background-color: $green-lighten-2;
+  background-color: $green3;
   padding: 5px 10px;
   margin-left: 10px;
   color: $white;
@@ -156,7 +156,7 @@ const palautaConfirm = async (julkaisu: Julkaisu) => {
   }
 
   &--virhe {
-    background-color: $red-lighten-1;
+    background-color: $pink3;
   }
 }
 </style>

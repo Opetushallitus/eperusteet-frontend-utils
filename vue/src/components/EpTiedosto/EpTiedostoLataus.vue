@@ -9,7 +9,7 @@
       <slot>
         <div
           v-if="file"
-          class="pl-2 d-inline-block"
+          class="pl-2 inline-block"
         >
           <div>{{ $t('valittu-tiedosto') }}: {{ file ? file.name : '' }}</div>
           <div class="text-right pl-2 pt-4">

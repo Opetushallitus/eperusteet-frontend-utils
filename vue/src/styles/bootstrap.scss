@@ -90,7 +90,7 @@ $input-border: $blue;
       }
 
       .nav-link:hover:not(.active), .nav-link:focus:not(.active) {
-        background-color: $gray-lighten-5;
+        background-color: $grey50;
       }
 
       .active {
@@ -104,7 +104,7 @@ $input-border: $blue;
   }
 }
 
-.b-popover {
+.p-popover {
   max-width: 386px;
 
   &:has(.wide) {
@@ -112,7 +112,7 @@ $input-border: $blue;
     width: 600px;
   }
 
-  .popover-header {
+  .p-popover-content header {
     background-color: $white;
     font-size: 1rem;
     border-bottom: 0;
@@ -171,7 +171,7 @@ $input-border: $blue;
     thead {
       th {
         border-bottom-width: 2px;
-        border-bottom-color: $gray-lighten-3;
+        border-bottom-color: $grey300;
         border-bottom-style: solid;
       }
 
@@ -259,10 +259,6 @@ fieldset {
   padding: 0 0 0 0.75rem !important;
 }
 
-fieldset.form-group {
-  padding-left: 0;
-  margin-left: 0;
-}
 
 .custom-checkbox, .custom-checkbox-lg {
   label.custom-control-label::before {
@@ -318,7 +314,7 @@ button.navbar-toggler {
 }
 
 @media (min-width: 993px) {
-  .container, .container-lg, .container-md, .container-sm, .container-xl{
+  .container {
     max-width: 1240px;
   }
 }

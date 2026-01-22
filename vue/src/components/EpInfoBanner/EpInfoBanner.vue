@@ -1,5 +1,5 @@
 <template>
-  <div class="ep-info-banner d-flex p-3">
+  <div class="ep-info-banner flex p-3">
     <EpMaterialIcon class="icon mr-2">
       info
     </EpMaterialIcon>
@@ -15,7 +15,7 @@ import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue
 @import '@shared/styles/_variables.scss';
 
  .ep-info-banner {
-  background-color: $blue-lighten-4;
+  background-color: $lightBlue2;
   border-radius: 5px;
  }
 

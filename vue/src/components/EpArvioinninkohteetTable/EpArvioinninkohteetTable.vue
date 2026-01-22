@@ -1,5 +1,5 @@
 <template>
-  <b-table
+  <EpTable
     striped
     :items="arvioinninKohteetSorted"
     :fields="sarakkeet"
@@ -10,6 +10,7 @@
 import { computed, getCurrentInstance } from 'vue';
 import * as _ from 'lodash';
 import { $t, $kaanna } from '@shared/utils/globals';
+import EpTable from '@shared/components/EpTable/EpTable.vue';
 
 const props = defineProps({
   arvioinninkohteet: {

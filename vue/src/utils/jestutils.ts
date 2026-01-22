@@ -1,6 +1,7 @@
-import Vue, { computed, reactive } from 'vue';
+import type { ComponentPublicInstance } from 'vue';
+import { computed, reactive } from 'vue';
 import _ from 'lodash';
-import { Wrapper } from '@vue/test-utils';
+import type { VueWrapper } from '@vue/test-utils';
 import { EditointiStore, IEditoitava } from '../components/EpEditointi/EditointiStore';
 import { vi } from 'vitest';
 
@@ -39,11 +40,11 @@ export function mockEditointiStore<T>(config: Partial<IEditoitava> = {}) {
   };
 }
 
-export function findAllContaining<T extends Vue>(wrapper: Wrapper<T>, selector: string, text: string) {
+export function findAllContaining<T extends ComponentPublicInstance>(wrapper: VueWrapper<T>, selector: string, text: string) {
   return wrapper.findAll(selector).filter(r => r.text().includes(text));
 }
 
-export function findContaining<T extends Vue>(wrapper: Wrapper<T>, selector: string, text: string) {
+export function findContaining<T extends ComponentPublicInstance>(wrapper: VueWrapper<T>, selector: string, text: string) {
   const results = findAllContaining(wrapper, selector, text);
   if (results.length > 1) {
     throw new Error('Multiple results: ' + selector + ' ' + text);
@@ -87,11 +88,11 @@ export function wrap<T extends object>(original: T, value: T) {
       result[k] = vi.fn(v);
     }
     else {
-      result[k] = Vue.observable(v);
+      result[k] = reactive(v);
     }
   });
 
-  const Mock = vi.fn(() => Vue.observable(result) as T);
+  const Mock = vi.fn(() => reactive(result) as T);
   return new Mock();
 }
 

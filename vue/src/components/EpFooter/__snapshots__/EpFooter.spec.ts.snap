@@ -25,7 +25,7 @@ exports[`EpFooter component > Renders 1`] = `
       </div>
       <div data-v-d45b1334="" class="col-md col-slot">
         <!--v-if-->
-        <div data-v-d45b1334="" class="d-flex link-style"><span data-v-07230345="" data-v-d45b1334="" class="material-icons icon">chevron_right</span>
+        <div data-v-d45b1334="" class="flex link-style"><span data-v-07230345="" data-v-d45b1334="" class="material-icons icon">chevron_right</span>
           <div data-v-742a49b4="" data-v-d45b1334="" class="linkki medium"><a data-v-742a49b4="" href="https://opintopolku.fi/konfo/fi/sivu/tietosuojaselosteet-ja-evasteet" rel="noopener noreferrer" target="_blank">
               <!--v-if-->tietosuojaseloste
               <!--v-if-->
