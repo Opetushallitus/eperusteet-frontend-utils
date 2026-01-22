@@ -1,5 +1,5 @@
 <template>
-  <div class="box d-inline-flex flex-column align-items-center text-center align-items-end">
+  <div class="box inline-flex flex-col items-center text-center items-end">
     <div class="count">
       {{ count }}
     </div>
@@ -38,7 +38,7 @@ const props = defineProps({
 
       .secondary {
         font-size: 1rem;
-        color: $gray-lighten-1;
+        color: $grey400;
       }
     }
 

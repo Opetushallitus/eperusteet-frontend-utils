@@ -1,6 +1,6 @@
 <template>
   <div>
-    <label class="font-weight-600">
+    <label class="font-semibold">
       <slot name="header">
         {{ $t(header) }}
       </slot>

@@ -22,31 +22,27 @@
       </template>
 
       <template #modal-footer="{ ok, cancel }">
-        <slot
-          name="modal-footer"
-          :ok="ok"
-          :cancel="cancel"
-        >
-          <b-button
+        <slot name="modal-footer" :ok="ok" :cancel="cancel">
+          <ep-button
             v-if="multiselect"
             variant="primary"
             :disabled="innerModel.length === 0"
             @click="ok()"
           >
             {{ $t('lisaa-valitut') }}
-          </b-button>
-          <b-button
+          </ep-button>
+          <ep-button
             variant="secondary"
             @click="cancel()"
           >
             {{ multiselect ? $t('peruuta') : $t('sulje') }}
-          </b-button>
+          </ep-button>
         </slot>
       </template>
 
       <template #default>
-        <div class="d-flex flex-row align-items-center">
-          <div class="flex-grow-1">
+        <div class="flex flex-row items-center">
+          <div class="grow">
             <ep-search v-model="query" />
             <ep-toggle
               v-model="vanhentuneet"
@@ -61,7 +57,7 @@
           </div>
         </div>
         <div v-if="items">
-          <b-table
+          <EpTable
             ref="koodistoTable"
             responsive
             borderless
@@ -88,13 +84,13 @@
                   size="20px"
                 >check_box_outline_blank</EpMaterialIcon>
               </span>
-              <span class="btn-link">
+              <span class="text-blue-600 hover:underline cursor-pointer">
                 {{ $kaanna(item.nimi) }}
               </span>
             </template>
 
             <template #cell(arvo)="{ item }">
-              <span class="font-weight-bold">
+              <span class="font-bold">
                 {{ item.koodiArvo }}
               </span>
             </template>
@@ -110,7 +106,7 @@
             <template #cell(paattyminen)="{ item }">
               <span v-if="item.voimassaLoppuPvm">{{ $ago(item.voimassaLoppuPvm) }}</span>
             </template>
-          </b-table>
+          </EpTable>
 
           <EpBPagination
             v-if="raw"
@@ -157,6 +153,7 @@ import { getKoodistoSivutettuna, KoodistoSelectStore } from './KoodistoSelectSto
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import _ from 'lodash';
 import EpBPagination from '../EpBPagination/EpBPagination.vue';
+import EpTable from '@shared/components/EpTable/EpTable.vue';
 import { unref } from 'vue';
 import { $t } from '@shared/utils/globals';
 import { debounced } from '@shared/utils/delay';

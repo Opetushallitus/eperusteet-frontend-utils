@@ -4,7 +4,7 @@ import { Kaannos } from '../../plugins/kaannos';
 import { Kieli } from '../../tyypit';
 import VueI18n from 'vue-i18n';
 import { vi } from 'vitest';
-import Vue from 'vue';
+import { nextTick } from 'vue';
 
 describe.skip('Plugin kaannos', () => {
 
@@ -35,7 +35,7 @@ describe.skip('Plugin kaannos', () => {
     expect(wrapper.text()).toEqual('suomeksi');
 
     Kielet.setSisaltoKieli(Kieli.sv);
-    await Vue.nextTick();
+    await nextTick();
     expect(wrapper.text()).toEqual('ruotsiksi');
   });
 

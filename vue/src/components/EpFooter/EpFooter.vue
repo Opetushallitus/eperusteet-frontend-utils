@@ -39,7 +39,7 @@
           <slot name="palaute" />
           <div
             v-if="linkit.tietoapalvelusta"
-            class="d-flex link-style"
+            class="flex link-style"
           >
             <EpMaterialIcon>chevron_right</EpMaterialIcon>
             <EpExternalLink
@@ -49,7 +49,7 @@
               {{ $t('tietoa-palvelusta') }}
             </EpExternalLink>
           </div>
-          <div class="d-flex link-style">
+          <div class="flex link-style">
             <EpMaterialIcon>chevron_right</EpMaterialIcon>
             <EpExternalLink
               :url="$kaanna(linkit.seloste)"

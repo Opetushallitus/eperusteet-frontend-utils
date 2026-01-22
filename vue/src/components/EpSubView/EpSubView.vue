@@ -1,6 +1,6 @@
 <template>
   <div class="subview">
-    <div class="top d-flex align-items-center">
+    <div class="top flex items-center">
       <slot name="header">
         <h2 class="header">
           {{ header }}

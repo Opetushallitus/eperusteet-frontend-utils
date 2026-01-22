@@ -5,16 +5,16 @@
       v-model="keskeisetSisaltoalueet"
       tag="div"
     >
-      <b-row
+      <div
         v-for="(keskeinenSisaltoalue, keskeinenSisaltoalueIndex) in keskeisetSisaltoalueet"
         :key="keskeinenSisaltoalue+keskeinenSisaltoalueIndex"
-        class="pb-2 pr-2"
+        class="flex flex-wrap pb-2 pr-2"
       >
-        <b-col cols="11">
+        <div class="w-11/12">
           <ep-input
             v-model="keskeisetSisaltoalueet[keskeinenSisaltoalueIndex]"
             :is-editing="true"
-            class="flex-grow-1"
+            class="grow"
           >
             <template #left>
               <div
@@ -24,8 +24,8 @@
               </div>
             </template>
           </ep-input>
-        </b-col>
-        <b-col cols="1">
+        </div>
+        <div class="w-1/12">
           <div
             class="default-icon clickable mt-2"
             @click="poistaKeskeinenSisaltoalue(keskeinenSisaltoalue)"
@@ -37,8 +37,8 @@
               delete
             </EpMaterialIcon>
           </div>
-        </b-col>
-      </b-row>
+        </div>
+      </div>
     </VueDraggable>
 
     <ep-button

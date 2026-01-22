@@ -124,7 +124,7 @@ describe('EpSelect component', () => {
 
     wrapper.findAll('input[type="checkbox"]').at(2)
       .setChecked();
-    await localVue.nextTick();
+    await nextTick();
     expect(wrapper.vm.value).toEqual(['arvo1', 'arvo3']);
 
     expect(wrapper.vm.value).toHaveLength(2);
@@ -133,7 +133,7 @@ describe('EpSelect component', () => {
 
     wrapper.findAll('input[type="checkbox"]').at(0)
       .setChecked(false);
-    await localVue.nextTick();
+    await nextTick();
     expect(wrapper.vm.value).toHaveLength(1);
     expect(wrapper.vm.value[0]).toBe('arvo3');
 
@@ -156,7 +156,7 @@ describe('EpSelect component', () => {
       enableEmptyOption: false,
     });
 
-    await localVue.nextTick();
+    await nextTick();
     expect(wrapper.vm.value).toBe('arvo1');
     wrapper.findAll('option').at(2)
       .setSelected();

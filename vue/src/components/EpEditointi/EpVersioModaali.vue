@@ -8,13 +8,12 @@
       :title="$t('historia')"
       :hide-footer="true"
     >
-      <b-table
+      <EpTable
         responsive
         striped
         :items="versionsFormatted"
         :fields="fields"
         :per-page="perPage"
-        :current-page="currentPage"
       >
         <template #cell(actions)="row">
           <div class="float-right">
@@ -43,14 +42,7 @@
             </ep-button>
           </div>
         </template>
-      </b-table>
-      <ep-pagination
-        v-model="currentPage"
-        :total-rows="rows"
-        :per-page="perPage"
-        align="center"
-        aria-controls="epversiomodaali"
-      />
+      </EpTable>
     </b-modal>
   </div>
 </template>
@@ -63,8 +55,8 @@ import { Revision } from '../../tyypit';
 import EpButton from '../../components/EpButton/EpButton.vue';
 import EpFormContent from '../../components/forms/EpFormContent.vue';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
-import EpPagination from '@shared/components/EpPagination/EpPagination.vue';
 import { $sdt, $t } from '@shared/utils/globals';
+import EpTable from '@shared/components/EpTable/EpTable.vue';
 
 const props = defineProps({
   versions: {
@@ -83,7 +75,6 @@ const props = defineProps({
 
 const emit = defineEmits(['restore']);
 
-const currentPage = ref(1);
 const epversiomodaali = useTemplateRef('epversiomodaali');
 const router = useRouter();
 

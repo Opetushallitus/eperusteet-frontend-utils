@@ -1,12 +1,6 @@
 import { mount, RouterLinkStub } from '@vue/test-utils';
 import EpKayttaja from './EpKayttaja.vue';
 import { Kieli } from '../../tyypit';
-import { Kaannos } from '../../plugins/kaannos';
-import VueI18n from 'vue-i18n';
-import { delay } from '../../utils/delay';
-import { Kielet } from '../../stores/kieli';
-import Vue from 'vue';
-import BootstrapVue from 'bootstrap-vue';
 import EpCollapse from '../EpCollapse/EpCollapse.vue';
 import { globalStubs } from '@shared/utils/__tests__/stubs';
 import { ref } from 'vue';
