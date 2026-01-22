@@ -64,7 +64,7 @@
           </div>
         </template>
       </vue-select>
-      <b-button
+      <ep-button
         v-if="valittu"
         id="muokkaa-termia"
         class="lisaa-painike"
@@ -72,15 +72,15 @@
         @click="muokkaa(valittu)"
       >
         {{ $t('muokkaa-kasitetta') }}
-      </b-button>
-      <b-button
+      </ep-button>
+      <ep-button
         id="lisaa-uusi-termi"
         class="lisaa-painike"
         variant="primary"
         @click="muokkaa()"
       >
         {{ $t('lisaa-uusi-kasite') }}
-      </b-button>
+      </ep-button>
     </div>
   </div>
 </template>

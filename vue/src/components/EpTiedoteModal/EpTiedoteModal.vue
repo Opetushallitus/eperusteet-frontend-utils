@@ -222,12 +222,12 @@
                     disabled
                   />
                   <b-input-group-append>
-                    <b-button
+                    <ep-button
                       variant="primary"
                       @click="open"
                     >
                       {{ $t('hae') }}
-                    </b-button>
+                    </ep-button>
                   </b-input-group-append>
                 </b-input-group>
               </template>
@@ -271,12 +271,12 @@
                     disabled
                   />
                   <b-input-group-append>
-                    <b-button
+                    <ep-button
                       variant="primary"
                       @click="open"
                     >
                       {{ $t('hae') }}
-                    </b-button>
+                    </ep-button>
                   </b-input-group-append>
                 </b-input-group>
               </template>

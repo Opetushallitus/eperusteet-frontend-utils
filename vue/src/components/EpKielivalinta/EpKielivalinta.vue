@@ -1,74 +1,73 @@
 <template>
-  <b-dropdown
-    size="sm"
-    class="kielivalinta"
-    right
-  >
-    <template #button-content>
-      <span>{{ $t("kieli-sisalto") }}:
-        <span class="valittukieli">{{ $t(sisaltoKieli) }}</span>
-        <EpMaterialIcon>expand_more</EpMaterialIcon>
-      </span>
-    </template>
-    <b-dropdown-item
-      v-for="kieli in sovelluksenKielet"
-      :key="kieli"
-      :disabled="kieli === sisaltoKieli"
-      @click="valitseSisaltoKieli(kieli)"
-    >
-      {{ $t(kieli) }}
-    </b-dropdown-item>
-  </b-dropdown>
+  <div class="kielivalinta">
+    <label class="kieli-label" v-if="!julkinen">{{ $t("kieli-sisalto") }}:</label>
+    <EpMaterialIcon v-if="julkinen">language</EpMaterialIcon>
+    <Select
+      v-model="sisaltoKieliModel"
+      :options="kieliOptions"
+      option-label="label"
+      option-value="value"
+      class="kieli-select"
+      :class="{ '!border-none !shadow-none': julkinen }"
+      @change="onKieliChange"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
 import { Kielet, UiKielet } from '@shared/stores/kieli';
 import { Kieli } from '@shared/tyypit';
+import Select from 'primevue/select';
+import { useI18n } from 'vue-i18n';
+import { $t } from '@shared/utils/globals';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
-const sisaltoKieli = computed(() => {
-  return Kielet.getSisaltoKieli.value;
+const props = defineProps<{
+  julkinen: boolean
+}>();
+
+const emit = defineEmits<{
+  change: [kieli: Kieli]
+}>();
+
+const sisaltoKieliModel = computed({
+  get: () => Kielet.getSisaltoKieli.value,
+  set: (kieli: Kieli) => Kielet.setSisaltoKieli(kieli)
 });
 
-const sovelluksenKielet = computed(() => {
-  return UiKielet;
+const kieliOptions = computed(() => {
+  return UiKielet.map(kieli => ({
+    value: kieli,
+    label: $t(kieli)
+  }));
 });
 
-function valitseSisaltoKieli(kieli: Kieli) {
-  Kielet.setSisaltoKieli(kieli);
+function onKieliChange(event: any) {
+  emit('change', event.value);
 }
 </script>
 
 <style scoped lang="scss">
 @import "@shared/styles/_variables.scss";
 
-  :deep(.dropdown-toggle::after) {
-    display:none;
-  }
+.kielivalinta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
-  :deep(.btn) {
-    background-color: $white !important;
-    color: $black  !important;
-    border-color: $white !important;
-    box-shadow: 0;
-  }
+.kieli-label {
+  margin: 0;
+  font-size: 0.875rem;
+}
 
-  :deep(.btn-secondary),
-:deep(.btn-secondary:not(:disabled):not(.disabled):active:focus),
-:deep(.btn-secondary:not(:disabled):not(.disabled).active:focus),
-:deep(.show > .btn-secondary.dropdown-toggle:focus) {
-    box-shadow: none;
-  }
+.kieli-select {
+  min-width: 150px;
+}
 
-  .valittukieli {
-    padding: 5px 70px 5px 10px;
-    border: 1px solid $gray-lighten-3;
-    border-radius: 5px;
-  }
-
-  .valintanuoli {
-    margin-left: -20px;
-  }
+.julkinen {
+  margin-left: 10px;
+}
 
 </style>

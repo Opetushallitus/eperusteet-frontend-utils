@@ -30,14 +30,14 @@
               v-if="activeIdx === item.idx && !showAll"
               class="back"
             >
-              <b-button
+              <ep-button
                 size="sm"
                 variant="link"
                 class="backbtn"
                 @click="navigateUp()"
               >
                 <EpMaterialIcon>chevron_left</EpMaterialIcon>
-              </b-button>
+              </ep-button>
             </div>
           </div>
           <div

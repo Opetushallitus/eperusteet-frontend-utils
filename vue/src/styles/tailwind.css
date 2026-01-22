@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+@layer base {
+  ul {
+    @apply list-disc pl-5;
+  }
+}

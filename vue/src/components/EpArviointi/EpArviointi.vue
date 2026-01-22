@@ -1,5 +1,5 @@
 <template>
-  <b-form-group>
+  <EpFormGroup>
     <template #label>
       <div
         v-if="isEditing"
@@ -95,7 +95,7 @@
       </EpButton>
       <slot name="poisto" />
     </div>
-  </b-form-group>
+  </EpFormGroup>
 </template>
 
 <script setup lang="ts">
@@ -106,6 +106,7 @@ import EpButton from '@shared/components/EpButton/EpButton.vue';
 import OsaamistasonKriteerit from '@shared/components/EpArviointi/OsaamistasonKriteerit.vue';
 import { $t, $kaanna } from '@shared/utils/globals';
 import EpRadio from '../forms/EpRadio.vue';
+import EpFormGroup from '@shared/components/forms/EpFormGroup.vue';
 
 const props = defineProps({
   modelValue: {

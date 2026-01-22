@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-button
+    <ep-button
       :id="id"
       variant="link"
     >
@@ -10,7 +10,7 @@
       >
         info
       </EpMaterialIcon>
-    </b-button>
+    </ep-button>
     <b-popover
       ref="kaytossa"
       :target="id"
@@ -58,6 +58,7 @@
 <script setup lang="ts">
 import { ref, computed, getCurrentInstance } from 'vue';
 import _ from 'lodash';
+import EpButton from '../EpButton/EpButton.vue';
 import EpPagination from '../EpPagination/EpPagination.vue';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';

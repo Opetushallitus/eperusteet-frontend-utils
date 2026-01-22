@@ -52,14 +52,14 @@
           </ol>
         </nav>
       </b-navbar-nav>
-      <b-button
+      <ep-button
         v-else
         v-b-toggle.sisaltobar
         class="text-white"
-        variant="icon"
+        variant="secondary"
       >
         <EpMaterialIcon>menu</EpMaterialIcon>
-      </b-button>
+      </ep-button>
 
       <b-navbar-nav class="ml-auto">
         <!-- Sisällön kieli-->

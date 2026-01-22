@@ -22,20 +22,20 @@
       </template>
 
       <template #modal-footer="{ ok, cancel }">
-        <b-button
+        <ep-button
           v-if="multiselect"
           variant="primary"
           :disabled="innerModel.length === 0"
           @click="ok()"
         >
           {{ $t('lisaa-valitut') }}
-        </b-button>
-        <b-button
+        </ep-button>
+        <ep-button
           variant="secondary"
           @click="cancel()"
         >
           {{ multiselect ? $t('peruuta') : $t('sulje') }}
-        </b-button>
+        </ep-button>
       </template>
 
       <template #default>
@@ -55,7 +55,7 @@
           </div>
         </div>
         <div v-if="items">
-          <b-table
+          <EpTable
             ref="koodistoTable"
             responsive
             borderless
@@ -104,7 +104,7 @@
             <template #cell(paattyminen)="{ item }">
               <span v-if="item.voimassaLoppuPvm">{{ $ago(item.voimassaLoppuPvm) }}</span>
             </template>
-          </b-table>
+          </EpTable>
 
           <EpBPagination
             v-if="raw"
@@ -151,6 +151,7 @@ import { KoodistoSelectStore } from './KoodistoSelectStore';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import _ from 'lodash';
 import EpBPagination from '../EpBPagination/EpBPagination.vue';
+import EpTable from '@shared/components/EpTable/EpTable.vue';
 import { unref } from 'vue';
 import { $t } from '@shared/utils/globals';
 import { debounced } from '@shared/utils/delay';

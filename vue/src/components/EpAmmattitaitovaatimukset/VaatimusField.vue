@@ -36,12 +36,12 @@
                   disabled
                 />
                 <b-input-group-append>
-                  <b-button
+                  <ep-button
                     variant="primary"
                     @click="open"
                   >
                     {{ $t('hae-koodistosta') }}
-                  </b-button>
+                  </ep-button>
                 </b-input-group-append>
               </b-input-group>
             </ep-error-wrapper>
@@ -64,7 +64,7 @@
                 v-else
                 class="datalist"
               >
-                <b-table
+                <EpTable
                   :items="koodit"
                   :fields="fields"
                 >
@@ -82,7 +82,7 @@
                       />
                     </div>
                   </template>
-                </b-table>
+                </EpTable>
               </div>
             </div>
           </div>
@@ -108,6 +108,7 @@ import _ from 'lodash';
 import Kayttolistaus from './Kayttolistaus.vue';
 import { $kaanna, $kaannaPlaceholder, $t, $slang, $sd } from '@shared/utils/globals';
 import { useRoute } from 'vue-router';
+import EpTable from '@shared/components/EpTable/EpTable.vue';
 import { highlight } from '@shared/utils/kieli';
 import { nextTick } from 'vue';
 

@@ -35,22 +35,22 @@
                 {{ $t(julkaisemattomiaTeksti) }}
               </div>
 
-              <b-button
+              <ep-button
                 v-if="luonnos && !julkaistava"
                 class="px-3 py-1"
                 variant="primary"
                 @click="asetaValmiiksi"
               >
                 {{ $t('aseta-valmiiksi') }}
-              </b-button>
-              <b-button
+              </ep-button>
+              <ep-button
                 v-else-if="julkaistava && luonnos && !julkaistu && !arkistoitu"
                 class="px-3 py-1"
                 variant="primary"
                 @click="toJulkaisuRoute"
               >
                 {{ $t('siirry-julkaisunakymaan') }}
-              </b-button>
+              </ep-button>
             </template>
           </template>
         </div>
@@ -63,21 +63,21 @@
         v-else
         class="d-flex flex-column align-items-center"
       >
-        <b-button
+        <ep-button
           v-if="arkistoitu"
           variant="primary"
           @click="palauta"
         >
           {{ $t('palauta') }}
-        </b-button>
+        </ep-button>
         <template v-else>
-          <b-button
+          <ep-button
             v-if="(julkaistu || valmis) && julkaistava"
             variant="primary"
             @click="toJulkaisuRoute"
           >
             {{ $t('siirry-julkaisunakymaan') }}
-          </b-button>
+          </ep-button>
           <div
             v-if="validointiOk"
             class="pl-3 pt-2 pb-1 row"
@@ -138,13 +138,13 @@
               >
                 <div class="col-1" />
                 <div class="col">
-                  <b-button
+                  <ep-button
                     class="p-0"
                     variant="link"
                     @click="toJulkaisuRoute"
                   >
                     {{ $t('yhteensa-kpl-virhetta', { kpl: validoinnit.virheet.length }) }}
-                  </b-button>
+                  </ep-button>
                 </div>
               </div>
             </template>
@@ -168,7 +168,7 @@
         </template>
       </div>
       <template #bottom>
-        <b-button
+        <ep-button
           class="btn-tarkista"
           variant="link"
           @click="validoi"
@@ -180,7 +180,7 @@
             refresh
           </EpMaterialIcon>
           <span> {{ $t('tarkista-virheet') }}</span>
-        </b-button>
+        </ep-button>
       </template>
     </EpProgressPopover>
     <EpSpinner
@@ -194,6 +194,7 @@
 <script setup lang="ts">
 import * as _ from 'lodash';
 import { computed, watch, nextTick } from 'vue';
+import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpProgressPopover from '@shared/components/EpProgressPopover/EpProgressPopover.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { tileBackgroundColor } from '@shared/utils/bannerIcons';

@@ -30,7 +30,7 @@
           </slot>
         </option>
       </select>
-      <b-form-group
+      <EpFormGroup
         v-else
         class="m-0 p-0"
       >
@@ -69,7 +69,7 @@
             </slot>
           </b-form-checkbox>
         </b-form-checkbox-group> -->
-      </b-form-group>
+      </EpFormGroup>
       <div
         v-if="!validationError && validMessage"
         class="valid-feedback"
@@ -120,6 +120,7 @@ import { $t } from '@shared/utils/globals';
 
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import EpToggleGroup from './EpToggleGroup.vue';
+import EpFormGroup from './EpFormGroup.vue';
 
 const props = defineProps({
   isEditing: {

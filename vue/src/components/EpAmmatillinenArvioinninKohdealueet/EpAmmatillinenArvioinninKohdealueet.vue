@@ -28,7 +28,7 @@
           <div>{{ $kaanna(arvioinninkohde.selite) }}</div>
         </div>
 
-        <b-table
+        <EpTable
           striped
           :items="arvioinninkohde.osaamistasonKriteerit"
           :fields="osaamistasonKriteeritFields"
@@ -47,7 +47,7 @@
               </li>
             </ul>
           </template>
-        </b-table>
+        </EpTable>
       </div>
     </div>
 
@@ -60,6 +60,7 @@ import { computed, useSlots } from 'vue';
 import _ from 'lodash';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import { $kaanna, $t } from '@shared/utils/globals';
+import EpTable from '@shared/components/EpTable/EpTable.vue';
 
 const props = defineProps({
   arvioinninKohdealueet: {

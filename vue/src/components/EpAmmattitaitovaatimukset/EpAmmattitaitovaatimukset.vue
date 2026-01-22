@@ -1,7 +1,7 @@
 <template>
   <div v-if="inner">
     <div v-if="isEditing">
-      <b-form-group
+      <EpFormGroup
         v-if="showKohde"
         :label="$t('otsikko')"
       >
@@ -11,8 +11,8 @@
           :validation="validation && validation.kohde"
           :warning="true"
         />
-      </b-form-group>
-      <b-form-group
+      </EpFormGroup>
+      <EpFormGroup
         v-if="kohdealueettomat"
         :label="$t('vaatimukset')"
       >
@@ -47,14 +47,14 @@
               />
             </div>
             <div>
-              <b-button
+              <ep-button
                 variant="link"
                 @click="poistaVaatimus(inner, v)"
               >
                 <EpMaterialIcon icon-shape="outlined">
                   delete
                 </EpMaterialIcon>
-              </b-button>
+              </ep-button>
             </div>
           </div>
         </VueDraggable>
@@ -67,8 +67,8 @@
             {{ $t('lisaa-ammattitaitovaatimus-ilman-kohdealuetta') }}
           </ep-button>
         </div>
-      </b-form-group>
-      <b-form-group :label="kaannokset.kohdealueet">
+      </EpFormGroup>
+      <EpFormGroup :label="kaannokset.kohdealueet">
         <VueDraggable
           v-bind="kohdealueOptions"
           v-model="inner.kohdealueet"
@@ -79,7 +79,7 @@
             :key="kohdealueIdx"
             class="kohdealue mt-2"
           >
-            <b-form-group class="w-100">
+            <EpFormGroup class="w-100">
               <template #label>
                 <div>
                   <span class="handle-kohdealue text-muted">
@@ -94,8 +94,8 @@
                 class="ml-3 mr-4"
                 :validation="props.validation?.kohdealueet?.$each?.$response.$data[kohdealueIdx]?.kuvaus"
               />
-            </b-form-group>
-            <b-form-group
+            </EpFormGroup>
+            <EpFormGroup
               :label="kaannokset.vaatimukset"
               class="ml-3"
             >
@@ -160,7 +160,7 @@
                   {{ $t('poista-kohdealue') }}
                 </ep-button>
               </div>
-            </b-form-group>
+            </EpFormGroup>
           </div>
         </VueDraggable>
         <div class="mt-2">
@@ -172,7 +172,7 @@
             {{ kaannokset.lisaaKohdealue }}
           </ep-button>
         </div>
-      </b-form-group>
+      </EpFormGroup>
     </div>
     <div v-else>
       <div
@@ -276,6 +276,7 @@ import { KoodistoSelectStore } from '@shared/components/EpKoodistoSelect/Koodist
 import { Koodisto } from '../../api/eperusteet';
 import { $kaanna, $t, $vahvista } from '@shared/utils/globals';
 import { nextTick } from 'vue';
+import EpFormGroup from '@shared/components/forms/EpFormGroup.vue';
 
 const props = defineProps({
   modelValue: {
@@ -409,4 +410,5 @@ const innerKohde = computed(() => {
 .dragged {
   background: white;
 }
+
 </style>
