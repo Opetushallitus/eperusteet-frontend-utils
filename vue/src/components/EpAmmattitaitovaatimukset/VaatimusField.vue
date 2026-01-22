@@ -8,13 +8,13 @@
       @add="koodistoAdd"
     >
       <template #default="{ open }">
-        <div class="d-flex flex-column">
+        <div class="flex flex-col">
           <div>
             <ep-error-wrapper
               :validation="props.validation"
             >
               <b-input-group>
-                <div class="handle text-muted">
+                <div class="handle text-gray-500">
                   <EpMaterialIcon>drag_indicator</EpMaterialIcon>
                 </div>
                 <b-form-input
@@ -36,12 +36,12 @@
                   disabled
                 />
                 <b-input-group-append>
-                  <b-button
+                  <ep-button
                     variant="primary"
                     @click="open"
                   >
                     {{ $t('hae-koodistosta') }}
-                  </b-button>
+                  </ep-button>
                 </b-input-group-append>
               </b-input-group>
             </ep-error-wrapper>
@@ -64,12 +64,12 @@
                 v-else
                 class="datalist"
               >
-                <b-table
+                <EpTable
                   :items="koodit"
                   :fields="fields"
                 >
                   <template #cell(nimi)="{ item }">
-                    <div class="d-flex align-items-center">
+                    <div class="flex items-center">
                       <div
                         class="link-style"
                         role="button"
@@ -82,7 +82,7 @@
                       />
                     </div>
                   </template>
-                </b-table>
+                </EpTable>
               </div>
             </div>
           </div>
@@ -108,6 +108,7 @@ import _ from 'lodash';
 import Kayttolistaus from './Kayttolistaus.vue';
 import { $kaanna, $kaannaPlaceholder, $t, $slang, $sd } from '@shared/utils/globals';
 import { useRoute } from 'vue-router';
+import EpTable from '@shared/components/EpTable/EpTable.vue';
 import { highlight } from '@shared/utils/kieli';
 import { nextTick } from 'vue';
 

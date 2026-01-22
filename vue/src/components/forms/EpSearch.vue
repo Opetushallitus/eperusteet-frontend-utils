@@ -121,7 +121,20 @@ const labelSlot = computed(() => {
 
   .form-control {
     padding-left: 2.375rem;
-    border-width: 1px;
+    border: 1px solid #2a2a2a;
+    border-radius: 0;
+    background-color: #fff;
+    display: block;
+    width: 100%;
+    height: calc(1.5em + .875rem + 2px);
+    // padding: .4375rem .625rem;
+    font-size: 1rem;
+    font-weight: 400;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 
     &::placeholder {
       color: #888;

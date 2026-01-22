@@ -35,10 +35,10 @@
           class="ylapaneeli d-print-none"
         >
           <div
-            class="d-flex align-items-center flex-md-row flex-column justify-content-between"
+            class="flex items-center flex-md-row flex-col justify-content-between"
             :class="{ container: useContainer }"
           >
-            <div class="d-flex flex-wrap flex-xl-nowrap align-items-center justify-content-between">
+            <div class="flex flex-wrap flex-xl-nowrap items-center justify-content-between">
               <div
                 v-if="inner"
                 class="headerline"
@@ -53,7 +53,7 @@
               </div>
               <div
                 v-if="!isEditing"
-                class="muokattu text-nowrap"
+                class="muokattu whitespace-nowrap"
               >
                 <slot
                   name="postHeader"
@@ -65,14 +65,14 @@
                 />
                 <span
                   v-if="latest"
-                  class="text-truncate"
+                  class="truncate"
                 >{{ $t('muokattu') }}: {{ $sdt(latest.pvm) }}, {{ nimi }}</span>
               </div>
             </div>
             <div>
               <div
                 v-if="!versiohistoriaVisible"
-                class="floating-editing-buttons d-flex align-items-center"
+                class="floating-editing-buttons flex items-center"
               >
                 <ep-button
                   v-if="isEditing"
@@ -143,7 +143,7 @@
                 </b-dropdown>
                 <div
                   v-if="currentLock && features.lockable"
-                  class="d-flex align-items-center ml-2 mr-2"
+                  class="flex items-center ml-2 mr-2"
                 >
                   <div>
                     <EpMaterialIcon
@@ -154,11 +154,11 @@
                     </EpMaterialIcon>
                     {{ $t('sivu-lukittu') }}
                   </div>
-                  <div class="flex-grow-1 ml-3">
+                  <div class="grow ml-3">
                     <div>
                       {{ currentLock.haltijaNimi || currentLock.haltijaOid }}
                     </div>
-                    <div class="text-muted">
+                    <div class="text-gray-500">
                       {{ $t('vapautuu') }}: {{ $ago(currentLock.vanhentuu) }}
                     </div>
                   </div>
@@ -308,12 +308,12 @@
         </div>
         <div
           v-if="versiohistoriaVisible"
-          class="d-flex align-items-center versiohistoria"
+          class="flex items-center versiohistoria"
         >
           <div class="headerline">
             <span>{{ $t('muokkaushistoria') }}: {{ $t('versionumero') }} {{ versionumero }}</span>
           </div>
-          <div class="flex-fill">
+          <div class="flex-1">
             <ep-pagination
               :model-value="versionumero"
               :total-rows="versions"
@@ -370,7 +370,7 @@
           <div class="actual-content">
             <div
               v-if="hasInfoSlotContent"
-              class="info d-flex"
+              class="info flex"
             >
               <EpMaterialIcon
                 class="mr-1"

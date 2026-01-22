@@ -8,13 +8,13 @@
         :kuvat="kuvat"
       />
     </div>
-    <div class="d-lg-flex justify-content-between w-60 my-4">
+    <div class="lg:flex justify-content-between w-60 my-4">
       <div v-if="moduuli.koodi">
-        <span class="font-weight-bold">{{ $t('koodi') }}</span>
+        <span class="font-bold">{{ $t('koodi') }}</span>
         <p>{{ moduuli.koodi.arvo }}</p>
       </div>
       <div>
-        <span class="font-weight-bold">{{ $t('tyyppi') }}</span>
+        <span class="font-bold">{{ $t('tyyppi') }}</span>
         <p v-if="moduuli.pakollinen">
           {{ $t('pakollinen') }}
         </p>
@@ -23,7 +23,7 @@
         </p>
       </div>
       <div v-if="moduuli.laajuus">
-        <span class="font-weight-bold">{{ $t('laajuus') }}</span>
+        <span class="font-bold">{{ $t('laajuus') }}</span>
         <p>{{ moduuli.laajuus }} {{ $t('opintopiste') }}</p>
       </div>
     </div>

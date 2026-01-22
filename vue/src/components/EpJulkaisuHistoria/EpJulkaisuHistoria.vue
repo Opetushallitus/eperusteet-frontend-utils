@@ -19,9 +19,9 @@
           :key="'julkaisu'+index"
           class="julkaisu pb-2 ml-1 px-3"
         >
-          <div class="d-flex justify-content-between align-items-center">
+          <div class="flex justify-content-between items-center">
             <div>
-              <span class="font-weight-bold pr-1">{{ $t('julkaisu') }} {{ julkaisu.revision }}</span>
+              <span class="font-bold pr-1">{{ $t('julkaisu') }} {{ julkaisu.revision }}</span>
               <span
                 v-if="latestJulkaisuRevision && latestJulkaisuRevision.revision === julkaisu.revision"
                 class="julkaistu"
@@ -36,7 +36,7 @@
               >{{ $t('julkaisu-epaonnistui') }}</span>
             </div>
 
-            <div class="d-flex align-items-center">
+            <div class="flex items-center">
               <slot
                 v-if="julkaisu.tila !== 'VIRHE'"
                 name="katsele"

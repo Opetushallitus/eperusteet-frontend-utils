@@ -1,29 +1,18 @@
 <template>
   <div>
-    <b-pagination
-      :value="currentPage"
+    <Paginator
+      :first="firstRecord"
       class="mt-4"
-      :total-rows="totalPages"
-      :per-page="perPage"
-      align="center"
-      :aria-controls="controls"
-      :first-text="$t('alkuun')"
-      :last-text="$t('loppuun')"
-      prev-text="«"
-      next-text="»"
-      :label-first-page="$t('alkuun')"
-      :label-last-page="$t('loppuun')"
-      :label-page="$t('sivu')"
-      :label-next-page="$t('seuraava-sivu')"
-      :label-prev-page="$t('edellinen-sivu')"
-      @input="currentPage = $event"
+      :rows="perPage"
+      :totalRecords="totalPages"
+      @page="onPageChange"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted, watch, useTemplateRef } from 'vue';
-import { nextTick } from 'vue';
+import { computed } from 'vue';
+import Paginator from 'primevue/paginator';
 
 const props = defineProps({
   modelValue: {
@@ -47,36 +36,6 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue']);
 
-const fixButtonRoles = async () => {
-  const buttons = document.querySelectorAll('button');
-  if (buttons) {
-    buttons.forEach((button) => {
-      button.setAttribute('role', 'navigation');
-      button.setAttribute('tabindex', '0');
-    });
-  }
-};
-
-onMounted(async () => {
-  await fixButtonRoles();
-});
-
-const currentPage = computed({
-  get: () => props.modelValue,
-  set: (value) => {
-    emit('update:modelValue', value);
-  },
-});
-
-watch(() => props.modelValue, async () => {
-  await nextTick();
-  await fixButtonRoles();
-});
-
-const controls = computed(() => {
-  return props.ariaControls;
-});
-
 const perPage = computed(() => {
   return props.itemsPerPage;
 });
@@ -84,12 +43,25 @@ const perPage = computed(() => {
 const totalPages = computed(() => {
   return props.total;
 });
+
+const firstRecord = computed(() => {
+  return (props.modelValue - 1) * props.itemsPerPage;
+});
+
+const onPageChange = (event: any) => {
+  const newPage = event.page + 1; // PrimeVue uses 0-based page index
+  emit('update:modelValue', newPage);
+};
 </script>
 
 <style scoped lang="scss">
 @import '@shared/styles/_variables.scss';
 
-:deep(.page-item.disabled) {
+:deep(.p-paginator) {
+  justify-content: center;
+}
+
+:deep(.p-disabled) {
   color: $disabled;
   opacity: 0.5;
 }

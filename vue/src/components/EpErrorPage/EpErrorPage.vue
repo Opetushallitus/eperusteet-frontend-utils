@@ -14,8 +14,8 @@
           :alt="$t(virhe.alt)"
         >
       </div>
-      <div class="d-flex flex-row-reverse">
-        <div class="align-self-center">
+      <div class="flex flex-row-reverse">
+        <div class="self-center">
           <router-link :to="paluuroute">
             {{ $t('palaa-etusivulle') }}
           </router-link>

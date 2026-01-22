@@ -2,7 +2,7 @@
   <div class="ep-steps">
     <div
       v-if="steps.length > 1"
-      class="steps d-flex justify-content-center mr-5 ml-5 mb-5"
+      class="steps flex justify-center mr-5 ml-5 mb-5"
     >
       <div
         v-for="(step, idx) in steps"
@@ -18,7 +18,7 @@
         />
         <div class="p-4">
           <div
-            class="d-inline-block"
+            class="inline-block"
             :class="{ ball: true, active: idx <= stepIdx }"
           >
             {{ idx + 1 }}
@@ -43,7 +43,7 @@
       <slot :name="currentStep.key" />
     </div>
 
-    <div class="clearfix">
+    <div class="clear-both">
       <div class="float-right mt-5">
         <ep-button
           variant="link"

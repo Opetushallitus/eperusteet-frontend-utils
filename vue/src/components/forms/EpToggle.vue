@@ -1,20 +1,28 @@
 <template>
-  <div>
-    <b-form-checkbox
-      :checked="innerValue"
+  <div class="ep-toggle" :class="{ 'inline': inline, 'large': lgSize }">
+    <Checkbox
+      v-if="!asSwitch"
+      v-model="innerValue"
       :disabled="!isEditing"
-      :inline="inline"
-      :switch="asSwitch"
-      :class="{ 'custom-checkbox-lg': !asSwitch && lgSize, 'custom-switch-lg': asSwitch && lgSize }"
-      @input="handleInput"
-    >
+      :binary="true"
+      :input-id="uniqueId"
+    />
+    <ToggleSwitch
+      v-else
+      v-model="innerValue"
+      :disabled="!isEditing"
+      :input-id="uniqueId"
+    />
+    <label :for="uniqueId" class="toggle-label">
       <slot>{{ label }}</slot>
-    </b-form-checkbox>
+    </label>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import Checkbox from 'primevue/checkbox';
+import ToggleSwitch from 'primevue/toggleswitch';
 
 const props = defineProps({
   isEditing: {
@@ -22,7 +30,7 @@ const props = defineProps({
     default: true,
   },
   modelValue: {
-    type: Boolean,
+    type: [Boolean, String],
     default: false,
     required: false,
   },
@@ -55,8 +63,15 @@ const lgSize = computed(() => {
   return props.size ? props.size === 'lg' : false;
 });
 
+// Convert string values to boolean
+const normalizedValue = computed(() => {
+  if (props.modelValue === 'true') return true;
+  if (props.modelValue === 'false') return false;
+  return Boolean(props.modelValue);
+});
+
 const innerValue = computed({
-  get: () => props.modelValue,
+  get: () => normalizedValue.value,
   set: (value) => emit('update:modelValue', value),
 });
 
@@ -64,78 +79,51 @@ const asSwitch = computed(() => {
   return !props.checkbox && props.isSwitch;
 });
 
-const handleInput = (val) =>{
-  innerValue.value = val;
+const handleUpdate = (value: boolean) => {
+  emit('update:modelValue', value);
 };
 
-const uniqueId = computed(() => {
-  return `ep-toggle-${Math.random().toString(36)}`;
-});
+// Generate unique ID once, not on every render
+const uniqueId = `ep-toggle-${Math.random().toString(36).substr(2, 9)}`;
 </script>
 
 <style scoped lang="scss">
+.ep-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 
-@import '@shared/styles/bootstrap.scss';
-@import '@shared/styles/_mixins.scss';
+  &.inline {
+    display: inline-flex;
+  }
 
-:deep(.custom-checkbox .custom-control-input:disabled:checked ~ .custom-control-label::before) {
-  border-width: 0;
-}
+  .toggle-label {
+    cursor: pointer;
+    margin: 0;
+  }
 
-large checkbox
-:deep(.custom-checkbox-lg) {
-  padding-left: 2rem;
-  .custom-control-input {
-    left: 0;
-    width: 1.5rem;
-    height: 1.5rem;
+  &.large {
+    :deep(.p-checkbox) {
+      width: 1.5rem;
+      height: 1.5rem;
+
+      .p-checkbox-box {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+    }
+
+    :deep(.p-toggleswitch) {
+      width: 2.625rem;
+      height: 1.5rem;
+
+      .p-toggleswitch-slider {
+        &:before {
+          width: 1.25rem;
+          height: 1.25rem;
+        }
+      }
+    }
   }
 }
-
-:deep(.custom-checkbox-lg label.custom-control-label::before) {
-  top: 0rem;
-  left: -1.7rem;
-  width: 1.5rem;
-  height: 1.5rem;
-}
-
-:deep(.custom-checkbox-lg label.custom-control-label::after) {
-  top: 0rem;
-  left: -1.7rem;
-  width: 1.5rem;
-  height: 1.5rem;
-}
-
-// Large switch
-:deep(.custom-switch-lg) {
-  padding-left: 3rem;
-  .custom-control-input {
-    left: 0;
-    width: 2.625rem;
-    height: 1.5rem;
-  }
-}
-
-:deep(.custom-switch-lg label.custom-control-label::before) {
-  top: 0rem;
-  left: -3.125rem;
-  width: 2.625rem;
-  height: 1.5rem;
-}
-
-:deep(.custom-switch-lg label.custom-control-label::after) {
-  top: 0.125rem;
-  left: -3rem;
-  width: 1.25rem;
-  height: 1.25rem;
-}
-
-:deep(.custom-switch .custom-control-input:checked ~ .custom-control-label::after) {
-  transform: translateX(1.125rem)
-}
-
-:deep(.custom-checkbox) {
-  @include focus-within;
-}
-
 </style>

@@ -20,8 +20,8 @@
       :no-enforce-focus="true"
     >
       <template #modal-header>
-        <div class="row w-100">
-          <div class="col">
+        <div class="flex w-full">
+          <div class="flex-1">
             <h2 v-if="!editing">
               {{ $t('tiedote') }}
             </h2>
@@ -29,7 +29,7 @@
               {{ muokattavaTiedote.id ? $t('muokkaa-tiedotetta') : $t('lisaa-tiedote') }}
             </h2>
           </div>
-          <div class="col text-right">
+          <div class="flex-1 text-right">
             <ep-kielivalinta />
           </div>
         </div>
@@ -208,26 +208,26 @@
           <div
             v-for="(tutkinnonOsa, index) in muokattavaTiedote.tutkinnonosat"
             :key="'tutkinnonOsa' + index"
-            class="mb-1 d-flex justify-content-center align-items-center"
+            class="mb-1 flex justify-center items-center"
           >
             <ep-koodisto-select
               v-model="muokattavaTiedote.tutkinnonosat[index]"
               :store="tutkinnonOsaKoodisto"
-              class="w-100"
+              class="w-full"
             >
               <template #default="{ open }">
-                <b-input-group class="w-100 d-flex">
+                <b-input-group class="w-full flex">
                   <b-form-input
                     :value="$kaanna(tutkinnonOsa.nimi)"
                     disabled
                   />
                   <b-input-group-append>
-                    <b-button
+                    <ep-button
                       variant="primary"
                       @click="open"
                     >
                       {{ $t('hae') }}
-                    </b-button>
+                    </ep-button>
                   </b-input-group-append>
                 </b-input-group>
               </template>
@@ -257,26 +257,26 @@
           <div
             v-for="(osaamisala, index) in muokattavaTiedote.osaamisalat"
             :key="'osaamisala' + index"
-            class="mb-1 d-flex justify-content-center align-items-center"
+            class="mb-1 flex justify-center items-center"
           >
             <ep-koodisto-select
               v-model="muokattavaTiedote.osaamisalat[index]"
               :store="osaamisalaKoodisto"
-              class="w-100"
+              class="w-full"
             >
               <template #default="{ open }">
-                <b-input-group class="w-100 d-flex">
+                <b-input-group class="w-full flex">
                   <b-form-input
                     :value="$kaanna(osaamisala.nimi)"
                     disabled
                   />
                   <b-input-group-append>
-                    <b-button
+                    <ep-button
                       variant="primary"
                       @click="open"
                     >
                       {{ $t('hae') }}
-                    </b-button>
+                    </ep-button>
                   </b-input-group-append>
                 </b-input-group>
               </template>
@@ -417,7 +417,7 @@
 
         <div
           v-else
-          class="d-flex justify-content-between w-100"
+          class="flex justify-content-between w-full"
         >
           <div v-if="editable">
             <ep-button

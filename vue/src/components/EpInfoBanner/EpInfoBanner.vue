@@ -1,5 +1,5 @@
 <template>
-  <div class="ep-info-banner d-flex p-3">
+  <div class="ep-info-banner flex p-3">
     <EpMaterialIcon class="icon mr-2">
       info
     </EpMaterialIcon>

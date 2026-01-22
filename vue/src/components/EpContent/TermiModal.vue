@@ -32,7 +32,7 @@
             {{ $t('nayta-alaviitteessa') }}
           </ep-toggle>
         </ep-form-content>
-        <div class="d-flex gap-2">
+        <div class="flex gap-2">
           <ep-button
             variant="link"
             :show-spinner="isLoading"
@@ -97,7 +97,7 @@
     </div>
 
     <div class="modal-footer">
-      <div class="w-100 d-flex justify-content-end gap-2">
+      <div class="w-full flex justify-end gap-2">
         <ep-button
           class="mr-3"
           variant="link"

@@ -21,7 +21,6 @@ const generateBootstrapStubs = () => {
     'b-modal',
     'b-pagination',
     'b-form-invalid-feedback',
-    'b-popover',
     'b-tooltip',
     'b-nav-item-dropdown',
     'b-dd-item',

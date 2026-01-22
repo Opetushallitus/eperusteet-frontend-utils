@@ -1,7 +1,7 @@
 <template>
   <div v-if="inner">
     <div v-if="isEditing">
-      <b-form-group
+      <EpFormGroup
         v-if="showKohde"
         :label="$t('otsikko')"
       >
@@ -11,8 +11,8 @@
           :validation="validation && validation.kohde"
           :warning="true"
         />
-      </b-form-group>
-      <b-form-group
+      </EpFormGroup>
+      <EpFormGroup
         v-if="kohdealueettomat"
         :label="$t('vaatimukset')"
       >
@@ -24,9 +24,9 @@
           <div
             v-for="(v, vaatimusIdx) in inner.vaatimukset"
             :key="vaatimusIdx"
-            class="d-flex mt-1"
+            class="flex mt-1"
           >
-            <div class="flex-grow-1">
+            <div class="grow">
               <vaatimus-field
                 v-if="koodisto"
                 ref="koodistoSelect"
@@ -47,14 +47,14 @@
               />
             </div>
             <div>
-              <b-button
+              <ep-button
                 variant="link"
                 @click="poistaVaatimus(inner, v)"
               >
                 <EpMaterialIcon icon-shape="outlined">
                   delete
                 </EpMaterialIcon>
-              </b-button>
+              </ep-button>
             </div>
           </div>
         </VueDraggable>
@@ -67,8 +67,8 @@
             {{ $t('lisaa-ammattitaitovaatimus-ilman-kohdealuetta') }}
           </ep-button>
         </div>
-      </b-form-group>
-      <b-form-group :label="kaannokset.kohdealueet">
+      </EpFormGroup>
+      <EpFormGroup :label="kaannokset.kohdealueet">
         <VueDraggable
           v-bind="kohdealueOptions"
           v-model="inner.kohdealueet"
@@ -79,13 +79,13 @@
             :key="kohdealueIdx"
             class="kohdealue mt-2"
           >
-            <b-form-group class="w-100">
+            <EpFormGroup class="w-full">
               <template #label>
                 <div>
-                  <span class="handle-kohdealue text-muted">
+                  <span class="handle-kohdealue text-gray-500">
                     <EpMaterialIcon size="20px">drag_indicator</EpMaterialIcon>
                   </span>
-                  <span class="font-weight-bold">{{ kaannokset.kohdealue }}</span>
+                  <span class="font-bold">{{ kaannokset.kohdealue }}</span>
                 </div>
               </template>
               <ep-input
@@ -94,8 +94,8 @@
                 class="ml-3 mr-4"
                 :validation="props.validation?.kohdealueet?.$each?.$response.$data[kohdealueIdx]?.kuvaus"
               />
-            </b-form-group>
-            <b-form-group
+            </EpFormGroup>
+            <EpFormGroup
               :label="kaannokset.vaatimukset"
               class="ml-3"
             >
@@ -110,9 +110,9 @@
                 <div
                   v-for="(v, vaatimusIdx) in kohdealue.vaatimukset"
                   :key="vaatimusIdx"
-                  class="mt-1 d-flex align-items-center"
+                  class="mt-1 flex items-center"
                 >
-                  <div class="flex-grow-1">
+                  <div class="grow">
                     <vaatimus-field
                       v-if="koodisto"
                       ref="koodistoSelect"
@@ -160,7 +160,7 @@
                   {{ $t('poista-kohdealue') }}
                 </ep-button>
               </div>
-            </b-form-group>
+            </EpFormGroup>
           </div>
         </VueDraggable>
         <div class="mt-2">
@@ -172,12 +172,12 @@
             {{ kaannokset.lisaaKohdealue }}
           </ep-button>
         </div>
-      </b-form-group>
+      </EpFormGroup>
     </div>
     <div v-else>
       <div
         v-if="inner.vaatimukset && inner.vaatimukset.length > 0 && showKohde"
-        class="otsikko font-weight-bold"
+        class="otsikko font-bold"
       >
         {{ $kaanna(innerKohde) }}
       </div>
@@ -213,7 +213,7 @@
           :key="kaIdx"
           :class="{'mt-3' : showKohde || kohdealueettomat}"
         >
-          <div class="otsikko font-weight-bold">
+          <div class="otsikko font-bold">
             {{ $kaanna(kohdealue.kuvaus) }}
           </div>
           <div
@@ -276,6 +276,7 @@ import { KoodistoSelectStore } from '@shared/components/EpKoodistoSelect/Koodist
 import { Koodisto } from '../../api/eperusteet';
 import { $kaanna, $t, $vahvista } from '@shared/utils/globals';
 import { nextTick } from 'vue';
+import EpFormGroup from '@shared/components/forms/EpFormGroup.vue';
 
 const props = defineProps({
   modelValue: {
@@ -409,4 +410,5 @@ const innerKohde = computed(() => {
 .dragged {
   background: white;
 }
+
 </style>

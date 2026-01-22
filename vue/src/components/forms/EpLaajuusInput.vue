@@ -12,10 +12,10 @@
   </div>
   <div
     v-else
-    class="d-flex flex-column"
+    class="flex flex-col"
   >
-    <div class="d-flex align-items-center">
-      <div class="flex-grow-1">
+    <div class="flex items-center">
+      <div class="grow">
         <ep-input
           v-model="model"
           type="number"

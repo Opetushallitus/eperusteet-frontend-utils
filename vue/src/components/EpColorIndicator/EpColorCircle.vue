@@ -1,24 +1,24 @@
 <template>
-  <span
-    ref="circle"
-    :style="circleStyle"
-    :title="help ? $t(help) : ''"
-    :class="circleClass"
+  <EpPopover
+    :triggers="['hover']"
+    :disabled="!help"
   >
-    <b-popover
-      v-if="help"
-      :target="() => circle"
-      :placement="'top'"
-      triggers="hover"
-      variant="primary"
-    >
-      <span>{{ $t(help) }}</span>
-    </b-popover>
-  </span>
+    <template #trigger>
+      <span
+        ref="circle"
+        :style="circleStyle"
+        :title="help ? $t(help) : ''"
+        :class="circleClass"
+      >
+      </span>
+    </template>
+    <span>{{ $t(help) }}</span>
+  </EpPopover>
 </template>
 
 <script setup lang="ts">
 import { computed, useTemplateRef } from 'vue';
+import EpPopover from '../EpPopover/EpPopover.vue';
 
 const props = defineProps({
   color: {

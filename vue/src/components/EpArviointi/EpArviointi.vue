@@ -1,5 +1,5 @@
 <template>
-  <b-form-group>
+  <EpFormGroup>
     <template #label>
       <div
         v-if="isEditing"
@@ -21,7 +21,7 @@
       <div class="mb-2">
         <div
           v-if="isEditing || !!$kaanna(arvioinninKohde.otsikko)"
-          class="mb-1 font-weight-600"
+          class="mb-1 font-semibold"
         >
           {{ $t('arvioinnin-kohteen-otsikko') }}
         </div>
@@ -33,7 +33,7 @@
       <div class="mb-3">
         <div
           v-if="isEditing || !!$kaanna(arvioinninKohde.selite)"
-          class="mb-1 font-weight-600"
+          class="mb-1 font-semibold"
         >
           {{ $t('arvioinnin-kohde') }}
         </div>
@@ -44,7 +44,7 @@
       </div>
 
       <template v-if="!arvioinninKohde[arviointiasteikkoRef]">
-        <div class="font-weight-600">
+        <div class="font-semibold">
           {{ $t('arviointi-asteikon-valinta') }}
         </div>
         <EpRadio
@@ -84,7 +84,7 @@
       <hr v-if="isEditing || arvindex < arvioinninKohdeAlue.arvioinninKohteet.length -1">
     </div>
 
-    <div class="d-flex justify-content-between">
+    <div class="flex justify-content-between">
       <EpButton
         v-if="isEditing"
         variant="outline"
@@ -95,7 +95,7 @@
       </EpButton>
       <slot name="poisto" />
     </div>
-  </b-form-group>
+  </EpFormGroup>
 </template>
 
 <script setup lang="ts">
@@ -106,6 +106,7 @@ import EpButton from '@shared/components/EpButton/EpButton.vue';
 import OsaamistasonKriteerit from '@shared/components/EpArviointi/OsaamistasonKriteerit.vue';
 import { $t, $kaanna } from '@shared/utils/globals';
 import EpRadio from '../forms/EpRadio.vue';
+import EpFormGroup from '@shared/components/forms/EpFormGroup.vue';
 
 const props = defineProps({
   modelValue: {

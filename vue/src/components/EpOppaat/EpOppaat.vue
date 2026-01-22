@@ -6,21 +6,21 @@
 
     <div class="mb-4">
       <label>{{ $t('nimi') }}</label>
-      <div class="d-flex justify-content-between">
+      <div class="flex justify-content-between">
         <ep-search
           v-model="query.nimi"
           :placeholder="$t('etsi-ohjeita')"
-          class="w-50"
+          class="w-1/2"
         />
         <KoulutustyyppiSelect
           v-model="query.koulutustyyppi"
           :is-editing="true"
-          class="w-50"
+          class="w-1/2"
           :koulutustyypit="koulutustyypit"
         />
       </div>
 
-      <div class="d-flex mt-3">
+      <div class="flex mt-3">
         <EpToggle
           v-model="query.tuleva"
           :value="true"
@@ -46,7 +46,7 @@
         :url="opas.url"
         class="opas mb-2"
       >
-        <div class="d-flex">
+        <div class="flex">
           <div class="icon mr-3">
             <EpMaterialIcon>menu_book</EpMaterialIcon>
           </div>

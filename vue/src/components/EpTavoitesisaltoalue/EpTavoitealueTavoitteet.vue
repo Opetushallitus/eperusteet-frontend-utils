@@ -5,12 +5,12 @@
       v-model="tavoitteet"
       tag="div"
     >
-      <b-row
+      <div
         v-for="(tavoite, tavoiteIndex) in tavoitteet"
         :key="tavoite+tavoiteIndex"
-        class="pb-2"
+        class="flex flex-wrap pb-2"
       >
-        <b-col cols="11">
+        <div class="w-11/12">
           <slot
             :tavoite="tavoite"
             :tavoite-index="tavoiteIndex"
@@ -39,19 +39,19 @@
                     </template>
                   </EpInput>
                   <b-input-group-append>
-                    <b-button
+                    <ep-button
                       variant="primary"
                       @click="open"
                     >
                       {{ $t('hae-koodistosta') }}
-                    </b-button>
+                    </ep-button>
                   </b-input-group-append>
                 </b-input-group>
               </template>
             </EpKoodistoSelect>
           </slot>
-        </b-col>
-        <b-col cols="1">
+        </div>
+        <div class="w-1/12">
           <div
             class="default-icon clickable mt-2"
             @click="poistaTavoite(tavoite)"
@@ -63,11 +63,11 @@
               delete
             </EpMaterialIcon>
           </div>
-        </b-col>
-      </b-row>
+        </div>
+      </div>
     </VueDraggable>
 
-    <div class="d-flex justify-content-between">
+    <div class="flex justify-content-between">
       <ep-button
         variant="outline"
         icon="add"

@@ -10,7 +10,7 @@
         :key="idx"
         class="balloon-wrapper"
       >
-        <div class="balloon d-flex">
+        <div class="balloon flex">
           <div
             v-if="isDraggable"
             class="order-handle mr-2"

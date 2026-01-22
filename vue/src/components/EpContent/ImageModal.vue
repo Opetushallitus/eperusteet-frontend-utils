@@ -77,7 +77,7 @@
       </div>
     </div>
 
-    <div class="d-flex justify-content-end mt-3">
+    <div class="flex justify-end mt-3">
       <ep-button
         class="mr-3"
         variant="link"

@@ -4,7 +4,7 @@
     class="mt-5"
   >
     <template #header>
-      <div class="d-flex justify-content-between align-items-center flex-wrap">
+      <div class="flex justify-content-between items-center flex-wrap">
         <h1>{{ $t('tiedotteet') }}</h1>
         <ep-button
           variant="link"
@@ -20,8 +20,8 @@
       </div>
     </template>
 
-    <div class="row align-items-end mb-4">
-      <div class="col-4">
+    <div class="grid grid-cols-3 items-end mb-4">
+      <div>
         <slot name="search" />
       </div>
     </div>
@@ -37,7 +37,7 @@
           <p>{{ $sdt(tiedote.luotu) }}</p>
         </template>
         <template #heading>
-          <h2 class="font-weight-normal">
+          <h2 class="font-normal">
             {{ $kaanna(tiedote.otsikko) }}
           </h2>
         </template>

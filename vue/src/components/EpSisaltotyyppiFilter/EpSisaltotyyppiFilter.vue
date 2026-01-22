@@ -1,11 +1,11 @@
 <template>
-  <div class="d-flex align-self-center flex-wrap flex-lg-row flex-column justify-content-between">
+  <div class="flex self-center flex-wrap lg:flex-row flex-col justify-content-between">
     <div class="group">
       <label
-        class="font-weight-600"
+        class="font-semibold"
         :aria-label="$t('tutkinnon-peruste-tai-tutkinnon-osa-rajaus')"
       >{{ $t('nayta') }}</label>
-      <div class="d-flex flex-lg-row flex-column justify-content-between">
+      <div class="flex lg:flex-row flex-col justify-content-between">
         <EpToggle
           v-model="queryData.perusteet"
           class="haku-toggle"
@@ -29,7 +29,7 @@
 
     <div class="group">
       <label
-        class="font-weight-600"
+        class="font-semibold"
         :aria-label="$t('voimassaolo-rajaus')"
       >{{ $t('voimassaolo') }}</label>
       <EpVoimassaoloFilter v-model="queryData" />

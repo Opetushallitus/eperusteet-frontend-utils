@@ -11,7 +11,7 @@
     <router-link
       v-for="opas in oppaat"
       :key="opas.id"
-      class="d-flex opas mb-2"
+      class="flex opas mb-2"
       :to="{name: 'peruste', params: {koulutustyyppi: 'opas', perusteId: opas.id}}"
     >
       <div class="icon mr-3">

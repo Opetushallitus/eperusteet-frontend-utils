@@ -43,7 +43,7 @@ describe.skip('EpKoodistoSelect component', () => {
           ...props,
         },
         slots: {
-          default: '<template #default="{ open }"><b-button id="open" @click="open">lisaa koodi</b-button></template>',
+          default: '<template #default="{ open }"><ep-button id="open" @click="open">lisaa koodi</ep-button></template>',
         },
         listeners: {
           add: methods.lisaaKoodit,

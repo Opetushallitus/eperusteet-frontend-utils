@@ -9,7 +9,7 @@ exports[`EpKayttaja component > Renders 1`] = `
       <div data-v-24bfaad2="" class="ep-collapse">
         <!-- Button tagia ei voida käyttää, sillä ml-auto ei toimi.-->
         <!-- Käytetään button rolea saavutettavuuden takaamiseksi.-->
-        <div data-v-24bfaad2="" class="collapse-button d-flex align-items-center my-2 mr-1" role="button" tabindex="0" aria-expanded="false">
+        <div data-v-24bfaad2="" class="collapse-button flex items-center my-2 mr-1" role="button" tabindex="0" aria-expanded="false">
           <!--v-if-->
           <div data-v-24bfaad2="" class="align-self-start header">
             <div data-v-24bfaad2="" class="">
@@ -30,7 +30,7 @@ exports[`EpKayttaja component > Renders 1`] = `
       <div data-v-24bfaad2="" class="ep-collapse">
         <!-- Button tagia ei voida käyttää, sillä ml-auto ei toimi.-->
         <!-- Käytetään button rolea saavutettavuuden takaamiseksi.-->
-        <div data-v-24bfaad2="" class="collapse-button d-flex align-items-center my-2 mr-1" role="button" tabindex="0" aria-expanded="true">
+        <div data-v-24bfaad2="" class="collapse-button flex items-center my-2 mr-1" role="button" tabindex="0" aria-expanded="true">
           <!--v-if-->
           <div data-v-24bfaad2="" class="align-self-start header">
             <div data-v-24bfaad2="" class="header-toggled">
@@ -61,8 +61,8 @@ exports[`EpKayttaja component > Renders 1`] = `
     <div data-v-9ad4d674="" class="b-dropdown-divider"></div>
     <div data-v-9ad4d674="" class="b-dd-item" href="/service-provider-app/saml/logout"><span data-v-07230345="" data-v-9ad4d674="" class="material-icons icon mr-3 valittu"> logout </span><span data-v-9ad4d674="">kirjaudu-ulos</span></div>
     <div class="b-nav-item-dropdown__slot-button-content">
-      <div data-v-9ad4d674="" class="d-flex flex-row">
-        <div data-v-9ad4d674="" class="kayttaja-valikko d-flex flex-column"><span data-v-9ad4d674="" class="kielivalitsin text-right">etunimi sukunimi</span>
+      <div data-v-9ad4d674="" class="flex flex-row">
+        <div data-v-9ad4d674="" class="kayttaja-valikko flex flex-col"><span data-v-9ad4d674="" class="kielivalitsin text-right">etunimi sukunimi</span>
           <!--v-if-->
         </div><span data-v-07230345="" data-v-9ad4d674="" class="material-icons icon">expand_more</span>
       </div>

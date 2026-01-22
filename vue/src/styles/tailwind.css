@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+@utility container {
+  width: 100%;
+  margin-inline: auto;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 100%;
+
+  @media (min-width: 576px) {
+    max-width: 540px;
+  }
+
+  @media (min-width: 768px) {
+    max-width: 720px;
+  }
+
+  @media (min-width: 993px) {
+    max-width: 1240px;
+  }
+}
+
+@layer base {
+  a[href] {
+    @apply text-lime-600;
+  }
+
+  ul {
+    @apply list-disc pl-5;
+    margin-bottom: 1rem;
+  }
+
+  img {
+    display: inline-block;
+  }
+
+  label {
+    margin-bottom: 0.5rem;
+    display: inline-block
+  }
+
+  h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    margin-bottom: .5rem;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  p {
+    margin-bottom: 1rem;
+  }
+}

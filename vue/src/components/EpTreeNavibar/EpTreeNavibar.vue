@@ -22,7 +22,7 @@
         :key="item.idx"
       >
         <div
-          class="d-flex align-items-center item"
+          class="flex items-center item"
           :class="item.class"
         >
           <div class="backwrapper">
@@ -30,22 +30,22 @@
               v-if="activeIdx === item.idx && !showAll"
               class="back"
             >
-              <b-button
+              <ep-button
                 size="sm"
                 variant="link"
                 class="backbtn"
                 @click="navigateUp()"
               >
                 <EpMaterialIcon>chevron_left</EpMaterialIcon>
-              </b-button>
+              </ep-button>
             </div>
           </div>
           <div
-            class="flex-grow-1"
-            :class="{'font-weight-bold': item.isMatch}"
+            class="grow"
+            :class="{'font-bold': item.isMatch}"
           >
             <div
-              class="clickable d-flex align-items-center"
+              class="clickable flex items-center"
               @click="navigate(item)"
             >
               <slot
@@ -58,7 +58,7 @@
           </div>
           <div
             v-if="item.children.length > 0 && item.idx !== activeIdx && !showAll"
-            class="text-muted mr-1"
+            class="text-gray-500 mr-1"
           >
             <EpMaterialIcon>chevron_right</EpMaterialIcon>
           </div>

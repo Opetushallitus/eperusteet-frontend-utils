@@ -9,12 +9,12 @@
     <div class="modal-body">
       <div class="mx-4">
         <template v-if="navigationFlattened && navigationFlattened.length > 0">
-          <div class="form-group">
-            <label class="form-check-label">
+          <div class="mb-4">
+            <label class="flex items-center">
               <input
                 v-model="linkkiTyyppi"
                 type="radio"
-                class="form-check-input"
+                class="mr-2"
                 value="sisainen"
                 name="linkkiTyyppi"
               >
@@ -42,12 +42,12 @@
             </EpMultiSelect>
           </div>
 
-          <div class="form-group mt-3">
-            <label class="form-check-label">
+          <div class="mb-4 mt-3">
+            <label class="flex items-center">
               <input
                 v-model="linkkiTyyppi"
                 type="radio"
-                class="form-check-input"
+                class="mr-2"
                 value="ulkoinen"
                 name="linkkiTyyppi"
               >
@@ -62,28 +62,28 @@
             <input
               v-model="linkValue"
               type="text"
-              class="form-control"
-              :class="{ 'is-invalid': linkInvalid }"
+              class="w-full px-3 py-2 border rounded"
+              :class="{ 'border-red-600': linkInvalid }"
               :placeholder="linkPlaceholder"
             >
             <div
               v-if="linkInvalid"
-              class="invalid-feedback"
+              class="block text-red-600 text-sm mt-1"
             >
               {{ $t('url-osoite-virheellinen') }}
             </div>
           </div>
         </template>
-        
+
         <div
           v-else
           class="mb-3"
         >
-          <label class="form-label">{{ $t('linkki-osoite') }}</label>
+          <label class="block mb-2 font-medium">{{ $t('linkki-osoite') }}</label>
           <input
             v-model="linkValue"
             type="text"
-            class="form-control"
+            class="w-full px-3 py-2 border rounded"
             :placeholder="linkPlaceholder"
           >
         </div>
@@ -91,7 +91,7 @@
     </div>
 
     <div class="modal-footer">
-      <div class="w-100 d-flex justify-content-end gap-2">
+      <div class="w-full flex justify-end gap-2">
         <ep-button
           variant="link"
           @click="handleCancel"
@@ -261,41 +261,5 @@ onMounted(() => {
   margin-top: 1rem;
 }
 
-.form-group {
-  margin-bottom: 1rem;
-}
 
-.form-check-label {
-  display: flex;
-  align-items: center;
-  padding: 0.5rem;
-  cursor: pointer;
-
-  .form-check-input {
-    margin-right: 0.5rem;
-  }
-}
-
-.form-control {
-  width: 100%;
-  padding: 0.375rem 0.75rem;
-  border: 1px solid #ced4da;
-  border-radius: 0.25rem;
-
-  &.is-invalid {
-    border-color: #dc3545;
-  }
-}
-
-.invalid-feedback {
-  display: block;
-  color: #dc3545;
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
-}
-
-.form-label {
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-}
 </style>

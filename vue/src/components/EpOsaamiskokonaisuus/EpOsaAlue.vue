@@ -1,9 +1,9 @@
 <template>
   <div class="osa-alue">
     <div v-if="isEditing">
-      <b-form-group>
+      <EpFormGroup>
         <template #label>
-          <div class="d-flex justify-content-between">
+          <div class="flex justify-content-between">
             <div>{{ $t('osa-alueen-nimi') }}</div>
             <slot name="poisto" />
           </div>
@@ -12,11 +12,11 @@
           v-model="osaAlue"
           :is-editing="isEditing"
         />
-      </b-form-group>
+      </EpFormGroup>
 
       <hr>
 
-      <b-form-group
+      <EpFormGroup
         v-for="(tasokuvaus, index) in osaAlue.tasokuvaukset"
         :key="'tasokuvaus' + index"
         class="tasokuvaus"
@@ -51,7 +51,7 @@
         </template>
 
         <hr>
-      </b-form-group>
+      </EpFormGroup>
     </div>
 
     <div v-else>
@@ -64,7 +64,7 @@
         :key="'tasokuvaus' + index"
         class="tasokuvaus"
       >
-        <b-form-group
+        <EpFormGroup
           v-if="otsikkoLkm(tasokuvaus) > 0"
           class="mt-3 mb-0 p-0"
           :label="$t('osa-alue-otsiko-' + tasokuvaus.taso.toLowerCase())"
@@ -122,7 +122,7 @@
               </li>
             </ul>
           </div>
-        </b-form-group>
+        </EpFormGroup>
 
         <slot name="tasokuvaus-postfix" />
       </div>
@@ -138,6 +138,7 @@ import { Kielet } from '@shared/stores/kieli';
 import { VueDraggable } from 'vue-draggable-plus';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpOsaAlueSisalto from './EpOsaAlueSisalto.vue';
+import EpFormGroup from '@shared/components/forms/EpFormGroup.vue';
 
 const props = defineProps({
   modelValue: {

@@ -13,7 +13,7 @@
       :key="idx"
     >
       <div
-        class="box d-flex align-items-center"
+        class="box flex items-center"
         :class="{ 'new-box': node.$uusi, 'box-draggable': isEditable }"
       >
         <div class="handle">

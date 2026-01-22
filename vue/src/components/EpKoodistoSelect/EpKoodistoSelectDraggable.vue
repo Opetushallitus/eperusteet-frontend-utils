@@ -9,7 +9,7 @@
     <template #default="{ open }">
       <b-input-group>
         <ep-material-icon
-          class="order-handle inner-drag-handle mr-2 flex-shrink-0"
+          class="order-handle inner-drag-handle mr-2 shrink-0"
         >
           drag_indicator
         </ep-material-icon>
@@ -19,12 +19,12 @@
           disabled
         />
         <b-input-group-append>
-          <b-button
+          <ep-button
             variant="primary"
             @click="open"
           >
             {{ buttonText || $t('hae-koodistosta') }}
-          </b-button>
+          </ep-button>
         </b-input-group-append>
       </b-input-group>
     </template>
@@ -35,6 +35,7 @@
 import { computed } from 'vue';
 import EpKoodistoSelect from './EpKoodistoSelect.vue';
 import EpMaterialIcon from '../EpMaterialIcon/EpMaterialIcon.vue';
+import EpButton from '../EpButton/EpButton.vue';
 import { KoodistoSelectStore } from './KoodistoSelectStore';
 import { $kaanna } from '@shared/utils/globals';
 

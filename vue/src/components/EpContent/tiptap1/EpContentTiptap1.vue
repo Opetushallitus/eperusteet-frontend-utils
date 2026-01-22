@@ -25,19 +25,19 @@
     </div>
     <div
       v-else-if="validationError && invalidMessage && isEditable"
-      class="invalid-feedback"
+      class="block text-red-600 text-sm mt-1"
     >
       {{ $t(invalidMessage) }}
     </div>
     <div
       v-else-if="validationError && !invalidMessage && isEditable"
-      class="invalid-feedback"
+      class="block text-red-600 text-sm mt-1"
     >
       {{ $t('validation-error-' + validationError, validation.$params[validationError]) }}
     </div>
     <small
       v-if="help && isEditable"
-      class="form-text text-muted"
+      class="form-text text-gray-500"
     >{{ $t(help) }}</small>
   </div>
 </template>
@@ -420,11 +420,6 @@ onBeforeUnmount(() => {
   }
 }
 
-// Piilotettu Bootstrapissa oletuksena
-:deep(.invalid-feedback),
-:deep(.valid-feedback) {
-  display: block;
-}
 
 :deep(.ProseMirror p.is-editor-empty:first-child::before) {
   content: attr(data-empty-text);

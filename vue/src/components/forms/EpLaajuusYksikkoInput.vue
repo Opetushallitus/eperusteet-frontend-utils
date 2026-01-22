@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex">
+  <div class="flex">
     <EpLaajuusInput
       v-model="model.laajuus"
       :is-editing="isEditing"

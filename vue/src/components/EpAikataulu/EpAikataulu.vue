@@ -7,33 +7,32 @@
       >
       &nbsp;
       </div>
-      <div
+      <EpPopover
         v-for="(aikataulu, i) in aikatauluTavoitteet"
-        :id="'aikataulu-popover-'+i"
         :key="i"
-        class="aikataulu d-inline-block"
-        :style="'right:' + aikataulu.rightPosition +'%'"
-        :class="aikataulu.tapahtuma"
+        :triggers="['hover', 'click']"
+        :disabled="!showPopover"
       >
-        <b-popover
-          v-if="showPopover"
-          :target="'aikataulu-popover-'+i"
-          triggers="hover click"
-          placement="topleft"
-        >
-          <template #title>
-            {{ $sd(aikataulu.tapahtumapaiva) }}
-          </template>
-
-          <div style="width: 15vw">
-            {{ $kaanna(aikataulu.tavoite) }}
+        <template #trigger>
+          <div
+            :id="'aikataulu-popover-'+i"
+            class="aikataulu inline-block"
+            :style="'right:' + aikataulu.rightPosition +'%'"
+            :class="aikataulu.tapahtuma"
+          >
           </div>
-        </b-popover>
-      </div>
+        </template>
+        <template #header>
+          <h3>{{ $sd(aikataulu.tapahtumapaiva) }}</h3>
+        </template>
+        <div style="width: 15vw">
+          {{ $kaanna(aikataulu.tavoite) }}
+        </div>
+      </EpPopover>
     </div>
 
     <div class="alainfo">
-      <div class="d-inline-block">
+      <div class="inline-block">
         <div v-if="julkaisuAikaPosition < luomisaikaPalloPoint">
           <div class="luomispaiva">
             {{ $sd(luomisPaiva) }}
@@ -50,7 +49,7 @@
       </div>
 
       <div
-        class="d-inline-block text-right julkaisu"
+        class="inline-block text-right julkaisu"
         :style="'right:'+julkaisuAikaPosition +'%'"
       >
         <div class="julkaisupaiva">
@@ -71,6 +70,7 @@
 import { computed } from 'vue';
 import _ from 'lodash';
 import { aikataulutapahtuma, Tapahtuma } from '../../utils/aikataulu';
+import EpPopover from '../EpPopover/EpPopover.vue';
 
 const props = defineProps({
   aikataulut: { type: Array as () => Tapahtuma[], required: true },

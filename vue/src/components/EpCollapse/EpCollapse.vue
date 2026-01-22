@@ -12,7 +12,7 @@
       <!-- Käytetään button rolea saavutettavuuden takaamiseksi.-->
       <div
         v-if="hasHeaderSlot"
-        class="collapse-button d-flex align-items-center my-2 mr-1"
+        class="collapse-button flex items-center my-2 mr-1"
         role="button"
         tabindex="0"
         :aria-expanded="toggled"
@@ -25,7 +25,7 @@
           name="icon"
           :toggled="toggled"
         >
-          <div class="align-self-start mr-2">
+          <div class="self-start mr-2">
             <EpMaterialIcon
               v-if="toggled"
               size="28px"
@@ -40,7 +40,7 @@
             </EpMaterialIcon>
           </div>
         </slot>
-        <div class="align-self-start header">
+        <div class="self-start header">
           <div :class="{'header-toggled': toggled}">
             <slot
               name="header"

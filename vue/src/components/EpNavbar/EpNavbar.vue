@@ -52,14 +52,14 @@
           </ol>
         </nav>
       </b-navbar-nav>
-      <b-button
+      <ep-button
         v-else
         v-b-toggle.sisaltobar
         class="text-white"
-        variant="icon"
+        variant="secondary"
       >
         <EpMaterialIcon>menu</EpMaterialIcon>
-      </b-button>
+      </ep-button>
 
       <b-navbar-nav class="ml-auto">
         <!-- Sisällön kieli-->
@@ -69,8 +69,8 @@
           no-caret
         >
           <template #button-content>
-            <div class="d-flex flex-row">
-              <div class="kieli-valikko d-flex">
+            <div class="flex flex-row">
+              <div class="kieli-valikko flex">
                 <span class="kielivalitsin text-left">{{ $t("kieli-sisalto") }}: </span>
                 <span class="valittu-kieli text-right ml-2">{{ $t(sisaltoKieli) }}</span>
                 <EpMaterialIcon>expand_more</EpMaterialIcon>

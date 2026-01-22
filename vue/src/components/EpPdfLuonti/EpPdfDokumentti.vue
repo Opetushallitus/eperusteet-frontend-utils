@@ -3,15 +3,15 @@
     <ep-spinner v-if="dokumenttiLataa" />
     <div v-else>
       <div
-        class="row pdf-box align-items-center justify-content-between"
+        class="flex pdf-box items-center justify-content-between"
         :class="{'luotu': dokumenttiLuotu, 'ei-luotu': !dokumenttiLuotu, 'polling': polling, 'epaonnistui': dokumenttiEpaonnistui}"
       >
-        <div class="col col-auto ikoni">
+        <div class="w-auto ikoni">
           <EpMaterialIcon size="48px">
             picture_as_pdf
           </EpMaterialIcon>
         </div>
-        <div class="col-lg teksti">
+        <div class="flex-1 lg:flex-auto teksti">
           <span v-if="dokumenttiLuotu">
             {{ pdfnimi }}.pdf
           </span>
@@ -29,7 +29,7 @@
         </div>
         <div
           v-if="dokumenttiLuotu && !polling"
-          class="col-sm-3 text-left luomisaika"
+          class="w-full sm:w-1/4 text-left luomisaika"
         >
           <span class="luontitiedot">{{ $t('luotu') }}: {{ $sdt(dokumentti.valmistumisaika) }}</span>
           <span
@@ -43,7 +43,7 @@
         </div>
         <div
           v-if="dokumenttiLuotu"
-          class="col-sm-2 text-left"
+          class="w-full sm:w-1/6 text-left"
         >
           <a
             class="btn btn-link pl-0"

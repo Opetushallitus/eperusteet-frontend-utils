@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column">
+  <div class="flex flex-col">
     <slot />
     <b-form-invalid-feedback :state="!validation?.$invalid">
       {{ $t(message) }}

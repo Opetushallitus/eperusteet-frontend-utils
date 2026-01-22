@@ -1,7 +1,7 @@
 <template>
   <ep-form-content>
     <slot name="header">
-      <div class="d-flex">
+      <div class="flex">
         <span class="kuvatyyppi mr-1">{{ $t(tyyppi) }}</span>
         <EpInfoPopover :unique-id="tyyppi">
           {{ kuvatyyppiInfo }}
@@ -17,10 +17,10 @@
       @input="onInput"
     >
       <slot>
-        <div class="justify-content-around align-items-center h-100 m-3">
+        <div class="justify-content-around items-center h-full m-3">
           <div v-if="kuvaUrl">
             <img :src="kuvaUrl">
-            <div class="vali-viiva justify-content-center">
+            <div class="vali-viiva justify-center">
               <ep-button
                 variant="link"
                 icon="delete"
@@ -35,7 +35,7 @@
           </div>
 
           <div v-else-if="file">
-            <div class="h-100 justify-content-around align-items-center">
+            <div class="h-full justify-content-around items-center">
               <figure>
                 <img
                   v-if="previewUrl"
@@ -44,7 +44,7 @@
                 <figcaption>{{ $t('fu-valittu-tiedosto') }}: {{ file ? file.name : '' }}</figcaption>
               </figure>
             </div>
-            <div class="justify-content-center">
+            <div class="justify-center">
               <ep-button
                 v-if="fileValidi"
                 variant="link"

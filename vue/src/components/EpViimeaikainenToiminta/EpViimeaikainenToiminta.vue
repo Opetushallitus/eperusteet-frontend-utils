@@ -11,10 +11,10 @@
       <div
         v-for="(muokkaustieto, index) in muokkaustiedotRouted"
         :key="index"
-        class="row muokkaustieto"
+        class="flex muokkaustieto"
       >
-        <div class="col col-auto ikoni-col center-block">
-          <div class="ikoni d-inline-block">
+        <div class="w-auto ikoni-col center-block">
+          <div class="ikoni inline-block">
             <EpMaterialIcon :class="muokkaustieto.iconClass">
               {{ muokkaustieto.icon }}
             </EpMaterialIcon>
@@ -27,19 +27,19 @@
           </div>
         </div>
 
-        <div class="col router-col text-left">
+                <div class="router-col text-left">
           <div v-if="muokkaustieto.poistettu || muokkaustieto.tapahtuma === 'julkaisu'">
             <div
               class="router-box"
               :class="{ 'router-box-poistettu': muokkaustieto.poistettu }"
             >
-              <div class="row">
-                <div class="col nimi">
+              <div class="grid grid-cols-2">
+                <div class="nimi">
                   {{ muokkaustieto.kayttajaNimi }}
                 </div>
                 <div
                   :title="$sdt(muokkaustieto.luotu)"
-                  class="col aika text-right">
+                  class="aika text-right">
                   {{ $ago(muokkaustieto.luotu) }}
                 </div>
               </div>
@@ -56,12 +56,12 @@
               class="router-box"
               :class="{ 'router-box-poistettu': muokkaustieto.poistettu }"
             >
-              <div class="row">
-                <div class="col nimi">
+              <div class="grid grid-cols-2">
+                <div class="nimi">
                   {{ muokkaustieto.kayttajaNimi }}
                 </div>
                 <div
-                  class="col aika text-right"
+                  class="aika text-right"
                   :title="$sdt(muokkaustieto.luotu)"
                 >
                   {{ $ago(muokkaustieto.luotu) }}

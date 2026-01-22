@@ -11,11 +11,11 @@
           :key="group+i"
           class="pt-3 pb-2 px-3 mb-2 jarjestaja"
         >
-          <div class="d-flex">
+          <div class="flex">
             <div class="order-handle mr-3 pt-1">
               <EpMaterialIcon>drag_indicator</EpMaterialIcon>
             </div>
-            <div class="w-100">
+            <div class="w-full">
               <b-input-group
                 :label="$t('organisaation-nimi')"
                 class="mb-4"
@@ -25,16 +25,16 @@
                   :disabled="true"
                 />
                 <b-input-group-append>
-                  <b-button
+                  <ep-button
                     variant="primary"
                     @click="open(i)"
                   >
                     {{ $t('hae-organisaatio') }}
-                  </b-button>
+                  </ep-button>
                 </b-input-group-append>
               </b-input-group>
 
-              <b-form-group
+              <EpFormGroup
                 :label="$t('linkki-toteutussuunnitelmaan-tai-koulutuksen-jarjestajan-kotisivuille')"
                 class="mb-4"
               >
@@ -42,9 +42,9 @@
                   v-model="model.url"
                   :is-editing="isEditing"
                 />
-              </b-form-group>
+              </EpFormGroup>
 
-              <b-form-group
+              <EpFormGroup
                 :label="$t('kaytannon-toteutus')"
                 class="mb-0"
               >
@@ -53,7 +53,7 @@
                   layout="normal"
                   :is-editable="isEditing"
                 />
-              </b-form-group>
+              </EpFormGroup>
             </div>
           </div>
 
@@ -93,13 +93,13 @@
         <template #default>
           <ep-spinner v-if="!koulutuksenJarjestajat" />
           <template v-else>
-            <div class="d-flex flex-row align-items-center">
-              <div class="flex-grow-1">
+            <div class="flex flex-row items-center">
+              <div class="grow">
                 <ep-search v-model="query" />
               </div>
             </div>
             <div v-if="items">
-              <b-table
+              <EpTable
                 responsive
                 borderless
                 striped
@@ -110,22 +110,15 @@
                 :selectable="true"
                 select-mode="single"
                 selected-variant=""
+                :per-page="10"
                 @row-selected="onRowSelected"
               >
                 <template #cell(nimi)="{ item }">
-                  <span class="btn-link">
+                  <span class="text-blue-600 hover:underline cursor-pointer">
                     {{ $kaanna(item.nimi) }}
                   </span>
                 </template>
-              </b-table>
-
-              <ep-pagination
-                v-model="sivu"
-                :total-rows="kokonaismaara"
-                :per-page="10"
-                aria-controls="koodistot"
-                align="center"
-              />
+              </EpTable>
             </div>
           </template>
         </template>
@@ -138,14 +131,14 @@
         class="pt-3 pb-2 px-3 mb-2 jarjestaja"
       >
         <h3>{{ $kaanna(model.nimi) }}</h3>
-        <b-form-group
+        <EpFormGroup
           :label="$t('toteutussuunnitelman-tai-koulutuksen-jarjestajan-verkkosivut')"
           class="mb-4"
         >
           <EpLinkki :url="model.url[kieli]" />
-        </b-form-group>
+        </EpFormGroup>
 
-        <b-form-group
+        <EpFormGroup
           :label="$t('kaytannon-toteutus')"
           class="mb-0"
         >
@@ -159,7 +152,7 @@
               :is-editable="isEditing"
             />
           </slot>
-        </b-form-group>
+        </EpFormGroup>
       </div>
     </template>
   </div>
@@ -177,7 +170,8 @@ import EpSearch from '@shared/components/forms/EpSearch.vue';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
 import EpLinkki from '@shared/components/EpLinkki/EpLinkki.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
-import EpPagination from '@shared/components/EpPagination/EpPagination.vue';
+import EpTable from '@shared/components/EpTable/EpTable.vue';
+import EpFormGroup from '@shared/components/forms/EpFormGroup.vue';
 
 // Define props
 const props = defineProps({

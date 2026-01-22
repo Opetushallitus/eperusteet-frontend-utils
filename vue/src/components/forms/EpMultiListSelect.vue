@@ -3,9 +3,9 @@
     <div
       v-for="(innerModel, i) in innerModelValidations"
       :key="i"
-      class="row mb-2"
+      class="grid grid-cols-12 gap-2 mb-2"
     >
-      <div class="col-11">
+      <div class="col-span-11">
         <VueMultiselect
           :model-value="innerModels[i]"
           :disabled="isLoading"
@@ -56,7 +56,7 @@
           </template>
         </VueMultiselect>
       </div>
-      <div class="col-1">
+      <div class="col-span-1">
         <ep-button
           v-if="!required || (i > 0 && !isLoading)"
           button-class="p-0 pt-2 roskalaatikko"
@@ -88,29 +88,29 @@
     </div>
     <div
       v-else-if="validationError && invalidMessage "
-      class="invalid-feedback"
+      class="block text-red-600 text-sm mt-1"
     >
       {{ $t(invalidMessage) }}
     </div>
     <div
       v-else-if="validationError && !invalidMessage"
-      class="invalid-feedback"
+      class="block text-red-600 text-sm mt-1"
     >
       {{ $t('validation-error-' + validationError, validation.$params[validationError]) }}
     </div>
     <small
       v-if="help && isEditing"
-      class="form-text text-muted"
+      class="form-text text-gray-500"
     >{{ $t(help) }}</small>
   </div>
   <div v-else>
     <div
       v-for="(innerModel, i) in innerModelValidations"
       :key="i"
-      class="row"
+      class="grid grid-cols-12 gap-2"
       :class="{'mb-2': i < innerModelValidations.length-1}"
     >
-      <div class="col-11">
+      <div class="col-span-11">
         <slot
           v-if="innerModels[i].value"
           name="singleLabel"
@@ -359,11 +359,6 @@ watch(() => props.modelValue, (newValue) => {
     border-color: $valid;
   }
 
-  // Piilotettu Bootstrapissa oletuksena
-  :deep(.invalid-feedback),
-  :deep(.valid-feedback) {
-    display: block;
-  }
 
   .valitse {
     color: $gray-lighten-2;

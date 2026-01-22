@@ -19,7 +19,7 @@
           name="file-selected"
           :file="file"
         >
-          <div class="pl-2 d-inline-block">
+          <div class="pl-2 inline-block">
             <div>{{ $t('valittu-tiedosto') }}: {{ file ? file.name : '' }}</div>
             <div class="text-right pl-2 pt-4">
               <ep-button

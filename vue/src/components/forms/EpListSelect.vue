@@ -34,19 +34,19 @@
     </div>
     <div
       v-else-if="validationError && invalidMessage "
-      class="invalid-feedback"
+      class="block text-red-600 text-sm mt-1"
     >
       {{ $t(invalidMessage) }}
     </div>
     <div
       v-else-if="validationError && !invalidMessage"
-      class="invalid-feedback"
+      class="block text-red-600 text-sm mt-1"
     >
       {{ $t('validation-error-' + validationError, validation.$params[validationError]) }}
     </div>
     <small
       v-if="help"
-      class="form-text text-muted"
+      class="form-text text-gray-500"
     >{{ $t(help) }}</small>
   </div>
 </template>

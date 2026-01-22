@@ -35,20 +35,20 @@
     >
       <div
         v-if="invalidMessage"
-        class="invalid-feedback"
+        class="block text-red-600 text-sm mt-1"
       >
         {{ $t(invalidMessage) }}
       </div>
       <div
         v-else
-        class="invalid-feedback"
+        class="block text-red-600 text-sm mt-1"
       >
         {{ message }}
       </div>
     </div>
     <small
       v-if="help && isEditing"
-      class="form-text text-muted"
+      class="form-text text-gray-500"
     >{{ $t(help) }}</small>
   </div>
   <div v-else>
@@ -190,9 +190,4 @@ const onBlur = () => {
   right: 30px;
 }
 
-// Piilotettu Bootstrapissa oletuksena
-:deep(.invalid-feedback),
-:deep(.valid-feedback) {
-  display: block;
-}
 </style>

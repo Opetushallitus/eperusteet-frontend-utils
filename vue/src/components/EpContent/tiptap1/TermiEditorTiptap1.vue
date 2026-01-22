@@ -59,12 +59,12 @@
           <div>
             <span>{{ $kaanna(option.termi) }}</span>
           </div>
-          <div class="pl-3 small font-weight-light">
+          <div class="pl-3 small font-light">
             <span v-html="$kaanna(option.selitys)" />
           </div>
         </template>
       </vue-select>
-      <b-button
+      <ep-button
         v-if="valittu"
         id="muokkaa-termia"
         class="lisaa-painike"
@@ -72,15 +72,15 @@
         @click="muokkaa(valittu)"
       >
         {{ $t('muokkaa-kasitetta') }}
-      </b-button>
-      <b-button
+      </ep-button>
+      <ep-button
         id="lisaa-uusi-termi"
         class="lisaa-painike"
         variant="primary"
         @click="muokkaa()"
       >
         {{ $t('lisaa-uusi-kasite') }}
-      </b-button>
+      </ep-button>
     </div>
   </div>
 </template>

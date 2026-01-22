@@ -1,20 +1,20 @@
 <template>
-  <div class="ep-toggle-group">
-    <b-form-checkbox-group
-      v-if="isEditing"
-      :checked="innerValue"
-      :value="innerValue"
-      :stacked="stacked"
-      @input="innerValue = $event"
-    >
-      <b-form-checkbox
+  <div class="ep-toggle-group" :class="{ 'stacked': stacked }">
+    <div v-if="isEditing" class="checkbox-group">
+      <EpToggle
         v-for="(item, index) in items"
         :key="uniqueId + index"
-        :value="item"
+        :model-value="isItemSelected(item)"
+        :checkbox="true"
+        :is-switch="false"
+        :is-editing="!disabled"
+        :inline="!stacked"
+        class="checkbox-item"
+        @update:model-value="toggleItem(item)"
       >
         <slot :item="item" />
-      </b-form-checkbox>
-    </b-form-checkbox-group>
+      </EpToggle>
+    </div>
     <div v-else>
       <span
         v-for="(item, index) in innerValue"
@@ -31,6 +31,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import EpToggle from './EpToggle.vue';
 
 const props = defineProps({
   modelValue: {
@@ -62,11 +63,41 @@ const innerValue = computed({
   set: (value) => emit('update:modelValue', value),
 });
 
-const uniqueId = computed(() => {
-  return `ep-toggle-group-${Math.random().toString(36)}`;
-});
+const uniqueId = `ep-toggle-group-${Math.random().toString(36).substr(2, 9)}`;
+
+const isItemSelected = (item: any) => {
+  return innerValue.value.includes(item);
+};
+
+const toggleItem = (item: any) => {
+  const newValue = [...innerValue.value];
+  const index = newValue.indexOf(item);
+
+  if (index > -1) {
+    newValue.splice(index, 1);
+  } else {
+    newValue.push(item);
+  }
+
+  innerValue.value = newValue;
+};
 </script>
 
 <style scoped lang="scss">
+.ep-toggle-group {
+  .checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
 
+  &.stacked .checkbox-group {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .checkbox-item {
+    margin: 0;
+  }
+}
 </style>

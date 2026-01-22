@@ -1,23 +1,23 @@
 <template>
   <div
     v-if="postfixLabel"
-    class="d-flex align-items-center"
+    class="flex items-center"
   >
-    <div
-      v-if="node.meta && node.meta.postfix_label"
-      :id="'item-popover'+node.id"
-      class="postfix"
+    <EpPopover
+      :triggers="['hover', 'click']"
+      :disabled="!node.meta || !node.meta.postfix_tooltip"
     >
-      ({{ $t(postfixLabel) }})
-    </div>
-    <b-popover
-      v-if="node.meta && node.meta.postfix_tooltip"
-      :target="'item-popover'+node.id"
-      triggers="click hover"
-      placement="right"
-    >
+      <template #trigger>
+        <div
+          v-if="node.meta && node.meta.postfix_label"
+          :id="'item-popover'+node.id"
+          class="postfix"
+        >
+          ({{ $t(postfixLabel) }})
+        </div>
+      </template>
       {{ $t(postfixTooltip) }}
-    </b-popover>
+    </EpPopover>
   </div>
 </template>
 
@@ -25,6 +25,7 @@
 import { NavigationNodeDto } from '@shared/tyypit';
 import * as _ from 'lodash';
 import { computed } from 'vue';
+import EpPopover from '../EpPopover/EpPopover.vue';
 
 const props = defineProps({
   node: {

@@ -7,7 +7,7 @@
     >
       <div
         class="editor-toolbar"
-        :class="{ 'd-none': !alwaysVisible && !data.focused}"
+        :class="{ 'hidden': !alwaysVisible && !data.focused}"
       >
         <div
           class="btn-toolbar"
@@ -19,7 +19,7 @@
             class="btn-group mr-2"
             role="group"
           >
-            <b-button
+            <ep-button
               v-for="feature in group"
               :key="feature.command"
               :delay="100"
@@ -36,7 +36,7 @@
                 {{ feature.icon }}
               </EpMaterialIcon>
               <span v-if="feature.text">{{ $t(feature.text) }}</span>
-            </b-button>
+            </ep-button>
           </div>
         </div>
         <div
@@ -50,7 +50,7 @@
             class="btn-group mr-2"
             role="group"
           >
-            <b-button
+            <ep-button
               v-for="feature in group"
               :key="feature.command"
               :title="$t('editor-' + feature.command)"
@@ -64,7 +64,7 @@
                 :image="feature.icon"
                 class="icon-opacity"
               />
-            </b-button>
+            </ep-button>
           </div>
         </div>
         <b-modal
@@ -78,7 +78,7 @@
           @keyup.enter="editLink(data)"
           @hidden="linkValue = null"
         >
-          <b-form-group class="mx-4">
+          <EpFormGroup class="mx-4">
             <template v-if="navigationFlattenedComputed">
               <b-form-radio
                 v-model="linkkiTyyppi"
@@ -124,7 +124,7 @@
               v-model="linkValue"
               :placeholder="linkPlaceholder"
             />
-          </b-form-group>
+          </EpFormGroup>
         </b-modal>
       </div>
     </editor-menu-bar>
@@ -136,11 +136,13 @@ import _ from 'lodash';
 import { ref, computed, inject, useTemplateRef, getCurrentInstance } from 'vue';
 import { EditorMenuBar } from 'tiptap';
 import { NavigationNodeDto } from '@shared/tyypit';
+import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import { deepFind } from '@shared/utils/helpers';
 import EpPublicImage from '@shared/components/EpPublicImage/EpPublicImage.vue';
 import EpMultiSelect from '@shared/components/forms/EpMultiSelect.vue';
 import { $kaanna } from '@shared/utils/globals';
+import EpFormGroup from '@shared/components/forms/EpFormGroup.vue';
 
 const props = defineProps({
   editor: {

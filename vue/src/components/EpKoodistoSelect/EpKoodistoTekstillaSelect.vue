@@ -7,9 +7,9 @@
     >
       <div
         v-if="kooditByUri[koodi.koodiUri]"
-        class="d-flex w-100 justify-content-between align-items-center"
+        class="flex w-full justify-content-between items-center"
       >
-        <div class="font-weight-bold">
+        <div class="font-bold">
           {{ $kaanna(kooditByUri[koodi.koodiUri].nimi) }}
         </div>
         <div v-if="isEditing">

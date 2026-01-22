@@ -1,23 +1,25 @@
 <template>
   <div>
-    <b-button
-      :id="id"
-      variant="link"
+    <EpPopover
+      :triggers="['hover', 'click']"
+      @show="shown"
     >
-      <EpMaterialIcon
-        icon-shape="outlined"
-        size="20px"
-      >
-        info
-      </EpMaterialIcon>
-    </b-button>
-    <b-popover
-      ref="kaytossa"
-      :target="id"
-      :triggers="triggers"
-      :title="$t('kaytossa-toisaalla')"
-      @shown="shown"
-    >
+      <template #trigger>
+        <ep-button
+          :id="id"
+          variant="link"
+        >
+          <EpMaterialIcon
+            icon-shape="outlined"
+            size="20px"
+          >
+            info
+          </EpMaterialIcon>
+        </ep-button>
+      </template>
+      <template #header>
+        <h3>{{ $t('kaytossa-toisaalla') }}</h3>
+      </template>
       <ep-spinner v-if="isLoading" />
       <div
         v-else-if="data && data.data.length > 0"
@@ -51,20 +53,20 @@
       >
         {{ $t('ei-hakutuloksia') }}
       </div>
-    </b-popover>
+    </EpPopover>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, getCurrentInstance } from 'vue';
+import { ref, computed } from 'vue';
 import _ from 'lodash';
+import EpButton from '../EpButton/EpButton.vue';
 import EpPagination from '../EpPagination/EpPagination.vue';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import EpPopover from '../EpPopover/EpPopover.vue';
 import { Ammattitaitovaatimukset } from '../../api/eperusteet';
 import { $kaanna, $t } from '@shared/utils/globals';
-import { nextTick } from 'vue';
-import { useTemplateRef } from 'vue';
 
 const props = defineProps({
   koodi: {
@@ -77,7 +79,6 @@ const isLoading = ref(true);
 const data = ref(null);
 const page = ref(1);
 const perPage = ref(8);
-const kaytossaRef = useTemplateRef('kaytossa');
 
 const id = computed(() => _.uniqueId('koodidialogi_'));
 
@@ -102,11 +103,8 @@ const shown = async () => {
   }
   finally {
     isLoading.value = false;
-    (kaytossaRef.value as any).$forceUpdate();
   }
 };
-
-const triggers = computed(() => 'hover click blur');
 </script>
 
 <style scoped lang="scss">

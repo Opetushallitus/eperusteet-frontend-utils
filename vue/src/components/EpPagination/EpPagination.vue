@@ -2,10 +2,10 @@
   <div v-if="totalRows > 0">
     <div
       :aria-label="$t('sivutus')"
-      class="d-flex align-items-center justify-content-center"
+      class="flex items-center justify-center"
     >
       <div class="link-container">
-        <b-button
+        <ep-button
           variant="link"
           :aria-label="$t('edellinen')"
           class="link"
@@ -14,7 +14,7 @@
           @click="setValue(modelValue - 1)"
         >
           <EpMaterialIcon>chevron_left</EpMaterialIcon>
-        </b-button>
+        </ep-button>
       </div>
       <div
         v-for="row in pages"
@@ -22,7 +22,7 @@
         class="link-container"
       >
         <div v-if="row !== null">
-          <b-button
+          <ep-button
             :class="{ 'active-link': row === modelValue }"
             :aria-label="$t('sivu') + ' ' + row"
             variant="link"
@@ -30,14 +30,14 @@
             @click="setValue(row)"
           >
             {{ row }}
-          </b-button>
+          </ep-button>
         </div>
         <div v-else>
           ...
         </div>
       </div>
       <div class="link-container">
-        <b-button
+        <ep-button
           class="link"
           :aria-label="$t('seuraava')"
           variant="link"
@@ -46,7 +46,7 @@
           @click="setValue(modelValue + 1)"
         >
           <EpMaterialIcon>chevron_right</EpMaterialIcon>
-        </b-button>
+        </ep-button>
       </div>
     </div>
   </div>

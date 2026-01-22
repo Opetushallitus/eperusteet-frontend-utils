@@ -30,7 +30,7 @@
           </slot>
         </option>
       </select>
-      <b-form-group
+      <EpFormGroup
         v-else
         class="m-0 p-0"
       >
@@ -49,27 +49,7 @@
             </slot>
           </template>
         </EpToggleGroup>
-        <!-- <b-form-checkbox-group
-          :value="innerModel"
-          name="kielivalinta"
-          stacked
-          :class="{ 'is-invalid': isInvalid, 'is-valid': isValid }"
-          @input="innerModel = $event"
-        >
-          <b-form-checkbox
-            v-for="item in items"
-            :key="item"
-            :checked="item"
-          >
-            <slot
-              name="default"
-              :item="item"
-            >
-              <span>{{ item }}</span>
-            </slot>
-          </b-form-checkbox>
-        </b-form-checkbox-group> -->
-      </b-form-group>
+      </EpFormGroup>
       <div
         v-if="!validationError && validMessage"
         class="valid-feedback"
@@ -78,19 +58,19 @@
       </div>
       <div
         v-else-if="validationError && invalidMessage"
-        class="invalid-feedback"
+        class="block text-red-600 text-sm mt-1"
       >
         {{ $t(invalidMessage) }}
       </div>
       <div
         v-else-if="validationError && !invalidMessage"
-        class="invalid-feedback"
+        class="block text-red-600 text-sm mt-1"
       >
         {{ $t('validation-error-' + validationError) }}
       </div>
       <small
         v-if="help && isEditing"
-        class="form-text text-muted"
+        class="form-text text-gray-500"
       >{{ $t(help) }}</small>
     </div>
     <ep-spinner v-else />
@@ -120,6 +100,7 @@ import { $t } from '@shared/utils/globals';
 
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import EpToggleGroup from './EpToggleGroup.vue';
+import EpFormGroup from './EpFormGroup.vue';
 
 const props = defineProps({
   isEditing: {
@@ -258,11 +239,6 @@ select {
   appearance: none;
 }
 
-// Piilotettu Bootstrapissa oletuksena
-:deep(.invalid-feedback),
-:deep(.valid-feedback) {
-  display: block;
-}
 
 select {
   font-size: 1rem;

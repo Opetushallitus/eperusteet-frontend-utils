@@ -7,53 +7,55 @@
       class="teksti"
       v-html="valueFormatted"
     />
-    <div
+    <template
       v-for="(viite, idx) in termitWrapped"
       :key="idx"
     >
-      <template v-if="viite">
-        <b-popover
-          v-if="viite.el && viite.termi"
-          :target="viite.el"
-          triggers="click blur"
-          placement="bottom"
-          @shown="termiAriaNakyviin(viite.termi.avain)"
-          @hidden="termiAriaPiiloon(viite.termi.avain)"
+      <EpPopover
+        v-if="viite && viite.el && viite.termi"
+        :ref="el => setPopoverRef(el, idx)"
+        :triggers="['manual']"
+        @show="() => termiAriaNakyviin(viite.termi.avain)"
+        @hide="() => termiAriaPiiloon(viite.termi.avain)"
+      >
+        <template #trigger>
+          <span style="display: none;" />
+        </template>
+        <template
+          v-if="viite.termi.selitys"
+          #header
         >
-          <template
-            v-if="viite.termi.selitys"
-            #title
-          >
-            {{ $kaanna(viite.termi.termi) }}
-          </template>
-          <div v-if="!viite.termi.selitys">
-            {{ $kaanna(viite.termi.termi) }}
-          </div>
-          <div
-            v-if="viite.termi.selitys"
-            v-html="$kaanna(viite.termi.selitys)"
-          />
-        </b-popover>
-        <div
-          class="sr-only"
-          aria-live="polite"
-        >
-          <span v-if="nakyvatTermit.includes(viite.termi.avain)">
-            {{ $kaanna(viite.termi.selitys) }}
-          </span>
+          <h3>{{ $kaanna(viite.termi.termi) }}</h3>
+        </template>
+        <div v-if="!viite.termi.selitys">
+          {{ $kaanna(viite.termi.termi) }}
         </div>
-      </template>
-    </div>
+        <div
+          v-if="viite.termi.selitys"
+          v-html="$kaanna(viite.termi.selitys)"
+        />
+      </EpPopover>
+      <div
+        v-if="viite"
+        class="sr-only"
+        aria-live="polite"
+      >
+        <span v-if="viite.termi && nakyvatTermit.includes(viite.termi.avain)">
+          {{ $kaanna(viite.termi.selitys) }}
+        </span>
+      </div>
+    </template>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, nextTick, inject } from 'vue';
+import { ref, computed, watch, nextTick, inject, reactive } from 'vue';
 import _ from 'lodash';
 import { LiiteDtoWrapper } from '../../tyypit';
 import { Kielet } from '../../stores/kieli';
 import { ILinkkiHandler } from '../EpContent/LinkkiHandler';
 import { useRoute, useRouter } from 'vue-router';
+import EpPopover from '../EpPopover/EpPopover.vue';
 
 const props = defineProps({
   value: {
@@ -77,6 +79,7 @@ const linkkiHandler = inject<ILinkkiHandler>('linkkiHandler');
 
 const termiElements = ref<Element[]>([]);
 const nakyvatTermit = ref<string[]>([]);
+const popoverRefs = reactive<Record<number, any>>({});
 
 const route = useRoute();
 const router = useRouter();
@@ -168,13 +171,22 @@ const valueFormatted = computed(() => {
 });
 
 const termitWrapped = computed(() => {
-  return _.map(termiElements.value, el => {
+  return _.map(termiElements.value, (el, idx) => {
     const dataviite = el.getAttribute('data-viite');
     if (dataviite) {
       const termi: any = _.find(props.termit, { 'avain': dataviite });
       if (termi) {
         el.setAttribute('title', Kielet.kaanna(termi.termi));
         el.setAttribute('aria-label', Kielet.kaanna(termi.termi));
+
+        // Add click handler to toggle popover
+        el.addEventListener('click', (event: Event) => {
+          const popover = popoverRefs[idx];
+          if (popover) {
+            popover.toggle(event);
+          }
+        });
+
         return {
           el,
           termi,
@@ -215,6 +227,12 @@ const termiAriaNakyviin = (termiAvain) => {
 
 const termiAriaPiiloon = (termiAvain) => {
   nakyvatTermit.value = _.filter(nakyvatTermit.value, t => t !== termiAvain);
+};
+
+const setPopoverRef = (el: any, idx: number) => {
+  if (el) {
+    popoverRefs[idx] = el;
+  }
 };
 </script>
 

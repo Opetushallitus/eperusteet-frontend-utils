@@ -1,6 +1,6 @@
 <template>
   <div v-if="isEditing">
-    <div class="input-container d-flex align-items-center">
+    <div class="input-container flex items-center">
       <input
         v-bind="$attrs"
         class="input-style form-control"
@@ -45,20 +45,20 @@
       >
         <div
           v-if="invalidMessage"
-          class="invalid-feedback"
+          class="block text-red-600 text-sm mt-1"
         >
           {{ $t(invalidMessage) }}
         </div>
         <div
           v-else
-          class="invalid-feedback"
+          class="block text-red-600 text-sm mt-1"
         >
           {{ message }}
         </div>
       </div>
       <small
         v-if="help && isEditing"
-        class="form-text text-muted"
+        class="form-text text-gray-500"
       >{{ $t(help) }}</small>
     </div>
   </div>
@@ -368,17 +368,9 @@ input::placeholder {
 }
 
 .is-warning {
-  .invalid-feedback {
+  .block.text-red-600 {
     color: orange;
   }
-}
-
-:deep(.invalid-feedback), :deep(.valid-feedback) {
-}
-
-// Piilotettu Bootstrapissa oletuksena
-.invalid-feedback {
-  display: block;
 }
 
 .placeholder {

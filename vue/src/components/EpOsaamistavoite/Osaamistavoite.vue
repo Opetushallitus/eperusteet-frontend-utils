@@ -1,6 +1,6 @@
 <template>
   <div v-if="inner">
-    <b-form-group
+    <EpFormGroup
       v-if="showLaajuus"
       :label="$t('laajuus')"
     >
@@ -8,8 +8,8 @@
         v-model="inner.laajuus"
         :is-editing="isEditing"
       />
-    </b-form-group>
-    <b-form-group class="m-0 p-0">
+    </EpFormGroup>
+    <EpFormGroup class="m-0 p-0">
       <slot name="osaamistavoitteet">
         <h4>{{ $t('osaamistavoitteet') }}</h4>
       </slot>
@@ -28,7 +28,7 @@
         :is-editing="isEditing"
         :show-koodi-arvo="showKoodiArvo"
       />
-    </b-form-group>
+    </EpFormGroup>
   </div>
 </template>
 
@@ -37,6 +37,7 @@ import { computed } from 'vue';
 import EpLaajuusInput from '@shared/components/forms/EpLaajuusInput.vue';
 import EpAmmattitaitovaatimukset from '@shared/components/EpAmmattitaitovaatimukset/EpAmmattitaitovaatimukset.vue';
 import _ from 'lodash';
+import EpFormGroup from '@shared/components/forms/EpFormGroup.vue';
 
 const props = defineProps({
   modelValue: {

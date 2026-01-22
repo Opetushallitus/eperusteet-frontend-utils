@@ -20,7 +20,7 @@
     <template
       #singleLabel="{option}"
     >
-      <span :class="{'text-nowrap': !textWrap}">
+      <span :class="{'whitespace-nowrap': !textWrap}">
         <slot
           v-if="!nocolor"
           name="colorindicator"
@@ -42,7 +42,7 @@
       >
       <span
         v-else
-        class="option text-nowrap"
+        class="option whitespace-nowrap"
       >
         <slot
           v-if="option.koulutustyyppi !== 'kaikki' && !nocolor"
@@ -55,7 +55,7 @@
             :kind="option.koulutustyyppi"
           />
         </slot>
-        <span :class="{'font-weight-bold': option.koulutustyyppi === 'kaikki', 'ml-2': option.koulutustyyppi !== 'kaikki'}">
+        <span :class="{'font-bold': option.koulutustyyppi === 'kaikki', 'ml-2': option.koulutustyyppi !== 'kaikki'}">
           {{ $t(option.koulutustyyppi) }}
         </span>
       </span>
@@ -64,7 +64,7 @@
       <span />
     </template>
     <template #selection="{ values }">
-      <div class="d-flex align-items-center">
+      <div class="flex items-center">
         <template v-if="values.length === 1">
           <span
             v-for="value in values"
@@ -110,8 +110,8 @@
     <span
       v-for="value in asArray"
       :key="'reading' + value"
-      class="text-nowrap mr-3"
-      :class="{'text-nowrap': !textWrap}"
+      class="whitespace-nowrap mr-3"
+      :class="{'whitespace-nowrap': !textWrap}"
     >
       <slot
         v-if="!nocolor"
