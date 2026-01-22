@@ -21,8 +21,8 @@
               <EpMaterialIcon>drag_indicator</EpMaterialIcon>
               <span class="otsikko"> {{ $t('tavoitealueen-otsikko') }}</span>
             </div>
-            <b-row>
-              <b-col cols="11">
+            <div class="flex flex-wrap">
+              <div class="w-11/12">
                 <ep-koodisto-select
                   v-model="tavoitealue.otsikko"
                   :store="tavoitealueetKoodisto"
@@ -36,18 +36,18 @@
                         disabled
                       />
                       <b-input-group-append>
-                        <b-button
+                        <ep-button
                           variant="primary"
                           @click="open"
                         >
                           {{ $t('hae-koodistosta') }}
-                        </b-button>
+                        </ep-button>
                       </b-input-group-append>
                     </b-input-group>
                   </template>
                 </ep-koodisto-select>
-              </b-col>
-              <b-col cols="1">
+              </div>
+              <div class="w-1/12">
                 <div
                   class="default-icon clickable mt-2"
                   @click="poistaTavoitealue(tavoitealue)"
@@ -59,8 +59,8 @@
                     delete
                   </EpMaterialIcon>
                 </div>
-              </b-col>
-            </b-row>
+              </div>
+            </div>
           </div>
 
           <div
@@ -95,7 +95,7 @@
         </div>
       </VueDraggable>
 
-      <div class="d-flex flex-column">
+      <div class="flex flex-col">
         <ep-button
           variant="outline"
           icon="add"
@@ -264,7 +264,7 @@ const keskeisetSisaltoalueetOptions = computed(() => {
   .tavoitealue {
     &.editing {
       .tavoitesisaltoalue {
-        border: 1px solid $gray-lighten-8;
+        border: 1px solid $grey200;
         border-radius: 3px;
 
         .otsikko {

@@ -1,9 +1,9 @@
 <template>
-  <b-row>
-    <b-col cols="3">
+  <div class="flex flex-wrap">
+    <div class="w-1/4">
       {{ $kaanna(arviointiasteikko.osaamistasot[osaamistasonkriteeri._osaamistaso].otsikko) }}
-    </b-col>
-    <b-col class="d-flex flex-column">
+    </div>
+    <div class="w-3/4 flex flex-col">
       <template v-if="!isEditing">
         <ul>
           <li
@@ -21,10 +21,10 @@
           :key="'kriteeri'+kriteeriIndex"
           class="mb-2"
         >
-          <div class="d-flex">
+          <div class="flex">
             <EpInput
               v-model="osaamistasonkriteeri.kriteerit[kriteeriIndex]"
-              class="w-100"
+              class="w-full"
               :is-editing="isEditing"
             />
             <EpButton
@@ -46,8 +46,8 @@
           {{ $t('lisaa-kriteeri') }}
         </EpButton>
       </template>
-    </b-col>
-  </b-row>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">

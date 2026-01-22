@@ -6,12 +6,12 @@
         v-model="innerModel"
         tag="div"
       >
-        <b-row
+        <div
           v-for="(model, i) in innerModel"
           :key="group+i"
-          class="pb-2"
+          class="flex flex-wrap pb-2"
         >
-          <b-col cols="11">
+          <div class="w-11/12">
             <slot
               name="input"
               :model="model"
@@ -30,11 +30,10 @@
                 </template>
               </EpInput>
             </slot>
-          </b-col>
-          <b-col
+          </div>
+          <div
             v-if="isEditing"
-            cols="1"
-            class="text-center"
+            class="w-1/12 text-center"
           >
             <div
               class="default-icon clickable mt-2"
@@ -44,8 +43,8 @@
                 delete
               </EpMaterialIcon>
             </div>
-          </b-col>
-        </b-row>
+          </div>
+        </div>
       </VueDraggable>
       <EpButton
         v-if="isEditing"

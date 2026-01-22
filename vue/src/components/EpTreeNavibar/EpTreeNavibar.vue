@@ -22,7 +22,7 @@
         :key="item.idx"
       >
         <div
-          class="d-flex align-items-start item"
+          class="flex items-start item"
           :class="item.class"
         >
           <div class="backwrapper ml-1">
@@ -30,18 +30,19 @@
               v-if="menuIndex === 0 && (active?.depth || 0) > 0 && !showAll"
               class="back"
             >
-              <b-button
+              <ep-button
+                size="sm"
                 variant="link"
                 class="backbtn"
                 @click="navigateUp()"
               >
                 <EpMaterialIcon>chevron_left</EpMaterialIcon>
-              </b-button>
+              </ep-button>
             </div>
           </div>
           <div
-            class="flex-grow-1"
-            :class="{'font-weight-bold': item.isMatch}"
+            class="grow"
+            :class="{'font-bold': item.isMatch}"
           >
             <div
               v-if="item.navigationSubType === 'add'"
@@ -60,17 +61,17 @@
                 :name="slots[item.type] ? item.type : 'default'"
                 :item="item"
               >
-                <div class="text-muted">
+                <div class="text-gray-500">
                   {{ $t(item.type) }}
                 </div>
               </slot>
             </div>
             <div
               v-else
-              class="clickable d-flex align-items-center menu-item my-2"
+              class="clickable flex items-center menu-item my-2"
               @click="navigate(item)"
             >
-              <div class="d-flex align-items-start">
+              <div class="flex items-start">
                 <div
                   v-if="item.meta?.numerointi"
                   class="mr-2"
@@ -94,7 +95,7 @@
           </div>
           <div
             v-if="item.children.length > 0 && item.idx !== activeIdx && !showAll"
-            class="text-muted mr-1 py-2"
+            class="text-gray-500 mr-1 py-2"
           >
             <EpMaterialIcon>chevron_right</EpMaterialIcon>
           </div>

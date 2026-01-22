@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import type { App } from 'vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import EpToggle from '@shared/components/forms/EpToggle.vue';
 import EpToggleGroup from '@shared/components/forms/EpToggleGroup.vue';
@@ -15,18 +15,20 @@ import EpPaikallinenTarkennus from '@shared/components/EpPaikallinenTarkennus/Ep
 import EpLinkki from '@shared/components/EpLinkki/EpLinkki.vue';
 import EpInfoPopover from '@shared/components/EpInfoPopover/EpInfoPopover.vue';
 
-Vue.component('EpMaterialIcon', EpMaterialIcon);
-Vue.component('EpToggle', EpToggle);
-Vue.component('EpToggleGroup', EpToggleGroup);
-Vue.component('EpPdfLink', EpPdfLink);
-Vue.component('EpDatepicker', EpDatepicker);
-Vue.component('EpMultiSelect', EpMultiSelect);
-Vue.component('EpFormContent', EpFormContent);
-Vue.component('EpButton', EpButton);
-Vue.component('EpSpinner', EpSpinner);
-Vue.component('EpExternalLink', EpExternalLink);
-Vue.component('EpInfoBanner', EpInfoBanner);
-Vue.component('EpCollapse', EpCollapse);
-Vue.component('EpPaikallinenTarkennus', EpPaikallinenTarkennus);
-Vue.component('EpLinkki', EpLinkki);
-Vue.component('EpInfoPopover', EpInfoPopover);
+export function registerDefaultComponents(app: App) {
+  app.component('EpMaterialIcon', EpMaterialIcon);
+  app.component('EpToggle', EpToggle);
+  app.component('EpToggleGroup', EpToggleGroup);
+  app.component('EpPdfLink', EpPdfLink);
+  app.component('EpDatepicker', EpDatepicker);
+  app.component('EpMultiSelect', EpMultiSelect);
+  app.component('EpFormContent', EpFormContent);
+  app.component('EpButton', EpButton);
+  app.component('EpSpinner', EpSpinner);
+  app.component('EpExternalLink', EpExternalLink);
+  app.component('EpInfoBanner', EpInfoBanner);
+  app.component('EpCollapse', EpCollapse);
+  app.component('EpPaikallinenTarkennus', EpPaikallinenTarkennus);
+  app.component('EpLinkki', EpLinkki);
+  app.component('EpInfoPopover', EpInfoPopover);
+}

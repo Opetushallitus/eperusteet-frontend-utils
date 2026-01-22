@@ -16,12 +16,12 @@
           </div>
         </template>
         <template #right>
-          <b-button
+          <ep-button
             variant="link"
             @click="poista(idx)"
           >
             <EpMaterialIcon>close</EpMaterialIcon>
-          </b-button>
+          </ep-button>
         </template>
       </ep-input>
     </div>

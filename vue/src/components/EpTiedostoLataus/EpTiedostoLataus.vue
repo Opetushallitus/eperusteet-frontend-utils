@@ -19,7 +19,7 @@
           name="file-selected"
           :file="file"
         >
-          <div class="pl-2 d-inline-block">
+          <div class="pl-2 inline-block">
             <div>{{ $t('valittu-tiedosto') }}: {{ file ? file.name : '' }}</div>
             <div class="text-right pl-2 pt-4">
               <ep-button
@@ -171,7 +171,7 @@ function resetFile() {
   margin: 0px 0px;
   width:100%;
   border-width: 1px;
-  border-color: $gray-lighten-2;
+  border-color: $grey300;
   border-style: dashed;
   border-radius: 10px;
   position: relative;
@@ -188,7 +188,7 @@ function resetFile() {
 
   &.ei-tiedosto {
     height: 100px;
-    background-color: $gray-lighten-7;
+    background-color: $grey50;
   }
 
   .custom-file:deep() {
@@ -224,7 +224,7 @@ function resetFile() {
       padding: 0 0 0 0.20rem;
       display: inline;
       position: relative;
-      background-color: $gray-lighten-7;
+      background-color: $grey50;
     }
   }
 }

@@ -1,29 +1,15 @@
-import { mount, createLocalVue, RouterLinkStub } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import EpContentView from './EpContentView.vue';
-import { Kaannos } from '../../plugins/kaannos';
-import VueI18n from 'vue-i18n';
-import { Kielet } from '../../stores/kieli';
-import Vue from 'vue';
-import BootstrapVue from 'bootstrap-vue';
-
-// Vue.use(BootstrapVue);
+import { globalStubs } from '@shared/utils/__tests__/stubs';
 
 describe('EpContentView component', () => {
-  const localVue = createLocalVue();
-  localVue.use(VueI18n);
-  Kielet.install(localVue);
-  localVue.use(new Kaannos());
-
   test('Renders', async () => {
     const wrapper = mount(EpContentView, {
-      localVue,
+      global: globalStubs,
       slots: {
         default: 'DEFAULT SLOT',
         'custom-content': 'CUSTOM CONTENT',
         after: 'AFTER CONTENT',
-      },
-      mocks: {
-        $t: x => x,
       },
     });
 
