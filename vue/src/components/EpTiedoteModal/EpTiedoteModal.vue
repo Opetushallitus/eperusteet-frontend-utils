@@ -451,7 +451,7 @@
 <script setup lang="ts">
 import { ref, computed, getCurrentInstance, watch } from 'vue';
 import * as _ from 'lodash';
-import { TiedoteDto, Kayttajat, PerusteHakuDto, PerusteDto, PerusteKevytDto, Koodisto } from '@shared/api/eperusteet';
+import { TiedoteDto, Kayttajat, PerusteHakuDto, PerusteDto, PerusteKevytDto } from '@shared/api/eperusteet';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
@@ -469,7 +469,7 @@ import EpKielivalinta from '@shared/components/EpKielivalinta/EpKielivalinta.vue
 import { themes, ktToState, koulutustyyppiRyhmat, KoulutustyyppiRyhma, koulutustyyppiRyhmaSort, isAmmatillinenKoulutustyyppi } from '@shared/utils/perusteet';
 import EpColorIndicator from '@shared/components/EpColorIndicator/EpColorIndicator.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
-import { KoodistoSelectStore } from '../EpKoodistoSelect/KoodistoSelectStore';
+import { KoodistoSelectStore, getKoodistoSivutettuna } from '../EpKoodistoSelect/KoodistoSelectStore';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
 import { ITiedotteetProvider } from '@shared/stores/types';
 import { requiredOneLang } from '@shared/validators/required';
@@ -545,26 +545,14 @@ const v$ = useVuelidate(rules, { muokattavaTiedote });
 const tutkinnonOsaKoodisto = new KoodistoSelectStore({
   koodisto: 'tutkinnonosat',
   async query(query: string, sivu = 0, koodisto: string) {
-    const { data } = await Koodisto.kaikkiSivutettuna(koodisto, query, {
-      params: {
-        sivu,
-        sivukoko: 10,
-      },
-    });
-    return data as any;
+    return await getKoodistoSivutettuna(koodisto, query, sivu) as any;
   },
 });
 
 const osaamisalaKoodisto = new KoodistoSelectStore({
   koodisto: 'osaamisala',
   async query(query: string, sivu = 0, koodisto: string) {
-    const { data } = await Koodisto.kaikkiSivutettuna(koodisto, query, {
-      params: {
-        sivu,
-        sivukoko: 10,
-      },
-    });
-    return data as any;
+    return await getKoodistoSivutettuna(koodisto, query, sivu) as any;
   },
 });
 
