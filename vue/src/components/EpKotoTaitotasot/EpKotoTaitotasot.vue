@@ -188,8 +188,8 @@
 <script setup lang="ts">
 import { computed, getCurrentInstance } from 'vue';
 import _ from 'lodash';
-import { KoodistoSelectStore } from '../EpKoodistoSelect/KoodistoSelectStore';
-import { Koodisto, TermiDto } from '@shared/api/eperusteet';
+import { KoodistoSelectStore, getKoodistoSivutettuna } from '../EpKoodistoSelect/KoodistoSelectStore';
+import { TermiDto } from '@shared/api/eperusteet';
 import { VueDraggable } from 'vue-draggable-plus';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
@@ -234,13 +234,7 @@ const emit = defineEmits(['update:modelValue']);
 const koodisto = new KoodistoSelectStore({
   koodisto: 'kotoutumiskoulutustavoitteet',
   async query(query: string, sivu = 0, koodisto: string) {
-    const { data } = (await Koodisto.kaikkiSivutettuna(koodisto, query, {
-      params: {
-        sivu,
-        sivukoko: 10,
-      },
-    }));
-    return data as any;
+    return await getKoodistoSivutettuna(koodisto, query, sivu) as any;
   },
 });
 

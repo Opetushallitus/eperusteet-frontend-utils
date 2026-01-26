@@ -272,8 +272,7 @@ import EpInput from '../forms/EpInput.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import Kayttolistaus from './Kayttolistaus.vue';
 import VaatimusField from './VaatimusField.vue';
-import { KoodistoSelectStore } from '@shared/components/EpKoodistoSelect/KoodistoSelectStore';
-import { Koodisto } from '../../api/eperusteet';
+import { KoodistoSelectStore, getKoodistoSivutettuna } from '@shared/components/EpKoodistoSelect/KoodistoSelectStore';
 import { $kaanna, $t, $vahvista } from '@shared/utils/globals';
 import { nextTick } from 'vue';
 
@@ -338,9 +337,7 @@ const kaannokset = computed(() => ({
 const koodisto = new KoodistoSelectStore({
   koodisto: props.tavoitekoodisto,
   async query(query, sivu = 0, koodisto) {
-    return (await Koodisto.kaikkiSivutettuna(koodisto, query, {
-      params: { sivu, sivukoko: 10 },
-    })).data;
+    return await getKoodistoSivutettuna(koodisto, query, sivu);
   },
 });
 
