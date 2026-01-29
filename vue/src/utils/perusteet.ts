@@ -86,6 +86,7 @@ export const themes = {
   'koulutustyyppi_30': 'kotoutumiskoulutus',
   'koulutustyyppi_35': 'vapaasivistystyo',
   'koulutustyyppi_40': 'tutkintoonvalmentava',
+  'koulutustyyppi_500': 'kielikaantajatutkinto',
   'koulutustyyppi_muu': 'muukoulutus',
 };
 
@@ -105,6 +106,7 @@ export enum Toteutus {
   TUTKINTOONVALMENTAVA = 'tutkintoonvalmentava',
   KOTOUTUMISKOULUTUS = 'kotoutumiskoulutus',
   MUU = 'muukoulutus',
+  KIELITUTKINTO = 'kielikaantajatutkinto',
 }
 
 export const EperusteetKoulutustyyppiRyhmat = {
@@ -130,9 +132,13 @@ export const EperusteetKoulutustyyppiRyhmat = {
   [Toteutus.KOTOUTUMISKOULUTUS]: [
     'koulutustyyppi_30',
   ],
+  [Toteutus.KIELITUTKINTO]: [
+    'koulutustyyppi_500',
+  ],
   [Toteutus.MUU]: [
     'koulutustyyppi_muu',
   ],
+
 };
 
 export const EperusteetKoulutustyyppiRyhmaSort = {

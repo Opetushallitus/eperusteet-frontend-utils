@@ -1033,6 +1033,7 @@
     "koulutustyyppi_999907": "Taiteen perusopetus",
     "koulutustyyppi_muu": "JOTPA",
     "koulutustyyppi_x": "Varhaiskasvatus",
+    "koulutustyyppi_500": "Kielitutkinto",
     "koulutusviennin-lataus-ohje": "Tuo koulutusviennin ohje pdf:nä. Anna sen jälkeen ohjeelle diaarinumero. Jos haluat korvata ohjeen uudella, poista ensin vanha.",
     "koulutusviennin-ohje": "Koulutusviennin ohje",
     "koulutusviennit": "Koulutusviennit",
@@ -4605,5 +4606,11 @@
     "tapahtuma-luonti-kaantajaaihealue": "Lisäsi aihealueen",
     "tapahtuma-luonti-kaantajatodistusmalli": "Lisäsi todistusmallin",
     "nayta-vanhentuneet-suunnitelmat": "Näytä vanhentuneet suunnitelmat",
-    "koodi-on-jo-kaytossa-opetussuunnitelmassa": "Koodi on jo käytössä opetussuunnitelmassa"
+    "koodi-on-jo-kaytossa-opetussuunnitelmassa": "Koodi on jo käytössä opetussuunnitelmassa",
+    "maarayskokoelma-tyyppi-peruste": "Koulutus, tutkinto tai kielitutkinto",
+    "maarayskokoelma-tyyppi-opetushallituksenmuu": "Rekisterit ja tietovaranto",
+    "maarayskokoelma-tyyppi-ammatillinenmuu": "Ammatillinen muu määräys",
+    "aihe": "Aihe",
+    "maaraysta": "Määräystä",
+    "avaa-maarays": "Avaa määräys"
 }
