@@ -12,7 +12,7 @@
       <!-- Käytetään button rolea saavutettavuuden takaamiseksi.-->
       <div
         v-if="hasHeaderSlot"
-        class="collapse-button d-flex align-items-center my-2 mr-1"
+        class="collapse-button d-flex align-items-center py-2 pr-1"
         role="button"
         tabindex="0"
         :aria-expanded="toggled"
@@ -142,6 +142,7 @@ const props = defineProps({
 
 const slots = useSlots();
 const toggled = ref(false);
+const emit = defineEmits(['toggle']);
 
 const hasHeaderSlot = computed(() => {
   return hasSlotContent(slots.header);
@@ -231,6 +232,8 @@ const toggle = (toggle: boolean | null = null) => {
       });
     }
   }
+
+  emit('toggle', toggled.value);
 };
 
 onMounted(() => {

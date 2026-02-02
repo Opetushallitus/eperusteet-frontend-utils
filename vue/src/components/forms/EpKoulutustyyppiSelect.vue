@@ -94,15 +94,6 @@
         <span v-if="values.length > 1">
           {{ $t('valittu-x-koulutustyyppia', { kpl: values.length }) }}
         </span>
-
-        <span
-          v-if="values.length > 0"
-          class="ml-auto clickable border-right pr-2 remove-all"
-          @click.prevent
-          @mousedown.prevent.stop="removeAll()"
-        >
-          <ep-material-icon>close</ep-material-icon>
-        </span>
       </div>
     </template>
   </EpMultiSelect>

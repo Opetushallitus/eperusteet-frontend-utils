@@ -139,8 +139,12 @@ async function saveImpl() {
     return;
   }
   saving.value = true;
-  await props.onSave();
-  saving.value = false;
+  try {
+    await props.onSave();
+  }
+  finally {
+    saving.value = false;
+  }
 }
 
 function previous() {

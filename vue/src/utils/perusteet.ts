@@ -86,6 +86,7 @@ export const themes = {
   'koulutustyyppi_30': 'kotoutumiskoulutus',
   'koulutustyyppi_35': 'vapaasivistystyo',
   'koulutustyyppi_40': 'tutkintoonvalmentava',
+  'koulutustyyppi_500': 'kielikaantajatutkinto',
   'koulutustyyppi_muu': 'muukoulutus',
 };
 
@@ -105,6 +106,7 @@ export enum Toteutus {
   TUTKINTOONVALMENTAVA = 'tutkintoonvalmentava',
   KOTOUTUMISKOULUTUS = 'kotoutumiskoulutus',
   MUU = 'muukoulutus',
+  KIELIKAANTAJATUTKINTO = 'kielikaantajatutkinto',
 }
 
 export const EperusteetKoulutustyyppiRyhmat = {
@@ -130,9 +132,13 @@ export const EperusteetKoulutustyyppiRyhmat = {
   [Toteutus.KOTOUTUMISKOULUTUS]: [
     'koulutustyyppi_30',
   ],
+  [Toteutus.KIELIKAANTAJATUTKINTO]: [
+    'koulutustyyppi_500',
+  ],
   [Toteutus.MUU]: [
     'koulutustyyppi_muu',
   ],
+
 };
 
 export const EperusteetKoulutustyyppiRyhmaSort = {
@@ -190,6 +196,7 @@ export const koulutustyyppiRyhmaSort = {
   'tutkintoonvalmentava': 8,
   'kotoutumiskoulutus': 9,
   'muukoulutus': 10,
+  'kielikaantajatutkinto': 11,
 };
 
 export const koulutustyyppiSort = {
@@ -213,6 +220,7 @@ export const koulutustyyppiSort = {
   'koulutustyyppi_35': 71,
   'koulutustyyppi_40': 80,
   'koulutustyyppi_muu': 100,
+  'koulutustyyppi_500': 110,
 };
 
 export const themeColors = {
@@ -257,7 +265,7 @@ export const ktToState = {
   'koulutustyyppi_35': 'vapaasivistystyolukutaito',
   'koulutustyyppi_40': 'tutkintoonvalmentava',
   'koulutustyyppi_muu': 'muukoulutus',
-  'kielikaantajatutkinto': 'kielikaantajatutkinto',
+  'koulutustyyppi_500': 'kielikaantajatutkinto',
 };
 
 const ktToUrlShortParam = {
@@ -287,7 +295,7 @@ export const koulutustyypitPdfTukiOpintopolku = [
   'koulutustyyppi_20', 'koulutustyyppi_22', 'koulutustyyppi_999907', 'koulutustyyppi_10', 'koulutustyyppi_40',
   'koulutustyyppi_35', 'koulutustyyppi_30',
   'koulutustyyppi_17', 'koulutustyyppi_2', 'koulutustyyppi_16',
-  // 'koulutustyyppi_14', 'koulutustyyppi_23',
+  'koulutustyyppi_500',
 ];
 
 export const koulutustyypitPdfTuki = [
