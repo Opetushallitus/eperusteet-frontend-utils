@@ -84,7 +84,7 @@ const queryData = computed({
     margin-bottom: 5px;
 
     @media(max-width: 992px) {
-      padding: 15px 20px;
+      padding: 15px 0px;
     }
   }
 }

@@ -243,7 +243,9 @@ const model = computed({
       else {
         emit('update:modelValue', _.map(value, 'koulutustyyppi'));
       }
-    }
+    };
+
+    koulutustyyppi_multiselect.value?.sulje();
   },
 });
 
