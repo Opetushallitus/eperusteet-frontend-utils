@@ -42,8 +42,7 @@
             >{{ $sd(tieto.muokattu) }}</span>
             <span
               v-if="tieto.koulutustyyppi"
-              class="mr-2"
-            >{{ tieto.koulutustyyppi }}</span>
+            >{{ $t(tieto.koulutustyyppi) }} | </span>
             <span v-if="tieto.perusteNimi">{{ $kaanna(tieto.perusteNimi) }}</span>
           </slot>
         </div>
