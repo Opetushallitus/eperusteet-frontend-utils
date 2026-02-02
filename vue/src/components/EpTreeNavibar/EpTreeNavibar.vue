@@ -54,6 +54,12 @@
               >
                 {{ $kaannaOlioTaiTeksti(item.label) }}
               </slot>
+              <EpMaterialIcon
+                size="16px"
+                v-if="item.meta && item.meta.liite"
+              >
+                attach_file
+              </EpMaterialIcon>
             </div>
           </div>
           <div
