@@ -366,6 +366,10 @@ function addTag(tag) {
 const labelSlot = computed(() => {
   return hasSlotContent(slots.label);
 });
+
+defineExpose({
+  sulje,
+});
 </script>
 
 <style scoped lang="scss">
