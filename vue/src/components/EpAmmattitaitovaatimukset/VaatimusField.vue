@@ -14,7 +14,7 @@
               :validation="props.validation"
             >
               <b-input-group>
-                <div class="handle text-muted">
+                <div class="handle order-handle text-muted">
                   <EpMaterialIcon>drag_indicator</EpMaterialIcon>
                 </div>
                 <b-form-input
