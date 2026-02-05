@@ -40,7 +40,7 @@
             </EpMaterialIcon>
           </div>
         </slot>
-        <div class="align-self-start header">
+        <div class="align-self-start header w-100">
           <div :class="{'header-toggled': toggled}">
             <slot
               name="header"
