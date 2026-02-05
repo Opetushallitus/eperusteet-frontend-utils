@@ -107,6 +107,11 @@ $input-border: $blue;
 .b-popover {
   max-width: 386px;
 
+  &:has(.wide) {
+    max-width: 600px;
+    width: 600px;
+  }
+
   .popover-header {
     background-color: $white;
     font-size: 1rem;

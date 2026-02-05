@@ -12,6 +12,7 @@
         @focus="onInputFocus"
         @blur="onInputBlur"
         @input="onInput($event.target.value)"
+        ref="inputRef"
       >
       <div
         v-if="hasLeftSlot"
@@ -170,6 +171,11 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+
+  onFocusSelectAll: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 // Define emits
@@ -181,7 +187,7 @@ const v$ = useVuelidate();
 // State
 const focus = ref(false);
 const slots = useSlots();
-
+const inputRef = ref<HTMLInputElement | null>(null);
 // Computed properties
 const hasLeftSlot = computed(() => {
   return hasSlotContent(slots.left);
@@ -301,12 +307,25 @@ const onInput = (input: any) => {
 const onInputFocus = () => {
   focus.value = true;
   emit('focus');
+  if (props.onFocusSelectAll) {
+    select();
+  }
+};
+
+const select = () => {
+  if (inputRef.value instanceof HTMLInputElement) {
+    inputRef.value.select();
+  }
 };
 
 const onInputBlur = () => {
   focus.value = false;
   emit('blur');
 };
+
+defineExpose({
+  select,
+});
 </script>
 
 <style scoped lang="scss">
