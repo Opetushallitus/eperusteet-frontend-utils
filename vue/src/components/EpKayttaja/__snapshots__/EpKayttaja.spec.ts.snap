@@ -11,7 +11,7 @@ exports[`EpKayttaja component > Renders 1`] = `
         <!-- Käytetään button rolea saavutettavuuden takaamiseksi.-->
         <div data-v-24bfaad2="" class="collapse-button d-flex align-items-center py-2 pr-1" role="button" tabindex="0" aria-expanded="false">
           <!--v-if-->
-          <div data-v-24bfaad2="" class="align-self-start header">
+          <div data-v-24bfaad2="" class="align-self-start header w-100">
             <div data-v-24bfaad2="" class="">
               <div data-v-9ad4d674="" class="pl-3 pt-2 text-nowrap kieli"><span data-v-07230345="" data-v-9ad4d674="" class="material-icons icon icon mr-3"> language </span><span data-v-9ad4d674="">kieli</span></div>
               <div data-v-9ad4d674="" class="pl-3 uikieli"><span data-v-9ad4d674="" class="icon mr-3"></span><small data-v-9ad4d674="">sv</small></div>
@@ -32,7 +32,7 @@ exports[`EpKayttaja component > Renders 1`] = `
         <!-- Käytetään button rolea saavutettavuuden takaamiseksi.-->
         <div data-v-24bfaad2="" class="collapse-button d-flex align-items-center py-2 pr-1" role="button" tabindex="0" aria-expanded="true">
           <!--v-if-->
-          <div data-v-24bfaad2="" class="align-self-start header">
+          <div data-v-24bfaad2="" class="align-self-start header w-100">
             <div data-v-24bfaad2="" class="header-toggled">
               <div data-v-9ad4d674="" class="pl-3 pt-2 text-nowrap kieli"><span data-v-07230345="" data-v-9ad4d674="" class="material-icons icon icon mr-3"> launch </span><span data-v-9ad4d674="">vaihda-sovellusta</span></div>
               <div data-v-9ad4d674="" class="pl-3 valittu-sovellus pb-2"><span data-v-9ad4d674="" class="icon mr-3"></span><small data-v-9ad4d674="">APP_EPERUSTEET</small></div>
