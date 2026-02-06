@@ -11,6 +11,7 @@ export interface MaaraysQueryDto {
   kieli: string;
   tyyppi?: MaaraysDtoTyyppiEnum;
   koulutustyypit?: Koulutustyyppi[];
+  maaraysId?: number;
   tuleva?: boolean,
   voimassaolo?: boolean,
   poistunut?: boolean,
@@ -38,6 +39,7 @@ export class MaarayksetStore {
       query.kieli,
       query.tyyppi,
       query.koulutustyypit,
+      query.maaraysId,
       query.tuleva,
       query.voimassaolo,
       query.poistunut,
