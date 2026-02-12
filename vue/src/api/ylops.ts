@@ -24,6 +24,7 @@ import { Configuration,
   VuosiluokkakokonaisuudetApi,
   LukioOpetussuunnitelmatApi,
   JulkaisutApi,
+  ArkistoidutPerusteetApi,
 } from '../generated/ylops';
 import axios, { AxiosInstance } from 'axios';
 import _ from 'lodash';
@@ -92,6 +93,7 @@ export const OppiaineenVuosiluokkakokonaisuudet = initApi(OppiaineenVuosiluokkak
 export const OppiaineenVuosiluokat = initApi(OppiaineenVuosiluokatApi);
 export const LukioOpetussuunnitelmat = initApi(LukioOpetussuunnitelmatApi);
 export const Julkaisut = initApi(JulkaisutApi);
+export const ArkistoidutPerusteet = initApi(ArkistoidutPerusteetApi);
 export const DokumenttiDtoTilaEnum = YlopsApi.DokumenttiDtoTilaEnum;
 export type DokumenttiDto = YlopsApi.DokumenttiDto;
 export type EtusivuDto = YlopsApi.EtusivuDto;
