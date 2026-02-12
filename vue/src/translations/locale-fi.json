@@ -4617,5 +4617,7 @@
     "tyhjenna-hakuehdot": "Tyhjennä hakuehdot",
     "jaa-maarays": "Jaa määräys",
     "kopioi-linkki": "Kopioi linkki",
-    "linkki-kopioitu": "Linkki kopioitu"
+    "linkki-kopioitu": "Linkki kopioitu",
+    "opetussuunnitelman-peruste-arkistoitu": "Opetussuunnitelman peruste on arkistoitu",
+    "opetussuunnitelman-peruste-arkistoitu-huomioteksti": "Opetussuunnitelmaa ei tule enää päivittää eikä julkaista."
 }
