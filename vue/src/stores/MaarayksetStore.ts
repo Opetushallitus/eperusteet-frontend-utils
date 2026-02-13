@@ -8,7 +8,7 @@ const DEBOUNCE_WAIT_TIME = 300; // Same as DEFAULT_PUBLIC_WAIT_TIME_MS
 
 export interface MaaraysQueryDto {
   nimi?: string;
-  kieli: string;
+  kieli?: string;
   tyyppi?: MaaraysDtoTyyppiEnum;
   koulutustyypit?: Koulutustyyppi[];
   maaraysId?: number;
@@ -20,7 +20,7 @@ export interface MaaraysQueryDto {
   sivu?: number;
   sivukoko?: number;
   jarjestysTapa?: string;
-  jarjestys: string;
+  jarjestys?: string;
 }
 
 export class MaarayksetStore {
@@ -34,6 +34,13 @@ export class MaarayksetStore {
 
   public fetch = _.debounce(async (query: MaaraysQueryDto) => {
     this.state.value.maaraykset = null;
+
+    if (query.maaraysId) {
+      query = {
+        maaraysId: query.maaraysId,
+      }
+    }
+
     this.state.value.maaraykset = (await Maaraykset.getMaaraykset(
       query.nimi,
       query.kieli,
