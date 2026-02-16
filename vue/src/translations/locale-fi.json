@@ -4619,5 +4619,9 @@
     "kopioi-linkki": "Kopioi linkki",
     "linkki-kopioitu": "Linkki kopioitu",
     "opetussuunnitelman-peruste-arkistoitu": "Opetussuunnitelman peruste on arkistoitu",
-    "opetussuunnitelman-peruste-arkistoitu-huomioteksti": "Opetussuunnitelmaa ei tule enää päivittää eikä julkaista."
+    "opetussuunnitelman-peruste-arkistoitu-huomioteksti": "Opetussuunnitelmaa ei tule enää päivittää eikä julkaista.",
+    "eperusteet-opintopolku-etusivu-otsikko": "Opetushallituksen ePerusteet-palvelu",
+    "kaikki-ajankohtaiset": "Kaikki ajankohtaiset",
+    "hae-ajankohtaista": "Hae ajankohtaista",
+    "koulutuksen-jarjestajien-totsut-perustesivulta": "Koulutuksen järjestäjien julkaisemat paikalliset toteutussuunnitelmat löydät tutkintojen perustesivulta."
 }

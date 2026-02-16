@@ -132,11 +132,11 @@ export const EperusteetKoulutustyyppiRyhmat = {
   [Toteutus.KOTOUTUMISKOULUTUS]: [
     'koulutustyyppi_30',
   ],
-  [Toteutus.KIELIKAANTAJATUTKINTO]: [
-    'koulutustyyppi_500',
-  ],
   [Toteutus.MUU]: [
     'koulutustyyppi_muu',
+  ],
+  [Toteutus.KIELIKAANTAJATUTKINTO]: [
+    'koulutustyyppi_500',
   ],
 
 };

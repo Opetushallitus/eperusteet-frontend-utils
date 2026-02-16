@@ -209,3 +209,16 @@ img.content-image {
 .taulukko-rivi-varitys:nth-of-type(odd) {
   background-color: $table-odd-row-bg-color;
 }
+
+.secondary-button {
+  color: $link-color;
+  font-weight: 600;
+  border: 2px solid $link-color;
+  padding: 5px 15px;
+  cursor: pointer;
+
+  &:hover {
+    color: $link-hover-color;
+    border-color: $link-hover-color;
+  }
+}

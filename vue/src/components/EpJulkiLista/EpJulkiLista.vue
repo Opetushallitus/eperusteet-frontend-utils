@@ -9,7 +9,7 @@
       <div
         v-for="(tieto, index) in tiedotFiltered"
         :key="index"
-        class="tieto p-2 pl-3"
+        class="tieto pb-3"
         :class="{clickable: hasClickEvent}"
       >
         <div
@@ -49,24 +49,25 @@
       </div>
 
       <div v-if="listausTyyppi === 'lisahaku'">
-        <ep-button
-          v-if="naytettavaTietoMaara < tiedotSize"
-          variant="link"
-          class="mt-2"
-          @click="naytaLisaa"
-        >
-          <slot name="lisaaBtnText">
-            {{ $t('katso-lisaa-tiedotteita') }}
-          </slot>
-        </ep-button>
-        <span
-          v-if="tiedotSize === 0"
-          class="mt-2"
-        >
-          <slot name="eiTietoja">
-            {{ $t('ei-tuloksia') }}
-          </slot>
-        </span>
+        <slot name="lisaaBtn">
+          <div
+            v-if="naytettavaTietoMaara < tiedotSize"
+            class="secondary-button mt-2 d-inline-block"
+            @click="naytaLisaa"
+          >
+            <slot name="lisaaBtnText">
+              {{ $t('katso-lisaa-tiedotteita') }}
+            </slot>
+          </div>
+          <span
+            v-if="tiedotSize === 0"
+            class="mt-2"
+          >
+            <slot name="eiTietoja">
+              {{ $t('ei-tuloksia') }}
+            </slot>
+          </span>
+        </slot>
       </div>
       <div v-else-if="listausTyyppi === 'none'" />
       <div v-else>
@@ -170,15 +171,8 @@ onMounted(() => {
 <style scoped lang="scss">
 @import "@shared/styles/_variables.scss";
   .content {
-    .tieto:nth-of-type(even) {
-      background-color: $table-even-row-bg-color;
-    }
-    .tieto:nth-of-type(odd) {
-      background-color: $table-odd-row-bg-color;
-    }
     .tieto {
       &.clickable:hover{
-        background-color: $table-hover-row-bg-color;
         cursor: pointer;
       }
       .otsikko {

@@ -38,7 +38,7 @@ export class MaarayksetStore {
     if (query.maaraysId) {
       query = {
         maaraysId: query.maaraysId,
-      }
+      };
     }
 
     this.state.value.maaraykset = (await Maaraykset.getMaaraykset(
