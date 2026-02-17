@@ -92,7 +92,7 @@ describe('EpJulkiLista component', () => {
     expect(wrapper.html()).not.toContain('otsikko4');
     expect(wrapper.html()).toContain('katso-lisaa-tiedotteita');
 
-    wrapper.find('.b-button').trigger('click');
+    wrapper.find('.secondary-button').trigger('click');
 
     await nextTick();
 
