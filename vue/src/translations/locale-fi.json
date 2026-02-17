@@ -4623,5 +4623,6 @@
     "eperusteet-opintopolku-etusivu-otsikko": "Opetushallituksen ePerusteet-palvelu",
     "kaikki-ajankohtaiset": "Kaikki ajankohtaiset",
     "hae-ajankohtaista": "Hae ajankohtaista",
-    "koulutuksen-jarjestajien-totsut-perustesivulta": "Koulutuksen järjestäjien julkaisemat paikalliset toteutussuunnitelmat löydät tutkintojen perustesivulta."
+    "koulutuksen-jarjestajien-totsut-perustesivulta": "Koulutuksen järjestäjien julkaisemat paikalliset toteutussuunnitelmat löydät tutkintojen perustesivulta.",
+    "valittu-x-koulutusta": "Valittu {kpl} koulutusta"
 }
