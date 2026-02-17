@@ -50,15 +50,15 @@
 
       <div v-if="listausTyyppi === 'lisahaku'">
         <slot name="lisaaBtn">
-          <div
+          <EpSecondaryButton
             v-if="naytettavaTietoMaara < tiedotSize"
-            class="secondary-button mt-2 d-inline-block"
+            class="mt-2"
             @click="naytaLisaa"
           >
             <slot name="lisaaBtnText">
               {{ $t('katso-lisaa-tiedotteita') }}
             </slot>
-          </div>
+          </EpSecondaryButton>
           <span
             v-if="tiedotSize === 0"
             class="mt-2"
@@ -87,7 +87,7 @@
 import { ref, computed, onMounted, getCurrentInstance, nextTick } from 'vue';
 import _ from 'lodash';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
-import EpButton from '../EpButton/EpButton.vue';
+import EpSecondaryButton from '../EpSecondaryButton/EpSecondaryButton.vue';
 import { onkoUusi } from '@shared/utils/tiedote';
 import { $kaanna } from '@shared/utils/globals';
 import EpPagination from '@shared/components/EpPagination/EpPagination.vue';
