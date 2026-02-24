@@ -13,7 +13,9 @@
         class="required-indicator"
       >*</span>
     </label>
-    <slot />
+    <div class="w-full">
+      <slot />
+    </div>
   </div>
 </template>
 

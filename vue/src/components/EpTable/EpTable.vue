@@ -6,22 +6,28 @@
   >
     <DataTable
       :value="items"
+      :data-key="dataKey"
       :striped-rows="striped"
       :hover-rows="hover"
       :responsive-layout="responsive ? 'scroll' : 'default'"
       :table-style="fixed ? 'table-layout: fixed' : undefined"
-      :selection="internalSelection"
+      :selection="selectionValue"
       :selection-mode="selectionMode"
       :paginator="usePagination"
       :rows="perPage"
       :first="firstRow"
       :show-headers="showHeaders"
+      :lazy="noLocalSorting"
+      :sort-field="sortBy"
+      :sort-order="sortOrderValue"
+      :row-class="rowClassValue"
       @update:selection="onSelectionChange"
       @row-click="onRowClick"
       @page="onPageChange"
+      @sort="onSort"
     >
       <Column
-        v-if="selectable"
+        v-if="selectionMode === 'multiple'"
         selection-mode="multiple"
         :style="{ width: '3rem' }"
       />
@@ -36,18 +42,31 @@
         :class="field.class"
         :sort-field="field.sortByFormatted ? (item: any) => formatCellValue(item, field) : undefined"
       >
+        <template
+          v-if="$slots[`head(${field.key})`]"
+          #header
+        >
+          <slot :name="`head(${field.key})`" />
+        </template>
         <template #body="slotProps">
           <slot
             v-if="slotProps.data"
             :name="`cell(${field.key})`"
             :item="slotProps.data"
             :value="getCellValue(slotProps.data, field)"
-            :data="{ item: slotProps.data, value: getCellValue(slotProps.data, field) }"
+            :index="slotProps.index"
+            :data="{ item: slotProps.data, value: getCellValue(slotProps.data, field), index: slotProps.index }"
           >
             {{ formatCellValue(slotProps.data, field) }}
           </slot>
         </template>
       </Column>
+      <template
+        v-if="$slots.empty"
+        #empty
+      >
+        <slot name="empty" />
+      </template>
     </DataTable>
   </div>
 </template>
@@ -71,8 +90,8 @@ export interface TableField {
 
 const props = defineProps({
   items: {
-    type: Array,
-    required: true,
+    type: [Array, null],
+    required: false,
   },
   fields: {
     type: Array as () => TableField[],
@@ -98,13 +117,9 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  selectable: {
-    type: Boolean,
-    default: false,
-  },
   selectMode: {
-    type: String as () => 'single' | 'multiple',
-    default: 'multiple',
+    type: String as () => 'none' | 'single' | 'multiple',
+    default: 'none',
   },
   selectedVariant: {
     type: String,
@@ -126,11 +141,39 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  sortBy: {
+    type: String,
+    default: undefined,
+  },
+  sortDesc: {
+    type: Boolean,
+    default: false,
+  },
+  noLocalSorting: {
+    type: Boolean,
+    default: false,
+  },
+  rowClass: {
+    type: Function,
+    default: undefined,
+  },
+  selection: {
+    type: [Array, Object],
+    default: undefined,
+  },
+  dataKey: {
+    type: String,
+    default: undefined,
+  },
 });
 
-const emit = defineEmits(['row-selected', 'update:currentPage']);
+const emit = defineEmits(['row-selected', 'row-clicked', 'update:currentPage', 'sort-changed']);
 
 const internalSelection = ref<any>(null);
+
+const selectionValue = computed(() => {
+  return props.selection !== undefined ? props.selection : internalSelection.value;
+});
 
 const usePagination = computed(() => {
   return props.perPage !== undefined && props.perPage > 0;
@@ -141,21 +184,37 @@ const firstRow = computed(() => {
   return (props.currentPage - 1) * props.perPage;
 });
 
-const selectionMode = computed<'single' | 'multiple' | undefined>(() => {
-  if (!props.selectable) return undefined;
+const sortOrderValue = computed(() => {
+  if (!props.sortBy) return undefined;
+  return props.sortDesc ? -1 : 1;
+});
+
+const rowClassValue = computed(() => {
+  if (!props.rowClass) return undefined;
+  return props.rowClass as (data: any) => string | object | undefined;
+});
+
+const selectionMode = computed<'single' | 'multiple' | null>(() => {
+  if (props.selectMode === 'none') return null;
   return props.selectMode === 'single' ? 'single' : 'multiple';
 });
 
 const onSelectionChange = (selection: any) => {
-  internalSelection.value = selection;
+  if (props.selectMode === 'none' || props.selectMode === 'single') return;
+  if (props.selection === undefined) {
+    internalSelection.value = selection;
+  }
   const selectedRows = Array.isArray(selection) ? selection : (selection ? [selection] : []);
   emit('row-selected', selectedRows);
 };
 
 const onRowClick = (event: any) => {
-  if (props.selectable && props.selectMode === 'single') {
+  if (props.selectMode === 'single') {
     internalSelection.value = event.data;
     emit('row-selected', [event.data]);
+  }
+  else {
+    emit('row-clicked', event.data);
   }
 };
 
@@ -163,6 +222,16 @@ const onPageChange = (event: any) => {
   if (!props.perPage) return;
   const newPage = Math.floor(event.first / props.perPage) + 1;
   emit('update:currentPage', newPage);
+};
+
+const onSort = (event: any) => {
+  const field = typeof event?.sortField === 'string' ? event.sortField : undefined;
+  if (field != null && event?.sortOrder != null) {
+    emit('sort-changed', {
+      sortBy: field,
+      sortDesc: event.sortOrder === -1,
+    });
+  }
 };
 
 const normalizedFields = computed(() => {

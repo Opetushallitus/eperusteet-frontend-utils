@@ -17,7 +17,7 @@
       @input="onInput"
     >
       <slot>
-        <div class="justify-content-around items-center h-full m-3">
+        <div class="justify-around items-center h-full m-3">
           <div v-if="kuvaUrl">
             <img :src="kuvaUrl">
             <div class="vali-viiva justify-center">
@@ -35,7 +35,7 @@
           </div>
 
           <div v-else-if="file">
-            <div class="h-full justify-content-around items-center">
+            <div class="h-full justify-around items-center">
               <figure>
                 <img
                   v-if="previewUrl"

@@ -5,11 +5,11 @@
       :triggers="['hover', 'focus']"
       @show="tilaPopupVisible = true"
       @hide="tilaPopupVisible = false"
+      class="w-70"
     >
       <template #trigger>
         <div
-          id="tila-popover"
-          class="flex flex-col justify-center"
+          class="text-center"
         >
           <div class="progress-area">
             <ep-progress
@@ -18,13 +18,13 @@
               :width="width"
             />
           </div>
-          <div class="header">
+          <div class="header text-center">
             <slot name="header" />
           </div>
         </div>
       </template>
 
-      <div class="slot-area flex justify-center mr-1">
+      <div class="slot-area text-center mr-1">
         <slot />
       </div>
 
@@ -32,17 +32,15 @@
         <hr>
       </div>
 
-      <div class="popup-bottom row flex-col items-center mx-3 my-2">
+      <div class="popup-bottom block text-center">
         <slot name="bottom" />
       </div>
     </EpPopover>
 
     <div
       v-else
-      id="tila-popover"
-      class="flex flex-col justify-center"
     >
-      <div class="progress-area">
+      <div class="progress-area text-center">
         <ep-progress
           :slices="processSlices"
           :height="height"
@@ -111,12 +109,8 @@ defineExpose({
 @import '@shared/styles/_variables.scss';
 @import '@shared/styles/_mixins.scss';
 
-.progress-area {
-  width: 100px;
-}
-
 .progress-popover {
-  width: 250px;
+  width: 150px;
   @include tile-background-shadow-selected;
   border: 0px;
   border-radius: 1rem;

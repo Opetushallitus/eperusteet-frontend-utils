@@ -4,54 +4,26 @@
     class="topbar"
     sticky-z-index="600"
   >
-    <b-sidebar id="sisaltobar">
+    <!-- <EpSidebar id="sisaltobar">
       <div
         id="globalNavigation"
         ref="innerPortal"
       />
-    </b-sidebar>
+    </EpSidebar> -->
 
-    <b-navbar
+    <nav
       id="navigation-bar"
-      class="ep-navbar"
-      type="dark"
-      toggleable="lg"
+      class="ep-navbar flex items-center"
     >
-      <b-navbar-nav
+      <div
         v-if="showNavigation"
         class="ml-2"
       >
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-              <router-link
-                id="nav-admin"
-                :to="rootNavigation"
-              >
-                <EpMaterialIcon size="20px">
-                  home
-                </EpMaterialIcon>
-              </router-link>
-            </li>
-            <li
-              v-for="(route, idx) in routePath"
-              :key="idx"
-              class="breadcrumb-item"
-            >
-              <router-link
-                v-if="route.muru && route.muru.location"
-                :to="route.muru.location"
-              >
-                {{ route.muru.name }}
-              </router-link>
-              <span v-else-if="route.muru">
-                {{ route.muru.name }}
-              </span>
-              <span v-else>{{ $t('route-' + route.name) }}</span>
-            </li>
-          </ol>
-        </nav>
-      </b-navbar-nav>
+        <EpBreadcrumb
+          :home="breadcrumbHome"
+          :model="breadcrumbModel"
+        />
+      </div>
       <ep-button
         v-else
         v-b-toggle.sisaltobar
@@ -61,10 +33,9 @@
         <EpMaterialIcon>menu</EpMaterialIcon>
       </ep-button>
 
-      <b-navbar-nav class="ml-auto">
-        <!-- Sisällön kieli-->
-        <b-nav-item-dropdown
-          id="content-lang-selector"
+      <div class="ml-auto flex items-center mr-2">
+        <EpDropdown
+          class="mr-3"
           right
           no-caret
         >
@@ -78,11 +49,11 @@
             </div>
           </template>
           <div class="kielet">
-            <b-dd-item
+            <EpDropdownItem
               v-for="kieli in sovelluksenKielet"
               :key="kieli"
               :disabled="kieli === sisaltoKieli"
-              @click="valitseSisaltoKieli(kieli)"
+              @click="valitseSisaltoKieli(kieli as Kieli)"
             >
               <EpMaterialIcon
                 v-if="kieli === sisaltoKieli"
@@ -91,9 +62,9 @@
                 check
               </EpMaterialIcon>
               {{ $t(kieli) }}
-            </b-dd-item>
+            </EpDropdownItem>
           </div>
-        </b-nav-item-dropdown>
+        </EpDropdown>
 
         <ep-kayttaja
           :tiedot="kayttaja"
@@ -102,8 +73,8 @@
           :sovellus-oikeudet="sovellusOikeudet"
           :logout-href="logoutHref"
         />
-      </b-navbar-nav>
-    </b-navbar>
+      </div>
+    </nav>
   </div>
 </template>
 
@@ -115,16 +86,16 @@ import { Kieli } from '../../tyypit';
 import { Kielet, UiKielet } from '../../stores/kieli';
 import { Murupolku } from '../../stores/murupolku';
 import EpButton from '../../components/EpButton/EpButton.vue';
-import { Location } from 'vue-router';
+import EpBreadcrumb from '../../components/EpBreadcrumb/EpBreadcrumb.vue';
+import type { RouteLocationRaw } from 'vue-router';
 import EpKayttaja from '../../components/EpKayttaja/EpKayttaja.vue';
+import { $t } from '@shared/utils/globals';
+import EpSidebar from '../../components/EpSidebar/EpSidebar.vue';
+import { EpDropdown, EpDropdownItem } from '../../components/EpDropdown';
 import { BrowserStore } from '../../stores/BrowserStore';
 import { SovellusOikeus } from '@shared/plugins/oikeustarkastelu';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
-interface Breadcrumb {
-  label: string;
-  route: Location;
-}
 
 const props = defineProps({
   kayttaja: {
@@ -180,19 +151,15 @@ const sovelluksenKielet = computed(() => {
   return UiKielet;
 });
 
-const matched = computed(() => {
-  return route?.matched;
-});
-
 const routePath = computed(() => {
   return _(route?.matched)
     .filter('name')
     .map(routeItem => {
-      const computeds = _.get(routeItem, 'instances.default');
+      const routeName = routeItem!.name!;
+      const muruKey = typeof routeName === 'string' ? routeName : '';
       const result = {
         ...routeItem,
-        muru: murut.value[routeItem!.name!],
-        // breadname: computeds && computeds.breadcrumb,
+        muru: murut.value[muruKey],
       };
       return result;
     })
@@ -200,20 +167,38 @@ const routePath = computed(() => {
     .value();
 });
 
+const breadcrumbHome = computed(() => ({
+  label: '',
+  icon: 'home',
+  route: props.rootNavigation,
+}));
+
+const breadcrumbModel = computed(() =>
+  routePath.value.map(routeItem => {
+    const nameKey = typeof routeItem.name === 'symbol' ? '' : String(routeItem.name);
+    const label = routeItem.muru?.name ?? $t('route-' + nameKey);
+    const item: { label: string; route?: RouteLocationRaw } = { label };
+    if (routeItem.muru?.location) {
+      item.route = routeItem.muru.location;
+    }
+    return item;
+  }),
+);
+
 const valitseSisaltoKieli = (kieli: Kieli) => {
   Kielet.setSisaltoKieli(kieli);
 };
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/_variables.scss';
+@import '@shared/styles/_variables.scss';
 
 .topbar {
   background-image: inherit;
   background-size: cover;
   height: 56px;
 
-  .navbar {
+  .ep-navbar {
     top: 0;
     font-weight: 600;
 
@@ -221,21 +206,6 @@ const valitseSisaltoKieli = (kieli: Kieli) => {
       color: white;
     }
 
-    .breadcrumb {
-      margin-bottom: 0;
-      background: rgba(0, 0, 0, 0);
-      padding: 0;
-
-      .breadcrumb-item {
-        color: white;
-        &::before {
-          color: white;
-        }
-        a {
-          color: white;
-        }
-      }
-    }
   }
 
   .kieli-valikko {
@@ -251,7 +221,6 @@ const valitseSisaltoKieli = (kieli: Kieli) => {
   }
 
   .ep-navbar {
-
     .kysymysmerkki {
       color: white;
       cursor: pointer;
@@ -265,22 +234,6 @@ const valitseSisaltoKieli = (kieli: Kieli) => {
         vertical-align: -0.25em;
       }
     }
-
-    :deep(.dropdown-menu) {
-      padding: 0;
-      color: #000000;
-      min-width: initial;
-    }
-
-    :deep(.dropdown-item) {
-      // padding: 0.5rem 1rem;
-      color: #000000;
-    }
-
-    :deep(.dropdown-item:hover) {
-      background-color: inherit;
-    }
-
   }
 }
 

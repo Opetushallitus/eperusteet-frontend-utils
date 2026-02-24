@@ -1,35 +1,20 @@
 <template>
   <div>
-    <div v-b-modal="modalId">
+    <div @click="modalRef?.show()">
       <slot name="lisays-btn">
         <ep-button
           id="tekstikappalelisaysBtn"
           variant="link"
-          button-class="text-decoration-none"
+          icon="add"
         >
-          <slot name="lisays-btn-icon">
-            <EpMaterialIcon
-              :color="'inherit'"
-              :background="'inherit'"
-              size="18px"
-            >
-              add
-            </EpMaterialIcon>
-          </slot>
-          <span>
-            <slot name="lisays-btn-text">
-              {{ $t('uusi-tekstikappale') }}
-            </slot>
-          </span>
+        {{ $t('uusi-tekstikappale') }}
         </ep-button>
       </slot>
     </div>
-    <b-modal
-      :id="modalId"
-      ref="tekstikappalelisaysModal"
+    <EpModal
+      ref="modalRef"
       size="lg"
-      centered
-      @hidden="clear"
+      @cancel="clear"
     >
       <template #modal-title>
         <slot name="modal-title">
@@ -156,24 +141,23 @@
           </slot>
         </ep-button>
       </template>
-    </b-modal>
+    </EpModal>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, getCurrentInstance, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import _ from 'lodash';
 import { useVuelidate } from '@vuelidate/core';
 import { notNull, requiredOneLang } from '@shared/validators/required';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
+import EpModal from '@shared/components/EpModal/EpModal.vue';
 import EpField from '@shared/components/forms/EpField.vue';
 import EpSelect from '@shared/components/forms/EpSelect.vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import { Kielet } from '@shared/stores/kieli';
 import EpRadio from '@shared/components/forms/EpRadio.vue';
-import { $bvModal } from '@shared/utils/globals';
-import { watch } from 'vue';
 
 const props = defineProps({
   tekstikappaleet: {
@@ -210,8 +194,7 @@ const props = defineProps({
   },
 });
 
-// Template refs
-const tekstikappalelisaysModal = ref<InstanceType<any> | null>(null);
+const modalRef = ref<InstanceType<typeof EpModal> | null>(null);
 
 // Reactive state
 const otsikko = ref({});
@@ -257,7 +240,8 @@ async function save() {
   loading.value = true;
   await props.tallenna(otsikko.value, valittuTekstikappale.value, osaamisala.value);
   loading.value = false;
-  $bvModal.hide(props.modalId);
+  modalRef.value?.hide();
+  clear();
 }
 
 function clear() {
@@ -267,7 +251,7 @@ function clear() {
 }
 
 function cancel() {
-  $bvModal.hide(props.modalId);
+  modalRef.value?.hide();
 }
 
 watch(tekstikappaleTyyppi, () => {
@@ -275,10 +259,11 @@ watch(tekstikappaleTyyppi, () => {
   otsikko.value = {};
 });
 
-// Lifecycle hooks
+
 onMounted(() => {
   taso.value = props.paatasovalinta ? 'paataso' : 'alataso';
 });
+
 
 defineExpose({
   taso,

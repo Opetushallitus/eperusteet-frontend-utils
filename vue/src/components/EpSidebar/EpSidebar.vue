@@ -1,8 +1,8 @@
 <template>
-  <div class="sidenav">
+  <div class="sidenav flex">
     <div
       v-if="showNavigation"
-      class="bar d-print-none"
+      class="bar print-none"
     >
       <slot name="bar" />
       <div
@@ -136,7 +136,6 @@ const getElementHeighById = (id: string) => {
   }
 
   @media (min-width: 992px) {
-    display: flex;
     .bar {
       &.bar-open {
         min-width: $sidebar-width;
@@ -145,9 +144,9 @@ const getElementHeighById = (id: string) => {
     .view {
       width: calc(100% - 340px);
       border-left: 1px solid #eee;
-      @media print {
-        border-left: none;
-      }
+      // @media print {
+        // border-left: none;
+      // }
     }
   }
 }

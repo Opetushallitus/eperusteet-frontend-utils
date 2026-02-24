@@ -16,23 +16,26 @@
               <EpMaterialIcon>drag_indicator</EpMaterialIcon>
             </div>
             <div class="w-full">
-              <b-input-group
+              <EpFormGroup
                 :label="$t('organisaation-nimi')"
                 class="mb-4"
               >
-                <b-form-input
-                  :value="$kaanna(model.nimi)"
-                  :disabled="true"
-                />
-                <b-input-group-append>
-                  <ep-button
-                    variant="primary"
-                    @click="open(i)"
-                  >
-                    {{ $t('hae-organisaatio') }}
-                  </ep-button>
-                </b-input-group-append>
-              </b-input-group>
+                <EpInputGroup>
+                  <ep-input
+                    :model-value="$kaanna(model.nimi)"
+                    :is-editing="true"
+                    disabled
+                  />
+                  <template #append>
+                    <ep-button
+                      variant="primary"
+                      @click="open(i)"
+                    >
+                      {{ $t('hae-organisaatio') }}
+                    </ep-button>
+                  </template>
+                </EpInputGroup>
+              </EpFormGroup>
 
               <EpFormGroup
                 :label="$t('linkki-toteutussuunnitelmaan-tai-koulutuksen-jarjestajan-kotisivuille')"
@@ -79,14 +82,12 @@
         </slot>
       </EpButton>
 
-      <b-modal
-        id="koulutuksenjarjestajaModal"
+      <EpModal
         ref="editModal"
         size="xl"
-        :ok-title="$t('peruuta')"
-        :ok-only="true"
+        :hide-footer="true"
       >
-        <template #modal-header>
+        <template #modal-title>
           <h2>{{ $t('valitse-koulutuksen-jarjestaja') }}</h2>
         </template>
 
@@ -122,7 +123,7 @@
             </div>
           </template>
         </template>
-      </b-modal>
+      </EpModal>
     </template>
     <template v-else-if="innerModel.length > 0">
       <div
@@ -172,6 +173,8 @@ import EpLinkki from '@shared/components/EpLinkki/EpLinkki.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import EpTable from '@shared/components/EpTable/EpTable.vue';
 import EpFormGroup from '@shared/components/forms/EpFormGroup.vue';
+import EpInputGroup from '@shared/components/EpInputGroup/EpInputGroup.vue';
+import EpModal from '../EpModal/EpModal.vue';
 
 // Define props
 const props = defineProps({

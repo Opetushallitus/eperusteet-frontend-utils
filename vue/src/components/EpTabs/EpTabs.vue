@@ -18,7 +18,10 @@
         :key="index"
         :value="String(index)"
       >
-        <div class="tab-content-wrapper">
+        <div
+          class="tab-content-wrapper"
+          :class="contentClass"
+        >
           <component
             :is="renderTabContent(tab.vnode)"
           />
@@ -40,6 +43,10 @@ const props = defineProps({
   modelValue: {
     type: Number,
     default: 0,
+  },
+  contentClass: {
+    type: String,
+    default: '',
   },
 });
 

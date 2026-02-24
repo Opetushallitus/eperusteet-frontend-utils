@@ -1,7 +1,5 @@
-import { mount,  RouterLinkStub } from '@vue/test-utils';
+import { mount, RouterLinkStub } from '@vue/test-utils';
 import EpHeading from './EpHeading.vue';
-import Vue from 'vue';
-import BootstrapVue from 'bootstrap-vue';
 
 describe('EpHeading component', () => {
 

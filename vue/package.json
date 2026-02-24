@@ -82,7 +82,6 @@
     "vue-meta": "^2.3.2",
     "vue-multiselect": "^3.4.0",
     "vue-observe-visibility": "1.0.0",
-    "vue-property-decorator": "^9.1.2",
     "vue-router": "^4.5.1",
     "vue-scrollto": "^2.17.1",
     "vue-select": "^3.20.4",
