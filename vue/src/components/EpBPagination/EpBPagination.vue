@@ -26,6 +26,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import Paginator from 'primevue/paginator';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 const props = defineProps({
   modelValue: {

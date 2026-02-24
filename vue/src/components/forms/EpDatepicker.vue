@@ -1,25 +1,19 @@
 <template>
   <div
     v-if="isEditing"
-    class="ep-date-picker"
+    class="ep-date-picker flex flex-col w-[225px]"
   >
-    <b-form-datepicker
-      :value="modelValueComputed"
-      :locale="locale"
-      start-weekday="1"
+    <DatePicker
+      :model-value="dateValue"
+      date-format="dd.mm.yy"
       :placeholder="$t('valitse-pvm')"
-      :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-      :state="state"
-      reset-button
-      close-button
-      :label-reset-button="$t('tyhjenna')"
-      :label-close-button="$t('sulje')"
-      :label-no-date-selected="$t('valitse-pvm')"
-      :label-help="$t('kalenteri-navigointi-ohje')"
-      :value-as-date="true"
-      :hide-header="true"
-      :no-flip="true"
-      @input="onInput"
+      :showButtonBar="true"
+      :invalid="state === false"
+      show-icon
+      :manual-input="true"
+      class="ep-date-input-wrapper"
+      :class="{ 'is-invalid': state === false }"
+      @update:model-value="onDateSelect"
       @blur="onBlur"
     />
 
@@ -35,20 +29,20 @@
     >
       <div
         v-if="invalidMessage"
-        class="block text-red-600 text-sm mt-1"
+        class="validation-error"
       >
         {{ $t(invalidMessage) }}
       </div>
       <div
         v-else
-        class="block text-red-600 text-sm mt-1"
+        class="validation-error"
       >
         {{ message }}
       </div>
     </div>
     <small
       v-if="help && isEditing"
-      class="form-text text-gray-500"
+      class="form-help"
     >{{ $t(help) }}</small>
   </div>
   <div v-else>
@@ -59,15 +53,15 @@
 <script setup lang="ts">
 import _ from 'lodash';
 import { computed } from 'vue';
-import { Kielet } from '../../stores/kieli';
 import { useVuelidate } from '@vuelidate/core';
+import DatePicker from 'primevue/datepicker';
 import { $sd, $ldt, $ld, $t } from '@shared/utils/globals';
 
 // Define props
 const props = defineProps({
   modelValue: {
-    type: [Date, Number, String],
-    required: true,
+    type: [Date, Number, String, null],
+    required: false,
   },
   type: {
     type: String,
@@ -117,12 +111,13 @@ const emit = defineEmits(['update:modelValue', 'blur']);
 // Validation setup
 const v$ = useVuelidate();
 
-// Computed properties
-const modelValueComputed = computed(() => {
-  if (_.isNumber(props.modelValue)) {
-    return new Date(props.modelValue);
-  }
-  return props.modelValue;
+// Computed properties - Date | null for PrimeVue DatePicker
+const dateValue = computed(() => {
+  const val = props.modelValue;
+  if (val == null || val === '') return null;
+  const date = _.isNumber(val) ? new Date(val) : (val instanceof Date ? val : new Date(val));
+  if (isNaN(date.getTime())) return null;
+  return date;
 });
 
 const state = computed(() => {
@@ -147,10 +142,6 @@ const locdate = computed(() => {
   }
 });
 
-const locale = computed(() => {
-  return Kielet.getUiKieli.value;
-});
-
 const validationError = computed(() => {
   return props.validation?.error;
 });
@@ -164,13 +155,13 @@ const message = computed(() => {
 });
 
 // Methods
-const onInput = (event: any) => {
-  if (event && props.endOfDay) {
-    event.setHours(23);
-    event.setMinutes(59);
-    event.setSeconds(59);
+const onDateSelect = (date: Date | null) => {
+  let value: Date | null = date;
+  if (date && props.endOfDay) {
+    value = new Date(date);
+    value.setHours(23, 59, 59, 999);
   }
-  emit('update:modelValue', event);
+  emit('update:modelValue', value);
   if (props.validation) {
     props.validation.$touch();
   }
@@ -182,12 +173,31 @@ const onBlur = () => {
 </script>
 
 <style scoped lang="scss">
-:deep(.ep-datepicker-validation) {
-  padding-right: calc(3em + .75rem) !important;
+@import '@shared/styles/_variables.scss';
+
+.ep-date-input-wrapper {
+  :deep(.p-inputtext) {
+    padding: 0.375rem 0.75rem;
+    border: 1px solid $grey300;
+    border-radius: 4px;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  &.is-invalid :deep(.p-inputtext) {
+    border-color: $invalid;
+  }
 }
 
-:deep(.ep-datepicker-validation ~ .mx-input-append) {
-  right: 30px;
+.validation-error {
+  display: block;
+  color: $invalid;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
 }
 
+.form-help {
+  color: $grey500;
+  font-size: 0.875rem;
+}
 </style>

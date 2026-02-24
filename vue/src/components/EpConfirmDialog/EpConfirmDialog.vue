@@ -1,31 +1,27 @@
 <template>
-  <div>
-    <b-modal
-      id="epConfirmDialog"
-      ref="epConfirmDialogModal"
-      v-model="visible"
-      size="lg"
-      @ok="cancelSave"
-    >
-      <template #modal-title>
-        {{ $t('haluatko-poistua-tallentamatta') }}
-      </template>
+  <EpModal
+    ref="epConfirmDialogModal"
+    size="lg"
+    @ok="cancelSave"
+  >
+    <template #modal-title>
+      {{ $t('haluatko-poistua-tallentamatta') }}
+    </template>
 
-      <span>{{ $t('poistumisen-varmistusteksti-dialogi') }}</span>
+    <span>{{ $t('poistumisen-varmistusteksti-dialogi') }}</span>
 
-      <template #modal-cancel>
-        {{ $t('peruuta') }}
-      </template>
-      <template #modal-ok>
-        {{ $t('poistu-tallentamatta') }}
-      </template>
-    </b-modal>
-  </div>
+    <template #modal-cancel>
+      {{ $t('peruuta') }}
+    </template>
+    <template #modal-ok>
+      {{ $t('poistu-tallentamatta') }}
+    </template>
+  </EpModal>
 </template>
 
 <script setup lang="ts">
-import { ref, useTemplateRef } from 'vue';
-import _ from 'lodash';
+import { useTemplateRef } from 'vue';
+import EpModal from '@shared/components/EpModal/EpModal.vue';
 
 const props = defineProps({
   redirect: {
@@ -39,10 +35,9 @@ const props = defineProps({
 });
 
 const epConfirmDialogModal = useTemplateRef('epConfirmDialogModal');
-const visible = ref(false);
 
-function setVisible() {
-  visible.value = true;
+function show() {
+  epConfirmDialogModal.value?.show();
 }
 
 async function cancelSave() {
@@ -50,9 +45,8 @@ async function cancelSave() {
   props.redirect();
 }
 
-// Expose methods to parent components
 defineExpose({
-  setVisible,
+  show,
 });
 </script>
 

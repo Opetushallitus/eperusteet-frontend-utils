@@ -70,21 +70,24 @@
       </div>
     </div>
 
-    <b-dropdown
+    <EpDropdown
       v-if="isEditing"
-      :text="$t('lisaa-laaja-alainen-osaaminen')"
-      variant="primary"
       class="mb-4"
     >
-      <b-dropdown-item-button
+      <template #button-content>
+        <ep-button variant="primary">
+          {{ $t('lisaa-laaja-alainen-osaaminen') }}
+        </ep-button>
+      </template>
+      <EpDropdownItem
         v-for="(laaja, index) in laajaAlaistenKoodit"
         :key="index+'addlaaja'"
         :disabled="laaja.hasPaikallinenKuvaus"
         @click="addLaaja(laaja)"
       >
         {{ $kaanna(laaja.nimi) }}
-      </b-dropdown-item-button>
-    </b-dropdown>
+      </EpDropdownItem>
+    </EpDropdown>
 
     <div
       v-for="(paikallinenOpintojakso, index) in modelValue.paikallisetOpintojaksot"
@@ -122,6 +125,7 @@ import _ from 'lodash';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
+import { EpDropdown, EpDropdownItem } from '@shared/components/EpDropdown';
 
 const props = defineProps({
   opetussuunnitelmaStore: {

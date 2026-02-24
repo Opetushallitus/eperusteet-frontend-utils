@@ -1,5 +1,5 @@
 <template>
-  <div class="ep-valid-popover">
+  <div class="ep-valid-popover text-center">
     <EpProgressPopover
       v-if="!isValidating && validoinnit"
       ref="progresspopover"
@@ -11,7 +11,7 @@
           class="flex flex-col items-center"
           :class="tyyppi"
         >
-          <span class="validation-text pb-2">
+          <span class="validation-text pb-1">
             {{ $t(tila) }}<span v-if="muokattavissa">, {{ $t('muokattavissa') }}</span>
           </span>
 
@@ -61,7 +61,7 @@
       />
       <div
         v-else
-        class="flex flex-col items-center"
+        class="flex flex-col"
       >
         <ep-button
           v-if="arkistoitu"
@@ -75,12 +75,13 @@
             v-if="(julkaistu || valmis) && julkaistava"
             variant="primary"
             @click="toJulkaisuRoute"
+            class="mb-2"
           >
             {{ $t('siirry-julkaisunakymaan') }}
           </ep-button>
           <div
             v-if="validointiOk"
-            class="pl-3 pt-2 pb-1 grid grid-cols-12 gap-2"
+            class="pt-3 pb-1 grid grid-cols-12 gap-2"
           >
             <div class="col-span-1">
               <EpMaterialIcon
@@ -109,7 +110,7 @@
                     info
                   </EpMaterialIcon>
                 </div>
-                <div class="col-span-11">
+                <div class="col-span-2">
                   <span>{{ $t(ok) }}</span>
                 </div>
               </div>
@@ -118,7 +119,7 @@
               <div
                 v-for="virhe in uniqueVirheet"
                 :key="virhe"
-                class="pt-2 pb-1 grid grid-cols-12 gap-2"
+                class="flex mb-2"
               >
                 <div class="col-span-1">
                   <EpMaterialIcon
@@ -128,7 +129,7 @@
                     info
                   </EpMaterialIcon>
                 </div>
-                <div class="col-span-11">
+                <div class="col-span-11 text-left">
                   <span>{{ $t(virhe) }}</span>
                 </div>
               </div>
@@ -150,7 +151,7 @@
             </template>
             <div
               v-if="validoinnit.huomautukset && validoinnit.huomautukset.length > 0"
-              class="pt-2 pb-1 row"
+              class="pt-2 pb-1 flex"
             >
               <div class="col-1">
                 <EpMaterialIcon
@@ -172,13 +173,8 @@
           class="btn-tarkista"
           variant="link"
           @click="validoi"
+          icon="refresh"
         >
-          <EpMaterialIcon
-            class="icon"
-            icon-shape="outlined"
-          >
-            refresh
-          </EpMaterialIcon>
           <span> {{ $t('tarkista-virheet') }}</span>
         </ep-button>
       </template>
@@ -365,7 +361,6 @@ watch(() => props.isValidating, async (newValue) => {
 
 .btn-tarkista {
   text-decoration: none;
-  display: flex;
   font-size: 1.125rem;
   font-weight: 500;
   padding: 0;

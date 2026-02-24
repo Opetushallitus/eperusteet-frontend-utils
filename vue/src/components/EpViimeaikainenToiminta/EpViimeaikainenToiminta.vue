@@ -11,7 +11,7 @@
       <div
         v-for="(muokkaustieto, index) in muokkaustiedotRouted"
         :key="index"
-        class="flex muokkaustieto"
+        class="flex muokkaustieto gap-3"
       >
         <div class="w-auto ikoni-col center-block">
           <div class="ikoni inline-block">
@@ -203,6 +203,7 @@ const muokkaustiedotRouted = computed(() => {
     margin-top: 40px;
     margin-bottom: 20px;
     min-width: 350px;
+    padding: 0;
 
     .muokkaustieto {
       margin-top: 0;
@@ -260,7 +261,7 @@ const muokkaustiedotRouted = computed(() => {
 
       .router-col {
         padding: 0;
-        width: 0;
+        flex: 1;
 
         .router-box {
           line-height: 1;

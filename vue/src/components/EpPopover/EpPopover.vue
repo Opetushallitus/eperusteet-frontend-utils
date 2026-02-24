@@ -3,21 +3,21 @@
     <div
       ref="triggerRef"
       @mouseenter="handleMouseEnter"
-      @mouseleave="handleMouseLeave"
       @click="handleClick"
       @focus="handleFocus"
       @blur="handleBlur"
-    >
+      >
       <slot name="trigger" />
     </div>
     <Popover
       ref="popover"
+      :class="class"
+      @mouseleave="handleMouseLeave"
       @show="handleShow"
       @hide="handleHide"
     >
       <template
         v-if="$slots.header"
-        #header
       >
         <slot name="header" />
       </template>
@@ -40,6 +40,10 @@ const props = defineProps({
   disabled: {
     type: Boolean,
     default: false,
+  },
+  class: {
+    type: String,
+    default: 'w-100',
   },
 });
 

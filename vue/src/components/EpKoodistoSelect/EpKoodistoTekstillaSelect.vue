@@ -35,9 +35,8 @@
       />
     </div>
 
-    <b-dropdown
+    <EpDropdown
       v-if="isEditing"
-      variant="primary"
       class="mb-4"
     >
       <template #button-content>
@@ -45,14 +44,14 @@
           Painike puuttuu
         </slot>
       </template>
-      <b-dropdown-item-button
+      <EpDropdownItem
         v-for="(koodi, index) in koodit"
         :key="index+'addKoodiTekstilla'"
         @click="addKoodi(koodi)"
       >
         {{ $kaanna(koodi.nimi) }}
-      </b-dropdown-item-button>
-    </b-dropdown>
+      </EpDropdownItem>
+    </EpDropdown>
   </div>
 </template>
 
@@ -63,6 +62,7 @@ import { KoodistoSelectStore } from './KoodistoSelectStore';
 import _ from 'lodash';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
+import { EpDropdown, EpDropdownItem } from '@shared/components/EpDropdown';
 
 const props = defineProps({
   modelValue: {
