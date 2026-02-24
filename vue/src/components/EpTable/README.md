@@ -73,6 +73,15 @@ const items = [
 </script>
 ```
 
+## Additional Props
+
+- `sortBy` (String): Field key for current sort (server-side)
+- `sortDesc` (Boolean): Sort descending when true
+- `noLocalSorting` (Boolean): When true, sorting is server-side; emits `sort-changed` instead of sorting locally
+- `rowClass` (Function): `(data) => string | object` for row styling
+- `selection` (Array | Object): Controlled selection for selectable tables
+- `dataKey` (String): Unique key for row identification (required for selection)
+
 ## Migration from Bootstrap b-table
 
 The EpTable component is designed to be mostly compatible with Bootstrap Vue's b-table:

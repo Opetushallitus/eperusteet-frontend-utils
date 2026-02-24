@@ -1,7 +1,5 @@
 import { mount, RouterLinkStub } from '@vue/test-utils';
 import { vi } from 'vitest'; // Import vi from vitest for mocking
-import Vue from 'vue';
-import BootstrapVue from 'bootstrap-vue';
 import EpErrorPage from '@/components/EpErrorPage/EpErrorPage.vue';
 import { globalStubs } from '@shared/utils/__tests__/stubs';
 

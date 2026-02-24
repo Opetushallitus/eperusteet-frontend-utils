@@ -1,13 +1,14 @@
 <template>
-  <div v-b-modal.epversiomodaali>
+  <div @click="modalRef?.show()">
     <slot>{{ $t('muokkaushistoria') }}</slot>
-    <b-modal
-      id="epversiomodaali"
-      ref="epversiomodaali"
+    <EpModal
+      ref="modalRef"
       size="lg"
-      :title="$t('historia')"
-      :hide-footer="true"
+      hide-footer
     >
+      <template #modal-title>
+        {{ $t('historia') }}
+      </template>
       <EpTable
         responsive
         striped
@@ -28,7 +29,7 @@
               <ep-button
                 variant="link"
                 icon="keyboard_return"
-                @click="$emit('restore', { numero: row.item.numero, modal: epversiomodaali })"
+                @click="$emit('restore', { numero: row.item.numero, modal: modalApi })"
               >
                 {{ $t('palauta') }}
               </ep-button>
@@ -43,20 +44,24 @@
           </div>
         </template>
       </EpTable>
-    </b-modal>
+    </EpModal>
   </div>
 </template>
 
 <script setup lang="ts">
 import _ from 'lodash';
-import { ref, computed, useTemplateRef } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { Revision } from '../../tyypit';
 import EpButton from '../../components/EpButton/EpButton.vue';
+import EpModal from '@shared/components/EpModal/EpModal.vue';
 import EpFormContent from '../../components/forms/EpFormContent.vue';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 import { $sdt, $t } from '@shared/utils/globals';
 import EpTable from '@shared/components/EpTable/EpTable.vue';
+
+const modalRef = ref<InstanceType<typeof EpModal> | null>(null);
+const modalApi = { hide: () => modalRef.value?.hide() };
 
 const props = defineProps({
   versions: {
@@ -75,7 +80,6 @@ const props = defineProps({
 
 const emit = defineEmits(['restore']);
 
-const epversiomodaali = useTemplateRef('epversiomodaali');
 const router = useRouter();
 
 const fields = computed(() => {
