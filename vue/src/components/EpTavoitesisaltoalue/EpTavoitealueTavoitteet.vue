@@ -22,7 +22,7 @@
               :nayta-arvo="false"
             >
               <template #default="{ open }">
-                <b-input-group>
+                <EpInputGroup>
                   <EpInput
                     v-model="tavoite.nimi"
                     :is-editing="true"
@@ -38,15 +38,15 @@
                       </div>
                     </template>
                   </EpInput>
-                  <b-input-group-append>
+                  <template #append>
                     <ep-button
                       variant="primary"
                       @click="open"
                     >
                       {{ $t('hae-koodistosta') }}
                     </ep-button>
-                  </b-input-group-append>
-                </b-input-group>
+                  </template>
+                </EpInputGroup>
               </template>
             </EpKoodistoSelect>
           </slot>
@@ -90,6 +90,7 @@ import _ from 'lodash';
 import { KoodistoSelectStore, getKoodistoSivutettuna } from '../EpKoodistoSelect/KoodistoSelectStore';
 import { VueDraggable } from 'vue-draggable-plus';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
+import EpInputGroup from '@shared/components/EpInputGroup/EpInputGroup.vue';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import { koodistoKoodiValidator } from '@shared/validators/required';

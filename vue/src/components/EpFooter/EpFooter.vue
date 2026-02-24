@@ -1,7 +1,7 @@
 <template>
   <footer>
     <div class="footer-content link-style">
-      <div class="row">
+      <div class="row flex justify-between">
         <div class="col-lg col-slot">
           <img
             src="@assets/img/banners/oph_logo.svg"

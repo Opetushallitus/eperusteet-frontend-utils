@@ -25,20 +25,21 @@
             :nayta-arvo="false"
           >
             <template #default="{ open }">
-              <b-input-group>
-                <b-form-input
-                  :value="taitotaso.nimi ? $kaanna(taitotaso.nimi.nimi) : ''"
+              <EpInputGroup>
+                <ep-input
+                  :model-value="taitotaso.nimi ? $kaanna(taitotaso.nimi.nimi) : ''"
+                  :is-editing="true"
                   disabled
                 />
-                <b-input-group-append>
+                <template #append>
                   <ep-button
                     variant="primary"
                     @click="open"
                   >
                     {{ $t('hae-koodistosta') }}
                   </ep-button>
-                </b-input-group-append>
-              </b-input-group>
+                </template>
+              </EpInputGroup>
             </template>
           </EpKoodistoSelect>
 
@@ -192,6 +193,7 @@ import { KoodistoSelectStore, getKoodistoSivutettuna } from '../EpKoodistoSelect
 import { TermiDto } from '@shared/api/eperusteet';
 import { VueDraggable } from 'vue-draggable-plus';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
+import EpInputGroup from '@shared/components/EpInputGroup/EpInputGroup.vue';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import EpContent from '@shared/components/EpContent/EpContent.vue';

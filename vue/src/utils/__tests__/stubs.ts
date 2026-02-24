@@ -30,7 +30,7 @@ export const testPlugin = {
     app.config.globalProperties.$fail = (tKey: string, text?: string, duration?: number) => tKey;
     app.config.globalProperties.$success = (tKey: string) => tKey;
     app.config.globalProperties.$ago = (date: any) => date;
-    app.config.globalProperties.$bvModal = {};
+    app.config.globalProperties.$confirmModal = {};
     app.config.globalProperties.$isAdmin = () => true;
     app.config.globalProperties.$hasOphCrud = () => true;
   },

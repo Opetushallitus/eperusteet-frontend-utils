@@ -75,7 +75,7 @@ import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
-import { $t, $kaanna, $sdt, $bvModal } from '@shared/utils/globals';
+import { $t, $kaanna, $sdt, $confirmModal } from '@shared/utils/globals';
 
 interface Julkaisu {
   revision?: number;
@@ -120,7 +120,7 @@ const latestJulkaisuRevision = computed(() => {
 });
 
 const palautaConfirm = async (julkaisu: Julkaisu) => {
-  if (await $bvModal.msgBoxConfirm(($t('toiminto-kopioi-ja-palauttaa-valitsemasi-version-julkiseksi') as any), {
+  if (await $confirmModal.msgBoxConfirm(($t('toiminto-kopioi-ja-palauttaa-valitsemasi-version-julkiseksi') as any), {
     title: $t('palauta-versio-julkiseksi'),
     okVariant: 'primary',
     okTitle: $t('kylla') as any,

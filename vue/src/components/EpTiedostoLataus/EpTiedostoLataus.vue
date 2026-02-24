@@ -4,13 +4,11 @@
       class="tiedosto-lataus"
       :class="file ? 'tiedosto' : 'ei-tiedosto'"
     >
-      <b-form-file
+      <EpFileUpload
         v-if="!file"
         ref="fileInput"
         :accept="accept"
-        :placeholder="placeholder"
-        :drop-placeholder="dropPlaceholder"
-        :browse-text="browseText"
+        :choose-label="browseText"
         @input="onInput"
       />
 
@@ -39,8 +37,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, useTemplateRef, getCurrentInstance } from 'vue';
+import { computed, useTemplateRef } from 'vue';
 import EpButton from '../EpButton/EpButton.vue';
+import EpFileUpload from '@shared/components/EpFileUpload/EpFileUpload.vue';
 import _ from 'lodash';
 import { $t, $fail } from '@shared/utils/globals';
 
@@ -155,7 +154,7 @@ function cancel() {
 }
 
 function resetFile() {
-  fileInput.value?.reset();
+  (fileInput.value as any)?.clear?.();
 }
 </script>
 

@@ -21,9 +21,9 @@
       <slot>
         <div
           v-if="file"
-          class="justify-content-around items-center h-full"
+          class="justify-around items-center h-full"
         >
-          <div class="h-full justify-content-around items-center text-gray-500">
+          <div class="h-full justify-around items-center text-gray-500">
             <figure>
               <img
                 v-if="previewUrl"
@@ -87,7 +87,6 @@
 
           <ep-button
             variant="link"
-            no-padding
             @click="cancel"
           >
             {{ $t('valitse-toinen-kuva') }}

@@ -30,20 +30,21 @@
                   :nayta-arvo="false"
                 >
                   <template #default="{ open }">
-                    <b-input-group>
-                      <b-form-input
-                        :value="tavoitealue.otsikko ? $kaanna(tavoitealue.otsikko.nimi) : ''"
+                    <EpInputGroup>
+                      <ep-input
+                        :model-value="tavoitealue.otsikko ? $kaanna(tavoitealue.otsikko.nimi) : ''"
+                        :is-editing="true"
                         disabled
                       />
-                      <b-input-group-append>
+                      <template #append>
                         <ep-button
                           variant="primary"
                           @click="open"
                         >
                           {{ $t('hae-koodistosta') }}
                         </ep-button>
-                      </b-input-group-append>
-                    </b-input-group>
+                      </template>
+                    </EpInputGroup>
                   </template>
                 </ep-koodisto-select>
               </div>
@@ -173,6 +174,7 @@ import _ from 'lodash';
 import { KoodistoSelectStore, getKoodistoSivutettuna } from '../EpKoodistoSelect/KoodistoSelectStore';
 import { VueDraggable } from 'vue-draggable-plus';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
+import EpInputGroup from '@shared/components/EpInputGroup/EpInputGroup.vue';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
 import EpTavoitealueKeskeisetSisaltoalueet from './EpTavoitealueKeskeisetSisaltoalueet.vue';
 import EpTavoitealueTavoitteet from './EpTavoitealueTavoitteet.vue';

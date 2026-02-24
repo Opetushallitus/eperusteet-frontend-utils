@@ -73,7 +73,7 @@
 
       <EpButton
         v-if="isEditing"
-        class="mt-4 no-padding"
+        class="mt-4"
         variant="link"
         icon="delete"
         @click="poistaArvioinninKohde(arvioinninKohde)"

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="ep-esikatselu flex flex-col gap-2">
     <label class="font-semibold">
       <slot name="header">
         {{ $t(header) }}

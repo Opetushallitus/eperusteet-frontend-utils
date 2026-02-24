@@ -27,12 +27,11 @@ const shape = computed(() => {
   }
 });
 </script>
-
 <style lang="scss" scoped>
 
 .icon {
-  display: inline-block !important;
-  vertical-align: sub;
+  display: inline-flex !important;
+  vertical-align: middle;
 }
 
 </style>

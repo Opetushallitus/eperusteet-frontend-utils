@@ -1,19 +1,18 @@
 <template>
   <div>
     <EpButton
-      v-b-modal.arkistoidutModal
       variant="link"
       icon="folder"
+      @click="modalRef?.show()"
     >
       <slot name="title">
         <span>{{ $t('arkistoidut') }}</span>
       </slot>
     </EpButton>
-    <b-modal
-      id="arkistoidutModal"
-      ref="arkistoidutModal"
+    <EpModal
+      ref="modalRef"
       size="lg"
-      :hide-footer="true"
+      hide-footer
     >
       <template #modal-title>
         <div>
@@ -44,20 +43,23 @@
           />
         </template>
       </EpTable>
-    </b-modal>
+    </EpModal>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, getCurrentInstance } from 'vue';
+import { ref, computed } from 'vue';
 import _ from 'lodash';
 
 import { Kielet } from '@shared/stores/kieli';
 import EpSearch from '@shared/components/forms/EpSearch.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
+import EpModal from '@shared/components/EpModal/EpModal.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import { $t, $kaanna, $sdt } from '@shared/utils/globals';
 import EpTable from '@shared/components/EpTable/EpTable.vue';
+
+const modalRef = ref<InstanceType<typeof EpModal> | null>(null);
 
 interface Palautettava {
   nimi: any;

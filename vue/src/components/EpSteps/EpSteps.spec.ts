@@ -35,25 +35,25 @@ describe('EpSteps component', () => {
 
     expect(wrapper.html()).toContain('First step');
     expect(wrapper.html()).toContain('First description');
-    expect(findContaining(wrapper, '.b-button', 'edellinen')).toBeFalsy();
+    expect(findContaining(wrapper, 'button', 'edellinen')).toBeFalsy();
 
-    findContaining(wrapper, '.b-button', 'seuraava')!.trigger('click');
+    findContaining(wrapper, 'button', 'seuraava')!.trigger('click');
 
     await nextTick();
 
     expect(props.steps[0].isValid).toHaveBeenCalledTimes(2);
 
-    findContaining(wrapper, '.b-button', 'edellinen')!.trigger('click');
+    findContaining(wrapper, 'button', 'edellinen')!.trigger('click');
 
     await nextTick();
 
-    findContaining(wrapper, '.b-button', 'seuraava')!.trigger('click');
+    findContaining(wrapper, 'button', 'seuraava')!.trigger('click');
 
     await nextTick();
 
     expect(wrapper.html()).toContain('Second step');
     expect(wrapper.html()).toContain('Second description');
-    findContaining(wrapper, '.b-button', 'tallenna')!.trigger('click');
+    findContaining(wrapper, 'button', 'tallenna')!.trigger('click');
 
     await nextTick();
 

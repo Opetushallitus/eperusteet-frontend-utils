@@ -1,24 +1,24 @@
 <template>
-  <div class="ep-button d-print-none inline-block whitespace-nowrap">
+  <div class="ep-button print:hidden inline-block whitespace-nowrap">
     <button
       v-bind="$attrs"
       :title="help ? $t(help) : undefined"
       :class="[
+        'ep-button__btn',
         'inline-flex items-center justify-center',
         'font-normal text-center align-middle cursor-pointer select-none',
         'border transition-all duration-150 whitespace-nowrap',
         buttonVariantClasses,
         buttonSizeClasses,
         buttonClass,
-        { 'opacity-65 cursor-not-allowed': disabled || showSpinner },
-        { 'p-0': noPadding }
+        { 'ep-button__btn--disabled': disabled || showSpinner }
       ]"
       :disabled="disabled || showSpinner"
       @click="click"
     >
       <EpMaterialIcon
         v-if="icon"
-        class="mr-2 inline-flex items-center"
+        class="ep-button__icon mr-2 inline-flex items-center"
         icon-shape="outlined"
         :background="inherit"
         :color="inherit"
@@ -26,8 +26,8 @@
         {{ icon }}
       </EpMaterialIcon>
       <span
-        class="inline-flex items-center"
-        :class="{ 'px-2': paddingx && !noPadding && !isLink }"
+        class="ep-button__text inline-flex items-center"
+        :class="{ 'px-2': paddingx && !isLink }"
       >
         <slot />
       </span>
@@ -55,7 +55,6 @@ const props = defineProps({
   help: { type: String, default: '' },
   paddingx: { type: Boolean, default: true },
   link: { type: Boolean, default: false },
-  noPadding: { type: Boolean, default: false },
 });
 
 const emit = defineEmits(['click']);
@@ -77,29 +76,13 @@ const isOutline = computed(() => {
 });
 
 const buttonVariantClasses = computed(() => {
-  // Link variant
   if (isLink.value) {
-    return [
-      'bg-transparent border-none text-lime-600',
-      'hover:bg-transparent hover:text-lime-700 hover:underline',
-      'px-0 py-0 rounded-none',
-    ].join(' ');
+    return 'ep-button__btn--link';
   }
-
-  // Outline variant
   if (isOutline.value) {
-    return [
-      'bg-transparent border-blue-600 text-blue-600',
-      'hover:bg-blue-600 hover:text-white',
-    ].join(' ');
+    return 'ep-button__btn--outline';
   }
-
-  // Primary/default variant
-  return [
-    'bg-blue-600 text-white border-transparent',
-    'hover:bg-blue-700',
-    'active:bg-blue-800',
-  ].join(' ');
+  return 'ep-button__btn--primary';
 });
 
 const buttonSizeClasses = computed(() => {
@@ -108,9 +91,9 @@ const buttonSizeClasses = computed(() => {
   }
 
   const sizeMap: Record<string, string> = {
-    'sm': 'px-4 py-1.5 text-sm rounded-2xl',
-    'md': 'px-6 py-2 text-base rounded-full',
-    'lg': 'px-8 py-3 text-lg rounded-3xl',
+    'sm': 'px-2 py-1 text-sm rounded-2xl',
+    'md': 'px-3 py-1 text-base rounded-full',
+    'lg': 'px-4 py-1 text-lg rounded-3xl',
   };
 
   return sizeMap[props.size] || sizeMap['md'];
@@ -122,8 +105,60 @@ const inherit = computed(() => {
 </script>
 
 <style lang="scss" scoped>
-// Minimal custom styles - most styling is done via Tailwind classes
-button:disabled {
+@import '@shared/styles/_variables.scss';
+
+.ep-button__btn--link {
+  background: transparent;
+  border: none;
+  color: $link;
+  padding: 0;
+  border-radius: 0;
+
+  &:hover {
+    background: transparent;
+    color: $link-hover-color;
+
+    .ep-button__text {
+      text-decoration: underline;
+    }
+  }
+}
+
+.ep-button__btn--outline {
+  background: transparent;
+  border-color: $blue2;
+  color: $blue2;
+
+  &:hover {
+    background: $blue2;
+    color: $white;
+
+    .ep-button__text {
+      text-decoration: none;
+    }
+  }
+}
+
+.ep-button__btn--primary {
+  background: $blue3;
+  border-color: transparent;
+  color: $white;
+
+  &:hover {
+    background: $blue2;
+  }
+
+  &:active {
+    background: $blue2;
+  }
+}
+
+.ep-button__btn--disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.ep-button__btn:disabled {
   pointer-events: none;
 }
 </style>
