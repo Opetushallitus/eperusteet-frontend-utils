@@ -1,9 +1,9 @@
 <template>
   <div class="kayttaja">
-    <b-nav-item-dropdown
-      id="kayttaja-dropdown"
+    <EpDropdown
       right
       no-caret
+      content-class="ep-kayttaja-dropdown"
     >
       <template #button-content>
         <div class="flex flex-row">
@@ -75,7 +75,7 @@
                 :title="$t('lukuoikeus')"
               />
             </div>
-            <b-dd-item-button
+            <EpDropdownItem
               v-for="kt in koulutustoimijatFilteredSorted"
               :key="kt.id"
               :disabled="koulutustoimija.id === kt.id"
@@ -99,9 +99,9 @@
                   >
                     visibility
                   </EpMaterialIcon>
-                </div>
               </div>
-            </b-dd-item-button>
+            </div>
+            </EpDropdownItem>
           </div>
         </div>
       </ep-collapse>
@@ -113,13 +113,13 @@
         :border-bottom="false"
       >
         <template #header>
-          <div class="pl-3 pt-2 whitespace-nowrap kieli">
+          <div class="pl-4 pt-2 whitespace-nowrap kieli">
             <EpMaterialIcon class="icon mr-3">
               language
             </EpMaterialIcon>
             <span>{{ $t('kieli') }}</span>
           </div>
-          <div class="pl-3 uikieli">
+          <div class="pl-10 uikieli">
             <span class="icon mr-3" />
             <small>{{ $t(uiKieli) }}</small>
           </div>
@@ -140,7 +140,7 @@
         </template>
 
         <div class="collapse-tausta text-left">
-          <b-dd-item-button
+          <EpDropdownItem
             v-for="kieli in sovelluksenKielet"
             :key="kieli"
             :disabled="kieli === uiKieli"
@@ -155,20 +155,20 @@
               </EpMaterialIcon>
             </div>
             {{ $t(kieli) }}
-          </b-dd-item-button>
+          </EpDropdownItem>
         </div>
       </ep-collapse>
 
-      <b-dd-item href="/henkilo-ui/omattiedot">
+      <EpDropdownItem href="/henkilo-ui/omattiedot">
         <EpMaterialIcon class="icon mr-3">
           person
         </EpMaterialIcon>
         <span>{{ $t('kayttajan-asetukset') }}</span>
-      </b-dd-item>
+      </EpDropdownItem>
 
-      <b-dropdown-divider />
+      <EpDropdownDivider />
 
-      <b-dd-item
+      <EpDropdownItem
         v-if="!sovellusOikeudet || sovellusOikeudet.length === 1"
         href="/virkailijan-tyopoyta"
       >
@@ -176,7 +176,7 @@
           launch
         </EpMaterialIcon>
         <span>{{ $t('palaa-virkailijan-tyopyodalle') }}</span>
-      </b-dd-item>
+      </EpDropdownItem>
 
       <!-- Sovellussiisrtymä  -->
       <ep-collapse
@@ -186,7 +186,7 @@
         :border-bottom="false"
       >
         <template #header>
-          <div class="pl-3 pt-2 whitespace-nowrap kieli">
+          <div class="pl-4 pt-2 whitespace-nowrap kieli">
             <EpMaterialIcon class="icon mr-3">
               launch
             </EpMaterialIcon>
@@ -194,7 +194,7 @@
           </div>
           <div
             v-if="valittuSovellus"
-            class="pl-3 valittu-sovellus pb-2"
+            class="pl-10 valittu-sovellus pb-2"
           >
             <span class="icon mr-3" />
             <small>{{ $t(valittuSovellus.eperusteSovellus.sovellus) }}</small>
@@ -216,7 +216,7 @@
         </template>
 
         <div class="collapse-tausta text-left">
-          <b-dd-item
+          <EpDropdownItem
             v-for="sovellusOikeus in sovellusOikeudet"
             :key="sovellusOikeus.eperusteSovellus.sovellus"
             :href="sovellusOikeus.eperusteSovellus.url"
@@ -232,24 +232,24 @@
               </EpMaterialIcon>
             </div>
             {{ $t(sovellusOikeus.eperusteSovellus.sovellus) }}
-          </b-dd-item>
+          </EpDropdownItem>
 
-          <b-dd-item href="/virkailijan-tyopoyta">
+          <EpDropdownItem href="/virkailijan-tyopoyta">
             <div class="collapse-tausta-valinta-icon" />
             {{ $t('virkailijan-tyopoyta') }}
-          </b-dd-item>
+          </EpDropdownItem>
         </div>
       </ep-collapse>
 
-      <b-dropdown-divider />
+      <EpDropdownDivider />
 
-      <b-dd-item :href="logoutHref">
+      <EpDropdownItem :href="logoutHref">
         <EpMaterialIcon class="mr-3 valittu">
           logout
         </EpMaterialIcon>
         <span>{{ $t('kirjaudu-ulos') }}</span>
-      </b-dd-item>
-    </b-nav-item-dropdown>
+      </EpDropdownItem>
+    </EpDropdown>
   </div>
 </template>
 
@@ -268,6 +268,7 @@ import EpToggle from '@shared/components/forms/EpToggle.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import { useRouter } from 'vue-router';
 import { $kaanna } from '@shared/utils/globals';
+import { EpDropdown, EpDropdownItem, EpDropdownDivider } from '@shared/components/EpDropdown';
 
 const props = defineProps({
   tiedot: {
@@ -389,10 +390,6 @@ async function valitseUiKieli(kieli: Kieli) {
 @import '@shared/styles/_variables.scss';
 .kayttaja {
 
-  :deep(ul.dropdown-menu) {
-    width: 350px;
-  }
-
   .icon {
     display: inline-block;
     width: 1rem;
@@ -439,7 +436,7 @@ async function valitseUiKieli(kieli: Kieli) {
     white-space: nowrap;
     overflow: hidden;
 
-    :deep(.dropdown-item) {
+    :deep(.ep-dropdown-item) {
       padding: 0.25rem 1rem;
     }
 
@@ -456,36 +453,6 @@ async function valitseUiKieli(kieli: Kieli) {
 
   .kieli {
     font-weight: normal;
-  }
-
-  :deep(.dropdown-menu) {
-    padding: 0;
-    color: #000000;
-  }
-
-  :deep(.dropdown-divider) {
-    margin: 0;
-  }
-
-  :deep(.dropdown-item) {
-    padding: 0.5rem 1rem;
-    color: #000000;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  :deep(.dropdown-item:disabled) {
-    color: inherit;
-  }
-
-  :deep(.dropdown-item:hover) {
-    background-color: inherit;
-  }
-
-  :deep(.dropdown-item:active) {
-    color: inherit;
-    background-color: inherit;
   }
 }
 </style>

@@ -13,37 +13,38 @@
             <ep-error-wrapper
               :validation="props.validation"
             >
-              <b-input-group>
+              <EpInputGroup>
                 <div class="handle order-handle text-gray-500">
                   <EpMaterialIcon>drag_indicator</EpMaterialIcon>
                 </div>
-                <b-form-input
+                <ep-input
                   v-if="!props.modelValue.koodi"
                   ref="input"
                   class="vaatimus"
                   :class="{ 'placeholder': placeholder }"
-                  :value="vaatimus"
+                  :model-value="vaatimus"
                   :placeholder="placeholder"
-                  :state="isValid"
-                  @input="onInput"
+                  :is-editing="true"
+                  @update:model-value="onInput"
                   @focus="onFocus"
                   @blur="onBlur"
                 />
-                <b-form-input
+                <ep-input
                   v-if="props.modelValue.koodi"
                   class="vaatimus"
-                  :value="koodiDisplayValue"
+                  :model-value="koodiDisplayValue"
+                  :is-editing="true"
                   disabled
                 />
-                <b-input-group-append>
+                <template #append>
                   <ep-button
                     variant="primary"
                     @click="open"
                   >
                     {{ $t('hae-koodistosta') }}
                   </ep-button>
-                </b-input-group-append>
-              </b-input-group>
+                </template>
+              </EpInputGroup>
             </ep-error-wrapper>
           </div>
           <div
@@ -95,6 +96,7 @@
 <script setup lang="ts">
 import { computed, ref, onMounted, getCurrentInstance } from 'vue';
 import EpButton from '../EpButton/EpButton.vue';
+import EpInputGroup from '../EpInputGroup/EpInputGroup.vue';
 import EpInput from '../forms/EpInput.vue';
 import EpErrorWrapper from '../forms/EpErrorWrapper.vue';
 import EpExternalLink from '../EpExternalLink/EpExternalLink.vue';

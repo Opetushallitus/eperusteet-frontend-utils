@@ -89,12 +89,14 @@ img.content-image {
   --green2: #{$green2};
   --grey200: #{$grey200};
   --link: #{$link};
+  --toggle-color: #{$green2};
 }
 
 // html element
 :root {
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
 
   div.form {
     padding: 20px;
@@ -281,6 +283,29 @@ img.content-image {
   background-color: $table-odd-row-bg-color;
 }
 
+/* EpDropdown overlay - portaled to body (EpKayttaja) */
+.ep-kayttaja-dropdown {
+  width: 350px;
+  padding: 0;
+  color: #000000;
+
+  .ep-dropdown-item {
+    padding: 0.5rem 1rem;
+    color: #000000;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .collapse-tausta .ep-dropdown-item {
+    padding: 0.25rem 1rem;
+  }
+
+  .ep-dropdown-divider {
+    margin: 0;
+  }
+}
+
 table {
   &.table-bordered {
     border: 1px solid $grey200;
@@ -289,4 +314,34 @@ table {
       border: 1px solid $grey200;
     }
   }
+
+  &.table-striped tbody tr:nth-of-type(even) {
+    background-color: $table-even-row-bg-color;
+  }
+
+  &.table-striped tbody tr:nth-of-type(odd) {
+    background-color: $table-odd-row-bg-color;
+  }
+
+  &.table-striped.table-hover tbody tr:hover {
+    background-color: $table-hover-row-bg-color;
+    cursor: pointer;
+  }
+}
+
+// Form controls (legacy - used by EpInput, EpSelect, EpSearch)
+.form-control {
+  border: 1px solid $black;
+  border-radius: 0;
+  background-color: $white;
+
+  &:focus {
+    border-color: $black;
+    box-shadow: none;
+    @include focus;
+  }
+}
+
+.noselect {
+  user-select: none;
 }

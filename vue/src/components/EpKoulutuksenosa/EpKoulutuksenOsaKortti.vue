@@ -1,6 +1,6 @@
 <template>
   <router-link :to="route">
-    <div class="inline-flex align-items-start flex-col kortti ml-0 mr-3 my-3 pl-3 pt-3 pr-2 pb-2">
+    <div class="inline-flex items-start flex-col kortti ml-0 mr-3 my-3 pl-3 pt-3 pr-2 pb-2">
       <div class="font-bold mb-auto nimi">
         {{ $kaanna(koulutuksenosa.nimi) }}
       </div>

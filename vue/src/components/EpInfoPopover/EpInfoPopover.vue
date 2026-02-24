@@ -1,16 +1,18 @@
 <template>
-  <EpPopover :triggers="['hover', 'click', 'focus']">
-    <template #trigger>
-      <EpMaterialIcon
-        :id="'infopopup-' + uniqueId"
-        class="default-icon clickable"
-        icon-shape="outlined"
-      >
-        info
-      </EpMaterialIcon>
-    </template>
-    <slot />
-  </EpPopover>
+  <div>
+    <EpPopover :triggers="['hover', 'click', 'focus']">
+      <template #trigger>
+        <EpMaterialIcon
+          :id="'infopopup-' + uniqueId"
+          class="default-icon clickable"
+          icon-shape="outlined"
+        >
+          info
+        </EpMaterialIcon>
+      </template>
+      <slot />
+    </EpPopover>
+  </div>
 </template>
 
 <script setup lang="ts">

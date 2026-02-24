@@ -1,12 +1,7 @@
 import { mount } from '@vue/test-utils';
 import EpJulkiLista from './EpJulkiLista.vue';
-import Vue from 'vue';
-import BootstrapVue from 'bootstrap-vue';
 import { globalStubs } from '@shared/utils/__tests__/stubs';
 import { nextTick } from 'vue';
-import { wrap } from 'lodash';
-
-// Vue.use(BootstrapVue);
 
 describe('EpJulkiLista component', () => {
 
@@ -137,13 +132,11 @@ describe('EpJulkiLista component', () => {
     expect(wrapper.html()).not.toContain('otsikko3');
     expect(wrapper.html()).not.toContain('otsikko4');
 
-    expect(wrapper.findAll('.b-button').at(0)
-      .html()).toContain('1');
-    expect(wrapper.findAll('.b-button').at(1)
-      .html()).toContain('2');
+    const pageButtons = wrapper.findAll('.p-paginator-page');
+    expect(pageButtons.at(0).html()).toContain('1');
+    expect(pageButtons.at(1).html()).toContain('2');
 
-    wrapper.findAll('.b-button').at(1)
-      .trigger('click');
+    pageButtons.at(1).trigger('click');
 
     await nextTick();
 

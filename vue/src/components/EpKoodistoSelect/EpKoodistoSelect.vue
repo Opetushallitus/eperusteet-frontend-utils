@@ -8,31 +8,29 @@
         Painike puuttuu
       </div>
     </slot>
-    <b-modal
-      id="koodistoModal"
+    <EpModal
       ref="editModal"
-      size="xl"
-      @ok="lisaaValitut"
-      @hidden="alusta"
+      size="md"
+      @cancel="alusta"
     >
-      <template #modal-header>
+      <template #modal-title>
         <slot name="header">
           <h2>{{ $t('hae-koodistosta') }} ({{ usedKoodisto }})</h2>
         </slot>
       </template>
 
-      <template #modal-footer="{ ok, cancel }">
+      <template #modal-footer>
         <ep-button
           v-if="multiselect"
           variant="primary"
           :disabled="innerModel.length === 0"
-          @click="ok()"
+          @click="lisaaValitut"
         >
           {{ $t('lisaa-valitut') }}
         </ep-button>
         <ep-button
           variant="secondary"
-          @click="cancel()"
+          @click="editModal?.hide()"
         >
           {{ multiselect ? $t('peruuta') : $t('sulje') }}
         </ep-button>
@@ -64,7 +62,6 @@
             hover
             :items="items"
             :fields="fields"
-            :selectable="true"
             select-mode="single"
             selected-variant=""
             @row-selected="onRowSelected"
@@ -126,7 +123,7 @@
         </div>
         <ep-spinner v-else />
       </template>
-    </b-modal>
+    </EpModal>
   </div>
   <div v-else-if="modelValue && modelValue.arvo">
     {{ $kaanna(modelValue.nimi) }} <span v-if="naytaArvo">{{ modelValue.arvo }}</span>
@@ -144,6 +141,7 @@
 <script setup lang="ts">
 import { ref, computed, watch, useTemplateRef } from 'vue';
 import EpButton from '../EpButton/EpButton.vue';
+import EpModal from '../EpModal/EpModal.vue';
 import EpToggle from '../forms/EpToggle.vue';
 import EpSearch from '../forms/EpSearch.vue';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
@@ -329,7 +327,7 @@ const onRowSelected = (items: any[]) => {
     if (!multiselect.value) {
       emit('update:modelValue', row);
       emit('add', row, props.modelValue);
-      editModal.value.hide();
+      editModal.value?.hide();
     }
     else {
       if (_.includes(selectedUris.value, row.uri)) {
@@ -349,6 +347,7 @@ const lisaaValitut = () => {
   if (multiselect.value) {
     emit('update:modelValue', innerModel.value);
     emit('add', innerModel.value);
+    editModal.value?.hide();
   }
 };
 

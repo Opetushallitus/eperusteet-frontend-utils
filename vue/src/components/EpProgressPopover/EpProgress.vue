@@ -1,7 +1,6 @@
 <template>
   <div
-    class="ep-progress text-center"
-    placement="'bottom'"
+    class="ep-progress inline-block"
   >
     <div v-if="!slices">
       <svg
