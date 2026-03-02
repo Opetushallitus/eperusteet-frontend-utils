@@ -4,7 +4,7 @@
       <select
         v-if="!useCheckboxes"
         v-model="innerModel"
-        class="form-control"
+        class="form-control w-full"
         :multiple="multiple"
         :class="{ 'is-invalid': isInvalid, 'is-valid': isValid }"
         :disabled="disabled"
@@ -227,7 +227,8 @@ select {
   appearance: none;
   background: url('../../../public/img/icons/vakanen-alas.svg') no-repeat right $white;
   background-position-x: calc(100% - 5px);
-  background-position-y: calc(100% - 2px);
+  background-position-y: calc(100% + 0px);
+  height: 38px;
 }
 
 :deep(label.custom-control-label::before) {

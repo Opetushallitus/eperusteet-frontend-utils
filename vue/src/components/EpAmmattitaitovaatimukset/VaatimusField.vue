@@ -8,19 +8,19 @@
       @add="koodistoAdd"
     >
       <template #default="{ open }">
-        <div class="flex flex-col">
+        <div class="">
           <div>
             <ep-error-wrapper
               :validation="props.validation"
             >
-              <EpInputGroup>
-                <div class="handle order-handle text-gray-500">
-                  <EpMaterialIcon>drag_indicator</EpMaterialIcon>
-                </div>
+              <EpInputGroup :disabled="props.modelValue.koodi">
+                <template #prefix>
+                  <EpMaterialIcon class="handle order-handle !text-gray-600">drag_indicator</EpMaterialIcon>
+                </template>
                 <ep-input
                   v-if="!props.modelValue.koodi"
                   ref="input"
-                  class="vaatimus"
+                  class="flex-grow"
                   :class="{ 'placeholder': placeholder }"
                   :model-value="vaatimus"
                   :placeholder="placeholder"
@@ -72,7 +72,7 @@
                   <template #cell(nimi)="{ item }">
                     <div class="flex items-center">
                       <div
-                        class="link-style"
+                        class="link-style mr-2"
                         role="button"
                         @click="valitse(item)"
                         v-html="highlight(item.nimi[$slang], vaatimus)"
@@ -286,13 +286,7 @@ defineExpose({
 
 <style scoped lang="scss">
 
-.vaatimus {
-  padding-left: 2rem !important;
-}
-
 .handle {
-  position: absolute;
-  padding: 10px 0 0 0;
   left: 6px;
   z-index: 100;
 }
