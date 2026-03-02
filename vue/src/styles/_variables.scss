@@ -40,7 +40,7 @@ $pink3: #FDF2F2;
 $purple1: #660066;
 $purple2: #660099;
 $purple3: #C227B9;
-$purple4: #CC99FF;
+$purple4: rgb(204, 153, 255);
 $alias-success: #378703;
 $alias-error: #CC3300;
 
@@ -157,14 +157,14 @@ $koulutustyyppi-varhaiskasvatus-color: $yellow1;
 $koulutustyyppi-taiteenperusopetus-color: $pink2;
 $koulutustyyppi-vapaasivistystyo-color: $purple1;
 $koulutustyyppi-tutkintoonvalmentava-color: $orange4;
-$koulutustyyppi-kotoutumiskoulutus-color: $green3;
+$koulutustyyppi-kotoutumiskoulutus-color: #7aae7a;
 $koulutustyyppi-muu-color: $red2;
 $koulutustyyppi-kielikaantajatutkinto-color: $cyan1;
 
 // Muut / Jotpa
 $jotpa-color: $red2;
 $digitaalinen-osaaminen-color: $purple4;
-$digitaalinen-osaaminen-paa-alue-color: $grey50;
+$digitaalinen-osaaminen-paa-alue-color: rgba(204, 153, 255, 0.342);;
 $digitaalinen-osaaminen-ikaryhma-color: $purple2;
 $oph-maaraykset-color: $lightBlue1;
 

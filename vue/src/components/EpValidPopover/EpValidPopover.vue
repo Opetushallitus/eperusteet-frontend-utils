@@ -119,7 +119,7 @@
               <div
                 v-for="virhe in uniqueVirheet"
                 :key="virhe"
-                class="flex mb-2"
+                class="grid grid-cols-12 gap-2 mb-2"
               >
                 <div class="col-span-1">
                   <EpMaterialIcon
@@ -135,7 +135,7 @@
               </div>
               <div
                 v-if="validoinnit.virheet.length > 5 && julkaistava && luonnos && !julkaistu && !arkistoitu"
-                class="pt-2 pb-1 row"
+                class="pt-2 pb-1 grid grid-cols-12 gap-2"
               >
                 <div class="col-span-1" />
                 <div class="col-span-11">
@@ -151,9 +151,9 @@
             </template>
             <div
               v-if="validoinnit.huomautukset && validoinnit.huomautukset.length > 0"
-              class="pt-2 pb-1 flex"
+              class="pt-2 pb-1 grid grid-cols-12 gap-2"
             >
-              <div class="col-1">
+              <div class="col-span-1">
                 <EpMaterialIcon
                   class="text-yellow-600"
                   size="18px"
@@ -161,7 +161,7 @@
                   info
                 </EpMaterialIcon>
               </div>
-              <div class="col">
+              <div class="col-span-11">
                 <span>{{ $t(huomautuksia) }}</span>
               </div>
             </div>
