@@ -5,12 +5,13 @@ import { Location } from 'vue-router';
 import { PerusteBaseDtoOpasTyyppiEnum, PerusteKaikkiDtoTyyppiEnum } from '@shared/api/eperusteet';
 
 export type NavigationType =
-  'root' | 'linkki' | 'viite' | 'tiedot' | 'laajaalaiset' | 'muutoshistoria'
+  'root' | 'linkki' | 'viite' | 'tiedot' | 'laajaalaiset' | 'muutoshistoria' | 'tekstikappale'
   | 'oppiaineet' | 'oppiaine' | 'oppimaarat' | 'poppiaine' | 'lukiooppiaine_2015' | 'lukiooppimaarat_2015' | 'lukiokurssit' | 'lukiokurssi'
   | 'moduulit' | 'moduuli'
   | 'suorituspolku' | 'osasuorituspolku'
   | 'opintojaksot' | 'opintojakso'
-  | 'perusopetusoppiaineet' | 'perusopetusoppiaine' | 'valinnaisetoppiaineet' | 'vuosiluokkakokonaisuus';
+  | 'perusopetusoppiaineet' | 'perusopetusoppiaine' | 'valinnaisetoppiaineet' | 'vuosiluokkakokonaisuus'
+  | 'taiteenala' | 'linkkisivu';
 
 export interface NavigationNode {
   key?: number; // Unique identifier
