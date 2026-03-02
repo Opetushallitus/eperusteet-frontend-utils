@@ -24,7 +24,7 @@
           <div
             v-for="(v, vaatimusIdx) in inner.vaatimukset"
             :key="vaatimusIdx"
-            class="flex mt-1"
+            class="flex mt-1 items-center"
           >
             <div class="grow">
               <vaatimus-field
@@ -40,7 +40,7 @@
                 :is-editing="isEditing"
               />
             </div>
-            <div>
+            <div class="w-[40px] text-center">
               <Kayttolistaus
                 v-if="inner.vaatimukset[vaatimusIdx].koodi"
                 :koodi="inner.vaatimukset[vaatimusIdx].koodi"
@@ -91,7 +91,7 @@
               <ep-input
                 v-model="kohdealue.kuvaus"
                 :is-editing="true"
-                class="ml-3 mr-4"
+                class="ml-2 mr-4"
                 :validation="props.validation?.kohdealueet?.$each?.$response.$data[kohdealueIdx]?.kuvaus"
               />
             </EpFormGroup>

@@ -92,7 +92,7 @@ const buttonSizeClasses = computed(() => {
 
   const sizeMap: Record<string, string> = {
     'sm': 'px-2 py-1 text-sm rounded-2xl',
-    'md': 'px-3 py-1 text-base rounded-full',
+    'md': 'px-2 py-1 text-base rounded-full',
     'lg': 'px-4 py-1 text-lg rounded-3xl',
   };
 
