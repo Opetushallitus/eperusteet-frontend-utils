@@ -1,5 +1,5 @@
 <template>
-  <ep-form-content class="col-md-12 mb-5">
+  <ep-form-content class="col-span-12 mb-5">
     <slot name="header">
       <label>{{ $t('arviointi') }}</label>
     </slot>
@@ -82,10 +82,10 @@ const osaamistasonOtsikko = computed(() => {
 @import "@shared/styles/_variables.scss";
 
   .osaamistasot {
-    .row:nth-of-type(even) {
+    > div:nth-of-type(even) {
       background-color: $table-even-row-bg-color;
     }
-    .row:nth-of-type(odd) {
+    > div:nth-of-type(odd) {
       background-color: $table-odd-row-bg-color;
     }
   }

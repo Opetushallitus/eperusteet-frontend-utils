@@ -90,10 +90,10 @@ img.content-image {
   --grey200: #{$grey200};
   --link: #{$link};
   --toggle-color: #{$green2};
-}
-
-// html element
-:root {
+  --spacing: 0.35rem;
+  --p-tabs-tab-padding: 0.5rem 1.5rem 0.5rem 0rem !important;
+  --p-tabs-nav-button-shadow: none !important;
+  
   margin: 0;
   padding: 0;
   overflow-x: hidden;

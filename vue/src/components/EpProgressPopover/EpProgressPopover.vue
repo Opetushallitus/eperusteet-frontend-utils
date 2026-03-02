@@ -47,7 +47,7 @@
           :width="width"
         />
       </div>
-      <div class="col-12 header">
+      <div class="w-full header">
         <slot name="header" />
       </div>
     </div>
