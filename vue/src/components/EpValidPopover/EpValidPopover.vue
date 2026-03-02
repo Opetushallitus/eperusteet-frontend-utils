@@ -37,7 +37,6 @@
 
               <ep-button
                 v-if="luonnos && !julkaistava"
-                class="px-3 py-1"
                 variant="primary"
                 @click="asetaValmiiksi"
               >
@@ -45,7 +44,6 @@
               </ep-button>
               <ep-button
                 v-else-if="julkaistava && luonnos && !julkaistu && !arkistoitu"
-                class="px-3 py-1"
                 variant="primary"
                 @click="toJulkaisuRoute"
               >
