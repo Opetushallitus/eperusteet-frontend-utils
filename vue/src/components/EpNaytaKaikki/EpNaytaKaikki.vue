@@ -3,7 +3,7 @@
     <div
       v-for="(modelObject, index) in model"
       :key="'item'+index"
-      class="row"
+      class="flex flex-wrap gap-4 p-2"
       :class="striped ? 'striped' : ''"
     >
       <slot
@@ -64,9 +64,6 @@ const toggleNaytaKaikki = () => {
   &:nth-of-type(odd) {
     background-color: $table-odd-row-bg-color;
   }
-}
-.row {
-  padding: 0.5rem;
 }
 
 .nayta-btn {

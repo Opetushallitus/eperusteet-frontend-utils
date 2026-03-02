@@ -1,7 +1,7 @@
 <template>
   <ep-form-content
     v-if="arviointi"
-    class="col-md-12 mb-5"
+    class="col-span-12 mb-5"
   >
     <slot name="header" />
     <div>{{ $kaanna(arviointi.kohde) }}</div>
@@ -70,10 +70,10 @@ const osaamistasonKriteeritFields = computed(() => {
 @import "@shared/styles/_variables.scss";
 
   .osaamistasot {
-    .row:nth-of-type(even) {
+    > div:nth-of-type(even) {
       background-color: $table-even-row-bg-color;
     }
-    .row:nth-of-type(odd) {
+    > div:nth-of-type(odd) {
       background-color: $table-odd-row-bg-color;
     }
   }

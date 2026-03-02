@@ -1,6 +1,6 @@
 <template>
   <ep-form-content
-    class="col-md-12"
+    class="col-span-12"
     name="arviointi"
     :show-header="showHeader"
   >
