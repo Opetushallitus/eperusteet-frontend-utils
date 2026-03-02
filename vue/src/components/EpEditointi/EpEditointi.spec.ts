@@ -101,12 +101,8 @@ describe('EpEditointi component', () => {
 
     expect(config.start).toBeCalledTimes(1);
 
-<<<<<<< HEAD
     wrapper.findAll('.b-button').filter(r => r.text().includes('peruuta'))
       .at(0)!.trigger('click');
-=======
-    findContaining(wrapper, 'button', 'peruuta')!.trigger('click');
->>>>>>> 146a22d (perusteiden laadinta migration)
     await delay();
   });
 

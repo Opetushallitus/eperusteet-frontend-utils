@@ -1,14 +1,14 @@
 <template>
   <footer>
     <div class="footer-content link-style">
-      <div class="row flex justify-between">
-        <div class="col-lg col-slot">
+      <div class="flex flex-wrap justify-between gap-4">
+        <div class="flex-1 min-w-0 col-slot">
           <img
             src="@assets/img/banners/oph_logo.svg"
             :alt="$t('oph')"
           >
         </div>
-        <div class="col-md col-slot">
+        <div class="flex-1 min-w-0 col-slot">
           <p class="linkki-kuvaus">
             {{ $t('opetushallitus') }}
           </p>
@@ -17,7 +17,7 @@
             icon="launch"
           />
         </div>
-        <div class="col-md col-slot">
+        <div class="flex-1 min-w-0 col-slot">
           <p class="linkki-kuvaus">
             {{ $t('opintopolku') }}
           </p>
@@ -26,7 +26,7 @@
             icon="launch"
           />
         </div>
-        <div class="col-md col-slot">
+        <div class="flex-1 min-w-0 col-slot">
           <p class="linkki-kuvaus">
             {{ $t('eperusteet') }}
           </p>
@@ -35,7 +35,7 @@
             icon="launch"
           />
         </div>
-        <div class="col-md col-slot">
+        <div class="flex-1 min-w-0 col-slot">
           <slot name="palaute" />
           <div
             v-if="linkit.tietoapalvelusta"
@@ -127,7 +127,7 @@ footer {
     margin: 0 auto;
     padding: 20px 0;
 
-    .row {
+    > .flex {
       align-items: center;
       .col-slot {
         padding: 16px;

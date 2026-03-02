@@ -56,6 +56,7 @@ const scrollAnchor = ref('scroll-anchor');
 
 onMounted(() => {
   mounted.value = true;
+  scroll();
 });
 
 const showNavigation = computed(() => {
@@ -77,11 +78,15 @@ const scrollToView = () => {
 };
 
 watch(route, () => {
+  scroll();
+});
+
+const scroll = () => {
   if (props.scrollEnabled) {
     updateScrollMargin();
     scrollToView();
   }
-});
+}
 
 const updateScrollMargin = () => {
   const element = document.getElementById(scrollAnchorId.value);
@@ -144,9 +149,9 @@ const getElementHeighById = (id: string) => {
     .view {
       width: calc(100% - 340px);
       border-left: 1px solid #eee;
-      // @media print {
-        // border-left: none;
-      // }
+      @media print {
+        border-left: none;
+      }
     }
   }
 }

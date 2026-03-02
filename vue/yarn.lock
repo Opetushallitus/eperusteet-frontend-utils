@@ -3238,7 +3238,6 @@ __metadata:
     vue-meta: "npm:^2.3.2"
     vue-multiselect: "npm:^3.4.0"
     vue-observe-visibility: "npm:1.0.0"
-    vue-property-decorator: "npm:^9.1.2"
     vue-router: "npm:^4.5.1"
     vue-scrollto: "npm:^2.17.1"
     vue-select: "npm:^3.20.4"
@@ -7040,16 +7039,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-property-decorator@npm:^9.1.2":
-  version: 9.1.2
-  resolution: "vue-property-decorator@npm:9.1.2"
-  peerDependencies:
-    vue: "*"
-    vue-class-component: "*"
-  checksum: 10c0/f496f420d659ff01e9bef1e11a7ada4b505c4b80b87ed61f96d712b39939af4bc2b4fcb27ebf9dd623b006dc0a6b4be332f164218ff2b71c50c6021aee16c5b0
-  languageName: node
-  linkType: hard
-
 "vue-router@npm:^4.5.1":
   version: 4.5.1
   resolution: "vue-router@npm:4.5.1"
@@ -7150,20 +7139,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-<<<<<<< HEAD
 "webidl-conversions@npm:^3.0.0":
   version: 3.0.1
   resolution: "webidl-conversions@npm:3.0.1"
   checksum: 10c0/5612d5f3e54760a797052eb4927f0ddc01383550f542ccd33d5238cfd65aeed392a45ad38364970d0a0f4fea32e1f4d231b3d8dac4a3bdd385e5cf802ae097db
-=======
-"watchpack@npm:^2.4.1":
-  version: 2.4.1
-  resolution: "watchpack@npm:2.4.1"
-  dependencies:
-    glob-to-regexp: "npm:^0.4.1"
-    graceful-fs: "npm:^4.1.2"
-  checksum: 10c0/c694de0a61004e587a8a0fdc9cfec20ee692c52032d9ab2c2e99969a37fdab9e6e1bd3164ed506f9a13f7c83e65563d563e0d6b87358470cdb7309b83db78683
->>>>>>> f88d913 (EP-4930)
   languageName: node
   linkType: hard
 
