@@ -3903,7 +3903,6 @@ __metadata:
     vue-meta: "npm:^2.3.2"
     vue-multiselect: "npm:^3.4.0"
     vue-observe-visibility: "npm:1.0.0"
-    vue-property-decorator: "npm:^9.1.2"
     vue-router: "npm:^4.5.1"
     vue-scrollto: "npm:^2.17.1"
     vue-select: "npm:^3.20.4"
@@ -8291,16 +8290,6 @@ __metadata:
   version: 1.0.0
   resolution: "vue-observe-visibility@npm:1.0.0"
   checksum: 10c0/579d8141e2c585477496f80279dfe5516a358d3c4f81deb8cf9562031f26ddbd5a41ac14a2dc3cfc4b107a512cdb1f1b5f9d62c2dd466ea8f6d885c45755c603
-  languageName: node
-  linkType: hard
-
-"vue-property-decorator@npm:^9.1.2":
-  version: 9.1.2
-  resolution: "vue-property-decorator@npm:9.1.2"
-  peerDependencies:
-    vue: "*"
-    vue-class-component: "*"
-  checksum: 10c0/f496f420d659ff01e9bef1e11a7ada4b505c4b80b87ed61f96d712b39939af4bc2b4fcb27ebf9dd623b006dc0a6b4be332f164218ff2b71c50c6021aee16c5b0
   languageName: node
   linkType: hard
 

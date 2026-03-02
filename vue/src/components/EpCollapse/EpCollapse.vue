@@ -303,10 +303,10 @@ defineExpose({
 }
 
 :deep(.osaamistasot) {
-  .row:nth-of-type(even) {
+  > div:nth-of-type(even) {
     background-color: $table-even-row-blue !important;
   }
-  .row:nth-of-type(odd) {
+  > div:nth-of-type(odd) {
     background-color: $table-odd-row-blue !important;
   }
 }

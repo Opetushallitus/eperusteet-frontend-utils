@@ -17,9 +17,9 @@
       <div
         v-for="(aikataulu, i) in paatavoitteet"
         :key="'paatavoite'+i"
-        class="row paatavoite"
+        class="flex flex-wrap gap-4 paatavoite"
       >
-        <div class="col">
+        <div class="flex-1 min-w-0">
           <ep-form-content class="mb-3">
             <label v-if="aikataulu.tapahtuma !== 'julkaisu'">{{ $kaanna(aikataulu.tavoite) }}</label>
             <slot
@@ -42,8 +42,8 @@
             </ep-toggle>
           </ep-form-content>
         </div>
-        <div class="col" />
-        <div class="col-1" />
+        <div class="flex-1 min-w-0" />
+        <div class="w-1/12" />
       </div>
 
       <hr class="mb-4">
@@ -51,9 +51,9 @@
       <div
         v-for="(aikataulu, i) in yleistavoitteet"
         :key="'yleistavoite'+i"
-        class="row yleistavoite"
+        class="flex flex-wrap gap-4 yleistavoite"
       >
-        <div class="col">
+        <div class="flex-1 min-w-0">
           <ep-form-content class="mb-3">
             <label>{{ $t('tavoitteen-paivamaara') }}</label>
             <ep-datepicker
@@ -70,7 +70,7 @@
             </ep-toggle>
           </ep-form-content>
         </div>
-        <div class="col">
+        <div class="flex-1 min-w-0">
           <div>
             <ep-form-content name="tavoitteen-kuvaus">
               <ep-field
@@ -81,7 +81,7 @@
             </ep-form-content>
           </div>
         </div>
-        <div class="col-1 text-center pt-4">
+        <div class="w-1/12 text-center pt-4">
           <div class="pt-2">
             <ep-button
               variant="link"
