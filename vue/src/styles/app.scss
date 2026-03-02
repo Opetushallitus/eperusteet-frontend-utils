@@ -93,6 +93,8 @@ img.content-image {
   --spacing: 0.35rem;
   --p-tabs-tab-padding: 0.5rem 1.5rem 0.5rem 0rem !important;
   --p-tabs-nav-button-shadow: none !important;
+  --p-inputgroup-addon-padding: 0 !important;
+  --p-inputgroup-addon-border-radius: 25px !important;
   
   margin: 0;
   padding: 0;
@@ -344,4 +346,8 @@ table {
 
 .noselect {
   user-select: none;
+}
+
+.bg-color-gray50 {
+  background-color: $grey200 !important;
 }

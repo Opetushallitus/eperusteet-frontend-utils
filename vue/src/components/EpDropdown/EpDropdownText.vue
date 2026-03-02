@@ -1,5 +1,5 @@
 <template>
-  <div class="ep-dropdown-text px-3 py-2">
+  <div class="ep-dropdown-text px-3 py-2 cursor-pointer">
     <slot />
   </div>
 </template>
@@ -12,5 +12,8 @@
 
 .ep-dropdown-text {
   color: $grey700;
+  &:hover {
+    background-color: $grey50;
+  }
 }
 </style>

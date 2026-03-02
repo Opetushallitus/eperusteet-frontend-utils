@@ -134,17 +134,16 @@ export const $warning = (title: string): any => {
 export const setConfirmModal = (confirmModal: any) => {
   $confirmModal = {
     ...confirmModal,
-    msgBoxConfirm: (options: ConfirmOptions) => {
+    msgBoxConfirm: (title: string, options: ConfirmOptions) => {
       return new Promise((resolve) => {
         if (!confirm) {
           resolve(false);
           return;
         }
         confirmModal.require({
+          group: 'headless',
           header: options.title ?? '',
           message: options.message ?? '',
-          acceptLabel: $t(options.okTitle ?? 'kylla'),
-          rejectLabel: $t(options.cancelTitle ?? 'peruuta'),
           accept: () => resolve(true),
           reject: () => resolve(false),
         });

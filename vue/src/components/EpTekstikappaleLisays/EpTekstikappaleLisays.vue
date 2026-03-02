@@ -125,21 +125,23 @@
       </ep-form-content>
 
       <template #modal-footer>
-        <ep-button
-          variant="link"
-          @click="cancel"
-        >
-          {{ $t('peruuta') }}
-        </ep-button>
-        <ep-button
-          :show-spinner="loading"
-          :disabled="okDisabled"
-          @click="save"
-        >
-          <slot name="footer-lisays-btn-text">
-            {{ $t('lisaa-tekstikappale') }}
-          </slot>
-        </ep-button>
+        <div class="flex items-center gap-4">
+          <ep-button
+            variant="link"
+            @click="cancel"
+          >
+            {{ $t('peruuta') }}
+          </ep-button>
+          <ep-button
+            :show-spinner="loading"
+            :disabled="okDisabled"
+            @click="save"
+          >
+            <slot name="footer-lisays-btn-text">
+              {{ $t('lisaa-tekstikappale') }}
+            </slot>
+          </ep-button>
+        </div>
       </template>
     </EpModal>
   </div>
