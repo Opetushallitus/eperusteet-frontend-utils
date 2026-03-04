@@ -5,7 +5,7 @@
       ref="koodistoPickModalRef"
       :title="$t('valitse-koodisto')"
     >
-      <div class="d-flex flex-column mb-2">
+      <div class="flex flex-col mb-2">
         <EpSpinner v-if="!koodistot" />
         <ep-button
           v-for="koodisto in koodistot"

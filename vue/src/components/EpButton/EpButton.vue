@@ -18,7 +18,7 @@
     >
       <EpMaterialIcon
         v-if="icon"
-        class="ep-button__icon mr-2 inline-flex items-center"
+        class="ep-button__icon mr-1 inline-flex items-center"
         icon-shape="outlined"
         :background="inherit"
         :color="inherit"
@@ -81,6 +81,10 @@ const buttonVariantClasses = computed(() => {
   }
   if (isOutline.value) {
     return 'ep-button__btn--outline';
+  }
+
+  if (props.variant === 'none') {
+    return 'ep-button__btn--none';
   }
   return 'ep-button__btn--primary';
 });
@@ -153,6 +157,14 @@ const inherit = computed(() => {
   }
 }
 
+.ep-button__btn--none {
+  background: transparent;
+  border: none;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+}
+
 .ep-button__btn--disabled {
   opacity: 0.65;
   cursor: not-allowed;
@@ -160,5 +172,9 @@ const inherit = computed(() => {
 
 .ep-button__btn:disabled {
   pointer-events: none;
+}
+
+.ep-button__icon {
+  font-size: 20px;
 }
 </style>

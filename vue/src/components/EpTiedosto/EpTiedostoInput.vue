@@ -61,77 +61,16 @@ const browseText = computed(() => {
   return $t('fu-browse-text');
 });
 
-const resetFile = () => {
-  if (!fileSelected.value && fileInput.value) {
-    (fileInput.value as any)?.clear?.();
-  }
+const reset = () => {
+  (fileInput.value as { clear?: () => void })?.clear?.();
 };
 
-// Expose resetFile method for external components to use
 defineExpose({
-  resetFile,
+  reset,
 });
 </script>
 
 <style lang="scss" scoped>
 @import "@shared/styles/_variables.scss";
 
-.tiedosto-lataus {
-  // margin: 0;
-  // width:100%;
-  // border-width: 1px;
-  // border-color: $grey300;
-  // border-style: dashed;
-  // border-radius: 10px;
-  // position: relative;
-
-  //   &.tiedosto {
-  //     background-color: $white;
-  //     border-style: none;
-  //   }
-
-  //   &.ei-tiedostoa {
-  //     height: 100px;
-  //     background-color: $grey50;
-  //   }
-
-  // .custom-file:deep() {
-  //   height: 100%;
-  //   flex-direction: column;
-  //   justify-content: center;
-  //   display: flex;
-
-  //   input {
-  //     display: none;
-  //   }
-
-  //   .custom-file-label {
-  //     width: 100%;
-  //     background-image: url('@assets/img/icons/lataus_ikoni.svg');
-  //     background-repeat: no-repeat;
-  //     background-position: left;
-  //     border: 0;
-  //     margin-left: 30px;
-  //     margin-top: 10px;
-  //     height: 50px;
-  //     background-color: inherit;
-  //     padding-top: 0;
-  //     padding-left: 60px;
-  //     position: relative;
-  //     border-radius: 0;
-  //   }
-
-  //   .custom-file-label::after {
-  //     text-decoration: underline;
-  //     color: blue;
-  //     padding: 0 0 0 0.20rem;
-  //     display: inline;
-  //     position: relative;
-  //     background-color: $grey50;
-  //   }
-  // }
-  width: 400px;
-  border: 2px dashed $grey300;
-  border-radius: 10px;
-}
 </style>

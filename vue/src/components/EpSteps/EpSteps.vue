@@ -44,7 +44,7 @@
     </div>
 
     <div class="clear-both">
-      <div class="float-right mt-5">
+      <div class="flex justify-end gap-4 mt-5 items-center">
         <ep-button
           variant="link"
           @click="cancel"

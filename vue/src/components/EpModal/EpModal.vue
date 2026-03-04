@@ -6,8 +6,8 @@
     :dismissable-mask="false"
     :content-class="contentClass"
     :pt="dialogPt"
-    @update:visible="onVisibleChange"
     :class="modalClass"
+    @update:visible="onVisibleChange"
   >
     <template #header>
       <slot name="modal-title">
@@ -21,23 +21,27 @@
       v-if="!hideFooter"
       #footer
     >
-      <slot name="modal-footer">
-        <div class="flex justify-end gap-2">
+      <div class="flex justify-end gap-4 items-center">
+        <slot name="modal-footer">
           <EpButton
             variant="link"
             @click="onCancel"
           >
-            <slot name="modal-cancel">{{ cancelText }}</slot>
+            <slot name="modal-cancel">
+              {{ cancelText }}
+            </slot>
           </EpButton>
           <EpButton
             variant="primary"
             :disabled="okDisabled"
             @click="onOk"
           >
-            <slot name="modal-ok">{{ okText }}</slot>
+            <slot name="modal-ok">
+              {{ okText }}
+            </slot>
           </EpButton>
-        </div>
-      </slot>
+        </slot>
+      </div>
     </template>
   </Dialog>
 </template>
@@ -131,6 +135,8 @@ function onCancel() {
 @import '@shared/styles/_variables.scss';
 
 :deep(.ep-modal) {
+  z-index: 1000;
+
   .p-dialog-header {
     font-family: Poppins, sans-serif;
   }

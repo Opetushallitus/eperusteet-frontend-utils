@@ -69,7 +69,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['input']);
-const instance = getCurrentInstance();
 const fileInput = useTemplateRef('fileInput');
 
 const accept = computed(() => {

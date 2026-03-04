@@ -6,12 +6,12 @@
       @click="handleClick"
       @focus="handleFocus"
       @blur="handleBlur"
-      >
+    >
       <slot name="trigger" />
     </div>
     <Popover
       ref="popover"
-      :class="class"
+      :class="popoverClass"
       @mouseleave="handleMouseLeave"
       @show="handleShow"
       @hide="handleHide"
@@ -41,7 +41,7 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  class: {
+  popoverClass: {
     type: String,
     default: 'w-100',
   },

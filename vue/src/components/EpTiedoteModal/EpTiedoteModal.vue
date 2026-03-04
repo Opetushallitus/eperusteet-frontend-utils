@@ -15,8 +15,8 @@
       size="lg"
     >
       <template #modal-title>
-        <div class="flex w-full">
-          <div class="flex-1">
+        <div class="flex w-full gap-4 justify-between items-center">
+          <div>
             <h2 v-if="!editing">
               {{ $t('tiedote') }}
             </h2>
@@ -24,7 +24,7 @@
               {{ muokattavaTiedote.id ? $t('muokkaa-tiedotetta') : $t('lisaa-tiedote') }}
             </h2>
           </div>
-          <div class="flex-1 text-right">
+          <div class="text-right">
             <ep-kielivalinta />
           </div>
         </div>

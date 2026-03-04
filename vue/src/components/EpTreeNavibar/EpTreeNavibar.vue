@@ -34,10 +34,9 @@
                 size="sm"
                 variant="link"
                 class="backbtn"
+                icon="chevron_left"
                 @click="navigateUp()"
-              >
-                <EpMaterialIcon>chevron_left</EpMaterialIcon>
-              </ep-button>
+              />
             </div>
           </div>
           <div
@@ -398,15 +397,16 @@ const isActive = (navItem: IndexedNode) => {
       height: 30px;
       width: 30px;
 
-      .btn {
-        padding: 0.25rem 0.1rem;
+      :deep(.btn) {
+        padding: 0.25rem 0.10rem;
         margin-top: -2px;
         font-size: 16px;
         font-weight: 400;
       }
 
-      .backbtn {
+      :deep(.backbtn) {
         color: white;
+        padding: 0.1rem 0.15rem;
       }
     }
   }

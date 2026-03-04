@@ -126,7 +126,7 @@
                       :is-editing="isEditing"
                     />
                   </div>
-                  <div>
+                  <div class="w-[40px] text-center">
                     <Kayttolistaus
                       v-if="koodisto && kohdealue.vaatimukset[vaatimusIdx].koodi"
                       :koodi="kohdealue.vaatimukset[vaatimusIdx].koodi"

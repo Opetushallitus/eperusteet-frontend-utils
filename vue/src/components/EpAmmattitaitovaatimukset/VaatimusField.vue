@@ -15,7 +15,9 @@
             >
               <EpInputGroup :disabled="props.modelValue.koodi">
                 <template #prefix>
-                  <EpMaterialIcon class="handle order-handle !text-gray-600">drag_indicator</EpMaterialIcon>
+                  <EpMaterialIcon class="handle order-handle !text-gray-600">
+                    drag_indicator
+                  </EpMaterialIcon>
                 </template>
                 <ep-input
                   v-if="!props.modelValue.koodi"
