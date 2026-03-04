@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isEditing">
+  <template v-if="isEditing">
     <div class="input-container flex items-center w-full">
       <input
         v-bind="$attrs"
@@ -62,10 +62,9 @@
         class="form-text text-gray-500"
       >{{ $t(help) }}</small>
     </div>
-  </div>
-  <div
+  </template>
+  <template
     v-else
-    v-bind="$attrs"
   >
     <h2 v-if="isHeader">
       {{ val }}
@@ -75,7 +74,7 @@
       v-else-if="placeholderValue"
       class="placeholder"
     >{{ placeholderValue }}</span>
-  </div>
+  </template>
 </template>
 
 <script setup lang="ts">
@@ -208,6 +207,7 @@ const inputClass = computed(() => {
     'is-invalid': !props.isWarning && isInvalid.value,
     'is-warning': props.isWarning,
     'is-valid': isValid.value && props.showValidValidation && props.validation,
+    'disabled': props.disabled,
   };
 });
 
@@ -360,10 +360,16 @@ defineExpose({
 input.input-style {
   border: 1px solid $black;
   background-color: #fff;
+  height: 40px;
+  padding: .4375rem .625rem;
 
   &:focus {
     outline: none !important;
     box-shadow: none !important;
+  }
+
+  &.disabled {
+    background-color: $grey200;
   }
 }
 

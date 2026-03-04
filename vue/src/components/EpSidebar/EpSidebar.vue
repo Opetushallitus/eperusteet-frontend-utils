@@ -86,7 +86,7 @@ const scroll = () => {
     updateScrollMargin();
     scrollToView();
   }
-}
+};
 
 const updateScrollMargin = () => {
   const element = document.getElementById(scrollAnchorId.value);

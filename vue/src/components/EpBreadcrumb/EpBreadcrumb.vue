@@ -36,7 +36,9 @@
         {{ item.label }}
       </span>
     </template>
-    <template #separator>/</template>
+    <template #separator>
+      /
+    </template>
   </Breadcrumb>
 </template>
 

@@ -35,7 +35,7 @@ const props = defineProps({
 @import "@shared/styles/_variables.scss";
 
   .icon {
-    color: $lightBlue2;
+    color: $link;
     vertical-align: top;
     font-size: 22px;
   }
