@@ -1,12 +1,24 @@
 <template>
-  <InputGroup class="ep-input-group" :class="{ 'disabled': disabled }">
-    <InputGroupAddon v-if="$slots.prefix">
+  <InputGroup
+    class="ep-input-group"
+    :class="{ 'disabled': disabled }"
+  >
+    <InputGroupAddon
+      v-if="$slots.prefix"
+      class="prefix-addon"
+    >
       <slot name="prefix" />
     </InputGroupAddon>
-    <div class="flex-grow middle-input" :class="{ 'with-prefix': $slots.prefix, 'with-append': $slots.append }">
+    <div
+      class="flex-grow middle-input"
+      :class="{ 'with-prefix': $slots.prefix, 'with-append': $slots.append }"
+    >
       <slot />
     </div>
-    <InputGroupAddon v-if="$slots.append" class="append-addon">
+    <InputGroupAddon
+      v-if="$slots.append"
+      class="append-addon"
+    >
       <slot name="append" />
     </InputGroupAddon>
   </InputGroup>
@@ -42,22 +54,40 @@ const props = defineProps({
 
 .middle-input {
 
-  border: 1px solid #ccc;
+  border: 0;
 
   &.with-prefix {
     border-left: 0 !important;
+    :deep(input) {
+      border-left: 0;
+    }
   }
   &.with-append {
     border-right: 0 !important;
-  }
-  :deep(input) {
-    border: 0 !important;
+    :deep(input) {
+      border-right: 0;
+    }
   }
 }
 .append-addon {
   :deep(button) {
     border-top-left-radius: 0 !important;
     border-bottom-left-radius: 0 !important;
+    height: 40px;
   }
+
+}
+:deep(.p-inputgroupaddon) {
+  // border-width: 1px !important;
+  // background-color: red !important;
+  min-width: unset !important;
+  height: 40px;
+}
+.prefix-addon {
+  border-right: 0;
+  border-start-start-radius: 0 !important;
+  border-end-start-radius: 0 !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
 }
 </style>

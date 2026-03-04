@@ -12,30 +12,24 @@
             {{ $t('kuvalisays-modal-selite') }}
           </div>
           <ep-form-content name="valitse-kuva">
-            <vue-select
-              :value="selectedValue"
+            <ep-select
+              v-model="selectedValue"
+              :items="options"
+              :is-editing="true"
+              :enable-empty-option="true"
+              :placeholder="options.length > 0 ? 'valitse' : 'ei-lisattyja-kuvia'"
               :disabled="options.length === 0"
-              :filter-by="filterBy"
-              :placeholder="options.length > 0 ? $t('valitse') : $t('ei-lisattyja-kuvia')"
-              :options="options"
-              label="id"
-              :clearable="true"
-              @input="selectedValue = $event"
             >
-              <template #selected-option="option">
-                <img
-                  class="preview-selected"
-                  :src="option.src"
-                >
+              <template #default="{ item }">
+                <div class="flex flex-col items-center">
+                  {{ item?.nimi || '' }}
+                  <img
+                    class="preview-selected"
+                    :src="item.src"
+                  >
+                </div>
               </template>
-              <template #option="option">
-                <img
-                  class="preview"
-                  :src="option.src"
-                >
-                {{ option.nimi }}
-              </template>
-            </vue-select>
+            </ep-select>
           </ep-form-content>
         </div>
 
@@ -98,7 +92,7 @@
 
 <script setup lang="ts">
 import _ from 'lodash';
-import { ref, computed, onMounted, getCurrentInstance } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
@@ -108,7 +102,7 @@ import { Kielet } from '@shared/stores/kieli';
 import EpKuvaLataus, { ImageData } from '@shared/components/EpTiedosto/EpKuvaLataus.vue';
 import { IKuvaHandler, ILiite } from './KuvaHandler';
 import { $t, $success, $fail } from '@shared/utils/globals';
-import VueSelect from 'vue-select';
+import EpSelect from '@shared/components/forms/EpSelect.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 
 const props = defineProps({
@@ -194,12 +188,6 @@ async function close(save: boolean) {
   emit('onClose', save);
 }
 
-function filterBy(option: any, label: string, search: string) {
-  return (option.nimi || '')
-    .toLowerCase()
-    .indexOf(search.toLowerCase()) > -1;
-}
-
 async function saveImage() {
   if (imageData.value) {
     const formData = new FormData();
@@ -215,7 +203,8 @@ async function saveImage() {
       });
       imageSaved.value = true;
       files.value = await props.loader.hae();
-      selectedValue.value = { id: tallenettuId.data };
+      const newFile = files.value.find((f: ILiite) => f.id === tallenettuId.data);
+      selectedValue.value = newFile ?? null;
 
       $success($t('kuva-tallennettu-onnistuneesti'));
     }
@@ -278,7 +267,7 @@ onMounted(async () => {
   }
 
   img.preview-selected {
-    width: 100%;
+    height: 100px;
   }
 
   img.preview {

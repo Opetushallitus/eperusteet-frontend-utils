@@ -7,7 +7,9 @@
           variant="link"
           icon="add"
         >
-        {{ $t('uusi-tekstikappale') }}
+          <slot name="lisays-btn-text">
+            {{ $t('uusi-tekstikappale') }}
+          </slot>
         </ep-button>
       </slot>
     </div>

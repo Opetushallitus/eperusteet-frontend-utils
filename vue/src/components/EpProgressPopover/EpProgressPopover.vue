@@ -3,9 +3,9 @@
     <EpPopover
       v-if="slots.default"
       :triggers="['hover', 'focus']"
+      popover-class="w-70"
       @show="tilaPopupVisible = true"
       @hide="tilaPopupVisible = false"
-      class="w-70"
     >
       <template #trigger>
         <div
