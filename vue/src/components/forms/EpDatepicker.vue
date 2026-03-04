@@ -7,7 +7,7 @@
       :model-value="dateValue"
       date-format="dd.mm.yy"
       :placeholder="$t('valitse-pvm')"
-      :showButtonBar="true"
+      :show-button-bar="true"
       :invalid="state === false"
       show-icon
       :manual-input="true"
@@ -178,8 +178,8 @@ const onBlur = () => {
 .ep-date-input-wrapper {
   :deep(.p-inputtext) {
     padding: 0.375rem 0.75rem;
-    border: 1px solid $grey300;
-    border-radius: 4px;
+    border: 1px solid $black;
+    border-radius: 0px;
     font-size: 1rem;
     line-height: 1.5;
   }

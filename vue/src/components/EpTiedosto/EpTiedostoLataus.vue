@@ -127,7 +127,7 @@ function cancel() {
 }
 
 function resetFile() {
-  fileInput.value?.resetFile();
+  (fileInput.value as { reset?: () => void })?.reset?.();
 }
 
 defineExpose({

@@ -38,7 +38,7 @@
     <template #option="{ option }">
       <hr
         v-if="option.$groupLabel"
-        class="mt-0 mb-0"
+        class="!mt-0 !mb-0"
       >
       <span
         v-else

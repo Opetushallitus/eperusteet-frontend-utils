@@ -61,7 +61,9 @@
               >
                 check
               </EpMaterialIcon>
-              {{ $t(kieli) }}
+              <div :class="{ 'pl-[2.5rem]': kieli !== sisaltoKieli }">
+                {{ $t(kieli) }}
+              </div>
             </EpDropdownItem>
           </div>
         </EpDropdown>
