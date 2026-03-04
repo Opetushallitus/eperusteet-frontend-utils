@@ -49,7 +49,7 @@
           v-if="selectedValue && !imageData"
           class="imgselect valittu-kuva-alue mt-5"
         >
-          <div class="d-flex align-items-start flex-column">
+          <div class="flex items-start flex-col">
             <img
               :key="selectedValue.id"
               class="valittu-kuva"
@@ -58,12 +58,12 @@
               alt=""
               @load="onValittuKuvaLoad"
             >
-            <div class="text-muted">
+            <div class="text-gray-500">
               {{ $t('fu-valittu-tiedosto') }}: {{ selectedValue.nimi }}
             </div>
             <div
               v-if="valittuKuvaMitat"
-              class="text-muted small mt-1"
+              class="text-gray-500 text-sm mt-1"
             >
               {{ $t('kuvan-leveys') }} {{ valittuKuvaMitat.width }} px <br>
               {{ $t('kuvan-korkeus') }} {{ valittuKuvaMitat.height }} px
@@ -179,7 +179,7 @@
 
 <script setup lang="ts">
 import _ from 'lodash';
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
@@ -360,7 +360,8 @@ async function saveImage() {
       });
       imageSaved.value = true;
       files.value = await props.loader.hae();
-      selectedValue.value = { id: tallenettuId.data };
+      const newFile = files.value.find((f: ILiite) => f.id === tallenettuId.data);
+      selectedValue.value = newFile ?? null;
 
       $success($t('kuva-tallennettu-onnistuneesti'));
     }

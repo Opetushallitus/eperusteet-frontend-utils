@@ -126,7 +126,7 @@ const isKvLiite = computed(() => {
     background-color: rgba($grey200, 0.4);
 
     .ikoni {
-      color: $lightBlue2;
+      color: $lightBlue1;
     }
 
     @media(max-width: 575px) {

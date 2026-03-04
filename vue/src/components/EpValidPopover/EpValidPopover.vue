@@ -72,8 +72,8 @@
           <ep-button
             v-if="(julkaistu || valmis) && julkaistava"
             variant="primary"
-            @click="toJulkaisuRoute"
             class="mb-2"
+            @click="toJulkaisuRoute"
           >
             {{ $t('siirry-julkaisunakymaan') }}
           </ep-button>
@@ -136,7 +136,7 @@
                 class="pt-2 pb-1 grid grid-cols-12 gap-2"
               >
                 <div class="col-span-1" />
-                <div class="col-span-11">
+                <div class="col-span-11 text-left">
                   <ep-button
                     class="p-0"
                     variant="link"
@@ -159,7 +159,7 @@
                   info
                 </EpMaterialIcon>
               </div>
-              <div class="col-span-11">
+              <div class="col-span-11 text-left">
                 <span>{{ $t(huomautuksia) }}</span>
               </div>
             </div>
@@ -170,8 +170,8 @@
         <ep-button
           class="btn-tarkista"
           variant="link"
-          @click="validoi"
           icon="refresh"
+          @click="validoi"
         >
           <span> {{ $t('tarkista-virheet') }}</span>
         </ep-button>

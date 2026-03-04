@@ -99,8 +99,8 @@
                   >
                     visibility
                   </EpMaterialIcon>
+                </div>
               </div>
-            </div>
             </EpDropdownItem>
           </div>
         </div>
@@ -113,14 +113,13 @@
         :border-bottom="false"
       >
         <template #header>
-          <div class="pl-4 pt-2 whitespace-nowrap kieli">
+          <div class="pl-3 pt-2 whitespace-nowrap kieli">
             <EpMaterialIcon class="icon mr-3">
               language
             </EpMaterialIcon>
             <span>{{ $t('kieli') }}</span>
           </div>
-          <div class="pl-10 uikieli">
-            <span class="icon mr-3" />
+          <div class="pl-[3.6rem] uikieli">
             <small>{{ $t(uiKieli) }}</small>
           </div>
         </template>
@@ -154,7 +153,9 @@
                 done
               </EpMaterialIcon>
             </div>
-            {{ $t(kieli) }}
+            <div :class="{ 'pl-[2.5rem]': kieli !== uiKieli }">
+              {{ $t(kieli) }}
+            </div>
           </EpDropdownItem>
         </div>
       </ep-collapse>
@@ -186,7 +187,7 @@
         :border-bottom="false"
       >
         <template #header>
-          <div class="pl-4 pt-2 whitespace-nowrap kieli">
+          <div class="pl-3 pt-2 whitespace-nowrap kieli">
             <EpMaterialIcon class="icon mr-3">
               launch
             </EpMaterialIcon>
@@ -194,9 +195,8 @@
           </div>
           <div
             v-if="valittuSovellus"
-            class="pl-10 valittu-sovellus pb-2"
+            class="pl-[3.6rem] valittu-sovellus pb-2"
           >
-            <span class="icon mr-3" />
             <small>{{ $t(valittuSovellus.eperusteSovellus.sovellus) }}</small>
           </div>
         </template>
@@ -231,11 +231,13 @@
                 done
               </EpMaterialIcon>
             </div>
-            {{ $t(sovellusOikeus.eperusteSovellus.sovellus) }}
+            <div :class="{ 'pl-[2.5rem]': !sovellusOikeus.valittu }">
+              {{ $t(sovellusOikeus.eperusteSovellus.sovellus) }}
+            </div>
           </EpDropdownItem>
 
           <EpDropdownItem href="/virkailijan-tyopoyta">
-            <div class="collapse-tausta-valinta-icon" />
+            <div class="collapse-tausta-valinta-icon pl-[2.5rem]" />
             {{ $t('virkailijan-tyopoyta') }}
           </EpDropdownItem>
         </div>
@@ -244,7 +246,7 @@
       <EpDropdownDivider />
 
       <EpDropdownItem :href="logoutHref">
-        <EpMaterialIcon class="mr-3 valittu">
+        <EpMaterialIcon class="valittu pl-[0.2rem] mr-[0.9rem]">
           logout
         </EpMaterialIcon>
         <span>{{ $t('kirjaudu-ulos') }}</span>

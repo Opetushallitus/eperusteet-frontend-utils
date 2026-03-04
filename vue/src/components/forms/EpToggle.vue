@@ -1,6 +1,6 @@
 <template>
   <div
-    class="ep-toggle"
+    class="ep-toggle mr-2"
     :class="{ 'inline': inline, 'large': lgSize }"
   >
     <Checkbox
