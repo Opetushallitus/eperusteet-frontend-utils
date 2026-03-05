@@ -238,4 +238,10 @@ const termiAriaPiiloon = (termiAvain) => {
   @include focus;
 }
 
+:deep(.table-responsive) {
+  tr:first-child td {
+    background: $table-header-color !important;
+  }
+}
+
 </style>
