@@ -300,19 +300,4 @@ defineExpose({
   padding-right: 20px;
   border-radius: 0.7rem;
 }
-
-:deep(.osaamistasot) {
-  .row:nth-of-type(even) {
-    background-color: $table-even-row-blue !important;
-  }
-  .row:nth-of-type(odd) {
-    background-color: $table-odd-row-blue !important;
-  }
-}
-
-:deep(.table-responsive) {
-  tr:first-child td {
-    background: $table-header-color !important;
-  }
-}
 </style>
