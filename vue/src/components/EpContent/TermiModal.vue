@@ -73,7 +73,10 @@
               </div>
             </template>
           </vue-select>
-          <div class="mt-3">
+          <div
+            v-if="canEditTermit"
+            class="mt-3"
+          >
             <ep-button
               v-if="valittu"
               id="muokkaa-termia"
@@ -178,7 +181,10 @@ const peruuta = async () => {
   isEditing.value = false;
 };
 
+const canEditTermit = computed(() => !!props.handler.addOrUpdate);
+
 const tallenna = async () => {
+  if (!props.handler.addOrUpdate) return;
   try {
     isLoading.value = true;
     const uusi = await props.handler.addOrUpdate(muokattava);

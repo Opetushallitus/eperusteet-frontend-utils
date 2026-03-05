@@ -79,13 +79,13 @@
         <EpMaterialIcon>add_link</EpMaterialIcon>
       </button>
 
-      <!-- Term button -->
+      <!-- Term button - disabled when handler cannot add/update termis -->
       <button
         v-if="layoutCommands.includes('term')"
         type="button"
         class="menu-button"
         :class="{ 'is-active': editor.isActive('termiExtension3') }"
-        :disabled="!canToggleTerm"
+        :disabled="!canToggleTerm || !injectedKasiteHandler?.addOrUpdate"
         title="Käsite"
         @click="toggleTerm"
       >
@@ -245,9 +245,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, inject } from 'vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import { EditorLayout } from '@shared/tyypit';
+import { IKasiteHandler } from './KasiteHandler';
+
+const injectedKasiteHandler = inject<IKasiteHandler | undefined>('kasiteHandler');
 
 const props = defineProps({
   editor: {

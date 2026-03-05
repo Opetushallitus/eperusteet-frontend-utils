@@ -11,7 +11,7 @@ export interface ITermi {
 export interface ITermiStore {
   getTermi: (avain: string) => any;
   getAllTermit: () => ITermi[];
-  updateOrAddTermi: (termi: ITermi) => Promise<any>;
+  updateOrAddTermi?: (termi: ITermi) => Promise<any>;
   alaviiteSupported?: () => boolean;
 }
 
@@ -28,20 +28,22 @@ export interface IKasiteHandler {
 
   /**
    * Lisää uusi termi tai päivitä termiä. Vanhaa päivitetään jos `avain` ja `id` löytyy.
+   * Vapaaehtoinen - sovellukset jotka vain lukevat termejä eivät tarvitse tätä.
    */
-  addOrUpdate: (termi: ITermi) => Promise<ITermi>,
+  addOrUpdate?: (termi: ITermi) => Promise<ITermi>,
 }
 
 export function createKasiteHandler(store: ITermiStore): IKasiteHandler {
-  return {
+  const handler: IKasiteHandler = {
     getOne(avain: string) {
       return store.getTermi(avain);
     },
     getAll() {
       return store.getAllTermit();
     },
-    async addOrUpdate(termi: ITermi) {
-      return (await store.updateOrAddTermi(termi));
-    },
   };
+  if (store.updateOrAddTermi) {
+    handler.addOrUpdate = async (termi: ITermi) => (await store.updateOrAddTermi!(termi));
+  }
+  return handler;
 }
