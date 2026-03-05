@@ -101,7 +101,7 @@ describe('EpEditointi component', () => {
 
     expect(config.start).toBeCalledTimes(1);
 
-    findContaining(wrapper, '.b-button', 'peruuta')!.trigger('click');
+    findContaining(wrapper, 'button', 'peruuta')!.trigger('click');
     await delay();
   });
 
@@ -141,7 +141,7 @@ describe('EpEditointi component', () => {
       load: vi.fn(async () => data),
     });
     await delay();
-    findContaining(wrapper, '.b-button', 'tallenna')!.trigger('click');
+    findContaining(wrapper, 'button', 'tallenna')!.trigger('click');
     await delay();
     await nextTick();
     expect(config.start).toBeCalledTimes(1);
@@ -187,11 +187,11 @@ describe('EpEditointi component', () => {
       </ep-editointi>
     `);
     await delay();
-    expect(findContaining(wrapper, '.b-button', 'muokkaa')).toBeNull();
+    expect(findContaining(wrapper, 'button', 'muokkaa')).toBeNull();
 
     features.editable = true;
     await delay();
-    expect(findContaining(wrapper, '.b-button', 'muokkaa')).toBeTruthy();
+    expect(findContaining(wrapper, 'button', 'muokkaa')).toBeTruthy();
   });
 
   test('Can start and cancel editing', async () => {
@@ -206,7 +206,7 @@ describe('EpEditointi component', () => {
     await delay();
 
     expect(wrapper.html()).toContain('>editing false</pre>');
-    findContaining(wrapper, '.b-button', 'muokkaa')!.trigger('click');
+    findContaining(wrapper, 'button', 'muokkaa')!.trigger('click');
     await delay();
 
     wrapper.find('input').setValue('uusi nimi');
@@ -215,7 +215,7 @@ describe('EpEditointi component', () => {
     expect(config.acquire).toBeCalledTimes(1);
     expect(wrapper.html()).toContain('>editing true</pre>');
 
-    findContaining(wrapper, '.b-button', 'peruuta')!.trigger('click');
+    findContaining(wrapper, 'button', 'peruuta')!.trigger('click');
     await delay();
     expect(config.release).toBeCalledTimes(1);
     expect(config.cancel).toBeCalledTimes(1);

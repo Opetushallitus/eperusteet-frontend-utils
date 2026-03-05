@@ -32,13 +32,13 @@
         </template>
         <div
           v-else
-          class="ylapaneeli d-print-none"
+          class="ylapaneeli print:hidden py-3 px-5"
         >
           <div
-            class="d-flex align-items-center flex-md-row flex-column justify-content-between"
+            class="flex items-center justify-between"
             :class="{ container: useContainer }"
           >
-            <div class="d-flex flex-wrap flex-xl-nowrap align-items-center justify-content-between">
+            <div class="flex flex-wrap flex-xl-nowrap items-center justify-between">
               <div
                 v-if="inner"
                 class="headerline"
@@ -53,7 +53,7 @@
               </div>
               <div
                 v-if="!isEditing"
-                class="muokattu text-nowrap"
+                class="muokattu whitespace-nowrap"
               >
                 <slot
                   name="postHeader"
@@ -65,14 +65,14 @@
                 />
                 <span
                   v-if="latest"
-                  class="text-truncate"
+                  class="truncate"
                 >{{ $t('muokattu') }}: {{ $sdt(latest.pvm) }}, {{ nimi }}</span>
               </div>
             </div>
             <div>
               <div
                 v-if="!versiohistoriaVisible"
-                class="floating-editing-buttons d-flex align-items-center"
+                class="floating-editing-buttons flex items-center"
               >
                 <ep-button
                   v-if="isEditing"
@@ -98,20 +98,15 @@
                     {{ $t('tallenna') }}
                   </slot>
                 </ep-button>
-                <b-dropdown
+                <EpDropdown
                   v-if="isEditing && !disabled && (features.removable || features.hideable)"
                   class="mx-4"
-                  size="md"
-                  variant="link"
-                  :disabled="disabled"
-                  toggle-class="text-decoration-none"
-                  no-caret="no-caret"
                   right
                 >
                   <template #button-content>
                     <EpMaterialIcon>more_horiz</EpMaterialIcon>
                   </template>
-                  <b-dropdown-item
+                  <EpDropdownItem
                     key="poista"
                     :disabled="!features.removable || disabled"
                     @click="remove()"
@@ -119,8 +114,8 @@
                     <slot name="poista">
                       {{ poistoteksti }}
                     </slot>
-                  </b-dropdown-item>
-                  <b-dropdown-item
+                  </EpDropdownItem>
+                  <EpDropdownItem
                     v-if="!hidden && features.hideable"
                     key="piilota"
                     :disabled="disabled"
@@ -129,8 +124,8 @@
                     <slot name="piilota">
                       {{ $t('piilota') }}
                     </slot>
-                  </b-dropdown-item>
-                  <b-dropdown-item
+                  </EpDropdownItem>
+                  <EpDropdownItem
                     v-if="hidden"
                     key="palauta"
                     :disabled="!features.hideable || disabled"
@@ -139,11 +134,11 @@
                     <slot name="palauta">
                       {{ $t('palauta') }}
                     </slot>
-                  </b-dropdown-item>
-                </b-dropdown>
+                  </EpDropdownItem>
+                </EpDropdown>
                 <div
                   v-if="currentLock && features.lockable"
-                  class="d-flex align-items-center ml-2 mr-2"
+                  class="flex items-center ml-2 mr-2"
                 >
                   <div>
                     <EpMaterialIcon
@@ -154,11 +149,11 @@
                     </EpMaterialIcon>
                     {{ $t('sivu-lukittu') }}
                   </div>
-                  <div class="flex-grow-1 ml-3">
+                  <div class="grow ml-3">
                     <div>
                       {{ currentLock.haltijaNimi || currentLock.haltijaOid }}
                     </div>
-                    <div class="text-muted">
+                    <div class="text-gray-500">
                       {{ $t('vapautuu') }}: {{ $ago(currentLock.vanhentuu) }}
                     </div>
                   </div>
@@ -213,21 +208,16 @@
                 >
                   {{ $t('muokkausta-ei-sallittu') }}
                 </span>
-                <b-dropdown
+                <EpDropdown
                   v-if="katseluDropDownValinnatVisible"
                   v-oikeustarkastelu="{ oikeus: 'luku' }"
                   class="mx-4"
-                  size="md"
-                  variant="link"
-                  :disabled="disabled"
-                  toggle-class="text-decoration-none"
-                  no-caret="no-caret"
                   right
                 >
                   <template #button-content>
                     <EpMaterialIcon>more_horiz</EpMaterialIcon>
                   </template>
-                  <b-dropdown-item
+                  <EpDropdownItem
                     v-if="features.removable && !disabled"
                     key="poista"
                     v-oikeustarkastelu="muokkausOikeustarkastelu"
@@ -236,8 +226,8 @@
                     <slot name="poista">
                       {{ poistoteksti }}
                     </slot>
-                  </b-dropdown-item>
-                  <b-dropdown-item
+                  </EpDropdownItem>
+                  <EpDropdownItem
                     v-if="!hidden && features.hideable && !disabled"
                     key="piilota"
                     v-oikeustarkastelu="muokkausOikeustarkastelu"
@@ -246,8 +236,8 @@
                     <slot name="piilota">
                       {{ $t('piilota') }}
                     </slot>
-                  </b-dropdown-item>
-                  <b-dropdown-item
+                  </EpDropdownItem>
+                  <EpDropdownItem
                     v-if="hidden && features.hideable && !disabled"
                     key="palauta"
                     v-oikeustarkastelu="muokkausOikeustarkastelu"
@@ -256,16 +246,21 @@
                     <slot name="palauta">
                       {{ $t('palauta') }}
                     </slot>
-                  </b-dropdown-item>
-                  <b-dropdown-item :disabled="!features.previewable || disabled">
+                  </EpDropdownItem>
+                  <EpDropdownItem
+                    :disabled="!features.previewable || disabled"
+                    @click="store.preview?.()"
+                  >
                     {{ $t('esikatsele-sivua') }}
-                  </b-dropdown-item>
-                  <b-dropdown-item v-if="store.validate && !disabled">
+                  </EpDropdownItem>
+                  <EpDropdownText
+                    v-if="features.validated && !disabled"
+                  >
                     {{ $t('validoi') }}
-                  </b-dropdown-item>
-                  <b-dropdown-item
+                  </EpDropdownText>
+                  <EpDropdownText
                     v-if="features.recoverable"
-                    :disabled="!historia || disabled"
+                    :class="{ 'opacity-50 cursor-not-allowed': !historia || disabled }"
                   >
                     <ep-versio-modaali
                       :value="current"
@@ -274,8 +269,8 @@
                       :per-page="10"
                       @restore="restore($event)"
                     />
-                  </b-dropdown-item>
-                </b-dropdown>
+                  </EpDropdownText>
+                </EpDropdown>
                 <ep-round-button
                   v-if="hasKeskusteluSlot"
                   id="editointi-muokkaus-comments"
@@ -308,28 +303,19 @@
         </div>
         <div
           v-if="versiohistoriaVisible"
-          class="d-flex align-items-center versiohistoria"
+          class="flex items-center versiohistoria"
         >
           <div class="headerline">
             <span>{{ $t('muokkaushistoria') }}: {{ $t('versionumero') }} {{ versionumero }}</span>
           </div>
-          <div class="flex-fill">
-            <ep-pagination
+          <div class="flex-1">
+            <ep-b-pagination
               :model-value="versionumero"
-              :total-rows="versions"
-              :per-page="1"
-              :hide-goto-end-buttons="true"
-              size="sm"
+              :total="versions"
+              :items-per-page="1"
               class="mb-0"
               @update:model-value="updateVersionumero"
-            >
-              <template #prev-text>
-                <EpMaterialIcon>chevron_left</EpMaterialIcon>
-              </template>
-              <template #next-text>
-                <EpMaterialIcon>chevron_right</EpMaterialIcon>
-              </template>
-            </ep-pagination>
+            />
           </div>
           <div class="floating-editing-buttons">
             <ep-button
@@ -370,7 +356,7 @@
           <div class="actual-content">
             <div
               v-if="hasInfoSlotContent"
-              class="info d-flex"
+              class="info flex"
             >
               <EpMaterialIcon
                 class="mr-1"
@@ -483,10 +469,11 @@ import EpRoundButton from '@shared/components/EpButton/EpRoundButton.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import { EpDropdown, EpDropdownItem, EpDropdownText } from '@shared/components/EpDropdown';
 import { useSlots } from 'vue';
-import { $t, $sdt, $ago, $success, $fail, $bvModal } from '@shared/utils/globals';
+import { $t, $sdt, $ago, $success, $fail, $confirmModal } from '@shared/utils/globals';
 import { useVuelidate } from '@vuelidate/core';
-import EpPagination from '@shared/components/EpPagination/EpPagination.vue';
+import EpBPagination from '@shared/components/EpBPagination/EpBPagination.vue';
 import { inject } from 'vue';
 
 const props = defineProps({
@@ -777,7 +764,7 @@ const hasInfoSlotContent = computed(() => !!slots.info);
 const hasFooterSlot = computed(() => !!slots.footer);
 const hasCustomHeaderSlot = computed(() => !!slots.customheader);
 
-const kommenttiHandler = inject('kommenttiHandler');
+const kommenttiHandler = inject('kommenttiHandler', null);
 
 const saveHelpText = computed(() => {
   if (disabled.value) {
@@ -816,7 +803,7 @@ const vahvista = async (title: string, okTitle: string, label?: string) => {
   }
 
   const vahvistusSisalto = instance?.proxy?.$createElement('div', {}, modalContent).children;
-  return $bvModal?.msgBoxConfirm((vahvistusSisalto as any), {
+  return $confirmModal?.msgBoxConfirm((vahvistusSisalto as any), {
     title: title,
     okVariant: 'primary',
     okTitle: okTitle as any,
@@ -940,8 +927,8 @@ watch(sidebarState, (newValue, oldValue) => {
 @import '../../styles/variables';
 
 .info {
-  background: $blue-lighten-9;
-  border: $blue-lighten-10 solid 1px;
+  background: $lightBlue2;
+  border: $grey300 solid 1px;
   padding: 20px;
 }
 
@@ -953,7 +940,6 @@ watch(sidebarState, (newValue, oldValue) => {
   .ylapaneeli {
     background: #fff;
     border-bottom: 1px solid #E7E7E7;
-    padding: 10px 15px 5px 15px;
 
     .headerline {
       padding-right: 50px;
@@ -984,7 +970,7 @@ watch(sidebarState, (newValue, oldValue) => {
   }
 
   .versiohistoria {
-    background-color: #E6F6FF;
+    background-color: $lightBlue2;
     border-bottom: 1px solid #E7E7E7;
     padding: 2px 15px;
     color: #2B2B2B;

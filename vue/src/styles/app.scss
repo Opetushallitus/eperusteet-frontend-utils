@@ -1,8 +1,72 @@
 @import './_variables';
 @import './editorstyle';
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:100,200,300,400,500,600,700,800|Poppins:100,200,300,400,500,600,700,800&display=swap');
-@import 'vue-select/src/scss/vue-select.scss';
 @import './_mixins.scss';
+
+// Container (from tailwind.css)
+.container {
+  width: 100%;
+  margin-inline: auto;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 100%;
+
+  @media (min-width: 576px) {
+    max-width: 540px;
+  }
+
+  @media (min-width: 768px) {
+    max-width: 720px;
+  }
+
+  @media (min-width: 993px) {
+    max-width: 1240px;
+  }
+}
+
+// Base styles (from tailwind.css)
+a[href] {
+  color: $link;
+}
+
+ul {
+  list-style-type: disc;
+  padding-left: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+img {
+  display: inline-block;
+}
+
+label {
+  margin-bottom: 0.5rem;
+  display: inline-block;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+.p-popover .wide {
+  max-width: 600px !important;
+  width: 600px !important;
+}
+
+hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-top: 1px solid var(--grey200);
+}
 
 img.content-image {
   max-width: 100%;
@@ -20,10 +84,23 @@ img.content-image {
   padding: 0 !important;
 }
 
-// html element
+// Design system palette as CSS variables (for use in JS/TS, e.g. primevue.ts)
 :root {
+  --green2: #{$green2};
+  --grey200: #{$grey200};
+  --link: #{$link};
+  --toggle-color: #{$green2};
+  --spacing: 0.35rem;
+  --p-tabs-tab-padding: 0.5rem 1.5rem 0.5rem 0rem !important;
+  --p-tabs-nav-button-shadow: none !important;
+  --p-inputgroup-addon-padding: 0 !important;
+  --p-inputgroup-addon-border-radius: 25px !important;
+  --p-form-field-border-radius: 0 !important;
+  --p-form-field-border-color: #{$black} !important;
+  
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
 
   div.form {
     padding: 20px;
@@ -70,8 +147,8 @@ img.content-image {
   @media (max-width: 767.98px) {
 
     .container {
-      padding-left: 0 !important;
-      padding-right: 0 !important;
+      // padding-left: 0 !important;
+      // padding-right: 0 !important;
       margin-left: 0 !important;
       margin-right: 0 !important;
       max-width: 100% !important;
@@ -143,7 +220,7 @@ img.content-image {
     line-height: 1.5rem;
   }
 
-  .font-weight-600 {
+  .font-semibold {
     font-weight: 600;
   }
 }
@@ -162,7 +239,7 @@ img.content-image {
 }
 
 .order-handle {
-  color: $gray-lighten-2;
+  color: $grey300;
   cursor: grab;
 }
 
@@ -210,3 +287,69 @@ img.content-image {
   background-color: $table-odd-row-bg-color;
 }
 
+/* EpDropdown overlay - portaled to body (EpKayttaja) */
+.ep-kayttaja-dropdown {
+  width: 350px;
+  padding: 0;
+  color: #000000;
+
+  .ep-dropdown-item {
+    padding: 0.5rem 1rem;
+    color: #000000;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .collapse-tausta .ep-dropdown-item {
+    padding: 0.25rem 1rem;
+  }
+
+  .ep-dropdown-divider {
+    margin: 0;
+  }
+}
+
+table {
+  &.table-bordered {
+    border: 1px solid $grey200;
+
+    th, td {
+      border: 1px solid $grey200;
+    }
+  }
+
+  &.table-striped tbody tr:nth-of-type(even) {
+    background-color: $table-even-row-bg-color;
+  }
+
+  &.table-striped tbody tr:nth-of-type(odd) {
+    background-color: $table-odd-row-bg-color;
+  }
+
+  &.table-striped.table-hover tbody tr:hover {
+    background-color: $table-hover-row-bg-color;
+    cursor: pointer;
+  }
+}
+
+// Form controls (legacy - used by EpInput, EpSelect, EpSearch)
+.form-control {
+  border: 1px solid $black;
+  border-radius: 0;
+  background-color: $white;
+
+  &:focus {
+    border-color: $black;
+    box-shadow: none;
+    @include focus;
+  }
+}
+
+.noselect {
+  user-select: none;
+}
+
+.bg-color-gray50 {
+  background-color: $grey200 !important;
+}

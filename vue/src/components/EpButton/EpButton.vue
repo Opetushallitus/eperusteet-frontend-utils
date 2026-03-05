@@ -1,42 +1,41 @@
 <template>
-  <div
-    ref="button-container"
-    class="ep-button d-print-none"
-  >
-    <b-button
+  <div class="ep-button print:hidden inline-block whitespace-nowrap">
+    <button
       v-bind="$attrs"
-      :variant="resolvedVariant"
+      :title="help ? $t(help) : undefined"
+      :class="[
+        'ep-button__btn',
+        'inline-flex items-center justify-center',
+        'font-normal text-center align-middle cursor-pointer select-none',
+        'border transition-all duration-150 whitespace-nowrap',
+        buttonVariantClasses,
+        buttonSizeClasses,
+        buttonClass,
+        { 'ep-button__btn--disabled': disabled || showSpinner }
+      ]"
       :disabled="disabled || showSpinner"
-      :size="size"
-      :class="variantClass"
       @click="click"
     >
       <EpMaterialIcon
         v-if="icon"
-        class="float-left mr-1"
+        class="ep-button__icon mr-1 inline-flex items-center"
         icon-shape="outlined"
         :background="inherit"
         :color="inherit"
       >
         {{ icon }}
       </EpMaterialIcon>
-      <div
-        class="teksti"
-        :class="{'pl-3 pr-3': paddingx && !noPadding}"
+      <span
+        class="ep-button__text inline-flex items-center"
+        :class="{ 'px-2': paddingx && !isLink }"
       >
         <slot />
-        <ep-spinner-inline
-          v-if="showSpinner"
-          :link="variant === 'link' || isOutline"
-        />
-      </div>
-    </b-button>
-    <b-tooltip
-      v-if="help"
-      :target="() => $refs['button-container']"
-    >
-      {{ $t(help) }}
-    </b-tooltip>
+      </span>
+      <EpSpinnerInline
+        v-if="showSpinner"
+        :link="isLink || isOutline"
+      />
+    </button>
   </div>
 </template>
 
@@ -51,12 +50,11 @@ const props = defineProps({
   buttonClass: { type: String },
   disabled: { type: Boolean, default: false },
   showSpinner: { type: Boolean, default: false },
-  variant: { type: String, default: 'primary' },
+  variant: { type: String, default: '' },
   size: { type: String, default: 'md' },
   help: { type: String, default: '' },
   paddingx: { type: Boolean, default: true },
   link: { type: Boolean, default: false },
-  noPadding: { type: Boolean, default: false },
 });
 
 const emit = defineEmits(['click']);
@@ -64,6 +62,10 @@ const emit = defineEmits(['click']);
 function click() {
   emit('click');
 }
+
+const isLink = computed(() => {
+  return props.link || props.variant === 'link';
+});
 
 const resolvedVariant = computed(() => {
   return props.link ? 'link' : props.variant;
@@ -73,20 +75,32 @@ const isOutline = computed(() => {
   return _.startsWith(resolvedVariant.value, 'outline');
 });
 
-const variantClass = computed(() => {
-  let result = 'btn-' + resolvedVariant.value;
+const buttonVariantClasses = computed(() => {
+  if (isLink.value) {
+    return 'ep-button__btn--link';
+  }
   if (isOutline.value) {
-    result = 'no-outline ' + result;
-  }
-  if (props.buttonClass) {
-    result = props.buttonClass + ' ' + result;
+    return 'ep-button__btn--outline';
   }
 
-  if (props.noPadding) {
-    result = 'no-padding ' + result;
+  if (props.variant === 'none') {
+    return 'ep-button__btn--none';
+  }
+  return 'ep-button__btn--primary';
+});
+
+const buttonSizeClasses = computed(() => {
+  if (isLink.value) {
+    return ''; // Links don't need size padding
   }
 
-  return result;
+  const sizeMap: Record<string, string> = {
+    'sm': 'px-2 py-1 text-sm rounded-2xl',
+    'md': 'px-2 py-1 text-base rounded-full',
+    'lg': 'px-4 py-1 text-lg rounded-3xl',
+  };
+
+  return sizeMap[props.size] || sizeMap['md'];
 });
 
 const inherit = computed(() => {
@@ -95,59 +109,72 @@ const inherit = computed(() => {
 </script>
 
 <style lang="scss" scoped>
-@import '../../styles/_variables.scss';
+@import '@shared/styles/_variables.scss';
 
-.ep-button {
-  display: inline-block;
-  white-space: nowrap;
+.ep-button__btn--link {
+  background: transparent;
+  border: none;
+  color: $link;
+  padding: 0;
+  border-radius: 0;
 
-  button.no-outline {
-    border: none;
-    color: #2B2B2B;
-  }
+  &:hover {
+    background: transparent;
+    color: $link-hover-color;
 
-  :deep(button.btn-outline-primary:not(.disabled):hover){
-    div.teksti {
-      color: $white;
+    .ep-button__text {
+      text-decoration: underline;
     }
   }
+}
 
-  .icon {
-    height: 24px;
-    width: 24px;
-    border-radius: 100%;
-    margin: 0;
-    padding: 0;
-    color: #fff;
-    background-color: #3367E3;
-  }
+.ep-button__btn--outline {
+  background: transparent;
+  border-color: $blue2;
+  color: $blue2;
 
-  &.no-padding {
-    button {
-      padding: 0 !important;
+  &:hover {
+    background: $blue2;
+    color: $white;
 
-      div {
-        padding: 0 !important;
-      }
+    .ep-button__text {
+      text-decoration: none;
     }
   }
+}
 
-  &.no-padding {
-    :deep(.btn-link), .btn {
-      padding-left: 0 !important;
-      .teksti{
-        padding-left: 0 !important;
-      }
-    }
+.ep-button__btn--primary {
+  background: $blue3;
+  border-color: transparent;
+  color: $white;
+
+  &:hover {
+    background: $blue2;
   }
 
-  .no-padding {
-    :deep(&.btn-link), &.btn {
-      padding-left: 0 !important;
-      .teksti{
-        padding-left: 0 !important;
-      }
-    }
+  &:active {
+    background: $blue2;
   }
+}
+
+.ep-button__btn--none {
+  background: transparent;
+  border: none;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+}
+
+.ep-button__btn--disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.ep-button__btn:disabled {
+  pointer-events: none;
+}
+
+.ep-button__icon {
+  font-size: 20px;
 }
 </style>

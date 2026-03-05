@@ -5,12 +5,12 @@
       v-model="tavoitteet"
       tag="div"
     >
-      <b-row
+      <div
         v-for="(tavoite, tavoiteIndex) in tavoitteet"
         :key="tavoite+tavoiteIndex"
-        class="pb-2"
+        class="flex flex-wrap pb-2"
       >
-        <b-col cols="11">
+        <div class="w-11/12">
           <slot
             :tavoite="tavoite"
             :tavoite-index="tavoiteIndex"
@@ -22,7 +22,7 @@
               :nayta-arvo="false"
             >
               <template #default="{ open }">
-                <b-input-group>
+                <EpInputGroup>
                   <EpInput
                     v-model="tavoite.nimi"
                     :is-editing="true"
@@ -38,20 +38,20 @@
                       </div>
                     </template>
                   </EpInput>
-                  <b-input-group-append>
-                    <b-button
+                  <template #append>
+                    <ep-button
                       variant="primary"
                       @click="open"
                     >
                       {{ $t('hae-koodistosta') }}
-                    </b-button>
-                  </b-input-group-append>
-                </b-input-group>
+                    </ep-button>
+                  </template>
+                </EpInputGroup>
               </template>
             </EpKoodistoSelect>
           </slot>
-        </b-col>
-        <b-col cols="1">
+        </div>
+        <div class="w-1/12">
           <div
             class="default-icon clickable mt-2"
             @click="poistaTavoite(tavoite)"
@@ -63,11 +63,11 @@
               delete
             </EpMaterialIcon>
           </div>
-        </b-col>
-      </b-row>
+        </div>
+      </div>
     </VueDraggable>
 
-    <div class="d-flex justify-content-between">
+    <div class="flex justify-between">
       <ep-button
         variant="outline"
         icon="add"
@@ -90,6 +90,7 @@ import _ from 'lodash';
 import { KoodistoSelectStore, getKoodistoSivutettuna } from '../EpKoodistoSelect/KoodistoSelectStore';
 import { VueDraggable } from 'vue-draggable-plus';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
+import EpInputGroup from '@shared/components/EpInputGroup/EpInputGroup.vue';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import { koodistoKoodiValidator } from '@shared/validators/required';

@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 import EpTekstikappaleLisays from './EpTekstikappaleLisays.vue';
-import Vue, { nextTick } from 'vue';
+import { nextTick } from 'vue';
 import { globalStubs } from '@shared/utils/__tests__/stubs';
 
 describe('EpKoodistoSelect component', () => {
@@ -64,13 +64,13 @@ describe('EpKoodistoSelect component', () => {
     wrapper.findAll('option').at(1)
       .setSelected();
 
-    await Vue.nextTick();
+    await nextTick();
 
     expect(wrapper.findAll('button.btn-primary[disabled]')).toHaveLength(0);
 
     wrapper.find('button.btn-primary').trigger('click');
 
-    await Vue.nextTick();
+    await nextTick();
 
     expect(tekstikappale.saveTekstikappale).toEqual('tekstk1');
   });

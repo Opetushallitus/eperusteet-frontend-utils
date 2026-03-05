@@ -1,7 +1,5 @@
 import { mount, shallowMount } from '@vue/test-utils';
 import EpColorIndicator from './EpColorIndicator.vue';
-import Vue from 'vue';
-import BootstrapVue from 'bootstrap-vue';
 import { globalStubs } from '@shared/utils/__tests__/stubs';
 import { nextTick } from 'vue';
 

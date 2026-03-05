@@ -2,7 +2,6 @@
   <div>
     <ep-button
       v-if="editable"
-      v-b-modal.tiedoteMuokkausModal
       v-oikeustarkastelu="oikeustarkastelu"
       icon="add"
       variant="outline"
@@ -11,17 +10,13 @@
       {{ $t('lisaa-tiedote') }}
     </ep-button>
 
-    <b-modal
-      id="tiedoteMuokkausModal"
-      ref="tiedoteMuokkausModal"
+    <EpModal
+      ref="modalRef"
       size="lg"
-      static
-      lazy
-      :no-enforce-focus="true"
     >
-      <template #modal-header>
-        <div class="row w-100">
-          <div class="col">
+      <template #modal-title>
+        <div class="flex w-full gap-4 justify-between items-center">
+          <div>
             <h2 v-if="!editing">
               {{ $t('tiedote') }}
             </h2>
@@ -29,7 +24,7 @@
               {{ muokattavaTiedote.id ? $t('muokkaa-tiedotetta') : $t('lisaa-tiedote') }}
             </h2>
           </div>
-          <div class="col text-right">
+          <div class="text-right">
             <ep-kielivalinta />
           </div>
         </div>
@@ -208,28 +203,29 @@
           <div
             v-for="(tutkinnonOsa, index) in muokattavaTiedote.tutkinnonosat"
             :key="'tutkinnonOsa' + index"
-            class="mb-1 d-flex justify-content-center align-items-center"
+            class="mb-1 flex justify-center items-center"
           >
             <ep-koodisto-select
               v-model="muokattavaTiedote.tutkinnonosat[index]"
               :store="tutkinnonOsaKoodisto"
-              class="w-100"
+              class="w-full"
             >
               <template #default="{ open }">
-                <b-input-group class="w-100 d-flex">
-                  <b-form-input
-                    :value="$kaanna(tutkinnonOsa.nimi)"
+                <EpInputGroup class="w-full flex">
+                  <ep-input
+                    :model-value="$kaanna(tutkinnonOsa.nimi)"
+                    :is-editing="true"
                     disabled
                   />
-                  <b-input-group-append>
-                    <b-button
+                  <template #append>
+                    <ep-button
                       variant="primary"
                       @click="open"
                     >
                       {{ $t('hae') }}
-                    </b-button>
-                  </b-input-group-append>
-                </b-input-group>
+                    </ep-button>
+                  </template>
+                </EpInputGroup>
               </template>
             </ep-koodisto-select>
             <div class="flex-shrink pl-2">
@@ -257,28 +253,29 @@
           <div
             v-for="(osaamisala, index) in muokattavaTiedote.osaamisalat"
             :key="'osaamisala' + index"
-            class="mb-1 d-flex justify-content-center align-items-center"
+            class="mb-1 flex justify-center items-center"
           >
             <ep-koodisto-select
               v-model="muokattavaTiedote.osaamisalat[index]"
               :store="osaamisalaKoodisto"
-              class="w-100"
+              class="w-full"
             >
               <template #default="{ open }">
-                <b-input-group class="w-100 d-flex">
-                  <b-form-input
-                    :value="$kaanna(osaamisala.nimi)"
+                <EpInputGroup class="w-full flex">
+                  <ep-input
+                    :model-value="$kaanna(osaamisala.nimi)"
+                    :is-editing="true"
                     disabled
                   />
-                  <b-input-group-append>
-                    <b-button
+                  <template #append>
+                    <ep-button
                       variant="primary"
                       @click="open"
                     >
                       {{ $t('hae') }}
-                    </b-button>
-                  </b-input-group-append>
-                </b-input-group>
+                    </ep-button>
+                  </template>
+                </EpInputGroup>
               </template>
             </ep-koodisto-select>
             <div class="flex-shrink pl-2">
@@ -417,7 +414,7 @@
 
         <div
           v-else
-          class="d-flex justify-content-between w-100"
+          class="flex justify-between w-full"
         >
           <div v-if="editable">
             <ep-button
@@ -444,7 +441,7 @@
           </ep-button>
         </div>
       </template>
-    </b-modal>
+    </EpModal>
   </div>
 </template>
 
@@ -470,11 +467,14 @@ import { themes, ktToState, koulutustyyppiRyhmat, KoulutustyyppiRyhma, koulutust
 import EpColorIndicator from '@shared/components/EpColorIndicator/EpColorIndicator.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { KoodistoSelectStore, getKoodistoSivutettuna } from '../EpKoodistoSelect/KoodistoSelectStore';
+import EpInputGroup from '@shared/components/EpInputGroup/EpInputGroup.vue';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
+import EpModal from '@shared/components/EpModal/EpModal.vue';
 import { ITiedotteetProvider } from '@shared/stores/types';
 import { requiredOneLang } from '@shared/validators/required';
-import { useTemplateRef } from 'vue';
-import { $t, $kaanna, $sdt, $sd, $bvModal, $success, $fail } from '@shared/utils/globals';
+import { $t, $kaanna, $sdt, $sd, $confirmModal, $success, $fail } from '@shared/utils/globals';
+
+const modalRef = ref<InstanceType<typeof EpModal> | null>(null);
 
 const props = defineProps({
   perusteet: {
@@ -522,10 +522,6 @@ const editing = ref(false);
 
 // Get instance for $t, $kaanna, etc.
 const instance = getCurrentInstance();
-// Get $bvModal from instance's proxy
-
-// Template refs
-const tiedoteMuokkausModal = useTemplateRef('tiedoteMuokkausModal');
 
 // Validation rules
 const rules = {
@@ -693,7 +689,7 @@ async function muokkaa(rivi: any) {
     liitaPeruste.value = true;
   }
 
-  tiedoteMuokkausModal.value?.show();
+  modalRef.value?.show();
 }
 
 function aloitaMuokkaus() {
@@ -702,7 +698,7 @@ function aloitaMuokkaus() {
 
 function suljeTiedote() {
   editing.value = false;
-  tiedoteMuokkausModal.value?.hide();
+  modalRef.value?.hide();
 }
 
 async function tallennaTiedote() {
@@ -777,7 +773,7 @@ async function vahvistaPoisto() {
     ],
   ).children;
 
-  return $bvModal.msgBoxConfirm((vahvistusSisalto as any), {
+  return $confirmModal.msgBoxConfirm((vahvistusSisalto as any), {
     title: $t('poista-tiedote-kysymys'),
     okVariant: 'primary',
     okTitle: $t('poista') as any,

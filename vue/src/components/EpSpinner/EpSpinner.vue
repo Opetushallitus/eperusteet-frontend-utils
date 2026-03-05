@@ -3,7 +3,10 @@
     class="spinner"
     :class="{'small': small, 'full-screen': fullScreen}"
   >
-    <div class="oph-spinner" v-if="!fullScreen">
+    <div
+      v-if="!fullScreen"
+      class="oph-spinner"
+    >
       <div
         class="oph-bounce oph-bounce1"
         :style="style"

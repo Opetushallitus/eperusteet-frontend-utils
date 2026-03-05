@@ -893,19 +893,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/opencollective@npm:^0.3.2":
-  version: 0.3.3
-  resolution: "@nuxt/opencollective@npm:0.3.3"
-  dependencies:
-    chalk: "npm:^4.1.0"
-    consola: "npm:^2.15.0"
-    node-fetch: "npm:^2.6.7"
-  bin:
-    opencollective: bin/opencollective.js
-  checksum: 10c0/e55deeb11456cb9114dbc724f754d94393c0f9f3d9658c900a71b24ff3930e22a91a419576f6f1c8f0da578bdc7afb745b9085f76e57b83d785a058d37e38ecc
-  languageName: node
-  linkType: hard
-
 "@one-ini/wasm@npm:0.1.1":
   version: 0.1.1
   resolution: "@one-ini/wasm@npm:0.1.1"
@@ -1161,6 +1148,72 @@ __metadata:
   version: 1.0.0-next.28
   resolution: "@polka/url@npm:1.0.0-next.28"
   checksum: 10c0/acc5ea62597e4da2fb42dbee02749d07f102ae7d6d2c966bf7e423c79cd65d1621da305af567e6e7c232f3b565e242d1ec932cbb3dcc0db1508d02e9a2cafa2e
+  languageName: node
+  linkType: hard
+
+"@primeuix/styled@npm:^0.7.4":
+  version: 0.7.4
+  resolution: "@primeuix/styled@npm:0.7.4"
+  dependencies:
+    "@primeuix/utils": "npm:^0.6.1"
+  checksum: 10c0/e1ed3e6c4a36bd5a6722b8fcd3e79d9fd60a36f174e5d822fd2fa0ecace49508c548228462ff8033961e1aa1bece6ec87c04879097c3691044314629120e968c
+  languageName: node
+  linkType: hard
+
+"@primeuix/styles@npm:^2.0.2":
+  version: 2.0.3
+  resolution: "@primeuix/styles@npm:2.0.3"
+  dependencies:
+    "@primeuix/styled": "npm:^0.7.4"
+  checksum: 10c0/d1b0f4b9cb9bad3099dac57efc5dbf2648712ddf914801a43cc21d1bbf4512aec3703e2fb2430fabba70684f73e797e9ff68fe54f60d7b7c2e5a79a1a9a76b7a
+  languageName: node
+  linkType: hard
+
+"@primeuix/themes@npm:^2.0.2, @primeuix/themes@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "@primeuix/themes@npm:2.0.3"
+  dependencies:
+    "@primeuix/styled": "npm:^0.7.4"
+  checksum: 10c0/4e51aa7ce0a73946b5605c485c281e3e5d82937efa5da1881e31aaae810ccbef34e29b888d24823428ad3303fa2825c99a88dfcb53718e15bfee18b63a12a53d
+  languageName: node
+  linkType: hard
+
+"@primeuix/utils@npm:^0.6.1, @primeuix/utils@npm:^0.6.2":
+  version: 0.6.4
+  resolution: "@primeuix/utils@npm:0.6.4"
+  checksum: 10c0/ee5f284c1cd3a5070c5eed6c45d803313574e0db95c45b6fc822ddb76416bbeb86986105ec4912a9d9964cb9bf7736e4b5f316c5406ec3fc16ba8012ba91a9fe
+  languageName: node
+  linkType: hard
+
+"@primevue/core@npm:4.5.4":
+  version: 4.5.4
+  resolution: "@primevue/core@npm:4.5.4"
+  dependencies:
+    "@primeuix/styled": "npm:^0.7.4"
+    "@primeuix/utils": "npm:^0.6.2"
+  peerDependencies:
+    vue: ^3.5.0
+  checksum: 10c0/a76b1cbadee3d03da1dd521b07faafccbb004093a440278ab6d8bda5f7d83fb1721700ffa9eb9b8c0e9a397793760fed63e7904d59032a0704cc158008df37e9
+  languageName: node
+  linkType: hard
+
+"@primevue/icons@npm:4.5.4":
+  version: 4.5.4
+  resolution: "@primevue/icons@npm:4.5.4"
+  dependencies:
+    "@primeuix/utils": "npm:^0.6.2"
+    "@primevue/core": "npm:4.5.4"
+  checksum: 10c0/7a6eedd20aa395d6ec25a0ceb530e8fca610ff8c8af6dbd4d7f88599c35f1fe82e09c986f473f43b74046a1dc6c4d67d7a5911b7e3d825a5e9d721daf904dd32
+  languageName: node
+  linkType: hard
+
+"@primevue/themes@npm:^4.5.4":
+  version: 4.5.4
+  resolution: "@primevue/themes@npm:4.5.4"
+  dependencies:
+    "@primeuix/styled": "npm:^0.7.4"
+    "@primeuix/themes": "npm:^2.0.2"
+  checksum: 10c0/8d1babbd7aed5b51221853863a8e86295cd77e6855463126705e3260b3ee47ce2a70c0f673414faf1c5c63094910ed2f980f4f3802611561a17b23ca2e355a01
   languageName: node
   linkType: hard
 
@@ -1484,50 +1537,6 @@ __metadata:
   peerDependencies:
     eslint: ">=9.0.0"
   checksum: 10c0/94160bfc172a3934dd35be87887f43f7e3ffe9d1645096860a4e4c61877bb0fb62eb20a90e50ad74767ee794ed10f334f7165952cf9bcbd8bae6b80dc10c0d62
-  languageName: node
-  linkType: hard
-
-"@svgdotjs/svg.draggable.js@npm:^3.0.4":
-  version: 3.0.6
-  resolution: "@svgdotjs/svg.draggable.js@npm:3.0.6"
-  peerDependencies:
-    "@svgdotjs/svg.js": ^3.2.4
-  checksum: 10c0/f70a857f776a244ab11cc7fa7f26c4d580f0236ee8fcbf02d882ed9057b37f2af57a69528a22f608495c5e191321d25a4bdc17ba33f16a562ff2f6fcd93b9c50
-  languageName: node
-  linkType: hard
-
-"@svgdotjs/svg.filter.js@npm:^3.0.8":
-  version: 3.0.8
-  resolution: "@svgdotjs/svg.filter.js@npm:3.0.8"
-  dependencies:
-    "@svgdotjs/svg.js": "npm:^3.1.1"
-  checksum: 10c0/cc0f737316aa4b71b3b6f32f0944d99c1a8d1b709a674f2a4a99c797c31838389fd4ed330485597be6f11a975327ae9a1e1283234bf43b103b2c7176e8e69db2
-  languageName: node
-  linkType: hard
-
-"@svgdotjs/svg.js@npm:^3.1.1, @svgdotjs/svg.js@npm:^3.2.4":
-  version: 3.2.4
-  resolution: "@svgdotjs/svg.js@npm:3.2.4"
-  checksum: 10c0/35563560998def7fd9b35c434214428f122d1fc11a5d6975fbc9b3c92b3e86700daba74f9106d7abd5dc979eb26c6e6429be71236dd226bc0f2d92e880e8fe2c
-  languageName: node
-  linkType: hard
-
-"@svgdotjs/svg.resize.js@npm:^2.0.2":
-  version: 2.0.5
-  resolution: "@svgdotjs/svg.resize.js@npm:2.0.5"
-  peerDependencies:
-    "@svgdotjs/svg.js": ^3.2.4
-    "@svgdotjs/svg.select.js": ^4.0.1
-  checksum: 10c0/ed15cec857ee900c04e044391efb7b927adab20dda056b664df8b4e6409c08a84f6f150119621a65ac835d6fd6da13770f6abcef76ae78ad9f7d60bbc0f9fa94
-  languageName: node
-  linkType: hard
-
-"@svgdotjs/svg.select.js@npm:^4.0.1":
-  version: 4.0.2
-  resolution: "@svgdotjs/svg.select.js@npm:4.0.2"
-  peerDependencies:
-    "@svgdotjs/svg.js": ^3.2.4
-  checksum: 10c0/fca8f7b32fa57013e6f33026c812d0e8b519fd8112db8a762089d8334db33934bb8bc9fbfb4785cdaa5fda6e732376773253b6babde6cfeea15836826d56e2f0
   languageName: node
   linkType: hard
 
@@ -2435,19 +2444,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/compat@npm:3.5.22":
-  version: 3.5.22
-  resolution: "@vue/compat@npm:3.5.22"
-  dependencies:
-    "@babel/parser": "npm:^7.28.4"
-    estree-walker: "npm:^2.0.2"
-    source-map-js: "npm:^1.2.1"
-  peerDependencies:
-    vue: 3.5.22
-  checksum: 10c0/46d1c7647941a46726a48911651f7e696141de0b59c2f9fc062a2f72cb168106527de600a48903ef62e4b03fbdfc7fc7f5368f54f23ed2d615d0fa1a07f98e09
-  languageName: node
-  linkType: hard
-
 "@vue/compiler-core@npm:3.5.22":
   version: 3.5.22
   resolution: "@vue/compiler-core@npm:3.5.22"
@@ -2997,17 +2993,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"apexcharts@npm:^4.4.0":
-  version: 4.4.0
-  resolution: "apexcharts@npm:4.4.0"
+"apexcharts@npm:^5.10.1":
+  version: 5.10.1
+  resolution: "apexcharts@npm:5.10.1"
   dependencies:
-    "@svgdotjs/svg.draggable.js": "npm:^3.0.4"
-    "@svgdotjs/svg.filter.js": "npm:^3.0.8"
-    "@svgdotjs/svg.js": "npm:^3.2.4"
-    "@svgdotjs/svg.resize.js": "npm:^2.0.2"
-    "@svgdotjs/svg.select.js": "npm:^4.0.1"
     "@yr/monotone-cubic-spline": "npm:^1.0.3"
-  checksum: 10c0/e78b4e5359d9be0bb02741be9a6ee404f4eef1c9980841d18018cf61757499440e67b96d16b680e1ced3221acceb6c94f1355f50217e784a7c78894c4e0ebba2
+  checksum: 10c0/95367e4ed93f654efe9186daac427e7394ef6f8ced53ecd6fd39f06e95c3a7fcd40c1405b64cc4f16dda0409ed68f1ccd9a0b13fb5d7283a33850780ad584117
   languageName: node
   linkType: hard
 
@@ -3196,29 +3187,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bootstrap-vue@npm:^2.23.1":
-  version: 2.23.1
-  resolution: "bootstrap-vue@npm:2.23.1"
-  dependencies:
-    "@nuxt/opencollective": "npm:^0.3.2"
-    bootstrap: "npm:^4.6.1"
-    popper.js: "npm:^1.16.1"
-    portal-vue: "npm:^2.1.7"
-    vue-functional-data-merge: "npm:^3.1.0"
-  checksum: 10c0/f367c846628a4d1c04ffb5c5f4678fc95e0767b88d7c878417211c81bb5a817f2e3dea380bb09579d1d3fc79e35abf0b9e8e3b920c6e706db09884fbf218e8da
-  languageName: node
-  linkType: hard
-
-"bootstrap@npm:^4.6.1":
-  version: 4.6.2
-  resolution: "bootstrap@npm:4.6.2"
-  peerDependencies:
-    jquery: 1.9.1 - 3
-    popper.js: ^1.16.1
-  checksum: 10c0/aae7178a306cd9376d10302bf557e00ba7e3bffffb4c0533687c1e0de90f9d30d8883a9b0ac629a2e64131954eca4e03ee06ee665e52b8c44ca66b3599024e8a
-  languageName: node
-  linkType: hard
-
 "brace-expansion@npm:^1.1.7":
   version: 1.1.11
   resolution: "brace-expansion@npm:1.1.11"
@@ -3400,7 +3368,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:^4.0.0, chalk@npm:^4.1.0":
+"chalk@npm:^4.0.0":
   version: 4.1.2
   resolution: "chalk@npm:4.1.2"
   dependencies:
@@ -3549,13 +3517,6 @@ __metadata:
     ini: "npm:^1.3.4"
     proto-list: "npm:~1.2.1"
   checksum: 10c0/39d1df18739d7088736cc75695e98d7087aea43646351b028dfabd5508d79cf6ef4c5bcd90471f52cd87ae470d1c5490c0a8c1a292fbe6ee9ff688061ea0963e
-  languageName: node
-  linkType: hard
-
-"consola@npm:^2.15.0":
-  version: 2.15.3
-  resolution: "consola@npm:2.15.3"
-  checksum: 10c0/34a337e6b4a1349ee4d7b4c568484344418da8fdb829d7d71bfefcd724f608f273987633b6eef465e8de510929907a092e13cb7a28a5d3acb3be446fcc79fd5e
   languageName: node
   linkType: hard
 
@@ -3893,6 +3854,8 @@ __metadata:
     "@eslint/js": "npm:^9.37.0"
     "@intevation/tiptap-extension-office-paste": "npm:^0.1.2"
     "@kyvg/vue3-notification": "npm:^3.4.1"
+    "@primeuix/themes": "npm:^2.0.3"
+    "@primevue/themes": "npm:^4.5.4"
     "@tiptap/extension-table": "npm:^3.0.9"
     "@tiptap/extension-table-cell": "npm:^3.0.9"
     "@tiptap/extension-table-header": "npm:^3.0.9"
@@ -3908,7 +3871,6 @@ __metadata:
     "@vitejs/plugin-vue": "npm:^6.0.3"
     "@vitejs/plugin-vue2": "npm:^2.3.4"
     "@vitest/ui": "npm:^3.1.1"
-    "@vue/compat": "npm:3.5.22"
     "@vue/compiler-sfc": "npm:3.5.22"
     "@vue/eslint-config-standard-with-typescript": "npm:^9.2.0"
     "@vue/eslint-config-typescript": "npm:^14.6.0"
@@ -3916,10 +3878,9 @@ __metadata:
     "@vuelidate/core": "npm:^2.0.3"
     "@vuelidate/validators": "npm:^2.0.4"
     animate.css: "npm:^3.7.2"
-    apexcharts: "npm:^4.4.0"
+    apexcharts: "npm:^5.10.1"
     autoprefixer: "npm:^10.4.21"
     axios: "npm:^1.13.2"
-    bootstrap-vue: "npm:^2.23.1"
     core-js: "npm:^3.40.0"
     deepdash: "npm:^5.3.9"
     eslint: "npm:9.37.0"
@@ -3938,6 +3899,7 @@ __metadata:
     mime: "npm:^4.0.6"
     moment: "npm:^2.24.0"
     pinia: "npm:^2.2.4"
+    primevue: "npm:^4.5.4"
     qs: "npm:^6.14.1"
     register-service-worker: "npm:^1.6.2"
     sass: "npm:^1.95.1"
@@ -3950,7 +3912,6 @@ __metadata:
     vite-plugin-commonjs: "npm:^0.10.4"
     vitest: "npm:^3.1.1"
     vue: "npm:3.5.22"
-    vue-apexcharts: "npm:^1.5.2"
     vue-axe: "npm:^1.0.7"
     vue-class-component: "npm:^7.0.2"
     vue-draggable-plus: "npm:^0.6.0"
@@ -3961,13 +3922,12 @@ __metadata:
     vue-meta: "npm:^2.3.2"
     vue-multiselect: "npm:^3.4.0"
     vue-observe-visibility: "npm:1.0.0"
-    vue-property-decorator: "npm:^9.1.2"
     vue-router: "npm:^4.5.1"
     vue-scrollto: "npm:^2.17.1"
-    vue-select: "npm:^3.20.4"
     vue-sticky-directive: "npm:^0.0.10"
     vue-template-compiler: "npm:^2.7.16"
     vue-upload-component: "npm:^2.8.22"
+    vue3-apexcharts: "npm:^1.11.1"
     vue3-text-clamp: "npm:^0.1.2"
     webpack: "npm:^5.58.0"
   languageName: unknown
@@ -6119,20 +6079,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-fetch@npm:^2.6.7":
-  version: 2.7.0
-  resolution: "node-fetch@npm:2.7.0"
-  dependencies:
-    whatwg-url: "npm:^5.0.0"
-  peerDependencies:
-    encoding: ^0.1.0
-  peerDependenciesMeta:
-    encoding:
-      optional: true
-  checksum: 10c0/b55786b6028208e6fbe594ccccc213cab67a72899c9234eb59dba51062a299ea853210fcf526998eaa2867b0963ad72338824450905679ff0fa304b8c5093ae8
-  languageName: node
-  linkType: hard
-
 "node-gyp@npm:latest":
   version: 10.2.0
   resolution: "node-gyp@npm:10.2.0"
@@ -6487,22 +6433,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"popper.js@npm:^1.16.1":
-  version: 1.16.1
-  resolution: "popper.js@npm:1.16.1"
-  checksum: 10c0/1c1a826f757edb5b8c2049dfd7a9febf6ae1e9d0e51342fc715b49a0c1020fced250d26484619883651e097c5764bbcacd2f31496e3646027f079dd83e072681
-  languageName: node
-  linkType: hard
-
-"portal-vue@npm:^2.1.7":
-  version: 2.1.7
-  resolution: "portal-vue@npm:2.1.7"
-  peerDependencies:
-    vue: ^2.5.18
-  checksum: 10c0/7888e77dc2ea81509b560e3cd69e6f54e66af1a47bc82caa419996595912a3a3ca13ed0d5815fabf459dffc367643f92542fe5e574df00737dfc776de62b50cf
-  languageName: node
-  linkType: hard
-
 "postcss-selector-parser@npm:^6.0.15":
   version: 6.1.2
   resolution: "postcss-selector-parser@npm:6.1.2"
@@ -6546,6 +6476,19 @@ __metadata:
   version: 1.2.1
   resolution: "prelude-ls@npm:1.2.1"
   checksum: 10c0/b00d617431e7886c520a6f498a2e14c75ec58f6d93ba48c3b639cf241b54232d90daa05d83a9e9b9fef6baa63cb7e1e4602c2372fea5bc169668401eb127d0cd
+  languageName: node
+  linkType: hard
+
+"primevue@npm:^4.5.4":
+  version: 4.5.4
+  resolution: "primevue@npm:4.5.4"
+  dependencies:
+    "@primeuix/styled": "npm:^0.7.4"
+    "@primeuix/styles": "npm:^2.0.2"
+    "@primeuix/utils": "npm:^0.6.2"
+    "@primevue/core": "npm:4.5.4"
+    "@primevue/icons": "npm:4.5.4"
+  checksum: 10c0/1e006ca3851dc2196d37abd32e49381b4bd6f11b89900943a6006775d313d610150daa087bc5cc9126b734f3b7870d0fe0bd0ace41fa8f1941b3942e58b40898
   languageName: node
   linkType: hard
 
@@ -7758,13 +7701,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tr46@npm:~0.0.3":
-  version: 0.0.3
-  resolution: "tr46@npm:0.0.3"
-  checksum: 10c0/047cb209a6b60c742f05c9d3ace8fa510bff609995c129a37ace03476a9b12db4dbf975e74600830ef0796e18882b2381fb5fb1f6b4f96b832c374de3ab91a11
-  languageName: node
-  linkType: hard
-
 "traverse@npm:>=0.3.0 <0.4":
   version: 0.3.9
   resolution: "traverse@npm:0.3.9"
@@ -8232,15 +8168,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-apexcharts@npm:^1.5.2":
-  version: 1.6.2
-  resolution: "vue-apexcharts@npm:1.6.2"
-  peerDependencies:
-    apexcharts: ^3.26.0
-  checksum: 10c0/5726f47cdfb8834ab60f8f42628c0c03241e5e5f058e5e120ae571d677cae3533fe969e9b11c58b229fc8acfab90fef78ea32a35ce5bf50e43d823a57707ea4b
-  languageName: node
-  linkType: hard
-
 "vue-axe@npm:^1.0.7":
   version: 1.1.0
   resolution: "vue-axe@npm:1.1.0"
@@ -8337,13 +8264,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-functional-data-merge@npm:^3.1.0":
-  version: 3.1.0
-  resolution: "vue-functional-data-merge@npm:3.1.0"
-  checksum: 10c0/0140df1b0f7c563ad4decd41f3aaa7f1e14ad224aec8e91a057c4fd63d6edb886a63f300d9f6e9a8102c8327ed524092240425c970f9eaad46a5f8b802f73d10
-  languageName: node
-  linkType: hard
-
 "vue-i18n@npm:^11.1.12":
   version: 11.1.12
   resolution: "vue-i18n@npm:11.1.12"
@@ -8396,16 +8316,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-property-decorator@npm:^9.1.2":
-  version: 9.1.2
-  resolution: "vue-property-decorator@npm:9.1.2"
-  peerDependencies:
-    vue: "*"
-    vue-class-component: "*"
-  checksum: 10c0/f496f420d659ff01e9bef1e11a7ada4b505c4b80b87ed61f96d712b39939af4bc2b4fcb27ebf9dd623b006dc0a6b4be332f164218ff2b71c50c6021aee16c5b0
-  languageName: node
-  linkType: hard
-
 "vue-router@npm:^4.5.1":
   version: 4.5.1
   resolution: "vue-router@npm:4.5.1"
@@ -8423,15 +8333,6 @@ __metadata:
   dependencies:
     bezier-easing: "npm:2.1.0"
   checksum: 10c0/894e7baa586eebb3cd6215af9f86c5fea9b9b43d568f6857b089432ff4c59f3711908d99d7ba6773b656dbbc06f4dab3f1b509de44526e3c7f15734b825e0856
-  languageName: node
-  linkType: hard
-
-"vue-select@npm:^3.20.4":
-  version: 3.20.4
-  resolution: "vue-select@npm:3.20.4"
-  peerDependencies:
-    vue: 2.x
-  checksum: 10c0/92b5f1593876618cf7b6841edb526f33e8daf9a3ea9559ff7cb0821facdef26621ef163921ce7dff9fecfb8822431d4cc676b57f626c905c04cc36147170c90f
   languageName: node
   linkType: hard
 
@@ -8456,6 +8357,19 @@ __metadata:
   version: 2.8.23
   resolution: "vue-upload-component@npm:2.8.23"
   checksum: 10c0/5b17a7e782e8497c2127f7d5beec0410e9f8fb9ba3e757ff5f46b3302f7525a07321fd7f1e662a6bb08276398b80dfb915a3bdb281d4d7a0f7e3d0a0f9c23aaf
+  languageName: node
+  linkType: hard
+
+"vue3-apexcharts@npm:^1.11.1":
+  version: 1.11.1
+  resolution: "vue3-apexcharts@npm:1.11.1"
+  peerDependencies:
+    apexcharts: ">=5.10.0"
+    vue: ">=3.0.0"
+  peerDependenciesMeta:
+    apexcharts:
+      optional: false
+  checksum: 10c0/60d47d1301c4fd6f8b697d8a6338024607b253b00771bfff9f5c96655f55cf6745eaf0e91786c172e2ad90e0219c9981698741496775cf03fef7cbe89481d5c0
   languageName: node
   linkType: hard
 
@@ -8513,13 +8427,6 @@ __metadata:
     glob-to-regexp: "npm:^0.4.1"
     graceful-fs: "npm:^4.1.2"
   checksum: 10c0/c694de0a61004e587a8a0fdc9cfec20ee692c52032d9ab2c2e99969a37fdab9e6e1bd3164ed506f9a13f7c83e65563d563e0d6b87358470cdb7309b83db78683
-  languageName: node
-  linkType: hard
-
-"webidl-conversions@npm:^3.0.0":
-  version: 3.0.1
-  resolution: "webidl-conversions@npm:3.0.1"
-  checksum: 10c0/5612d5f3e54760a797052eb4927f0ddc01383550f542ccd33d5238cfd65aeed392a45ad38364970d0a0f4fea32e1f4d231b3d8dac4a3bdd385e5cf802ae097db
   languageName: node
   linkType: hard
 
@@ -8596,16 +8503,6 @@ __metadata:
     tr46: "npm:^5.1.0"
     webidl-conversions: "npm:^7.0.0"
   checksum: 10c0/f746fc2f4c906607d09537de1227b13f9494c171141e5427ed7d2c0dd0b6a48b43d8e71abaae57d368d0c06b673fd8ec63550b32ad5ed64990c7b0266c2b4272
-  languageName: node
-  linkType: hard
-
-"whatwg-url@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "whatwg-url@npm:5.0.0"
-  dependencies:
-    tr46: "npm:~0.0.3"
-    webidl-conversions: "npm:^3.0.0"
-  checksum: 10c0/1588bed84d10b72d5eec1d0faa0722ba1962f1821e7539c535558fb5398d223b0c50d8acab950b8c488b4ba69043fd833cc2697056b167d8ad46fac3995a55d5
   languageName: node
   linkType: hard
 

@@ -49,9 +49,9 @@
         />
       </template>
       <template #option="{ option, search }">
-        <div class="d-flex align-items-center">
+        <div class="flex items-center">
           <div
-            class="w-100"
+            class="w-full"
             role="option"
             :aria-selected="optionChecked(option)"
           >
@@ -101,7 +101,7 @@
         </slot>
       </template>
       <template #selection="{ values, search, isOpen }">
-        <div class="d-flex align-items-center">
+        <div class="flex items-center">
           <slot
             name="selection"
             :values="values"
@@ -130,19 +130,19 @@
     </div>
     <div
       v-else-if="validationError && invalidMessage "
-      class="invalid-feedback"
+      class="block text-red-600 text-sm mt-1"
     >
       {{ $t(invalidMessage) }}
     </div>
     <div
       v-else-if="validationError && !invalidMessage"
-      class="invalid-feedback"
+      class="block text-red-600 text-sm mt-1"
     >
       {{ $t('validation-error-' + validationError, validation.$params[validationError]) }}
     </div>
     <small
       v-if="help"
-      class="form-text text-muted"
+      class="form-text text-gray-500"
     >{{ $t(help) }}</small>
     <slot name="helptext" />
   </div>
@@ -419,7 +419,7 @@ defineExpose({
   margin-top: -2px;
 
   .multiselect__option--highlight::after {
-    background-color: $blue-lighten-5;
+    background-color: $blue3;
   }
 }
 
@@ -439,11 +439,6 @@ defineExpose({
   border-color: $valid;
 }
 
-// Piilotettu Bootstrapissa oletuksena
-:deep(.invalid-feedback),
-:deep(.valid-feedback) {
-  display: block;
-}
 
 :deep(.multiselect__option--disabled) {
   background: none !important;

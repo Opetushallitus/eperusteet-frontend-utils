@@ -22,7 +22,7 @@
         :key="item.idx"
       >
         <div
-          class="d-flex align-items-center item"
+          class="flex items-center item"
           :class="item.class"
         >
           <div class="backwrapper">
@@ -30,22 +30,21 @@
               v-if="activeIdx === item.idx && !showAll"
               class="back"
             >
-              <b-button
+              <ep-button
                 size="sm"
                 variant="link"
                 class="backbtn"
+                icon="chevron_left"
                 @click="navigateUp()"
-              >
-                <EpMaterialIcon>chevron_left</EpMaterialIcon>
-              </b-button>
+              />
             </div>
           </div>
           <div
-            class="flex-grow-1"
-            :class="{'font-weight-bold': item.isMatch}"
+            class="grow"
+            :class="{'font-bold': item.isMatch}"
           >
             <div
-              class="clickable d-flex align-items-center"
+              class="clickable flex items-center"
               @click="navigate(item)"
             >
               <slot
@@ -55,8 +54,8 @@
                 {{ $kaannaOlioTaiTeksti(item.label) }}
               </slot>
               <EpMaterialIcon
-                size="16px"
                 v-if="item.meta && item.meta.liite"
+                size="16px"
               >
                 attach_file
               </EpMaterialIcon>
@@ -64,7 +63,7 @@
           </div>
           <div
             v-if="item.children.length > 0 && item.idx !== activeIdx && !showAll"
-            class="text-muted mr-1"
+            class="text-gray-500 mr-1"
           >
             <EpMaterialIcon>chevron_right</EpMaterialIcon>
           </div>
@@ -338,15 +337,16 @@ watch(navigation, () => {
       height: 30px;
       width: 30px;
 
-      .btn {
-        padding: 0.25rem 0.1rem;
+      :deep(.btn) {
+        padding: 0.25rem 0.10rem;
         margin-top: -2px;
         font-size: 16px;
         font-weight: 400;
       }
 
-      .backbtn {
+      :deep(.backbtn) {
         color: white;
+        padding: 0.1rem 0.15rem;
       }
     }
   }

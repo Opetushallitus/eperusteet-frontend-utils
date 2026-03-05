@@ -1,8 +1,8 @@
 <template>
-  <div class="sidenav">
+  <div class="sidenav flex">
     <div
       v-if="showNavigation"
-      class="bar d-print-none"
+      class="bar print-none"
     >
       <slot name="bar" />
       <div
@@ -56,6 +56,7 @@ const scrollAnchor = ref('scroll-anchor');
 
 onMounted(() => {
   mounted.value = true;
+  scroll();
 });
 
 const showNavigation = computed(() => {
@@ -77,11 +78,15 @@ const scrollToView = () => {
 };
 
 watch(route, () => {
+  scroll();
+});
+
+const scroll = () => {
   if (props.scrollEnabled) {
     updateScrollMargin();
     scrollToView();
   }
-});
+};
 
 const updateScrollMargin = () => {
   const element = document.getElementById(scrollAnchorId.value);
@@ -136,7 +141,6 @@ const getElementHeighById = (id: string) => {
   }
 
   @media (min-width: 992px) {
-    display: flex;
     .bar {
       &.bar-open {
         min-width: $sidebar-width;

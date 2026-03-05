@@ -8,39 +8,37 @@
         Painike puuttuu
       </div>
     </slot>
-    <b-modal
-      id="koodistoModal"
+    <EpModal
       ref="editModal"
-      size="xl"
-      @ok="lisaaValitut"
-      @hidden="alusta"
+      size="md"
+      @cancel="alusta"
     >
-      <template #modal-header>
+      <template #modal-title>
         <slot name="header">
           <h2>{{ $t('hae-koodistosta') }} ({{ koodisto }})</h2>
         </slot>
       </template>
 
-      <template #modal-footer="{ ok, cancel }">
-        <b-button
+      <template #modal-footer>
+        <ep-button
           v-if="multiselect"
           variant="primary"
           :disabled="innerModel.length === 0"
-          @click="ok()"
+          @click="lisaaValitut"
         >
           {{ $t('lisaa-valitut') }}
-        </b-button>
-        <b-button
+        </ep-button>
+        <ep-button
           variant="secondary"
-          @click="cancel()"
+          @click="editModal?.hide()"
         >
           {{ multiselect ? $t('peruuta') : $t('sulje') }}
-        </b-button>
+        </ep-button>
       </template>
 
       <template #default>
-        <div class="d-flex flex-row align-items-center">
-          <div class="flex-grow-1">
+        <div class="flex flex-row items-center">
+          <div class="grow">
             <ep-search v-model="query" />
             <ep-toggle
               v-model="vanhentuneet"
@@ -55,7 +53,7 @@
           </div>
         </div>
         <div v-if="items">
-          <b-table
+          <EpTable
             ref="koodistoTable"
             responsive
             borderless
@@ -64,7 +62,6 @@
             hover
             :items="items"
             :fields="fields"
-            :selectable="true"
             select-mode="single"
             selected-variant=""
             @row-selected="onRowSelected"
@@ -82,13 +79,13 @@
                   size="20px"
                 >check_box_outline_blank</EpMaterialIcon>
               </span>
-              <span class="btn-link">
+              <span class="text-blue-600 hover:underline cursor-pointer">
                 {{ $kaanna(item.nimi) }}
               </span>
             </template>
 
             <template #cell(arvo)="{ item }">
-              <span class="font-weight-bold">
+              <span class="font-bold">
                 {{ item.koodiArvo }}
               </span>
             </template>
@@ -104,7 +101,7 @@
             <template #cell(paattyminen)="{ item }">
               <span v-if="item.voimassaLoppuPvm">{{ $ago(item.voimassaLoppuPvm) }}</span>
             </template>
-          </b-table>
+          </EpTable>
 
           <EpBPagination
             v-if="raw"
@@ -126,7 +123,7 @@
         </div>
         <ep-spinner v-else />
       </template>
-    </b-modal>
+    </EpModal>
   </div>
   <div v-else-if="modelValue && modelValue.arvo">
     {{ $kaanna(modelValue.nimi) }} <span v-if="naytaArvo">{{ modelValue.arvo }}</span>
@@ -144,6 +141,7 @@
 <script setup lang="ts">
 import { ref, computed, watch, useTemplateRef } from 'vue';
 import EpButton from '../EpButton/EpButton.vue';
+import EpModal from '../EpModal/EpModal.vue';
 import EpToggle from '../forms/EpToggle.vue';
 import EpSearch from '../forms/EpSearch.vue';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
@@ -151,6 +149,7 @@ import { KoodistoSelectStore } from './KoodistoSelectStore';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import _ from 'lodash';
 import EpBPagination from '../EpBPagination/EpBPagination.vue';
+import EpTable from '@shared/components/EpTable/EpTable.vue';
 import { unref } from 'vue';
 import { $t } from '@shared/utils/globals';
 import { debounced } from '@shared/utils/delay';
@@ -299,7 +298,7 @@ const onRowSelected = (items: any[]) => {
     if (!multiselect.value) {
       emit('update:modelValue', row);
       emit('add', row, props.modelValue);
-      editModal.value.hide();
+      editModal.value?.hide();
     }
     else {
       if (_.includes(selectedUris.value, row.uri)) {
@@ -319,6 +318,7 @@ const lisaaValitut = () => {
   if (multiselect.value) {
     emit('update:modelValue', innerModel.value);
     emit('add', innerModel.value);
+    editModal.value?.hide();
   }
 };
 

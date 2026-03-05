@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="yllapitoValue"
-    class="d-flex"
+    class="flex"
   >
     <EpMaterialIcon>chevron_right</EpMaterialIcon>
     <EpExternalLink

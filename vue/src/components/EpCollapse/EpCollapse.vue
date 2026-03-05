@@ -12,7 +12,7 @@
       <!-- Käytetään button rolea saavutettavuuden takaamiseksi.-->
       <div
         v-if="hasHeaderSlot"
-        class="collapse-button d-flex align-items-center py-2 pr-1"
+        class="collapse-button flex items-center py-2 pr-1"
         role="button"
         tabindex="0"
         :aria-expanded="toggled"
@@ -25,7 +25,7 @@
           name="icon"
           :toggled="toggled"
         >
-          <div class="align-self-start mr-2">
+          <div class="self-start mr-2">
             <EpMaterialIcon
               v-if="toggled"
               size="28px"
@@ -40,7 +40,7 @@
             </EpMaterialIcon>
           </div>
         </slot>
-        <div class="align-self-start header w-100">
+        <div class="self-start header w-full">
           <div :class="{'header-toggled': toggled}">
             <slot
               name="header"
@@ -154,20 +154,6 @@ const styles = computed(() => {
     collapse: {},
   };
 
-  if (props.blue) {
-    style = {
-      header: {
-        'color': '#001A58',
-      },
-      collapse: {
-        'padding': '20px 20px 0px 20px',
-        'border-radius': '30px',
-        'border': '1px solid #C8F1FF',
-        'background': '#E6F6FF',
-      },
-    };
-  }
-
   if (props.usePadding) {
     style = {
       header: {
@@ -194,6 +180,10 @@ const classess = computed(() => {
 
   if (props.shadow) {
     result += ' shadow-tile';
+  }
+
+  if (props.blue) {
+    result += ' ep-collapse--blue';
   }
 
   if (props.togglefull) {
@@ -268,6 +258,17 @@ defineExpose({
 .ep-collapse {
   margin-top: 5px;
 
+  &--blue {
+    padding: 20px 20px 0 20px;
+    border-radius: 30px;
+    border: 1px solid $lightBlue2;
+    background: $lightBlue2;
+
+    .collapse-button {
+      color: $paletti-blue-dark;
+    }
+  }
+
   .collapse-button {
     cursor: pointer;
 
@@ -302,10 +303,10 @@ defineExpose({
 }
 
 :deep(.osaamistasot) {
-  .row:nth-of-type(even) {
+  > div:nth-of-type(even) {
     background-color: $table-even-row-blue !important;
   }
-  .row:nth-of-type(odd) {
+  > div:nth-of-type(odd) {
     background-color: $table-odd-row-blue !important;
   }
 }
