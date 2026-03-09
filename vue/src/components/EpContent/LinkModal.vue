@@ -1,124 +1,106 @@
 <template>
-  <div class="link-modal">
-    <div class="modal-header">
-      <h5 class="modal-title">
-        {{ $t('lisaa-muokkaa-linkki') }}
-      </h5>
-    </div>
-
-    <div class="modal-body">
-      <div class="mx-4">
-        <template v-if="navigationFlattened && navigationFlattened.length > 0">
-          <div class="mb-4">
-            <label class="flex items-center">
-              <input
-                v-model="linkkiTyyppi"
-                type="radio"
-                class="mr-2"
-                value="sisainen"
-                name="linkkiTyyppi"
-              >
-              {{ $t('sisainen-linkki') }}
-            </label>
-          </div>
-
-          <div
-            v-if="linkkiTyyppi === 'sisainen'"
-            class="mb-3"
-          >
-            <EpMultiSelect
-              v-model="internalLink"
-              :is-editing="true"
-              :search-identity="labelSearchIdentity"
-              :options="navigationFlattened"
-              :placeholder="$t('valitse-sivu') + '...'"
-            >
-              <template #singleLabel="{ option }">
-                {{ $kaanna(option.label) }}
-              </template>
-              <template #option="{ option }">
-                <span :style="'padding-left: ' + 10*option.depth +'px'"> {{ $kaanna(option.label) }}</span>
-              </template>
-            </EpMultiSelect>
-          </div>
-
-          <div class="mb-4 mt-3">
-            <label class="flex items-center">
-              <input
-                v-model="linkkiTyyppi"
-                type="radio"
-                class="mr-2"
-                value="ulkoinen"
-                name="linkkiTyyppi"
-              >
-              {{ $t('ulkoinen-linkki') }}
-            </label>
-          </div>
-
-          <div
-            v-if="linkkiTyyppi === 'ulkoinen'"
-            class="mb-3"
-          >
+  <EpModal
+    ref="epModalRef"
+    size="md"
+    :header="$t('lisaa-muokkaa-linkki')"
+    :ok-text="$t('ok')"
+    :cancel-text="$t('peruuta')"
+    :ok-disabled="isInvalid"
+    @ok="handleOk"
+    @cancel="handleCancel"
+  >
+    <div class="link-modal-content mx-4">
+      <template v-if="navigationFlattened && navigationFlattened.length > 0">
+        <div class="mb-4">
+          <label class="flex items-center">
             <input
-              v-model="linkValue"
-              type="text"
-              class="w-full px-3 py-2 border rounded"
-              :class="{ 'border-red-600': linkInvalid }"
-              :placeholder="linkPlaceholder"
+              v-model="linkkiTyyppi"
+              type="radio"
+              class="mr-2"
+              value="sisainen"
+              name="linkkiTyyppi"
             >
-            <div
-              v-if="linkInvalid"
-              class="block text-red-600 text-sm mt-1"
-            >
-              {{ $t('url-osoite-virheellinen') }}
-            </div>
-          </div>
-        </template>
+            {{ $t('sisainen-linkki') }}
+          </label>
+        </div>
 
         <div
-          v-else
+          v-if="linkkiTyyppi === 'sisainen'"
           class="mb-3"
         >
-          <label class="block mb-2 font-medium">{{ $t('linkki-osoite') }}</label>
+          <EpMultiSelect
+            v-model="internalLink"
+            :is-editing="true"
+            :search-identity="labelSearchIdentity"
+            :options="navigationFlattened"
+            :placeholder="$t('valitse-sivu') + '...'"
+          >
+            <template #singleLabel="{ option }">
+              {{ $kaanna(option.label) }}
+            </template>
+            <template #option="{ option }">
+              <span :style="'padding-left: ' + 10*option.depth +'px'"> {{ $kaanna(option.label) }}</span>
+            </template>
+          </EpMultiSelect>
+        </div>
+
+        <div class="mb-4 mt-3">
+          <label class="flex items-center">
+            <input
+              v-model="linkkiTyyppi"
+              type="radio"
+              class="mr-2"
+              value="ulkoinen"
+              name="linkkiTyyppi"
+            >
+            {{ $t('ulkoinen-linkki') }}
+          </label>
+        </div>
+
+        <div
+          v-if="linkkiTyyppi === 'ulkoinen'"
+          class="mb-3"
+        >
           <input
             v-model="linkValue"
             type="text"
-            class="w-full px-3 py-2 border rounded"
+            class="link-input w-full px-3 py-2 border rounded"
+            :class="{ 'link-input--invalid': linkInvalid }"
             :placeholder="linkPlaceholder"
           >
+          <div
+            v-if="linkInvalid"
+            class="link-input-error block text-sm mt-1"
+          >
+            {{ $t('url-osoite-virheellinen') }}
+          </div>
         </div>
-      </div>
-    </div>
+      </template>
 
-    <div class="modal-footer">
-      <div class="w-full flex justify-end gap-2">
-        <ep-button
-          variant="link"
-          @click="handleCancel"
+      <div
+        v-else
+        class="mb-3"
+      >
+        <label class="block mb-2 font-medium">{{ $t('linkki-osoite') }}</label>
+        <input
+          v-model="linkValue"
+          type="text"
+          class="link-input w-full px-3 py-2 border rounded"
+          :placeholder="linkPlaceholder"
         >
-          {{ $t('peruuta') }}
-        </ep-button>
-        <ep-button
-          variant="primary"
-          :disabled="isInvalid"
-          @click="handleOk"
-        >
-          {{ $t('ok') }}
-        </ep-button>
       </div>
     </div>
-  </div>
+  </EpModal>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, inject } from 'vue';
+import { ref, computed, onMounted, inject, unref, type PropType } from 'vue';
 import _ from 'lodash';
 import { NavigationNodeDto } from '@shared/tyypit';
 import { deepFind } from '@shared/utils/helpers';
+import EpModal from '@shared/components/EpModal/EpModal.vue';
 import EpMultiSelect from '@shared/components/forms/EpMultiSelect.vue';
-import EpButton from '@shared/components/EpButton/EpButton.vue';
 import { $kaanna, $t } from '@shared/utils/globals';
-import { unref } from 'vue';
 
 const props = defineProps({
   initialHref: {
@@ -128,6 +110,14 @@ const props = defineProps({
   initialRoutenode: {
     type: String,
     default: '',
+  },
+  onOk: {
+    type: Function as PropType<(linkData: any) => void>,
+    default: null,
+  },
+  onCancel: {
+    type: Function as PropType<() => void>,
+    default: null,
   },
 });
 
@@ -205,14 +195,20 @@ function handleOk() {
   }
 
   emit('ok', result);
+  props.onOk?.(result);
 }
 
 function handleCancel() {
   emit('cancel');
+  props.onCancel?.();
 }
+
+const epModalRef = ref<InstanceType<typeof EpModal> | null>(null);
 
 // Initialize component
 onMounted(() => {
+  epModalRef.value?.show();
+
   // Set initial values if editing existing link
   if (props.initialHref && props.initialHref !== '#') {
     linkkiTyyppi.value = 'ulkoinen';
@@ -232,34 +228,22 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-.link-modal {
+@import '@shared/styles/_variables.scss';
+
+.link-modal-content {
   min-width: 500px;
   max-width: 800px;
-  background: white;
 }
 
-.modal-header {
-  padding: 1.5rem 1.5rem 0 1.5rem;
-  border-bottom: 1px solid #dee2e6;
-  margin-bottom: 1rem;
+.link-input {
+  border-color: $grey300;
 
-  .modal-title {
-    margin: 0;
-    font-size: 1.25rem;
-    font-weight: 500;
-    color: #212529;
+  &--invalid {
+    border-color: $alias-error;
   }
 }
 
-.modal-body {
-  padding: 0 1.5rem 1rem 1.5rem;
+.link-input-error {
+  color: $alias-error;
 }
-
-.modal-footer {
-  padding: 1rem 1.5rem 1.5rem 1.5rem;
-  border-top: 0;
-  margin-top: 1rem;
-}
-
-
 </style>
