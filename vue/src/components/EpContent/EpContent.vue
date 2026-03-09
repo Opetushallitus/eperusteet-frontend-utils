@@ -360,9 +360,11 @@ onBeforeUnmount(() => {
     :deep(.ProseMirror) {
       padding: 10px;
     }
-
     &.is-invalid-html {
       border-color: $invalid;
+    }
+    :deep(a) {
+      pointer-events: none;
     }
   }
 

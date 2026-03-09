@@ -142,7 +142,7 @@ export const setConfirmModal = (confirmModal: any) => {
         }
         confirmModal.require({
           group: 'headless',
-          header: options.title ?? '',
+          header: title ?? options.title ?? '',
           message: options.message ?? '',
           accept: () => resolve(true),
           reject: () => resolve(false),
