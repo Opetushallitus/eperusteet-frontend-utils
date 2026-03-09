@@ -97,7 +97,12 @@ img.content-image {
   --p-inputgroup-addon-border-radius: 25px !important;
   --p-form-field-border-radius: 0 !important;
   --p-form-field-border-color: #{$black} !important;
+  --p-scrollbar-width: 0 !important;
   
+  .p-overflow-hidden {
+    padding-right: 0 !important;
+  }
+
   margin: 0;
   padding: 0;
   overflow-x: hidden;
