@@ -3,7 +3,9 @@
     <div class="text-left">
       <div class="my-5">
         <h2>{{ $t('virhe-nakyma-otsikko') }}</h2>
-        <h3 v-if="virhe.alt !== 'virhe-palvelu-virhe'">{{ $t(virhe.alt) }}</h3>
+        <h3 v-if="virhe.alt !== 'virhe-palvelu-virhe'">
+          {{ $t(virhe.alt) }}
+        </h3>
         <div v-if="kohde">
           {{ $t(kohde + '-esikatselu-ei-mahdollista') }}
         </div>

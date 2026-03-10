@@ -39,7 +39,8 @@
                 </div>
                 <div
                   :title="$sdt(muokkaustieto.luotu)"
-                  class="col aika text-right">
+                  class="col aika text-right"
+                >
                   {{ $ago(muokkaustieto.luotu) }}
                 </div>
               </div>
