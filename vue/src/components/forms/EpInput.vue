@@ -3,6 +3,7 @@
     <div class="input-container d-flex align-items-center">
       <input
         v-bind="$attrs"
+        ref="inputRef"
         class="input-style form-control"
         :class="[ inputClass ]"
         :placeholder="placeholderValue"
@@ -12,7 +13,6 @@
         @focus="onInputFocus"
         @blur="onInputBlur"
         @input="onInput($event.target.value)"
-        ref="inputRef"
       >
       <div
         v-if="hasLeftSlot"
