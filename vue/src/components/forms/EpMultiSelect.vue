@@ -101,15 +101,15 @@
         </slot>
       </template>
       <template #selection="{ values, search, isOpen }">
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center" v-if="hasSelectionSlot">
           <slot
             name="selection"
-            :values="values"
+            :values="Array.isArray(values) ? values : []"
             :search="search"
             :is-open="isOpen"
           />
           <span
-            v-if="multiple && values.length > 0"
+            v-if="multiple && (values ?? []).length > 0"
             class="ml-auto clickable border-right pr-2 remove-all"
             @click.prevent
             @mousedown.prevent.stop="removeAll()"
@@ -365,6 +365,10 @@ function addTag(tag) {
 
 const labelSlot = computed(() => {
   return hasSlotContent(slots.label);
+});
+
+const hasSelectionSlot = computed(() => {
+  return hasSlotContent(slots.selection, { values: [], search: '', isOpen: false });
 });
 
 defineExpose({

@@ -6,12 +6,15 @@ describe('EpKoulutustyyppiSelect', () => {
   it('Renders', () => {
     const wrapper = mount(EpKoulutustyyppiSelect, {
       props: {
-        value: null,
+        modelValue: null,
+        isEditing: true,
       },
       global: {
         ...globalStubs,
       },
     });
+
+    expect(wrapper.html()).toContain('kaikki');
   });
 
   it('value not set', () => {
