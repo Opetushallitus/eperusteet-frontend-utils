@@ -54,7 +54,7 @@
 
         <div class="collapse-tausta text-left mt-2">
           <template v-if="koulutustoimijat && koulutustoimijat.length > 10">
-            <hr class="m-0">
+            <hr class="!m-0">
             <EpSearch
               v-model="koulutustoimijaQuery"
               class="rajain pl-2"
@@ -386,6 +386,10 @@ async function valitseUiKieli(kieli: Kieli) {
     // Silently ignore router push errors
   }
 }
+
+defineExpose({
+  valitseUiKieli,
+});
 </script>
 
 <style scoped lang="scss">

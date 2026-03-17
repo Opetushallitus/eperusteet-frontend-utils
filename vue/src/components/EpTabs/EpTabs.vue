@@ -82,10 +82,10 @@ const tabs = computed(() => {
     .filter((vnode: VNode) => {
       // Filter out non-EpTab components and empty nodes
       if (!vnode.type) return false;
-      
+
       // Check if it's an EpTab component
       const typeName = (vnode.type as any).__name || (vnode.type as any).name;
-      
+
       return typeName === 'EpTab';
     })
     .map((vnode: VNode) => {

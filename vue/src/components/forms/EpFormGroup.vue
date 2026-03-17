@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-4">
+  <div class="ep-form-group mb-4">
     <label
       v-if="label || $slots.label"
       :class="labelClass"
