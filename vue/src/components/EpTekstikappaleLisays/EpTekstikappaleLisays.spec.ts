@@ -3,7 +3,7 @@ import EpTekstikappaleLisays from './EpTekstikappaleLisays.vue';
 import { nextTick } from 'vue';
 import { globalStubs } from '@shared/utils/__tests__/stubs';
 
-describe('EpKoodistoSelect component', () => {
+describe('EpTekstikappaleLisays component', () => {
   function mountWrapper(props: any, methods: any) {
     return mount(EpTekstikappaleLisays,
       {
@@ -11,7 +11,7 @@ describe('EpKoodistoSelect component', () => {
           ...props,
           tallenna: methods.saveTekstikappale,
         },
-        attachToDocument: true,
+        attachTo: document.body,
         global: {
           ...globalStubs,
         },
@@ -28,18 +28,23 @@ describe('EpKoodistoSelect component', () => {
 
     await nextTick();
 
+    expect(wrapper.html()).toContain('uusi-tekstikappale');
+
     wrapper.find('#tekstikappalelisaysBtn').trigger('click');
 
     await nextTick();
-    expect(wrapper.html()).toContain('uusi-tekstikappale');
-    expect(wrapper.html()).toContain('tekstikappale-nimi-ohje');
-    expect(wrapper.html()).toContain('toisen-tekstikappaleen-alla');
+    // Modal content is teleported to document.body (PrimeVue Dialog)
+    const bodyHtml = () => document.body.innerHTML;
+    expect(bodyHtml()).toContain('tekstikappale-nimi-ohje');
+    expect(bodyHtml()).toContain('toisen-tekstikappaleen-alla');
 
-    wrapper.setProps({ paatasovalinta: false });
+    await wrapper.setProps({ paatasovalinta: false });
 
     await nextTick();
 
-    expect(wrapper.html()).not.toContain('toisen-tekstikappaleen-alla');
+    expect(bodyHtml()).not.toContain('toisen-tekstikappaleen-alla');
+
+    wrapper.unmount();
   });
 
   test.skip('saving without main branch', async () => {
@@ -61,8 +66,10 @@ describe('EpKoodistoSelect component', () => {
 
     expect(wrapper.findAll('button.btn-primary[disabled]')).toHaveLength(1);
 
-    wrapper.findAll('option').at(1)
-      .setSelected();
+    const options = wrapper.findAll('option');
+    expect(options.length).toBeGreaterThan(1);
+    // @ts-expect-error DOMWrapper typings mark setSelected as private
+    await options[1].setSelected();
 
     await nextTick();
 
@@ -98,8 +105,9 @@ describe('EpKoodistoSelect component', () => {
     expect(wrapper.vm.taso).toBe('paataso');
     expect(wrapper.findAll('button.btn-primary[disabled]')).toHaveLength(0);
 
-    wrapper.findAll('input').at(0)
-      .setValue('otsikko1');
+    const inputs = wrapper.findAll('input');
+    expect(inputs.length).toBeGreaterThan(0);
+    await inputs[0].setValue('otsikko1');
 
     await nextTick();
 
@@ -124,6 +132,12 @@ describe('EpKoodistoSelect component', () => {
 
     await nextTick();
 
-    expect(wrapper.html()).toContain('opintokokonaisuuden-nimi');
+    wrapper.find('#tekstikappalelisaysBtn').trigger('click');
+
+    await nextTick();
+
+    expect(document.body.innerHTML).toContain('opintokokonaisuuden-nimi');
+
+    wrapper.unmount();
   });
 });

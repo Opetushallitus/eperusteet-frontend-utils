@@ -247,17 +247,6 @@
                       {{ $t('palauta') }}
                     </slot>
                   </EpDropdownItem>
-                  <EpDropdownItem
-                    :disabled="!features.previewable || disabled"
-                    @click="store.preview?.()"
-                  >
-                    {{ $t('esikatsele-sivua') }}
-                  </EpDropdownItem>
-                  <EpDropdownText
-                    v-if="features.validated && !disabled"
-                  >
-                    {{ $t('validoi') }}
-                  </EpDropdownText>
                   <EpDropdownText
                     v-if="features.recoverable"
                     :class="{ 'opacity-50 cursor-not-allowed': !historia || disabled }"
@@ -692,15 +681,9 @@ const innerSupport = computed(() => {
   return null;
 });
 
-const errorValidationData = computed(() => inner.value || null);
-
-const hasPreview = computed(() => props.store.hasPreview || false);
-
 const currentLock = computed(() => props.store.currentLock || null);
 
 const isSaving = computed(() => props.store.isSaving || false);
-
-const isEditable = computed(() => features.value.editable || false);
 
 const validator = computed(() => ({ inner: props.store.validator || null }));
 

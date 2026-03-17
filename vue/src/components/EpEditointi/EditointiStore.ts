@@ -20,10 +20,8 @@ export interface KayttajaProvider {
 
 export interface EditoitavaFeatures {
   editable?: boolean;
-  previewable?: boolean;
   removable?: boolean;
   lockable?: boolean;
-  validated?: boolean;
   recoverable?: boolean;
   hideable?: boolean;
   isHidden?: boolean;
@@ -82,11 +80,6 @@ export interface IEditoitava {
    * called after load
    */
   postLoad?: () => Promise<void>;
-
-  /**
-   * Get preview url location
-   */
-  preview?: () => Promise<any | null>;
 
   /**
    * Hide the resource
@@ -214,10 +207,8 @@ export class EditointiStore {
       hideable: true,
       isHidden: false,
       lockable: true,
-      previewable: false,
       recoverable: true,
       removable: true,
-      validated: true,
       copyable: false,
     };
 
@@ -235,8 +226,6 @@ export class EditointiStore {
       lockable: cfg.lock && cfg.release && features.lockable,
       recoverable: cfg.restore && cfg.revisions && features.recoverable,
       removable: cfg.remove && features.removable,
-      validated: cfg.validator && features.validated,
-      previewable: features.previewable || false,
       copyable: features.copyable || false,
       codes: features.codes || [],
       hasCoding: !!features.hasCoding,
@@ -251,10 +240,6 @@ export class EditointiStore {
     }
     return this.state.currentLock;
   });
-
-  public get hasPreview() {
-    return !!this.config.preview;
-  }
 
   public async updateRevisions() {
     if (this.config.revisions) {

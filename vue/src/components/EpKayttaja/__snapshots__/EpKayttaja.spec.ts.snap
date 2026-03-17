@@ -1,0 +1,17 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`EpKayttaja component > Renders 1`] = `
+"<div data-v-9ad4d674="" class="kayttaja">
+  <div data-v-0a244ffe="" data-v-9ad4d674="" class="ep-dropdown inline-block">
+    <div data-v-0a244ffe="" class="ep-dropdown-trigger cursor-pointer">
+      <div data-v-9ad4d674="" class="flex flex-row">
+        <div data-v-9ad4d674="" class="kayttaja-valikko flex flex-col"><span data-v-9ad4d674="" class="kielivalitsin text-right">etunimi sukunimi</span>
+          <!--v-if-->
+        </div><span data-v-07230345="" data-v-9ad4d674="" class="material-icons icon">expand_more</span>
+      </div>
+    </div>
+    <!--teleport start-->
+    <!--teleport end-->
+  </div>
+</div>"
+`;

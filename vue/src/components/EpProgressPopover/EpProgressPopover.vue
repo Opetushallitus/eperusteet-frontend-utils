@@ -109,49 +109,8 @@ defineExpose({
 @import '@shared/styles/_variables.scss';
 @import '@shared/styles/_mixins.scss';
 
-.progress-popover {
-  width: 150px;
-  @include tile-background-shadow-selected;
-  border: 0px;
-  border-radius: 1rem;
-  transform: translate3d(45px, 55px, 0px) !important;
-
-  :deep(.arrow) {
-    display:none;
-  }
-
-  :deep(.popover-body) {
-    padding: 0;
-
-    .popup-top {
-      padding: 15px;
-      background: $popup-top-background;
-      border-radius: 1rem 1rem 0 0;
-      font-size: 1rem;
-    }
-
-    .slot-area {
-      padding: 15px;
-      background-color: $white;
-    }
-
-    .popup-hr {
-      background-color: $white;
-      margin-right: -15px;
-      margin-left: -15px;
-      display: flow-root;
-    }
-
-    .popup-bottom {
-      padding: 5px 15px;
-      background-color: $white;
-      border-radius: 0 0 1rem 1rem;
-    }
-
-    hr {
-      margin: 0;
-    }
-  }
+.progress-area {
+  height: 70px;
 }
 
 </style>
