@@ -170,7 +170,6 @@ describe('EpEditointi component', () => {
       editable: false,
       removable: false,
       lockable: false,
-      validated: false,
       recoverable: false,
     });
 

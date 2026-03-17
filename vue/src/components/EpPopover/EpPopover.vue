@@ -3,6 +3,7 @@
     <div
       ref="triggerRef"
       @mouseenter="handleMouseEnter"
+      @mouseleave="handleMouseLeave"
       @click="handleClick"
       @focus="handleFocus"
       @blur="handleBlur"
@@ -12,23 +13,31 @@
     <Popover
       ref="popover"
       :class="popoverClass"
-      @mouseleave="handleMouseLeave"
       @show="handleShow"
       @hide="handleHide"
     >
-      <template
-        v-if="$slots.header"
+      <div
+        class="ep-popover-hover-target"
+        @mouseenter="handlePopoverMouseEnter"
+        @mouseleave="handleMouseLeave"
       >
-        <slot name="header" />
-      </template>
-      <slot />
+        <template
+          v-if="$slots.header"
+        >
+          <slot name="header" />
+        </template>
+        <slot />
+      </div>
     </Popover>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onBeforeUnmount, ref } from 'vue';
 import Popover from 'primevue/popover';
+
+/** Delay before hiding on hover leave so the pointer can cross the gap to the teleported popover. */
+const HOVER_HIDE_DELAY_MS = 200;
 
 export type PopoverTrigger = 'hover' | 'click' | 'focus' | 'manual';
 
@@ -55,19 +64,44 @@ const emit = defineEmits<{
 const popover = ref();
 const triggerRef = ref();
 
+let hoverHideTimeoutId: number | null = null;
+
+const clearHoverHideTimeout = () => {
+  if (hoverHideTimeoutId !== null) {
+    window.clearTimeout(hoverHideTimeoutId);
+    hoverHideTimeoutId = null;
+  }
+};
+
+const scheduleHoverHide = () => {
+  if (props.disabled || !props.triggers.includes('hover')) return;
+  clearHoverHideTimeout();
+  hoverHideTimeoutId = window.setTimeout(() => {
+    hoverHideTimeoutId = null;
+    popover.value?.hide();
+  }, HOVER_HIDE_DELAY_MS);
+};
+
 const handleMouseEnter = (event: MouseEvent) => {
   if (props.disabled || !props.triggers.includes('hover')) return;
+  clearHoverHideTimeout();
   if (popover.value) {
     popover.value.show(event);
   }
 };
 
-const handleMouseLeave = () => {
+const handlePopoverMouseEnter = () => {
   if (props.disabled || !props.triggers.includes('hover')) return;
-  if (popover.value) {
-    popover.value.hide();
-  }
+  clearHoverHideTimeout();
 };
+
+const handleMouseLeave = () => {
+  scheduleHoverHide();
+};
+
+onBeforeUnmount(() => {
+  clearHoverHideTimeout();
+});
 
 const handleClick = (event: MouseEvent) => {
   if (props.disabled || !props.triggers.includes('click')) return;

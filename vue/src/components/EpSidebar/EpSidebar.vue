@@ -15,14 +15,14 @@
         <slot name="bottom" />
       </div>
     </div>
-    <Teleport
+    <!-- <Teleport
       v-else-if="mounted"
       to="#globalNavigation"
     >
       <div class="mb-5">
         <slot name="bar" />
       </div>
-    </Teleport>
+    </Teleport> -->
     <div
       :id="scrollAnchorId"
       class="view"
