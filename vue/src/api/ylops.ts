@@ -150,6 +150,7 @@ export type OppiaineenVuosiluokkakokonaisuusDto = YlopsApi.OppiaineenVuosiluokka
 export type Lops2019OppiaineJarjestysDto = YlopsApi.Lops2019OppiaineJarjestysDto;
 export type OppiaineDto = YlopsApi.OppiaineDto;
 export type OpetussuunnitelmanJulkaisuDto = YlopsApi.OpetussuunnitelmanJulkaisuDto;
+export type OpetussuunnitelmanJulkaisuKevytDto = YlopsApi.OpetussuunnitelmanJulkaisuKevytDto;
 export type LukioOppiaineTiedotDto = YlopsApi.LukioOppiaineTiedotDto;
 export type OpetussuunnitelmaExportDto = YlopsApi.OpetussuunnitelmaExportDto;
 export type Validointi = YlopsApi.Validointi;
