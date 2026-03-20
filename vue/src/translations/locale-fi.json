@@ -872,7 +872,9 @@
     "koodistoon-lisattavan-tutkinnon-osan-nimi-tulee-olla-kaannettyna-suomeksi-ja-ruotsiksi": "Koodistoon lisättävän tutkinnon osan nimi tulee olla käännettynä suomeksi ja ruotsiksi",
     "koodistoon-vienti-epaonnistui": "Koodistoon vienti epäonnistui",
     "koodita": "Koodita",
-    "koodita-peruste": "Koodita peruste",
+    "poista-kooditus": "Poista kooditus",
+    "valitse-koodisto": "Valitse koodisto",
+    "koodita-sisalto": "Koodita sisältö",
     "koodita-peruste-info": "Lisää perusteen koodittamattomat sisällöt koodistoon.",
     "koodittomia-koulutuksen-osia": "Projektissa on koodittomia koulutuksen osia",
     "koodittomia-tutkinnon-osia": "Kaikilla tutkinnon osilla ei koodia",
@@ -4629,5 +4631,9 @@
     "hae-ajankohtaista": "Hae ajankohtaista",
     "koulutuksen-jarjestajien-totsut-perustesivulta": "Koulutuksen järjestäjien julkaisemat paikalliset toteutussuunnitelmat löydät tutkintojen perustesivulta.",
     "valittu-x-koulutusta": "Valittu {kpl} koulutusta",
-    "valitse-koulutustoimija": "Valitse koulutustoimija"
+    "valitse-koulutustoimija": "Valitse koulutustoimija",
+    "koodisto-laajaalainenosaaminen_esiopetus2026": "Laaja-alainen osaaminen",
+    "koodisto-oppimisenalueet_esiopetus2026": "Oppimisen alueet",
+    "koodisto-laajaalainenosaaminen_varhaiskasvatu2026": "Laaja-alainen osaaminen",
+    "koodisto-oppimisenalueet_varhaiskasvatu2026": "Oppimisen alueet"
 }

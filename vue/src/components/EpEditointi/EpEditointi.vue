@@ -99,7 +99,7 @@
                   </slot>
                 </ep-button>
                 <b-dropdown
-                  v-if="isEditing && !disabled && (features.removable || features.hideable)"
+                  v-if="isEditing && !disabled && (features.removable || features.hideable || codingMenuVisible)"
                   class="mx-4"
                   size="md"
                   variant="link"
@@ -274,6 +274,26 @@
                       :per-page="10"
                       @restore="restore($event)"
                     />
+                  </b-dropdown-item>
+                  <b-dropdown-item
+                    v-if="showKooditaOption"
+                    key="koodita"
+                    :disabled="disabled"
+                    @click="aloitaKooditus()"
+                  >
+                    <slot name="koodita">
+                      {{ $t('koodita-sisalto') }}
+                    </slot>
+                  </b-dropdown-item>
+                  <b-dropdown-item
+                    v-if="showPoistaKooditusOption"
+                    key="poista-kooditus"
+                    :disabled="disabled"
+                    @click="poistaKooditus()"
+                  >
+                    <slot name="poista-kooditus">
+                      {{ $t('poista-kooditus') }}
+                    </slot>
                   </b-dropdown-item>
                 </b-dropdown>
                 <ep-round-button
@@ -465,13 +485,42 @@
         </div>
         <EpSpinner v-else />
       </template>
+      <b-modal
+        id="editointi-koodisto-valinta"
+        ref="koodistoPickModalRef"
+        :title="$t('valitse-koodisto')"
+        hide-footer
+      >
+        <div class="d-flex flex-column">
+          <ep-button
+            v-for="k in features.codes"
+            :key="k"
+            variant="link"
+            class="text-left justify-content-start"
+            @click="valitseKoodistoJaAvaa(k)"
+          >
+            {{ $t('koodisto-' + k) }}
+          </ep-button>
+        </div>
+      </b-modal>
+      <div class="d-none">
+        <EpKoodistoSelect
+          ref="codingKoodistoSelectRef"
+          :store="codingKoodistoStore"
+          :is-editing="true"
+          v-model="codingValittu"
+          @add="onKoodistoKoodiValittu"
+        >
+          <template #default />
+        </EpKoodistoSelect>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import _ from 'lodash';
-import { ref, computed, watch, onMounted, getCurrentInstance } from 'vue';
+import { ref, computed, watch, onMounted, getCurrentInstance, nextTick, unref, reactive } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { EditointiStore } from './EditointiStore';
 import { setItem, getItem } from '../../utils/localstorage';
@@ -488,6 +537,8 @@ import { $t, $sdt, $ago, $success, $fail, $bvModal } from '@shared/utils/globals
 import { useVuelidate } from '@vuelidate/core';
 import EpPagination from '@shared/components/EpPagination/EpPagination.vue';
 import { inject } from 'vue';
+import EpKoodistoSelect from '../EpKoodistoSelect/EpKoodistoSelect.vue';
+import { KoodistoSelectStore, getKoodistoSivutettuna } from '../EpKoodistoSelect/KoodistoSelectStore';
 
 const props = defineProps({
   store: {
@@ -695,7 +746,72 @@ const isEditing = computed(() =>  props.store.isEditing || false);
 
 const revisions = computed(() => props.store.revisions || []);
 
-const features = computed(() => props.store.features || {});
+const features = computed(() => unref(props.store.features as any) || {});
+
+const codingKoodistoConfig = reactive({
+  koodisto: '',
+  async query(query: string, sivu = 0, koodisto: string) {
+    return await getKoodistoSivutettuna(koodisto, query, sivu) as any;
+  },
+});
+
+const codingKoodistoStore = new KoodistoSelectStore(codingKoodistoConfig as any);
+
+const codingValittu = ref<any>();
+
+const koodistoPickModalRef = ref<{ hide?: () => void; show?: () => void } | null>(null);
+const codingKoodistoSelectRef = ref<InstanceType<typeof EpKoodistoSelect> | null>(null);
+
+const showKooditaOption = computed(() => {
+  const codes = features.value.codes;
+  const hooks = props.store?.hooks;
+  return _.isArray(codes) && codes.length > 0 && !!hooks?.addCoding && !features.value.hasCoding;
+});
+
+const showPoistaKooditusOption = computed(() => !!props.store?.hooks?.removeCoding && !!features.value.hasCoding);
+
+const codingMenuVisible = computed(() => showKooditaOption.value || showPoistaKooditusOption.value);
+
+const valitseKoodistoJaAvaa = async (koodistoUri: string) => {
+  koodistoPickModalRef.value?.hide?.();
+  codingKoodistoConfig.koodisto = koodistoUri;
+  await nextTick();
+  await codingKoodistoSelectRef.value?.openDialog?.();
+};
+
+const aloitaKooditus = async () => {
+  const codes = features.value.codes || [];
+  if (!codes.length || !props.store?.hooks?.addCoding) {
+    return;
+  }
+  if (codes.length === 1) {
+    await valitseKoodistoJaAvaa(codes[0]);
+  }
+  else {
+    koodistoPickModalRef.value?.show?.();
+  }
+};
+
+const onKoodistoKoodiValittu = async (row: any) => {
+  try {
+    await props.store.addCoding(row);
+    codingValittu.value = undefined;
+  }
+  catch (err) {
+    console.log(err);
+    $fail($t('kooditus-epaonnistui') as string);
+  }
+};
+
+const poistaKooditus = async () => {
+  try {
+    await props.store.removeCoding();
+  }
+  catch (err) {
+    console.log(err);
+    $fail($t('kooditus-epaonnistui') as string);
+  }
+};
 
 const disabled = computed(() => props.store.disabled || false);
 

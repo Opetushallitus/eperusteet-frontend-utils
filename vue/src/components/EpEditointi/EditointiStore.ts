@@ -28,6 +28,8 @@ export interface EditoitavaFeatures {
   hideable?: boolean;
   isHidden?: boolean;
   copyable?: boolean;
+  codes?: string[];
+  hasCoding?: boolean;
 }
 
 export interface IEditoitava {
@@ -115,6 +117,16 @@ export interface IEditoitava {
    * Save preventing validations
    */
   validator?: Computed<any>;
+
+  /**
+   * Add coding to the resource. Argument is the selected koodi row from koodistohaku (uri, arvo, nimi, …).
+   */
+  addCoding?: (data: any) => Promise<void>;
+
+  /**
+   * Remove coding from the resource. Receives current edit payload (same as `save`).
+   */
+  removeCoding?: (data: any) => Promise<void>;
 
   /**
    * Dynamic features that are enabled
@@ -226,6 +238,8 @@ export class EditointiStore {
       validated: cfg.validator && features.validated,
       previewable: features.previewable || false,
       copyable: features.copyable || false,
+      codes: features.codes || [],
+      hasCoding: !!features.hasCoding,
     };
   });
 
@@ -547,6 +561,32 @@ export class EditointiStore {
       ...this.state.data,
       ...data,
     };
+  }
+
+  public async addCoding(koodi: any) {
+    if (!this.config.addCoding) {
+      return;
+    }
+    this.state.disabled = true;
+    try {
+      await this.config.addCoding(koodi);
+    }
+    finally {
+      this.state.disabled = false;
+    }
+  }
+
+  public async removeCoding() {
+    if (!this.config.removeCoding) {
+      return;
+    }
+    this.state.disabled = true;
+    try {
+      await this.config.removeCoding(this.state.data);
+    }
+    finally {
+      this.state.disabled = false;
+    }
   }
 }
 
