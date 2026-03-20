@@ -99,6 +99,7 @@ import { MaaraysLiiteDtoTyyppiEnum } from '@shared/generated/eperusteet';
 import { MaarayksetParams, baseURL } from '@shared/api/eperusteet';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import { $t, $sd, $kaanna, $slang } from '@shared/utils/globals';
+import EpPdfLink from '@shared/components/EpPdfLink/EpPdfLink.vue';
 
 const props = defineProps({
   julkaisut: {
