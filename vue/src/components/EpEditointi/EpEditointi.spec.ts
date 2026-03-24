@@ -101,7 +101,8 @@ describe('EpEditointi component', () => {
 
     expect(config.start).toBeCalledTimes(1);
 
-    findContaining(wrapper, '.b-button', 'peruuta')!.trigger('click');
+    wrapper.findAll('.b-button').filter(r => r.text().includes('peruuta'))
+      .at(0)!.trigger('click');
     await delay();
   });
 
@@ -215,7 +216,8 @@ describe('EpEditointi component', () => {
     expect(config.acquire).toBeCalledTimes(1);
     expect(wrapper.html()).toContain('>editing true</pre>');
 
-    findContaining(wrapper, '.b-button', 'peruuta')!.trigger('click');
+    wrapper.findAll('.b-button').filter(r => r.text().includes('peruuta'))
+      .at(0)!.trigger('click');
     await delay();
     expect(config.release).toBeCalledTimes(1);
     expect(config.cancel).toBeCalledTimes(1);

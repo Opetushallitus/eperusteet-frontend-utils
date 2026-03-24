@@ -4632,14 +4632,14 @@
     "koulutuksen-jarjestajien-totsut-perustesivulta": "Koulutuksen järjestäjien julkaisemat paikalliset toteutussuunnitelmat löydät tutkintojen perustesivulta.",
     "valittu-x-koulutusta": "Valittu {kpl} koulutusta",
     "valitse-koulutustoimija": "Valitse koulutustoimija",
-    "koodisto-laajaalainenosaaminenesiopetus2026": "Laaja-alainen osaaminen",
-    "koodisto-oppimisenalueetesiopetus2026": "Oppimisen alueet",
-    "koodisto-laajaalainenosaaminenvarhaiskasvatus2026": "Laaja-alainen osaaminen",
-    "koodisto-oppimisenalueetvarhaiskasvatus2026": "Oppimisen alueet",
-    "sisalto-kooditettu": "Sisällön kooditus onnistui",
-    "sisalto-kooditus-poistettu": "Sisällön kooditus on poistettu",
+    "koodisto-esiopetuslaajaalainenosaaminen": "Laaja-alainen osaaminen",
+    "koodisto-esiopetusoppimisenaleet": "Oppimisen alueet",
+    "koodisto-varhaiskasvatuslaajaalainenosaaminen": "Laaja-alainen osaaminen",
+    "koodisto-varhaiskasvatusoppimisenaleet": "Oppimisen alueet",
+    "sisalto-kooditettu": "Sisältö kooditettu",
+    "sisalto-kooditus-poistettu": "Sisällön kooditus poistettu",
     "varmista-poista-kooditus": "Poistetaanko sisällön kooditus?",
-    "varmista-poista-kooditus-otsikko": "Sisällön kooditus"
+    "varmista-poista-kooditus-otsikko": "Sisällön kooditus",
     "aseta-laajuus": "Aseta laajuus",
     "muokkaa-tutkinnon-laajuutta": "Muokkaa tutkinnon laajuutta"
 }
