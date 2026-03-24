@@ -101,7 +101,10 @@
         </slot>
       </template>
       <template #selection="{ values, search, isOpen }">
-        <div class="d-flex align-items-center" v-if="hasSelectionSlot">
+        <div
+          v-if="hasSelectionSlot"
+          class="d-flex align-items-center"
+        >
           <slot
             name="selection"
             :values="Array.isArray(values) ? values : []"

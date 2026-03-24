@@ -17,7 +17,7 @@
     >
       <template #modal-header>
         <slot name="header">
-          <h2>{{ $t('hae-koodistosta') }} ({{ koodisto }})</h2>
+          <h2>{{ $t('hae-koodistosta') }} ({{ usedKoodisto }})</h2>
         </slot>
       </template>
 
@@ -147,22 +147,27 @@ import EpButton from '../EpButton/EpButton.vue';
 import EpToggle from '../forms/EpToggle.vue';
 import EpSearch from '../forms/EpSearch.vue';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
-import { KoodistoSelectStore } from './KoodistoSelectStore';
+import { getKoodistoSivutettuna, KoodistoSelectStore } from './KoodistoSelectStore';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import _ from 'lodash';
 import EpBPagination from '../EpBPagination/EpBPagination.vue';
 import { unref } from 'vue';
 import { $t } from '@shared/utils/globals';
 import { debounced } from '@shared/utils/delay';
+import { onMounted } from 'vue';
 
 const props = defineProps({
   modelValue: {
     type: [Object, Array],
     default: null,
   },
+  koodisto: {
+    type: String,
+    required: false,
+  },
   store: {
     type: Object as () => KoodistoSelectStore,
-    required: true,
+    required: false,
   },
   isEditing: {
     type: Boolean,
@@ -193,16 +198,36 @@ const query = ref('');
 const vanhentuneet = ref(false);
 const innerModel = ref<any[]>([]);
 const editModal = useTemplateRef('editModal');
+const koodistoStore = ref<KoodistoSelectStore | null>(null);
+
+onMounted(() => {
+  initStore();
+});
+
+const initStore = async () => {
+  if (props.store) {
+    koodistoStore.value = props.store;
+  }
+
+  if (props.koodisto) {
+    koodistoStore.value = new KoodistoSelectStore({
+      koodisto: props.koodisto,
+      async query(query: string, sivu = 0, koodisto: string) {
+        return await getKoodistoSivutettuna(koodisto, query, sivu) as any;
+      },
+    });
+  }
+};
 
 const selectedUris = computed(() => {
   return _.map(innerModel.value, 'uri');
 });
 
 const raw = computed(() => {
-  if (!props.store) {
+  if (!koodistoStore.value) {
     return null;
   }
-  return unref(props.store.data);
+  return unref(koodistoStore.value.data);
 });
 
 const items = computed(() => {
@@ -232,7 +257,7 @@ const sivu = computed({
     return raw.value.sivu + 1;
   },
   set: (value: number) => {
-    props.store.query(query.value, _.max([value - 1, 0]));
+    koodistoStore.value?.query(query.value, _.max([value - 1, 0]));
   },
 });
 
@@ -240,8 +265,8 @@ const multiselect = computed(() => {
   return _.isArray(props.modelValue) || props.multiple;
 });
 
-const koodisto = computed(() => {
-  return unref(props.store.koodisto);
+const usedKoodisto = computed(() => {
+  return unref(koodistoStore.value?.koodisto);
 });
 
 const fields = computed(() => {
@@ -264,7 +289,7 @@ const fields = computed(() => {
 
 const initStoreQuery = debounced(async (queryVal: string, sivuVal: number, vanhentuneetVal: boolean) => {
   isLoading.value = true;
-  await props.store.query(queryVal, _.max([sivuVal, 0]), !vanhentuneetVal);
+  await koodistoStore.value?.query(queryVal, _.max([sivuVal, 0]), !vanhentuneetVal);
   isLoading.value = false;
 });
 
@@ -279,7 +304,7 @@ watch(() => vanhentuneet.value, async (newValue) => {
 });
 
 const openDialog = async () => {
-  props.store.clear();
+  await initStore();
   query.value = '';
   await initStoreQuery(query.value, sivu.value - 1, vanhentuneet.value);
   editModal.value?.show?.();
