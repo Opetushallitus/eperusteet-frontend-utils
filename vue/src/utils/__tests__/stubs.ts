@@ -3,6 +3,7 @@ import { h, renderSlot } from 'vue';
 import { createHead } from '@unhead/vue/client';
 import { setAppInstance } from '../globals';
 import { setPrimeVue } from '../../primevue';
+import { vSticky } from '../../directives/vSticky';
 
 const primeVuePlugin = {
   install(app: any) {
@@ -70,11 +71,7 @@ export const globalStubs = {
         // This ensures elements with v-oikeustarkastelu remain visible in tests
       },
     },
-    sticky: {
-      mounted() {
-        // Stub for v-sticky directive
-      },
-    },
+    sticky: vSticky,
   },
 };
 

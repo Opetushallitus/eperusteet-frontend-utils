@@ -1,6 +1,5 @@
 @import './_variables';
 @import './editorstyle';
-@import 'vue-select/src/scss/vue-select.scss';
 @import './_mixins.scss';
 
 // Container (from tailwind.css)
@@ -98,6 +97,8 @@ img.content-image {
   --p-form-field-border-radius: 0 !important;
   --p-form-field-border-color: #{$black} !important;
   --p-scrollbar-width: 0 !important;
+  --p-popover-gutter: 0 !important;
+  --p-popover-arrow-offset: -10000px !important;
   
   .p-overflow-hidden {
     padding-right: 0 !important;

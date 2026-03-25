@@ -324,7 +324,7 @@ watch(() => props.modelValue, (newValue) => {
     color: $black;
   }
 
-  :deep(.multiselect__option div) {
+  :deep(.multiselect__option:first-child) {
     padding: 12px;
     margin: 0px;
   }
@@ -333,7 +333,7 @@ watch(() => props.modelValue, (newValue) => {
     padding-left: 35px;
   }
 
-  :deep(.multiselect__option--highlight div) {
+  :deep(.multiselect__option--highlight:first-child) {
     background-color: $cyan1;
     color: $white;
   }

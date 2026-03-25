@@ -10,9 +10,7 @@
     >
       <div
         v-if="!hasFooterSlot"
-        v-sticky="isEditing"
-        sticky-offset="{ top: 56 }"
-        sticky-z-index="600"
+        v-sticky="isEditing ? { top: 56, zIndex: 600 } : undefined"
       >
         <template v-if="hasCustomHeaderSlot">
           <slot
@@ -485,7 +483,7 @@ import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import { EpDropdown, EpDropdownItem, EpDropdownText } from '@shared/components/EpDropdown';
 import { useSlots } from 'vue';
-import { $t, $sdt, $ago, $success, $fail, $confirmModal } from '@shared/utils/globals';
+import { $t, $sdt, $ago, $success, $fail, $confirmModal, $vahvista } from '@shared/utils/globals';
 import { useVuelidate } from '@vuelidate/core';
 import EpBPagination from '@shared/components/EpBPagination/EpBPagination.vue';
 import { inject } from 'vue';

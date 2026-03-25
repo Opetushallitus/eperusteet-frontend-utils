@@ -12,6 +12,7 @@
         :key="i"
         :triggers="['hover', 'click']"
         :disabled="!showPopover"
+        :style="'position: absolute; right: calc(' + aikataulu.rightPosition +'%)'"
       >
         <template #trigger>
           <div
