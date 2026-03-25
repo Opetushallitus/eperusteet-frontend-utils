@@ -1,8 +1,6 @@
 <template>
   <div
-    v-sticky="sticky"
     class="topbar"
-    sticky-z-index="600"
   >
     <nav
       id="navigation-bar"
@@ -139,6 +137,10 @@ function valitseSisaltoKieli(kieli: Kieli) {
 @import '../../styles/_variables.scss';
 
 .topbar {
+  // position: sticky;
+  // top: 0;
+  // z-index: 1000;
+
   .ep-navbar {
     display: flex;
     align-items: center;

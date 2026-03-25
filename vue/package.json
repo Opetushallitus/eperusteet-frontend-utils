@@ -16,11 +16,10 @@
     "test:unit:report": "$BROWSER coverage/lcov-report/index.html"
   },
   "dependencies": {
-    "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.37.0",
+    "@floating-ui/dom": "^1.7.6",
     "@fontsource/open-sans": "^5.2.7",
     "@fontsource/poppins": "^5.2.7",
-    "@floating-ui/dom": "^1.7.6",
     "@intevation/tiptap-extension-office-paste": "^0.1.2",
     "@kyvg/vue3-notification": "^3.4.1",
     "@primeuix/themes": "^2.0.3",

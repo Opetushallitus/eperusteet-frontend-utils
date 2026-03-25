@@ -61,6 +61,10 @@ const props = withDefaults(
     hideFooter?: boolean;
     hideHeaderClose?: boolean;
     okDisabled?: boolean;
+    small?: boolean;
+    medium?: boolean;
+    large?: boolean;
+    xlarge?: boolean;
   }>(),
   {
     size: 'md',
@@ -69,6 +73,7 @@ const props = withDefaults(
     hideFooter: false,
     hideHeaderClose: false,
     okDisabled: false,
+    small: false,
   },
 );
 
@@ -104,14 +109,31 @@ const dialogPt = computed(() => ({
   },
 }));
 
-const modalClass = computed(() => {
-  return {
+const sizes
+  = {
     'sm': 'sm:w-11/12 md:w-7/12 lg:w-4/12',
     'md': 'sm:w-11/12 md:w-8/12 lg:w-6/12',
     'lg': 'sm:w-11/12 md:w-9/12 lg:w-8/12',
     'xl': 'sm:w-11/12 md:w-10/12 lg:w-10/12',
-  }[props.size];
+  };
+
+const modalClass = computed(() => {
+  if (props.small) {
+    return sizes['sm'];
+  }
+  if (props.medium) {
+    return sizes['md'];
+  }
+  if (props.large) {
+    return sizes['lg'];
+  }
+  if (props.xlarge) {
+    return sizes['xl'];
+  }
+
+  return sizes[props.size];
 });
+
 
 function onVisibleChange(value: boolean) {
   if (!value) {

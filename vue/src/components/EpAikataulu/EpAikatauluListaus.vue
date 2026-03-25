@@ -36,7 +36,7 @@
             <ep-toggle
               v-if="julkinenValinta"
               v-model="aikataulu.julkinen"
-              class="mb-2"
+              class="mt-2"
             >
               {{ $t('julkinen') }}
             </ep-toggle>
