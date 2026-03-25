@@ -1,8 +1,7 @@
 <template>
   <div
-    v-sticky="sticky"
+    v-sticky="stickyBinding"
     class="topbar"
-    sticky-z-index="600"
   >
     <!-- <EpSidebar id="sisaltobar">
       <div
@@ -97,6 +96,7 @@ import { EpDropdown, EpDropdownItem } from '../../components/EpDropdown';
 import { BrowserStore } from '../../stores/BrowserStore';
 import { SovellusOikeus } from '@shared/plugins/oikeustarkastelu';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import { vSticky } from '@shared/directives/vSticky';
 
 
 const props = defineProps({
@@ -190,15 +190,23 @@ const breadcrumbModel = computed(() =>
 const valitseSisaltoKieli = (kieli: Kieli) => {
   Kielet.setSisaltoKieli(kieli);
 };
+
+const stickyBinding = computed(() => {
+  if (!props.sticky) {
+    return false;
+  }
+  return { top: 0, zIndex: 500 };
+});
 </script>
 
 <style scoped lang="scss">
 @import '@shared/styles/_variables.scss';
 
+$ep-navbar-height: 56px;
+
 .topbar {
-  background-image: inherit;
-  background-size: cover;
-  height: 56px;
+  color: white;
+  height: $ep-navbar-height;
 
   .ep-navbar {
     top: 0;

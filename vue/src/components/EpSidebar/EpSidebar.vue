@@ -2,15 +2,14 @@
   <div class="sidenav flex">
     <div
       v-if="showNavigation"
-      class="bar print-none"
+      class="bar print-none flex flex-col justify-between"
     >
-      <slot name="bar" />
+      <div class="flex-1">
+        <slot name="bar" />
+      </div>
       <div
         v-if="slots.bottom"
-        v-sticky
-        class="bottom"
-        sticky-side="bottom"
-        sticky-z-index="500"
+        class="bottom content-center"
       >
         <slot name="bottom" />
       </div>
@@ -108,22 +107,23 @@ const getElementHeighById = (id: string) => {
 @import "../../styles/_variables.scss";
 .sidenav {
   @media (min-width: 992px) {
-    min-height: 100vh;
+    min-height: calc(100vh - 200px);
   }
 
   .bar {
     width: 340px;
+    // height: calc(100%);
 
     .bar-buttons {
       padding: 0 $content-padding;
     }
 
     .bottom {
+      height: 65px;
       background: #fff;
-      padding-top: 6px;
       border-top: 1px solid #eee;
       bottom: 0;
-      position: fixed;
+      position: sticky;
       width: $sidebar-width;
     }
   }

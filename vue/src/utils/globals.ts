@@ -1,4 +1,4 @@
-import { ConfirmOptions } from '@shared/services/epconfirmationService';
+import { ConfirmServiceOptions } from '@shared/components/EpConfirmService/EpConfirmService.vue';
 import { LokalisoituTeksti } from '@shared/stores/kieli';
 import { computed } from 'vue';
 import { getCurrentInstance } from 'vue';
@@ -134,7 +134,7 @@ export const $warning = (title: string): any => {
 export const setConfirmModal = (confirmModal: any) => {
   $confirmModal = {
     ...confirmModal,
-    msgBoxConfirm: (title: string, options: ConfirmOptions) => {
+    msgBoxConfirm: (message: string, options: ConfirmServiceOptions) => {
       return new Promise((resolve) => {
         if (!confirm) {
           resolve(false);
@@ -142,8 +142,10 @@ export const setConfirmModal = (confirmModal: any) => {
         }
         confirmModal.require({
           group: 'headless',
-          header: title ?? options.title ?? '',
-          message: options.message ?? '',
+          title: options.title ?? '',
+          message: message ?? options.message ?? '',
+          okTitle: options.okTitle ?? $t('kylla') as any,
+          cancelTitle: options.cancelTitle ?? $t('peruuta') as any,
           accept: () => resolve(true),
           reject: () => resolve(false),
         });

@@ -113,7 +113,7 @@
         :border-bottom="false"
       >
         <template #header>
-          <div class="pl-3 pt-2 whitespace-nowrap kieli">
+          <div class="pl-3 pt-0 whitespace-nowrap kieli">
             <EpMaterialIcon class="icon mr-3">
               language
             </EpMaterialIcon>
@@ -126,8 +126,7 @@
 
         <template #icon="{ toggled }">
           <div
-            class="ml-auto self-start"
-            style="padding: 0.8rem 1rem;"
+            class="ml-auto self-start pr-2"
           >
             <EpMaterialIcon v-if="toggled">
               expand_less
@@ -185,9 +184,10 @@
         :expanded-by-default="false"
         :use-padding="false"
         :border-bottom="false"
+        class="pt-0"
       >
         <template #header>
-          <div class="pl-3 pt-2 whitespace-nowrap kieli">
+          <div class="pl-3 pt-0 whitespace-nowrap kieli">
             <EpMaterialIcon class="icon mr-3">
               launch
             </EpMaterialIcon>
@@ -195,7 +195,7 @@
           </div>
           <div
             v-if="valittuSovellus"
-            class="pl-[3.6rem] valittu-sovellus pb-2"
+            class="pl-[3.6rem] valittu-sovellus"
           >
             <small>{{ $t(valittuSovellus.eperusteSovellus.sovellus) }}</small>
           </div>
@@ -203,8 +203,7 @@
 
         <template #icon="{ toggled }">
           <div
-            class="ml-auto self-start"
-            style="padding: 0.8rem 1rem;"
+            class="ml-auto self-start pr-2"
           >
             <EpMaterialIcon v-if="toggled">
               expand_less

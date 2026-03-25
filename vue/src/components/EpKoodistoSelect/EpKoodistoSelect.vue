@@ -1,12 +1,25 @@
 <template>
   <div v-if="isEditing">
     <slot
+      v-if="editable"
       name="default"
       :open="openDialog"
     >
-      <div class="bg-danger">
-        Painike puuttuu
-      </div>
+      <ep-input-group>
+        <ep-input
+          :model-value="modelValue ? ($kaanna(modelValue.nimi) + ' (' + modelValue.arvo + ')') : ''"
+          :is-editing="true"
+          disabled
+        />
+        <template #append>
+          <ep-button
+            variant="primary"
+            @click="openDialog"
+          >
+            {{ $t('hae-koodistosta') }}
+          </ep-button>
+        </template>
+      </ep-input-group>
     </slot>
     <EpModal
       ref="editModal"
@@ -154,6 +167,8 @@ import { unref } from 'vue';
 import { $t } from '@shared/utils/globals';
 import { debounced } from '@shared/utils/delay';
 import { onMounted } from 'vue';
+import EpInputGroup from '@shared/components/EpInputGroup/EpInputGroup.vue';
+import EpInput from '@shared/components/forms/EpInput.vue';
 
 const props = defineProps({
   modelValue: {
@@ -187,6 +202,10 @@ const props = defineProps({
   additionalFields: {
     type: Array,
     required: false,
+  },
+  editable: {
+    type: Boolean,
+    default: true,
   },
 });
 

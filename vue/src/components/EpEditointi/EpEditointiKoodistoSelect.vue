@@ -1,11 +1,11 @@
 <template>
   <div>
-    <b-modal
+    <ep-modal
       id="editointi-koodisto-valinta"
       ref="koodistoPickModalRef"
-      :title="$t('valitse-koodisto')"
+      :header="$t('valitse-koodisto')"
     >
-      <div class="d-flex flex-column mb-2">
+      <div class="flex flex-col mb-2">
         <EpSpinner v-if="!koodistot" />
         <ep-button
           v-for="koodisto in koodistot"
@@ -26,16 +26,15 @@
           {{ $t('peruuta') }}
         </ep-button>
       </template>
-    </b-modal>
+    </ep-modal>
     <div class="d-none">
       <EpKoodistoSelect
         ref="codingKoodistoSelectRef"
         :koodisto="koodisto"
         :is-editing="true"
+        :editable="false"
         @add="onKoodistoKoodiValittu"
-      >
-        <template #default />
-      </EpKoodistoSelect>
+      />
     </div>
   </div>
 </template>
@@ -49,6 +48,7 @@ import type { EditointiStore } from './EditointiStore';
 import { Koodisto, KoodistoDto } from '@shared/api/eperusteet';
 import _ from 'lodash';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
+import EpModal from '../EpModal/EpModal.vue';
 
 const props = defineProps<{
   store: EditointiStore;
