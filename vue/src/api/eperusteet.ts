@@ -170,6 +170,7 @@ export type JulkiEtusivuDto = EperusteetApi.JulkiEtusivuDto;
 export type TietoaPalvelustaDto = EperusteetApi.TietoaPalvelustaDto;
 export type KaantajaTaitoDto = EperusteetApi.KaantajaTaitoDto;
 export type KaantajaTaitotasoasteikkoDto = EperusteetApi.KaantajaTaitotasoasteikkoDto;
+export type KoodistoDto = EperusteetApi.KoodistoDto;
 
 export const DokumentitParam = DokumentitApiAxiosParamCreator(configuration);
 export const LiitetiedostotParam = LiitetiedostotApiAxiosParamCreator(configuration);
