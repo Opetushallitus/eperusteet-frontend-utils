@@ -1,5 +1,5 @@
 <template>
-  <hr class="ep-dropdown-divider my-0 border-0 border-t">
+  <hr class="ep-dropdown-divider">
 </template>
 
 <style scoped lang="scss">
@@ -7,5 +7,6 @@
 
 .ep-dropdown-divider {
   border-top-color: $grey200;
+  margin: 0.75rem 0;
 }
 </style>

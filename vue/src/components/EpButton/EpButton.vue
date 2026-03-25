@@ -29,7 +29,9 @@
         class="ep-button__text inline-flex items-center"
         :class="{ 'px-2': paddingx && !isLink }"
       >
-        <slot />
+        <slot>
+          {{ text }}
+        </slot>
       </span>
       <EpSpinnerInline
         v-if="showSpinner"
@@ -40,13 +42,19 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import {
+  computed,
+  type PropType,
+} from 'vue';
+import { useRouter } from 'vue-router';
+import type { RouteLocationRaw } from 'vue-router';
 import _ from 'lodash';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import EpSpinnerInline from '../EpSpinner/EpSpinnerInline.vue';
 
 const props = defineProps({
   icon: { type: String, default: '' },
+  text: { type: String, default: '' },
   buttonClass: { type: String },
   disabled: { type: Boolean, default: false },
   showSpinner: { type: Boolean, default: false },
@@ -55,12 +63,17 @@ const props = defineProps({
   help: { type: String, default: '' },
   paddingx: { type: Boolean, default: true },
   link: { type: Boolean, default: false },
+  to: { type: [String, Object] as PropType<RouteLocationRaw | undefined>, default: undefined },
 });
 
 const emit = defineEmits(['click']);
+const router = useRouter();
 
 function click() {
   emit('click');
+  if (props.to !== undefined && props.to !== null && props.to !== '') {
+    router.push(props.to);
+  }
 }
 
 const isLink = computed(() => {

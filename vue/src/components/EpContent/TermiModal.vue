@@ -73,7 +73,10 @@
               </div>
             </template>
           </ep-select>
-          <div class="mt-3" v-if="canEditTermit">
+          <div
+            v-if="canEditTermit"
+            class="mt-3"
+          >
             <ep-button
               v-if="valittu"
               id="muokkaa-termia"
