@@ -485,49 +485,18 @@
         </div>
         <EpSpinner v-else />
       </template>
-      <b-modal
-        id="editointi-koodisto-valinta"
-        ref="koodistoPickModalRef"
-        :title="$t('valitse-koodisto')"
-      >
-        <div class="d-flex flex-column mb-2">
-          <ep-button
-            v-for="k in features.codes"
-            :key="k"
-            variant="link"
-            class="text-left justify-content-start"
-            @click="valitseKoodistoJaAvaa(k)"
-          >
-            {{ $t('koodisto-' + k) }}
-          </ep-button>
-        </div>
-
-        <template #modal-footer>
-          <ep-button
-            variant="link"
-            @click="koodistoPickModalRef.hide?.()"
-          >
-            {{ $t('peruuta') }}
-          </ep-button>
-        </template>
-      </b-modal>
-      <div class="d-none">
-        <EpKoodistoSelect
-          ref="codingKoodistoSelectRef"
-          :koodisto="koodisto"
-          :is-editing="true"
-          @add="onKoodistoKoodiValittu"
-        >
-          <template #default />
-        </EpKoodistoSelect>
-      </div>
+      <EpEditointiKoodistoSelect
+        ref="editointiKoodistoSelectRef"
+        :store="store"
+        :codes="features.codes || []"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import _ from 'lodash';
-import { ref, computed, watch, onMounted, getCurrentInstance, nextTick, unref, reactive } from 'vue';
+import { ref, computed, watch, onMounted, getCurrentInstance, unref, reactive } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { EditointiStore } from './EditointiStore';
 import { setItem, getItem } from '../../utils/localstorage';
@@ -544,8 +513,7 @@ import { $t, $sdt, $ago, $success, $fail, $bvModal, $vahvista } from '@shared/ut
 import { useVuelidate } from '@vuelidate/core';
 import EpPagination from '@shared/components/EpPagination/EpPagination.vue';
 import { inject } from 'vue';
-import EpKoodistoSelect from '../EpKoodistoSelect/EpKoodistoSelect.vue';
-import { KoodistoSelectStore, getKoodistoSivutettuna } from '../EpKoodistoSelect/KoodistoSelectStore';
+import EpEditointiKoodistoSelect from './EpEditointiKoodistoSelect.vue';
 
 const props = defineProps({
   store: {
@@ -755,9 +723,7 @@ const revisions = computed(() => props.store.revisions || []);
 
 const features = computed(() => unref(props.store.features as any) || {});
 
-const koodisto = ref<string>('');
-const koodistoPickModalRef = ref<{ hide?: () => void; show?: () => void } | null>(null);
-const codingKoodistoSelectRef = ref<InstanceType<typeof EpKoodistoSelect> | null>(null);
+const editointiKoodistoSelectRef = ref<InstanceType<typeof EpEditointiKoodistoSelect> | null>(null);
 
 const showKooditaOption = computed(() => {
   const codes = features.value.codes;
@@ -769,36 +735,8 @@ const showPoistaKooditusOption = computed(() => !!props.store?.hooks?.removeCodi
 
 const codingMenuVisible = computed(() => showKooditaOption.value || showPoistaKooditusOption.value);
 
-const valitseKoodistoJaAvaa = async (koodistoUri: string) => {
-  koodistoPickModalRef.value?.hide?.();
-  koodisto.value = koodistoUri;
-  await nextTick();
-  await codingKoodistoSelectRef.value?.openDialog?.();
-};
-
 const aloitaKooditus = async () => {
-  const codes = features.value.codes || [];
-  if (!codes.length || !props.store?.hooks?.addCoding) {
-    return;
-  }
-  if (codes.length === 1) {
-    await valitseKoodistoJaAvaa(codes[0]);
-  }
-  else {
-    koodistoPickModalRef.value?.show?.();
-  }
-};
-
-const onKoodistoKoodiValittu = async (row: any) => {
-  try {
-    await props.store.addCoding(row);
-    await props.store.init();
-    $success($t('sisalto-kooditettu') as string);
-  }
-  catch (err) {
-    console.log(err);
-    $fail($t('kooditus-epaonnistui') as string);
-  }
+  await editointiKoodistoSelectRef.value?.aloitaKooditus();
 };
 
 const poistaKooditus = async () => {
