@@ -217,6 +217,10 @@ const initStore = async () => {
       },
     });
   }
+
+  if (koodistoStore.value) {
+    koodistoStore.value.clear();
+  }
 };
 
 const selectedUris = computed(() => {
