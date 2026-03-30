@@ -136,7 +136,7 @@ export const setConfirmModal = (confirmModal: any) => {
     ...confirmModal,
     msgBoxConfirm: (message: string, options: ConfirmServiceOptions) => {
       return new Promise((resolve) => {
-        if (!confirm) {
+        if (!confirmModal) {
           resolve(false);
           return;
         }

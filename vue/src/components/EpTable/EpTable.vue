@@ -37,7 +37,9 @@
         :field="field.key"
         :header="field.label"
         :header-style="field.thStyle"
+        :header-class="field.thClass"
         :body-style="field.tdStyle"
+        :body-class="field.tdClass"
         :sortable="field.sortable"
         :class="field.class"
         :sort-field="field.sortByFormatted ? (item: any) => formatCellValue(item, field) : undefined"
@@ -81,7 +83,9 @@ export interface TableField {
   key: string;
   label?: string;
   thStyle?: string | object;
+  thClass?: string;
   tdStyle?: string | object;
+  tdClass?: string;
   formatter?: (value: any, key: string, item: any) => any;
   sortable?: boolean;
   sortByFormatted?: boolean;
