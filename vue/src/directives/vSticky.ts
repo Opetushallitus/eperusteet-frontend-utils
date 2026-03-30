@@ -52,10 +52,14 @@ function normalizeOptions(binding: DirectiveBinding<boolean | StickyOptions | un
   }
 
   const hasModifier = modifiers.top || modifiers.right || modifiers.bottom || modifiers.left;
-  if (!hasModifier && value === true) {
-    opts.top = opts.top ?? 0;
-  }
-  if (!hasModifier && value === undefined && !isStickyOptions(value)) {
+  const hasInsetInOpts
+    = opts.top !== undefined
+    || opts.right !== undefined
+    || opts.bottom !== undefined
+    || opts.left !== undefined;
+
+  // Sticky needs at least one inset; default top when only extras (e.g. zIndex) are passed.
+  if (!hasModifier && !hasInsetInOpts) {
     opts.top = opts.top ?? 0;
   }
 
