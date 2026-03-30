@@ -103,7 +103,7 @@
       <template #selection="{ values, search, isOpen }">
         <div
           v-if="hasSelectionSlot"
-          class="d-flex align-items-center"
+          class="flex items-center"
         >
           <slot
             name="selection"

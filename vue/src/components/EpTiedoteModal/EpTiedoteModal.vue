@@ -459,7 +459,6 @@ import EpMultiListSelect, { MultiListSelectItem } from '@shared/components/forms
 import EpToggle from '@shared/components/forms/EpToggle.vue';
 import { required } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
-import { success, fail } from '@shared/utils/notifications';
 import { julkaisupaikka, KoulutustyyppiRyhmaValinta } from '@shared/utils/tiedote';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
 import EpKielivalinta from '@shared/components/EpKielivalinta/EpKielivalinta.vue';
