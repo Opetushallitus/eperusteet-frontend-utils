@@ -455,14 +455,11 @@ import { TiedoteDto, Kayttajat, PerusteHakuDto, PerusteDto, PerusteKevytDto } fr
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
-import EpMultiSelect from '@shared/components/forms/EpMultiSelect.vue';
 import EpInput from '@shared/components/forms/EpInput.vue';
-import EpField from '@shared/components/forms/EpField.vue';
 import EpMultiListSelect, { MultiListSelectItem } from '@shared/components/forms/EpMultiListSelect.vue';
 import EpToggle from '@shared/components/forms/EpToggle.vue';
 import { required } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
-import { success, fail } from '@shared/utils/notifications';
 import { julkaisupaikka, KoulutustyyppiRyhmaValinta } from '@shared/utils/tiedote';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
 import EpKielivalinta from '@shared/components/EpKielivalinta/EpKielivalinta.vue';
