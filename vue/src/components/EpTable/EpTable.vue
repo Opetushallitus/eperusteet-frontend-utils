@@ -5,8 +5,8 @@
     :class="{ 'borderless': borderless, [theadClass]: theadClass }"
   >
     <DataTable
-      :value="items"
-      :data-key="dataKey"
+      :value="tableValue"
+      :data-key="resolvedDataKey"
       :striped-rows="striped"
       :hover-rows="hover"
       :responsive-layout="responsive ? 'scroll' : 'default'"
@@ -171,9 +171,25 @@ const props = defineProps({
   },
 });
 
+const EP_TABLE_ROW_INDEX_KEY = '__epTableRowIndex';
+
 const emit = defineEmits(['row-selected', 'row-clicked', 'update:currentPage', 'sort-changed']);
 
 const internalSelection = ref<any>(null);
+
+const resolvedDataKey = computed(() => {
+  return props.dataKey || EP_TABLE_ROW_INDEX_KEY;
+});
+
+const tableValue = computed(() => {
+  if (props.dataKey) {
+    return props.items;
+  }
+
+  return _.map(props.items, (row: any, index: number) => {
+    return { ...row, [EP_TABLE_ROW_INDEX_KEY]: index };
+  });
+});
 
 const selectionValue = computed(() => {
   return props.selection !== undefined ? props.selection : internalSelection.value;

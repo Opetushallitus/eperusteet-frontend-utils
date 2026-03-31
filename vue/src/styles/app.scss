@@ -79,6 +79,25 @@ img.content-image {
   }
 }
 
+// Inline notices — use with Tailwind for spacing (e.g. `.alert.alert-info.m-2.px-3.py-2`)
+.alert {
+  border-radius: 0.375rem;
+  border: 1px solid transparent;
+  color: $grey900;
+  padding: 0.5rem 0.75rem;
+  margin: 0.5rem;
+}
+
+.alert-info {
+  border-color: $lightBlue1;
+  background-color: rgba($lightBlue2, 0.45);
+}
+
+.alert-warning {
+  border-color: $yellow1;
+  background-color: rgba($yellow1, 0.14);
+}
+
 .form-content {
   padding: 0 !important;
 }
