@@ -21,7 +21,6 @@ export const EperusteetKoulutustyypit = Object.freeze([
   'koulutustyyppi_30', // aikuisten maahanmuuttajien kotoutumiskoulutus
   'koulutustyyppi_35', // vapaa sivistystyo lukutaito
   'koulutustyyppi_40', // tutkintoon valmentava
-  'koulutustyyppi_500', // kielikaantajatutkinto
 ]);
 
 export function isLukio(koulutustyyppi: string) {
