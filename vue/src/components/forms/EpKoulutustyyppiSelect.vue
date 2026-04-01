@@ -123,14 +123,9 @@
 <script setup lang="ts">
 import { computed, getCurrentInstance, useTemplateRef } from 'vue';
 import * as _ from 'lodash';
-import EpSelect from '@shared/components/forms/EpSelect.vue';
 import EpMultiSelect from '@shared/components/forms/EpMultiSelect.vue';
-import EpInput from '@shared/components/forms/EpInput.vue';
-import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import EpColorIndicator from '@shared/components/EpColorIndicator/EpColorIndicator.vue';
 import { EperusteetKoulutustyypit, EperusteetKoulutustyyppiRyhmat } from '../../utils/perusteet';
-import EpButton from '@shared/components/EpButton/EpButton.vue';
-import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import { $kaanna, $t } from '@shared/utils/globals';
 
 const props = defineProps({
