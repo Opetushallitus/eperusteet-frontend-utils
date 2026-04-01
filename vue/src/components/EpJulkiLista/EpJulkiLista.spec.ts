@@ -53,12 +53,14 @@ describe('EpJulkiLista component', () => {
   test('Renders list with 2 row with button trigger', async () => {
     const wrapper = mountWrapper(2);
 
+    const kaksiPaivaaSitten = new Date(new Date().getTime() - (24 * 60 * 60 * 1000 * 2));
+
     wrapper.setProps({
       tiedot: [
         {
           otsikko: { 'fi': 'otsikko1' },
           uusi: false,
-          muokattu: new Date(),
+          muokattu: kaksiPaivaaSitten,
         },
         {
           otsikko: { 'fi': 'otsikko2' },
@@ -82,14 +84,11 @@ describe('EpJulkiLista component', () => {
 
     expect(wrapper.html()).toContain('otsikko1');
     expect(wrapper.html()).toContain('otsikko2');
-
-    expect(wrapper.findAll('div[class="otsikko"').at(0)
+    expect(wrapper.findAll('.otsikko')).toHaveLength(2);
+    expect(wrapper.findAll('.otsikko').at(0)
       .html()).not.toContain('uusi');
-    expect(wrapper.findAll('div[class="otsikko"').at(1)
-      .html()).not.toContain('uusi');
-
-    expect(wrapper.html()).not.toContain('otsikko3');
-    expect(wrapper.html()).not.toContain('otsikko4');
+    expect(wrapper.findAll('.otsikko').at(1)
+      .html()).toContain('uusi');
     expect(wrapper.html()).toContain('katso-lisaa-tiedotteita');
 
     wrapper.find('.secondary-button').trigger('click');
