@@ -15,7 +15,7 @@
         >
           {{ $kaanna(tiedote.otsikko) }} <span
             v-if="tiedote.uusi"
-            class="uusi"
+            class="uusi d-inline-block"
           >{{ $t('uusi') }}</span>
         </div>
         <div class="muokkausaika">
