@@ -26,7 +26,7 @@
             >
               {{ $kaanna(tieto.otsikko) }} <span
                 v-if="tieto.uusi"
-                class="uusi"
+                class="uusi d-inline-block"
               >{{ $t('uusi') }}</span>
             </slot>
           </a>
