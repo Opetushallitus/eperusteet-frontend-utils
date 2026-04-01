@@ -113,6 +113,10 @@ const props = defineProps({
     type: String as () => 'sivutus' | 'lisahaku' | 'none',
     default: 'lisahaku',
   },
+  uudenVertailuKentta: {
+    type: String,
+    default: 'muokattu',
+  },
 });
 
 const emit = defineEmits(['avaaTieto']);
@@ -136,7 +140,7 @@ const tiedotFiltered = computed(() => {
       .map((tieto: JulkiRivi) => {
         return {
           ...tieto,
-          uusi: onkoUusi((tieto as any).luotu),
+          uusi: onkoUusi((tieto as any)[props.uudenVertailuKentta]),
         } as JulkiRivi;
       })
       .filter((tieto, index) => props.listausTyyppi === 'lisahaku' || index >= (sivu.value - 1) * naytettavaTietoMaara.value)
