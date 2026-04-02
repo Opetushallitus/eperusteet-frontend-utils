@@ -47,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, useSlots } from 'vue';
 import Dialog from 'primevue/dialog';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 
@@ -151,6 +151,7 @@ function onCancel() {
   hide();
   emit('cancel');
 }
+
 </script>
 
 <style scoped lang="scss">
