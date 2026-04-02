@@ -72,103 +72,89 @@
           <ep-button
             v-if="(julkaistu || valmis) && julkaistava"
             variant="primary"
-            class="mb-2"
+            class="mb-1"
             @click="toJulkaisuRoute"
           >
             {{ $t('siirry-julkaisunakymaan') }}
           </ep-button>
           <div
             v-if="validointiOk"
-            class="pt-3 pb-1 grid grid-cols-12 gap-2"
+            class="pt-3 pb-1 flex justify-center gap-2"
           >
-            <div class="col-span-1">
-              <EpMaterialIcon
-                class="text-green-600"
-                size="18px"
-              >
-                check_circle
-              </EpMaterialIcon>
-            </div>
-            <div class="col-span-11">
-              {{ $t('ei-julkaisua-estavia-virheita') }}
-            </div>
+            <EpMaterialIcon
+              class="text-green-600"
+              size="18px"
+            >
+              check_circle
+            </EpMaterialIcon>
+            <div class="w-2/3 text-left">{{ $t('ei-julkaisua-estavia-virheita') }}</div>
           </div>
-          <div class="ml-3">
+          <div class="text-center">
             <template v-if="validoinnit.ok && !validointiOk">
               <div
                 v-for="ok in validoinnit.ok"
                 :key="ok"
-                class="pt-2 pb-1 grid grid-cols-12 gap-2"
+                class="pt-2 pb-1 flex justify-center gap-2"
               >
-                <div class="col-span-1">
-                  <EpMaterialIcon
-                    class="text-green-600"
-                    size="18px"
-                  >
-                    info
-                  </EpMaterialIcon>
-                </div>
-                <div class="col-span-2">
-                  <span>{{ $t(ok) }}</span>
-                </div>
+                <EpMaterialIcon
+                  class="text-green-600"
+                  size="18px"
+                >
+                  info
+                </EpMaterialIcon>
+                <div class="w-2/3 text-left">{{ $t(ok) }}</div>
               </div>
             </template>
             <template v-if="validoinnit.virheet">
               <div
                 v-for="virhe in uniqueVirheet"
                 :key="virhe"
-                class="grid grid-cols-12 gap-2 mb-2"
+                class="pt-2 pb-1 flex justify-center gap-2 w-full"
               >
-                <div class="col-span-1">
-                  <EpMaterialIcon
-                    class="text-red-600"
-                    size="18px"
-                  >
-                    info
-                  </EpMaterialIcon>
-                </div>
-                <div class="col-span-11 text-left">
-                  <span>{{ $t(virhe) }}</span>
-                </div>
+                <EpMaterialIcon
+                  class="text-red-600"
+                  size="18px"
+                >
+                  info
+                </EpMaterialIcon>
+                <div class="w-4/5 text-left">{{ $t(virhe) }}</div>
               </div>
               <div
                 v-if="validoinnit.virheet.length > 5 && julkaistava && luonnos && !julkaistu && !arkistoitu"
-                class="pt-2 pb-1 grid grid-cols-12 gap-2"
+                class="pt-2 pb-1 flex justify-center gap-2"
               >
-                <div class="col-span-1" />
-                <div class="col-span-11 text-left">
-                  <ep-button
-                    class="p-0"
-                    variant="link"
-                    @click="toJulkaisuRoute"
-                  >
-                    {{ $t('yhteensa-kpl-virhetta', { kpl: validoinnit.virheet.length }) }}
-                  </ep-button>
-                </div>
+                <ep-button
+                  class="p-0"
+                  variant="link"
+                  @click="toJulkaisuRoute"
+                >
+                  {{ $t('yhteensa-kpl-virhetta', { kpl: validoinnit.virheet.length }) }}
+                </ep-button>
               </div>
             </template>
             <div
               v-if="validoinnit.huomautukset && validoinnit.huomautukset.length > 0"
-              class="pt-2 pb-1 grid grid-cols-12 gap-2"
-            >
-              <div class="col-span-1">
+              class="pt-2 pb-1 flex justify-center gap-2"
+              >
                 <EpMaterialIcon
                   class="text-yellow-600"
                   size="18px"
                 >
                   info
                 </EpMaterialIcon>
-              </div>
-              <div class="col-span-11 text-left">
-                <span>{{ $t(huomautuksia) }}</span>
-              </div>
+                <div
+                  class="text-left"
+                  :class="{'w-4/5': uniqueVirheet, 'w-2/3': !uniqueVirheet}"
+                  >
+                  {{ $t(huomautuksia) }}
+                </div>
             </div>
           </div>
         </template>
       </div>
       <template #bottom>
         <ep-button
-          class="btn-tarkista"
+          class="btn-tarkista mr-2"
           variant="link"
           icon="refresh"
           @click="validoi"
