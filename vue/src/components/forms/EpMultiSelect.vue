@@ -113,7 +113,7 @@
           />
           <span
             v-if="multiple && (values ?? []).length > 0"
-            class="ml-auto clickable border-right pr-2 remove-all"
+            class="ml-auto clickable border-right pr-2 mb-2 remove-all"
             @click.prevent
             @mousedown.prevent.stop="removeAll()"
           >
