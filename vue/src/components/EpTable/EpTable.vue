@@ -220,12 +220,12 @@ const selectionMode = computed<'single' | 'multiple' | null>(() => {
 });
 
 const onSelectionChange = (selection: any) => {
+  console.log('onSelectionChange', selection);
   if (props.selectMode === 'none' || props.selectMode === 'single') return;
   if (props.selection === undefined) {
     internalSelection.value = selection;
   }
-  const selectedRows = Array.isArray(selection) ? selection : (selection ? [selection] : []);
-  emit('row-selected', selectedRows);
+  emit('row-selected', selection);
 };
 
 const onRowClick = (event: any) => {
