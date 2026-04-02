@@ -30,7 +30,7 @@
         </template>
         <div
           v-else
-          class="ylapaneeli print:hidden py-3 px-5"
+          class="ylapaneeli print:hidden py-3 px-3"
         >
           <div
             class="flex items-center justify-between"
@@ -102,7 +102,7 @@
                   right
                 >
                   <template #button-content>
-                    <EpMaterialIcon>more_horiz</EpMaterialIcon>
+                    <EpMaterialIcon class="link-style">more_horiz</EpMaterialIcon>
                   </template>
                   <EpDropdownItem
                     key="poista"
@@ -213,7 +213,7 @@
                   right
                 >
                   <template #button-content>
-                    <EpMaterialIcon>more_horiz</EpMaterialIcon>
+                    <EpMaterialIcon class="link-style">more_horiz</EpMaterialIcon>
                   </template>
                   <EpDropdownItem
                     v-if="features.removable && !disabled"
@@ -373,7 +373,7 @@
               </EpMaterialIcon>
               <slot name="info" />
             </div>
-            <div class="sisalto">
+            <div class="sisalto p-3">
               <slot
                 :is-editing="isEditing"
                 :support-data="innerSupport"
@@ -829,33 +829,9 @@ const toggleSidebarState = (val: number) => {
   });
 };
 
-const vahvista = async (title: string, okTitle: string, label?: string) => {
-  let modalContent = [
-    instance?.proxy?.$createElement('strong', $t(props.labelRemoveConfirm) as string),
-  ];
-  if (label) {
-    modalContent = [
-      instance?.proxy?.$createElement('div', label),
-      instance?.proxy?.$createElement('br', ''),
-      ...modalContent,
-    ];
-  }
-
-  const vahvistusSisalto = instance?.proxy?.$createElement('div', {}, modalContent).children;
-  return $confirmModal?.msgBoxConfirm((vahvistusSisalto as any), {
-    title: title,
-    okVariant: 'primary',
-    okTitle: okTitle as any,
-    cancelVariant: 'link',
-    cancelTitle: $t('peruuta') as any,
-    centered: true,
-    ...{} as any,
-  });
-};
-
 const remove = async () => {
   try {
-    if (!props.confirmRemove || await vahvista($t('varmista-poisto') as string, $t('poista') as string, props.labelRemoveClarification ? $t(props.labelRemoveClarification) as string : undefined)) {
+    if (!props.confirmRemove || await $vahvista($t('varmista-poisto') as string, $t('poista-tutkinnonosa') as string, props.labelRemoveClarification ? $t(props.labelRemoveClarification) as string : undefined)) {
       const poistoTeksti = $t(props.labelRemoveSuccess);
       await props.store.remove();
       $success(poistoTeksti as string);
@@ -873,7 +849,7 @@ const remove = async () => {
 
 const copy = async () => {
   try {
-    if (!props.confirmCopy || await vahvista(
+    if (!props.confirmCopy || await $vahvista(
         $t(props.labelCopyTopic) as string,
         $t(props.labelCopyConfirmButton) as string,
         $t(props.labelCopyConfirm) as string)) {
@@ -1044,7 +1020,6 @@ watch(sidebarState, (newValue, oldValue) => {
 
   .sisalto {
     margin-bottom: 5px;
-    padding: 15px;
   }
 
   .threads {

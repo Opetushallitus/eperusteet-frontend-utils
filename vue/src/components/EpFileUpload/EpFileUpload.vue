@@ -98,7 +98,7 @@ function onSelect(event: { files: File | File[] }) {
     width: 50%;
 
     button {
-      z-index: 100;
+      z-index: 1;
       background: transparent;
       border: none;
       color: $link;

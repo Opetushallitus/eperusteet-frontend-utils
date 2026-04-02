@@ -24,7 +24,7 @@
         </div>
       </template>
 
-      <div class="slot-area text-center mr-1">
+      <div class="slot-area text-center">
         <slot />
       </div>
 
