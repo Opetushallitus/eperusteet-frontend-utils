@@ -240,6 +240,9 @@ onBeforeUnmount(() => {
     :deep(.ProseMirror) {
       padding: 10px;
     }
+    :deep(a) {
+      pointer-events: none;
+    }
   }
 
   // Remove focus outline from the editor

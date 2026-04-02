@@ -5,7 +5,7 @@
       :key="'julkaisu'+index"
       class="julkaisu taulukko-rivi-varitys pb-2 pt-2 px-2"
     >
-      <div class="d-flex align-items-end justify-content-between">
+      <div class="flex items-end justify-between">
         <div>
           <span class="font-bold font-size pr-4">{{ $t('julkaisu') }} {{ $sd(julkaisu.luotu) }}</span>
           <span
@@ -41,7 +41,7 @@
       </div>
       <div
         v-if="julkaisu.muutosmaarays"
-        class="d-flex mt-2"
+        class="flex mt-2"
       >
         <div
           v-if="julkaisu.muutosmaarays.url"
@@ -183,7 +183,7 @@ const julkaisutMapped = computed(() => {
 
 .julkaistu {
   border-radius: 25px;
-  background-color: $green-1;
+  background-color: $green;
   padding: 1px 10px;
   margin-left: 10px;
   color: $white;
@@ -194,7 +194,7 @@ const julkaisutMapped = computed(() => {
   }
 
   &--virhe {
-    background-color: $red-lighten-1;
+    background-color: $pink3;
     color: $black;
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="ep-valid-popover">
+  <div class="ep-valid-popover text-center">
     <EpProgressPopover
       v-if="!isValidating && validoinnit"
       ref="progresspopover"
@@ -8,10 +8,10 @@
     >
       <template #header>
         <div
-          class="d-flex flex-column align-items-center"
+          class="flex flex-col items-center"
           :class="tyyppi"
         >
-          <span class="validation-text pb-2">
+          <span class="validation-text pb-1">
             {{ $t(tila) }}<span v-if="muokattavissa">, {{ $t('muokattavissa') }}</span>
           </span>
 
@@ -35,22 +35,20 @@
                 {{ $t(julkaisemattomiaTeksti) }}
               </div>
 
-              <b-button
+              <ep-button
                 v-if="luonnos && !julkaistava"
-                class="px-3 py-1"
                 variant="primary"
                 @click="asetaValmiiksi"
               >
                 {{ $t('aseta-valmiiksi') }}
-              </b-button>
-              <b-button
+              </ep-button>
+              <ep-button
                 v-else-if="julkaistava && luonnos && !julkaistu && !arkistoitu"
-                class="px-3 py-1"
                 variant="primary"
                 @click="toJulkaisuRoute"
               >
                 {{ $t('siirry-julkaisunakymaan') }}
-              </b-button>
+              </ep-button>
             </template>
           </template>
         </div>
@@ -61,126 +59,108 @@
       />
       <div
         v-else
-        class="d-flex flex-column align-items-center"
+        class="flex flex-col"
       >
-        <b-button
+        <ep-button
           v-if="arkistoitu"
           variant="primary"
           @click="palauta"
         >
           {{ $t('palauta') }}
-        </b-button>
+        </ep-button>
         <template v-else>
-          <b-button
+          <ep-button
             v-if="(julkaistu || valmis) && julkaistava"
             variant="primary"
+            class="mb-1"
             @click="toJulkaisuRoute"
           >
             {{ $t('siirry-julkaisunakymaan') }}
-          </b-button>
+          </ep-button>
           <div
             v-if="validointiOk"
-            class="pl-3 pt-2 pb-1 row"
+            class="pt-3 pb-1 flex justify-center gap-2"
           >
-            <div class="col-1">
-              <EpMaterialIcon
-                class="text-success"
-                size="18px"
-              >
-                check_circle
-              </EpMaterialIcon>
-            </div>
-            <div class="col">
-              {{ $t('ei-julkaisua-estavia-virheita') }}
-            </div>
+            <EpMaterialIcon
+              class="text-green-600"
+              size="18px"
+            >
+              check_circle
+            </EpMaterialIcon>
+            <div class="w-2/3 text-left">{{ $t('ei-julkaisua-estavia-virheita') }}</div>
           </div>
-          <div class="ml-3">
+          <div class="text-center">
             <template v-if="validoinnit.ok && !validointiOk">
               <div
                 v-for="ok in validoinnit.ok"
                 :key="ok"
-                class="pt-2 pb-1 row"
+                class="pt-2 pb-1 flex justify-center gap-2"
               >
-                <div class="col-1">
-                  <EpMaterialIcon
-                    class="text-success"
-                    size="18px"
-                  >
-                    info
-                  </EpMaterialIcon>
-                </div>
-                <div class="col">
-                  <span>{{ $t(ok) }}</span>
-                </div>
+                <EpMaterialIcon
+                  class="text-green-600"
+                  size="18px"
+                >
+                  info
+                </EpMaterialIcon>
+                <div class="w-2/3 text-left">{{ $t(ok) }}</div>
               </div>
             </template>
             <template v-if="validoinnit.virheet">
               <div
                 v-for="virhe in uniqueVirheet"
                 :key="virhe"
-                class="pt-2 pb-1 row"
+                class="pt-2 pb-1 flex justify-center gap-2 w-full"
               >
-                <div class="col-1">
-                  <EpMaterialIcon
-                    class="text-danger"
-                    size="18px"
-                  >
-                    info
-                  </EpMaterialIcon>
-                </div>
-                <div class="col">
-                  <span>{{ $t(virhe) }}</span>
-                </div>
-              </div>
-              <div
-                v-if="validoinnit.virheet.length > 5 && julkaistava && luonnos && !julkaistu && !arkistoitu"
-                class="pt-2 pb-1 row"
-              >
-                <div class="col-1" />
-                <div class="col">
-                  <b-button
-                    class="p-0"
-                    variant="link"
-                    @click="toJulkaisuRoute"
-                  >
-                    {{ $t('yhteensa-kpl-virhetta', { kpl: validoinnit.virheet.length }) }}
-                  </b-button>
-                </div>
-              </div>
-            </template>
-            <div
-              v-if="validoinnit.huomautukset && validoinnit.huomautukset.length > 0"
-              class="pt-2 pb-1 row"
-            >
-              <div class="col-1">
                 <EpMaterialIcon
-                  class="text-warning"
+                  class="text-red-600"
                   size="18px"
                 >
                   info
                 </EpMaterialIcon>
+                <div class="w-4/5 text-left">{{ $t(virhe) }}</div>
               </div>
-              <div class="col">
-                <span>{{ $t(huomautuksia) }}</span>
+              <div
+                v-if="validoinnit.virheet.length > 5 && julkaistava && luonnos && !julkaistu && !arkistoitu"
+                class="pt-2 pb-1 flex justify-center gap-2"
+              >
+                <ep-button
+                  class="p-0"
+                  variant="link"
+                  @click="toJulkaisuRoute"
+                >
+                  {{ $t('yhteensa-kpl-virhetta', { kpl: validoinnit.virheet.length }) }}
+                </ep-button>
               </div>
+            </template>
+            <div
+              v-if="validoinnit.huomautukset && validoinnit.huomautukset.length > 0"
+              class="pt-2 pb-1 flex justify-center gap-2"
+              >
+                <EpMaterialIcon
+                  class="text-yellow-600"
+                  size="18px"
+                >
+                  info
+                </EpMaterialIcon>
+                <div
+                  class="text-left"
+                  :class="{'w-4/5': uniqueVirheet, 'w-2/3': !uniqueVirheet}"
+                  >
+                  {{ $t(huomautuksia) }}
+                </div>
             </div>
           </div>
         </template>
       </div>
       <template #bottom>
-        <b-button
-          class="btn-tarkista"
+        <ep-button
+          class="btn-tarkista mr-2"
           variant="link"
+          icon="refresh"
           @click="validoi"
         >
-          <EpMaterialIcon
-            class="icon"
-            icon-shape="outlined"
-          >
-            refresh
-          </EpMaterialIcon>
           <span> {{ $t('tarkista-virheet') }}</span>
-        </b-button>
+        </ep-button>
       </template>
     </EpProgressPopover>
     <EpSpinner
@@ -194,6 +174,7 @@
 <script setup lang="ts">
 import * as _ from 'lodash';
 import { computed, watch, nextTick } from 'vue';
+import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpProgressPopover from '@shared/components/EpProgressPopover/EpProgressPopover.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { tileBackgroundColor } from '@shared/utils/bannerIcons';
@@ -364,7 +345,6 @@ watch(() => props.isValidating, async (newValue) => {
 
 .btn-tarkista {
   text-decoration: none;
-  display: flex;
   font-size: 1.125rem;
   font-weight: 500;
   padding: 0;

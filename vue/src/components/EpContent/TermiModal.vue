@@ -6,7 +6,7 @@
       </h5>
     </div>
 
-    <div class="modal-body">
+    <div class="modal-body p-2">
       <div v-if="isEditing">
         <ep-form-content name="termin-nimi">
           <ep-field
@@ -32,7 +32,7 @@
             {{ $t('nayta-alaviitteessa') }}
           </ep-toggle>
         </ep-form-content>
-        <div class="d-flex gap-2">
+        <div class="flex gap-2">
           <ep-button
             variant="link"
             :show-spinner="isLoading"
@@ -53,26 +53,26 @@
       <div v-else>
         <ep-spinner v-if="isLoading" />
         <div v-else>
-          <vue-select
-            :value="valittu"
-            :filter-by="filterBy"
-            :placeholder="$t('valitse-kasite')"
-            label="avain"
-            :options="siivotutTermit"
-            @input="valittu = $event"
+          <ep-select
+            v-if="siivotutTermit.length > 0"
+            v-model="valittu"
+            :items="siivotutTermit"
+            :is-editing="true"
+            :enable-empty-option="true"
+            :placeholder="'valitse-kasite'"
           >
-            <template #selected-option="option">
-              <span>{{ $kaanna(option.termi) }}</span>
-            </template>
-            <template #option="option">
+            <template #default="{ item }">
               <div>
-                <span>{{ $kaanna(option.termi) }}</span>
+                <span>{{ $kaanna((item as ITermi)?.termi) }}</span>
               </div>
-              <div class="ps-3 small fw-light">
-                <span>{{ $kaanna(option.selitys) }}</span>
+              <div
+                v-if="(item as { selitys?: string })?.selitys"
+                class="ps-3 small fw-light"
+              >
+                <span>{{ (item as { selitys: string }).selitys }}</span>
               </div>
             </template>
-          </vue-select>
+          </ep-select>
           <div
             v-if="canEditTermit"
             class="mt-3"
@@ -100,7 +100,7 @@
     </div>
 
     <div class="modal-footer">
-      <div class="w-100 d-flex justify-content-end gap-2">
+      <div class="w-full flex justify-end gap-2">
         <ep-button
           class="mr-3"
           variant="link"
@@ -129,7 +129,7 @@ import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import EpToggle from '@shared/components/forms/EpToggle.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { kasiteValidator } from '@shared/validators/kasite';
-import VueSelect from 'vue-select';
+import EpSelect from '@shared/components/forms/EpSelect.vue';
 import { IKasiteHandler, ITermi } from './KasiteHandler';
 import _ from 'lodash';
 import { useVuelidate } from '@vuelidate/core';
@@ -169,14 +169,6 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, { muokattava });
 
 // Methods
-const filterBy = (option, label, search) => {
-  const k = $kaanna;
-  const v = k(option.termi) + ' ' + k(option.selitys);
-  return (v)
-    .toLowerCase()
-    .indexOf(search.toLowerCase()) > -1;
-};
-
 const peruuta = async () => {
   isEditing.value = false;
 };
@@ -201,9 +193,10 @@ const tallenna = async () => {
   }
 };
 
-const muokkaa = (selected?: ITermi) => {
-  if (selected) {
-    Object.assign(muokattava, selected);
+const muokkaa = (selected?: ITermi | { avain?: string }) => {
+  if (selected?.avain) {
+    const original = termit.value.find(t => t.avain === selected.avain);
+    if (original) Object.assign(muokattava, original);
   }
   else {
     Object.assign(muokattava, {
@@ -217,10 +210,10 @@ const muokkaa = (selected?: ITermi) => {
 
 const valittu = computed({
   get: () => {
-    // Find the selected term object based on modelValue (avain)
-    return termit.value.find(k => k.avain === unref(props.modelValue)) || null;
+    // Find the selected term object from siivotutTermit (same refs as items) based on modelValue (avain)
+    return siivotutTermit.value.find(k => k.avain === unref(props.modelValue)) || null;
   },
-  set: (value) => {
+  set: (value: ITermi | null) => {
     emit('update:modelValue', value?.avain || '');
   },
 });
@@ -305,9 +298,6 @@ onMounted(async () => {
   }
 }
 
-.modal-body {
-  // padding: 0 1.5rem 1rem 1.5rem;
-}
 
 .modal-footer {
   padding: 1rem 1.5rem 1.5rem 1.5rem;
@@ -324,18 +314,5 @@ onMounted(async () => {
 
 .lisaa-painike {
   width: 100%;
-}
-
-:deep(.vs__dropdown-menu) {
-  overflow-x: hidden !important;
-}
-
-:deep(.vs__dropdown-option) {
-  overflow-x: hidden !important;
-  white-space: normal !important;
-
-  i {
-    font-size: small;
-  }
 }
 </style>

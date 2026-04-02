@@ -4,13 +4,11 @@
       class="tiedosto-lataus"
       :class="file ? 'tiedosto' : 'ei-tiedosto'"
     >
-      <b-form-file
+      <EpFileUpload
         v-if="!file"
         ref="fileInput"
         :accept="accept"
-        :placeholder="placeholder"
-        :drop-placeholder="dropPlaceholder"
-        :browse-text="browseText"
+        :choose-label="browseText"
         @input="onInput"
       />
 
@@ -19,7 +17,7 @@
           name="file-selected"
           :file="file"
         >
-          <div class="pl-2 d-inline-block">
+          <div class="pl-2 inline-block">
             <div>{{ $t('valittu-tiedosto') }}: {{ file ? file.name : '' }}</div>
             <div class="text-right pl-2 pt-4">
               <ep-button
@@ -39,8 +37,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, useTemplateRef, getCurrentInstance } from 'vue';
+import { computed, useTemplateRef } from 'vue';
 import EpButton from '../EpButton/EpButton.vue';
+import EpFileUpload from '@shared/components/EpFileUpload/EpFileUpload.vue';
 import _ from 'lodash';
 import { $t, $fail } from '@shared/utils/globals';
 
@@ -70,7 +69,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['input']);
-const instance = getCurrentInstance();
 const fileInput = useTemplateRef('fileInput');
 
 const accept = computed(() => {
@@ -155,7 +153,7 @@ function cancel() {
 }
 
 function resetFile() {
-  fileInput.value?.reset();
+  (fileInput.value as any)?.clear?.();
 }
 </script>
 
@@ -171,7 +169,7 @@ function resetFile() {
   margin: 0px 0px;
   width:100%;
   border-width: 1px;
-  border-color: $gray-lighten-2;
+  border-color: $grey300;
   border-style: dashed;
   border-radius: 10px;
   position: relative;
@@ -188,7 +186,7 @@ function resetFile() {
 
   &.ei-tiedosto {
     height: 100px;
-    background-color: $gray-lighten-7;
+    background-color: $grey50;
   }
 
   .custom-file:deep() {
@@ -224,7 +222,7 @@ function resetFile() {
       padding: 0 0 0 0.20rem;
       display: inline;
       position: relative;
-      background-color: $gray-lighten-7;
+      background-color: $grey50;
     }
   }
 }

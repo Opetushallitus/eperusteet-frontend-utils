@@ -5,17 +5,17 @@
       v-model="model"
       tag="div"
     >
-      <b-row
+      <div
         v-for="(sisalto, index) in model"
         :key="'edKehOsaaminen'+index"
-        class="pb-2"
+        class="flex flex-wrap pb-2"
       >
-        <b-col cols="11">
+        <div class="w-11/12">
           <ep-input
             v-model="sisalto[sisaltokieli]"
             :is-editing="isEditing"
             type="string"
-            class="flex-grow-1"
+            class="grow"
           >
             <template #left>
               <div
@@ -25,8 +25,8 @@
               </div>
             </template>
           </ep-input>
-        </b-col>
-        <b-col cols="1">
+        </div>
+        <div class="w-1/12">
           <div
             class="clickable mt-2"
             @click="poistaKuvaus(sisalto)"
@@ -35,8 +35,8 @@
               delete
             </EpMaterialIcon>
           </div>
-        </b-col>
-      </b-row>
+        </div>
+      </div>
     </VueDraggable>
 
     <ep-button

@@ -44,14 +44,14 @@
       >
         <div>
           <span v-if="laajaAlaisetKooditByUri[lo.koodi]">
-            <h5 class="d-inline">{{ $kaanna(laajaAlaisetKooditByUri[lo.koodi].nimi) }}</h5>
-            <b-button
+            <h5 class="inline">{{ $kaanna(laajaAlaisetKooditByUri[lo.koodi].nimi) }}</h5>
+            <ep-button
               v-if="isEditing"
               variant="link"
               @click.stop="poistaLaaja(lo)"
             >
               <EpMaterialIcon>close</EpMaterialIcon>
-            </b-button>
+            </ep-button>
           </span>
         </div>
         <ep-content
@@ -70,21 +70,24 @@
       </div>
     </div>
 
-    <b-dropdown
+    <EpDropdown
       v-if="isEditing"
-      :text="$t('lisaa-laaja-alainen-osaaminen')"
-      variant="primary"
       class="mb-4"
     >
-      <b-dropdown-item-button
+      <template #button-content>
+        <ep-button variant="primary">
+          {{ $t('lisaa-laaja-alainen-osaaminen') }}
+        </ep-button>
+      </template>
+      <EpDropdownItem
         v-for="(laaja, index) in laajaAlaistenKoodit"
         :key="index+'addlaaja'"
         :disabled="laaja.hasPaikallinenKuvaus"
         @click="addLaaja(laaja)"
       >
         {{ $kaanna(laaja.nimi) }}
-      </b-dropdown-item-button>
-    </b-dropdown>
+      </EpDropdownItem>
+    </EpDropdown>
 
     <div
       v-for="(paikallinenOpintojakso, index) in modelValue.paikallisetOpintojaksot"
@@ -119,8 +122,10 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import _ from 'lodash';
+import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
+import { EpDropdown, EpDropdownItem } from '@shared/components/EpDropdown';
 
 const props = defineProps({
   opetussuunnitelmaStore: {

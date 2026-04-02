@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content ml-auto">
     <div :class="{'container': container}">
       <div v-if="hasHeaderSlot">
         <slot name="header" />
@@ -44,6 +44,10 @@ const hasDefaultSlot = computed(() => {
 
 .content {
   padding: 20px;
+
+  .container {
+    max-width:1140px
+  }
 }
 
 .col-fixed {

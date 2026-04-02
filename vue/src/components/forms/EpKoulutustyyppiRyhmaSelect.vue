@@ -29,7 +29,7 @@
       {{ $t(option.ryhma) }}
     </template>
     <template #selection="{ values }">
-      <div class="d-flex align-items-center">
+      <div class="flex items-center">
         <template v-if="values.length === 1">
           <span
             v-for="value in values"

@@ -25,39 +25,40 @@
             :nayta-arvo="false"
           >
             <template #default="{ open }">
-              <b-input-group>
-                <b-form-input
-                  :value="taitotaso.nimi ? $kaanna(taitotaso.nimi.nimi) : ''"
+              <EpInputGroup>
+                <ep-input
+                  :model-value="taitotaso.nimi ? $kaanna(taitotaso.nimi.nimi) : ''"
+                  :is-editing="true"
                   disabled
                 />
-                <b-input-group-append>
-                  <b-button
+                <template #append>
+                  <ep-button
                     variant="primary"
                     @click="open"
                   >
                     {{ $t('hae-koodistosta') }}
-                  </b-button>
-                </b-input-group-append>
-              </b-input-group>
+                  </ep-button>
+                </template>
+              </EpInputGroup>
             </template>
           </EpKoodistoSelect>
 
-          <b-form-group
+          <EpFormGroup
             v-if="isOpintokokonaisuus"
-            class="col-5 mt-2"
+            class="w-5/12 mt-2"
           >
-            <div class="d-flex align-items-center">
-              <b-form-group :label="$t('laajuus-vahintaan')">
+            <div class="flex items-center">
+              <EpFormGroup :label="$t('laajuus-vahintaan')">
                 <ep-input
                   v-model="taitotaso.tyoelamaOpintoMinimiLaajuus"
                   type="number"
                   is-editing
                 />
-              </b-form-group>
+              </EpFormGroup>
               <div class="ml-2 pt-3">
                 -
               </div>
-              <b-form-group
+              <EpFormGroup
                 :label="$t('laajuus-enintaan')"
                 class="ml-2"
               >
@@ -66,14 +67,14 @@
                   type="number"
                   is-editing
                 />
-              </b-form-group>
+              </EpFormGroup>
               <div class="ml-2 pt-3">
                 {{ $t('op') }}
               </div>
             </div>
-          </b-form-group>
+          </EpFormGroup>
 
-          <b-form-group
+          <EpFormGroup
             :label="tavoitteetOtsikko"
             required
             class="mt-4"
@@ -83,13 +84,13 @@
               layout="normal"
               :is-editable="isEditing"
             />
-          </b-form-group>
+          </EpFormGroup>
 
           <h3 class="mt-4">
             {{ $t('opiskelijan-osaaminen') }}
           </h3>
 
-          <b-form-group
+          <EpFormGroup
             v-for="(sisalto, index) in sisalto.keskeisetsisallot"
             :key="'sisalto'+index"
             :label="sisalto['otsikko'] ? $t(sisalto['otsikko']) : ''"
@@ -101,7 +102,7 @@
               layout="normal"
               :is-editable="isEditing"
             />
-          </b-form-group>
+          </EpFormGroup>
 
           <div class="text-right">
             <ep-button
@@ -138,7 +139,7 @@
           {{ taitotasoOtsikko(taitotaso) }}
         </h2>
 
-        <b-form-group class="mt-3">
+        <EpFormGroup class="mt-3">
           <template #label>
             <h3>
               {{ tavoitteetOtsikko }}
@@ -153,7 +154,7 @@
             name="paikallinentarkennus"
             :taitotaso="taitotaso"
           />
-        </b-form-group>
+        </EpFormGroup>
 
         <h3>{{ $t('opiskelijan-osaaminen') }}</h3>
 
@@ -161,7 +162,7 @@
           v-for="(keskeinenSisalto, index) in keskeisetSisallot"
           :key="'sisalto'+index"
         >
-          <b-form-group
+          <EpFormGroup
             v-if="taitotaso[keskeinenSisalto['object']]"
             class="mt-3 mb-2 p-0"
           >
@@ -178,7 +179,7 @@
               :value="$kaanna(taitotaso[keskeinenSisalto['object']])"
               layout="normal"
             />
-          </b-form-group>
+          </EpFormGroup>
         </div>
       </div>
     </div>
@@ -192,6 +193,7 @@ import { KoodistoSelectStore, getKoodistoSivutettuna } from '../EpKoodistoSelect
 import { TermiDto } from '@shared/api/eperusteet';
 import { VueDraggable } from 'vue-draggable-plus';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
+import EpInputGroup from '@shared/components/EpInputGroup/EpInputGroup.vue';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
@@ -199,6 +201,7 @@ import { LiiteDtoWrapper } from '@shared/tyypit';
 import EpContentViewer from '@shared/components/EpContentViewer/EpContentViewer.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import { $t, $kaanna } from '@shared/utils/globals';
+import EpFormGroup from '@shared/components/forms/EpFormGroup.vue';
 
 enum TaitotasoTyyppi {
   opintokokonaisuus = 'opintokokonaisuus',
@@ -397,7 +400,7 @@ function taitotasoOtsikko(taitotaso) {
   }
 
   .taitotaso {
-    border: 1px solid $gray-lighten-8;
+    border: 1px solid $grey200;
     border-radius: 3px;
 
     .otsikko {

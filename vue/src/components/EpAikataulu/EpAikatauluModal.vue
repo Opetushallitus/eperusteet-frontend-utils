@@ -11,9 +11,8 @@
       {{ $t('muokkaa') }}
     </ep-button>
 
-    <b-modal
-      id="aikataulumodal"
-      ref="aikataulumodal"
+    <EpModal
+      ref="modalRef"
       size="lg"
       :hide-header-close="true"
       :ok-disabled="invalid"
@@ -51,7 +50,7 @@
       <template #modal-ok>
         {{ $t('tallenna') }}
       </template>
-    </b-modal>
+    </EpModal>
   </div>
 </template>
 
@@ -60,6 +59,7 @@ import { ref, useTemplateRef } from 'vue';
 import _ from 'lodash';
 import { aikataulutapahtuma, AikatauluRootModel, Tapahtuma } from '../../utils/aikataulu';
 import EpAikatauluListaus from './EpAikatauluListaus.vue';
+import EpModal from '@shared/components/EpModal/EpModal.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpDatepicker from '@shared/components/forms/EpDatepicker.vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
@@ -86,8 +86,7 @@ const emit = defineEmits(['tallenna']);
 const invalid = ref(false);
 const aikataulutClone = ref<Tapahtuma[]>([]);
 
-// Template refs should be declared at the top level
-const aikataulumodal = useTemplateRef('aikataulumodal');
+const modalRef = useTemplateRef('modalRef');
 const epAikatauluListaus = useTemplateRef('epAikatauluListaus');
 
 function openModal() {
@@ -115,7 +114,7 @@ function openModal() {
     aikataulutClone.value = _.cloneDeep(props.aikataulut);
   }
 
-  aikataulumodal.value?.show();
+  modalRef.value?.show();
 }
 
 function tallenna() {

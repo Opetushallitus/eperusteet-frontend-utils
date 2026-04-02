@@ -48,7 +48,10 @@
         </div>
       </div>
 
-      <div v-if="listausTyyppi === 'lisahaku'">
+      <div
+        v-if="listausTyyppi === 'lisahaku'"
+        class="mt-5"
+      >
         <slot name="lisaaBtn">
           <EpSecondaryButton
             v-if="naytettavaTietoMaara < tiedotSize"
@@ -71,12 +74,10 @@
       </div>
       <div v-else-if="listausTyyppi === 'none'" />
       <div v-else>
-        <ep-pagination
+        <ep-b-pagination
           v-model="sivu"
-          align="center"
-          no-local-sorting
-          :per-page="naytettavaTietoMaara"
-          :total-rows="tiedotSize"
+          :items-per-page="naytettavaTietoMaara"
+          :total="tiedotSize"
         />
       </div>
     </div>
@@ -90,7 +91,7 @@ import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import EpSecondaryButton from '../EpSecondaryButton/EpSecondaryButton.vue';
 import { onkoUusi } from '@shared/utils/tiedote';
 import { $kaanna } from '@shared/utils/globals';
-import EpPagination from '@shared/components/EpPagination/EpPagination.vue';
+import EpBPagination from '@shared/components/EpBPagination/EpBPagination.vue';
 
 export interface JulkiRivi {
   otsikko?: { [key: string]: string; } | string;
@@ -184,7 +185,7 @@ onMounted(() => {
           font-weight: bold;
         }
         .uusi {
-          background-color: $blue-lighten-3;
+          background-color: $lightBlue2;
           border-radius: 5px;
           padding: 2px 4px;
           font-size: 0.7rem;
@@ -192,7 +193,7 @@ onMounted(() => {
         }
       }
       .muokkausaika {
-        color: $gray-lighten-12;
+        color: $grey600;
         font-size: 90%;
       }
     }

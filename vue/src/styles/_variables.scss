@@ -1,148 +1,192 @@
-$black:            #2a2a2a;
-$white:            #fff;
-$gray:             #666;
-$gray-lighten-1:   #999;
-$gray-lighten-2:   #aeaeae;
-$gray-lighten-3:   #ccc;
-$gray-lighten-4:   #f6f4f0;
-$gray-lighten-5:   #f5f5f5;
-$gray-lighten-6:   #F2F2F2;
-$gray-lighten-7:   #f7f8fc;
-$gray-lighten-8:   #D8D8D8;
-$gray-lighten-9:   #DADADA;
-$gray-lighten-10:  #e2e9f866;
-$gray-lighten-11:  #878787;
-$gray-lighten-12:  #575757;
-$gray-lighten-13:  #f9f9f9;
-$red:              #e44e4e;
-$red-1:            #FF5000;
-$red-lighten-1:    #e09191;
-$red-lighten-2:    #ffe9e9;
-$blue:             #0a789c;
-$blue-lighten-1:   #159ecb;
-$blue-lighten-2:   #00b5f0;
-$blue-lighten-3:   #a6dcee;
-$blue-lighten-4:   #def2ff;
-$blue-lighten-5:   #0041DC;
-$blue-lighten-6:   #99B3F1;
-$blue-lighten-7:   #004dff0a;
-$blue-lighten-8:   #f1faff;
-$blue-lighten-9:   #c8f1ff;
-$blue-lighten-10:  #cad9e5;
-$blue-darken-1:    #00526c;
-$green:            #4c7f00;
-$green-1:          #62a600;
-$oph-green:        #378703;
-$green-lighten-1:  #e6ffc1;
-$green-lighten-2:  #5BCA13;
-$green-lighten-3:  #7CD443;
-$green-lighten-4:  #e5f4d1;
-$green-lighten-5:  #57bb1a;
-$yellow:           #ffd024;
-$yellow-1:         #F5B800;
-$yellow-2:         #dfa910;
-$yellow-lighten-1: #fff7bc;
-$pink:             #cc75dc;
-$purple-lighten-1: #ff00b7;
-$disabled:         #B2B2B2;
+// Design system palette (from design system)
+$grey900: #1D1D1D;
+$grey800: #454545;
+$grey700: #4C4C4C;
+$grey600: #5D5D5D;
+$grey500: #6D6D6D;
+$grey400: #B2B2B2;
+$grey300: #C8C8C8;
+$grey200: #DFDFDF;
+$grey100: #EDEDED;
+$grey50: #F6F6F6;
+$black: #000000;
+$white: #FFFFFF;
+$blue1: #000066;
+$blue2: #0033CC;
+$blue3: #0041DC;
+$cyan1: #006699;
+$cyan2: #66CCCC;
+$cyan3: #99FFFF;
+$lightBlue1: #82D4FF;
+$lightBlue2: #C1EAFF;
+$green1: #254905;
+$green2: #378703;
+$green3: #5BCA13;
+$green4: #9CFF5A;
+$green5: #CCFFCC;
+$green6: #F4FFF4;
+$red1: #990066;
+$red2: #E60895;
+$orange1: #663300;
+$orange2: #993300;
+$orange3: #CC3300;
+$orange4: #FF5500;
+$yellow1: #FFCC33;
+$yellow2: #FFD900;
+$yellow3: #FFFF33;
+$pink1: #FF66CC;
+$pink2: #FFCCFF;
+$pink3: #FDF2F2;
+$purple1: #660066;
+$purple2: #660099;
+$purple3: #C227B9;
+$purple4: rgb(204, 153, 255);
+$alias-success: #378703;
+$alias-error: #CC3300;
+
+// Legacy color variables (mapped to design system)
+$gray: $grey600;
+$gray-lighten-1: $grey400;
+$gray-lighten-2: $grey300;
+$gray-lighten-3: $grey300;
+$gray-lighten-4: $grey50;
+$gray-lighten-5: $grey50;
+$gray-lighten-6: $grey100;
+$gray-lighten-7: $grey50;
+$gray-lighten-8: $grey200;
+$gray-lighten-9: $grey200;
+$gray-lighten-10: rgba($grey200, 0.4);
+$gray-lighten-11: $grey400;
+$gray-lighten-12: $grey600;
+$gray-lighten-13: $grey50;
+$red: $orange3;
+$red-1: $orange4;
+$red-lighten-1: $pink3;
+$red-lighten-2: $pink3;
+$blue: $cyan1;
+$blue-lighten-1: $cyan1;
+$blue-lighten-2: $lightBlue1;
+$blue-lighten-3: $lightBlue2;
+$blue-lighten-4: $lightBlue2;
+$blue-lighten-5: $blue3;
+$blue-lighten-6: $lightBlue2;
+$blue-lighten-7: rgba($blue3, 0.04);
+$blue-lighten-8: $lightBlue2;
+$blue-lighten-9: $lightBlue2;
+$blue-lighten-10: $grey300;
+$blue-darken-1: $blue1;
+$green: $green2;
+$oph-green: $green2;
+$green-lighten-1: $green5;
+$green-lighten-2: $green3;
+$green-lighten-3: $green4;
+$green-lighten-4: $green5;
+$green-lighten-5: $green3;
+$yellow: $yellow1;
+$yellow-1: $yellow2;
+$yellow-2: $yellow1;
+$yellow-lighten-1: $yellow3;
+$pink: $purple3;
+$purple-lighten-1: $red2;
+$disabled: $grey400;
 
 // Paletti
-$paletti-blue-dark: #001A58;
-$paletti-blue: #3367e3;
-$paletti-background-light: #f7fbff;
-$paletti-background-light-2: #edf8ff;
+$paletti-blue-dark: $blue1;
+$paletti-blue: $blue2;
+$paletti-background-light: $lightBlue2;
+$paletti-background-light-2: $lightBlue2;
 
 // Etusivu
-$etusivu-background: #F7F7F7;
-$etusivu-tile-background: #FFF;
-$etusivu-header-background: #2F5FD1;
+$etusivu-background: $grey50;
+$etusivu-tile-background: $white;
+$etusivu-header-background: $blue2;
 
-$color-links:         #051E5B;
-$link:                #3367E3;
-$link-color:          $link;
-$link-hover-color:    #2E5FD1;
+$color-links: $blue1;
+$link: $blue2;
+$link-color: $link;
+$link-hover-color: $blue3;
 
 $ops-header-height: 173px;
 $color-ops-header: $paletti-blue-dark;
 $color-ops-header-text: $white;
 $color-ops-header-black-text: $black;
-$color-light-background: #E6F6FF;
+$color-light-background: $lightBlue2;
 
 $sidebar-width: 340px;
 
-$dark-blue: #28344F;
-$light-blue: #2E5FD1;
+$dark-blue: $blue1;
+$light-blue: $blue2;
 
 $main-view-offset: 100px;
 
-$valid: #a3bbf2;
-$invalid: #dc3545;
+$valid: $lightBlue2;
+$invalid: $alias-error;
 
 // Content
 $content-padding: 15px;
 $content-table-padding: 5px;
-$content-header-separator-color: #e7e7e7;
+$content-header-separator-color: $grey200;
 
 $table-even-row-bg-color: rgba(0, 0, 0, 0.00);
 $table-odd-row-bg-color: rgba(0, 0, 0, 0.04);
 $table-hover-row-bg-color: rgba(0, 0, 0, 0.15);
 
-$table-header-color: #CDEEFF;
-$table-even-row-blue: rgba(205, 238, 255, 0.00);
-$table-odd-row-blue: rgba(205, 238, 255, 0.7);
+$table-header-color: $lightBlue2;
+$table-even-row-blue: rgba($lightBlue2, 0);
+$table-odd-row-blue: rgba($lightBlue2, 0.7);
 
 // Sidenav
 $sidenav-padding: 10px;
 $sidenav-depth-padding: 10px;
-$sidenav-color: #2b2b2b;
-$sidenav-active-color: #0041dc;
-$sidenav-navigation-subtype-color: #595959;
+$sidenav-color: $grey900;
+$sidenav-active-color: $blue3;
+$sidenav-navigation-subtype-color: $grey600;
 
 // Header sisalto container
 $sisalto-container-margin: 40px;
 
 // Uutiset
-$uutiset-header-background: #2F5FD1;
+$uutiset-header-background: $blue2;
 
 // Koulutustyyppi colors
-$koulutustyyppi-ammatillinen-color: #008800;
-$koulutustyyppi-esiopetus-color: #84d2ff;
-$koulutustyyppi-lukiokoulutus-color: #0143da;
-$koulutustyyppi-perusopetus-color: #67cccc;
-$koulutustyyppi-varhaiskasvatus-color: #ffcc33;
+$koulutustyyppi-ammatillinen-color: $green2;
+$koulutustyyppi-esiopetus-color: $lightBlue1;
+$koulutustyyppi-lukiokoulutus-color: $blue3;
+$koulutustyyppi-perusopetus-color: $cyan2;
+$koulutustyyppi-varhaiskasvatus-color: $yellow1;
 $koulutustyyppi-taiteenperusopetus-color: #faccea;
-$koulutustyyppi-vapaasivistystyo-color: #660066;
-$koulutustyyppi-tutkintoonvalmentava-color: #FF5000;
+$koulutustyyppi-vapaasivistystyo-color: $purple1;
+$koulutustyyppi-tutkintoonvalmentava-color: $orange4;
 $koulutustyyppi-kotoutumiskoulutus-color: #7aae7a;
-$koulutustyyppi-muu-color: #e60895;
-$koulutustyyppi-kielikaantajatutkinto-color: #006699;
+$koulutustyyppi-muu-color: $red2;
+$koulutustyyppi-kielikaantajatutkinto-color: $cyan1;
 
 // Muut / Jotpa
-$jotpa-color: #e60895;
-$digitaalinen-osaaminen-color: #D9C1F2;
-$digitaalinen-osaaminen-paa-alue-color: #F2E9FC;
-$digitaalinen-osaaminen-ikaryhma-color: #65009A;
-$oph-maaraykset-color: $blue-lighten-2;
+$jotpa-color: $red2;
+$digitaalinen-osaaminen-color: $purple4;
+$digitaalinen-osaaminen-paa-alue-color: rgba(204, 153, 255, 0.342);;
+$digitaalinen-osaaminen-ikaryhma-color: $purple2;
+$oph-maaraykset-color: $lightBlue1;
 
 // Tile colors
-$home-tile-top-background-color: #4797B7;
-$home-tile-bottom-background-color: #3C839F;
+$home-tile-top-background-color: $cyan1;
+$home-tile-bottom-background-color: $cyan1;
 
 // Spinner
 $spinner-background-color: $light-blue;
 
-$popup-top-background: #2146a3;
+$popup-top-background: $blue2;
 
-$handle-color: #668DEA;
+$handle-color: $blue2;
 
 // ammatillisten voimassaolovärit
-$tuleva-color: $green-lighten-2;
+$tuleva-color: $green3;
 $voimassa-color: $green;
 $siirtyma-color: $yellow-1;
 $paattynyt-color: $red-1;
 
 // yleissivistava
-$ylops-paikallinen-color: #eaf6fe;
+$ylops-paikallinen-color: $lightBlue2;
 
 // Ylikirjoitetaan muuttujien arvot palvelukohtaisilla jos määritelty
 @import "@/styles/_variables.scss";

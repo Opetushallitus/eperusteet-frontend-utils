@@ -1,7 +1,5 @@
 import { mount } from '@vue/test-utils';
 import EpBalloonList from './EpBalloonList.vue';
-import Vue from 'vue';
-import BootstrapVue from 'bootstrap-vue';
 
 describe.skip('EpBalloonList component', () => {
   test('Renders', async () => {

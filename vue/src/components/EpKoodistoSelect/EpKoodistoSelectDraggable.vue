@@ -7,34 +7,37 @@
     @update:model-value="$emit('update:modelValue', $event)"
   >
     <template #default="{ open }">
-      <b-input-group>
+      <EpInputGroup>
         <ep-material-icon
-          class="order-handle inner-drag-handle mr-2 flex-shrink-0"
+          class="order-handle inner-drag-handle mr-2 shrink-0"
         >
           drag_indicator
         </ep-material-icon>
-        <b-form-input
+        <ep-input
           :class="inputClass"
-          :value="displayValue"
+          :model-value="displayValue"
+          :is-editing="true"
           disabled
         />
-        <b-input-group-append>
-          <b-button
+        <template #append>
+          <ep-button
             variant="primary"
             @click="open"
           >
             {{ buttonText || $t('hae-koodistosta') }}
-          </b-button>
-        </b-input-group-append>
-      </b-input-group>
+          </ep-button>
+        </template>
+      </EpInputGroup>
     </template>
   </ep-koodisto-select>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import EpInputGroup from '../EpInputGroup/EpInputGroup.vue';
 import EpKoodistoSelect from './EpKoodistoSelect.vue';
 import EpMaterialIcon from '../EpMaterialIcon/EpMaterialIcon.vue';
+import EpButton from '../EpButton/EpButton.vue';
 import { KoodistoSelectStore } from './KoodistoSelectStore';
 import { $kaanna } from '@shared/utils/globals';
 

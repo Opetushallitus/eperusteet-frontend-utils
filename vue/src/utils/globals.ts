@@ -1,12 +1,11 @@
+import { ConfirmServiceOptions } from '@shared/components/EpConfirmService/EpConfirmService.vue';
 import { LokalisoituTeksti } from '@shared/stores/kieli';
-import { BvModal } from 'bootstrap-vue';
-import { inject } from 'vue';
-import { nextTick } from 'vue';
 import { computed } from 'vue';
-import { getCurrentInstance, ComputedRef } from 'vue';
+import { getCurrentInstance } from 'vue';
 
 // Store a reference to the app instance that can be set from main.ts
 let _app: any = null;
+export let $confirmModal;
 
 /**
  * Set the application instance reference - call this in main.ts
@@ -15,6 +14,11 @@ let _app: any = null;
 export const setAppInstance = (app: any) => {
   _app = app;
 };
+
+/**
+ * Get the application instance (for services that need app context)
+ */
+export const getAppInstance = () => _app;
 
 /**
  * Get global properties either from component context or from app instance
@@ -127,10 +131,27 @@ export const $warning = (title: string): any => {
   return useGlobalProperties().$warning(title);
 };
 
-export let $bvModal;
-
-export const setGlobalBvModal = (bvModal: BvModal) => {
-  $bvModal = bvModal;
+export const setConfirmModal = (confirmModal: any) => {
+  $confirmModal = {
+    ...confirmModal,
+    msgBoxConfirm: (message: string, options: ConfirmServiceOptions) => {
+      return new Promise((resolve) => {
+        if (!confirmModal) {
+          resolve(false);
+          return;
+        }
+        confirmModal.require({
+          group: 'headless',
+          title: options.title ?? '',
+          message: message ?? options.message ?? '',
+          okTitle: options.okTitle ?? $t('kylla') as any,
+          cancelTitle: options.cancelTitle ?? $t('peruuta') as any,
+          accept: () => resolve(true),
+          reject: () => resolve(false),
+        });
+      });
+    },
+  };
 };
 
 export const $hasOikeus = (oikeus: any, kohde?: any) => {
@@ -146,11 +167,9 @@ export const $hasOphCrud = () => {
 };
 
 export const $vahvista = async (title = 'vahvista-toiminto', msg = 'vahvista-toiminto-viesti', config: any = {}): Promise<boolean> => {
-  return await $bvModal.msgBoxConfirm($t(msg) as any, {
+  return await $confirmModal.msgBoxConfirm($t(msg) as any, {
     title: $t(title) as any,
-    okVariant: 'primary',
     okTitle: $t('kylla') as any,
-    cancelVariant: 'link',
     cancelTitle: $t('peruuta') as any,
     centered: true,
     ...config,

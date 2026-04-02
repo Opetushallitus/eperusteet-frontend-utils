@@ -1,5 +1,5 @@
 <template>
-  <b-table
+  <EpTable
     responsive
     striped
     hover
@@ -22,7 +22,7 @@
         {{ $t('palauta') }}
       </ep-button>
     </template>
-  </b-table>
+  </EpTable>
 </template>
 
 <script setup lang="ts">
@@ -32,6 +32,7 @@ import Poistettu from './PoistetutHakuTable.vue';
 import EpSpinnerInline from '@shared/components/EpSpinner/EpSpinnerInline.vue';
 import _ from 'lodash';
 import { $t, $kaanna, $ago } from '@shared/utils/globals';
+import EpTable from '@shared/components/EpTable/EpTable.vue';
 
 const props = defineProps({
   poistetut: {

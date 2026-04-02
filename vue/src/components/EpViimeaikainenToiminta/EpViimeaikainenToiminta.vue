@@ -11,10 +11,10 @@
       <div
         v-for="(muokkaustieto, index) in muokkaustiedotRouted"
         :key="index"
-        class="row muokkaustieto"
+        class="flex muokkaustieto gap-3"
       >
-        <div class="col col-auto ikoni-col center-block">
-          <div class="ikoni d-inline-block">
+        <div class="w-auto ikoni-col center-block">
+          <div class="ikoni inline-block">
             <EpMaterialIcon :class="muokkaustieto.iconClass">
               {{ muokkaustieto.icon }}
             </EpMaterialIcon>
@@ -27,19 +27,19 @@
           </div>
         </div>
 
-        <div class="col router-col text-left">
+        <div class="router-col text-left">
           <div v-if="muokkaustieto.poistettu || muokkaustieto.tapahtuma === 'julkaisu'">
             <div
               class="router-box"
               :class="{ 'router-box-poistettu': muokkaustieto.poistettu }"
             >
-              <div class="row">
-                <div class="col nimi">
+              <div class="grid grid-cols-2">
+                <div class="nimi">
                   {{ muokkaustieto.kayttajaNimi }}
                 </div>
                 <div
                   :title="$sdt(muokkaustieto.luotu)"
-                  class="col aika text-right"
+                  class="aika text-right"
                 >
                   {{ $ago(muokkaustieto.luotu) }}
                 </div>
@@ -57,12 +57,12 @@
               class="router-box"
               :class="{ 'router-box-poistettu': muokkaustieto.poistettu }"
             >
-              <div class="row">
-                <div class="col nimi">
+              <div class="grid grid-cols-2">
+                <div class="nimi">
                   {{ muokkaustieto.kayttajaNimi }}
                 </div>
                 <div
-                  class="col aika text-right"
+                  class="aika text-right"
                   :title="$sdt(muokkaustieto.luotu)"
                 >
                   {{ $ago(muokkaustieto.luotu) }}
@@ -203,6 +203,7 @@ const muokkaustiedotRouted = computed(() => {
     margin-top: 40px;
     margin-bottom: 20px;
     min-width: 350px;
+    padding: 0;
 
     .muokkaustieto {
       margin-top: 0;
@@ -221,7 +222,7 @@ const muokkaustiedotRouted = computed(() => {
           color: $black;
 
           .luonti {
-            color: $green-lighten-2;
+            color: $green3;
           }
 
           .paivitys {
@@ -241,11 +242,11 @@ const muokkaustiedotRouted = computed(() => {
           }
 
           .palautus {
-            color: $blue-darken-1;
+            color: $blue1;
           }
 
           .julkaisu {
-            color: $green-lighten-2;
+            color: $green3;
           }
 
         }
@@ -253,14 +254,14 @@ const muokkaustiedotRouted = computed(() => {
         .aikajana {
           z-index: 10;
           height: 100%;
-          background: linear-gradient($gray-lighten-2, $gray-lighten-2) no-repeat center/2px 100%;
+          background: linear-gradient($grey300, $grey300) no-repeat center/2px 100%;
         }
 
       }
 
       .router-col {
         padding: 0;
-        width: 0;
+        flex: 1;
 
         .router-box {
           line-height: 1;
@@ -275,7 +276,7 @@ const muokkaustiedotRouted = computed(() => {
           }
 
           .aika {
-            color: $gray-lighten-2;
+            color: $grey300;
           }
 
           .kohde {
@@ -290,7 +291,7 @@ const muokkaustiedotRouted = computed(() => {
   }
 
   .tyhja {
-    color: $gray-lighten-2;
+    color: $grey300;
     font-style: italic;
   }
 </style>

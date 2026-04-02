@@ -49,9 +49,9 @@
         />
       </template>
       <template #option="{ option, search }">
-        <div class="d-flex align-items-center">
+        <div class="flex items-center">
           <div
-            class="w-100"
+            class="w-full"
             role="option"
             :aria-selected="optionChecked(option)"
           >
@@ -103,7 +103,7 @@
       <template #selection="{ values, search, isOpen }">
         <div
           v-if="hasSelectionSlot"
-          class="d-flex align-items-center"
+          class="flex items-center"
         >
           <slot
             name="selection"
@@ -113,7 +113,7 @@
           />
           <span
             v-if="multiple && (values ?? []).length > 0"
-            class="ml-auto clickable border-right pr-2 remove-all"
+            class="ml-auto clickable border-right pr-2 mb-2 remove-all"
             @click.prevent
             @mousedown.prevent.stop="removeAll()"
           >
@@ -133,19 +133,19 @@
     </div>
     <div
       v-else-if="validationError && invalidMessage "
-      class="invalid-feedback"
+      class="block text-red-600 text-sm mt-1"
     >
       {{ $t(invalidMessage) }}
     </div>
     <div
       v-else-if="validationError && !invalidMessage"
-      class="invalid-feedback"
+      class="block text-red-600 text-sm mt-1"
     >
       {{ $t('validation-error-' + validationError, validation.$params[validationError]) }}
     </div>
     <small
       v-if="help"
-      class="form-text text-muted"
+      class="form-text text-gray-500"
     >{{ $t(help) }}</small>
     <slot name="helptext" />
   </div>
@@ -426,7 +426,7 @@ defineExpose({
   margin-top: -2px;
 
   .multiselect__option--highlight::after {
-    background-color: $blue-lighten-5;
+    background-color: $blue3;
   }
 }
 
@@ -446,11 +446,6 @@ defineExpose({
   border-color: $valid;
 }
 
-// Piilotettu Bootstrapissa oletuksena
-:deep(.invalid-feedback),
-:deep(.valid-feedback) {
-  display: block;
-}
 
 :deep(.multiselect__option--disabled) {
   background: none !important;
