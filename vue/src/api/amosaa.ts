@@ -126,6 +126,7 @@ export type OmaOsaAlueToteutusDto = AmosaaApi.OmaOsaAlueToteutusDto;
 export type OletusToteutusDto = AmosaaApi.OletusToteutusDto;
 export type OsaamisenArvioinninToteutussuunnitelmaDto = AmosaaApi.OsaamisenArvioinninToteutussuunnitelmaDto;
 export type SisaltoviiteOpintokokonaisuusExternalDto = AmosaaApi.SisaltoviiteOpintokokonaisuusExternalDto;
+export type SisaltoViiteLinkittavaDto = AmosaaApi.SisaltoViiteLinkittavaDto;
 
 export interface OpetussuunnitelmaQuery {
   perusteenDiaarinumero?: string;
