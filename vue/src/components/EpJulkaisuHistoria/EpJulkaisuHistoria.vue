@@ -156,7 +156,7 @@ const palautaConfirm = async (julkaisu: Julkaisu) => {
   }
 
   &--virhe {
-    background-color: $pink3;
+    background-color: $alias-error;
   }
 }
 </style>
