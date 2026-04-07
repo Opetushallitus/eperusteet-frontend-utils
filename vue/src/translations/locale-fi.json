@@ -4638,5 +4638,9 @@
     "varmista-poista-kooditus-otsikko": "Sisällön kooditus",
     "aseta-laajuus": "Aseta laajuus",
     "muokkaa-tutkinnon-laajuutta": "Muokkaa tutkinnon laajuutta",
-    "toteutussuunnitelmat-joihin-tutkinnon-osa-on-linkattu": "Toteutussuunnitelmat, joihin tutkinnon osa on linkattu"
+    "toteutussuunnitelmat-joihin-tutkinnon-osa-on-linkattu": "Toteutussuunnitelmat, joihin tutkinnon osa on linkattu",
+    "linkitetty-tyyppi-poisto-virhe-tutkinnonosa": "Linkitettyä tutkinnon osaa ei voi poistaa",
+    "pakollista-sisaltoa-ei-voi-poistaa": "Pakollista sisältöä ei voi poistaa",
+    "julkaistuja-sisaltoja-ei-voi-poistaa": "Julkaistuja sisältöä ei voi poistaa",
+    "tutkinnon-osa-on-linkitetty": "Tutkinnon osa on linkitetty. Sisältöä voi muokata vain alkuperäisestä toteutussuunnitelmasta."
 }
