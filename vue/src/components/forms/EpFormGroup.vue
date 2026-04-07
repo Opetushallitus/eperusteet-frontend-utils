@@ -1,18 +1,20 @@
 <template>
   <div class="ep-form-group mb-4">
-    <label
-      v-if="label || $slots.label"
-      :class="labelClass"
-      class="inline-block mb-2 font-semibold"
-    >
-      <slot name="label">
-        {{ label }}
-      </slot>
-      <span
+    <div class="flex">
+      <label
+        v-if="label || $slots.label"
+        :class="labelClass"
+        class="inline-block mb-2 font-semibold"
+      >
+        <slot name="label">
+          {{ label }}
+        </slot>
+      </label>
+      <div
         v-if="required"
         class="required-indicator"
-      >*</span>
-    </label>
+      >*</div>
+    </div>
     <div class="w-full">
       <slot />
     </div>
