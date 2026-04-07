@@ -33,7 +33,7 @@
             <span>{{ $t('organisaatio') }}</span>
           </div>
           <div class="pl-3 whitespace-nowrap">
-            <span class="icon mr-3" />
+            <span class="icon mr-7.5" />
             <small>{{ $kaanna(koulutustoimija.nimi) }}</small>
           </div>
         </template>
@@ -81,7 +81,7 @@
               :disabled="koulutustoimija.id === kt.id"
               @click="valitseOrganisaatio(kt)"
             >
-              <div class="grid grid-cols-12 gap-2">
+              <div class="ml-1">
                 <div class="collapse-tausta-valinta-icon col-span-1">
                   <EpMaterialIcon
                     v-if="koulutustoimija === kt.id"
