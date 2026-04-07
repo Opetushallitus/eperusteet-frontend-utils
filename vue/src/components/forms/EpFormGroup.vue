@@ -3,7 +3,7 @@
     <div class="flex">
       <label
         v-if="label || $slots.label"
-        :class="labelClass"
+        :class="[labelClass, { 'sr-only': labelSrOnly }]"
         class="inline-block mb-2 font-semibold"
       >
         <slot name="label">
@@ -30,6 +30,10 @@ defineProps({
   labelClass: {
     type: [String, Array, Object],
     default: '',
+  },
+  labelSrOnly: {
+    type: Boolean,
+    default: false,
   },
   required: {
     type: Boolean,

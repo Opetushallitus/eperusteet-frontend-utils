@@ -1,5 +1,5 @@
 <template>
-  <div class="box inline-flex flex-col items-center text-center items-end">
+  <div class="box inline-flex flex-col items-center text-center">
     <div class="count">
       {{ count }}
     </div>

@@ -3,7 +3,7 @@
     <div @click="modalRef?.show()">
       <slot name="lisays-btn">
         <ep-button
-          id="tekstikappalelisaysBtn"
+          class="tekstikappale-lisays-btn"
           variant="link"
           button-class="text-decoration-none"
           no-padding
@@ -279,5 +279,9 @@ defineExpose({
 <style scoped lang="scss">
 .osaalue-piilotettu {
   background: gray;
+}
+
+.tekstikappale-lisays-btn {
+  font-size: 14px;
 }
 </style>
