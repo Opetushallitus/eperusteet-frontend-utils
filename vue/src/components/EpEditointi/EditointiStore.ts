@@ -139,7 +139,8 @@ export interface EditointiStoreConfig {
 }
 
 export class EditointiStore {
-  private static editing: boolean = false;
+  /** Module-global; use ref so Vue computeds (e.g. EpFormGroup) track edits. */
+  private static editingRef = ref(false);
   private static router: Router;
   private static kayttajaProvider: KayttajaProvider;
   private logger = createLogger(EditointiStore);
@@ -172,11 +173,11 @@ export class EditointiStore {
   });
 
   public static anyEditing() {
-    return EditointiStore.editing;
+    return EditointiStore.editingRef.value;
   }
 
   public static async cancelAll() {
-    EditointiStore.editing = false;
+    EditointiStore.editingRef.value = false;
   }
 
   public constructor(
@@ -304,7 +305,7 @@ export class EditointiStore {
       if (this.config.start) {
         await this.config.start();
       }
-      EditointiStore.editing = true;
+      EditointiStore.editingRef.value = true;
     }
     catch (err) {
       this.logger.error('Editoinnin aloitus epäonnistui:', err);
@@ -361,7 +362,7 @@ export class EditointiStore {
     }
 
     this.state.isEditingState = false;
-    EditointiStore.editing = false;
+    EditointiStore.editingRef.value = false;
     this.state.disabled = false;
 
     await nextTick();
@@ -380,7 +381,7 @@ export class EditointiStore {
   public async remove() {
     this.state.disabled = true;
     this.state.isEditingState = false;
-    EditointiStore.editing = false;
+    EditointiStore.editingRef.value = false;
     try {
       if (this.config.remove) {
         await this.config.remove(this.state.data);
@@ -406,7 +407,7 @@ export class EditointiStore {
       try {
         const after = await this.config.save(this.state.data);
         this.logger.success('Tallennettu onnistuneesti');
-        EditointiStore.editing = false;
+        EditointiStore.editingRef.value = false;
         await this.unlock();
         await this.fetchRevisions();
         await this.init();

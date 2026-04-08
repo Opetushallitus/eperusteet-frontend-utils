@@ -383,7 +383,7 @@ input.is-invalid:focus {
 
 input {
   &.is-valid {
-    border-color: #E0E0E1;
+    border-color: $black;
   }
 
   &.is-valid:focus {

@@ -16,7 +16,9 @@
             variant="primary"
             @click="openDialog"
           >
-            {{ $t('hae-koodistosta') }}
+            <slot name="hae-koodistosta-text">
+              {{ $t('hae-koodistosta') }}
+            </slot>
           </ep-button>
         </template>
       </ep-input-group>

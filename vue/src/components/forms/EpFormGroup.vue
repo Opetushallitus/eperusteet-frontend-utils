@@ -11,7 +11,7 @@
         </slot>
       </label>
       <div
-        v-if="required"
+        v-if="required && anyEditorEditing"
         class="required-indicator"
       >*</div>
     </div>
@@ -22,6 +22,9 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
+import { EditointiStore } from '../EpEditointi/EditointiStore';
+
 defineProps({
   label: {
     type: String,
@@ -39,6 +42,10 @@ defineProps({
     type: Boolean,
     default: false,
   },
+});
+
+const anyEditorEditing = computed(() => {
+  return EditointiStore.anyEditing();
 });
 
 defineSlots();
