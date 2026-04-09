@@ -30,7 +30,7 @@ describe('EpTekstikappaleLisays component', () => {
 
     expect(wrapper.html()).toContain('uusi-tekstikappale');
 
-    wrapper.find('#tekstikappalelisaysBtn').trigger('click');
+    wrapper.find('.tekstikappale-lisays-btn').trigger('click');
 
     await nextTick();
     // Modal content is teleported to document.body (PrimeVue Dialog)
@@ -113,12 +113,6 @@ describe('EpTekstikappaleLisays component', () => {
 
     expect(wrapper.findAll('button.btn-primary[disabled]')).toHaveLength(0);
 
-    // wrapper.find('button.btn-primary').trigger('click');
-
-    // await nextTick();
-
-    // expect(tekstikappale.otsikko).toEqual({ 'fi': 'otsikko1' });
-    // expect(tekstikappale.saveTekstikappale).toEqual({});
   });
 
   test('Renders Opintokokonaisuuden nimi label', async () => {
@@ -132,7 +126,7 @@ describe('EpTekstikappaleLisays component', () => {
 
     await nextTick();
 
-    wrapper.find('#tekstikappalelisaysBtn').trigger('click');
+    wrapper.find('.tekstikappale-lisays-btn').trigger('click');
 
     await nextTick();
 
