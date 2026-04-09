@@ -12,7 +12,7 @@
           class="pt-3 pb-2 px-3 mb-2 jarjestaja"
         >
           <div class="flex">
-            <div class="order-handle mr-3 pt-1">
+            <div class="order-handle mr-3">
               <EpMaterialIcon>drag_indicator</EpMaterialIcon>
             </div>
             <div class="w-full">
