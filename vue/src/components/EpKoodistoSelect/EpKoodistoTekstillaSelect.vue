@@ -3,11 +3,11 @@
     <div
       v-for="(koodi, index) in innerModel"
       :key="'lao'+index"
-      class="mb-4"
+      class="mb-5"
     >
       <div
         v-if="kooditByUri[koodi.koodiUri]"
-        class="flex w-full justify-between items-center"
+        class="flex w-full justify-between items-center mb-2"
       >
         <div class="font-bold">
           {{ $kaanna(kooditByUri[koodi.koodiUri].nimi) }}
@@ -37,7 +37,7 @@
 
     <EpDropdown
       v-if="isEditing"
-      class="mb-4"
+      class="mb-4 lisaysBtn py-1 px-3 rounded-full"
     >
       <template #button-content>
         <slot name="default">
@@ -130,5 +130,11 @@ const kooditByUri = computed(() => {
 
 <style lang="scss" scoped>
 @import "@shared/styles/_variables.scss";
+
+.lisaysBtn {
+  background: $blue3;
+  border-color: transparent;
+  color: $white;
+}
 
 </style>
