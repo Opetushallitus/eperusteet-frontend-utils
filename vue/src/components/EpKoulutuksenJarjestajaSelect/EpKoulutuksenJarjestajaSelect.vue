@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="ep-koulutuksen-jarjestaja-select">
     <template v-if="isEditing">
       <VueDraggable
         v-bind="defaultDragOptions"
