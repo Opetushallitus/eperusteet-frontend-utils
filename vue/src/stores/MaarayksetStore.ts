@@ -42,6 +42,7 @@ export class MaarayksetStore {
       query.kieli,
       query.tyyppi,
       query.koulutustyypit,
+      undefined,
       query.tuleva,
       query.voimassaolo,
       query.poistunut,
