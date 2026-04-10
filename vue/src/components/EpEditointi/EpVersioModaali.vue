@@ -17,8 +17,8 @@
         :per-page="perPage"
       >
         <template #cell(actions)="row">
-          <div class="float-right">
-            <div v-if="!row.item.valittu">
+          <div class="flex gap-2 justify-end">
+            <div v-if="!row.item.valittu" class="flex gap-2">
               <ep-button
                 variant="link"
                 icon="visibility"

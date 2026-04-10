@@ -14,7 +14,7 @@
         class="flex flex-wrap"
       >
         <div
-          class="pt-3 w-full md:w-full lg:w-1/3"
+          class="pt-3 w-full md:w-full lg:w-1/3 pl-2"
         >
           <span>{{ $kaanna(osaamistaso.osaamistaso.otsikko) }}</span>
         </div>
