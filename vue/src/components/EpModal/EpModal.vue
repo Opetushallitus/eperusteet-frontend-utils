@@ -21,7 +21,7 @@
       v-if="!hideFooter"
       #footer
     >
-      <div class="flex justify-end gap-4 items-center">
+      <div class="flex justify-end gap-4 items-center content-center">
         <slot name="modal-footer">
           <EpButton
             variant="link"

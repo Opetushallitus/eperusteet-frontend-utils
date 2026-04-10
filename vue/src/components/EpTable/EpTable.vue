@@ -196,7 +196,7 @@ const selectionValue = computed(() => {
 });
 
 const usePagination = computed(() => {
-  return props.perPage !== undefined && props.perPage > 0;
+  return props.items && props.items.length > 0 && props.perPage !== undefined && props.perPage > 0;
 });
 
 const firstRow = computed(() => {
