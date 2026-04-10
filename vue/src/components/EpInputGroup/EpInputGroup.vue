@@ -90,4 +90,8 @@ const props = defineProps({
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
 }
+
+:deep(.p-inputgroupaddon:last-child) {
+  border:0;
+}
 </style>

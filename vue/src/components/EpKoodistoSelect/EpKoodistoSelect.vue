@@ -36,18 +36,18 @@
 
       <template #modal-footer>
         <ep-button
+          variant="link"
+          @click="editModal?.hide()"
+        >
+          {{ multiselect ? $t('peruuta') : $t('sulje') }}
+        </ep-button>
+        <ep-button
           v-if="multiselect"
           variant="primary"
           :disabled="innerModel.length === 0"
           @click="lisaaValitut"
         >
           {{ $t('lisaa-valitut') }}
-        </ep-button>
-        <ep-button
-          variant="secondary"
-          @click="editModal?.hide()"
-        >
-          {{ multiselect ? $t('peruuta') : $t('sulje') }}
         </ep-button>
       </template>
 
