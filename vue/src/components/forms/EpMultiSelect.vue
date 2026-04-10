@@ -49,7 +49,7 @@
         />
       </template>
       <template #option="{ option, search }">
-        <div class="flex items-center">
+        <div class="flex items-center align-middle">
           <div
             class="w-full"
             role="option"
@@ -113,7 +113,7 @@
           />
           <span
             v-if="multiple && (values ?? []).length > 0"
-            class="ml-auto clickable border-right pr-2 mb-2 remove-all"
+            class="ml-auto clickable border-right pr-2 remove-all"
             @click.prevent
             @mousedown.prevent.stop="removeAll()"
           >
@@ -383,13 +383,6 @@ defineExpose({
 @import '@shared/styles/_variables.scss';
 @import '@shared/styles/_mixins.scss';
 
-:deep(.multiselect__tags) {
-  border: 1px solid $black;
-  background-color: $white;
-  padding-left:10px;
-  border-radius: 0;
-}
-
 :deep(.multiselect__tag) {
   background-color: $white;
   color: $black;
@@ -474,6 +467,13 @@ defineExpose({
 }
 
 :deep(.multiselect__tags) {
+  border: 1px solid $black;
+  background-color: $white;
+  padding-left:10px;
+  border-radius: 0;
+  padding-top: 0px;
+  align-content: center;
+
   .multiselect__tag {
     border: 1px solid $black;
     margin-right: 10px;
@@ -481,6 +481,10 @@ defineExpose({
     .multiselect__tag-icon {
       margin-right: 5px;
     }
+  }
+
+  .multiselect__single {
+    margin-bottom: 0;
   }
 
   .remove-all {

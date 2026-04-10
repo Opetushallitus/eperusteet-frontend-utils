@@ -38,6 +38,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import EpToggle from './EpToggle.vue';
+import _ from 'lodash';
 
 const props = defineProps({
   modelValue: {
@@ -73,7 +74,7 @@ const uniqueId = `ep-toggle-group-${Math.random().toString(36)
   .substr(2, 9)}`;
 
 const isItemSelected = (item: any) => {
-  return innerValue.value.includes(item);
+  return _.some(innerValue.value, (v: any) => _.isEqual(v, item));
 };
 
 const toggleItem = (item: any) => {
