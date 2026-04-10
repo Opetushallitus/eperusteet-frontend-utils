@@ -6,7 +6,7 @@
 
     <div class="mb-4">
       <label>{{ $t('nimi') }}</label>
-      <div class="flex justify-between">
+      <div class="flex justify-between gap-4">
         <ep-search
           v-model="query.nimi"
           :placeholder="$t('etsi-ohjeita')"
