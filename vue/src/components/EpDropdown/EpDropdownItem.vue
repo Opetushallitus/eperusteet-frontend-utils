@@ -73,7 +73,7 @@ function handleClick() {
 @import '@shared/styles/_variables.scss';
 
 a {
-  color: $grey700;
+  color: $black;
 }
 
 .ep-dropdown-item-link:hover,

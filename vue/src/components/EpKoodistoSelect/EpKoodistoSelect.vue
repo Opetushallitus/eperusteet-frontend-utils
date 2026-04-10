@@ -35,7 +35,13 @@
       </template>
 
       <template #modal-footer>
-        <slot name="modal-footer" :ok="ok" :cancel="cancel">
+        <slot name="modal-footer" :ok="lisaaValitut" :cancel="editModal?.hide">
+          <ep-button
+            variant="link"
+            @click="editModal?.hide()"
+          >
+            {{ multiselect ? $t('peruuta') : $t('sulje') }}
+          </ep-button>
           <ep-button
             v-if="multiselect"
             variant="primary"
@@ -43,12 +49,6 @@
             @click="lisaaValitut"
           >
             {{ $t('lisaa-valitut') }}
-          </ep-button>
-          <ep-button
-            variant="secondary"
-            @click="editModal?.hide()"
-          >
-            {{ multiselect ? $t('peruuta') : $t('sulje') }}
           </ep-button>
         </slot>
       </template>
