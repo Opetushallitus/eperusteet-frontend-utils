@@ -16,6 +16,7 @@
       />
     </div>
     <ep-button
+      class="ml-1"
       variant="link"
       icon="delete"
       @click="$emit('delete')"

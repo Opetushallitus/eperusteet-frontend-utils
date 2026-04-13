@@ -1,5 +1,5 @@
 <template>
-  <template v-if="isEditing">
+  <div v-if="isEditing" class="w-full">
     <div class="input-container flex items-center w-full">
       <input
         v-bind="$attrs"
@@ -62,8 +62,8 @@
         class="form-text text-gray-500"
       >{{ $t(help) }}</small>
     </div>
-  </template>
-  <template
+  </div>
+  <div
     v-else
   >
     <h2 v-if="isHeader">
@@ -74,7 +74,7 @@
       v-else-if="placeholderValue"
       class="placeholder"
     >{{ placeholderValue }}</span>
-  </template>
+  </div>
 </template>
 
 <script setup lang="ts">
