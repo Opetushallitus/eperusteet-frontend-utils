@@ -3,10 +3,10 @@
     <div v-if="isEditing">
       <EpFormGroup>
         <template #label>
-          <div class="flex justify-between">
-            <div>{{ $t('osa-alueen-nimi') }}</div>
-            <slot name="poisto" />
-          </div>
+          {{ $t('osa-alueen-nimi') }}
+        </template>
+        <template #post-label>
+          <slot name="poisto" />
         </template>
         <ep-input
           v-model="osaAlue"

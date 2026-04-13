@@ -8,9 +8,9 @@
       <div
         v-for="(tavoite, tavoiteIndex) in tavoitteet"
         :key="tavoite+tavoiteIndex"
-        class="flex flex-wrap pb-2"
+        class="flex pb-2 gap-4 items-center"
       >
-        <div class="w-11/12">
+        <div class="w-14/15">
           <slot
             :tavoite="tavoite"
             :tavoite-index="tavoiteIndex"
@@ -51,9 +51,9 @@
             </EpKoodistoSelect>
           </slot>
         </div>
-        <div class="w-1/12">
+        <div class="w-1/15">
           <div
-            class="default-icon clickable mt-2"
+            class="default-icon clickable"
             @click="poistaTavoite(tavoite)"
           >
             <EpMaterialIcon

@@ -1,19 +1,21 @@
 <template>
   <div class="ep-form-group mb-4">
-    <div class="flex">
+    <div class="flex justify-between items-center gap-2 mb-2">
       <label
         v-if="label || $slots.label"
         :class="[labelClass, { 'sr-only': labelSrOnly }]"
-        class="inline-block mb-2 font-semibold"
+        class="inline-block font-semibold !mb-0 flex items-center gap-1"
       >
         <slot name="label">
           {{ label }}
         </slot>
+        <span
+          v-if="required && anyEditorEditing"
+          class="required-indicator"
+        >*</span>
       </label>
-      <div
-        v-if="required && anyEditorEditing"
-        class="required-indicator"
-      >*</div>
+
+      <slot name="post-label" />
     </div>
     <div class="w-full">
       <slot />
