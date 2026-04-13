@@ -10,18 +10,16 @@
           {{ message.message }}
         </p>
       </div>
-      <div class="text-right mb-2 mr-2">
+      <div class="flex gap-4 justify-end items-center m-3">
         <EpButton
           label="Cancel"
           variant="link"
-          class="w-32"
           @click="rejectCallback"
         >
           {{ $t(message.cancelTitle) }}
         </EpButton>
         <EpButton
           label="Save"
-          class="w-32"
           @click="acceptCallback"
         >
           {{ $t(message.okTitle) }}
