@@ -9,7 +9,7 @@
         <div
           v-for="(model, i) in innerModel"
           :key="group+i"
-          class="flex flex-wrap pb-2"
+          class="flex flex-wrap pb-2 items-center"
         >
           <div class="w-11/12">
             <slot
@@ -36,7 +36,7 @@
             class="w-1/12 text-center"
           >
             <div
-              class="default-icon clickable mt-2"
+              class="default-icon clickable"
               @click="poistaTeksti(i)"
             >
               <EpMaterialIcon icon-shape="outlined">
