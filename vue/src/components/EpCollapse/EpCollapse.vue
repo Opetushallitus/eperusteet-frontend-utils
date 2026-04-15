@@ -259,7 +259,7 @@ defineExpose({
   margin-top: 5px;
 
   &--blue {
-    padding: 20px 20px 0 20px;
+    padding: 10px 20px;
     border-radius: 30px;
     border: 1px solid $lightBlue2;
     background: $lightBlue2;
