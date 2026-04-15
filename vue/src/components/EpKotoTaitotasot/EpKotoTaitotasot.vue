@@ -9,7 +9,7 @@
         <div
           v-for="(taitotaso, index) in taitotasot"
           :key="taitotaso+index"
-          class="px-3 py-2 mb-4 taitotaso"
+          class="pl-2 pr-3 py-2 mb-4 taitotaso"
         >
           <div
             class="order-handle mb-1"
@@ -18,101 +18,104 @@
             <span class="otsikko"> {{ $t(sisalto['koodisto-otsikko']) }}</span>
           </div>
 
-          <EpKoodistoSelect
-            v-model="taitotaso.nimi"
-            :store="koodisto"
-            :is-editing="true"
-            :nayta-arvo="false"
-          >
-            <template #default="{ open }">
-              <EpInputGroup>
-                <ep-input
-                  :model-value="taitotaso.nimi ? $kaanna(taitotaso.nimi.nimi) : ''"
-                  :is-editing="true"
-                  disabled
-                />
-                <template #append>
-                  <ep-button
-                    variant="primary"
-                    @click="open"
-                  >
-                    {{ $t('hae-koodistosta') }}
-                  </ep-button>
-                </template>
-              </EpInputGroup>
-            </template>
-          </EpKoodistoSelect>
-
-          <EpFormGroup
-            v-if="isOpintokokonaisuus"
-            class="w-5/12 mt-2"
-          >
-            <div class="flex items-center">
-              <EpFormGroup :label="$t('laajuus-vahintaan')">
-                <ep-input
-                  v-model="taitotaso.tyoelamaOpintoMinimiLaajuus"
-                  type="number"
-                  is-editing
-                />
-              </EpFormGroup>
-              <div class="ml-2 pt-3">
-                -
-              </div>
-              <EpFormGroup
-                :label="$t('laajuus-enintaan')"
-                class="ml-2"
-              >
-                <ep-input
-                  v-model="taitotaso.tyoelamaOpintoMaksimiLaajuus"
-                  type="number"
-                  is-editing
-                />
-              </EpFormGroup>
-              <div class="ml-2 pt-3">
-                {{ $t('op') }}
-              </div>
-            </div>
-          </EpFormGroup>
-
-          <EpFormGroup
-            :label="tavoitteetOtsikko"
-            required
-            class="mt-4"
-          >
-            <ep-content
-              v-model="taitotaso.tavoitteet"
-              layout="normal"
-              :is-editable="isEditing"
-            />
-          </EpFormGroup>
-
-          <h3 class="mt-4">
-            {{ $t('opiskelijan-osaaminen') }}
-          </h3>
-
-          <EpFormGroup
-            v-for="(sisalto, index) in sisalto.keskeisetsisallot"
-            :key="'sisalto'+index"
-            :label="sisalto['otsikko'] ? $t(sisalto['otsikko']) : ''"
-            :label-class="sisalto['otsikko'] ? 'mt-4' : ''"
-          >
-            <h6>{{ $t('opiskelija') }}</h6>
-            <ep-content
-              v-model="taitotaso[sisalto['object']]"
-              layout="normal"
-              :is-editable="isEditing"
-            />
-          </EpFormGroup>
-
-          <div class="text-right">
-            <ep-button
-              variant="link"
-              icon="delete"
-              @click="poistaTaitotaso(taitotaso)"
+          <div class="ml-4">
+            <EpKoodistoSelect
+              v-model="taitotaso.nimi"
+              :store="koodisto"
+              :is-editing="true"
+              :nayta-arvo="false"
             >
-              {{ $t(sisalto['poista-taitotaso']) }}
-            </ep-button>
+              <template #default="{ open }">
+                <EpInputGroup>
+                  <ep-input
+                    :model-value="taitotaso.nimi ? $kaanna(taitotaso.nimi.nimi) : ''"
+                    :is-editing="true"
+                    disabled
+                  />
+                  <template #append>
+                    <ep-button
+                      variant="primary"
+                      @click="open"
+                    >
+                      {{ $t('hae-koodistosta') }}
+                    </ep-button>
+                  </template>
+                </EpInputGroup>
+              </template>
+            </EpKoodistoSelect>
+
+            <EpFormGroup
+              v-if="isOpintokokonaisuus"
+              class="w-5/12 mt-2"
+            >
+              <div class="flex items-center">
+                <EpFormGroup :label="$t('laajuus-vahintaan')">
+                  <ep-input
+                    v-model="taitotaso.tyoelamaOpintoMinimiLaajuus"
+                    type="number"
+                    is-editing
+                  />
+                </EpFormGroup>
+                <div class="ml-2 pt-3">
+                  -
+                </div>
+                <EpFormGroup
+                  :label="$t('laajuus-enintaan')"
+                  class="ml-2"
+                >
+                  <ep-input
+                    v-model="taitotaso.tyoelamaOpintoMaksimiLaajuus"
+                    type="number"
+                    is-editing
+                  />
+                </EpFormGroup>
+                <div class="ml-2 pt-3">
+                  {{ $t('op') }}
+                </div>
+              </div>
+            </EpFormGroup>
+
+            <EpFormGroup
+              :label="tavoitteetOtsikko"
+              required
+              class="mt-4"
+            >
+              <ep-content
+                v-model="taitotaso.tavoitteet"
+                layout="normal"
+                :is-editable="isEditing"
+              />
+            </EpFormGroup>
+
+            <h3 class="mt-4">
+              {{ $t('opiskelijan-osaaminen') }}
+            </h3>
+
+            <EpFormGroup
+              v-for="(sisalto, index) in sisalto.keskeisetsisallot"
+              :key="'sisalto'+index"
+              :label="sisalto['otsikko'] ? $t(sisalto['otsikko']) : ''"
+              :label-class="sisalto['otsikko'] ? 'mt-4' : ''"
+            >
+              <h6>{{ $t('opiskelija') }}</h6>
+              <ep-content
+                v-model="taitotaso[sisalto['object']]"
+                layout="normal"
+                :is-editable="isEditing"
+              />
+            </EpFormGroup>
+
+            <div class="text-right">
+              <ep-button
+                variant="link"
+                icon="delete"
+                @click="poistaTaitotaso(taitotaso)"
+              >
+                {{ $t(sisalto['poista-taitotaso']) }}
+              </ep-button>
+            </div>
           </div>
+
         </div>
       </VueDraggable>
 
