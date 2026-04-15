@@ -159,7 +159,7 @@
           />
         </EpFormGroup>
 
-        <h3>{{ $t('opiskelijan-osaaminen') }}</h3>
+        <h3 class="mt-5 !mb-4">{{ $t('opiskelijan-osaaminen') }}</h3>
 
         <div
           v-for="(keskeinenSisalto, index) in keskeisetSisallot"
@@ -167,13 +167,13 @@
         >
           <EpFormGroup
             v-if="taitotaso[keskeinenSisalto['object']]"
-            class="mt-3 mb-2 p-0"
+            class="mt-1 mb-5 p-0"
           >
             <template
               v-if="keskeinenSisalto['otsikko']"
               #label
             >
-              <h4>
+              <h4 class="!mb-0">
                 {{ $t(keskeinenSisalto['otsikko']) }}
               </h4>
             </template>

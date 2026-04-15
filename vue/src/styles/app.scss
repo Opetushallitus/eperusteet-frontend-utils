@@ -327,10 +327,10 @@ img.content-image {
 }
 
 .taulukko-rivi-varitys:nth-of-type(even) {
-  background-color: $table-even-row-bg-color;
+  background-color: $table-odd-row-bg-color;
 }
 .taulukko-rivi-varitys:nth-of-type(odd) {
-  background-color: $table-odd-row-bg-color;
+  background-color: $table-even-row-bg-color;
 }
 
 /* EpDropdown overlay - portaled to body (EpKayttaja) */
