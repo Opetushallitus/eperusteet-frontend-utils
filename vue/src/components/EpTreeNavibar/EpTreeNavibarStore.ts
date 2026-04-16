@@ -20,19 +20,28 @@ export interface FlattenedNodeDto {
 }
 
 export class EpTreeNavibarStore {
+  private navigation: Ref<NavigationNodeDto | null | undefined>;
+
   constructor(
-    private navigation: Ref<NavigationNodeDto>,
+    navigation: Ref<NavigationNodeDto | null | undefined>,
     private readonly routeToNodeImpl: (route: Location) => NavigationNodeDto | null,
     private config: NodeConfigs = {
     },
-  ) {}
+  ) {
+    this.navigation = navigation;
+  }
+
+  public updateNavigation(navigation: Ref<NavigationNodeDto | null | undefined>) {
+    this.navigation = navigation;
+  }
 
   public routeToNode(route: Location) {
     return this.routeToNodeImpl(route);
   }
 
   public readonly connected = computed(() => {
-    return _.drop(flattenNodes(this.config, this.navigation.value), 1);
+    const root = this.navigation.value;
+    return _.drop(flattenNodes(this.config, root as NavigationNodeDto), 1);
   });
 
   public readonly filtered = computed(() => this.connected.value);
