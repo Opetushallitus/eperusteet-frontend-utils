@@ -422,7 +422,6 @@ watch(navigation, () => {
 }
 
 .structure-toggle {
-  border-top: 1px solid rgb(216, 216, 216);
   border-bottom: 1px solid rgb(216, 216, 216);
   padding: 10px 0px;
 }
