@@ -5,6 +5,9 @@
   >
     <span>
       <slot />
+      <span v-if="koodi">
+        ({{ koodi }})
+      </span>
       <EpMaterialIcon
         v-if="piilotettu"
         class="ml-2"
@@ -63,6 +66,10 @@ const postfixTooltip = computed((): string => {
 
 const piilotettu = computed(() => {
   return props.node.meta?.piilotettu;
+});
+
+const koodi = computed(() => {
+  return (props.node.meta?.koodi as any)?.arvo;
 });
 </script>
 

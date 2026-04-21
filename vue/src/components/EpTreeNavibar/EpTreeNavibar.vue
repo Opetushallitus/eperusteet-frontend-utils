@@ -11,7 +11,7 @@
         </ep-toggle>
       </div>
 
-      <div class="header">
+      <div class="header mb-2 pb-2">
         <slot
           name="header"
           :data="showAll"
@@ -31,7 +31,6 @@
               class="back"
             >
               <b-button
-                size="sm"
                 variant="link"
                 class="backbtn"
                 @click="navigateUp()"
@@ -41,19 +40,41 @@
             </div>
           </div>
           <div
-            class="flex-grow-1"
-            :class="{'font-weight-bold': item.isMatch}"
+          class="flex-grow-1"
+          :class="{'font-weight-bold': item.isMatch}"
           >
-            <div
-              class="clickable d-flex align-items-center"
-              @click="navigate(item)"
-            >
+            <div v-if="item.navigationType === 'add'"
+              class="navigation-type-add mb-1 mt-1">
               <slot
                 :name="slots[item.type] ? item.type : 'default'"
                 :item="item"
               >
-                {{ $kaannaOlioTaiTeksti(item.label) }}
               </slot>
+            </div>
+            <div v-else-if="item.navigationType === 'subtype'" class="mt-3 mb-2">
+              <slot
+                :name="slots[item.type] ? item.type : 'default'"
+                :item="item"
+              >
+                <div class="text-muted">
+                  {{ $t(item.type) }}
+                </div>
+              </slot>
+            </div>
+            <div
+              v-else
+              class="clickable d-flex align-items-center menu-item my-2"
+              @click="navigate(item)"
+            >
+              <div class="d-flex align-items-start">
+                <div v-if="item.meta?.numerointi" class="mr-2">{{ item.meta.numerointi }}</div>
+                <slot
+                  :name="slots[item.type] ? item.type : 'default'"
+                  :item="item"
+                >
+                  {{ $kaannaOlioTaiTeksti(item.label) }}
+                </slot>
+              </div>
               <EpMaterialIcon
                 v-if="item.meta && item.meta.liite"
                 size="16px"
@@ -79,7 +100,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, useSlots, getCurrentInstance } from 'vue';
+import { ref, computed, watch, useSlots, getCurrentInstance, nextTick } from 'vue';
 import { useRoute } from 'vue-router';
 import EpSearch from '@shared/components/forms/EpSearch.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
@@ -147,9 +168,12 @@ const activeIdx = computed(() => {
     return -1;
   }
 
-  return _.findIndex(navigation.value, navItem =>
-    navItem.id != null ? navItem.id === active.value!.id : navItem.type === active.value?.type,
-  );
+  return _.findIndex(navigation.value, navItem =>{
+    if (navItem.depth !== active.value?.depth) {
+      return false;
+    }
+    return navItem.id != null ? navItem.id === active.value!.id : navItem.type === active.value?.type;
+  });
 });
 
 const activeParents = computed(() => {
@@ -201,6 +225,7 @@ const menuStyled = computed(() => {
       ...item,
       ...(allOrQuery.value && { class: 'item-margin-' + (item.depth - 1) }),
       koodi: _.get(item, 'meta.koodi.arvo') || _.get(item, 'meta.koodi'),
+      navigationType: _.get(item, 'meta.navigation-type'),
     };
   });
 });
@@ -284,7 +309,20 @@ watch(path, () => {
 }, { immediate: true });
 
 watch(navigation, () => {
-  active.value = null;
+  nextTick(() => {
+    onRouteUpdate();
+    if (active.value && navigation.value) {
+      const refreshed = _.find(navigation.value, navItem =>
+        navItem.id != null ? navItem.id === active.value!.id : navItem.type === active.value?.type,
+      ) as IndexedNode | undefined;
+      if (refreshed) {
+        active.value = refreshed;
+      }
+      else {
+        active.value = null;
+      }
+    }
+  });
 });
 </script>
 
@@ -321,13 +359,18 @@ watch(navigation, () => {
 }
 
 .header {
-  margin-bottom: 5px;
+  border-bottom: 1px solid #D8D8D8;
+  padding-left: 0px;
+  margin-left: 28px;
+  margin-right: 28px;
+  font-size: 16px !important;
 }
 
 .item {
+  font-size: 14px;
 
   .backwrapper {
-    min-width: 28px;
+    min-width: 40px;
     max-width: 28px;
 
     .back {
@@ -351,6 +394,27 @@ watch(navigation, () => {
     }
   }
 
+  .navigation-type-add, .navigation-type-subtype {
+    font-size: 14px !important;
+
+    :deep(button) {
+      font-size: 14px !important;
+    }
+
+  }
+}
+
+.menu-item, .header {
+  :deep(a) {
+    color: $black !important;
+    &.router-link-exact-active {
+      font-weight: 600;
+    }
+  }
+}
+
+.header {
+  padding-left: 10px;
 }
 
 .action-container {
@@ -358,8 +422,6 @@ watch(navigation, () => {
 }
 
 .structure-toggle {
-  font-size: 14px;
-  border-top: 1px solid rgb(216, 216, 216);
   border-bottom: 1px solid rgb(216, 216, 216);
   padding: 10px 0px;
 }
