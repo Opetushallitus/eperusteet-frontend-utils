@@ -6,6 +6,7 @@
           id="tekstikappalelisaysBtn"
           variant="link"
           button-class="text-decoration-none"
+          no-padding
         >
           <slot name="lisays-btn-icon">
             <EpMaterialIcon

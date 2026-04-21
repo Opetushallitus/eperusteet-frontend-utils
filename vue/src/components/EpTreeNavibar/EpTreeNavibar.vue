@@ -63,16 +63,18 @@
             </div>
             <div
               v-else
-              class="clickable d-flex align-items-start menu-item my-2"
+              class="clickable d-flex align-items-center menu-item my-2"
               @click="navigate(item)"
             >
-              <div v-if="item.meta?.numerointi" class="mr-2">{{ item.meta.numerointi }}</div>
-              <slot
-                :name="slots[item.type] ? item.type : 'default'"
-                :item="item"
-              >
-                {{ $kaannaOlioTaiTeksti(item.label) }}
-              </slot>
+              <div class="d-flex align-items-start">
+                <div v-if="item.meta?.numerointi" class="mr-2">{{ item.meta.numerointi }}</div>
+                <slot
+                  :name="slots[item.type] ? item.type : 'default'"
+                  :item="item"
+                >
+                  {{ $kaannaOlioTaiTeksti(item.label) }}
+                </slot>
+              </div>
               <EpMaterialIcon
                 v-if="item.meta && item.meta.liite"
                 size="16px"
