@@ -43,7 +43,7 @@
           class="flex-grow-1"
           :class="{'font-weight-bold': item.isMatch}"
           >
-            <div v-if="item.navigationType === 'add'"
+            <div v-if="item.navigationSubType === 'add'"
               class="navigation-type-add mb-1 mt-1">
               <slot
                 :name="slots[item.type] ? item.type : 'default'"
@@ -51,7 +51,7 @@
               >
               </slot>
             </div>
-            <div v-else-if="item.navigationType === 'subtype'" class="mt-3 mb-2">
+            <div v-else-if="item.navigationSubType === 'subtype'" class="mt-3 mb-2">
               <slot
                 :name="slots[item.type] ? item.type : 'default'"
                 :item="item"
@@ -225,7 +225,7 @@ const menuStyled = computed(() => {
       ...item,
       ...(allOrQuery.value && { class: 'item-margin-' + (item.depth - 1) }),
       koodi: _.get(item, 'meta.koodi.arvo') || _.get(item, 'meta.koodi'),
-      navigationType: _.get(item, 'meta.navigation-type'),
+      navigationSubType: _.get(item, 'meta.navigation-sub-type'),
     };
   });
 });
