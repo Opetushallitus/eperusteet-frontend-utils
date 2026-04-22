@@ -5,7 +5,10 @@
   >
     <span>
       <slot />
-      <span v-if="koodi">
+      <span
+        v-if="koodi"
+        class="code-field"
+      >
         ({{ koodi }})
       </span>
       <EpMaterialIcon
@@ -69,7 +72,7 @@ const piilotettu = computed(() => {
 });
 
 const koodi = computed(() => {
-  return (props.node.meta?.koodi as any)?.arvo;
+  return (props.node.meta?.koodi as any)?.arvo || props.node.meta?.koodi;
 });
 </script>
 
@@ -79,6 +82,10 @@ const koodi = computed(() => {
 .postfix {
   font-size: 0.9rem;
   font-weight: 600;
+}
+
+.code-field {
+  font-size: 80%;
 }
 
 </style>
