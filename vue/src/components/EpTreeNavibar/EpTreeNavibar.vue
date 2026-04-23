@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mb-4">
     <EpSpinner v-if="!navigation" />
     <div v-else>
       <div
@@ -18,16 +18,16 @@
         />
       </div>
       <div
-        v-for="item in menuStyled"
+        v-for="(item, menuIndex) in menuStyled"
         :key="item.idx"
       >
         <div
-          class="d-flex align-items-center item"
+          class="d-flex align-items-start item"
           :class="item.class"
         >
-          <div class="backwrapper">
+          <div class="backwrapper ml-1">
             <div
-              v-if="activeIdx === item.idx && !showAll"
+              v-if="menuIndex === 0 && (active?.depth || 0) > 0 && !showAll"
               class="back"
             >
               <b-button
@@ -40,18 +40,22 @@
             </div>
           </div>
           <div
-          class="flex-grow-1"
-          :class="{'font-weight-bold': item.isMatch}"
+            class="flex-grow-1"
+            :class="{'font-weight-bold': item.isMatch}"
           >
-            <div v-if="item.navigationSubType === 'add'"
-              class="navigation-type-add mb-1 mt-1">
+            <div
+              v-if="item.navigationSubType === 'add'"
+              class="navigation-type-add mb-1 mt-1"
+            >
               <slot
                 :name="slots[item.type] ? item.type : 'default'"
                 :item="item"
-              >
-              </slot>
+              />
             </div>
-            <div v-else-if="item.navigationSubType === 'subtype'" class="mt-3 mb-2">
+            <div
+              v-else-if="item.navigationSubType === 'subtype'"
+              class="mt-3 mb-2"
+            >
               <slot
                 :name="slots[item.type] ? item.type : 'default'"
                 :item="item"
@@ -67,7 +71,12 @@
               @click="navigate(item)"
             >
               <div class="d-flex align-items-start">
-                <div v-if="item.meta?.numerointi" class="mr-2">{{ item.meta.numerointi }}</div>
+                <div
+                  v-if="item.meta?.numerointi"
+                  class="mr-2"
+                >
+                  {{ item.meta.numerointi }}
+                </div>
                 <slot
                   :name="slots[item.type] ? item.type : 'default'"
                   :item="item"
@@ -85,7 +94,7 @@
           </div>
           <div
             v-if="item.children.length > 0 && item.idx !== activeIdx && !showAll"
-            class="text-muted mr-1"
+            class="text-muted mr-1 py-2"
           >
             <EpMaterialIcon>chevron_right</EpMaterialIcon>
           </div>
@@ -414,7 +423,7 @@ watch(navigation, () => {
 }
 
 .header {
-  padding-left: 10px;
+  padding-left: 15px;
 }
 
 .action-container {
