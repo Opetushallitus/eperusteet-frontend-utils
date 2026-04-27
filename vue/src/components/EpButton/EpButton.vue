@@ -103,15 +103,21 @@ const buttonVariantClasses = computed(() => {
 });
 
 const buttonSizeClasses = computed(() => {
+  let sizeMap: Record<string, string> = {};
   if (isLink.value) {
-    return ''; // Links don't need size padding
+    sizeMap = {
+      'sm': 'text-sm',
+      'md': 'text-base',
+      'lg': 'text-lg',
+    };
   }
-
-  const sizeMap: Record<string, string> = {
-    'sm': 'px-2 py-1 text-sm rounded-2xl',
-    'md': 'px-2 py-1 text-base rounded-full',
-    'lg': 'px-4 py-1 text-lg rounded-3xl',
-  };
+  else {
+    sizeMap = {
+      'sm': 'px-2 py-1 text-sm rounded-2xl',
+      'md': 'px-2 py-1 text-base rounded-full',
+      'lg': 'px-4 py-1 text-lg rounded-3xl',
+    };
+  }
 
   return sizeMap[props.size] || sizeMap['md'];
 });

@@ -8,6 +8,7 @@
           button-class="text-decoration-none"
           no-padding
           icon="add"
+          size="sm"
         >
           <slot name="lisays-btn-text">
             {{ $t('uusi-tekstikappale') }}
@@ -281,7 +282,4 @@ defineExpose({
   background: gray;
 }
 
-.tekstikappale-lisays-btn {
-  font-size: 14px;
-}
 </style>
