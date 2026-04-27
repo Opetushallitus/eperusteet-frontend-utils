@@ -67,7 +67,7 @@
             </div>
             <div
               v-else
-              class="clickable flex items-center menu-item my-2"
+              class="clickable flex items-center menu-item my-1"
               @click="navigate(item)"
             >
               <div class="flex items-start">
@@ -94,7 +94,7 @@
           </div>
           <div
             v-if="item.children.length > 0 && item.idx !== activeIdx && !showAll"
-            class="text-gray-500 mr-1 py-2"
+            class="text-gray-500 mr-1 py-1"
           >
             <EpMaterialIcon>chevron_right</EpMaterialIcon>
           </div>
@@ -385,24 +385,21 @@ const isActive = (navItem: IndexedNode) => {
 .item {
   font-size: 14px;
 
+  :deep(.ep-button .ep-button__text) {
+    text-decoration: none !important;
+  }
+
   .backwrapper {
     min-width: 40px;
     max-width: 28px;
 
     .back {
-      margin-top: 4px;
+      margin-top: 3px;
       margin-left: 3px;
       background: #3367e3;
       border-radius: 100%;
       height: 30px;
       width: 30px;
-
-      :deep(.btn) {
-        padding: 0.25rem 0.10rem;
-        margin-top: -2px;
-        font-size: 16px;
-        font-weight: 400;
-      }
 
       :deep(.backbtn) {
         color: white;
@@ -436,6 +433,10 @@ const isActive = (navItem: IndexedNode) => {
 
 .action-container {
   margin-left: 20px;
+
+  :deep(.ep-button .ep-button__text) {
+    text-decoration: none !important;
+  }
 }
 
 .structure-toggle {
