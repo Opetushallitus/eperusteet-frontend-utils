@@ -5,6 +5,8 @@
       :is-editable="isEditable"
       :editor="editor || {}"
       :layout="layout"
+      v-sticky="isEditable"
+      sticky-offset="{ top: 111 }"
     />
 
     <editor-content
