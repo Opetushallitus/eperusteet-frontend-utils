@@ -12,14 +12,14 @@ export interface IKuvaStore {
   getAllKuvat: () => Promise<any>;
   getBaseUrl: () => string;
   getApi: () => AxiosInstance;
-  previewUrl?: (id: string) => string;
+  previewUrl?: (id: string) => string | undefined;
 }
 
 export interface IKuvaHandler {
   endpoint: () => string;
   hae: () => Promise<ILiite[]>;
   url: (id: string) => string;
-  previewUrl?: (id: string) => string;
+  previewUrl?: (id: string) => string | undefined;
   api: () => AxiosInstance;
 }
 
@@ -45,8 +45,8 @@ export function createKuvaHandler(kuvaStore: IKuvaStore): IKuvaHandler {
       return kuvaStore.getApi();
     },
 
-    previewUrl(id: string): string {
-      return kuvaStore.previewUrl ? kuvaStore.previewUrl(id) : '';
+    previewUrl(id: string): string | undefined {
+      return kuvaStore.previewUrl?.(id);
     },
   };
 }
