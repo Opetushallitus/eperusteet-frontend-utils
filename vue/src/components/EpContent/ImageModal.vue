@@ -3,49 +3,125 @@
     <ep-spinner v-if="isLoading" />
 
     <div v-else>
+
+      <h4>{{ $t('kuvalisays-modal-selite') }}</h4>
+
+      <div v-if="!selectedValue || imageData">
+
+        <ep-button
+          v-if="!uusiKuva && options.length > 0"
+          variant="link"
+          @click="uusiKuva = true"
+          no-padding
+          class="mt-4 mb-4"
+        >
+          {{ $t('lisaa-uusi-kuva') }}
+        </ep-button>
+
+        <ep-kuva-lataus
+          v-if="uusiKuva || options.length === 0"
+          class="mt-4"
+          v-model="imageData"
+          :saved="imageSaved"
+          @cancel="peruuta"
+        >
+
+          <template #header="{ file }">
+            <h4 v-if="file"></h4>
+            <div v-if="!file" class="d-flex align-items-center mb-2">
+              <h4 class="mb-0">
+                {{ $t('lataa-uusi-kuva') }}
+              </h4>
+              <ep-button variant="link" @click="peruuta" v-if="options.length > 0">
+                {{ $t('peruuta') }}
+              </ep-button>
+            </div>
+          </template>
+        </ep-kuva-lataus>
+      </div>
+
       <div>
         <div
-          v-if="!imageData"
-          class="imgselect"
+          v-if="selectedValue && !imageData"
+          class="imgselect valittu-kuva-alue mt-5"
         >
-          <div class="mb-4">
-            {{ $t('kuvalisays-modal-selite') }}
-          </div>
-          <ep-form-content name="valitse-kuva">
-            <vue-select
-              :value="selectedValue"
-              :disabled="options.length === 0"
-              :filter-by="filterBy"
-              :placeholder="options.length > 0 ? $t('valitse') : $t('ei-lisattyja-kuvia')"
-              :options="options"
-              label="id"
-              :clearable="true"
-              @input="selectedValue = $event"
+          <div class="d-flex align-items-start flex-column">
+            <img
+              :key="selectedValue.id"
+              class="valittu-kuva"
+              :src="selectedValue.src"
+              decoding="async"
+              alt=""
+              @load="onValittuKuvaLoad"
             >
-              <template #selected-option="option">
-                <img
-                  class="preview-selected"
-                  :src="option.src"
-                  decoding="async"
-                >
-              </template>
-              <template #option="option">
-                <ep-intersect-lazy-img
-                  :src="option.previewUrl"
-                  img-class="preview"
-                />
-                {{ option.nimi }}
-              </template>
-            </vue-select>
-          </ep-form-content>
+            <div class="text-muted">
+              {{$t('fu-valittu-tiedosto') }}: {{ selectedValue.nimi }}
+            </div>
+            <div
+              v-if="valittuKuvaMitat"
+              class="text-muted small mt-1"
+            >
+              {{$t('kuvan-leveys') }} {{ valittuKuvaMitat.width }} px <br/>
+              {{$t('kuvan-korkeus') }} {{ valittuKuvaMitat.height }} px
+            </div>
+            <ep-button
+              class="mt-2"
+              variant="link"
+              @click="clearKuvaValinta"
+              no-padding
+            >
+              {{ $t('valitse-toinen-kuva') }}
+            </ep-button>
+          </div>
         </div>
 
-        <div v-if="!selectedValue || imageData">
-          <ep-kuva-lataus
-            v-model="imageData"
-            :saved="imageSaved"
-            @cancel="peruuta"
-          />
+        <div
+          v-else-if="!selectedValue && !imageData && !uusiKuva && options.length > 0"
+          class="imgselect"
+        >
+          <ep-form-content name="valitse-kuva">
+            <ep-input
+              v-model="searchKuva"
+              :placeholder="$t('kuva-modaali-haku-placeholder')"
+              class="mb-3"
+              :is-editing="true"
+            />
+            <div
+              id="image-modal-kuva-grid"
+              class="kuva-grid"
+              role="listbox"
+              :aria-label="$t('valitse-kuva')"
+            >
+              <button
+                v-for="option in paginatedOptions"
+                :key="option.id"
+                type="button"
+                class="kuva-grid-item"
+                :class="{ 'kuva-grid-item--selected': option.id === modelValue.value }"
+                role="option"
+                :aria-selected="option.id === modelValue.value"
+                :title="option.nimi"
+                @click="selectKuva(option)"
+              >
+                <div class="kuva-grid-item__media">
+                  <ep-intersect-lazy-img
+                    :src="option.previewUrl"
+                    img-class="kuva-grid-thumb"
+                  />
+                </div>
+                <div class="kuva-grid-item__label text-muted small">
+                  {{ option.nimi }}
+                </div>
+              </button>
+            </div>
+            <EpBPagination
+              v-if="totalKuvat > ITEMS_PER_PAGE"
+              v-model="kuvaGridSivu"
+              :total="totalKuvat"
+              :items-per-page="ITEMS_PER_PAGE"
+              aria-controls="image-modal-kuva-grid"
+            />
+          </ep-form-content>
         </div>
 
         <div v-if="selectedValue || imageData">
@@ -99,7 +175,7 @@
 
 <script setup lang="ts">
 import _ from 'lodash';
-import { ref, computed, onMounted, getCurrentInstance } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
@@ -109,9 +185,10 @@ import { Kielet } from '@shared/stores/kieli';
 import EpKuvaLataus, { ImageData } from '@shared/components/EpTiedosto/EpKuvaLataus.vue';
 import { IKuvaHandler, ILiite } from './KuvaHandler';
 import { $t, $success, $fail } from '@shared/utils/globals';
-import VueSelect from 'vue-select';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpIntersectLazyImg from '@shared/components/EpContent/EpIntersectLazyImg.vue';
+import EpBPagination from '@shared/components/EpBPagination/EpBPagination.vue';
+import EpInput from '@shared/components/forms/EpInput.vue';
 
 const props = defineProps({
   loader: {
@@ -134,6 +211,8 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'onClose', 'onKuvatekstiChange', 'onVaihtoehtoinentekstiChange']);
 
+const ITEMS_PER_PAGE = 4;
+
 // State variables
 const imageSaved = ref(false);
 const imageData = ref<ImageData | null>(null);
@@ -141,6 +220,9 @@ const isLoading = ref(true);
 const files = ref<ILiite[]>([]);
 const kuvateksti = ref<any>({});
 const vaihtoehtoinenteksti = ref<any>({});
+const uusiKuva = ref<boolean>(false);
+const searchKuva = ref<string>('');
+const valittuKuvaMitat = ref<{ width: number; height: number } | null>(null);
 
 const options = computed(() => {
   return _.map(files.value, f => ({
@@ -148,6 +230,40 @@ const options = computed(() => {
     previewUrl: props.loader.previewUrl?.(f.id) || f.src,
   }));
 });
+
+const filteredOptions = computed(() => {
+  return _.filter(options.value, f => f.nimi.toLowerCase().includes(searchKuva.value.toLowerCase()));
+});
+
+const kuvaGridSivu = ref(1);
+
+const totalKuvat = computed(() => filteredOptions.value.length);
+
+const paginatedOptions = computed(() => {
+  const start = (kuvaGridSivu.value - 1) * ITEMS_PER_PAGE;
+  return filteredOptions.value.slice(start, start + ITEMS_PER_PAGE);
+});
+
+watch(
+  () => ({ opts: options.value, mv: props.modelValue.value }),
+  ({ opts, mv }) => {
+    if (!opts.length) {
+      kuvaGridSivu.value = 1;
+      return;
+    }
+    const maxPage = Math.max(1, Math.ceil(opts.length / ITEMS_PER_PAGE));
+    if (kuvaGridSivu.value > maxPage) {
+      kuvaGridSivu.value = maxPage;
+    }
+    if (mv) {
+      const idx = opts.findIndex(o => o.id === mv);
+      if (idx >= 0) {
+        kuvaGridSivu.value = Math.floor(idx / ITEMS_PER_PAGE) + 1;
+      }
+    }
+  },
+  { flush: 'post' },
+);
 
 const selectedValue = computed({
   get: () => {
@@ -167,6 +283,13 @@ const selectedValue = computed({
     }
   },
 });
+
+watch(
+  () => props.modelValue.value,
+  () => {
+    valittuKuvaMitat.value = null;
+  },
+);
 
 const kuvaValittu = computed(() => {
   return selectedValue.value || imageData.value;
@@ -199,10 +322,23 @@ async function close(save: boolean) {
   emit('onClose', save);
 }
 
-function filterBy(option: any, label: string, search: string) {
-  return (option.nimi || '')
-    .toLowerCase()
-    .indexOf(search.toLowerCase()) > -1;
+function selectKuva(option: (typeof options.value)[number]) {
+  selectedValue.value = option;
+}
+
+function onValittuKuvaLoad(ev: Event) {
+  const el = ev.target as HTMLImageElement | null;
+  if (!el?.naturalWidth) {
+    return;
+  }
+  valittuKuvaMitat.value = {
+    width: el.naturalWidth,
+    height: el.naturalHeight,
+  };
+}
+
+function clearKuvaValinta() {
+  selectedValue.value = null;
 }
 
 async function saveImage() {
@@ -243,6 +379,7 @@ function peruuta() {
   imageData.value = null;
   selectedValue.value = null;
   imageSaved.value = false;
+  uusiKuva.value = false;
 }
 
 // Lifecycle hooks
@@ -273,24 +410,101 @@ onMounted(async () => {
 </script>
 
 <style scoped lang="scss">
+@import '../../styles/_variables.scss';
+
 .imageselector {
   .imgselect {
     margin-bottom: 20px;
-    :deep(.vs__dropdown-menu) {
-      max-height: 250px;
-    }
   }
 
   label.uploadbtn {
     width: 100%;
   }
 
-  img.preview-selected {
-    width: 100%;
+  .kuva-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
   }
 
-  :deep(img.preview) {
-    max-width: 130px;
+  .kuva-grid-item {
+    aspect-ratio: 1;
+    padding: 0.25rem;
+    margin: 0;
+    border: 2px solid $gray-lighten-3;
+    border-radius: 4px;
+    background: $white;
+    cursor: pointer;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    min-height: 0;
+
+    &:hover {
+      border-color: $gray-lighten-2;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $blue;
+      outline-offset: 2px;
+    }
+  }
+
+  .kuva-grid-item__media {
+    flex: 1 1 0;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .kuva-grid-item__label {
+    flex: 0 0 auto;
+    max-height: 2.5em;
+    min-height: 1.25em;
+    line-height: 1.2;
+    margin-top: 0.2rem;
+    text-align: center;
+    word-break: break-word;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    line-clamp: 2;
+    -webkit-line-clamp: 2;
+  }
+
+  .kuva-grid-item--selected {
+    border-color: $blue;
+    box-shadow: 0 0 0 1px $blue;
+  }
+
+  :deep(.kuva-grid-thumb) {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .valittu-kuva-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .valittu-kuva {
+    display: block;
+    max-width: 100%;
+    max-height: min(50vh, 360px);
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border: 3px solid $gray-lighten-3;
+    border-radius: 4px;
   }
 
   img.esikatselukuva {

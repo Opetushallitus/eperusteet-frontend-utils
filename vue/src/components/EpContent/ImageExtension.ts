@@ -16,8 +16,46 @@ declare module '@tiptap/core' {
        * Insert an image
        */
       insertImage: (options: { 'data-uid'?: string; alt?: string; figcaption?: string }) => ReturnType;
+      /**
+       * Insert a new image node and open the image modal
+       */
+      openImageModal: () => ReturnType;
     };
   }
+}
+
+function isEmptyImageUid(attrs: Record<string, any> | undefined): boolean {
+  const uid = attrs?.['data-uid'];
+  return uid == null || String(uid).trim() === '';
+}
+
+/**
+ * When onlyEmptyUid is true, only nodes without data-uid match — otherwise scanning backward
+ * from a paragraph between two images can pick the previous real image instead of the new placeholder.
+ */
+function findImageExtensionNodeNearCursor(
+  editor: any,
+  typeName: string,
+  opts?: { onlyEmptyUid?: boolean },
+): { node: any; pos: number } | null {
+  const onlyEmptyUid = opts?.onlyEmptyUid ?? false;
+  const matches = (n: any) =>
+    n && n.type.name === typeName && (!onlyEmptyUid || isEmptyImageUid(n.attrs));
+
+  const { $from } = editor.state.selection;
+  const nodeBefore = $from.nodeBefore;
+  if (matches(nodeBefore)) {
+    return { node: nodeBefore, pos: $from.pos - nodeBefore.nodeSize };
+  }
+
+  const from = editor.state.selection.from;
+  for (let p = from; p >= Math.max(0, from - 250); p--) {
+    const n = editor.state.doc.nodeAt(p);
+    if (matches(n)) {
+      return { node: n, pos: p };
+    }
+  }
+  return null;
 }
 
 // Helper function to open image modal
@@ -282,23 +320,28 @@ export default function createImageExtension3(handler: IKuvaHandler) {
           });
         },
         openImageModal: () => ({ editor, commands }) => {
-          // Insert a new image node first
           const result = commands.insertContent({
             type: this.name,
             attrs: { 'data-uid': '', alt: '', figcaption: '' },
           });
 
           if (result) {
-            // Get the position of the newly inserted node and open modal immediately
-            setTimeout(() => {
-              const { from } = editor.state.selection;
-              const node = editor.state.doc.nodeAt(from - 1);
-
-              if (node && node.type.name === this.name) {
-                const getPos = () => from - 1;
-                openImageModal(node, getPos, editor, handler);
+            const showModal = () => {
+              const found = findImageExtensionNodeNearCursor(editor, this.name, { onlyEmptyUid: true });
+              if (found) {
+                openImageModal(found.node, () => found.pos, editor, handler);
+                return true;
               }
-            }, 10);
+              return false;
+            };
+
+            if (!showModal()) {
+              queueMicrotask(() => {
+                if (!showModal()) {
+                  requestAnimationFrame(showModal);
+                }
+              });
+            }
           }
 
           return result;
