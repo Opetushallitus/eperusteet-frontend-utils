@@ -26,13 +26,14 @@
                 <img
                   class="preview-selected"
                   :src="option.src"
+                  decoding="async"
                 >
               </template>
               <template #option="option">
-                <img
-                  class="preview"
-                  :src="option.src"
-                >
+                <ep-intersect-lazy-img
+                  :src="option.previewUrl"
+                  img-class="preview"
+                />
                 {{ option.nimi }}
               </template>
             </vue-select>
@@ -110,6 +111,7 @@ import { IKuvaHandler, ILiite } from './KuvaHandler';
 import { $t, $success, $fail } from '@shared/utils/globals';
 import VueSelect from 'vue-select';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
+import EpIntersectLazyImg from '@shared/components/EpContent/EpIntersectLazyImg.vue';
 
 const props = defineProps({
   loader: {
@@ -141,7 +143,10 @@ const kuvateksti = ref<any>({});
 const vaihtoehtoinenteksti = ref<any>({});
 
 const options = computed(() => {
-  return files.value;
+  return _.map(files.value, f => ({
+    ...f,
+    previewUrl: props.loader.previewUrl?.(f.id) || f.src,
+  }));
 });
 
 const selectedValue = computed({
@@ -270,7 +275,10 @@ onMounted(async () => {
 <style scoped lang="scss">
 .imageselector {
   .imgselect {
-    margin-bottom: 12px;
+    margin-bottom: 20px;
+    :deep(.vs__dropdown-menu) {
+      max-height: 250px;
+    }
   }
 
   label.uploadbtn {
@@ -281,8 +289,8 @@ onMounted(async () => {
     width: 100%;
   }
 
-  img.preview {
-    width: 40%;
+  :deep(img.preview) {
+    max-width: 130px;
   }
 
   img.esikatselukuva {

@@ -50,7 +50,9 @@ function openImageModal(node: any, getPos: any, editor: any, handler: IKuvaHandl
   modalContent.style.cssText = `
     background: white;
     border-radius: 8px;
-    max-width: 90vw;
+    box-sizing: border-box;
+    width: min(720px, 96vw);
+    min-width: min(520px, 94vw);
     max-height: 90vh;
     overflow: auto;
     padding: 2rem;
