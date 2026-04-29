@@ -2275,7 +2275,7 @@
     "organisaatio-tyoryhma": "Organisaation työryhmä",
     "organisaatio-tyoryhma-kuvaus": "Täältä löydät kaikkkiin organisaatioihisi kuuluvat henkilöt.",
     "organisaatio-valinta-oppilaitos-huomio": "Jos olet luomassa kunnan opetussuunnitelmaa, oppilaitoksia ei tarvitse lisätä. Oppilaitosten lisääminen kunnan suunnitelmaan antaa pääsyn ja muokkaus -oikeuden kaikille oppilaitoksille, jotka suunnitelman tietoihin on lisätty.",
-    "organisaatio-valinta-organisaatio-huomio": "<p>Kunnat -valinta rajaa kuntien koulutuksen järjestäjien ja oppilaitosten listausta. Valittujen koulutuksenjärjestäjien ja oppilaitosten virkailijat saavat oikeuksiensa mukaisesti käyttöoikeuden opetussuunnitelmaan. Tiedot näytetään julkisella puolella opetussuunnitelman tiedoissa.</p><p>Jos olet luomassa kunnan suunnitelmaa, voit olla valitsematta yhtään oppilaitosta tai useamman kuin oppilaitoksen. Jos olet luomassa oppilaitoksen suunnitelmaa voi valita vain yhden oppilaitoksen.</p>",
+    "organisaatio-valinta-organisaatio-huomio": "<p>Valittujen koulutuksenjärjestäjien ja oppilaitosten virkailijat saavat oikeuksiensa mukaisesti käyttöoikeuden opetussuunnitelmaan. Tiedot näytetään julkisella puolella opetussuunnitelman tiedoissa.</p><p>Jos olet luomassa kunnan suunnitelmaa, voit olla valitsematta yhtään oppilaitosta tai useamman kuin oppilaitoksen. Jos olet luomassa oppilaitoksen suunnitelmaa voi valita vain yhden oppilaitoksen.</p>",
     "organisaatiohierarkia": "Organisaatiohierarkia",
     "organisaation-hallinta": "Organisaation hallinta",
     "organisaation-nimi": "Organisaation nimi",
