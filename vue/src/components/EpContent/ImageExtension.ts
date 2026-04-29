@@ -1,4 +1,5 @@
 import { Node, mergeAttributes } from '@tiptap/core';
+import { NodeSelection } from '@tiptap/pm/state';
 import { IKuvaHandler } from './KuvaHandler';
 import { createApp, getCurrentInstance, reactive } from 'vue';
 import ImageModal from './ImageModal.vue';
@@ -319,11 +320,20 @@ export default function createImageExtension3(handler: IKuvaHandler) {
             attrs: options,
           });
         },
-        openImageModal: () => ({ editor, commands }) => {
-          const result = commands.insertContent({
-            type: this.name,
-            attrs: { 'data-uid': '', alt: '', figcaption: '' },
-          });
+        openImageModal: () => ({ editor, commands, state }) => {
+          const attrs = { 'data-uid': '', alt: '', figcaption: '' };
+          const sel = state.selection;
+          // insertContent replaces a selected block node — would wipe an existing image.
+          // Insert after the image when the whole image node is selected.
+          const result = sel instanceof NodeSelection && sel.node.type.name === this.name
+            ? commands.insertContentAt(sel.to, {
+                type: this.name,
+                attrs,
+              })
+            : commands.insertContent({
+                type: this.name,
+                attrs,
+              });
 
           if (result) {
             const showModal = () => {
