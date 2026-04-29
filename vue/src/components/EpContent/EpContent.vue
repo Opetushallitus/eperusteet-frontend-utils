@@ -2,10 +2,10 @@
   <div class="ep-content">
     <ep-editor-menu-bar
       v-if="editor && layout !== 'none'"
+      v-sticky="isEditable"
       :is-editable="isEditable"
       :editor="editor || {}"
       :layout="layout"
-      v-sticky="isEditable"
       sticky-offset="{ top: 111 }"
     />
 
