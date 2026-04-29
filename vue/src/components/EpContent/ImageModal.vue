@@ -3,36 +3,40 @@
     <ep-spinner v-if="isLoading" />
 
     <div v-else>
-
       <h4>{{ $t('kuvalisays-modal-selite') }}</h4>
 
       <div v-if="!selectedValue || imageData">
-
         <ep-button
           v-if="!uusiKuva && options.length > 0"
           variant="link"
-          @click="uusiKuva = true"
           no-padding
           class="mt-4 mb-4"
+          @click="uusiKuva = true"
         >
           {{ $t('lisaa-uusi-kuva') }}
         </ep-button>
 
         <ep-kuva-lataus
           v-if="uusiKuva || options.length === 0"
-          class="mt-4"
           v-model="imageData"
+          class="mt-4"
           :saved="imageSaved"
           @cancel="peruuta"
         >
-
           <template #header="{ file }">
-            <h4 v-if="file"></h4>
-            <div v-if="!file" class="d-flex align-items-center mb-2">
+            <h4 v-if="file" />
+            <div
+              v-if="!file"
+              class="d-flex align-items-center mb-2"
+            >
               <h4 class="mb-0">
                 {{ $t('lataa-uusi-kuva') }}
               </h4>
-              <ep-button variant="link" @click="peruuta" v-if="options.length > 0">
+              <ep-button
+                v-if="options.length > 0"
+                variant="link"
+                @click="peruuta"
+              >
                 {{ $t('peruuta') }}
               </ep-button>
             </div>
@@ -55,20 +59,20 @@
               @load="onValittuKuvaLoad"
             >
             <div class="text-muted">
-              {{$t('fu-valittu-tiedosto') }}: {{ selectedValue.nimi }}
+              {{ $t('fu-valittu-tiedosto') }}: {{ selectedValue.nimi }}
             </div>
             <div
               v-if="valittuKuvaMitat"
               class="text-muted small mt-1"
             >
-              {{$t('kuvan-leveys') }} {{ valittuKuvaMitat.width }} px <br/>
-              {{$t('kuvan-korkeus') }} {{ valittuKuvaMitat.height }} px
+              {{ $t('kuvan-leveys') }} {{ valittuKuvaMitat.width }} px <br>
+              {{ $t('kuvan-korkeus') }} {{ valittuKuvaMitat.height }} px
             </div>
             <ep-button
               class="mt-2"
               variant="link"
-              @click="clearKuvaValinta"
               no-padding
+              @click="clearKuvaValinta"
             >
               {{ $t('valitse-toinen-kuva') }}
             </ep-button>

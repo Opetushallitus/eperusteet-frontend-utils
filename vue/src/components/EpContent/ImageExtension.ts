@@ -327,13 +327,13 @@ export default function createImageExtension3(handler: IKuvaHandler) {
           // Insert after the image when the whole image node is selected.
           const result = sel instanceof NodeSelection && sel.node.type.name === this.name
             ? commands.insertContentAt(sel.to, {
-                type: this.name,
-                attrs,
-              })
+              type: this.name,
+              attrs,
+            })
             : commands.insertContent({
-                type: this.name,
-                attrs,
-              });
+              type: this.name,
+              attrs,
+            });
 
           if (result) {
             const showModal = () => {

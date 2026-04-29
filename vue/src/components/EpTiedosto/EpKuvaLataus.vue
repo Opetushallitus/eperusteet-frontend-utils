@@ -1,6 +1,9 @@
 <template>
   <div>
-    <slot name="header" :file="file">
+    <slot
+      name="header"
+      :file="file"
+    >
       <h4 v-if="file">
         {{ $t('kuva') }}
       </h4>
