@@ -267,9 +267,9 @@ const props = defineProps({
   },
 });
 
-// Check if image extension is available
+// Check if image extension is available (openImageModal inserts node and opens modal)
 const canInsertImage = computed(() => {
-  return props.editor && props.editor.commands && props.editor.commands.insertImage;
+  return props.editor && props.editor.commands && props.editor.commands.openImageModal;
 });
 
 // Check if link extension is available and can be toggled
@@ -312,10 +312,9 @@ const toggleTerm = () => {
 // Image manipulation methods
 const insertImage = () => {
   if (props.editor && canInsertImage.value) {
-    props.editor
-      .chain()
+    props.editor.chain()
       .focus()
-      .insertImage({ 'data-uid': '', alt: '', figcaption:   '' })
+      .openImageModal()
       .run();
   }
 };

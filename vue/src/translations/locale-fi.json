@@ -1104,7 +1104,7 @@
     "kuva-puuttuu": "Kuva puuttuu",
     "kuva-tallennettu-onnistuneesti": "Kuva tallennettu onnistuneesti",
     "kuva-upload": "Kuvan lataus",
-    "kuvalisays-modal-selite": "Valitse aiemmin lisätty kuva tai lataa uusi kuva",
+    "kuvalisays-modal-selite": "Valitse aiemmin lisätty kuva tai lisää uusi kuva",
     "kuvan-korkeus": "Kuvan korkeus",
     "kuvan-leveys": "Kuvan leveys",
     "kuvan-maksimimitat": "Kuvan maksimimitat",
@@ -4644,5 +4644,7 @@
     "julkaistuja-sisaltoja-ei-voi-poistaa": "Julkaistuja sisältöä ei voi poistaa",
     "tutkinnon-osa-on-linkitetty": "Tutkinnon osa on linkitetty. Sisältöä voi muokata vain alkuperäisestä toteutussuunnitelmasta.",
     "kielikaantajatutkinto-kooste-kuvaus": "Kieli- ja kääntäjätutkintojen perusteet",
-    "tavoitteet_ja_sisallot": "Tavoitteet ja sisallot"
+    "tavoitteet_ja_sisallot": "Tavoitteet ja sisällöt",
+    "lisaa-uusi-kuva": "Lisää uusi kuva",
+    "kuva-modaali-haku-placeholder": "Etsi kuvia nimellä"
 }

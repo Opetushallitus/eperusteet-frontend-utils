@@ -1,11 +1,13 @@
 <template>
   <div>
-    <h4 v-if="file">
-      {{ $t('kuva') }}
-    </h4>
-    <h4 v-else>
-      {{ $t('lataa-uusi-kuva') }}
-    </h4>
+    <slot name="header" :file="file">
+      <h4 v-if="file">
+        {{ $t('kuva') }}
+      </h4>
+      <h4 v-else>
+        {{ $t('lataa-uusi-kuva') }}
+      </h4>
+    </slot>
     <span v-if="!file">({{ $t('max-koko') + ' ' + fileMaxSizeInMb + $t('megatavu-lyhenne') }})</span>
 
     <EpTiedostoInput
@@ -18,7 +20,7 @@
           v-if="file"
           class="justify-content-around align-items-center h-100"
         >
-          <div class="h-100 justify-content-around align-items-center">
+          <div class="h-100 justify-content-around align-items-center text-muted">
             <figure>
               <img
                 v-if="previewUrl"
