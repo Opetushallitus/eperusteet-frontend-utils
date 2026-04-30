@@ -35,6 +35,24 @@
                 {{ $t('fu-valittu-tiedosto') }}: {{ file ? file.name : '' }}
               </figcaption>
               <figcaption
+                v-if="!saved && file && ocrStatus === 'loading'"
+                class="text-muted"
+              >
+                {{ $t('fu-kuva-ocr-lasketaan') }}
+              </figcaption>
+              <figcaption
+                v-else-if="!saved && file && ocrStatus === 'done' && ocrWordCount !== null"
+                class="text-muted"
+              >
+                {{ $t('fu-kuva-ocr-sanat', { n: String(ocrWordCount) }) }}
+              </figcaption>
+              <figcaption
+                v-else-if="!saved && file && ocrStatus === 'error'"
+                class="text-muted"
+              >
+                {{ $t('fu-kuva-ocr-virhe') }}
+              </figcaption>
+              <figcaption
                 v-if="!saved && file"
                 :class="!fileValidi ? 'error' : ''"
               >
@@ -99,7 +117,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
+import { createWorker } from 'tesseract.js';
 import EpButton from '../EpButton/EpButton.vue';
 import _ from 'lodash';
 import EpField from '@shared/components/forms/EpField.vue';
@@ -139,12 +158,60 @@ const originalWidthRatio = ref(0);
 const previewWidth = ref(0);
 const previewHeight = ref(0);
 
+type OcrStatus = 'idle' | 'loading' | 'done' | 'error';
+const ocrWordCount = ref<number | null>(null);
+const ocrStatus = ref<OcrStatus>('idle');
+let ocrRequestId = 0;
+
+function countWordsFromOcrText(text: string) {
+  console.log(text);
+  return text
+    .trim()
+    .split(/\s+/)
+    .filter((w) => w.length > 0)
+    .length;
+}
+
+async function runOcrOnFile(imageFile: File) {
+  const myId = ++ocrRequestId;
+  ocrWordCount.value = null;
+  ocrStatus.value = 'loading';
+  let worker: Awaited<ReturnType<typeof createWorker>> | undefined;
+  try {
+    worker = await createWorker('fin+eng');
+    const {
+      data: { text },
+    } = await worker.recognize(imageFile);
+    if (myId !== ocrRequestId) {
+      return;
+    }
+    ocrWordCount.value = countWordsFromOcrText(text);
+    ocrStatus.value = 'done';
+  }
+  catch {
+    if (myId !== ocrRequestId) {
+      return;
+    }
+    ocrStatus.value = 'error';
+    ocrWordCount.value = null;
+  }
+  finally {
+    if (worker) {
+      await worker.terminate();
+    }
+  }
+}
+
 onMounted(() => {
   if (props.modelValue) {
     originalHeightRatio.value = height.value / width.value;
     originalWidthRatio.value = width.value / height.value;
     recalcPreview();
   }
+});
+
+onUnmounted(() => {
+  ocrRequestId++;
 });
 
 const setOriginalRatios = (width: number, height: number) => {
@@ -164,6 +231,14 @@ const file = computed(() => {
     return props.modelValue.file;
   }
   return undefined;
+});
+
+watch(file, (next) => {
+  if (!next) {
+    ocrRequestId++;
+    ocrWordCount.value = null;
+    ocrStatus.value = 'idle';
+  }
 });
 
 const fileValidi = computed(() => {
@@ -206,6 +281,7 @@ async function onInput(file: File) {
         } as ImageData);
 
         setOriginalRatios(img.width, img.height);
+        void runOcrOnFile(file);
       };
       img.src = evt.target.result;
     };
@@ -213,6 +289,9 @@ async function onInput(file: File) {
 }
 
 function cancel() {
+  ocrRequestId++;
+  ocrWordCount.value = null;
+  ocrStatus.value = 'idle';
   emit('cancel');
 }
 
