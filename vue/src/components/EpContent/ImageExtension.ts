@@ -94,7 +94,7 @@ function openImageModal(node: any, getPos: any, editor: any, handler: IKuvaHandl
     min-width: min(520px, 94vw);
     max-height: 90vh;
     overflow: auto;
-    padding: 2rem;
+    padding: 1.5rem;
   `;
 
   overlay.appendChild(modalContent);

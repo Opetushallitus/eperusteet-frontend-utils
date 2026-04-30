@@ -27,13 +27,14 @@
             <h4 v-if="file" />
             <div
               v-if="!file"
-              class="d-flex align-items-center mb-2"
+              class="flex items-center mb-2"
             >
-              <h4 class="mb-0">
+              <h4>
                 {{ $t('lataa-uusi-kuva') }}
               </h4>
               <ep-button
                 v-if="options.length > 0"
+                class="ml-2 mb-1"
                 variant="link"
                 @click="peruuta"
               >
@@ -58,12 +59,12 @@
               alt=""
               @load="onValittuKuvaLoad"
             >
-            <div class="text-gray-500">
+            <div class="text-muted">
               {{ $t('fu-valittu-tiedosto') }}: {{ selectedValue.nimi }}
             </div>
             <div
               v-if="valittuKuvaMitat"
-              class="text-gray-500 text-sm mt-1"
+              class="text-muted text-sm mt-1"
             >
               {{ $t('kuvan-leveys') }} {{ valittuKuvaMitat.width }} px <br>
               {{ $t('kuvan-korkeus') }} {{ valittuKuvaMitat.height }} px
@@ -87,7 +88,7 @@
             <ep-input
               v-model="searchKuva"
               :placeholder="$t('kuva-modaali-haku-placeholder')"
-              class="mb-3"
+              class="mb-1"
               :is-editing="true"
             />
             <div
@@ -128,10 +129,10 @@
           </ep-form-content>
         </div>
 
-        <div v-if="selectedValue || imageData">
+        <div v-if="selectedValue || imageData" class="mt-4">
           <ep-form-content
             name="kuvateksti"
-            class="mt-3"
+            class="mt-5"
           >
             <ep-field
               v-model="kuvateksti"
@@ -158,7 +159,7 @@
       </div>
     </div>
 
-    <div class="flex justify-end mt-3">
+    <div class="flex justify-end items-center mt-3">
       <ep-button
         class="mr-3"
         variant="link"
@@ -179,7 +180,7 @@
 
 <script setup lang="ts">
 import _ from 'lodash';
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';

@@ -111,12 +111,12 @@ const uniqueId = `ep-toggle-${Math.random().toString(36)
 
   &.large {
     :deep(.p-checkbox) {
-      width: 1.5rem;
-      height: 1.5rem;
+      width: 1.7rem;
+      height: 1.7rem;
 
       .p-checkbox-box {
-        width: 1.5rem;
-        height: 1.5rem;
+        width: 1.7rem;
+        height: 1.7rem;
       }
     }
 

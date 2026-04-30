@@ -45,7 +45,7 @@
 
           <div
             v-if="!saved"
-            class="mb-3"
+            class="mb-2 mt-2"
           >
             <div class="flex items-center">
               <ep-form-content
@@ -80,6 +80,7 @@
             <ep-toggle
               v-model="keepAspectRatio"
               :is-switch="false"
+              class="pb-1"
             >
               {{ $t('sailyta-mittasuhteet') }}
             </ep-toggle>
