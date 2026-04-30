@@ -135,13 +135,6 @@ function openImageModal(node: any, getPos: any, editor: any, handler: IKuvaHandl
     }, 10);
   };
 
-  // Close on overlay click
-  overlay.addEventListener('click', (e) => {
-    if (e.target === overlay) {
-      closeModal();
-    }
-  });
-
   try {
     // Create Vue app with the ImageModal component
     modalApp = createApp(ImageModal, {
