@@ -3,8 +3,10 @@ import Aura from '@primeuix/themes/aura';
 import { App } from 'vue';
 import PrimeVue from 'primevue/config';
 import { $t } from './utils/globals';
+import ConfirmationService from 'primevue/confirmationservice';
 
 export const setPrimeVue = (app: App) => {
+  app.use(ConfirmationService);
   app.use(PrimeVue, {
     locale: {
       monthNames: [
