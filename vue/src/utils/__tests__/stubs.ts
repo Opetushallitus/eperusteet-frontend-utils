@@ -4,9 +4,11 @@ import { createHead } from '@unhead/vue/client';
 import { setAppInstance } from '../globals';
 import { setPrimeVue } from '../../primevue';
 import { vSticky } from '../../directives/vSticky';
+import ConfirmationService from 'primevue/confirmationservice';
 
 const primeVuePlugin = {
   install(app: any) {
+    app.use(ConfirmationService);
     setPrimeVue(app);
   },
 };
