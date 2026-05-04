@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ep-button
+    <EpButton
       v-if="editable"
       v-oikeustarkastelu="oikeustarkastelu"
       icon="add"
@@ -8,7 +8,7 @@
       @click="lisaaTiedote"
     >
       {{ $t('lisaa-tiedote') }}
-    </ep-button>
+    </EpButton>
 
     <EpModal
       ref="modalRef"
@@ -218,32 +218,32 @@
                     disabled
                   />
                   <template #append>
-                    <ep-button
+                    <EpButton
                       variant="primary"
                       @click="open"
                     >
                       {{ $t('hae') }}
-                    </ep-button>
+                    </EpButton>
                   </template>
                 </EpInputGroup>
               </template>
             </ep-koodisto-select>
             <div class="flex-shrink pl-2">
-              <ep-button
+              <EpButton
                 variant="link"
                 icon="delete"
                 @click="poistaTutkinnonosa(index)"
               />
             </div>
           </div>
-          <ep-button
+          <EpButton
             button-class="pl-0"
             variant="outline-primary"
             icon="add"
             @click="lisaaTutkinnonOsa"
           >
             {{ $t('lisaa-tutkinnon-osa') }}
-          </ep-button>
+          </EpButton>
         </ep-form-content>
 
         <ep-form-content
@@ -268,32 +268,32 @@
                     disabled
                   />
                   <template #append>
-                    <ep-button
+                    <EpButton
                       variant="primary"
                       @click="open"
                     >
                       {{ $t('hae') }}
-                    </ep-button>
+                    </EpButton>
                   </template>
                 </EpInputGroup>
               </template>
             </ep-koodisto-select>
             <div class="flex-shrink pl-2">
-              <ep-button
+              <EpButton
                 variant="link"
                 icon="delete"
                 @click="poistaOsaamisala(index)"
               />
             </div>
           </div>
-          <ep-button
+          <EpButton
             button-class="pl-0"
             variant="outline-primary"
             icon="add"
             @click="lisaaOsaamisala"
           >
             {{ $t('lisaa-osaamisala') }}
-          </ep-button>
+          </EpButton>
         </ep-form-content>
       </div>
 
@@ -397,19 +397,19 @@
 
       <template #modal-footer>
         <div v-if="editing && editable">
-          <ep-button
+          <EpButton
             variant="link"
             @click="suljeTiedote"
           >
             {{ $t('peruuta') }}
-          </ep-button>
-          <ep-button
+          </EpButton>
+          <EpButton
             class="ml-3"
             :disabled="v$.$invalid"
             @click="tallennaTiedote"
           >
             {{ muokattavaTiedote.id ? $t('tallenna') : $t('julkaise-tiedote') }}
-          </ep-button>
+          </EpButton>
         </div>
 
         <div
@@ -417,28 +417,28 @@
           class="flex justify-between w-full"
         >
           <div v-if="editable">
-            <ep-button
+            <EpButton
               v-oikeustarkastelu="oikeustarkastelu"
               icon="edit"
               variant="link"
               @click="editing = true"
             >
               {{ $t('muokkaa') }}
-            </ep-button>
-            <ep-button
+            </EpButton>
+            <EpButton
               v-oikeustarkastelu="oikeustarkastelu"
               icon="delete"
               variant="link"
               @click="poista"
             >
               {{ $t('poista') }}
-            </ep-button>
+            </EpButton>
           </div>
           <div v-else />
 
-          <ep-button @click="suljeTiedote">
+          <EpButton @click="suljeTiedote">
             {{ $t('sulje') }}
-          </ep-button>
+          </EpButton>
         </div>
       </template>
     </EpModal>

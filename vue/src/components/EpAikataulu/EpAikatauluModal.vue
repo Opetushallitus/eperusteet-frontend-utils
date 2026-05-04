@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ep-button
+    <EpButton
       v-if="props.aikataulut && props.aikataulut.length > 0"
       v-oikeustarkastelu="{ oikeus: 'muokkaus' }"
       button-class="pr-1"
@@ -9,7 +9,7 @@
       @click="openModal"
     >
       {{ $t('muokkaa') }}
-    </ep-button>
+    </EpButton>
 
     <EpModal
       ref="modalRef"

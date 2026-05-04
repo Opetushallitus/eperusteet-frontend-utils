@@ -39,14 +39,14 @@
       </div>
     </VueDraggable>
 
-    <ep-button
+    <EpButton
       variant="outline"
       icon="add"
       class="mt-1"
       @click="lisaaKuvaus()"
     >
       {{ $t('lisaa-kuvaus') }}
-    </ep-button>
+    </EpButton>
   </div>
 </template>
 

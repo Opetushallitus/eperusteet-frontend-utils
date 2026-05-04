@@ -39,12 +39,12 @@
                   disabled
                 />
                 <template #append>
-                  <ep-button
+                  <EpButton
                     variant="primary"
                     @click="open"
                   >
                     {{ $t('hae-koodistosta') }}
-                  </ep-button>
+                  </EpButton>
                 </template>
               </EpInputGroup>
             </ep-error-wrapper>

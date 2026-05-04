@@ -39,12 +39,12 @@
                     </template>
                   </EpInput>
                   <template #append>
-                    <ep-button
+                    <EpButton
                       variant="primary"
                       @click="open"
                     >
                       {{ $t('hae-koodistosta') }}
-                    </ep-button>
+                    </EpButton>
                   </template>
                 </EpInputGroup>
               </template>
@@ -68,7 +68,7 @@
     </VueDraggable>
 
     <div class="flex justify-between">
-      <ep-button
+      <EpButton
         variant="outline"
         icon="add"
         @click="lisaaTavoite()"
@@ -76,7 +76,7 @@
         <slot name="lisaaBtnText">
           {{ $t('lisaa-tavoite') }}
         </slot>
-      </ep-button>
+      </EpButton>
 
       <slot name="footer" />
     </div>

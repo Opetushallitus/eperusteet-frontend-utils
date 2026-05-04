@@ -27,12 +27,12 @@
                     disabled
                   />
                   <template #append>
-                    <ep-button
+                    <EpButton
                       variant="primary"
                       @click="open(i)"
                     >
                       {{ $t('hae-organisaatio') }}
-                    </ep-button>
+                    </EpButton>
                   </template>
                 </EpInputGroup>
               </EpFormGroup>
@@ -61,13 +61,13 @@
           </div>
 
           <div class="text-right">
-            <ep-button
+            <EpButton
               variant="link"
               icon="delete"
               @click="poista(i)"
             >
               {{ $t('poista-koulutuksen-jarjestaja') }}
-            </ep-button>
+            </EpButton>
           </div>
         </div>
       </VueDraggable>

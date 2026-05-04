@@ -19,28 +19,28 @@
         <template #cell(actions)="row">
           <div class="flex gap-2 justify-end">
             <div v-if="!row.item.valittu" class="flex gap-2">
-              <ep-button
+              <EpButton
                 variant="link"
                 icon="visibility"
                 @click="changeVersion(row.item.index)"
               >
                 {{ $t('katsele') }}
-              </ep-button>
-              <ep-button
+              </EpButton>
+              <EpButton
                 variant="link"
                 icon="keyboard_return"
                 @click="$emit('restore', { numero: row.item.numero, modal: modalApi })"
               >
                 {{ $t('palauta') }}
-              </ep-button>
+              </EpButton>
             </div>
-            <ep-button
+            <EpButton
               v-else
               variant="link"
               disabled
             >
               {{ $t('valittu-versio') }}
-            </ep-button>
+            </EpButton>
           </div>
         </template>
       </EpTable>

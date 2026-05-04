@@ -35,20 +35,20 @@
                 {{ $t(julkaisemattomiaTeksti) }}
               </div>
 
-              <ep-button
+              <EpButton
                 v-if="luonnos && !julkaistava"
                 variant="primary"
                 @click="asetaValmiiksi"
               >
                 {{ $t('aseta-valmiiksi') }}
-              </ep-button>
-              <ep-button
+              </EpButton>
+              <EpButton
                 v-else-if="julkaistava && luonnos && !julkaistu && !arkistoitu"
                 variant="primary"
                 @click="toJulkaisuRoute"
               >
                 {{ $t('siirry-julkaisunakymaan') }}
-              </ep-button>
+              </EpButton>
             </template>
           </template>
         </div>
@@ -61,22 +61,22 @@
         v-else
         class="flex flex-col"
       >
-        <ep-button
+        <EpButton
           v-if="arkistoitu"
           variant="primary"
           @click="palauta"
         >
           {{ $t('palauta') }}
-        </ep-button>
+        </EpButton>
         <template v-else>
-          <ep-button
+          <EpButton
             v-if="(julkaistu || valmis) && julkaistava"
             variant="primary"
             class="mb-1"
             @click="toJulkaisuRoute"
           >
             {{ $t('siirry-julkaisunakymaan') }}
-          </ep-button>
+          </EpButton>
           <div
             v-if="validointiOk"
             class="pt-3 pb-1 flex justify-center gap-2"
@@ -123,13 +123,13 @@
                 v-if="validoinnit.virheet.length > 5 && julkaistava && luonnos && !julkaistu && !arkistoitu"
                 class="pt-2 pb-1 flex justify-center gap-2"
               >
-                <ep-button
+                <EpButton
                   class="p-0"
                   variant="link"
                   @click="toJulkaisuRoute"
                 >
                   {{ $t('yhteensa-kpl-virhetta', { kpl: validoinnit.virheet.length }) }}
-                </ep-button>
+                </EpButton>
               </div>
             </template>
             <div
@@ -153,14 +153,14 @@
         </template>
       </div>
       <template #bottom>
-        <ep-button
+        <EpButton
           class="btn-tarkista mr-2"
           variant="link"
           icon="refresh"
           @click="validoi"
         >
           <span> {{ $t('tarkista-virheet') }}</span>
-        </ep-button>
+        </EpButton>
       </template>
     </EpProgressPopover>
     <EpSpinner

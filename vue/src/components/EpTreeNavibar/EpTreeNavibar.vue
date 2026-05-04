@@ -30,7 +30,7 @@
               v-if="menuIndex === 0 && (active?.depth || 0) > 0 && !showAll"
               class="back"
             >
-              <ep-button
+              <EpButton
                 size="sm"
                 variant="link"
                 class="backbtn"

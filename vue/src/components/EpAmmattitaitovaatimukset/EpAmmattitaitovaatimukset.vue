@@ -47,25 +47,25 @@
               />
             </div>
             <div>
-              <ep-button
+              <EpButton
                 variant="link"
                 @click="poistaVaatimus(inner, v)"
               >
                 <EpMaterialIcon icon-shape="outlined">
                   delete
                 </EpMaterialIcon>
-              </ep-button>
+              </EpButton>
             </div>
           </div>
         </VueDraggable>
         <div class="mt-2">
-          <ep-button
+          <EpButton
             variant="outline"
             icon="add"
             @click="lisaaVaatimus(inner)"
           >
             {{ $t('lisaa-ammattitaitovaatimus-ilman-kohdealuetta') }}
-          </ep-button>
+          </EpButton>
         </div>
       </EpFormGroup>
       <EpFormGroup :label="kaannokset.kohdealueet">
@@ -133,7 +133,7 @@
                     />
                   </div>
                   <div>
-                    <ep-button
+                    <EpButton
                       variant="link"
                       icon="delete"
                       @click="poistaVaatimus(kohdealue, v)"
@@ -143,34 +143,34 @@
               </VueDraggable>
 
               <div class="mt-2">
-                <ep-button
+                <EpButton
                   variant="outline"
                   icon="add"
                   @click="lisaaKohdealueVaatimus(kohdealue)"
                 >
                   {{ kaannokset.lisaaAmmattitaitovaatimus }}
-                </ep-button>
+                </EpButton>
               </div>
               <div class="float-right">
-                <ep-button
+                <EpButton
                   variant="link"
                   icon="delete"
                   @click="poistaKohdealue(inner, kohdealue)"
                 >
                   {{ $t('poista-kohdealue') }}
-                </ep-button>
+                </EpButton>
               </div>
             </EpFormGroup>
           </div>
         </VueDraggable>
         <div class="mt-2">
-          <ep-button
+          <EpButton
             variant="outline"
             icon="add"
             @click="lisaaKohdealue(inner)"
           >
             {{ kaannokset.lisaaKohdealue }}
-          </ep-button>
+          </EpButton>
         </div>
       </EpFormGroup>
     </div>

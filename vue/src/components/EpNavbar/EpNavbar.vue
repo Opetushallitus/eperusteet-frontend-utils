@@ -23,14 +23,14 @@
           :model="breadcrumbModel"
         />
       </div>
-      <ep-button
+      <EpButton
         v-else
         v-b-toggle.sisaltobar
         class="text-white"
         variant="secondary"
       >
         <EpMaterialIcon>menu</EpMaterialIcon>
-      </ep-button>
+      </EpButton>
 
       <div
         class="ml-auto flex mr-2"

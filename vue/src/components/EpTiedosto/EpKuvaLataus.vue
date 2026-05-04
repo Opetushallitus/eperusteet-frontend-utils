@@ -86,12 +86,12 @@
             </ep-toggle>
           </div>
 
-          <ep-button
+          <EpButton
             variant="link"
             @click="cancel"
           >
             {{ $t('valitse-toinen-kuva') }}
-          </ep-button>
+          </EpButton>
         </div>
       </slot>
     </EpTiedostoInput>

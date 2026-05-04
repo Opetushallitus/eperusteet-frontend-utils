@@ -72,7 +72,7 @@
                 v-if="!versiohistoriaVisible"
                 class="floating-editing-buttons flex items-center"
               >
-                <ep-button
+                <EpButton
                   v-if="isEditing"
                   class="ml-4"
                   :disabled="disabled"
@@ -82,8 +82,8 @@
                   <slot name="peruuta">
                     {{ $t('peruuta') }}
                   </slot>
-                </ep-button>
-                <ep-button
+                </EpButton>
+                <EpButton
                   v-if="isEditing"
                   class="ml-4"
                   :disabled="disabled || (validation && validation.$invalid)"
@@ -95,7 +95,7 @@
                   <slot name="tallenna">
                     {{ $t('tallenna') }}
                   </slot>
-                </ep-button>
+                </EpButton>
                 <EpDropdown
                   v-if="isEditing && !disabled && (features.removable || features.hideable || codingMenuVisible) "
                   class="mx-4"
@@ -161,7 +161,7 @@
                     name="muokkaa-content"
                     :data="inner"
                   >
-                    <ep-button
+                    <EpButton
                       id="editointi-muokkaus"
                       v-oikeustarkastelu="muokkausOikeustarkastelu"
                       variant="link"
@@ -173,7 +173,7 @@
                       <slot name="muokkaa">
                         {{ $t('muokkaa') }}
                       </slot>
-                    </ep-button>
+                    </EpButton>
                   </slot>
                 </template>
                 <div
@@ -185,7 +185,7 @@
                     :data="inner"
                     :support-data="innerSupport"
                   >
-                    <ep-button
+                    <EpButton
                       id="editointi-kopiointi"
                       v-oikeustarkastelu="muokkausOikeustarkastelu"
                       variant="link"
@@ -197,7 +197,7 @@
                       <slot name="kopioi-teksti">
                         {{ $t('kopioi-muokattavaksi') }}
                       </slot>
-                    </ep-button>
+                    </EpButton>
                   </slot>
                 </div>
                 <span
@@ -325,7 +325,7 @@
             />
           </div>
           <div class="floating-editing-buttons">
-            <ep-button
+            <EpButton
               variant="link"
               icon="menu"
             >
@@ -337,14 +337,14 @@
               >
                 {{ $t('palaa-listaan') }}
               </ep-versio-modaali>
-            </ep-button>
-            <ep-button
+            </EpButton>
+            <EpButton
               variant="link"
               icon="keyboard_return"
               @click="restore({ numero: current.numero, routePushLatest: true })"
             >
               {{ $t('palauta-tama-versio') }}
-            </ep-button>
+            </EpButton>
             <div class="btn">
               <router-link :to="{ query: {} }">
                 <EpMaterialIcon

@@ -33,12 +33,12 @@
                     disabled
                   />
                   <template #append>
-                    <ep-button
+                    <EpButton
                       variant="primary"
                       @click="open"
                     >
                       {{ $t('hae-koodistosta') }}
-                    </ep-button>
+                    </EpButton>
                   </template>
                 </EpInputGroup>
               </template>
@@ -106,26 +106,26 @@
             </EpFormGroup>
 
             <div class="text-right">
-              <ep-button
+              <EpButton
                 variant="link"
                 icon="delete"
                 @click="poistaTaitotaso(taitotaso)"
               >
                 {{ $t(sisalto['poista-taitotaso']) }}
-              </ep-button>
+              </EpButton>
             </div>
           </div>
 
         </div>
       </VueDraggable>
 
-      <ep-button
+      <EpButton
         variant="outline"
         icon="add"
         @click="lisaaTaitotaso()"
       >
         {{ $t(sisalto['lisaa-taitotaso']) }}
-      </ep-button>
+      </EpButton>
     </template>
 
     <div v-else>
