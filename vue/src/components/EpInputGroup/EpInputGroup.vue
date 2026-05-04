@@ -10,7 +10,7 @@
       <slot name="prefix" />
     </InputGroupAddon>
     <div
-      class="flex-grow middle-input"
+      class="grow middle-input"
       :class="{ 'with-prefix': $slots.prefix, 'with-append': $slots.append }"
     >
       <slot />

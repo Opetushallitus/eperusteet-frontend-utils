@@ -22,7 +22,7 @@
                 <ep-input
                   v-if="!props.modelValue.koodi"
                   ref="input"
-                  class="flex-grow"
+                  class="grow"
                   :class="{ 'placeholder': placeholder }"
                   :model-value="vaatimus"
                   :placeholder="placeholder"
