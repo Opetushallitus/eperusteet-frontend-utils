@@ -25,7 +25,6 @@
       </div>
       <EpButton
         v-else
-        v-b-toggle.sisaltobar
         class="text-white"
         variant="secondary"
       >
