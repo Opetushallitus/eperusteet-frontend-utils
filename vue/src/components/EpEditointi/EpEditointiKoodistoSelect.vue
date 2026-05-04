@@ -11,7 +11,7 @@
           v-for="koodisto in koodistot"
           :key="koodisto.koodistoUri"
           variant="link"
-          class="text-left justify-content-start"
+          class="inline-flex justify-start text-left"
           @click="valitseKoodistoJaAvaa(koodisto.koodistoUri!)"
         >
           {{ $kaanna(koodisto.nimi) }}

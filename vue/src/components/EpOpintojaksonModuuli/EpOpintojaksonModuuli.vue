@@ -11,7 +11,7 @@
     <div class="name">
       {{ moduuliNimi }} ({{ moduuli.koodi.arvo }})
     </div>
-    <div class="flex bd-highlight items-center">
+    <div class="flex items-center">
       <span class="pr-2">{{ moduuli.laajuus }} {{ $t('opintopiste') }}</span>
       <ep-color-indicator :kind="moduuli.pakollinen ? 'pakollinen' : 'valinnainen'" />
     </div>

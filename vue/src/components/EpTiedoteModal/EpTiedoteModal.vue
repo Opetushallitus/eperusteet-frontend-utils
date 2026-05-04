@@ -220,7 +220,7 @@
                 </EpInputGroup>
               </template>
             </ep-koodisto-select>
-            <div class="flex-shrink pl-2">
+            <div class="shrink-0 pl-2">
               <EpButton
                 variant="link"
                 icon="delete"
@@ -270,7 +270,7 @@
                 </EpInputGroup>
               </template>
             </ep-koodisto-select>
-            <div class="flex-shrink pl-2">
+            <div class="shrink-0 pl-2">
               <EpButton
                 variant="link"
                 icon="delete"

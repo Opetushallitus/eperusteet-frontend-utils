@@ -13,7 +13,7 @@
         :class="{ 'is-invalid': isInvalid, 'is-valid': isValid }"
       >
         <template
-          v-if="$slots.default"
+          v-if="hasDefaultSlot"
           #value="{ value }"
         >
           <slot
@@ -25,7 +25,7 @@
           </slot>
         </template>
         <template
-          v-if="$slots.default"
+          v-if="hasDefaultSlot"
           #option="{ option }"
         >
           <slot
@@ -48,7 +48,7 @@
         :class="{ 'is-invalid': isInvalid, 'is-valid': isValid }"
       >
         <template
-          v-if="$slots.default"
+          v-if="hasDefaultSlot"
           #option="{ option }"
         >
           <slot
@@ -123,7 +123,7 @@
 
 <script setup lang="ts">
 import _ from 'lodash';
-import { computed, watch } from 'vue';
+import { computed, useSlots, watch } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { $t } from '@shared/utils/globals';
 
@@ -132,6 +132,7 @@ import MultiSelect from 'primevue/multiselect';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import EpToggleGroup from './EpToggleGroup.vue';
 import EpFormGroup from './EpFormGroup.vue';
+import { hasSlotContent } from '@shared/utils/vue-utils';
 
 const props = defineProps({
   isEditing: {
@@ -188,6 +189,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:modelValue']);
+const slots = useSlots();
 
 const displayValue = computed(() => {
   if (props.multiple && Array.isArray(props.modelValue)) {
@@ -230,7 +232,7 @@ const innerModel = computed({
 const multiSelectModel = computed({
   get: (): any[] => (Array.isArray(innerModel.value) ? (innerModel.value as any[]) : []),
   set: (value: any[]) => {
-    innerModel.value = value; 
+    innerModel.value = value;
   },
 });
 
@@ -270,6 +272,10 @@ watch(
   },
   { immediate: true },
 );
+
+const hasDefaultSlot = computed(() => {
+  return hasSlotContent(slots.default);
+});
 </script>
 
 <style scoped lang="scss">
