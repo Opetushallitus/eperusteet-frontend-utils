@@ -158,7 +158,7 @@ const props = defineProps({
     default: false,
   },
   rowClass: {
-    type: Function,
+    type: [String, Function],
     default: undefined,
   },
   selection: {
@@ -210,7 +210,11 @@ const sortOrderValue = computed(() => {
 });
 
 const rowClassValue = computed(() => {
-  if (!props.rowClass) return undefined;
+  if (props.rowClass == null || props.rowClass === '') return undefined;
+  if (typeof props.rowClass === 'string') {
+    const cls = props.rowClass;
+    return () => cls;
+  }
   return props.rowClass as (data: any) => string | object | undefined;
 });
 

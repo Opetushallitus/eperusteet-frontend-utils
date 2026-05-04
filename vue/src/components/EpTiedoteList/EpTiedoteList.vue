@@ -24,7 +24,7 @@
       </div>
 
       <div>
-        <ep-button
+        <EpButton
           v-if="naytettavaTiedoteMaara < tiedotteetSize"
           variant="link"
           @click="naytettavaTiedoteMaara += 3"
@@ -32,7 +32,7 @@
           <slot name="lisaaBtnText">
             {{ $t('katso-lisaa-tiedotteita') }}
           </slot>
-        </ep-button>
+        </EpButton>
         <span v-if="tiedotteetSize === 0">{{ $t('ei-tiedotteita') }}</span>
       </div>
     </div>

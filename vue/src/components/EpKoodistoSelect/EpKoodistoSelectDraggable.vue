@@ -20,12 +20,12 @@
           disabled
         />
         <template #append>
-          <ep-button
+          <EpButton
             variant="primary"
             @click="open"
           >
             {{ buttonText || $t('hae-koodistosta') }}
-          </ep-button>
+          </EpButton>
         </template>
       </EpInputGroup>
     </template>

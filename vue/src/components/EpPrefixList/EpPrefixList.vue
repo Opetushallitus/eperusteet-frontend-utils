@@ -18,13 +18,13 @@
             </div>
             <div class="col-span-12 sm:col-span-6">
               <div class="actions">
-                <ep-button
+                <EpButton
                   variant="danger"
                   icon="close"
                   @click="poistaIndeksi(internal, alueIdx)"
                 >
                   {{ $t('poista-alue-' + arvot) }}
-                </ep-button>
+                </EpButton>
               </div>
             </div>
           </div>
@@ -54,32 +54,32 @@
                 />
               </div>
               <div class="actions">
-                <ep-button
+                <EpButton
                   variant="danger"
                   icon="close"
                   @click="poistaIndeksi(alue[arvot], idx)"
                 >
                   {{ $t('poista') }}
-                </ep-button>
+                </EpButton>
               </div>
             </div>
           </VueDraggable>
-          <ep-button
+          <EpButton
             icon="add"
             @click="lisaaArvo(alue)"
           >
             {{ $t('lisaa-arvo-' + arvo) }}
-          </ep-button>
+          </EpButton>
         </div>
       </div>
     </div>
-    <ep-button
+    <EpButton
       v-if="hasMultiple"
       icon="add"
       @click="lisaaAlue()"
     >
       {{ $t('lisaa-alue-' + arvot) }}
-    </ep-button>
+    </EpButton>
   </div>
   <div v-else>
     <div

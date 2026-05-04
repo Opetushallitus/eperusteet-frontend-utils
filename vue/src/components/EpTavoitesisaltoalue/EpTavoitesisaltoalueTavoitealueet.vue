@@ -37,12 +37,12 @@
                         disabled
                       />
                       <template #append>
-                        <ep-button
+                        <EpButton
                           variant="primary"
                           @click="open"
                         >
                           {{ $t('hae-koodistosta') }}
-                        </ep-button>
+                        </EpButton>
                       </template>
                     </EpInputGroup>
                   </template>
@@ -84,33 +84,33 @@
               <EpTavoitealueKeskeisetSisaltoalueet v-model="tavoitealue.keskeisetSisaltoalueet" />
             </div>
             <div class="text-right">
-              <ep-button
+              <EpButton
                 variant="link"
                 icon="delete"
                 @click="poistaTavoitealue(tavoitealue)"
               >
                 {{ $t('poista-tavoitteet-ja-sisaltoalueet') }}
-              </ep-button>
+              </EpButton>
             </div>
           </div>
         </div>
       </VueDraggable>
 
       <div class="flex flex-col">
-        <ep-button
+        <EpButton
           variant="outline"
           icon="add"
           @click="lisaaTavoitealue('OTSIKKO')"
         >
           {{ $t('lisaa-tavoitealueen-otsikko') }}
-        </ep-button>
-        <ep-button
+        </EpButton>
+        <EpButton
           variant="outline"
           icon="add"
           @click="lisaaTavoitealue('TAVOITESISALTOALUE')"
         >
           {{ $t('lisaa-tavoitteet-ja-sisaltoalueet') }}
-        </ep-button>
+        </EpButton>
       </div>
     </div>
 

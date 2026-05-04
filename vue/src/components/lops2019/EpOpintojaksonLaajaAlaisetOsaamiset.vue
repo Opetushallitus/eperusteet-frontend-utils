@@ -45,13 +45,13 @@
         <div>
           <span v-if="laajaAlaisetKooditByUri[lo.koodi]">
             <h5 class="inline">{{ $kaanna(laajaAlaisetKooditByUri[lo.koodi].nimi) }}</h5>
-            <ep-button
+            <EpButton
               v-if="isEditing"
               variant="link"
               @click.stop="poistaLaaja(lo)"
             >
               <EpMaterialIcon>close</EpMaterialIcon>
-            </ep-button>
+            </EpButton>
           </span>
         </div>
         <ep-content
@@ -75,9 +75,9 @@
       class="mb-4"
     >
       <template #button-content>
-        <ep-button variant="primary">
+        <EpButton variant="primary">
           {{ $t('lisaa-laaja-alainen-osaaminen') }}
-        </ep-button>
+        </EpButton>
       </template>
       <EpDropdownItem
         v-for="(laaja, index) in laajaAlaistenKoodit"

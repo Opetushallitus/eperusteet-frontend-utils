@@ -82,13 +82,13 @@
       >{{ $t('viimeaikainen-toiminta-tyhja') }}</span>
 
       <div v-else>
-        <ep-button
+        <EpButton
           v-if="!lisahaku && muokkaustiedotRouted.length % hakuLukumaara === 0 && muokkaustiedot && (!viimeinenHaku || viimeinenHaku.length > 0)"
           variant="link"
           @click="haeLisaa"
         >
           {{ $t('nayta-lisaa') }}
-        </ep-button>
+        </EpButton>
         <ep-spinner v-if="lisahaku" />
       </div>
     </div>

@@ -13,14 +13,14 @@
       {{ $ago(data.value) }}
     </template>
     <template #cell(actions)="row">
-      <ep-button
+      <EpButton
         variant="link"
         icon="keyboard_return"
         :show-spinner="isPalautettu(row.item)"
         @click="palauta(row.item)"
       >
         {{ $t('palauta') }}
-      </ep-button>
+      </EpButton>
     </template>
   </EpTable>
 </template>

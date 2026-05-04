@@ -41,13 +41,13 @@
       </div>
     </VueDraggable>
 
-    <ep-button
+    <EpButton
       variant="outline"
       icon="add"
       @click="lisaaKeskeinenSisaltoalue()"
     >
       {{ $t('lisaa-keskeinen-sisaltoalue') }}
-    </ep-button>
+    </EpButton>
   </div>
 </template>
 

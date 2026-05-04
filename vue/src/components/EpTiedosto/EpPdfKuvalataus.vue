@@ -21,7 +21,7 @@
           <div v-if="kuvaUrl">
             <img :src="kuvaUrl">
             <div class="vali-viiva justify-center">
-              <ep-button
+              <EpButton
                 variant="link"
                 icon="delete"
                 class="mt-2"
@@ -30,7 +30,7 @@
                 <slot name="poista">
                   {{ $t('poista') }}
                 </slot>
-              </ep-button>
+              </EpButton>
             </div>
           </div>
 
@@ -45,7 +45,7 @@
               </figure>
             </div>
             <div class="justify-center">
-              <ep-button
+              <EpButton
                 v-if="fileValidi"
                 variant="link"
                 icon="save"
@@ -55,8 +55,8 @@
                 <slot name="tallenna">
                   {{ $t('tallenna') }}
                 </slot>
-              </ep-button>
-              <ep-button
+              </EpButton>
+              <EpButton
                 variant="link"
                 icon="keyboard_return"
                 @click="file = null"
@@ -64,7 +64,7 @@
                 <slot name="peruuta">
                   {{ $t('peruuta') }}
                 </slot>
-              </ep-button>
+              </EpButton>
             </div>
           </div>
         </div>

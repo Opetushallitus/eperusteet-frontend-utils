@@ -15,7 +15,7 @@
         @update:model-value="$emit('update:modelValue', $event)"
       />
     </div>
-    <ep-button
+    <EpButton
       class="ml-1"
       variant="link"
       icon="delete"

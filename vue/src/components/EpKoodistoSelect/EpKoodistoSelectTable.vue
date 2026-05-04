@@ -25,7 +25,7 @@
         v-if="isEditing"
         #cell(poisto)="{ item }"
       >
-        <ep-button
+        <EpButton
           variant="link"
           icon="delete"
           @click="remove(item)"
@@ -43,7 +43,7 @@
       :default-fields="koodistoSelectDefaultFields"
     >
       <template #default="{ open }">
-        <ep-button
+        <EpButton
           icon="add"
           variant="outline"
           @click="open"
@@ -51,7 +51,7 @@
           <slot name="button-text">
             lisaa-koodi
           </slot>
-        </ep-button>
+        </EpButton>
       </template>
 
       <template #empty>

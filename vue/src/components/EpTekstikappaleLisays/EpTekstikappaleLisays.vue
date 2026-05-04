@@ -2,7 +2,7 @@
   <div>
     <div @click="modalRef?.show()">
       <slot name="lisays-btn">
-        <ep-button
+        <EpButton
           class="tekstikappale-lisays-btn"
           variant="link"
           button-class="text-decoration-none"
@@ -13,7 +13,7 @@
           <slot name="lisays-btn-text">
             {{ $t('uusi-tekstikappale') }}
           </slot>
-        </ep-button>
+        </EpButton>
       </slot>
     </div>
     <EpModal
@@ -131,13 +131,13 @@
 
       <template #modal-footer>
         <div class="flex items-center gap-4">
-          <ep-button
+          <EpButton
             variant="link"
             @click="cancel"
           >
             {{ $t('peruuta') }}
-          </ep-button>
-          <ep-button
+          </EpButton>
+          <EpButton
             :show-spinner="loading"
             :disabled="okDisabled"
             @click="save"
@@ -145,7 +145,7 @@
             <slot name="footer-lisays-btn-text">
               {{ $t('lisaa-tekstikappale') }}
             </slot>
-          </ep-button>
+          </EpButton>
         </div>
       </template>
     </EpModal>

@@ -6,7 +6,7 @@
       <h4>{{ $t('kuvalisays-modal-selite') }}</h4>
 
       <div v-if="!selectedValue || imageData">
-        <ep-button
+        <EpButton
           v-if="!uusiKuva && options.length > 0"
           variant="link"
           no-padding
@@ -14,7 +14,7 @@
           @click="uusiKuva = true"
         >
           {{ $t('lisaa-uusi-kuva') }}
-        </ep-button>
+        </EpButton>
 
         <ep-kuva-lataus
           v-if="uusiKuva || options.length === 0"
@@ -32,14 +32,14 @@
               <h4>
                 {{ $t('lataa-uusi-kuva') }}
               </h4>
-              <ep-button
+              <EpButton
                 v-if="options.length > 0"
                 class="ml-2 mb-1"
                 variant="link"
                 @click="peruuta"
               >
                 {{ $t('peruuta') }}
-              </ep-button>
+              </EpButton>
             </div>
           </template>
         </ep-kuva-lataus>
@@ -69,14 +69,14 @@
               {{ $t('kuvan-leveys') }} {{ valittuKuvaMitat.width }} px <br>
               {{ $t('kuvan-korkeus') }} {{ valittuKuvaMitat.height }} px
             </div>
-            <ep-button
+            <EpButton
               class="mt-2"
               variant="link"
               no-padding
               @click="clearKuvaValinta"
             >
               {{ $t('valitse-toinen-kuva') }}
-            </ep-button>
+            </EpButton>
           </div>
         </div>
 
@@ -160,20 +160,20 @@
     </div>
 
     <div class="flex justify-end items-center mt-3">
-      <ep-button
+      <EpButton
         class="mr-3"
         variant="link"
         @click="close(false)"
       >
         {{ $t('peruuta') }}
-      </ep-button>
-      <ep-button
+      </EpButton>
+      <EpButton
         variant="primary"
         :disabled="invalid"
         @click="close(true)"
       >
         {{ $t('lisaa-kuva') }}
-      </ep-button>
+      </EpButton>
     </div>
   </div>
 </template>

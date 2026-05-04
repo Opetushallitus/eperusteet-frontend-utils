@@ -12,14 +12,14 @@
           disabled
         />
         <template #append>
-          <ep-button
+          <EpButton
             variant="primary"
             @click="openDialog"
           >
             <slot name="hae-koodistosta-text">
               {{ $t('hae-koodistosta') }}
             </slot>
-          </ep-button>
+          </EpButton>
         </template>
       </ep-input-group>
     </slot>
@@ -35,21 +35,21 @@
       </template>
 
       <template #modal-footer>
-        <slot name="modal-footer" :ok="lisaaValitut" :cancel="editModal?.hide">
-          <ep-button
+        <slot name="modal-footer" :ok="lisaaValitut" :cancel="editModal?.hide()">
+          <EpButton
             variant="link"
             @click="editModal?.hide()"
           >
             {{ multiselect ? $t('peruuta') : $t('sulje') }}
-          </ep-button>
-          <ep-button
+          </EpButton>
+          <EpButton
             v-if="multiselect"
             variant="primary"
             :disabled="innerModel.length === 0"
             @click="lisaaValitut"
           >
             {{ $t('lisaa-valitut') }}
-          </ep-button>
+          </EpButton>
         </slot>
       </template>
 

@@ -7,7 +7,7 @@
     >
       <div class="flex flex-col mb-2">
         <EpSpinner v-if="!koodistot" />
-        <ep-button
+        <EpButton
           v-for="koodisto in koodistot"
           :key="koodisto.koodistoUri"
           variant="link"
@@ -15,16 +15,16 @@
           @click="valitseKoodistoJaAvaa(koodisto.koodistoUri!)"
         >
           {{ $kaanna(koodisto.nimi) }}
-        </ep-button>
+        </EpButton>
       </div>
 
       <template #modal-footer>
-        <ep-button
+        <EpButton
           variant="link"
           @click="koodistoPickModalRef.hide?.()"
         >
           {{ $t('peruuta') }}
-        </ep-button>
+        </EpButton>
       </template>
     </ep-modal>
     <div class="d-none">

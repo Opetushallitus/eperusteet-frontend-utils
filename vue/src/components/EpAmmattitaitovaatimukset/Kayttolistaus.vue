@@ -5,7 +5,7 @@
       @show="shown"
     >
       <template #trigger>
-        <ep-button
+        <EpButton
           :id="id"
           variant="link"
         >
@@ -15,7 +15,7 @@
           >
             info
           </EpMaterialIcon>
-        </ep-button>
+        </EpButton>
       </template>
       <template #header>
         <h3>{{ $t('kaytossa-toisaalla') }}</h3>

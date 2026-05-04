@@ -6,7 +6,7 @@
     <template #header>
       <div class="flex justify-between items-center flex-wrap">
         <h1>{{ $t('tiedotteet') }}</h1>
-        <ep-button
+        <EpButton
           variant="link"
           icon="add"
         >
@@ -16,7 +16,7 @@
           >
             <span class="ml-1 link-text">{{ $t('lisaa-tiedote') }}</span>
           </a>
-        </ep-button>
+        </EpButton>
       </div>
     </template>
 

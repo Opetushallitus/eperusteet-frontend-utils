@@ -83,7 +83,7 @@
         </div>
         <div class="w-1/12 text-center pt-4">
           <div class="pt-2">
-            <ep-button
+            <EpButton
               variant="link"
               icon="delete"
               @click="poistaTavoite(aikataulu)"
@@ -93,13 +93,13 @@
       </div>
     </div>
 
-    <ep-button
+    <EpButton
       variant="outline-primary"
       icon="add"
       @click="lisaaTavoite"
     >
       {{ $t('lisaa-tavoite') }}
-    </ep-button>
+    </EpButton>
   </div>
 </template>
 
