@@ -16,23 +16,23 @@
           </div>
         </template>
         <template #right>
-          <ep-button
+          <EpButton
             variant="link"
             @click="poista(idx)"
           >
             <EpMaterialIcon>close</EpMaterialIcon>
-          </ep-button>
+          </EpButton>
         </template>
       </ep-input>
     </div>
     <div style="margin-top: 20px;">
-      <ep-button
+      <EpButton
         variant="outline-primary"
         icon="add"
         @click="lisaaRivi()"
       >
         {{ $t(lisays) }}
-      </ep-button>
+      </EpButton>
     </div>
   </div>
   <div v-else>

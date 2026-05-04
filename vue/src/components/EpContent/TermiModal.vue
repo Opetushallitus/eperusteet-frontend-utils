@@ -33,21 +33,21 @@
           </ep-toggle>
         </ep-form-content>
         <div class="flex gap-2">
-          <ep-button
+          <EpButton
             variant="link"
             :show-spinner="isLoading"
             @click="peruuta"
           >
             {{ $t('peruuta') }}
-          </ep-button>
-          <ep-button
+          </EpButton>
+          <EpButton
             id="tallenna-kasite"
             :disabled="v$.muokattava.$invalid"
             :show-spinner="isLoading"
             @click="tallenna"
           >
             {{ $t('tallenna') }}
-          </ep-button>
+          </EpButton>
         </div>
       </div>
       <div v-else>
@@ -77,7 +77,7 @@
             v-if="canEditTermit"
             class="mt-3"
           >
-            <ep-button
+            <EpButton
               v-if="valittu"
               id="muokkaa-termia"
               class="lisaa-painike"
@@ -85,15 +85,15 @@
               @click="muokkaa(valittu)"
             >
               {{ $t('muokkaa-kasitetta') }}
-            </ep-button>
-            <ep-button
+            </EpButton>
+            <EpButton
               id="lisaa-uusi-termi"
               class="lisaa-painike"
               variant="link"
               @click="muokkaa()"
             >
               {{ $t('lisaa-uusi-kasite') }}
-            </ep-button>
+            </EpButton>
           </div>
         </div>
       </div>
@@ -101,21 +101,21 @@
 
     <div class="modal-footer">
       <div class="w-full flex justify-end gap-2">
-        <ep-button
+        <EpButton
           class="mr-3"
           variant="link"
           @click="handleCancel"
         >
           {{ $t('peruuta') }}
-        </ep-button>
-        <ep-button
+        </EpButton>
+        <EpButton
           v-if="!isEditing"
           variant="primary"
           :disabled="!valittu"
           @click="handleOk"
         >
           {{ $t('valitse') }}
-        </ep-button>
+        </EpButton>
       </div>
     </div>
   </div>

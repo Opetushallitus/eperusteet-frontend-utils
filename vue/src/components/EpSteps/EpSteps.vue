@@ -45,27 +45,27 @@
 
     <div class="clear-both">
       <div class="flex justify-end gap-4 mt-5 items-center">
-        <ep-button
+        <EpButton
           variant="link"
           @click="cancel"
         >
           {{ $t('peruuta') }}
-        </ep-button>
-        <ep-button
+        </EpButton>
+        <EpButton
           v-if="stepIdx > 0"
           variant="link"
           @click="previous"
         >
           {{ $t('edellinen') }}
-        </ep-button>
-        <ep-button
+        </EpButton>
+        <EpButton
           v-if="stepIdx < steps.length - 1"
           :disabled="!currentValid"
           @click="next"
         >
           {{ $t('seuraava') }}
-        </ep-button>
-        <ep-button
+        </EpButton>
+        <EpButton
           v-else
           :disabled="!currentValid"
           :show-spinner="saving"
@@ -74,7 +74,7 @@
           <slot name="luo">
             {{ $t('tallenna') }}
           </slot>
-        </ep-button>
+        </EpButton>
       </div>
     </div>
   </div>

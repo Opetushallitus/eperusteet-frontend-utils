@@ -1,12 +1,12 @@
 <template>
-  <ep-button
+  <EpButton
     class="mt-3"
     :show-spinner="julkaistaan || julkaisuKesken"
     :disabled="disabled"
     @click="suoritaJulkaisu()"
   >
     {{ $t('julkaise') }}
-  </ep-button>
+  </EpButton>
 </template>
 
 <script setup lang="ts">

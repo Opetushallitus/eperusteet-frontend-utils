@@ -70,9 +70,9 @@ describe('EpIntersectLazyImg', () => {
     wrapper.unmount();
   });
 
-  it('uses .vs__dropdown-menu as observer root when inside vue-select menu', async () => {
+  it('uses .imageselector as observer root when inside vue-select menu', async () => {
     const menu = document.createElement('div');
-    menu.className = 'vs__dropdown-menu';
+    menu.className = 'imageselector';
     document.body.appendChild(menu);
 
     const wrapper = mount(EpIntersectLazyImg, {

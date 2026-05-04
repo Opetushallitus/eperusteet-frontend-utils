@@ -57,7 +57,7 @@
         </VueMultiselect>
       </div>
       <div class="col-span-1">
-        <ep-button
+        <EpButton
           v-if="!required || (i > 0 && !isLoading)"
           button-class="p-0 pt-2 roskalaatikko"
           variant="link"
@@ -68,7 +68,7 @@
     </div>
 
     <ep-spinner v-if="isLoading" />
-    <ep-button
+    <EpButton
       v-else-if="multiple"
       button-class="pl-0 lisaa-valinta"
       variant="outline-primary"
@@ -78,7 +78,7 @@
       <slot name="lisaaTeksti">
         {{ $t(lisaaTeksti) }}
       </slot>
-    </ep-button>
+    </EpButton>
 
     <div
       v-if="!validationError && validMessage"

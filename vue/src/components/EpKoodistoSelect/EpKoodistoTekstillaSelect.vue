@@ -13,13 +13,13 @@
           {{ $kaanna(kooditByUri[koodi.koodiUri].nimi) }}
         </div>
         <div v-if="isEditing">
-          <ep-button
+          <EpButton
             variant="link"
             icon="delete"
             @click="poistaKoodi(koodi)"
           >
             {{ $t('poista') }}
-          </ep-button>
+          </EpButton>
         </div>
       </div>
 
