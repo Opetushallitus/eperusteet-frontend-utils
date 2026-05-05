@@ -75,7 +75,6 @@ defineExpose({
 @import '@shared/styles/_variables.scss';
 
 .ep-dropdown-trigger {
-  display: inline-flex;
   align-items: center;
   vertical-align: middle;
 }
