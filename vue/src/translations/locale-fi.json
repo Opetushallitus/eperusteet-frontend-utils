@@ -4667,11 +4667,14 @@
     "torstai": "Torstai",
     "perjantai": "Perjantai",
     "lauantai": "Lauantai",
+    "sunnuntai": "Sunnuntai",
     "su": "Su",
     "ma": "Ma",
     "ti": "Ti",
     "ke": "Ke",
     "to": "To",
     "pe": "Pe",
-    "la": "La"
+    "la": "La",
+    "viikko": "Viikko",
+    "kpl-valittu": "{kpl} valittu"
 }

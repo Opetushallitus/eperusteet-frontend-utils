@@ -3,13 +3,6 @@
     v-sticky="stickyBinding"
     class="topbar"
   >
-    <!-- <EpSidebar id="sisaltobar">
-      <div
-        id="globalNavigation"
-        ref="innerPortal"
-      />
-    </EpSidebar> -->
-
     <nav
       id="navigation-bar"
       class="ep-navbar flex items-center"
@@ -207,22 +200,33 @@ const stickyBinding = computed(() => {
 $ep-navbar-height: 56px;
 
 .topbar {
-  color: white;
+  &.dark,
+  &.dark :deep(.ep-breadcrumb .p-breadcrumb-item-link),
+  &.dark :deep(.ep-breadcrumb .ep-breadcrumb-current),
+  &.dark :deep(.ep-breadcrumb .p-breadcrumb-separator),
+  &.dark .ep-navbar .kielivalitsin,
+  &.dark .ep-navbar .kieli-valikko,
+  &.dark .ep-navbar :deep(.kayttaja .kayttaja-valikko .kielivalitsin) {
+    color: $white !important;
+  }
+
+  &.light,
+  &.light :deep(.ep-breadcrumb .p-breadcrumb-item-link),
+  &.light :deep(.ep-breadcrumb .ep-breadcrumb-current),
+  &.light :deep(.ep-breadcrumb .p-breadcrumb-separator),
+  &.light .ep-navbar .kielivalitsin,
+  &.light .ep-navbar .kieli-valikko,
+  &.light .ep-navbar :deep(.kayttaja .kayttaja-valikko .kielivalitsin) {
+    color: $color-ops-header-black-text !important;
+  }
   height: $ep-navbar-height;
 
   .ep-navbar {
     top: 0;
     font-weight: 600;
-
-    .kielivalitsin {
-      color: white;
-    }
-
   }
 
   .kieli-valikko {
-    color: white;
-
     .valittu-kieli {
       font-weight: 400;
     }
