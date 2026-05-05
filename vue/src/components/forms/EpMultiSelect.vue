@@ -71,7 +71,7 @@
               :option="option"
               :search="search"
             >
-              <span class="ml-2">{{ getOptionLabel(option) }}</span>
+              <span class="ml-2">{{ getOptionLabelKaannettu(option) }}</span>
             </slot>
           </div>
           <EpMaterialIcon
@@ -88,7 +88,30 @@
           :option="option"
           :search="search"
           :remove="remove"
-        />
+        >
+          <template v-if="model?.length > 0">
+            <div class="flex items-center">
+              <span v-if="model?.length === 1" class="mr-2 border-1 border-solid px-2 py-1 rounded-md">
+                {{ getOptionLabelKaannettu(option) }}
+                <ep-material-icon class="!text-sm cursor-pointer" @click="remove(option)">close</ep-material-icon>
+              </span>
+
+              <div v-if="model?.length > 1 && option === model[0]" class="mr-2 px-2 py-1 rounded-md flex items-center">
+                <div class="mr-1">{{ $t('kpl-valittu', { kpl: model?.length }) }}</div>
+                <EpInfoPopover
+                  v-if="model?.length > 1 && option === model[0]"
+                  :title="getOptionLabelKaannettu(option)"
+                  :description="getOptionLabelKaannettu(option)"
+                >
+                  <div class="ml-2" v-for="modelOption in model" :key="modelOption">{{ getOptionLabelKaannettu(modelOption) }}</div>
+                </EpInfoPopover>
+              </div>
+            </div>
+          </template>
+          <template v-else>
+            <span/>
+          </template>
+        </slot>
       </template>
       <template #noResult>
         <slot name="noResult">
@@ -158,6 +181,8 @@ import VueMultiselect from 'vue-multiselect';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import _ from 'lodash';
 import { hasSlotContent } from '../../utils/vue-utils';
+import { $kaannaOlioTaiTeksti } from '@shared/utils/globals';
+import EpInfoPopover from '../EpInfoPopover/EpInfoPopover.vue';
 
 const props = defineProps({
   modelValue: {
@@ -331,6 +356,10 @@ function getOptionLabel(option) {
   if (_.isEmpty(option)) return '';
   if (!_.isEmpty(props.label) && !_.isEmpty(_.get(option, props.label))) return _.get(option, props.label);
   return option;
+}
+
+function getOptionLabelKaannettu(option) {
+  return $kaannaOlioTaiTeksti(getOptionLabel(option));
 }
 
 // Using regular function instead of debouncing directly since we need to access props
