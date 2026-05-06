@@ -132,7 +132,6 @@ import MultiSelect from 'primevue/multiselect';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import EpToggleGroup from './EpToggleGroup.vue';
 import EpFormGroup from './EpFormGroup.vue';
-import { hasSlotContent } from '@shared/utils/vue-utils';
 
 const props = defineProps({
   isEditing: {
@@ -273,9 +272,7 @@ watch(
   { immediate: true },
 );
 
-const hasDefaultSlot = computed(() => {
-  return hasSlotContent(slots.default);
-});
+const hasDefaultSlot = computed(() => typeof slots.default === 'function');
 </script>
 
 <style scoped lang="scss">

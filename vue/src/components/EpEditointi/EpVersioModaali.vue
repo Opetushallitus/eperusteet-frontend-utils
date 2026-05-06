@@ -5,6 +5,7 @@
       ref="modalRef"
       size="lg"
       hide-footer
+      :hideHeaderClose="false"
     >
       <template #modal-title>
         {{ $t('historia') }}
