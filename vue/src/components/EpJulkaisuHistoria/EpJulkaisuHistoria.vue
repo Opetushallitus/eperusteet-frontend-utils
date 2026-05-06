@@ -17,7 +17,7 @@
         <div
           v-for="(julkaisu, index) in julkaisutMapped"
           :key="'julkaisu'+index"
-          class="julkaisu pb-2 ml-1 px-3"
+          class="julkaisu py-2 ml-1 px-3"
         >
           <div class="flex justify-between items-center">
             <div>
@@ -140,7 +140,7 @@ const palautaConfirm = async (julkaisu: Julkaisu) => {
 
 <style scoped lang="scss">
 @import '@shared/styles/_variables';
-.julkaisu:nth-of-type(even) {
+.julkaisu:nth-of-type(odd) {
   background-color: $grey50;
 }
 
