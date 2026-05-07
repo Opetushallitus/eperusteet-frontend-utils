@@ -181,7 +181,12 @@ const activeIdx = computed(() => {
     if (navItem.depth !== active.value?.depth) {
       return false;
     }
-    return navItem.id != null ? navItem.id === active.value!.id : navItem.type === active.value?.type;
+
+    if (navItem.id != null) {
+      return navItem.id === active.value!.id && _.isEqual(navItem.meta, active.value?.meta);
+    }
+
+    return navItem.type === active.value?.type;
   });
 });
 
