@@ -26,8 +26,11 @@
 }
 
 // Base styles (from tailwind.css)
-a[href] {
+a[href], .btn-link {
   color: $link;
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 ul {
