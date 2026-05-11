@@ -188,5 +188,8 @@ $paattynyt-color: $red-1;
 // yleissivistava
 $ylops-paikallinen-color: $lightBlue2;
 
+$primary-color: $blue3;
+$primary-color-hover: $blue2;
+
 // Ylikirjoitetaan muuttujien arvot palvelukohtaisilla jos määritelty
 @import "@/styles/_variables.scss";
