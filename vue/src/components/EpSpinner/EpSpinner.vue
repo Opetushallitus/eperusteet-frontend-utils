@@ -86,7 +86,7 @@ const style = computed(() => {
   }
 
   .oph-bounce {
-    background-color: $spinner-background-color !important;
+    background-color: var(--p-primary-color) !important;
   }
 
   &.full-screen {
