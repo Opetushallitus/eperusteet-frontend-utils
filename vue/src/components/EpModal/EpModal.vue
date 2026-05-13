@@ -22,7 +22,7 @@
       #footer
     >
       <div class="flex justify-end gap-4 items-center content-center">
-        <slot name="modal-footer">
+        <slot name="modal-footer" :on-cancel="onCancel" :on-ok="onOk">
           <EpButton
             variant="link"
             @click="onCancel"
