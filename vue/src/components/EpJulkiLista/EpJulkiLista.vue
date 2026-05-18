@@ -50,7 +50,7 @@
 
       <div
         v-if="listausTyyppi === 'lisahaku'"
-        class="mt-5"
+        class="mt-3"
       >
         <slot name="lisaaBtn">
           <EpSecondaryButton
