@@ -120,20 +120,12 @@
             {{ $t('tiedote-julkaisupaikka-ops') }}
           </ep-toggle>
           <ep-toggle
-            v-model="lopsJulkaisu"
-            class="pb-2"
-            :is-s-witch="false"
-            :is-editing="editing"
-          >
-            {{ $t('tiedote-julkaisupaikka-lops') }}
-          </ep-toggle>
-          <ep-toggle
             v-model="amosaaJulkaisu"
             class="pb-2"
             :is-s-witch="false"
             :is-editing="editing"
           >
-            {{ $t('tiedote-julkaisupaikka-amosaa') }}
+            {{ $t('tiedote-julkaisupaikka-totsu') }}
           </ep-toggle>
           <ep-toggle
             v-model="vstJulkaisu"
@@ -451,7 +443,7 @@
 <script setup lang="ts">
 import { ref, computed, getCurrentInstance, watch } from 'vue';
 import * as _ from 'lodash';
-import { TiedoteDto, Kayttajat, PerusteHakuDto, PerusteDto, PerusteKevytDto } from '@shared/api/eperusteet';
+import { TiedoteDto, Kayttajat, PerusteHakuDto, PerusteDto, PerusteKevytDto, TiedoteDtoJulkaisupaikatEnum } from '@shared/api/eperusteet';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
@@ -714,6 +706,11 @@ async function tallennaTiedote() {
     .value() as any;
 
   muokattavaTiedote.value.koulutustyypit = (valitutKoulutustyypit.value as any);
+  if (muokattavaTiedote.value.koulutustyypit?.length || 0 > 0) {
+    muokattavaTiedote.value.julkaisupaikat?.push(TiedoteDtoJulkaisupaikatEnum.OPINTOPOLKU);
+  } else {
+    muokattavaTiedote.value.julkaisupaikat?.filter(value => value !== TiedoteDtoJulkaisupaikatEnum.OPINTOPOLKU);
+  }
 
   if (props.peruste) {
     if (liitaPeruste.value) {
