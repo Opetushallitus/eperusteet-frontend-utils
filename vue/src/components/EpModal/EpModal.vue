@@ -71,7 +71,7 @@ const props = withDefaults(
     okText: '',
     cancelText: '',
     hideFooter: false,
-    hideHeaderClose: true,
+    hideHeaderClose: false,
     okDisabled: false,
     small: false,
   },
