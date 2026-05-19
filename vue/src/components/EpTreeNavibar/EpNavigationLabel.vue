@@ -20,6 +20,7 @@
         <EpPopover
           :triggers="['hover', 'click']"
           :disabled="!node.meta || !node.meta.postfix_tooltip"
+          class="ml-1"
         >
           <template #trigger>
             <span
