@@ -527,7 +527,7 @@ defineExpose({
   background: $gray;
 }
 
-:deep(.multiselect) {
-  @include focus-within;
-}
+// :deep(.multiselect) {
+//   @include focus-within;
+// }
 </style>

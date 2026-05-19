@@ -162,14 +162,12 @@ img.content-image {
     &:hover {
       text-decoration: none;
     }
-    @include focus;
   }
 
   a {
     &:hover {
       text-decoration: none;
     }
-    @include focus;
   }
 
   body {
@@ -394,12 +392,6 @@ table {
   border: 1px solid $black;
   border-radius: 0;
   background-color: $white;
-
-  &:focus {
-    border-color: $black;
-    box-shadow: none;
-    @include focus;
-  }
 }
 
 .noselect {
