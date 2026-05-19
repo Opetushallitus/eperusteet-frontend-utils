@@ -52,7 +52,7 @@ const props = defineProps({
   },
   popoverClass: {
     type: String,
-    default: 'w-100',
+    // default: 'w-100',
   },
 });
 
