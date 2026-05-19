@@ -1,33 +1,30 @@
 <template>
   <div>
-    <div
-      id="tila-popover"
-      class="row justify-content-center"
-    >
-      <div class="col-12 progress-area">
-        <ep-progress
-          :slices="processSlices"
-          :height="height"
-          :width="width"
-        />
-      </div>
-      <div class="col-12 header">
-        <slot name="header" />
-      </div>
-    </div>
-
-    <b-popover
+    <EpPopover
       v-if="slots.default"
-      ref="progresspopover"
-      v-model:show="tilaPopupVisible"
-      container="tila-popover"
-      target="tila-popover"
-      triggers="focus hover blur"
-      size="md"
-      placement="bottom"
-      custom-class="progress-popover"
+      :triggers="['hover', 'focus']"
+      popover-class="w-70"
+      @show="tilaPopupVisible = true"
+      @hide="tilaPopupVisible = false"
     >
-      <div class="slot-area row justify-content-center mr-1">
+      <template #trigger>
+        <div
+          class="text-center"
+        >
+          <div class="progress-area">
+            <ep-progress
+              :slices="processSlices"
+              :height="height"
+              :width="width"
+            />
+          </div>
+          <div class="header text-center">
+            <slot name="header" />
+          </div>
+        </div>
+      </template>
+
+      <div class="slot-area text-center">
         <slot />
       </div>
 
@@ -35,10 +32,25 @@
         <hr>
       </div>
 
-      <div class="popup-bottom row flex-column align-items-center mx-3 my-2">
+      <div class="popup-bottom block text-center">
         <slot name="bottom" />
       </div>
-    </b-popover>
+    </EpPopover>
+
+    <div
+      v-else
+    >
+      <div class="progress-area text-center">
+        <ep-progress
+          :slices="processSlices"
+          :height="height"
+          :width="width"
+        />
+      </div>
+      <div class="w-full header">
+        <slot name="header" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -46,6 +58,7 @@
 import { computed, ref, useSlots } from 'vue';
 import _ from 'lodash';
 import EpProgress from './EpProgress.vue';
+import EpPopover from '../EpPopover/EpPopover.vue';
 
 const props = defineProps({
   slices: {
@@ -97,52 +110,7 @@ defineExpose({
 @import '@shared/styles/_mixins.scss';
 
 .progress-area {
-  width: 100px;
-}
-
-.progress-popover {
-  width: 250px;
-  @include tile-background-shadow-selected;
-  border: 0px;
-  border-radius: 1rem;
-  transform: translate3d(45px, 55px, 0px) !important;
-
-  :deep(.arrow) {
-    display:none;
-  }
-
-  :deep(.popover-body) {
-    padding: 0;
-
-    .popup-top {
-      padding: 15px;
-      background: $popup-top-background;
-      border-radius: 1rem 1rem 0 0;
-      font-size: 1rem;
-    }
-
-    .slot-area {
-      padding: 15px;
-      background-color: $white;
-    }
-
-    .popup-hr {
-      background-color: $white;
-      margin-right: -15px;
-      margin-left: -15px;
-      display: flow-root;
-    }
-
-    .popup-bottom {
-      padding: 5px 15px;
-      background-color: $white;
-      border-radius: 0 0 1rem 1rem;
-    }
-
-    hr {
-      margin: 0;
-    }
-  }
+  height: 70px;
 }
 
 </style>

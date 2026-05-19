@@ -1,9 +1,12 @@
 <template>
-  <div class="d-flex flex-column">
+  <div class="flex flex-col">
     <slot />
-    <b-form-invalid-feedback :state="!validation?.$invalid">
-      {{ $t(message) }}
-    </b-form-invalid-feedback>
+    <div
+      v-if="validation?.$invalid && (message || invalidMessage)"
+      class="text-red-600 text-sm mt-1"
+    >
+      {{ invalidMessage ? $t(invalidMessage) : $t(message) }}
+    </div>
   </div>
 </template>
 

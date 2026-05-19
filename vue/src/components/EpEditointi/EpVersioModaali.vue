@@ -1,70 +1,68 @@
 <template>
-  <div v-b-modal.epversiomodaali>
+  <div @click="modalRef?.show()">
     <slot>{{ $t('muokkaushistoria') }}</slot>
-    <b-modal
-      id="epversiomodaali"
-      ref="epversiomodaali"
+    <EpModal
+      ref="modalRef"
       size="lg"
-      :title="$t('historia')"
-      :hide-footer="true"
+      hide-footer
+      :hideHeaderClose="false"
     >
-      <b-table
+      <template #modal-title>
+        {{ $t('historia') }}
+      </template>
+      <EpTable
         responsive
         striped
         :items="versionsFormatted"
         :fields="fields"
         :per-page="perPage"
-        :current-page="currentPage"
       >
         <template #cell(actions)="row">
-          <div class="float-right">
-            <div v-if="!row.item.valittu">
-              <ep-button
+          <div class="flex gap-2 justify-end">
+            <div v-if="!row.item.valittu" class="flex gap-2">
+              <EpButton
                 variant="link"
                 icon="visibility"
                 @click="changeVersion(row.item.index)"
               >
                 {{ $t('katsele') }}
-              </ep-button>
-              <ep-button
+              </EpButton>
+              <EpButton
                 variant="link"
                 icon="keyboard_return"
-                @click="$emit('restore', { numero: row.item.numero, modal: epversiomodaali })"
+                @click="$emit('restore', { numero: row.item.numero, modal: modalApi })"
               >
                 {{ $t('palauta') }}
-              </ep-button>
+              </EpButton>
             </div>
-            <ep-button
+            <EpButton
               v-else
               variant="link"
               disabled
             >
               {{ $t('valittu-versio') }}
-            </ep-button>
+            </EpButton>
           </div>
         </template>
-      </b-table>
-      <ep-pagination
-        v-model="currentPage"
-        :total-rows="rows"
-        :per-page="perPage"
-        align="center"
-        aria-controls="epversiomodaali"
-      />
-    </b-modal>
+      </EpTable>
+    </EpModal>
   </div>
 </template>
 
 <script setup lang="ts">
 import _ from 'lodash';
-import { ref, computed, useTemplateRef } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { Revision } from '../../tyypit';
 import EpButton from '../../components/EpButton/EpButton.vue';
+import EpModal from '@shared/components/EpModal/EpModal.vue';
 import EpFormContent from '../../components/forms/EpFormContent.vue';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
-import EpPagination from '@shared/components/EpPagination/EpPagination.vue';
 import { $sdt, $t } from '@shared/utils/globals';
+import EpTable from '@shared/components/EpTable/EpTable.vue';
+
+const modalRef = ref<InstanceType<typeof EpModal> | null>(null);
+const modalApi = { hide: () => modalRef.value?.hide() };
 
 const props = defineProps({
   versions: {
@@ -83,8 +81,6 @@ const props = defineProps({
 
 const emit = defineEmits(['restore']);
 
-const currentPage = ref(1);
-const epversiomodaali = useTemplateRef('epversiomodaali');
 const router = useRouter();
 
 const fields = computed(() => {

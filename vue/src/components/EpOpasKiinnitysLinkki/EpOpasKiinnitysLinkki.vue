@@ -11,7 +11,7 @@
     <router-link
       v-for="opas in oppaat"
       :key="opas.id"
-      class="d-flex opas mb-2"
+      class="flex opas mb-2"
       :to="{name: 'peruste', params: {koulutustyyppi: 'opas', perusteId: opas.id}}"
     >
       <div class="icon mr-3">
@@ -53,12 +53,12 @@ onMounted(async () => {
 
 .opas {
 
-  border: 1px solid $gray-lighten-8;
+  border: 1px solid $grey200;
   padding: 0.7rem;
   border-radius: 0.2rem;
 
   .icon {
-    color: $blue-lighten-5;
+    color: $blue3;
   }
 
   .nimi {
@@ -67,7 +67,7 @@ onMounted(async () => {
   }
 
   &:hover {
-    background-color: $gray-lighten-5;
+    background-color: $grey50;
   }
 }
 </style>

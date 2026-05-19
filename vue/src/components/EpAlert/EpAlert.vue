@@ -2,7 +2,7 @@
   <div>
     <div
       v-if="!onlyText"
-      class="d-flex align-items-center"
+      class="flex items-center"
     >
       <div v-if="ops">
         <svg
@@ -82,7 +82,7 @@
           </svg>
         </div>
       </div>
-      <div class="alert flex-fill-1">
+      <div class="alert flex-1-1">
         {{ text }}
       </div>
     </div>

@@ -49,10 +49,10 @@ const showReadMore = computed(() => {
 @import "@shared/styles/_variables.scss";
 
 .wrapper {
-  border-bottom: 2px solid $gray-lighten-10;
+  border-bottom: 2px solid rgba($grey200, 0.4);
 
   > p {
-    color: $gray-lighten-1;
+    color: $grey400;
     font-size: 0.85rem;
   }
 }
@@ -63,7 +63,7 @@ const showReadMore = computed(() => {
   background: none;
   padding: 0;
   margin: 0;
-  color: $blue-lighten-5;
+  color: $blue3;
   outline: none;
   text-transform: lowercase;
 

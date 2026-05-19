@@ -1,5 +1,5 @@
 <template>
-  <div class="data-content d-flex">
+  <div class="data-content flex">
     <div class="pr-3">
       <EpMaterialIcon>{{ icon }}</EpMaterialIcon>
     </div>
@@ -35,7 +35,7 @@ const props = defineProps({
 @import "@shared/styles/_variables.scss";
 
   .icon {
-    color: $blue-lighten-6;
+    color: $link;
     vertical-align: top;
     font-size: 22px;
   }

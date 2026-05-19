@@ -1,6 +1,7 @@
 <template>
-  <div class="d-flex">
+  <div class="flex">
     <EpLaajuusInput
+      :class="{'w-[80px]': isEditing}"
       v-model="model.laajuus"
       :is-editing="isEditing"
       :validation="validation.laajuus"

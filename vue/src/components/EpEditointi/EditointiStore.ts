@@ -20,10 +20,8 @@ export interface KayttajaProvider {
 
 export interface EditoitavaFeatures {
   editable?: boolean;
-  previewable?: boolean;
   removable?: boolean;
   lockable?: boolean;
-  validated?: boolean;
   recoverable?: boolean;
   hideable?: boolean;
   isHidden?: boolean;
@@ -84,11 +82,6 @@ export interface IEditoitava {
   postLoad?: () => Promise<void>;
 
   /**
-   * Get preview url location
-   */
-  preview?: () => Promise<any | null>;
-
-  /**
    * Hide the resource
    */
   hide?: (data: any) => Promise<void>;
@@ -146,7 +139,8 @@ export interface EditointiStoreConfig {
 }
 
 export class EditointiStore {
-  private static editing: boolean = false;
+  /** Module-global; use ref so Vue computeds (e.g. EpFormGroup) track edits. */
+  private static editingRef = ref(false);
   private static router: Router;
   private static kayttajaProvider: KayttajaProvider;
   private logger = createLogger(EditointiStore);
@@ -179,11 +173,11 @@ export class EditointiStore {
   });
 
   public static anyEditing() {
-    return EditointiStore.editing;
+    return EditointiStore.editingRef.value;
   }
 
   public static async cancelAll() {
-    EditointiStore.editing = false;
+    EditointiStore.editingRef.value = false;
   }
 
   public constructor(
@@ -214,10 +208,8 @@ export class EditointiStore {
       hideable: true,
       isHidden: false,
       lockable: true,
-      previewable: false,
       recoverable: true,
       removable: true,
-      validated: true,
       copyable: false,
     };
 
@@ -235,8 +227,6 @@ export class EditointiStore {
       lockable: cfg.lock && cfg.release && features.lockable,
       recoverable: cfg.restore && cfg.revisions && features.recoverable,
       removable: cfg.remove && features.removable,
-      validated: cfg.validator && features.validated,
-      previewable: features.previewable || false,
       copyable: features.copyable || false,
       codes: features.codes || [],
       hasCoding: !!features.hasCoding,
@@ -251,10 +241,6 @@ export class EditointiStore {
     }
     return this.state.currentLock;
   });
-
-  public get hasPreview() {
-    return !!this.config.preview;
-  }
 
   public async updateRevisions() {
     if (this.config.revisions) {
@@ -319,7 +305,7 @@ export class EditointiStore {
       if (this.config.start) {
         await this.config.start();
       }
-      EditointiStore.editing = true;
+      EditointiStore.editingRef.value = true;
     }
     catch (err) {
       this.logger.error('Editoinnin aloitus epäonnistui:', err);
@@ -376,7 +362,7 @@ export class EditointiStore {
     }
 
     this.state.isEditingState = false;
-    EditointiStore.editing = false;
+    EditointiStore.editingRef.value = false;
     this.state.disabled = false;
 
     await nextTick();
@@ -395,7 +381,7 @@ export class EditointiStore {
   public async remove() {
     this.state.disabled = true;
     this.state.isEditingState = false;
-    EditointiStore.editing = false;
+    EditointiStore.editingRef.value = false;
     try {
       if (this.config.remove) {
         await this.config.remove(this.state.data);
@@ -421,7 +407,7 @@ export class EditointiStore {
       try {
         const after = await this.config.save(this.state.data);
         this.logger.success('Tallennettu onnistuneesti');
-        EditointiStore.editing = false;
+        EditointiStore.editingRef.value = false;
         await this.unlock();
         await this.fetchRevisions();
         await this.init();
