@@ -1,0 +1,30 @@
+@import '@shared/styles/_variables.scss';
+@import '@shared/styles/_mixins.scss';
+
+:root {
+  --p-focus-ring-color: #{$black} !important;
+  --p-focus-ring-width: 2px !important;
+  --p-form-field-focus-ring-width: 2px !important;
+  --p-form-field-focus-ring-style: solid !important;
+  --p-form-field-focus-ring-color: #{$black} !important;
+  --p-form-field-focus-ring-offset: 2px !important;
+  --p-form-field-focus-ring-shadow: none;
+} 
+
+.form-control {
+  @include focus;
+
+  &:focus {
+    border-color: $accessibility-main-color;
+    border-width: $accessibility-main-width;
+    box-shadow: none;
+  }
+}
+
+a, .aihe-box, :is(h1, h2, h3, h4, h5, h6)[tabindex="0"] {
+  @include focus;
+}
+
+.multiselect {
+  @include focus-within;
+}
