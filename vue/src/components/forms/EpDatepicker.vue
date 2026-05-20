@@ -182,6 +182,10 @@ const onBlur = () => {
     border-radius: 0px;
     font-size: 1rem;
     line-height: 1.5;
+
+    &:focus {
+      outline-width: 0;
+    }
   }
 
   &.is-invalid :deep(.p-inputtext) {
