@@ -2,14 +2,14 @@
 @import '@shared/styles/_mixins.scss';
 
 :root {
-  --p-focus-ring-color: #{$black} !important;
-  --p-focus-ring-width: 2px !important;
-  --p-form-field-focus-ring-width: 2px !important;
+  --p-focus-ring-color: #{$accessibility-main-color} !important;
+  --p-focus-ring-width: #{$accessibility-main-width} !important;
+  --p-form-field-focus-ring-width: #{$accessibility-main-width} !important;
   --p-form-field-focus-ring-style: solid !important;
-  --p-form-field-focus-ring-color: #{$black} !important;
-  --p-form-field-focus-ring-offset: 2px !important;
+  --p-form-field-focus-ring-color: #{$accessibility-main-color} !important;
+  --p-form-field-focus-ring-offset: #{$accessibility-main-width} !important;
   --p-form-field-focus-ring-shadow: none;
-} 
+}
 
 .form-control {
   @include focus;
@@ -23,6 +23,22 @@
 
 a, .aihe-box, :is(h1, h2, h3, h4, h5, h6)[tabindex="0"] {
   @include focus;
+}
+
+// PrimeVue hides the native input; the visible focus ring is on the box/slider sibling.
+.p-checkbox:not(.p-disabled):has(.p-checkbox-input:focus-visible) .p-checkbox-box,
+.p-toggleswitch:not(.p-disabled):has(.p-toggleswitch-input:focus-visible) .p-toggleswitch-slider,
+.p-radiobutton:not(.p-disabled):has(.p-radiobutton-input:focus-visible) .p-radiobutton-box {
+  @include focus-parameters;
+}
+
+input[type="checkbox" i]:not(.p-checkbox-input):focus-visible {
+  @include focus-parameters;
+}
+
+button:focus-visible:not(:disabled),
+.p-button:not(.p-disabled):focus-visible {
+  @include focus-parameters;
 }
 
 .multiselect {
