@@ -14,7 +14,9 @@
         <div
           v-if="required && anyEditorEditing"
           class="required-indicator"
-        >*</div>
+        >
+          *
+        </div>
       </div>
       <slot name="post-label" />
     </div>

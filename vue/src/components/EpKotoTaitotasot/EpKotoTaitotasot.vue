@@ -115,7 +115,6 @@
               </EpButton>
             </div>
           </div>
-
         </div>
       </VueDraggable>
 
@@ -159,7 +158,9 @@
           />
         </EpFormGroup>
 
-        <h3 class="mt-5 !mb-4">{{ $t('opiskelijan-osaaminen') }}</h3>
+        <h3 class="mt-5 !mb-4">
+          {{ $t('opiskelijan-osaaminen') }}
+        </h3>
 
         <div
           v-for="(keskeinenSisalto, index) in keskeisetSisallot"
