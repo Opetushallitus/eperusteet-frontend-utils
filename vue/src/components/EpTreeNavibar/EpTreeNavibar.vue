@@ -61,7 +61,7 @@
                 :item="item"
               >
                 <div class="text-muted">
-                  {{ $t(item.type) }}
+                  {{ $t(item.type.replaceAll('_', '-')) }}
                 </div>
               </slot>
             </div>
@@ -111,17 +111,13 @@
 <script setup lang="ts">
 import { ref, computed, watch, useSlots, getCurrentInstance, nextTick } from 'vue';
 import { useRoute } from 'vue-router';
-import EpSearch from '@shared/components/forms/EpSearch.vue';
-import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpToggle from '@shared/components/forms/EpToggle.vue';
-import EpMultiSelect from '@shared/components/forms/EpMultiSelect.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { FlattenedNodeDto, EpTreeNavibarStore } from '@shared/components/EpTreeNavibar/EpTreeNavibarStore';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import _ from 'lodash';
 import { Kielet } from '@shared/stores/kieli';
 import VueScrollTo from 'vue-scrollto';
-import EpNavigationLabel from '@shared/components/EpTreeNavibar/EpNavigationLabel.vue';
 import { $t, $kaannaOlioTaiTeksti } from '@shared/utils/globals';
 import { unref } from 'vue';
 
