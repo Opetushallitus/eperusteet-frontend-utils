@@ -129,7 +129,10 @@
           </ep-form-content>
         </div>
 
-        <div v-if="selectedValue || imageData" class="mt-4">
+        <div
+          v-if="selectedValue || imageData"
+          class="mt-4"
+        >
           <ep-form-content
             name="kuvateksti"
             class="mt-5"

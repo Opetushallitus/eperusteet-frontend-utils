@@ -28,7 +28,7 @@
       <div
         class="ml-auto flex mr-2"
         :class="{ 'items-center': !koulutustoimija }"
-        >
+      >
         <EpDropdown
           class="mr-3"
           right

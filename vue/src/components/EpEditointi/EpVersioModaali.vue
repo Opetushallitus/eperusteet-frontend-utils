@@ -5,7 +5,7 @@
       ref="modalRef"
       size="lg"
       hide-footer
-      :hideHeaderClose="false"
+      :hide-header-close="false"
     >
       <template #modal-title>
         {{ $t('historia') }}
@@ -19,7 +19,10 @@
       >
         <template #cell(actions)="row">
           <div class="flex gap-2 justify-end">
-            <div v-if="!row.item.valittu" class="flex gap-2">
+            <div
+              v-if="!row.item.valittu"
+              class="flex gap-2"
+            >
               <EpButton
                 variant="link"
                 icon="visibility"

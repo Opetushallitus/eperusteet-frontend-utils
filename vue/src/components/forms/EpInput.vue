@@ -1,5 +1,8 @@
 <template>
-  <div v-if="isEditing" class="w-full">
+  <div
+    v-if="isEditing"
+    class="w-full"
+  >
     <div class="input-container flex items-center w-full">
       <input
         v-bind="$attrs"

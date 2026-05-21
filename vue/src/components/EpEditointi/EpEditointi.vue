@@ -102,7 +102,9 @@
                   right
                 >
                   <template #button-content>
-                    <EpMaterialIcon class="link-style">more_horiz</EpMaterialIcon>
+                    <EpMaterialIcon class="link-style">
+                      more_horiz
+                    </EpMaterialIcon>
                   </template>
                   <EpDropdownItem
                     key="poista"
@@ -213,7 +215,9 @@
                   right
                 >
                   <template #button-content>
-                    <EpMaterialIcon class="link-style">more_horiz</EpMaterialIcon>
+                    <EpMaterialIcon class="link-style">
+                      more_horiz
+                    </EpMaterialIcon>
                   </template>
                   <EpDropdownItem
                     v-if="features.removable && !disabled"

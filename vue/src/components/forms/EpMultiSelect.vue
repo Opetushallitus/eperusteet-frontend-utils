@@ -91,25 +91,42 @@
         >
           <template v-if="model?.length > 0">
             <div class="flex items-center">
-              <span v-if="model?.length === 1" class="mr-2 border-1 border-solid px-2 py-1 rounded-md">
+              <span
+                v-if="model?.length === 1"
+                class="mr-2 border-1 border-solid px-2 py-1 rounded-md"
+              >
                 {{ getOptionLabelKaannettu(option) }}
-                <ep-material-icon class="!text-sm cursor-pointer" @click="remove(option)">close</ep-material-icon>
+                <ep-material-icon
+                  class="!text-sm cursor-pointer"
+                  @click="remove(option)"
+                >close</ep-material-icon>
               </span>
 
-              <div v-if="model?.length > 1 && option === model[0]" class="mr-2 px-2 py-1 rounded-md flex items-center">
-                <div class="mr-1">{{ $t('kpl-valittu', { kpl: model?.length }) }}</div>
+              <div
+                v-if="model?.length > 1 && option === model[0]"
+                class="mr-2 px-2 py-1 rounded-md flex items-center"
+              >
+                <div class="mr-1">
+                  {{ $t('kpl-valittu', { kpl: model?.length }) }}
+                </div>
                 <EpInfoPopover
                   v-if="model?.length > 1 && option === model[0]"
                   :title="getOptionLabelKaannettu(option)"
                   :description="getOptionLabelKaannettu(option)"
                 >
-                  <div class="ml-2" v-for="modelOption in model" :key="modelOption">{{ getOptionLabelKaannettu(modelOption) }}</div>
+                  <div
+                    v-for="modelOption in model"
+                    :key="modelOption"
+                    class="ml-2"
+                  >
+                    {{ getOptionLabelKaannettu(modelOption) }}
+                  </div>
                 </EpInfoPopover>
               </div>
             </div>
           </template>
           <template v-else>
-            <span/>
+            <span />
           </template>
         </slot>
       </template>

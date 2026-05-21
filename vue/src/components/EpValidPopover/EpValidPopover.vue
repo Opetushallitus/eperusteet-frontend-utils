@@ -87,7 +87,9 @@
             >
               check_circle
             </EpMaterialIcon>
-            <div class="w-2/3 text-left">{{ $t('ei-julkaisua-estavia-virheita') }}</div>
+            <div class="w-2/3 text-left">
+              {{ $t('ei-julkaisua-estavia-virheita') }}
+            </div>
           </div>
           <div class="text-center">
             <template v-if="validoinnit.ok && !validointiOk">
@@ -102,7 +104,9 @@
                 >
                   info
                 </EpMaterialIcon>
-                <div class="w-2/3 text-left">{{ $t(ok) }}</div>
+                <div class="w-2/3 text-left">
+                  {{ $t(ok) }}
+                </div>
               </div>
             </template>
             <template v-if="validoinnit.virheet">
@@ -117,7 +121,9 @@
                 >
                   info
                 </EpMaterialIcon>
-                <div class="w-4/5 text-left">{{ $t(virhe) }}</div>
+                <div class="w-4/5 text-left">
+                  {{ $t(virhe) }}
+                </div>
               </div>
               <div
                 v-if="validoinnit.virheet.length > 5 && julkaistava && luonnos && !julkaistu && !arkistoitu"
@@ -135,19 +141,19 @@
             <div
               v-if="validoinnit.huomautukset && validoinnit.huomautukset.length > 0"
               class="pt-2 pb-1 flex justify-center gap-2"
+            >
+              <EpMaterialIcon
+                class="text-yellow-600"
+                size="18px"
               >
-                <EpMaterialIcon
-                  class="text-yellow-600"
-                  size="18px"
-                >
-                  info
-                </EpMaterialIcon>
-                <div
-                  class="text-left"
-                  :class="{'w-4/5': uniqueVirheet, 'w-2/3': !uniqueVirheet}"
-                  >
-                  {{ $t(huomautuksia) }}
-                </div>
+                info
+              </EpMaterialIcon>
+              <div
+                class="text-left"
+                :class="{'w-4/5': uniqueVirheet, 'w-2/3': !uniqueVirheet}"
+              >
+                {{ $t(huomautuksia) }}
+              </div>
             </div>
           </div>
         </template>
