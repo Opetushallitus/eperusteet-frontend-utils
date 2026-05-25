@@ -280,7 +280,7 @@ export class EditointiStore {
     this.state.isLoading = true;
 
     // Ei editointia uudestaan
-    if (this.isEditing.value) {
+    if (this.isEditing) {
       this.logger.warn('Editointi jo käynnissä');
       this.state.disabled = false;
       return;
@@ -351,7 +351,8 @@ export class EditointiStore {
 
   public async cancel(skipRedirectBack = false) {
     this.state.disabled = true;
-    if (!this.isEditing.value) {
+
+    if (!this.isEditing) {
       this.logger.warn('Ei voi perua');
       return;
     }
@@ -400,7 +401,7 @@ export class EditointiStore {
     this.state.disabled = true;
     this.state.isSaving = true;
 
-    if (!this.isEditing.value) {
+    if (!this.isEditing) {
       this.logger.warn('Ei voi tallentaa ilman editointia');
     }
     else if (this.config.save) {
