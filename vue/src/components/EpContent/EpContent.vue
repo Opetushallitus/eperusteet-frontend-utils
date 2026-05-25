@@ -38,7 +38,7 @@
 <script setup lang="ts">
 import { useEditor, EditorContent } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit';
-import { onBeforeUnmount, nextTick, onMounted, computed, ref, inject, watch } from 'vue';
+import { onBeforeUnmount, nextTick, onMounted, computed, ref, inject, watch, type PropType } from 'vue';
 import { $kaannaPlaceholder } from '@shared/utils/globals';
 import _ from 'lodash';
 import { Kielet } from '@shared/stores/kieli';
@@ -63,8 +63,8 @@ interface IKommenttiHandler {
 
 const props = defineProps({
   modelValue: {
-    type: Object || null,
-    required: true,
+    type: [Object, String] as PropType<Record<string, unknown> | string | null>,
+    default: null,
   },
   isEditable: {
     type: Boolean,

@@ -62,6 +62,9 @@ export function fixTipTapContent(html) {
   let el;
   // Move all images out of paragraphs.
   while ((el = container.querySelector('p > img'))) {
+    if (!el.parentNode) {
+      break;
+    }
     unwrap(el.parentNode);
   }
   return container.innerHTML;
@@ -72,6 +75,9 @@ export function fixTipTapContent(html) {
  */
 function unwrap(el) {
   const parent = el.parentNode;
+  if (!parent) {
+    return;
+  }
   // Move all children to the parent element.
   while (el.firstChild) parent.insertBefore(el.firstChild, el);
   parent.removeChild(el);
