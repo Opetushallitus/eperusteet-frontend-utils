@@ -120,6 +120,7 @@ import { Kielet } from '@shared/stores/kieli';
 import VueScrollTo from 'vue-scrollto';
 import { $t, $kaannaOlioTaiTeksti } from '@shared/utils/globals';
 import { unref } from 'vue';
+import EpButton from '@shared/components/EpButton/EpButton.vue';
 
 export type ProjektiFilter = 'koulutustyyppi' | 'tila' | 'voimassaolo';
 
