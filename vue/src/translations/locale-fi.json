@@ -4646,5 +4646,7 @@
     "tavoitteet_ja_sisallot": "Tavoitteet ja sisällöt",
     "lisaa-uusi-kuva": "Lisää uusi kuva",
     "kuva-modaali-haku-placeholder": "Etsi kuvia nimellä",
-    "oppiaineen-x-tavoitteita-ei-ole-maaritelty-perusteessa": "Oppiaineen / oppimäärän {nimi} tavoitteita ei ole määritelty perusteessa"
+    "oppiaineen-x-tavoitteita-ei-ole-maaritelty-perusteessa": "Oppiaineen / oppimäärän {nimi} tavoitteita ei ole määritelty perusteessa",
+    "vaihtoehtoinen-nimi": "Vaihtoehtoinen nimi",
+    "kayta-vaihtoehtoista-nimi": "Käytä vaihtoehtoista nimenä"
 }
