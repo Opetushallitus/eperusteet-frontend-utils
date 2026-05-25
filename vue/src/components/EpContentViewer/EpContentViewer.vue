@@ -49,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, nextTick, inject, reactive } from 'vue';
+import { ref, computed, watch, nextTick, inject, reactive, onBeforeUnmount } from 'vue';
 import _ from 'lodash';
 import { LiiteDtoWrapper } from '../../tyypit';
 import { Kielet } from '../../stores/kieli';
@@ -156,11 +156,16 @@ const valueFormatted = computed(() => {
 
       const routeNode = link.getAttribute('routenode');
       if (routeNode && linkkiHandler) {
-        const newLocation = router.resolve(linkkiHandler.nodeToRoute(JSON.parse(routeNode)));
-        if (newLocation) {
-          link.setAttribute('href', newLocation.href);
-          link.removeAttribute('target');
-          link.removeAttribute('rel');
+        try {
+          const newLocation = router.resolve(linkkiHandler.nodeToRoute(JSON.parse(routeNode)));
+          if (newLocation) {
+            link.setAttribute('href', newLocation.href);
+            link.removeAttribute('target');
+            link.removeAttribute('rel');
+          }
+        }
+        catch {
+          // Invalid routenode attribute — leave link as-is
         }
       }
     });
@@ -176,25 +181,52 @@ const termitWrapped = computed(() => {
     if (dataviite) {
       const termi: any = _.find(props.termit, { 'avain': dataviite });
       if (termi) {
-        el.setAttribute('title', Kielet.kaanna(termi.termi));
-        el.setAttribute('aria-label', Kielet.kaanna(termi.termi));
-
-        // Add click handler to toggle popover
-        el.addEventListener('click', (event: Event) => {
-          const popover = popoverRefs[idx];
-          if (popover) {
-            popover.toggle(event);
-          }
-        });
-
-        return {
-          el,
-          termi,
-        };
+        return { el, termi, idx };
       }
     }
     return null;
   });
+});
+
+const termClickHandlers = new Map<Element, (event: Event) => void>();
+
+function clearTermClickHandlers() {
+  termClickHandlers.forEach((handler, el) => {
+    el.removeEventListener('click', handler);
+  });
+  termClickHandlers.clear();
+}
+
+function setupTermClickHandlers() {
+  clearTermClickHandlers();
+
+  _.each(termitWrapped.value, (viite) => {
+    if (!viite) {
+      return;
+    }
+
+    viite.el.setAttribute('title', Kielet.kaanna(viite.termi.termi));
+    viite.el.setAttribute('aria-label', Kielet.kaanna(viite.termi.termi));
+
+    const handler = (event: Event) => {
+      const popover = popoverRefs[viite.idx];
+      if (popover) {
+        popover.toggle(event);
+      }
+    };
+    viite.el.addEventListener('click', handler);
+    termClickHandlers.set(viite.el, handler);
+  });
+}
+
+watch(
+  [termitWrapped, () => Kielet.getSisaltoKieli.value],
+  () => setupTermClickHandlers(),
+  { deep: true },
+);
+
+onBeforeUnmount(() => {
+  clearTermClickHandlers();
 });
 
 // Watch for valueFormatted changes

@@ -224,7 +224,6 @@ const selectionMode = computed<'single' | 'multiple' | null>(() => {
 });
 
 const onSelectionChange = (selection: any) => {
-  console.log('onSelectionChange', selection);
   if (props.selectMode === 'none' || props.selectMode === 'single') return;
   if (props.selection === undefined) {
     internalSelection.value = selection;

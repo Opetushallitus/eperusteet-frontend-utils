@@ -101,9 +101,7 @@ const fileMaxSize = 1 * 1024 * 1024;
 const fileTypes = ['image/jpeg', 'image/png'];
 const fileInput = useTemplateRef('fileInput');
 
-const kieli = computed(() => {
-  return Kielet.getSisaltoKieli;
-});
+const kieli = computed(() => Kielet.getSisaltoKieli.value);
 
 const fileOrUrl = computed(() => {
   return file.value || props.kuvaUrl;
