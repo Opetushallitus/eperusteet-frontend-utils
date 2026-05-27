@@ -11,7 +11,11 @@
 
     <editor-content
       :editor="editor"
-      :class="{ 'is-editable': isEditable, 'placeholder': placeholder }"
+      :class="{
+        'is-editable': isEditable,
+        'is-invalid-html': isInvalidHtml,
+        'placeholder': placeholder,
+      }"
     />
   </div>
 </template>
@@ -61,6 +65,7 @@ const props = defineProps({
 
 const striptag = document.createElement('span');
 const focused = ref(false);
+const isInvalidHtml = ref(false);
 const emit = defineEmits(['update:modelValue']);
 const injectedKuvaHandler = inject<IKuvaHandler>('kuvaHandler');
 const injectedKasiteHandler = inject<IKasiteHandler>('kasiteHandler');
@@ -108,6 +113,7 @@ watch(lang, async () => {
   if (editor.value) {
     await nextTick();
     editor.value.commands.setContent(localizedValue.value);
+    checkHtmlValidity();
   }
 });
 
@@ -120,8 +126,38 @@ watch(model, async (newValue, oldValue) => {
     if (currentContent !== newContent) {
       editor.value.commands.setContent(newContent);
     }
+    checkHtmlValidity();
   }
 });
+
+function checkHtmlValidity() {
+  if (!editor.value || !props.isEditable) {
+    isInvalidHtml.value = false;
+    return;
+  }
+
+  const stored = localizedValue.value;
+  if (!stored) {
+    isInvalidHtml.value = false;
+    return;
+  }
+
+  isInvalidHtml.value = stored !== editor.value.getHTML();
+}
+
+function fixInvalidHtmlIfNeeded() {
+  if (!editor.value || !props.isEditable) {
+    return;
+  }
+
+  const stored = localizedValue.value;
+  if (!stored || stored === editor.value.getHTML()) {
+    return;
+  }
+
+  setUpEditorEvents();
+  nextTick(() => checkHtmlValidity());
+}
 
 function setUpEditorEvents() {
   if (editor.value) {
@@ -176,8 +212,12 @@ const editor = useEditor({
       return cleaned;
     },
   },
-  onUpdate: ({ editor }) => {
+  onCreate: () => {
+    nextTick(() => checkHtmlValidity());
+  },
+  onUpdate: () => {
     setUpEditorEvents();
+    nextTick(() => checkHtmlValidity());
   },
   onFocus: () => {
     if (props.isEditable) {
@@ -185,6 +225,7 @@ const editor = useEditor({
       if (!localizedValue.value) {
         editor.value?.commands.setContent(localizedValue.value);
       }
+      fixInvalidHtmlIfNeeded();
     }
   },
   onBlur: () => {
@@ -202,6 +243,7 @@ watch(isEditable, async (val) => {
     const { tr } = editor.value.state;
     const newTr = tr.setMeta('forceUpdate', true);
     editor.value.view.dispatch(newTr);
+    nextTick(() => checkHtmlValidity());
   }
 });
 
@@ -241,6 +283,10 @@ onBeforeUnmount(() => {
     border: 1px solid $black;
     :deep(.ProseMirror) {
       padding: 10px;
+    }
+
+    &.is-invalid-html {
+      border-color: $invalid;
     }
   }
 
