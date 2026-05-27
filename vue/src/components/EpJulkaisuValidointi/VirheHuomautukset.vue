@@ -10,7 +10,7 @@
       >
         <IkoniTeksti :tyyppi="tyyppi">
           {{ $t(data.kuvaus) }}
-          <span v-if="data.navigationNode && data.navigationNode.label">({{ $kaanna(data.navigationNode.label) }})</span>
+          <span v-if="data.navigationNode?.label">{{ formatNavigationLabel(data.navigationNode) }}</span>
         </IkoniTeksti>
       </router-link>
       <IkoniTeksti
@@ -18,7 +18,7 @@
         :tyyppi="tyyppi"
       >
         {{ $t(data.kuvaus) }}
-        <span v-if="data.navigationNode && data.navigationNode.label">({{ $kaanna(data.navigationNode.label) }})</span>
+        <span v-if="data.navigationNode?.label">{{ formatNavigationLabel(data.navigationNode) }}</span>
       </IkoniTeksti>
     </template>
   </EpNaytaKaikki>
@@ -28,6 +28,17 @@
 import { VirheHuomautus } from './EpJulkaisuValidointi.vue';
 import IkoniTeksti from './IkoniTeksti.vue';
 import EpNaytaKaikki from '@shared/components//EpNaytaKaikki/EpNaytaKaikki.vue';
+import { NavigationNodeDto } from '@shared/tyypit';
+import { $kaanna, $kaannaOlioTaiTeksti } from '@shared/utils/globals';
+
+function formatNavigationLabel(navigationNode: NavigationNodeDto): string {
+  let label = `(${$kaanna(navigationNode.label)}`;
+  const validationPostLabel = navigationNode.meta?.validationPostLabel;
+  if (validationPostLabel) {
+    label += `, ${$kaannaOlioTaiTeksti(validationPostLabel)}`;
+  }
+  return `${label})`;
+}
 
 defineProps({
   virhehuomautukset: {
