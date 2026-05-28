@@ -134,18 +134,18 @@ const inherit = computed(() => {
 
   &.no-padding {
     :deep(.btn-link), .btn {
-      padding-left: 0 !important;
+      padding: 0 !important;
       .teksti{
-        padding-left: 0 !important;
+        padding: 0 !important;
       }
     }
   }
 
   .no-padding {
     :deep(&.btn-link), &.btn {
-      padding-left: 0 !important;
+      padding: 0 !important;
       .teksti{
-        padding-left: 0 !important;
+        padding: 0 !important;
       }
     }
   }
