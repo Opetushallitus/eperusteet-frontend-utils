@@ -240,17 +240,38 @@
       </div>
     </div>
 
-    <!-- Table toolbar - appears when cursor is in a table -->
+    <div
+      v-if="isInvalidHtml"
+      class="d-flex align-items-center"
+    >
+      <EpInfoPopover
+        class="invalid-html-info-popover mr-2"
+      >
+        {{ $t('tekstin-sisalto-virheellinen-html') }}
+      </EpInfoPopover>
+      <ep-button
+        variant="link"
+        @click="emit('fixInvalidHtml')"
+        class="p-0"
+        no-padding
+      >
+        {{ $t('korjaa-sisalto') }}
+      </ep-button>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, inject } from 'vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import EpButton from '@shared/components/EpButton/EpButton.vue';
+import EpInfoPopover from '@shared/components/EpInfoPopover/EpInfoPopover.vue';
 import { EditorLayout } from '@shared/tyypit';
 import { IKasiteHandler } from './KasiteHandler';
 
 const injectedKasiteHandler = inject<IKasiteHandler | undefined>('kasiteHandler');
+
+const emit = defineEmits(['fixInvalidHtml']);
 
 const props = defineProps({
   editor: {
@@ -260,6 +281,10 @@ const props = defineProps({
   isEditable: {
     type: Boolean,
     default: true,
+  },
+  isInvalidHtml: {
+    type: Boolean,
+    default: false,
   },
   layout: {
     type: String as () => EditorLayout,
@@ -427,6 +452,9 @@ const layoutCommands = computed(() => {
 @import "../../styles/_variables.scss";
 
 .ep-editor-menu-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   border: 1px solid #e0e0e0;
   border-bottom: none;
   background-color: #f8f9fa;
@@ -437,6 +465,8 @@ const layoutCommands = computed(() => {
     display: flex;
     align-items: center;
     gap: 4px;
+    flex: 1;
+    min-width: 0;
   }
 
   .menu-button {
@@ -490,6 +520,15 @@ const layoutCommands = computed(() => {
     height: 24px;
     background-color: #d1d5db;
     margin: 0 4px;
+  }
+
+  .invalid-html-info-popover :deep(span) {
+    color: $invalid !important;
+  }
+
+  .invalid-html-fix-button {
+    color: $invalid;
+    white-space: nowrap;
   }
 }
 

@@ -6,7 +6,9 @@
       :is-editable="isEditable"
       :editor="editor || {}"
       :layout="layout"
+      :is-invalid-html="isInvalidHtml"
       sticky-offset="{ top: 111 }"
+      @fix-invalid-html="fixInvalidHtml"
     />
 
     <editor-content
@@ -66,6 +68,7 @@ const props = defineProps({
 const striptag = document.createElement('span');
 const focused = ref(false);
 const isInvalidHtml = ref(false);
+const suppressModelSync = ref(true);
 const emit = defineEmits(['update:modelValue']);
 const injectedKuvaHandler = inject<IKuvaHandler>('kuvaHandler');
 const injectedKasiteHandler = inject<IKasiteHandler>('kasiteHandler');
@@ -112,8 +115,7 @@ const placeholder = computed(() => {
 watch(lang, async () => {
   if (editor.value) {
     await nextTick();
-    editor.value.commands.setContent(localizedValue.value);
-    checkHtmlValidity();
+    setEditorContent(localizedValue.value);
   }
 });
 
@@ -124,11 +126,22 @@ watch(model, async (newValue, oldValue) => {
     const newContent = localizedValue.value;
     // Only update if content is actually different to avoid cursor position issues
     if (currentContent !== newContent) {
-      editor.value.commands.setContent(newContent);
+      setEditorContent(newContent);
     }
-    checkHtmlValidity();
+    else {
+      checkHtmlValidity();
+    }
   }
 });
+
+function setEditorContent(content: string | null | undefined) {
+  if (!editor.value) {
+    return;
+  }
+
+  editor.value.commands.setContent(content ?? '', { emitUpdate: false });
+  nextTick(() => checkHtmlValidity());
+}
 
 function checkHtmlValidity() {
   if (!editor.value || !props.isEditable) {
@@ -145,7 +158,7 @@ function checkHtmlValidity() {
   isInvalidHtml.value = stored !== editor.value.getHTML();
 }
 
-function fixInvalidHtmlIfNeeded() {
+function fixInvalidHtml() {
   if (!editor.value || !props.isEditable) {
     return;
   }
@@ -213,19 +226,23 @@ const editor = useEditor({
     },
   },
   onCreate: () => {
-    nextTick(() => checkHtmlValidity());
+    nextTick(() => {
+      suppressModelSync.value = false;
+      checkHtmlValidity();
+    });
   },
   onUpdate: () => {
-    setUpEditorEvents();
+    if (!suppressModelSync.value) {
+      setUpEditorEvents();
+    }
     nextTick(() => checkHtmlValidity());
   },
   onFocus: () => {
     if (props.isEditable) {
       focused.value = true;
       if (!localizedValue.value) {
-        editor.value?.commands.setContent(localizedValue.value);
+        setEditorContent(localizedValue.value);
       }
-      fixInvalidHtmlIfNeeded();
     }
   },
   onBlur: () => {
@@ -239,11 +256,15 @@ const isEditable = computed(() => {
 
 watch(isEditable, async (val) => {
   if (editor.value) {
+    suppressModelSync.value = true;
     editor.value.setEditable(val);
     const { tr } = editor.value.state;
     const newTr = tr.setMeta('forceUpdate', true);
     editor.value.view.dispatch(newTr);
-    nextTick(() => checkHtmlValidity());
+    nextTick(() => {
+      suppressModelSync.value = false;
+      checkHtmlValidity();
+    });
   }
 });
 
