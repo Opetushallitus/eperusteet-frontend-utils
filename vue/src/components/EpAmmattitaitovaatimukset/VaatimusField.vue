@@ -88,6 +88,9 @@
           </div>
         </div>
       </template>
+      <template #modal-footer="{ ok, cancel }">
+        <slot name="modal-footer" :ok="ok" :cancel="cancel"></slot>
+      </template>
     </ep-koodisto-select>
   </div>
 </template>

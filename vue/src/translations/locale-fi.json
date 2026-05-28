@@ -4649,5 +4649,6 @@
     "kuva-modaali-haku-placeholder": "Etsi kuvia nimellä",
     "oppiaineen-x-tavoitteita-ei-ole-maaritelty-perusteessa": "Oppiaineen / oppimäärän {nimi} tavoitteita ei ole määritelty perusteessa",
     "vaihtoehtoinen-nimi": "Vaihtoehtoinen nimi",
-    "kayta-vaihtoehtoista-nimi": "Käytä vaihtoehtoista nimenä"
+    "kayta-vaihtoehtoista-nimi": "Käytä vaihtoehtoista nimenä",
+    "sulje-haku-ja-lisaa-uusi-tavoite": "Sulje haku ja lisää uusi tavoite"
 }
