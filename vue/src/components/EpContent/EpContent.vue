@@ -41,6 +41,10 @@ import { IKuvaHandler } from './KuvaHandler';
 import { KommenttiTextStyle } from './KommenttiTextStyle';
 import OfficePaste from '@intevation/tiptap-extension-office-paste';
 
+interface IKommenttiHandler {
+  activateThread: (uuid: string) => Promise<boolean | void>;
+}
+
 const props = defineProps({
   modelValue: {
     type: Object || null,
@@ -74,6 +78,7 @@ const injectedKuvaHandler = inject<IKuvaHandler>('kuvaHandler');
 const injectedKasiteHandler = inject<IKasiteHandler>('kasiteHandler');
 const injectedNavigation = inject<any>('navigation');
 const injectedLinkkiHandler = inject<ILinkkiHandler>('linkkiHandler');
+const injectedKommenttiHandler = inject<IKommenttiHandler>('kommenttiHandler');
 
 const lang = computed(() => {
   return Kielet.getSisaltoKieli.value;
@@ -211,6 +216,24 @@ const editor = useEditor({
       // Add data-teksti-id attribute for comment system to find the text ID reliably in production
       ...(props.modelValue?._id ? { 'data-teksti-id': String(props.modelValue._id) } : {}),
     },
+    handleClick(_view, _pos, event) {
+      if (!injectedKommenttiHandler) {
+        return false;
+      }
+
+      const commentElement = (event.target as HTMLElement | null)?.closest('[kommentti]');
+      if (!commentElement) {
+        return false;
+      }
+
+      const uuid = commentElement.getAttribute('kommentti');
+      if (!uuid) {
+        return false;
+      }
+
+      void injectedKommenttiHandler.activateThread(uuid);
+      return true;
+    },
     // Clean up pasted HTML from Word and other sources
     transformPastedHTML(html) {
       // Remove all span tags but keep their content
@@ -225,7 +248,8 @@ const editor = useEditor({
       return cleaned;
     },
   },
-  onCreate: () => {
+  onCreate: ({ editor: createdEditor }) => {
+    (createdEditor.view.dom as HTMLElement & { __tiptapEditor?: typeof createdEditor }).__tiptapEditor = createdEditor;
     nextTick(() => {
       suppressModelSync.value = false;
       checkHtmlValidity();
