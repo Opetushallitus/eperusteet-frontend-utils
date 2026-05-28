@@ -22,20 +22,22 @@
       </template>
 
       <template #modal-footer="{ ok, cancel }">
-        <b-button
-          v-if="multiselect"
-          variant="primary"
-          :disabled="innerModel.length === 0"
-          @click="ok()"
-        >
-          {{ $t('lisaa-valitut') }}
-        </b-button>
-        <b-button
-          variant="secondary"
-          @click="cancel()"
-        >
-          {{ multiselect ? $t('peruuta') : $t('sulje') }}
-        </b-button>
+        <slot name="modal-footer" :ok="ok" :cancel="cancel">
+          <b-button
+            v-if="multiselect"
+            variant="primary"
+            :disabled="innerModel.length === 0"
+            @click="ok()"
+          >
+            {{ $t('lisaa-valitut') }}
+          </b-button>
+          <b-button
+            variant="secondary"
+            @click="cancel()"
+          >
+            {{ multiselect ? $t('peruuta') : $t('sulje') }}
+          </b-button>
+        </slot>
       </template>
 
       <template #default>
