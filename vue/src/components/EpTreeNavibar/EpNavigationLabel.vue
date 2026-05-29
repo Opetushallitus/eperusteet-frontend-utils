@@ -85,7 +85,7 @@ const koodi = computed(() => {
 }
 
 .code-field {
-  font-size: 80%;
+  color: $gray-lighten-1;
 }
 
 </style>
