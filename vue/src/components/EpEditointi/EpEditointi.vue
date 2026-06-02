@@ -867,7 +867,7 @@ const vahvista = async (title: string, okTitle: string, label?: string) => {
   ];
   if (label) {
     modalContent = [
-      instance?.proxy?.$createElement('div', label),
+      instance?.proxy?.$createElement('div', { innerHTML: label }),
       instance?.proxy?.$createElement('br', ''),
       ...modalContent,
     ];
