@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 import EpEditointi from './EpEditointi.vue';
-import { IEditoitava } from './EditointiStore';
+import { EditointiStore, IEditoitava } from './EditointiStore';
 import { Kielet } from '../../stores/kieli';
 import _ from 'lodash';
 import { Oikeustarkastelu } from '../../plugins/oikeustarkastelu';
@@ -76,6 +76,10 @@ function mockAndWrapper(extension: Partial<IEditoitava> = {}, template?: string)
 }
 
 describe('EpEditointi component', () => {
+  beforeEach(() => {
+    EditointiStore.cancelAll();
+  });
+
   test('Renders header and content', async () => {
 
     const { store, config, wrapper } = mockAndWrapper();
