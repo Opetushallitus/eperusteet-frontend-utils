@@ -2463,6 +2463,7 @@
     "paivita-opetussuunnitelma-perustetekstikappaleet-pohjasta-huomioteksti": "<p>Päivittämällä opetussuunnitelmasi lisäät uusimmat perusteen tekstikappaleet suunnitelmaasi.</p>",
     "paivita-opetussuunnitelma-perustetekstikappaleet-pohjasta-huomioteksti-koulun-ops": "Opetussuunnitelman perusteen tekstikappaleet ovat päivittymässä. Muutokset näkyvät opetussuunnitelmassasi päivityksen jälkeen.",
     "paivita-opetussuunnitelma-perustetekstikappaleet-pohjasta-peruste-selvennys": "Voit tarkastella perusteen muutoksia eperusteet.fi -sivulta perusteen muutoshistoriasta.",
+    "paivita-opetussuunnitelma-perustetekstikappaleet-pohjassa-puuttuvat-tekstit-huomioteksti": "Opetussuunnitelman perusteen tekstikappaleet ovat päivittymässä. Muutokset tulevat näkyviin, kun opetussuunnitelma <b>{pohja-nimi}</b> päivitetään.",
     "paivita-opetussuunnitelman-tekstirakenne": "Perusteen rakenteeseen on tullut muutoksia - päivitä opetussuunnitelmasi",
     "paivita-opetussuunnitelman-tekstirakenne-koulun-ops": "Perusteen rakenteeseen on tullut muutoksia",
     "paivita-peruste": "Päivitä peruste",
