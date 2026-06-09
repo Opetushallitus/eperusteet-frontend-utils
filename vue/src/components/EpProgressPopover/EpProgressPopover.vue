@@ -16,7 +16,7 @@
       </div>
     </div>
 
-    <b-popover
+    <!-- <b-popover
       v-if="slots.default"
       ref="progresspopover"
       v-model:show="tilaPopupVisible"
@@ -38,7 +38,7 @@
       <div class="popup-bottom row flex-column align-items-center mx-3 my-2">
         <slot name="bottom" />
       </div>
-    </b-popover>
+    </b-popover> -->
   </div>
 </template>
 
