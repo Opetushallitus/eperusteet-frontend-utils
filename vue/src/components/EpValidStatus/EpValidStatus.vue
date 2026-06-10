@@ -26,7 +26,7 @@
 
       </div>
 
-      <div class="validation-text pb-2 d-flex align-items-center" v-if="julkaisemattomiaMuutoksia">
+      <div class="validation-text pb-2 text-center" v-if="julkaisemattomiaMuutoksia">
         {{ $t(julkaisemattomiaTeksti) }}
       </div>
 
