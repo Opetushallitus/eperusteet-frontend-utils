@@ -3,6 +3,7 @@
     <EpSpinner
       v-if="isValidating || julkaisemattomiaMuutoksia === undefined || julkaisemattomiaMuutoksia === null"
       color="#fff"
+      class="mt-5"
     />
 
     <template v-else>
