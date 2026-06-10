@@ -2,7 +2,6 @@
   <div class="ep-valid-status d-flex flex-column align-items-center">
     <EpSpinner
       v-if="isValidating || julkaisemattomiaMuutoksia === undefined || julkaisemattomiaMuutoksia === null"
-      class="mt-5"
       color="#fff"
     />
 
@@ -10,7 +9,7 @@
 
       <div class="d-flex align-items-center">
         <EpProgressArchived v-if="arkistoitu" />
-        <EpProgressInProgress v-else-if="!validointiOk" :slices="prosessi" />
+        <EpProgressInProgress v-else-if="virheita" :slices="prosessi" />
         <EpProgressComplete v-else />
         <div class="ml-2 d-flex">
           <span>{{ $t(tila) }}</span><span v-if="muokattavissa">, {{ $t('muokattavissa') }}</span>
@@ -166,6 +165,10 @@ const julkaisemattomiaTeksti = computed(() => {
 
 const validointiOk = computed(() => {
   return _.size(props.validoinnit?.virheet) === 0 && _.size(props.validoinnit?.huomautukset) === 0;
+});
+
+const virheita = computed(() => {
+  return _.size(props.validoinnit?.virheet) > 0;
 });
 
 function toJulkaisuRoute() {
