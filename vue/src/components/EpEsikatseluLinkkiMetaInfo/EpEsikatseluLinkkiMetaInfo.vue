@@ -1,5 +1,4 @@
 <template>
-  <span class="ml-2 mr-2">|</span>
   <span
     :id="linkId"
     class="esikatselu-link d-inline"
@@ -60,7 +59,6 @@
       </div>
     </b-popover>
   </span>
-  <span class="ml-2 mr-2">|</span>
 </template>
 
 <script setup lang="ts">
@@ -77,6 +75,7 @@ import {
 } from '@shared/utils/esikatselu';
 import { koulutustyyppiTheme } from '@shared/utils/perusteet';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
+import _ from 'lodash';
 
 export type EsikatseluLinkkiTyyppi = 'peruste' | 'opetussuunnitelma' | 'toteutussuunnitelma' | 'opas';
 
@@ -103,7 +102,7 @@ watch(saving, async () => {
   (popoverRef.value as any)?.$forceUpdate();
 });
 
-const linkId = computed(() => `esikatselu-link-${props.tyyppi}-${props.model.id}`);
+const linkId = computed(() => _.uniqueId('esikatselu-link-'));
 
 const linkText = computed(() => `esikatsele-${props.tyyppi}`);
 
