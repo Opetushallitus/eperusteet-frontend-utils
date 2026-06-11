@@ -209,9 +209,11 @@ const valitseSisaltoKieli = (kieli: Kieli) => {
 @import '@/styles/_variables.scss';
 
 .topbar {
+  height: 56px;
   background-image: inherit;
   background-size: cover;
-  height: 56px;
+  background-position: 100% 0;
+  background-size: auto 216px;
 
   .navbar {
     top: 0;
