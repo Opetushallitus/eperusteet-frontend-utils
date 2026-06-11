@@ -12,7 +12,7 @@
         <EpProgressArchived v-if="arkistoitu" />
         <EpProgressInProgress v-else-if="virheita" :slices="prosessi" />
         <EpProgressComplete v-else />
-        <div class="ml-2 d-flex">
+        <div class="ml-2 d-flex flex-column">
           <span>{{ $t(tila) }}</span><span v-if="muokattavissa">, {{ $t('muokattavissa') }}</span>
           <EpValidationPopover
             v-if="!validointiOk"

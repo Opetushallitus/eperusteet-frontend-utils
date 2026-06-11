@@ -1,7 +1,21 @@
 <template>
-  <EpInfoPopover
-    class="ml-2"
-    :class="popoverClass">
+  <EpInfoPopover class="validation-popover">
+    <template #trigger>
+      <router-link
+        :to="julkaisuRoute"
+        class="validation-link"
+      >
+        {{ $t(summaryTextKey) }}
+      </router-link>
+      <EpMaterialIcon
+        class="validation-icon"
+        :class="iconClass"
+        icon-shape="outlined"
+      >
+        info
+      </EpMaterialIcon>
+    </template>
+
     <div class="ml-3">
       <!-- <template v-if="validoinnit?.ok && !validointiOk">
         <div
@@ -100,7 +114,6 @@ import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue
 import {
   ValidableObject,
   Validoinnit,
-  ValidoitavatTilat,
   ValidoitavatTyypit,
 } from '@shared/components/EpValidStatus/EpValidStatusTypes';
 import EpButton from '../EpButton/EpButton.vue';
@@ -136,24 +149,26 @@ const props = defineProps({
 
 const router = useRouter();
 
-const julkaistu = computed(() => {
-  return props.validoitava?.tila === ValidoitavatTilat.JULKAISTU || !!props.validoitava?.viimeisinJulkaisuAika;
+const hasVirheita = computed(() => {
+  return (props.validoinnit?.virheet?.length || 0) > 0;
 });
 
-const arkistoitu = computed(() => {
-  return props.validoitava?.tila === ValidoitavatTilat.POISTETTU;
+const hasHuomioita = computed(() => {
+  return (props.validoinnit?.huomautukset?.length || 0) > 0;
 });
 
-const tila = computed(() => {
-  if (julkaistu.value && !arkistoitu.value) {
-    return ValidoitavatTilat.JULKAISTU;
+const summaryTextKey = computed(() => {
+  const isPeruste = props.tyyppi === ValidoitavatTyypit.PERUSTE;
+
+  if (hasVirheita.value) {
+    return isPeruste ? 'perusteessa-virheita' : 'suunnitelmassa-virheita';
   }
 
-  return _.toLower(props.validoitava?.tila);
-});
+  if (hasHuomioita.value) {
+    return isPeruste ? 'perusteessa-huomioita' : 'suunnitelmassa-huomioita';
+  }
 
-const luonnos = computed(() => {
-  return tila.value === ValidoitavatTilat.LUONNOS;
+  return '';
 });
 
 const huomautuksia = computed(() => {
@@ -175,17 +190,12 @@ const uniqueVirheet = computed(() => {
   return _.slice(_.uniq(props.validoinnit?.virheet), 0, 5);
 });
 
-const validointiOk = computed(() => {
-  return _.size(props.validoinnit?.virheet) === 0 && _.size(props.validoinnit?.huomautukset) === 0;
-});
-
-const popoverClass = computed(() => {
-
-  if (props.validoinnit?.virheet?.length || 0 > 0 ) {
+const iconClass = computed(() => {
+  if (hasVirheita.value) {
     return 'text-danger';
   }
 
-  if (props.validoinnit?.huomautukset?.length || 0 > 0) {
+  if (hasHuomioita.value) {
     return 'text-warning';
   }
 
@@ -196,3 +206,22 @@ function toJulkaisuRoute() {
   router.push(props.julkaisuRoute);
 }
 </script>
+
+<style scoped lang="scss">
+.validation-popover {
+  margin-top: 0.25rem;
+}
+
+.validation-link {
+  color: inherit;
+  text-decoration: underline;
+
+  &:hover {
+    color: inherit;
+  }
+}
+
+.validation-icon {
+  margin-left: 0.25rem;
+}
+</style>
