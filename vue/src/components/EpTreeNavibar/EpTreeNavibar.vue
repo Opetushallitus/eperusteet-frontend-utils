@@ -173,17 +173,7 @@ const activeIdx = computed(() => {
     return -1;
   }
 
-  return _.findIndex(navigation.value, navItem =>{
-    if (navItem.depth !== active.value?.depth) {
-      return false;
-    }
-
-    if (navItem.id != null) {
-      return navItem.id === active.value!.id && _.isEqual(navItem.meta, active.value?.meta);
-    }
-
-    return navItem.type === active.value?.type;
-  });
+  return _.findIndex(navigation.value, navItem => isActive(navItem));
 });
 
 const activeParents = computed(() => {
@@ -323,7 +313,7 @@ watch(navigation, () => {
     onRouteUpdate();
     if (active.value && navigation.value) {
       const refreshed = _.find(navigation.value, navItem =>
-        navItem.id != null ? navItem.id === active.value!.id : navItem.type === active.value?.type,
+        isActive(navItem),
       ) as IndexedNode | undefined;
       if (refreshed) {
         active.value = refreshed;
@@ -334,6 +324,22 @@ watch(navigation, () => {
     }
   });
 });
+
+const isActive = (navItem: IndexedNode) => {
+  if (!active.value) {
+    return false;
+  }
+
+  if (navItem.depth !== active.value?.depth) {
+    return false;
+  }
+
+  if (navItem.id != null) {
+    return navItem.id === active.value!.id && _.isEqual(navItem.meta, active.value?.meta);
+  }
+
+  return navItem.type === active.value?.type;
+};
 </script>
 
 <style lang="scss" scoped>
