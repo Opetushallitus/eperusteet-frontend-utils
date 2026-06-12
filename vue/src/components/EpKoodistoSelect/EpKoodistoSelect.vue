@@ -22,7 +22,11 @@
       </template>
 
       <template #modal-footer="{ ok, cancel }">
-        <slot name="modal-footer" :ok="ok" :cancel="cancel">
+        <slot
+          name="modal-footer"
+          :ok="ok"
+          :cancel="cancel"
+        >
           <b-button
             v-if="multiselect"
             variant="primary"

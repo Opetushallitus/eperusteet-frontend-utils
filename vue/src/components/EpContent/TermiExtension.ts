@@ -264,7 +264,6 @@ export function createTermiExtension3(handler: IKasiteHandler) {
           },
           view: (editorView) => {
             const updateTermiTitles = () => {
-              // Find all abbr elements with data-viite and add title attributes
               const abbrElements = editorView.dom.querySelectorAll('abbr[data-viite]');
               abbrElements.forEach((abbr: Element) => {
                 const dataViite = abbr.getAttribute('data-viite');
