@@ -242,6 +242,10 @@ const termiAriaPiiloon = (termiAvain) => {
   tr:first-child td {
     background: $table-header-color !important;
   }
+
+  tr td {
+    background: inherit !important;
+  }
 }
 
 </style>
