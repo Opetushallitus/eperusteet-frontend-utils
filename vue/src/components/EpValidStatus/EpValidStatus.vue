@@ -13,16 +13,16 @@
         <EpProgressInProgress v-else-if="virheita" :slices="prosessi" />
         <EpProgressComplete v-else />
         <div class="ml-2 d-flex flex-column">
-          <span>{{ $t(tila) }}</span><span v-if="muokattavissa">, {{ $t('muokattavissa') }}</span>
           <EpValidationPopover
-            v-if="!validointiOk"
             :validoinnit="validoinnit"
             :validoitava="validoitava"
             :julkaistava="julkaistava"
             :tyyppi="tyyppi"
             :julkaisu-route="julkaisuRoute"
             :validoi="validoi"
-          />
+            >
+            <span>{{ $t(tila) }}</span><span v-if="muokattavissa">, {{ $t('muokattavissa') }}</span>
+          </EpValidationPopover>
         </div>
 
       </div>
@@ -162,10 +162,6 @@ const julkaisemattomiaTeksti = computed(() => {
     return 'opetussuunnitelmassa-on-julkaisemattomia-muutoksia';
   }
   return '';
-});
-
-const validointiOk = computed(() => {
-  return _.size(props.validoinnit?.virheet) === 0 && _.size(props.validoinnit?.huomautukset) === 0;
 });
 
 const virheita = computed(() => {

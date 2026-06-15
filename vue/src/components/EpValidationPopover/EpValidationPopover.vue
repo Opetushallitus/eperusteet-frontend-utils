@@ -1,41 +1,25 @@
 <template>
-  <EpInfoPopover class="validation-popover">
-    <template #trigger>
-      <router-link
-        :to="julkaisuRoute"
-        class="validation-link"
-      >
-        {{ $t(summaryTextKey) }}
-      </router-link>
-      <EpMaterialIcon
-        class="validation-icon"
-        :class="iconClass"
-        icon-shape="outlined"
-      >
-        info
-      </EpMaterialIcon>
+  <slot v-if="validointiOk" />
+  <b-dropdown
+    v-else
+    class="validation-dropdown"
+    variant="link"
+    toggle-class="validation-toggle text-decoration-none p-0"
+    menu-class="validation-dropdown-menu"
+    no-caret
+  >
+    <template #button-content>
+        <slot />
+        <EpMaterialIcon
+          class="validation-icon"
+          icon-shape="outlined"
+          size="22px"
+        >
+          expand_more
+        </EpMaterialIcon>
     </template>
 
-    <div class="ml-3">
-      <!-- <template v-if="validoinnit?.ok && !validointiOk">
-        <div
-          v-for="ok in validoinnit.ok"
-          :key="ok"
-          class="pt-2 pb-1 row"
-        >
-          <div class="col-1">
-            <EpMaterialIcon
-              class="text-success"
-              size="18px"
-            >
-              info
-            </EpMaterialIcon>
-          </div>
-          <div class="col">
-            <span>{{ $t(ok) }}</span>
-          </div>
-        </div>
-      </template> -->
+    <div class="px-3 py-2">
       <template v-if="validoinnit?.virheet">
         <div
           v-for="virhe in uniqueVirheet"
@@ -88,28 +72,26 @@
         </div>
       </div>
 
-    </div>
+      <hr/>
 
-    <hr/>
-
-    <div class="text-center mb-2 mr-5">
-      <EpButton
-        variant="link"
-        @click="validoi()"
-        no-padding
-        icon="refresh"
-      >
-        {{ $t('tarkista-virheet') }}
-      </EpButton>
+      <div class="text-center mb-2 mr-5">
+        <EpButton
+          variant="link"
+          @click="validoi()"
+          no-padding
+          icon="refresh"
+        >
+          {{ $t('tarkista-virheet') }}
+        </EpButton>
+      </div>
     </div>
-  </EpInfoPopover>
+  </b-dropdown>
 </template>
 
 <script setup lang="ts">
 import * as _ from 'lodash';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
-import EpInfoPopover from '@shared/components/EpInfoPopover/EpInfoPopover.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import {
   ValidableObject,
@@ -157,20 +139,6 @@ const hasHuomioita = computed(() => {
   return (props.validoinnit?.huomautukset?.length || 0) > 0;
 });
 
-const summaryTextKey = computed(() => {
-  const isPeruste = props.tyyppi === ValidoitavatTyypit.PERUSTE;
-
-  if (hasVirheita.value) {
-    return isPeruste ? 'perusteessa-virheita' : 'suunnitelmassa-virheita';
-  }
-
-  if (hasHuomioita.value) {
-    return isPeruste ? 'perusteessa-huomioita' : 'suunnitelmassa-huomioita';
-  }
-
-  return '';
-});
-
 const huomautuksia = computed(() => {
   if (props.tyyppi === ValidoitavatTyypit.PERUSTE) {
     return 'perusteessa-huomautuksia';
@@ -202,26 +170,41 @@ const iconClass = computed(() => {
   return '';
 });
 
+const validointiOk = computed(() => {
+  return _.size(props.validoinnit?.virheet) === 0 && _.size(props.validoinnit?.huomautukset) === 0;
+});
+
 function toJulkaisuRoute() {
   router.push(props.julkaisuRoute);
 }
 </script>
 
 <style scoped lang="scss">
-.validation-popover {
+.validation-dropdown {
   margin-top: 0.25rem;
 }
 
-.validation-link {
+:deep(.validation-toggle) {
   color: inherit;
-  text-decoration: underline;
 
-  &:hover {
+  &:hover,
+  &:focus,
+  &:active {
     color: inherit;
+    box-shadow: none;
   }
+}
+
+.validation-trigger {
+  text-decoration: underline;
 }
 
 .validation-icon {
   margin-left: 0.25rem;
+  text-decoration: none;
+}
+
+:deep(.validation-dropdown-menu) {
+  min-width: 20rem;
 }
 </style>
