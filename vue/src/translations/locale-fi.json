@@ -4651,5 +4651,21 @@
     "oppiaineen-x-tavoitteita-ei-ole-maaritelty-perusteessa": "Oppiaineen / oppimäärän {nimi} tavoitteita ei ole määritelty perusteessa",
     "vaihtoehtoinen-nimi": "Vaihtoehtoinen nimi",
     "kayta-vaihtoehtoista-nimi": "Käytä vaihtoehtoista nimenä",
-    "sulje-haku-ja-lisaa-uusi-tavoite": "Sulje haku ja lisää uusi tavoite"
+    "sulje-haku-ja-lisaa-uusi-tavoite": "Sulje haku ja lisää uusi tavoite",
+    "liita": "Liitä",
+    "lihavointi": "Lihavointi",
+    "kursivointi": "Kursivointi",
+    "yliviivaus": "Yliviivaus",
+    "käsite": "Käsite",
+    "luettelomerkit": "Luettelomerkit",
+    "numeroitu-luettelo": "Numeroitu luettelo",
+    "lisaa-taulukko": "Lisää taulukko",
+    "lisaa-sarake-jälkeen": "Lisää sarake jälkeen",
+    "lisaa-rivi-jälkeen": "Lisää rivi jälkeen",
+    "poista-taulukko": "Poista taulukko",
+    "kumoa": "Kumoa",
+    "tee-uudelleen": "Tee uudelleen",
+    "sisalto-kopioitu-leikepöydälle": "Sisältö kopioitu leikepöydälle",
+    "sisalto-kopioitu-leikepöydälle-epaonnistui": "Sisältön kopioiminen leikepöydälle epäonnistui",
+    "kopioi-sisalto-leikepöydälle": "Kopioi sisältö leikepöydälle"
 }

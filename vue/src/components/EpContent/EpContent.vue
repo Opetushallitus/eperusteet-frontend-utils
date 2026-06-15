@@ -11,14 +11,27 @@
       @fix-invalid-html="fixInvalidHtml"
     />
 
-    <editor-content
-      :editor="editor"
-      :class="{
-        'is-editable': isEditable,
-        'is-invalid-html': isInvalidHtml,
-        'placeholder': placeholder,
-      }"
-    />
+    <div class="d-flex justify-content-between align-items-start gap-2">
+      <editor-content
+        :editor="editor"
+        class="flex-grow-1 min-width-0"
+        :class="{
+          'is-editable': isEditable,
+          'is-invalid-html': isInvalidHtml,
+          'placeholder': placeholder,
+        }"
+      />
+      <button
+        v-if="!isEditable && localizedValue && copyable"
+        type="button"
+        class="copy-content-button default-icon clickable"
+        :title="$t('kopioi-sisalto-leikepöydälle')"
+        :aria-label="$t('kopioi-sisalto-leikepöydälle')"
+        @click="copyContentToClipboard"
+      >
+        <EpMaterialIcon>content_copy</EpMaterialIcon>
+      </button>
+    </div>
   </div>
 </template>
 
@@ -40,6 +53,9 @@ import { ILinkkiHandler } from './LinkkiHandler';
 import { IKuvaHandler } from './KuvaHandler';
 import { KommenttiTextStyle } from './KommenttiTextStyle';
 import OfficePaste from '@intevation/tiptap-extension-office-paste';
+import { CopyToClipboardExtension, copyToClipboard } from './copyToClipboard';
+import { cleanPastedHTML } from './pasteFromClipboard';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 interface IKommenttiHandler {
   activateThread: (uuid: string) => Promise<boolean | void>;
@@ -66,6 +82,10 @@ const props = defineProps({
   placeholder: {
     type: String,
     default: '',
+  },
+  copyable: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -202,6 +222,7 @@ const editor = useEditor({
   content: localizedValue.value,
   extensions: [
     StarterKit,
+    CopyToClipboardExtension,
     OfficePaste,
     KommenttiTextStyle,  // Preserve custom attributes like 'kommentti'
     TableKit,
@@ -234,18 +255,8 @@ const editor = useEditor({
       void injectedKommenttiHandler.activateThread(uuid);
       return true;
     },
-    // Clean up pasted HTML from Word and other sources
     transformPastedHTML(html) {
-      // Remove all span tags but keep their content
-      let cleaned = html.replace(/<span[^>]*>/g, '').replace(/<\/span>/g, '');
-
-      // Replace multiple nbsp with a single space
-      cleaned = cleaned.replace(/(&nbsp;|\u00A0)+/g, ' ');
-
-      // Remove Word-specific attributes
-      cleaned = cleaned.replace(/\s+(class|style|lang|xml:lang)="[^"]*"/g, '');
-
-      return cleaned;
+      return cleanPastedHTML(html);
     },
   },
   onCreate: ({ editor: createdEditor }) => {
@@ -305,6 +316,18 @@ watch(() => props.modelValue?._id, (newId) => {
   }
 });
 
+async function copyContentToClipboard(): Promise<boolean> {
+  if (!editor.value) {
+    return false;
+  }
+
+  return await copyToClipboard(editor.value);
+}
+
+defineExpose({
+  copyContentToClipboard,
+});
+
 onMounted(async () => {
   await nextTick();
 });
@@ -319,6 +342,14 @@ onBeforeUnmount(() => {
 .ep-content {
   padding: 0;
   word-break: break-word;
+
+  .copy-content-button {
+    flex-shrink: 0;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    line-height: 1;
+  }
 
   .placeholder {
     opacity: 0.5;

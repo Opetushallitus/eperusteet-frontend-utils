@@ -10,7 +10,8 @@
         type="button"
         class="menu-button"
         :disabled="!editor.can().undo()"
-        title="Kumoa"
+        :title="$t('kumoa')"
+        :aria-label="$t('kumoa')"
         @click="editor.chain().focus().undo().run()"
       >
         <EpMaterialIcon>undo</EpMaterialIcon>
@@ -21,10 +22,33 @@
         type="button"
         class="menu-button"
         :disabled="!editor.can().redo()"
-        title="Tee uudelleen"
+        :title="$t('tee-uudelleen')"
+        :aria-label="$t('tee-uudelleen')"
         @click="editor.chain().focus().redo().run()"
       >
         <EpMaterialIcon>redo</EpMaterialIcon>
+      </button>
+
+      <button
+        v-if="layoutCommands.includes('copy')"
+        type="button"
+        class="menu-button"
+        :title="$t('kopioi-sisalto-leikepöydälle')"
+        :aria-label="$t('kopioi-sisalto-leikepöydälle')"
+        @click="copyToClipboardHandler"
+      >
+        <EpMaterialIcon>content_copy</EpMaterialIcon>
+      </button>
+
+      <button
+        v-if="layoutCommands.includes('paste')"
+        type="button"
+        class="menu-button"
+        :title="$t('liita')"
+        :aria-label="$t('liita')"
+        @click="pasteFromClipboardHandler"
+      >
+        <EpMaterialIcon>content_paste</EpMaterialIcon>
       </button>
 
       <div
@@ -38,7 +62,8 @@
         type="button"
         class="menu-button"
         :class="{ 'is-active': editor.isActive('bold') }"
-        title="Lihavointi"
+        :title="$t('lihavointi')"
+        :aria-label="$t('lihavointi')"
         @click="editor.chain().focus().toggleBold().run()"
       >
         <EpMaterialIcon>format_bold</EpMaterialIcon>
@@ -49,7 +74,8 @@
         type="button"
         class="menu-button"
         :class="{ 'is-active': editor.isActive('italic') }"
-        title="Kursivointi"
+        :title="$t('kursivointi')"
+        :aria-label="$t('kursivointi')"
         @click="editor.chain().focus().toggleItalic().run()"
       >
         <EpMaterialIcon>format_italic</EpMaterialIcon>
@@ -60,7 +86,8 @@
         type="button"
         class="menu-button"
         :class="{ 'is-active': editor.isActive('strike') }"
-        title="Yliviivaus"
+        :title="$t('yliviivaus')"
+        :aria-label="$t('yliviivaus')"
         @click="editor.chain().focus().toggleStrike().run()"
       >
         <EpMaterialIcon>strikethrough_s</EpMaterialIcon>
@@ -73,7 +100,8 @@
         class="menu-button"
         :class="{ 'is-active': editor.isActive('link') }"
         :disabled="!canToggleLink"
-        title="Linkki"
+        :title="$t('linkki')"
+        :aria-label="$t('linkki')"
         @click="toggleLink"
       >
         <EpMaterialIcon>add_link</EpMaterialIcon>
@@ -86,7 +114,8 @@
         class="menu-button"
         :class="{ 'is-active': editor.isActive('termiExtension3') }"
         :disabled="!canToggleTerm || !injectedKasiteHandler?.addOrUpdate"
-        title="Käsite"
+        :title="$t('käsite')"
+        :aria-label="$t('käsite')"
         @click="toggleTerm"
       >
         <EpMaterialIcon>book</EpMaterialIcon>
@@ -103,7 +132,8 @@
         type="button"
         class="menu-button"
         :class="{ 'is-active': editor.isActive('bulletList') }"
-        title="Luettelomerkit"
+        :title="$t('luettelomerkit')"
+        :aria-label="$t('luettelomerkit')"
         @click="editor.chain().focus().toggleBulletList().run()"
       >
         <EpMaterialIcon>list</EpMaterialIcon>
@@ -114,7 +144,8 @@
         type="button"
         class="menu-button"
         :class="{ 'is-active': editor.isActive('orderedList') }"
-        title="Numeroitu luettelo"
+        :title="$t('numeroitu-luettelo')"
+        :aria-label="$t('numeroitu-luettelo')"
         @click="editor.chain().focus().toggleOrderedList().run()"
       >
         <EpMaterialIcon>format_list_numbered_rtl</EpMaterialIcon>
@@ -131,7 +162,8 @@
         type="button"
         class="menu-button"
         :disabled="!canInsertImage"
-        title="Lisää kuva"
+        :title="$t('lisaa-kuva')"
+        :aria-label="$t('lisaa-kuva')"
         @click="insertImage"
       >
         <EpMaterialIcon>add_photo_alternate</EpMaterialIcon>
@@ -143,7 +175,8 @@
         type="button"
         class="menu-button"
         :disabled="!canInsertTable"
-        title="Lisää taulukko"
+        :title="$t('lisaa-taulukko')"
+        :aria-label="$t('lisaa-taulukko')"
         @click="insertTable"
       >
         <EpMaterialIcon>grid_on</EpMaterialIcon>
@@ -159,7 +192,8 @@
             <button
               type="button"
               class="table-button add-button"
-              title="Lisää sarake ennen"
+              :title="$t('lisaa-sarake-ennen')"
+              :aria-label="$t('lisaa-sarake-ennen')"
               @click="addColumnBefore"
             >
               <EpMaterialIcon>add</EpMaterialIcon>
@@ -169,7 +203,8 @@
             <button
               type="button"
               class="table-button add-button"
-              title="Lisää sarake jälkeen"
+              :title="$t('lisaa-sarake-jälkeen')"
+              :aria-label="$t('lisaa-sarake-jälkeen')"
               @click="addColumnAfter"
             >
               <EpMaterialIcon>view_column</EpMaterialIcon>
@@ -179,7 +214,8 @@
             <button
               type="button"
               class="table-button remove-button"
-              title="Poista sarake"
+              :title="$t('poista-sarake')"
+              :aria-label="$t('poista-sarake')"
               @click="deleteColumn"
             >
               <EpMaterialIcon>delete</EpMaterialIcon>
@@ -194,7 +230,8 @@
             <button
               type="button"
               class="table-button add-button"
-              title="Lisää rivi ennen"
+              :title="$t('lisaa-rivi-ennen')"
+              :aria-label="$t('lisaa-rivi-ennen')"
               @click="addRowBefore"
             >
               <EpMaterialIcon>add</EpMaterialIcon>
@@ -204,7 +241,8 @@
             <button
               type="button"
               class="table-button add-button"
-              title="Lisää rivi jälkeen"
+              :title="$t('lisaa-rivi-jälkeen')"
+              :aria-label="$t('lisaa-rivi-jälkeen')"
               @click="addRowAfter"
             >
               <EpMaterialIcon>table_rows</EpMaterialIcon>
@@ -214,7 +252,8 @@
             <button
               type="button"
               class="table-button remove-button"
-              title="Poista rivi"
+              :title="$t('poista-rivi')"
+              :aria-label="$t('poista-rivi')"
               @click="deleteRow"
             >
               <EpMaterialIcon>delete</EpMaterialIcon>
@@ -229,7 +268,8 @@
             <button
               type="button"
               class="table-button remove-button"
-              title="Poista taulukko"
+              :title="$t('poista-taulukko')"
+              :aria-label="$t('poista-taulukko')"
               @click="deleteTable"
             >
               <EpMaterialIcon>delete</EpMaterialIcon>
@@ -251,9 +291,9 @@
       </EpInfoPopover>
       <ep-button
         variant="link"
-        @click="emit('fixInvalidHtml')"
         class="p-0"
         no-padding
+        @click="emit('fixInvalidHtml')"
       >
         {{ $t('korjaa-sisalto') }}
       </ep-button>
@@ -263,9 +303,12 @@
 
 <script setup lang="ts">
 import { computed, inject } from 'vue';
+import type { Editor } from '@tiptap/core';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpInfoPopover from '@shared/components/EpInfoPopover/EpInfoPopover.vue';
+import { copyToClipboard } from './copyToClipboard';
+import { pasteFromClipboard } from './pasteFromClipboard';
 import { EditorLayout } from '@shared/tyypit';
 import { IKasiteHandler } from './KasiteHandler';
 
@@ -275,7 +318,7 @@ const emit = defineEmits(['fixInvalidHtml']);
 
 const props = defineProps({
   editor: {
-    type: Object,
+    type: Object as () => Editor,
     required: true,
   },
   isEditable: {
@@ -318,6 +361,18 @@ const canInsertTable = computed(() => {
 const isInTable = computed(() => {
   return props.editor && props.editor.isActive && props.editor.isActive('table');
 });
+
+const copyToClipboardHandler = async () => {
+  if (props.editor) {
+    await copyToClipboard(props.editor);
+  }
+};
+
+const pasteFromClipboardHandler = async () => {
+  if (props.editor) {
+    await pasteFromClipboard(props.editor);
+  }
+};
 
 // Link manipulation methods
 const toggleLink = () => {
@@ -427,7 +482,7 @@ const deleteTable = () => {
 
 const layoutCommands = computed(() => {
   let commands = [
-    'undo', 'redo',
+    'undo', 'redo', 'copy', 'paste',
   ];
 
   if (props.layout === 'simplified'

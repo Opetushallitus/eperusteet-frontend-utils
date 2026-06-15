@@ -38,7 +38,7 @@
             class="d-flex align-items-center flex-md-row flex-column justify-content-between"
             :class="{ container: useContainer }"
           >
-            <div class="d-flex flex-wrap flex-xl-nowrap align-items-center justify-content-between">
+            <div class="d-flex flex-wrap flex-xl-nowrap align-items-center w-100">
               <div
                 v-if="inner"
                 class="headerline"
@@ -63,10 +63,12 @@
                   name="additionalInfo"
                   :data="inner"
                 />
-                <span
-                  v-if="latest"
-                  class="text-truncate"
-                >{{ $t('muokattu') }}: {{ $sdt(latest.pvm) }}, {{ nimi }}</span>
+              </div>
+              <div
+                v-if="latest"
+                class="ml-auto text-truncate muokattu pr-3"
+              >
+                {{ $t('muokattu') }}: {{ $sdt(latest.pvm) }}, {{ nimi }}
               </div>
             </div>
             <div>
