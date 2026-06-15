@@ -152,6 +152,14 @@ img.content-image {
   color: $disabled
 }
 
+.text-danger .default-icon {
+  color: $red;
+}
+
+.text-warning .default-icon {
+  color: $yellow;
+}
+
 .default-icon, .link-style {
   color: $paletti-blue;
 

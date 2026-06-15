@@ -1,10 +1,10 @@
 import { mount } from '@vue/test-utils';
-import EpValidPopover from './EpValidPopover.vue';
+import EpValidStatus from './EpValidStatus.vue';
 import { createI18n } from 'vue-i18n';
 import { Kielet } from '../../stores/kieli';
 import { nextTick } from 'vue';
 
-describe('EpValidPopover component', () => {
+describe('EpValidStatus component', () => {
   const i18n = createI18n({
     legacy: false,
     locale: 'fi',
@@ -14,7 +14,7 @@ describe('EpValidPopover component', () => {
   });
 
   test('Renders', async () => {
-    const wrapper = mount(EpValidPopover, {
+    const wrapper = mount(EpValidStatus, {
       global: {
         plugins: [i18n],
         stubs: {
