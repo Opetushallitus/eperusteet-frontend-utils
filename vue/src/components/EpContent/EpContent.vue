@@ -11,7 +11,7 @@
       @fix-invalid-html="fixInvalidHtml"
     />
 
-    <div class="d-flex justify-content-between align-items-start gap-2">
+    <div class="flex justify-between items-start gap-2">
       <editor-content
         :editor="editor"
         class="flex-grow-1 min-width-0"
