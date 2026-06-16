@@ -38,7 +38,7 @@
           {{ $t(salliEsikatseluText) }}
         </slot>
       </p>
-      <div class="flex justify-between items-center">
+      <div class="flex justify-end items-center">
         <EpButton
           variant="link"
           class="mr-2"
