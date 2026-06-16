@@ -27,7 +27,7 @@
         </EpButton>
       </template>
     </ep-modal>
-    <div class="d-none">
+    <div class="hidden">
       <EpKoodistoSelect
         ref="codingKoodistoSelectRef"
         :koodisto="koodisto"

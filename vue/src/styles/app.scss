@@ -287,11 +287,11 @@ img.content-image {
   color: $disabled
 }
 
-.text-danger .default-icon {
+.text-danger, .text-danger .default-icon {
   color: $red;
 }
 
-.text-warning .default-icon {
+.text-warning, .text-warning .default-icon {
   color: $yellow;
 }
 
