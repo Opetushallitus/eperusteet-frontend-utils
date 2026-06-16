@@ -39,13 +39,13 @@
           {{ $t('palauta') }}
         </EpButton>
         <EpButton
-          v-if="luonnos && !julkaistava"
+          v-else-if="luonnos && !julkaistava"
           @click="asetaValmiiksi"
         >
           {{ $t('aseta-valmiiksi') }}
         </EpButton>
         <EpButton
-          v-if="julkaistava"
+          v-else-if="julkaistava"
           @click="toJulkaisuRoute"
         >
           {{ $t('siirry-julkaisunakymaan') }}
