@@ -2,6 +2,7 @@
   <div
     v-sticky="sticky"
     class="topbar"
+    :class="{'sticky': sticky}"
     sticky-z-index="600"
   >
     <b-sidebar id="sisaltobar">
@@ -210,10 +211,13 @@ const valitseSisaltoKieli = (kieli: Kieli) => {
 
 .topbar {
   height: 56px;
-  background-image: inherit;
-  background-size: cover;
-  background-position: 100% 0;
-  background-size: 100% 216px;
+
+  &.sticky {
+    background-image: inherit;
+    background-size: cover;
+    background-position: 100% 0;
+    background-size: 100% 216px;
+  }
 
   .navbar {
     top: 0;
