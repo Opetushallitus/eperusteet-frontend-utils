@@ -213,7 +213,7 @@ const valitseSisaltoKieli = (kieli: Kieli) => {
   background-image: inherit;
   background-size: cover;
   background-position: 100% 0;
-  background-size: auto 216px;
+  background-size: 100% 216px;
 
   .navbar {
     top: 0;
