@@ -27,6 +27,7 @@
       ref="editModal"
       size="md"
       @cancel="alusta"
+      style="min-height: 860px;"
     >
       <template #modal-title>
         <slot name="header">
@@ -35,10 +36,10 @@
       </template>
 
       <template #modal-footer>
-        <slot name="modal-footer" :ok="lisaaValitut" :cancel="editModal?.hide()">
+        <slot name="modal-footer" :ok="lisaaValitut" :cancel="closeDialog">
           <EpButton
             variant="link"
-            @click="editModal?.hide()"
+            @click="closeDialog"
           >
             {{ multiselect ? $t('peruuta') : $t('sulje') }}
           </EpButton>
@@ -253,7 +254,7 @@ const raw = computed(() => {
   if (!koodistoStore.value) {
     return null;
   }
-  return unref(koodistoStore.value.data);
+  return koodistoStore.value.state.data;
 });
 
 const items = computed(() => {
@@ -313,27 +314,41 @@ const fields = computed(() => {
   ];
 });
 
-const initStoreQuery = debounced(async (queryVal: string, sivuVal: number, vanhentuneetVal: boolean) => {
+const fetchKoodisto = async (queryVal: string, sivuVal: number, vanhentuneetVal: boolean) => {
   isLoading.value = true;
-  await koodistoStore.value?.query(queryVal, _.max([sivuVal, 0]), !vanhentuneetVal);
-  isLoading.value = false;
+  try {
+    await koodistoStore.value?.query(queryVal, _.max([sivuVal, 0]), !vanhentuneetVal);
+  }
+  finally {
+    isLoading.value = false;
+  }
+};
+
+const initStoreQuery = debounced((queryVal: string, sivuVal: number, vanhentuneetVal: boolean) => {
+  void fetchKoodisto(queryVal, sivuVal, vanhentuneetVal);
 });
 
-watch(() => query.value, async (newValue) => {
+watch(() => query.value, (newValue) => {
   if (newValue.length > 2 || newValue.length === 0) {
-    await initStoreQuery(newValue, sivu.value - 1, vanhentuneet.value);
+    sivu.value = 1;
+    initStoreQuery(newValue, sivu.value - 1, vanhentuneet.value);
   }
 });
 
-watch(() => vanhentuneet.value, async (newValue) => {
-  await initStoreQuery(query.value, sivu.value - 1, newValue);
+watch(() => vanhentuneet.value, (newValue) => {
+  initStoreQuery(query.value, sivu.value - 1, newValue);
 });
 
 const openDialog = async () => {
-  await initStore();
+  initStore();
+  initStoreQuery.cancel();
   query.value = '';
-  await initStoreQuery(query.value, sivu.value - 1, vanhentuneet.value);
+  await fetchKoodisto(query.value, 0, vanhentuneet.value);
   editModal.value?.show?.();
+};
+
+const closeDialog = () => {
+  editModal.value?.hide?.();
 };
 
 const onRowSelected = (items: any[]) => {
@@ -350,7 +365,7 @@ const onRowSelected = (items: any[]) => {
     if (!multiselect.value) {
       emit('update:modelValue', row);
       emit('add', row, props.modelValue);
-      editModal.value?.hide();
+      closeDialog();
     }
     else {
       if (_.includes(selectedUris.value, row.uri)) {
@@ -370,7 +385,7 @@ const lisaaValitut = () => {
   if (multiselect.value) {
     emit('update:modelValue', innerModel.value);
     emit('add', innerModel.value);
-    editModal.value?.hide();
+    closeDialog();
   }
 };
 
