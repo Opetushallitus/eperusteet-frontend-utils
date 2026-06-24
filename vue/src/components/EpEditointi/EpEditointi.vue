@@ -473,7 +473,8 @@
 
 <script setup lang="ts">
 import _ from 'lodash';
-import { ref, computed, watch, onMounted, getCurrentInstance, unref, reactive } from 'vue';
+import { ref, computed, watch, onMounted, getCurrentInstance, unref, reactive, provide } from 'vue';
+import { epEditointiContextKey } from './epEditointiContext';
 import { useRouter, useRoute } from 'vue-router';
 import { EditointiStore } from './EditointiStore';
 import { setItem, getItem } from '../../utils/localstorage';
@@ -689,7 +690,9 @@ const isSaving = computed(() => props.store.isSaving || false);
 
 const validator = computed(() => ({ inner: props.store.validator || null }));
 
-const isEditing = computed(() =>  props.store.isEditing || false);
+const isEditing = computed(() => unref(props.store.isEditing) || false);
+
+provide(epEditointiContextKey, { isEditing });
 
 const revisions = computed(() => props.store.revisions || []);
 
@@ -835,7 +838,11 @@ const toggleSidebarState = (val: number) => {
 
 const remove = async () => {
   try {
-    if (!props.confirmRemove || await $vahvista($t('varmista-poisto') as string, $t('poista-tutkinnonosa') as string, props.labelRemoveClarification ? $t(props.labelRemoveClarification) as string : undefined)) {
+    if (!props.confirmRemove || await $vahvista(
+      $t('varmista-poisto') as string,
+      $t(props.labelRemoveConfirm) as string,
+      props.labelRemoveClarification ? $t(props.labelRemoveClarification) as string : undefined,
+    )) {
       const poistoTeksti = $t(props.labelRemoveSuccess);
       await props.store.remove();
       $success(poistoTeksti as string);

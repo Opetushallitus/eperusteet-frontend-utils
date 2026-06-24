@@ -5,7 +5,7 @@
   >
     <TabList>
       <Tab
-        v-for="(tab, index) in tabs"
+        v-for="(tab, index) in getTabs()"
         :key="index"
         :value="String(index)"
       >
@@ -14,16 +14,17 @@
     </TabList>
     <TabPanels>
       <TabPanel
-        v-for="(tab, index) in tabs"
+        v-for="(tab, index) in getTabs()"
         :key="index"
         :value="String(index)"
       >
         <div
+          :key="resolvedContentKey"
           class="tab-content-wrapper"
           :class="contentClass"
         >
           <component
-            :is="renderTabContent(tab.vnode)"
+            :is="renderTabContent(index)"
           />
         </div>
       </TabPanel>
@@ -32,12 +33,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, provide, VNode, useSlots, watch } from 'vue';
+import { ref, computed, provide, inject, VNode, useSlots, watch } from 'vue';
+import { epEditointiContextKey } from '../EpEditointi/epEditointiContext';
 import Tabs from 'primevue/tabs';
 import TabList from 'primevue/tablist';
 import Tab from 'primevue/tab';
 import TabPanels from 'primevue/tabpanels';
 import TabPanel from 'primevue/tabpanel';
+
+interface TabInfo {
+  title: string;
+}
 
 const props = defineProps({
   modelValue: {
@@ -48,6 +54,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  contentKey: {
+    type: [String, Number, Boolean],
+    default: undefined,
+  },
 });
 
 const emit = defineEmits<{
@@ -56,46 +66,60 @@ const emit = defineEmits<{
 
 const slots = useSlots();
 const activeTab = ref(props.modelValue);
+const editointiContext = inject(epEditointiContextKey, null);
 
 const activeTabValue = computed(() => String(activeTab.value));
 
-// Extract tab information from slot children
-const tabs = computed(() => {
-  const defaultSlot = slots.default?.();
+// EpTabs reads slots manually, so Vue may skip re-renders when only slot scope changes.
+// Subscribe to EpEditointi editing state (or an explicit contentKey) to refresh tab panels.
+const resolvedContentKey = computed(() => {
+  if (props.contentKey !== undefined) {
+    return String(props.contentKey);
+  }
+
+  return String(editointiContext?.isEditing.value ?? 0);
+});
+
+const flattenSlotVNodes = (defaultSlot: VNode[] | undefined): VNode[] => {
   if (!defaultSlot) return [];
 
-  // Flatten fragments - Vue wraps multiple slot children in fragments
   const allVNodes: VNode[] = [];
   defaultSlot.forEach((vnode: VNode) => {
-    // Check if it's a Fragment (Symbol type)
     if (typeof vnode.type === 'symbol' && vnode.children && Array.isArray(vnode.children)) {
-      // It's a fragment, add its children
       allVNodes.push(...(vnode.children as VNode[]));
     }
     else {
-      // Regular vnode
       allVNodes.push(vnode);
     }
   });
 
-  return allVNodes
-    .filter((vnode: VNode) => {
-      // Filter out non-EpTab components and empty nodes
-      if (!vnode.type) return false;
+  return allVNodes;
+};
 
-      // Check if it's an EpTab component
-      const typeName = (vnode.type as any).__name || (vnode.type as any).name;
+const isEpTabVNode = (vnode: VNode) => {
+  if (!vnode.type) return false;
 
-      return typeName === 'EpTab';
-    })
+  const typeName = (vnode.type as any).__name || (vnode.type as any).name;
+
+  return typeName === 'EpTab';
+};
+
+// Read slots during render so scoped slot data (e.g. isEditing) stays current.
+// Caching slot VNodes in computed leaves stale content when only slot scope changes.
+const getTabs = (): TabInfo[] => {
+  return flattenSlotVNodes(slots.default?.())
+    .filter(isEpTabVNode)
     .map((vnode: VNode) => {
       const vNodeProps = vnode.props || {};
       return {
         title: vNodeProps.title || '',
-        vnode,
       };
     });
-});
+};
+
+const getEpTabVNodes = (): VNode[] => {
+  return flattenSlotVNodes(slots.default?.()).filter(isEpTabVNode);
+};
 
 const handleTabChange = (value: string | number) => {
   const index = typeof value === 'string' ? parseInt(value, 10) : value;
@@ -113,18 +137,17 @@ provide('tabContext', {
   registerTab: () => {},
 });
 
-// Render the tab content from vnode children
-const renderTabContent = (vnode: VNode) => {
+const renderTabContent = (tabIndex: number) => {
   return () => {
-    // If children is a default slot function, call it
+    const vnode = getEpTabVNodes()[tabIndex];
+    if (!vnode) return null;
+
     if (vnode.children && typeof vnode.children === 'object' && 'default' in vnode.children) {
       return (vnode.children as any).default();
     }
-    // If children is an array, render it directly
     if (Array.isArray(vnode.children)) {
       return vnode.children;
     }
-    // Otherwise render the vnode itself
     return vnode;
   };
 };
