@@ -1,6 +1,7 @@
 <template>
   <div class="ep-button print:hidden inline-block whitespace-nowrap">
     <button
+      type="button"
       v-bind="$attrs"
       :title="help ? $t(help) : undefined"
       :class="[
@@ -22,6 +23,7 @@
         icon-shape="outlined"
         :background="inherit"
         :color="inherit"
+        aria-hidden="true"
       >
         {{ icon }}
       </EpMaterialIcon>

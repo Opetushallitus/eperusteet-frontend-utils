@@ -137,19 +137,30 @@ provide('tabContext', {
   registerTab: () => {},
 });
 
-const renderTabContent = (tabIndex: number) => {
-  return () => {
-    const vnode = getEpTabVNodes()[tabIndex];
-    if (!vnode) return null;
+// Memooidaan renderöintifunktio per index, jotta <component :is> saa saman
+// funktioreferenssin joka renderissä. Muuten Vue tulkitsee uuden funktion eri
+// komponenttityypiksi ja purkaa+luo tabin sisällön uudelleen jokaisella reaktiivisella
+// muutoksella (mikä mm. nollaa sisällä olevien modaalien näkyvyyden). Funktio lukee
+// slotit tuoreena joka kutsulla, joten sisältö pysyy ajan tasalla.
+const contentRenderers = new Map<number, () => any>();
 
-    if (vnode.children && typeof vnode.children === 'object' && 'default' in vnode.children) {
-      return (vnode.children as any).default();
-    }
-    if (Array.isArray(vnode.children)) {
-      return vnode.children;
-    }
-    return vnode;
-  };
+const renderTabContent = (tabIndex: number) => {
+  if (!contentRenderers.has(tabIndex)) {
+    contentRenderers.set(tabIndex, () => {
+      const vnode = getEpTabVNodes()[tabIndex];
+      if (!vnode) return null;
+
+      if (vnode.children && typeof vnode.children === 'object' && 'default' in vnode.children) {
+        return (vnode.children as any).default();
+      }
+      if (Array.isArray(vnode.children)) {
+        return vnode.children;
+      }
+      return vnode;
+    });
+  }
+
+  return contentRenderers.get(tabIndex)!;
 };
 </script>
 
