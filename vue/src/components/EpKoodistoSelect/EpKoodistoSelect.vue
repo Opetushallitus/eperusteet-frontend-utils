@@ -66,9 +66,6 @@
               {{ $t('nayta-myos-vanhentuneet') }}
             </ep-toggle>
           </div>
-          <div>
-            <ep-spinner v-if="isLoading" />
-          </div>
         </div>
         <div v-if="items">
           <EpTable
@@ -340,11 +337,11 @@ watch(() => vanhentuneet.value, (newValue) => {
 });
 
 const openDialog = async () => {
+  editModal.value?.show?.();
   initStore();
   initStoreQuery.cancel();
   query.value = '';
   await fetchKoodisto(query.value, 0, vanhentuneet.value);
-  editModal.value?.show?.();
 };
 
 const closeDialog = () => {
