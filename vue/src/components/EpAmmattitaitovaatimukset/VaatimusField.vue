@@ -15,7 +15,7 @@
             >
               <EpInputGroup :disabled="props.modelValue.koodi">
                 <template #prefix>
-                  <EpMaterialIcon class="handle order-handle !text-gray-600">
+                  <EpMaterialIcon class="handle order-handle">
                     drag_indicator
                   </EpMaterialIcon>
                 </template>
@@ -294,6 +294,7 @@ defineExpose({
 </script>
 
 <style scoped lang="scss">
+@import '@shared/styles/_variables.scss';
 
 .handle {
   left: 6px;
@@ -308,10 +309,10 @@ defineExpose({
   .datalist-container {
     margin:  -2px 0 0 2px;
     border-radius: 3px;
-    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 3px 3px 3px rgba($black, 0.1);
     position: absolute;
-    background: white;
-    border: 1px solid #ddd;
+    background: $white;
+    border: 1px solid $grey200;
     left: 0px;
     right: 0px;
 
@@ -321,7 +322,7 @@ defineExpose({
         cursor: pointer;
 
         &:hover {
-          background: #eee;
+          background: $grey100;
         }
       }
     }

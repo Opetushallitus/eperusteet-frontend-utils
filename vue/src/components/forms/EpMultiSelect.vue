@@ -173,19 +173,19 @@
     </div>
     <div
       v-else-if="validationError && invalidMessage "
-      class="block text-red-600 text-sm mt-1"
+      class="block text-danger text-sm mt-1"
     >
       {{ $t(invalidMessage) }}
     </div>
     <div
       v-else-if="validationError && !invalidMessage"
-      class="block text-red-600 text-sm mt-1"
+      class="block text-danger text-sm mt-1"
     >
       {{ $t('validation-error-' + validationError, validation.$params[validationError]) }}
     </div>
     <small
       v-if="help"
-      class="form-text text-gray-500"
+      class="form-text text-muted"
     >{{ $t(help) }}</small>
     <slot name="helptext" />
   </div>
@@ -470,7 +470,7 @@ defineExpose({
 }
 
 :deep(.is-invalid .multiselect__content-wrapper) {
-  border-color: #dc3545;
+  border-color: $alias-error;
 }
 
 :deep(.is-valid .multiselect__content-wrapper) {
@@ -478,7 +478,7 @@ defineExpose({
 }
 
 :deep(.is-invalid .multiselect__tags) {
-  border-color: #dc3545;
+  border-color: $alias-error;
 }
 
 :deep(.is-valid .multiselect__tags) {
@@ -501,14 +501,14 @@ defineExpose({
 }
 
 :deep(.multiselect__option--highlight) {
-    background-color: #bbb;
-    color: #fff;
+    background-color: $grey400;
+    color: $white;
   }
 
 :deep(.multiselect__option--selected) {
   &.multiselect__option--highlight{
     background:$green;
-    color:#fff
+    color: $white
   }
 }
 

@@ -291,6 +291,10 @@ img.content-image {
   color: $red;
 }
 
+.text-success, .text-success .default-icon {
+  color: $green;
+}
+
 .text-warning, .text-warning .default-icon {
   color: $yellow;
 }

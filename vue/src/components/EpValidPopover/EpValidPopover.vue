@@ -18,7 +18,7 @@
           <template v-if="!arkistoitu">
             <EpSpinner
               v-if="julkaisemattomiaMuutoksia === undefined || julkaisemattomiaMuutoksia === null"
-              color="#fff"
+              color="#FFFFFF"
               small
             />
             <template v-else>
@@ -82,7 +82,7 @@
             class="pt-3 pb-1 flex justify-center gap-2"
           >
             <EpMaterialIcon
-              class="text-green-600"
+              class="text-success"
               size="18px"
             >
               check_circle
@@ -99,7 +99,7 @@
                 class="pt-2 pb-1 flex justify-center gap-2"
               >
                 <EpMaterialIcon
-                  class="text-green-600"
+                  class="text-success"
                   size="18px"
                 >
                   info
@@ -116,7 +116,7 @@
                 class="pt-2 pb-1 flex justify-center gap-2 w-full"
               >
                 <EpMaterialIcon
-                  class="text-red-600"
+                  class="text-danger"
                   size="18px"
                 >
                   info
@@ -143,7 +143,7 @@
               class="pt-2 pb-1 flex justify-center gap-2"
             >
               <EpMaterialIcon
-                class="text-yellow-600"
+                class="text-warning"
                 size="18px"
               >
                 info
@@ -172,7 +172,7 @@
     <EpSpinner
       v-else
       class="mt-4"
-      color="#fff"
+      color="#FFFFFF"
     />
   </div>
 </template>
@@ -262,7 +262,7 @@ const tila = computed(() => {
 const popupStyle = computed(() => {
   if (props.tyyppi === 'peruste') {
     return {
-      background: '#1d7599',
+      background: '#006699',
     };
   }
 

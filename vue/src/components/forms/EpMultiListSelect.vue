@@ -88,19 +88,19 @@
     </div>
     <div
       v-else-if="validationError && invalidMessage "
-      class="block text-red-600 text-sm mt-1"
+      class="block text-danger text-sm mt-1"
     >
       {{ $t(invalidMessage) }}
     </div>
     <div
       v-else-if="validationError && !invalidMessage"
-      class="block text-red-600 text-sm mt-1"
+      class="block text-danger text-sm mt-1"
     >
       {{ $t('validation-error-' + validationError, validation.$params[validationError]) }}
     </div>
     <small
       v-if="help && isEditing"
-      class="form-text text-gray-500"
+      class="form-text text-muted"
     >{{ $t(help) }}</small>
   </div>
   <div v-else>
@@ -305,7 +305,7 @@ watch(() => props.modelValue, (newValue) => {
   }
 
   :deep(.multiselect__tags) {
-    border: 2px solid #E0E0E1;
+    border: 2px solid $grey200;
     border-radius: 10px;
     font-size: 1rem;
     background-color: $white;
@@ -344,7 +344,7 @@ watch(() => props.modelValue, (newValue) => {
   }
 
   :deep(.is-invalid .multiselect__content-wrapper) {
-    border-color: #dc3545;
+    border-color: $alias-error;
   }
 
   :deep(.is-valid .multiselect__content-wrapper) {
@@ -352,7 +352,7 @@ watch(() => props.modelValue, (newValue) => {
   }
 
   :deep(.is-invalid .multiselect__tags) {
-    border-color: #dc3545;
+    border-color: $alias-error;
   }
 
   :deep(.is-valid .multiselect__tags) {

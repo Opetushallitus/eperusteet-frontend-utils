@@ -34,19 +34,19 @@
     </div>
     <div
       v-else-if="validationError && invalidMessage "
-      class="block text-red-600 text-sm mt-1"
+      class="block text-danger text-sm mt-1"
     >
       {{ $t(invalidMessage) }}
     </div>
     <div
       v-else-if="validationError && !invalidMessage"
-      class="block text-red-600 text-sm mt-1"
+      class="block text-danger text-sm mt-1"
     >
       {{ $t('validation-error-' + validationError, validation.$params[validationError]) }}
     </div>
     <small
       v-if="help"
-      class="form-text text-gray-500"
+      class="form-text text-muted"
     >{{ $t(help) }}</small>
   </div>
 </template>
@@ -150,14 +150,13 @@ function onListFocus() {
     position: absolute;
     left: 0;
     top: 0;
-    border: 1px solid black;
+    border: 1px solid $grey300;
     min-width: 120px;
     max-width: 576px;
     max-height: 356px;
     overflow-y: scroll;
-    background: #ffffffff;
+    background: $white;
     z-index: 1000;
-    border: 1px solid #ced4da;
     border-top: none;
   }
 }

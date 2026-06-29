@@ -9,7 +9,7 @@
     >
       <template #firsticon>
         {{ $t('alkuun') }}
-      </template>´
+      </template>
       <template #previcon>
         <EpMaterialIcon>keyboard_double_arrow_left</EpMaterialIcon>
       </template>

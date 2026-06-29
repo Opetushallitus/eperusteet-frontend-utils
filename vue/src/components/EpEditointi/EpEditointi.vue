@@ -142,8 +142,7 @@
                 >
                   <div>
                     <EpMaterialIcon
-                      class="mr-1"
-                      :color="'#555'"
+                      class="mr-1 text-muted"
                     >
                       lock
                     </EpMaterialIcon>
@@ -153,7 +152,7 @@
                     <div>
                       {{ currentLock.haltijaNimi || currentLock.haltijaOid }}
                     </div>
-                    <div class="text-gray-500">
+                    <div class="text-muted">
                       {{ $t('vapautuu') }}: {{ $ago(currentLock.vanhentuu) }}
                     </div>
                   </div>
@@ -370,8 +369,7 @@
               class="info flex"
             >
               <EpMaterialIcon
-                class="mr-1"
-                :color="'#2a2a2a'"
+                class="mr-1 text-muted"
               >
                 info
               </EpMaterialIcon>
@@ -724,8 +722,7 @@ const poistaKooditus = async () => {
     await props.store.init();
     $success($t('sisalto-kooditus-poistettu') as string);
   }
-  catch (err) {
-    console.log(err);
+  catch {
     $fail($t('kooditus-epaonnistui') as string);
   }
 };
@@ -852,8 +849,7 @@ const remove = async () => {
       }
     }
   }
-  catch (err) {
-    console.log(err);
+  catch {
     $fail($t(props.labelRemoveFail) as string);
   }
 };
@@ -896,9 +892,8 @@ const save = async () => {
       $success($t(props.labelSaveSuccess) as string);
     }
   }
-  catch (err) {
+  catch {
     $fail($t(props.labelSaveFail) as string);
-    console.log(err);
   }
 };
 
@@ -964,8 +959,8 @@ watch(sidebarState, (newValue, oldValue) => {
 
 .editointikontrolli {
   .ylapaneeli {
-    background: #fff;
-    border-bottom: 1px solid #E7E7E7;
+    background: $white;
+    border-bottom: 1px solid $grey200;
 
     .headerline {
       padding-right: 50px;
@@ -976,7 +971,7 @@ watch(sidebarState, (newValue, oldValue) => {
     }
 
     .muokattu, .muokkaaja {
-      color: #555;
+      color: $grey600;
       margin-right: 20px;
       font-size: 0.85rem;
     }
@@ -984,22 +979,22 @@ watch(sidebarState, (newValue, oldValue) => {
     @media (max-width: 767.98px) {
         .muokkaus-container {
           width:100%;
-          border-top: 1px solid #E7E7E7;
+          border-top: 1px solid $grey200;
         }
     }
 
   }
 
   .alapaneeli {
-    background: #fff;
-    border-top: 1px solid #E7E7E7;
+    background: $white;
+    border-top: 1px solid $grey200;
   }
 
   .versiohistoria {
     background-color: $lightBlue2;
-    border-bottom: 1px solid #E7E7E7;
+    border-bottom: 1px solid $grey200;
     padding: 2px 15px;
-    color: #2B2B2B;
+    color: $grey800;
 
     .headerline {
       padding-right: 50px;
@@ -1009,20 +1004,20 @@ watch(sidebarState, (newValue, oldValue) => {
       &.active {
         .page-link {
           font-weight: 600;
-          color: #575757;
+          color: $grey600;
         }
       }
 
       &.disabled {
         .page-link {
-          color: #575757;
+          color: $grey600;
         }
       }
 
       & .page-link {
         background-color: transparent;
         border: none;
-        color: #3367E3;
+        color: $link;
         font-weight: 400;
         font-size: 1rem;
       }
@@ -1038,7 +1033,7 @@ watch(sidebarState, (newValue, oldValue) => {
     display: flex;
 
     .rightbar {
-      border-left: 1px solid #eee;
+      border-left: 1px solid $grey100;
       min-width: 460px;
       max-width: 460px;
       min-height: 100vh;
@@ -1056,18 +1051,18 @@ watch(sidebarState, (newValue, oldValue) => {
     }
 
     .rb-ohje {
-      .rbheader { background: #fcddf9; }
-      .rbcontent { background: #fbf1fa; }
+      .rbheader { background: $pink2; }
+      .rbcontent { background: $pink3; }
     }
 
     .rb-keskustelu {
-      .rbheader { background: #ccd9f8; }
-      .rbcontent { background: #f2f5fd; }
+      .rbheader { background: $lightBlue1; }
+      .rbcontent { background: $lightBlue2; }
     }
 
     .rb-peruste {
-      .rbheader { background: #d4ebdc; }
-      .rbcontent { background: #f4faf6; }
+      .rbheader { background: $green5; }
+      .rbcontent { background: $green6; }
     }
 
     .actual-content {

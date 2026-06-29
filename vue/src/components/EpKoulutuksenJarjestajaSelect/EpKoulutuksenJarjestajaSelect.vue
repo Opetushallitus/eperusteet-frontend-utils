@@ -115,7 +115,7 @@
                 @row-selected="onRowSelected"
               >
                 <template #cell(nimi)="{ item }">
-                  <span class="text-blue-600 hover:underline cursor-pointer">
+                  <span class="link-style clickable hover:underline">
                     {{ $kaanna(item.nimi) }}
                   </span>
                 </template>

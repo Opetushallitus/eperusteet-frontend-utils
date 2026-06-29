@@ -60,7 +60,7 @@
                 :name="slots[item.type] ? item.type : 'default'"
                 :item="item"
               >
-                <div class="text-gray-500">
+                <div class="text-muted">
                   {{ $t(item.type.replaceAll('_', '-')) }}
                 </div>
               </slot>
@@ -94,7 +94,7 @@
           </div>
           <div
             v-if="item.children.length > 0 && item.idx !== activeIdx && !showAll"
-            class="text-gray-500 mr-1 py-1"
+            class="text-muted mr-1 py-1"
           >
             <EpMaterialIcon>chevron_right</EpMaterialIcon>
           </div>
@@ -349,7 +349,7 @@ const isActive = (navItem: IndexedNode) => {
 .sidenav {
   min-width: $sidebar-width;
   max-width: $sidebar-width;
-  background: #fff;
+  background: $white;
 }
 
 .portal-menu {
@@ -367,16 +367,16 @@ const isActive = (navItem: IndexedNode) => {
 }
 
 .actual {
-  background: #f2f2f2;
+  background: $grey100;
 }
 
 .forwards {
   padding: 0 6px 0 0;
-  color: #aaa;
+  color: $grey400;
 }
 
 .header {
-  border-bottom: 1px solid #D8D8D8;
+  border-bottom: 1px solid $grey200;
   padding-left: 0px;
   margin-left: 28px;
   margin-right: 28px;
@@ -397,13 +397,13 @@ const isActive = (navItem: IndexedNode) => {
     .back {
       margin-top: 3px;
       margin-left: 3px;
-      background: #3367e3;
+      background: $link;
       border-radius: 100%;
       height: 30px;
       width: 30px;
 
       :deep(.backbtn) {
-        color: white;
+        color: $white;
         padding: 0.1rem 0.15rem;
       }
     }
@@ -441,7 +441,7 @@ const isActive = (navItem: IndexedNode) => {
 }
 
 .structure-toggle {
-  border-bottom: 1px solid rgb(216, 216, 216);
+  border-bottom: 1px solid $grey200;
   padding: 10px 0px;
 }
 
