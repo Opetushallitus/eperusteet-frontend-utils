@@ -16,14 +16,14 @@
       :pdfnimi="pdfnimi"
     />
     <div class="btn-group">
-      <ep-button
+      <EpButton
         :disabled="isPolling || !dokumentti"
         :show-spinner="isPolling"
         button-class="px-5"
         @click="luoPdf"
       >
         <span>{{ $t('luo-uusi-pdf') }}</span>
-      </ep-button>
+      </EpButton>
     </div>
   </div>
 </template>

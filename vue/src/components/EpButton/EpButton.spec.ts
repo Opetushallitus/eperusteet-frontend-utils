@@ -1,7 +1,5 @@
 import { mount } from '@vue/test-utils';
 import EpButton from './EpButton.vue';
-import Vue from 'vue';
-import BootstrapVue from 'bootstrap-vue';
 
 describe('EpButton component', () => {
 

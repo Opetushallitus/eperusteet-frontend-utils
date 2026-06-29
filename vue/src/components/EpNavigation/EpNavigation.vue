@@ -1,18 +1,14 @@
 <template>
   <div
-    v-sticky="sticky"
     class="topbar"
-    sticky-z-index="600"
   >
-    <b-navbar
+    <nav
       id="navigation-bar"
       class="ep-navbar"
-      type="dark"
-      toggleable="md"
       :class="'navbar-style-' + tyyli"
       :style="{ 'background-attachment': sticky ? 'fixed' : '' }"
     >
-      <b-navbar-nav>
+      <div class="ep-navbar-left">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
@@ -43,10 +39,9 @@
             </li>
           </ol>
         </nav>
-      </b-navbar-nav>
-      <b-navbar-nav class="ml-auto">
-        <!-- Sisällön kieli-->
-        <b-nav-item-dropdown
+      </div>
+      <div class="ep-navbar-right">
+        <EpDropdown
           id="content-lang-selector"
           right
         >
@@ -54,7 +49,7 @@
             <span class="kielivalitsin">{{ $t("kieli-sisalto") }}: {{ $t(sisaltoKieli) }}</span>
           </template>
           <div class="kielet">
-            <b-dd-item
+            <EpDropdownItem
               v-for="kieli in sovelluksenKielet"
               :key="kieli"
               :disabled="kieli === sisaltoKieli"
@@ -67,13 +62,13 @@
                 check
               </EpMaterialIcon>
               {{ $t(kieli) }}
-            </b-dd-item>
+            </EpDropdownItem>
           </div>
-        </b-nav-item-dropdown>
+        </EpDropdown>
 
         <ep-kayttaja :tiedot="tiedot" />
-      </b-navbar-nav>
-    </b-navbar>
+      </div>
+    </nav>
   </div>
 </template>
 
@@ -87,6 +82,7 @@ import { Murupolku } from '@shared/stores/murupolku';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpKayttaja from '@shared/components/EpKayttaja/EpKayttaja.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import { EpDropdown, EpDropdownItem } from '@shared/components/EpDropdown';
 
 const props = defineProps({
   sticky: {
@@ -141,9 +137,26 @@ function valitseSisaltoKieli(kieli: Kieli) {
 @import '../../styles/_variables.scss';
 
 .topbar {
-  .navbar {
+  // position: sticky;
+  // top: 0;
+  // z-index: 1000;
+
+  .ep-navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     top: 0;
     font-weight: 600;
+
+    .ep-navbar-left {
+      flex: 1;
+    }
+
+    .ep-navbar-right {
+      display: flex;
+      align-items: center;
+      margin-left: auto;
+    }
 
     .kielivalitsin {
       color: white;
@@ -152,20 +165,33 @@ function valitseSisaltoKieli(kieli: Kieli) {
     .breadcrumb {
       margin-bottom: 0;
       background: rgba(0, 0, 0, 0);
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
 
       .breadcrumb-item {
         color: white;
+        display: flex;
+        align-items: center;
+
         &::before {
+          content: '/';
           color: white;
+          margin-right: 0.5rem;
         }
+
+        &:first-child::before {
+          display: none;
+        }
+
         a {
           color: white;
         }
       }
     }
-  }
-
-  .ep-navbar {
     height: 50px;
     background-color: $etusivu-header-background;
     background-image: url('@assets/img/banners/header.svg');
@@ -185,24 +211,9 @@ function valitseSisaltoKieli(kieli: Kieli) {
       text-align: right;
 
       .valittu {
-        color: #3467E3;
+        color: $paletti-blue;
         vertical-align: -0.25em;
       }
-    }
-
-    :deep(.dropdown-menu) {
-      padding: 0;
-      color: #000000;
-      min-width: initial;
-    }
-
-    :deep(.dropdown-item) {
-      padding: 0.5rem 1rem;
-      color: #000000;
-    }
-
-    :deep(.dropdown-item:hover) {
-      background-color: inherit;
     }
 
   }

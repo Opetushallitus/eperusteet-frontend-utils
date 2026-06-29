@@ -20,10 +20,8 @@ export interface KayttajaProvider {
 
 export interface EditoitavaFeatures {
   editable?: boolean;
-  previewable?: boolean;
   removable?: boolean;
   lockable?: boolean;
-  validated?: boolean;
   recoverable?: boolean;
   hideable?: boolean;
   isHidden?: boolean;
@@ -84,11 +82,6 @@ export interface IEditoitava {
   postLoad?: () => Promise<void>;
 
   /**
-   * Get preview url location
-   */
-  preview?: () => Promise<any | null>;
-
-  /**
    * Hide the resource
    */
   hide?: (data: any) => Promise<void>;
@@ -146,7 +139,8 @@ export interface EditointiStoreConfig {
 }
 
 export class EditointiStore {
-  private static editing: boolean = false;
+  /** Module-global; use ref so Vue computeds (e.g. EpFormGroup) track edits. */
+  private static editing = ref(false);
   private static router: Router;
   private static kayttajaProvider: KayttajaProvider;
   private logger = createLogger(EditointiStore);
@@ -172,18 +166,17 @@ export class EditointiStore {
     disabled: true,
     isLoading: false,
     isSaving: false,
-    isEditingState: false,
     isRemoved: false,
     isNew: false,
     currentLock: null as ILukko | null,
   });
 
   public static anyEditing() {
-    return EditointiStore.editing;
+    return EditointiStore.editing.value;
   }
 
   public static async cancelAll() {
-    EditointiStore.editing = false;
+    EditointiStore.editing.value = false;
   }
 
   public constructor(
@@ -191,6 +184,7 @@ export class EditointiStore {
   ) {
     this.logger.debug('Initing editointikontrollit with: ', _.keys(config));
     this.config = config;
+    EditointiStore.editing.value = false;
   }
 
   public get hooks() {
@@ -203,7 +197,7 @@ export class EditointiStore {
   public readonly disabled = computed(() => this.state.disabled);
   public readonly isLoading = computed(() => !this.state.data || this.state.isLoading);
   public readonly isSaving = computed(() => this.state.isSaving);
-  public readonly isEditing = computed(() => this.state.isEditingState);
+  public readonly isEditing = computed(() => EditointiStore.editing.value);
   public readonly isRemoved = computed(() => this.state.isRemoved);
   public readonly validator = computed(() => this.config.validator?.value || {});
   public readonly isNew = computed(() => this.state.isNew);
@@ -214,10 +208,8 @@ export class EditointiStore {
       hideable: true,
       isHidden: false,
       lockable: true,
-      previewable: false,
       recoverable: true,
       removable: true,
-      validated: true,
       copyable: false,
     };
 
@@ -235,8 +227,6 @@ export class EditointiStore {
       lockable: cfg.lock && cfg.release && features.lockable,
       recoverable: cfg.restore && cfg.revisions && features.recoverable,
       removable: cfg.remove && features.removable,
-      validated: cfg.validator && features.validated,
-      previewable: features.previewable || false,
       copyable: features.copyable || false,
       codes: features.codes || [],
       hasCoding: !!features.hasCoding,
@@ -251,10 +241,6 @@ export class EditointiStore {
     }
     return this.state.currentLock;
   });
-
-  public get hasPreview() {
-    return !!this.config.preview;
-  }
 
   public async updateRevisions() {
     if (this.config.revisions) {
@@ -312,14 +298,13 @@ export class EditointiStore {
       if (!this.state.isNew) {
         await this.init();
       }
-      this.state.isEditingState = true;
+      EditointiStore.editing.value = true;
 
       await this.lock();
 
       if (this.config.start) {
         await this.config.start();
       }
-      EditointiStore.editing = true;
     }
     catch (err) {
       this.logger.error('Editoinnin aloitus epäonnistui:', err);
@@ -365,6 +350,7 @@ export class EditointiStore {
 
   public async cancel(skipRedirectBack = false) {
     this.state.disabled = true;
+
     if (!this.isEditing) {
       this.logger.warn('Ei voi perua');
       return;
@@ -375,8 +361,7 @@ export class EditointiStore {
       await this.config.cancel!();
     }
 
-    this.state.isEditingState = false;
-    EditointiStore.editing = false;
+    EditointiStore.editing.value = false;
     this.state.disabled = false;
 
     await nextTick();
@@ -394,8 +379,7 @@ export class EditointiStore {
 
   public async remove() {
     this.state.disabled = true;
-    this.state.isEditingState = false;
-    EditointiStore.editing = false;
+    EditointiStore.editing.value = false;
     try {
       if (this.config.remove) {
         await this.config.remove(this.state.data);
@@ -421,17 +405,15 @@ export class EditointiStore {
       try {
         const after = await this.config.save(this.state.data);
         this.logger.success('Tallennettu onnistuneesti');
-        EditointiStore.editing = false;
         await this.unlock();
         await this.fetchRevisions();
+        EditointiStore.editing.value = false;
         await this.init();
-        this.state.isEditingState = false;
         if (after && _.isFunction(after)) {
           await after();
         }
       }
       catch (err) {
-        this.state.isEditingState = true;
         this.state.disabled = false;
         this.state.isSaving = false;
         throw err;
@@ -512,7 +494,7 @@ export class EditointiStore {
 
   public async hide() {
     this.state.disabled = true;
-    this.state.isEditingState = false;
+    EditointiStore.editing.value = false;
     if (this.config.hide) {
       await this.config.hide(this.state.data);
       await this.init();
@@ -524,7 +506,7 @@ export class EditointiStore {
 
   public async unHide() {
     this.state.disabled = true;
-    this.state.isEditingState = false;
+    EditointiStore.editing.value = false;
     if (this.config.unHide) {
       await this.config.unHide(this.state.data);
       await this.init();

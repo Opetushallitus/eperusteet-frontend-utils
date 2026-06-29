@@ -1,6 +1,6 @@
 <template>
-  <div class="d-flex align-items-center w-100">
-    <div class="d-flex align-items-center order-input pl-1 flex-grow-1">
+  <div class="flex items-center w-full">
+    <div class="flex items-center order-input pl-1 grow">
       <ep-material-icon
         class="order-handle"
         size="18px"
@@ -8,14 +8,15 @@
         drag_indicator
       </ep-material-icon>
       <ep-input
-        class="w-100"
+        class="w-full"
         :model-value="modelValue"
         :is-editing="isEditing"
         :placeholder="placeholder"
         @update:model-value="$emit('update:modelValue', $event)"
       />
     </div>
-    <ep-button
+    <EpButton
+      class="ml-1"
       variant="link"
       icon="delete"
       @click="$emit('delete')"

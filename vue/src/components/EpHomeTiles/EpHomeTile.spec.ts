@@ -1,13 +1,6 @@
 import { mount, RouterLinkStub } from '@vue/test-utils';
 import EpHomeTile from './EpHomeTile.vue';
-import { Kaannos } from '../../plugins/kaannos';
-import VueI18n from 'vue-i18n';
-import { Kielet } from '../../stores/kieli';
-import Vue from 'vue';
-import BootstrapVue from 'bootstrap-vue';
 import { globalStubs } from '@shared/utils/__tests__/stubs';
-
-// Vue.use(BootstrapVue);
 
 describe('EpHomeTile component', () => {
   test('Renders state', async () => {

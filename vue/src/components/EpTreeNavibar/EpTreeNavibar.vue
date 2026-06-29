@@ -22,7 +22,7 @@
         :key="item.idx"
       >
         <div
-          class="d-flex align-items-start item"
+          class="flex items-start item"
           :class="item.class"
         >
           <div class="backwrapper ml-1">
@@ -30,18 +30,18 @@
               v-if="menuIndex === 0 && (active?.depth || 0) > 0 && !showAll"
               class="back"
             >
-              <b-button
+              <EpButton
+                size="sm"
                 variant="link"
                 class="backbtn"
+                icon="chevron_left"
                 @click="navigateUp()"
-              >
-                <EpMaterialIcon>chevron_left</EpMaterialIcon>
-              </b-button>
+              />
             </div>
           </div>
           <div
-            class="flex-grow-1"
-            :class="{'font-weight-bold': item.isMatch}"
+            class="grow"
+            :class="{'font-bold': item.isMatch}"
           >
             <div
               v-if="item.navigationSubType === 'add'"
@@ -67,10 +67,10 @@
             </div>
             <div
               v-else
-              class="clickable d-flex align-items-center menu-item my-2"
+              class="clickable flex items-center menu-item my-1"
               @click="navigate(item)"
             >
-              <div class="d-flex align-items-start">
+              <div class="flex items-start">
                 <div
                   v-if="item.meta?.numerointi"
                   class="mr-2"
@@ -94,7 +94,7 @@
           </div>
           <div
             v-if="item.children.length > 0 && item.idx !== activeIdx && !showAll"
-            class="text-muted mr-1 py-2"
+            class="text-muted mr-1 py-1"
           >
             <EpMaterialIcon>chevron_right</EpMaterialIcon>
           </div>
@@ -120,6 +120,7 @@ import { Kielet } from '@shared/stores/kieli';
 import VueScrollTo from 'vue-scrollto';
 import { $t, $kaannaOlioTaiTeksti } from '@shared/utils/globals';
 import { unref } from 'vue';
+import EpButton from '@shared/components/EpButton/EpButton.vue';
 
 export type ProjektiFilter = 'koulutustyyppi' | 'tila' | 'voimassaolo';
 
@@ -348,7 +349,7 @@ const isActive = (navItem: IndexedNode) => {
 .sidenav {
   min-width: $sidebar-width;
   max-width: $sidebar-width;
-  background: #fff;
+  background: $white;
 }
 
 .portal-menu {
@@ -366,16 +367,16 @@ const isActive = (navItem: IndexedNode) => {
 }
 
 .actual {
-  background: #f2f2f2;
+  background: $grey100;
 }
 
 .forwards {
   padding: 0 6px 0 0;
-  color: #aaa;
+  color: $grey400;
 }
 
 .header {
-  border-bottom: 1px solid #D8D8D8;
+  border-bottom: 1px solid $grey200;
   padding-left: 0px;
   margin-left: 28px;
   margin-right: 28px;
@@ -385,27 +386,25 @@ const isActive = (navItem: IndexedNode) => {
 .item {
   font-size: 14px;
 
+  :deep(.ep-button .ep-button__text) {
+    text-decoration: none !important;
+  }
+
   .backwrapper {
     min-width: 40px;
     max-width: 28px;
 
     .back {
-      margin-top: 4px;
+      margin-top: 3px;
       margin-left: 3px;
-      background: #3367e3;
+      background: $link;
       border-radius: 100%;
       height: 30px;
       width: 30px;
 
-      .btn {
-        padding: 0.25rem 0.1rem;
-        margin-top: -2px;
-        font-size: 16px;
-        font-weight: 400;
-      }
-
-      .backbtn {
-        color: white;
+      :deep(.backbtn) {
+        color: $white;
+        padding: 0.1rem 0.15rem;
       }
     }
   }
@@ -435,10 +434,14 @@ const isActive = (navItem: IndexedNode) => {
 
 .action-container {
   margin-left: 20px;
+
+  :deep(.ep-button .ep-button__text) {
+    text-decoration: none !important;
+  }
 }
 
 .structure-toggle {
-  border-bottom: 1px solid rgb(216, 216, 216);
+  border-bottom: 1px solid $grey200;
   padding: 10px 0px;
 }
 

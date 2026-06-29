@@ -3,9 +3,9 @@
     <div
       v-for="(innerModel, i) in innerModelValidations"
       :key="i"
-      class="row mb-2"
+      class="grid grid-cols-12 gap-2 mb-2"
     >
-      <div class="col-11">
+      <div class="col-span-11">
         <VueMultiselect
           :model-value="innerModels[i]"
           :disabled="isLoading"
@@ -56,8 +56,8 @@
           </template>
         </VueMultiselect>
       </div>
-      <div class="col-1">
-        <ep-button
+      <div class="col-span-1">
+        <EpButton
           v-if="!required || (i > 0 && !isLoading)"
           button-class="p-0 pt-2 roskalaatikko"
           variant="link"
@@ -68,7 +68,7 @@
     </div>
 
     <ep-spinner v-if="isLoading" />
-    <ep-button
+    <EpButton
       v-else-if="multiple"
       button-class="pl-0 lisaa-valinta"
       variant="outline-primary"
@@ -78,7 +78,7 @@
       <slot name="lisaaTeksti">
         {{ $t(lisaaTeksti) }}
       </slot>
-    </ep-button>
+    </EpButton>
 
     <div
       v-if="!validationError && validMessage"
@@ -88,13 +88,13 @@
     </div>
     <div
       v-else-if="validationError && invalidMessage "
-      class="invalid-feedback"
+      class="block text-danger text-sm mt-1"
     >
       {{ $t(invalidMessage) }}
     </div>
     <div
       v-else-if="validationError && !invalidMessage"
-      class="invalid-feedback"
+      class="block text-danger text-sm mt-1"
     >
       {{ $t('validation-error-' + validationError, validation.$params[validationError]) }}
     </div>
@@ -107,10 +107,10 @@
     <div
       v-for="(innerModel, i) in innerModelValidations"
       :key="i"
-      class="row"
+      class="grid grid-cols-12 gap-2"
       :class="{'mb-2': i < innerModelValidations.length-1}"
     >
-      <div class="col-11">
+      <div class="col-span-11">
         <slot
           v-if="innerModels[i].value"
           name="singleLabel"
@@ -305,7 +305,7 @@ watch(() => props.modelValue, (newValue) => {
   }
 
   :deep(.multiselect__tags) {
-    border: 2px solid #E0E0E1;
+    border: 2px solid $grey200;
     border-radius: 10px;
     font-size: 1rem;
     background-color: $white;
@@ -324,7 +324,7 @@ watch(() => props.modelValue, (newValue) => {
     color: $black;
   }
 
-  :deep(.multiselect__option div) {
+  :deep(.multiselect__option:first-child) {
     padding: 12px;
     margin: 0px;
   }
@@ -333,18 +333,18 @@ watch(() => props.modelValue, (newValue) => {
     padding-left: 35px;
   }
 
-  :deep(.multiselect__option--highlight div) {
-    background-color: $blue-lighten-1;
+  :deep(.multiselect__option--highlight:first-child) {
+    background-color: $cyan1;
     color: $white;
   }
 
   :deep(.multiselect__option .unselectable) {
     background-color: $white;
-    color: $gray-lighten-1;
+    color: $grey400;
   }
 
   :deep(.is-invalid .multiselect__content-wrapper) {
-    border-color: #dc3545;
+    border-color: $alias-error;
   }
 
   :deep(.is-valid .multiselect__content-wrapper) {
@@ -352,20 +352,15 @@ watch(() => props.modelValue, (newValue) => {
   }
 
   :deep(.is-invalid .multiselect__tags) {
-    border-color: #dc3545;
+    border-color: $alias-error;
   }
 
   :deep(.is-valid .multiselect__tags) {
     border-color: $valid;
   }
 
-  // Piilotettu Bootstrapissa oletuksena
-  :deep(.invalid-feedback),
-  :deep(.valid-feedback) {
-    display: block;
-  }
 
   .valitse {
-    color: $gray-lighten-2;
+    color: $grey300;
   }
 </style>

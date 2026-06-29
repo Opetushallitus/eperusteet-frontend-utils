@@ -1,42 +1,36 @@
 const {
+  defineConfig,
   globalIgnores,
 } = require("eslint/config");
 
 const globals = require("globals");
-const parser = require("vue-eslint-parser");
-const js = require("@eslint/js");
+const eslint = require("@eslint/js");
+const tseslint = require("typescript-eslint");
+const pluginVue = require("eslint-plugin-vue");
 
-const {
-    FlatCompat,
-} = require("@eslint/eslintrc");
-
-const compat = new FlatCompat({
-    baseDirectory: __dirname,
-    recommendedConfig: js.configs.recommended,
-    allConfig: js.configs.all
-});
-
-const lintModuleConfig = [{
-  languageOptions: {
-      globals: {
-          ...globals.node,
-          ...globals.browser,
-      },
-
-      parser: parser,
-
+const lintModuleConfig = defineConfig(
+  eslint.configs.recommended,
+  ...tseslint.configs.recommended,
+  ...pluginVue.configs["flat/recommended"],
+  {
+    files: ["**/*.vue"],
+    languageOptions: {
       parserOptions: {
-          "parser": "@typescript-eslint/parser",
+        parser: tseslint.parser,
+        extraFileExtensions: [".vue"],
       },
+    },
   },
-
-  extends: compat.extends(
-      "eslint:recommended",
-      "plugin:@typescript-eslint/recommended",
-      "plugin:vue/recommended",
-  ),
-
-  "rules": {
+  {
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        ...globals.browser,
+      },
+    },
+  },
+  {
+    rules: {
       "array-bracket-spacing": ["error", "never"],
       "no-useless-constructor": "off",
       "operator-linebreak": ["error", "before"],
@@ -48,15 +42,15 @@ const lintModuleConfig = [{
       "no-unused-expressions": "off",
 
       "space-before-function-paren": ["error", {
-          "anonymous": "never",
-          "named": "never",
-          "asyncArrow": "always",
+        "anonymous": "never",
+        "named": "never",
+        "asyncArrow": "always",
       }],
 
       "@typescript-eslint/no-explicit-any": "off",
 
       "indent": ["error", 2, {
-          "ignoredNodes": ["PropertyDefinition"],
+        "ignoredNodes": ["PropertyDefinition"],
       }],
 
       "comma-dangle": ["error", "always-multiline"],
@@ -65,25 +59,28 @@ const lintModuleConfig = [{
       "semi": ["error", "always"],
       "no-console": "off",
       "no-debugger": "error",
+    },
   },
-}, {
-  files: ["**/__tests__/*.{j,t}s?(x)", "**/tests/unit/**/*.spec.{j,t}s?(x)"],
+  {
+    files: ["**/__tests__/*.{j,t}s?(x)", "**/tests/unit/**/*.spec.{j,t}s?(x)"],
 
-  languageOptions: {
+    languageOptions: {
       globals: {
-          ...globals.jest,
+        ...globals.jest,
       },
+    },
   },
-}, globalIgnores([
-  "config/**/*",
-  "dist/**/*",
-  "mochawesome-report/**/*",
-  "node_modules/**/*",
-  "public/**/*",
-  "scripts/**/*",
-  "src/generated/**/*",
-  "tests/**/*",
-  "src/**/*.js",
-])];
+  globalIgnores([
+    "config/**/*",
+    "dist/**/*",
+    "mochawesome-report/**/*",
+    "node_modules/**/*",
+    "public/**/*",
+    "scripts/**/*",
+    "src/generated/**/*",
+    "tests/**/*",
+    "src/**/*.js",
+  ]),
+);
 
 module.exports = { lintModuleConfig };

@@ -1,10 +1,13 @@
 <template>
-  <div v-if="isEditing">
-    <div class="input-container d-flex align-items-center">
+  <div
+    v-if="isEditing"
+    class="w-full"
+  >
+    <div class="input-container flex items-center w-full">
       <input
         v-bind="$attrs"
         ref="inputRef"
-        class="input-style form-control"
+        class="input-style form-control w-full p-1"
         :class="[ inputClass ]"
         :placeholder="placeholderValue"
         type="text"
@@ -46,13 +49,13 @@
       >
         <div
           v-if="invalidMessage"
-          class="invalid-feedback"
+          class="block text-danger text-sm mt-1"
         >
           {{ $t(invalidMessage) }}
         </div>
         <div
           v-else
-          class="invalid-feedback"
+          class="block text-danger text-sm mt-1"
         >
           {{ message }}
         </div>
@@ -65,7 +68,6 @@
   </div>
   <div
     v-else
-    v-bind="$attrs"
   >
     <h2 v-if="isHeader">
       {{ val }}
@@ -208,6 +210,7 @@ const inputClass = computed(() => {
     'is-invalid': !props.isWarning && isInvalid.value,
     'is-warning': props.isWarning,
     'is-valid': isValid.value && props.showValidValidation && props.validation,
+    'disabled': props.disabled,
   };
 });
 
@@ -358,23 +361,32 @@ defineExpose({
 }
 
 input.input-style {
+  border: 1px solid $black;
+  background-color: $white;
+  height: 40px;
+  padding: .4375rem .625rem;
+
   &:focus {
     outline: none !important;
     box-shadow: none !important;
   }
+
+  &.disabled {
+    background-color: $grey200;
+  }
 }
 
 input.is-warning {
-  border-color: #ffc107;
+  border-color: $yellow1;
 }
 
 input.is-invalid:focus {
-  border-color: #dc3545;
+  border-color: $alias-error;
 }
 
 input {
   &.is-valid {
-    border-color: #E0E0E1;
+    border-color: $black;
   }
 
   &.is-valid:focus {
@@ -383,21 +395,13 @@ input {
 }
 
 input::placeholder {
-  color: #adb5bd;
+  color: $grey400;
 }
 
 .is-warning {
-  .invalid-feedback {
-    color: orange;
+  .block.text-danger {
+    color: $orange4;
   }
-}
-
-:deep(.invalid-feedback), :deep(.valid-feedback) {
-}
-
-// Piilotettu Bootstrapissa oletuksena
-.invalid-feedback {
-  display: block;
 }
 
 .placeholder {

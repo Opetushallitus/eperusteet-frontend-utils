@@ -10,9 +10,7 @@
     >
       <div
         v-if="!hasFooterSlot"
-        v-sticky="isEditing"
-        sticky-offset="{ top: 56 }"
-        sticky-z-index="600"
+        v-sticky="isEditing ? { top: 56, zIndex: 600 } : undefined"
       >
         <template v-if="hasCustomHeaderSlot">
           <slot
@@ -32,13 +30,13 @@
         </template>
         <div
           v-else
-          class="ylapaneeli d-print-none"
+          class="ylapaneeli print:hidden py-3 px-3"
         >
           <div
-            class="d-flex align-items-center flex-md-row flex-column justify-content-between"
+            class="flex items-center justify-between"
             :class="{ container: useContainer }"
           >
-            <div class="d-flex flex-wrap flex-xl-nowrap align-items-center w-100">
+            <div class="flex flex-wrap flex-xl-nowrap items-center w-full">
               <div
                 v-if="inner"
                 class="headerline"
@@ -53,7 +51,7 @@
               </div>
               <div
                 v-if="!isEditing"
-                class="muokattu text-nowrap"
+                class="muokattu whitespace-nowrap"
               >
                 <slot
                   name="postHeader"
@@ -66,17 +64,15 @@
               </div>
               <div
                 v-if="latest"
-                class="ml-auto text-truncate muokattu pr-3"
-              >
-                {{ $t('muokattu') }}: {{ $sdt(latest.pvm) }}, {{ nimi }}
-              </div>
+                class="truncate"
+              >{{ $t('muokattu') }}: {{ $sdt(latest.pvm) }}, {{ nimi }}</div>
             </div>
             <div>
               <div
                 v-if="!versiohistoriaVisible"
-                class="floating-editing-buttons d-flex align-items-center"
+                class="floating-editing-buttons flex items-center"
               >
-                <ep-button
+                <EpButton
                   v-if="isEditing"
                   class="ml-4"
                   :disabled="disabled"
@@ -86,8 +82,8 @@
                   <slot name="peruuta">
                     {{ $t('peruuta') }}
                   </slot>
-                </ep-button>
-                <ep-button
+                </EpButton>
+                <EpButton
                   v-if="isEditing"
                   class="ml-4"
                   :disabled="disabled || (validation && validation.$invalid)"
@@ -99,21 +95,18 @@
                   <slot name="tallenna">
                     {{ $t('tallenna') }}
                   </slot>
-                </ep-button>
-                <b-dropdown
-                  v-if="isEditing && !disabled && (features.removable || features.hideable || codingMenuVisible)"
+                </EpButton>
+                <EpDropdown
+                  v-if="isEditing && !disabled && (features.removable || features.hideable || codingMenuVisible) "
                   class="mx-4"
-                  size="md"
-                  variant="link"
-                  :disabled="disabled"
-                  toggle-class="text-decoration-none"
-                  no-caret="no-caret"
                   right
                 >
                   <template #button-content>
-                    <EpMaterialIcon>more_horiz</EpMaterialIcon>
+                    <EpMaterialIcon class="link-style">
+                      more_horiz
+                    </EpMaterialIcon>
                   </template>
-                  <b-dropdown-item
+                  <EpDropdownItem
                     key="poista"
                     :disabled="!features.removable || disabled"
                     @click="remove()"
@@ -121,8 +114,8 @@
                     <slot name="poista">
                       {{ poistoteksti }}
                     </slot>
-                  </b-dropdown-item>
-                  <b-dropdown-item
+                  </EpDropdownItem>
+                  <EpDropdownItem
                     v-if="!hidden && features.hideable"
                     key="piilota"
                     :disabled="disabled"
@@ -131,8 +124,8 @@
                     <slot name="piilota">
                       {{ $t('piilota') }}
                     </slot>
-                  </b-dropdown-item>
-                  <b-dropdown-item
+                  </EpDropdownItem>
+                  <EpDropdownItem
                     v-if="hidden"
                     key="palauta"
                     :disabled="!features.hideable || disabled"
@@ -141,22 +134,21 @@
                     <slot name="palauta">
                       {{ $t('palauta') }}
                     </slot>
-                  </b-dropdown-item>
-                </b-dropdown>
+                  </EpDropdownItem>
+                </EpDropdown>
                 <div
                   v-if="currentLock && features.lockable"
-                  class="d-flex align-items-center ml-2 mr-2"
+                  class="flex items-center ml-2 mr-2"
                 >
                   <div>
                     <EpMaterialIcon
-                      class="mr-1"
-                      :color="'#555'"
+                      class="mr-1 text-muted"
                     >
                       lock
                     </EpMaterialIcon>
                     {{ $t('sivu-lukittu') }}
                   </div>
-                  <div class="flex-grow-1 ml-3">
+                  <div class="grow ml-3">
                     <div>
                       {{ currentLock.haltijaNimi || currentLock.haltijaOid }}
                     </div>
@@ -170,7 +162,7 @@
                     name="muokkaa-content"
                     :data="inner"
                   >
-                    <ep-button
+                    <EpButton
                       id="editointi-muokkaus"
                       v-oikeustarkastelu="muokkausOikeustarkastelu"
                       variant="link"
@@ -182,7 +174,7 @@
                       <slot name="muokkaa">
                         {{ $t('muokkaa') }}
                       </slot>
-                    </ep-button>
+                    </EpButton>
                   </slot>
                 </template>
                 <div
@@ -194,7 +186,7 @@
                     :data="inner"
                     :support-data="innerSupport"
                   >
-                    <ep-button
+                    <EpButton
                       id="editointi-kopiointi"
                       v-oikeustarkastelu="muokkausOikeustarkastelu"
                       variant="link"
@@ -206,7 +198,7 @@
                       <slot name="kopioi-teksti">
                         {{ $t('kopioi-muokattavaksi') }}
                       </slot>
-                    </ep-button>
+                    </EpButton>
                   </slot>
                 </div>
                 <span
@@ -215,21 +207,18 @@
                 >
                   {{ $t('muokkausta-ei-sallittu') }}
                 </span>
-                <b-dropdown
+                <EpDropdown
                   v-if="katseluDropDownValinnatVisible"
                   v-oikeustarkastelu="{ oikeus: 'luku' }"
                   class="mx-4"
-                  size="md"
-                  variant="link"
-                  :disabled="disabled"
-                  toggle-class="text-decoration-none"
-                  no-caret="no-caret"
                   right
                 >
                   <template #button-content>
-                    <EpMaterialIcon>more_horiz</EpMaterialIcon>
+                    <EpMaterialIcon class="link-style">
+                      more_horiz
+                    </EpMaterialIcon>
                   </template>
-                  <b-dropdown-item
+                  <EpDropdownItem
                     v-if="features.removable && !disabled"
                     key="poista"
                     v-oikeustarkastelu="muokkausOikeustarkastelu"
@@ -238,8 +227,8 @@
                     <slot name="poista">
                       {{ poistoteksti }}
                     </slot>
-                  </b-dropdown-item>
-                  <b-dropdown-item
+                  </EpDropdownItem>
+                  <EpDropdownItem
                     v-if="!hidden && features.hideable && !disabled"
                     key="piilota"
                     v-oikeustarkastelu="muokkausOikeustarkastelu"
@@ -248,8 +237,8 @@
                     <slot name="piilota">
                       {{ $t('piilota') }}
                     </slot>
-                  </b-dropdown-item>
-                  <b-dropdown-item
+                  </EpDropdownItem>
+                  <EpDropdownItem
                     v-if="hidden && features.hideable && !disabled"
                     key="palauta"
                     v-oikeustarkastelu="muokkausOikeustarkastelu"
@@ -258,16 +247,10 @@
                     <slot name="palauta">
                       {{ $t('palauta') }}
                     </slot>
-                  </b-dropdown-item>
-                  <b-dropdown-item :disabled="!features.previewable || disabled">
-                    {{ $t('esikatsele-sivua') }}
-                  </b-dropdown-item>
-                  <b-dropdown-item v-if="store.validate && !disabled">
-                    {{ $t('validoi') }}
-                  </b-dropdown-item>
-                  <b-dropdown-item
+                  </EpDropdownItem>
+                  <EpDropdownText
                     v-if="features.recoverable"
-                    :disabled="!historia || disabled"
+                    :class="{ 'opacity-50 cursor-not-allowed': !historia || disabled }"
                   >
                     <ep-versio-modaali
                       :value="current"
@@ -276,8 +259,8 @@
                       :per-page="10"
                       @restore="restore($event)"
                     />
-                  </b-dropdown-item>
-                  <b-dropdown-item
+                  </EpDropdownText>
+                  <EpDropdownItem
                     v-if="showKooditaOption"
                     key="koodita"
                     :disabled="disabled"
@@ -286,8 +269,8 @@
                     <slot name="koodita">
                       {{ $t('koodita-sisalto') }}
                     </slot>
-                  </b-dropdown-item>
-                  <b-dropdown-item
+                  </EpDropdownItem>
+                  <EpDropdownItem
                     v-if="showPoistaKooditusOption"
                     key="poista-kooditus"
                     :disabled="disabled"
@@ -296,8 +279,8 @@
                     <slot name="poista-kooditus">
                       {{ $t('poista-kooditus') }}
                     </slot>
-                  </b-dropdown-item>
-                </b-dropdown>
+                  </EpDropdownItem>
+                </EpDropdown>
                 <ep-round-button
                   v-if="hasKeskusteluSlot"
                   id="editointi-muokkaus-comments"
@@ -330,31 +313,22 @@
         </div>
         <div
           v-if="versiohistoriaVisible"
-          class="d-flex align-items-center versiohistoria"
+          class="flex items-center versiohistoria"
         >
           <div class="headerline">
             <span>{{ $t('muokkaushistoria') }}: {{ $t('versionumero') }} {{ versionumero }}</span>
           </div>
-          <div class="flex-fill">
-            <ep-pagination
+          <div class="flex-1">
+            <ep-b-pagination
               :model-value="versionumero"
-              :total-rows="versions"
-              :per-page="1"
-              :hide-goto-end-buttons="true"
-              size="sm"
+              :total="versions"
+              :items-per-page="1"
               class="mb-0"
               @update:model-value="updateVersionumero"
-            >
-              <template #prev-text>
-                <EpMaterialIcon>chevron_left</EpMaterialIcon>
-              </template>
-              <template #next-text>
-                <EpMaterialIcon>chevron_right</EpMaterialIcon>
-              </template>
-            </ep-pagination>
+            />
           </div>
           <div class="floating-editing-buttons">
-            <ep-button
+            <EpButton
               variant="link"
               icon="menu"
             >
@@ -366,14 +340,14 @@
               >
                 {{ $t('palaa-listaan') }}
               </ep-versio-modaali>
-            </ep-button>
-            <ep-button
+            </EpButton>
+            <EpButton
               variant="link"
               icon="keyboard_return"
               @click="restore({ numero: current.numero, routePushLatest: true })"
             >
               {{ $t('palauta-tama-versio') }}
-            </ep-button>
+            </EpButton>
             <div class="btn">
               <router-link :to="{ query: {} }">
                 <EpMaterialIcon
@@ -392,17 +366,16 @@
           <div class="actual-content">
             <div
               v-if="hasInfoSlotContent"
-              class="info d-flex"
+              class="info flex"
             >
               <EpMaterialIcon
-                class="mr-1"
-                :color="'#2a2a2a'"
+                class="mr-1 text-muted"
               >
                 info
               </EpMaterialIcon>
               <slot name="info" />
             </div>
-            <div class="sisalto">
+            <div class="sisalto p-3">
               <slot
                 :is-editing="isEditing"
                 :support-data="innerSupport"
@@ -498,7 +471,8 @@
 
 <script setup lang="ts">
 import _ from 'lodash';
-import { ref, computed, watch, onMounted, getCurrentInstance, unref, reactive } from 'vue';
+import { ref, computed, watch, onMounted, getCurrentInstance, unref, reactive, provide } from 'vue';
+import { epEditointiContextKey } from './epEditointiContext';
 import { useRouter, useRoute } from 'vue-router';
 import { EditointiStore } from './EditointiStore';
 import { setItem, getItem } from '../../utils/localstorage';
@@ -510,10 +484,11 @@ import EpRoundButton from '@shared/components/EpButton/EpRoundButton.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import { EpDropdown, EpDropdownItem, EpDropdownText } from '@shared/components/EpDropdown';
 import { useSlots } from 'vue';
-import { $t, $sdt, $ago, $success, $fail, $bvModal, $vahvista } from '@shared/utils/globals';
+import { $t, $sdt, $ago, $success, $fail, $confirmModal, $vahvista } from '@shared/utils/globals';
 import { useVuelidate } from '@vuelidate/core';
-import EpPagination from '@shared/components/EpPagination/EpPagination.vue';
+import EpBPagination from '@shared/components/EpBPagination/EpBPagination.vue';
 import { inject } from 'vue';
 import EpEditointiKoodistoSelect from './EpEditointiKoodistoSelect.vue';
 
@@ -707,19 +682,15 @@ const innerSupport = computed(() => {
   return null;
 });
 
-const errorValidationData = computed(() => inner.value || null);
-
-const hasPreview = computed(() => props.store.hasPreview || false);
-
 const currentLock = computed(() => props.store.currentLock || null);
 
 const isSaving = computed(() => props.store.isSaving || false);
 
-const isEditable = computed(() => features.value.editable || false);
-
 const validator = computed(() => ({ inner: props.store.validator || null }));
 
-const isEditing = computed(() =>  props.store.isEditing || false);
+const isEditing = computed(() => unref(props.store.isEditing) || false);
+
+provide(epEditointiContextKey, { isEditing });
 
 const revisions = computed(() => props.store.revisions || []);
 
@@ -751,8 +722,7 @@ const poistaKooditus = async () => {
     await props.store.init();
     $success($t('sisalto-kooditus-poistettu') as string);
   }
-  catch (err) {
-    console.log(err);
+  catch {
     $fail($t('kooditus-epaonnistui') as string);
   }
 };
@@ -837,7 +807,7 @@ const hasInfoSlotContent = computed(() => !!slots.info);
 const hasFooterSlot = computed(() => !!slots.footer);
 const hasCustomHeaderSlot = computed(() => !!slots.customheader);
 
-const kommenttiHandler = inject('kommenttiHandler');
+const kommenttiHandler = inject('kommenttiHandler', null);
 
 const saveHelpText = computed(() => {
   if (disabled.value) {
@@ -863,33 +833,13 @@ const toggleSidebarState = (val: number) => {
   });
 };
 
-const vahvista = async (title: string, okTitle: string, label?: string) => {
-  let modalContent = [
-    instance?.proxy?.$createElement('strong', $t(props.labelRemoveConfirm) as string),
-  ];
-  if (label) {
-    modalContent = [
-      instance?.proxy?.$createElement('div', { innerHTML: label }),
-      instance?.proxy?.$createElement('br', ''),
-      ...modalContent,
-    ];
-  }
-
-  const vahvistusSisalto = instance?.proxy?.$createElement('div', {}, modalContent).children;
-  return $bvModal?.msgBoxConfirm((vahvistusSisalto as any), {
-    title: title,
-    okVariant: 'primary',
-    okTitle: okTitle as any,
-    cancelVariant: 'link',
-    cancelTitle: $t('peruuta') as any,
-    centered: true,
-    ...{} as any,
-  });
-};
-
 const remove = async () => {
   try {
-    if (!props.confirmRemove || await vahvista($t('varmista-poisto') as string, $t('poista') as string, props.labelRemoveClarification ? $t(props.labelRemoveClarification) as string : undefined)) {
+    if (!props.confirmRemove || await $vahvista(
+      $t('varmista-poisto') as string,
+      $t(props.labelRemoveConfirm) as string,
+      props.labelRemoveClarification ? $t(props.labelRemoveClarification) as string : undefined,
+    )) {
       const poistoTeksti = $t(props.labelRemoveSuccess);
       await props.store.remove();
       $success(poistoTeksti as string);
@@ -899,15 +849,14 @@ const remove = async () => {
       }
     }
   }
-  catch (err) {
-    console.log(err);
+  catch {
     $fail($t(props.labelRemoveFail) as string);
   }
 };
 
 const copy = async () => {
   try {
-    if (!props.confirmCopy || await vahvista(
+    if (!props.confirmCopy || await $vahvista(
         $t(props.labelCopyTopic) as string,
         $t(props.labelCopyConfirmButton) as string,
         $t(props.labelCopyConfirm) as string)) {
@@ -943,9 +892,8 @@ const save = async () => {
       $success($t(props.labelSaveSuccess) as string);
     }
   }
-  catch (err) {
+  catch {
     $fail($t(props.labelSaveFail) as string);
-    console.log(err);
   }
 };
 
@@ -1000,8 +948,8 @@ watch(sidebarState, (newValue, oldValue) => {
 @import '../../styles/variables';
 
 .info {
-  background: $blue-lighten-9;
-  border: $blue-lighten-10 solid 1px;
+  background: $lightBlue2;
+  border: $grey300 solid 1px;
   padding: 20px;
 }
 
@@ -1011,9 +959,8 @@ watch(sidebarState, (newValue, oldValue) => {
 
 .editointikontrolli {
   .ylapaneeli {
-    background: #fff;
-    border-bottom: 1px solid #E7E7E7;
-    padding: 10px 15px 5px 15px;
+    background: $white;
+    border-bottom: 1px solid $grey200;
 
     .headerline {
       padding-right: 50px;
@@ -1024,7 +971,7 @@ watch(sidebarState, (newValue, oldValue) => {
     }
 
     .muokattu, .muokkaaja {
-      color: #555;
+      color: $grey600;
       margin-right: 20px;
       font-size: 0.85rem;
     }
@@ -1032,22 +979,22 @@ watch(sidebarState, (newValue, oldValue) => {
     @media (max-width: 767.98px) {
         .muokkaus-container {
           width:100%;
-          border-top: 1px solid #E7E7E7;
+          border-top: 1px solid $grey200;
         }
     }
 
   }
 
   .alapaneeli {
-    background: #fff;
-    border-top: 1px solid #E7E7E7;
+    background: $white;
+    border-top: 1px solid $grey200;
   }
 
   .versiohistoria {
-    background-color: #E6F6FF;
-    border-bottom: 1px solid #E7E7E7;
+    background-color: $lightBlue2;
+    border-bottom: 1px solid $grey200;
     padding: 2px 15px;
-    color: #2B2B2B;
+    color: $grey800;
 
     .headerline {
       padding-right: 50px;
@@ -1057,20 +1004,20 @@ watch(sidebarState, (newValue, oldValue) => {
       &.active {
         .page-link {
           font-weight: 600;
-          color: #575757;
+          color: $grey600;
         }
       }
 
       &.disabled {
         .page-link {
-          color: #575757;
+          color: $grey600;
         }
       }
 
       & .page-link {
         background-color: transparent;
         border: none;
-        color: #3367E3;
+        color: $link;
         font-weight: 400;
         font-size: 1rem;
       }
@@ -1079,7 +1026,6 @@ watch(sidebarState, (newValue, oldValue) => {
 
   .sisalto {
     margin-bottom: 5px;
-    padding: 15px;
   }
 
   .threads {
@@ -1087,7 +1033,7 @@ watch(sidebarState, (newValue, oldValue) => {
     display: flex;
 
     .rightbar {
-      border-left: 1px solid #eee;
+      border-left: 1px solid $grey100;
       min-width: 460px;
       max-width: 460px;
       min-height: 100vh;
@@ -1105,18 +1051,18 @@ watch(sidebarState, (newValue, oldValue) => {
     }
 
     .rb-ohje {
-      .rbheader { background: #fcddf9; }
-      .rbcontent { background: #fbf1fa; }
+      .rbheader { background: $pink2; }
+      .rbcontent { background: $pink3; }
     }
 
     .rb-keskustelu {
-      .rbheader { background: #ccd9f8; }
-      .rbcontent { background: #f2f5fd; }
+      .rbheader { background: $lightBlue1; }
+      .rbcontent { background: $lightBlue2; }
     }
 
     .rb-peruste {
-      .rbheader { background: #d4ebdc; }
-      .rbcontent { background: #f4faf6; }
+      .rbheader { background: $green5; }
+      .rbcontent { background: $green6; }
     }
 
     .actual-content {

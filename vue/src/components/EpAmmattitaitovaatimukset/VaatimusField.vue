@@ -8,42 +8,45 @@
       @add="koodistoAdd"
     >
       <template #default="{ open }">
-        <div class="d-flex flex-column">
+        <div class="">
           <div>
             <ep-error-wrapper
               :validation="props.validation"
             >
-              <b-input-group>
-                <div class="handle order-handle text-muted">
-                  <EpMaterialIcon>drag_indicator</EpMaterialIcon>
-                </div>
-                <b-form-input
+              <EpInputGroup :disabled="props.modelValue.koodi">
+                <template #prefix>
+                  <EpMaterialIcon class="handle order-handle">
+                    drag_indicator
+                  </EpMaterialIcon>
+                </template>
+                <ep-input
                   v-if="!props.modelValue.koodi"
                   ref="input"
-                  class="vaatimus"
+                  class="grow"
                   :class="{ 'placeholder': placeholder }"
-                  :value="vaatimus"
+                  :model-value="vaatimus"
                   :placeholder="placeholder"
-                  :state="isValid"
-                  @input="onInput"
+                  :is-editing="true"
+                  @update:model-value="onInput"
                   @focus="onFocus"
                   @blur="onBlur"
                 />
-                <b-form-input
+                <ep-input
                   v-if="props.modelValue.koodi"
                   class="vaatimus"
-                  :value="koodiDisplayValue"
+                  :model-value="koodiDisplayValue"
+                  :is-editing="true"
                   disabled
                 />
-                <b-input-group-append>
-                  <b-button
+                <template #append>
+                  <EpButton
                     variant="primary"
                     @click="open"
                   >
                     {{ $t('hae-koodistosta') }}
-                  </b-button>
-                </b-input-group-append>
-              </b-input-group>
+                  </EpButton>
+                </template>
+              </EpInputGroup>
             </ep-error-wrapper>
           </div>
           <div
@@ -64,14 +67,14 @@
                 v-else
                 class="datalist"
               >
-                <b-table
+                <EpTable
                   :items="koodit"
                   :fields="fields"
                 >
                   <template #cell(nimi)="{ item }">
-                    <div class="d-flex align-items-center">
+                    <div class="flex items-center">
                       <div
-                        class="link-style"
+                        class="link-style mr-2"
                         role="button"
                         @click="valitse(item)"
                         v-html="highlight(item.nimi[$slang], vaatimus)"
@@ -82,7 +85,7 @@
                       />
                     </div>
                   </template>
-                </b-table>
+                </EpTable>
               </div>
             </div>
           </div>
@@ -102,6 +105,7 @@
 <script setup lang="ts">
 import { computed, ref, onMounted, getCurrentInstance } from 'vue';
 import EpButton from '../EpButton/EpButton.vue';
+import EpInputGroup from '../EpInputGroup/EpInputGroup.vue';
 import EpInput from '../forms/EpInput.vue';
 import EpErrorWrapper from '../forms/EpErrorWrapper.vue';
 import EpExternalLink from '../EpExternalLink/EpExternalLink.vue';
@@ -115,6 +119,7 @@ import _ from 'lodash';
 import Kayttolistaus from './Kayttolistaus.vue';
 import { $kaanna, $kaannaPlaceholder, $t, $slang, $sd } from '@shared/utils/globals';
 import { useRoute } from 'vue-router';
+import EpTable from '@shared/components/EpTable/EpTable.vue';
 import { highlight } from '@shared/utils/kieli';
 import { nextTick } from 'vue';
 
@@ -289,14 +294,9 @@ defineExpose({
 </script>
 
 <style scoped lang="scss">
-
-.vaatimus {
-  padding-left: 2rem !important;
-}
+@import '@shared/styles/_variables.scss';
 
 .handle {
-  position: absolute;
-  padding: 10px 0 0 0;
   left: 6px;
   z-index: 100;
 }
@@ -309,10 +309,10 @@ defineExpose({
   .datalist-container {
     margin:  -2px 0 0 2px;
     border-radius: 3px;
-    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 3px 3px 3px rgba($black, 0.1);
     position: absolute;
-    background: white;
-    border: 1px solid #ddd;
+    background: $white;
+    border: 1px solid $grey200;
     left: 0px;
     right: 0px;
 
@@ -322,7 +322,7 @@ defineExpose({
         cursor: pointer;
 
         &:hover {
-          background: #eee;
+          background: $grey100;
         }
       }
     }
