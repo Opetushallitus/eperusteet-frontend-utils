@@ -3,7 +3,7 @@
     <slot />
     <div
       v-if="validation?.$invalid && (message || invalidMessage)"
-      class="text-red-600 text-sm mt-1"
+      class="text-danger text-sm mt-1"
     >
       {{ invalidMessage ? $t(invalidMessage) : $t(message) }}
     </div>

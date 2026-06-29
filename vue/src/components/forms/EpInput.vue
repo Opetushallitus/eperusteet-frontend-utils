@@ -49,20 +49,20 @@
       >
         <div
           v-if="invalidMessage"
-          class="block text-red-600 text-sm mt-1"
+          class="block text-danger text-sm mt-1"
         >
           {{ $t(invalidMessage) }}
         </div>
         <div
           v-else
-          class="block text-red-600 text-sm mt-1"
+          class="block text-danger text-sm mt-1"
         >
           {{ message }}
         </div>
       </div>
       <small
         v-if="help && isEditing"
-        class="form-text text-gray-500"
+        class="form-text text-muted"
       >{{ $t(help) }}</small>
     </div>
   </div>
@@ -362,7 +362,7 @@ defineExpose({
 
 input.input-style {
   border: 1px solid $black;
-  background-color: #fff;
+  background-color: $white;
   height: 40px;
   padding: .4375rem .625rem;
 
@@ -377,11 +377,11 @@ input.input-style {
 }
 
 input.is-warning {
-  border-color: #ffc107;
+  border-color: $yellow1;
 }
 
 input.is-invalid:focus {
-  border-color: #dc3545;
+  border-color: $alias-error;
 }
 
 input {
@@ -395,12 +395,12 @@ input {
 }
 
 input::placeholder {
-  color: #adb5bd;
+  color: $grey400;
 }
 
 .is-warning {
-  .block.text-red-600 {
-    color: orange;
+  .block.text-danger {
+    color: $orange4;
   }
 }
 

@@ -87,19 +87,19 @@
       </div>
       <div
         v-else-if="validationError && invalidMessage"
-        class="block text-red-600 text-sm mt-1"
+        class="block text-danger text-sm mt-1"
       >
         {{ $t(invalidMessage) }}
       </div>
       <div
         v-else-if="validationError && !invalidMessage"
-        class="block text-red-600 text-sm mt-1"
+        class="block text-danger text-sm mt-1"
       >
         {{ $t('validation-error-' + validationError) }}
       </div>
       <small
         v-if="help && isEditing"
-        class="form-text text-gray-500"
+        class="form-text text-muted"
       >{{ $t(help) }}</small>
     </div>
     <ep-spinner v-else />

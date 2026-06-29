@@ -96,8 +96,7 @@ async function onInput(file: File) {
             } as FileData);
           }
         }
-        catch (e) {
-          console.log(e);
+        catch {
           handleFail();
         }
       };

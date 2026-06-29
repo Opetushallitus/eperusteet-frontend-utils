@@ -23,7 +23,7 @@
           v-if="file"
           class="justify-around items-center h-full"
         >
-          <div class="h-full justify-around items-center text-gray-500">
+          <div class="h-full justify-around items-center text-muted">
             <figure>
               <img
                 v-if="previewUrl"

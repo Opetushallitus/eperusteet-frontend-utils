@@ -82,7 +82,7 @@
             <EpFormGroup class="w-full">
               <template #label>
                 <div>
-                  <span class="handle-kohdealue text-gray-500">
+                  <span class="handle-kohdealue text-muted">
                     <EpMaterialIcon size="20px">drag_indicator</EpMaterialIcon>
                   </span>
                   <span class="font-bold">{{ kaannokset.kohdealue }}</span>
@@ -399,13 +399,15 @@ const innerKohde = computed(() => {
 </script>
 
 <style scoped lang="scss">
+@import '@shared/styles/_variables.scss';
+
 .kohdealue {
   padding: 0px 8px 8px 8px;
-  border: 1px solid #eee;
+  border: 1px solid $grey100;
 }
 
 .dragged {
-  background: white;
+  background: $white;
 }
 
 </style>
