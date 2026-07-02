@@ -117,7 +117,7 @@ interface OsanTyypillinen {
   },
   vaihe?: { id: number };
   taiteenalaId?: number;
-  taiteenOsa?: string;
+  taiteenTekstiOsa?: string;
 }
 
 export function osaToLocation(osa: OsanTyypillinen): Location {
@@ -236,17 +236,17 @@ export function osaToLocation(osa: OsanTyypillinen): Location {
     };
   case 'taiteenala':
     return {
-      name: 'perusteTekstikappale',
+      name: 'perusteTaiteenala',
       params: {
         viiteId: String(osa.id),
       },
     };
-  case 'taiteenala_taiteenosa':
+  case 'taiteenala_taiteentekstiosa':
     return {
-      name: 'tekstikappaleOsa',
+      name: 'taiteenalaOsa',
       params: {
         viiteId: String(osa.taiteenalaId),
-        osa: String(osa.taiteenOsa),
+        osa: String(osa.taiteenTekstiOsa),
       },
     };
   case 'tutkinnon_muodostuminen':
@@ -338,12 +338,19 @@ export function osaToLocation(osa: OsanTyypillinen): Location {
 export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto) {
   switch (rawNode.type as string) {
   case 'viite':
-  case 'taiteenala':
   case 'liite':
   case 'tekstikappale':
     // Route linkki
     node.location = {
       name: 'perusteTekstikappale',
+      params: {
+        viiteId: String(rawNode.id),
+      },
+    };
+    break;
+  case 'taiteenala':
+    node.location = {
+      name: 'perusteTaiteenala',
       params: {
         viiteId: String(rawNode.id),
       },
@@ -525,13 +532,13 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       name: 'aipeLaajaalainenOsaaminen',
     };
     break;
-  case 'taiteenosa':
+  case 'taiteentekstiosa':
     if (!rawNode.label) {
-      node.label = _.get(rawNode.meta, 'alaosa') as any;
+      node.label = _.get(rawNode.meta, 'tekstiosa') as any;
     }
     if (_.get(rawNode.meta, 'vapaateksti_id')) {
       node.location = {
-        name: 'tekstikappaleVapaaOsa',
+        name: 'taiteenalaVapaaOsa',
         params: {
           vapaatekstiId: String(_.get(rawNode.meta, 'vapaateksti_id')) as any,
           viiteId: String(_.get(rawNode.meta, 'viiteId')) as any,
@@ -539,11 +546,11 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       };
     }
 
-    if (_.get(rawNode.meta, 'alaosa')) {
+    if (_.get(rawNode.meta, 'tekstiosa')) {
       node.location = {
-        name: 'tekstikappaleOsa',
+        name: 'taiteenalaOsa',
         params: {
-          osa: _.get(rawNode.meta, 'alaosa') as any,
+          osa: _.get(rawNode.meta, 'tekstiosa') as any,
           viiteId: String(_.get(rawNode.meta, 'viiteId')) as any,
         },
       };
