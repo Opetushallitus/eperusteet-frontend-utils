@@ -1,8 +1,8 @@
-import { NavigationNodeDto, LokalisoituTekstiDto } from '../tyypit';
-import _ from 'lodash';
-import { Kielet } from '../stores/kieli';
-import { Location } from 'vue-router';
 import { PerusteBaseDtoOpasTyyppiEnum, PerusteKaikkiDtoTyyppiEnum } from '@shared/api/eperusteet';
+import _ from 'lodash';
+import { Location } from 'vue-router';
+import { Kielet } from '../stores/kieli';
+import { LokalisoituTekstiDto, NavigationNodeDto } from '../tyypit';
 
 export type NavigationType =
   'root' | 'linkki' | 'viite' | 'tiedot' | 'laajaalaiset' | 'muutoshistoria' | 'tekstikappale'
@@ -555,6 +555,15 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
         },
       };
     }
+    break;
+  case 'taiteenosa':
+    node.location = {
+      name: 'taiteenosa',
+      params: {
+        viiteId: String(_.get(rawNode.meta, 'viiteId')),
+        taiteenosaId: String(rawNode.id),
+      },
+    };
     break;
   case 'opintokokonaisuus':
     node.location = {
