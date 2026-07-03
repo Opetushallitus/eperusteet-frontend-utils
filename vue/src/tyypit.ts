@@ -108,7 +108,7 @@ export type NavigationNodeType =
   | 'opetussuunnitelma'
   | 'tiedot'
   | 'kvliite'
-  | 'viite' | 'taiteenala' | 'tekstikappale'
+  | 'viite' | 'taiteenala' | 'taiteenosa' | 'tekstikappale'
   | 'liitteet' | 'liite'
   | 'laajaalaiset' | 'laajaalainen'
   | 'oppiaineet' | 'oppimaarat' | 'oppiaine' | 'opintojakso' | 'paikallinenOppiaine' | 'poppiaine' | 'lukio_oppiaine' | 'lukio_oppiaineet' |'lukio_laajaAlaisetOsaamiset'
@@ -128,7 +128,7 @@ export interface NavigationNodeDto {
   id?: number;
   label?: LokalisoituTekstiDto;
   type?: NavigationNodeType;
-  meta?: { [key: string]: object; };
+  meta?: { [key: string]: object | string | number | boolean | undefined; };
   children?: NavigationNodeDto[],
 }
 
