@@ -27,7 +27,7 @@
           </div>
         </div>
 
-        <div class="router-col text-left">
+        <div class="router-col min-w-0 flex-1 basis-0 text-left">
           <div v-if="muokkaustieto.poistettu || muokkaustieto.tapahtuma === 'julkaisu'">
             <div
               class="router-box"
