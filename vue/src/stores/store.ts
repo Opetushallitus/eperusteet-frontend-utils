@@ -1,8 +1,5 @@
-import Vue from 'vue';
 import Vuex from 'vuex';
 import _ from 'lodash';
-
-Vue.use(Vuex);
 const StoreConfigFieldName = '_storeconfig';
 
 type StoreConstructor = new(...args: any[]) => object;

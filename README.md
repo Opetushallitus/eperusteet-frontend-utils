@@ -74,6 +74,18 @@ yarn gen:api:ylops
 
 ```
 
+## Cursor Agent Skills
+
+Jaetut Agent Skills -tiedostot ylläpidetään tässä repossa polussa `.agents/skills/`.
+Käyttävä sovellus linkittää ne automaattisesti `postinstall`-vaiheessa:
+
+```json
+"postinstall": "node eperusteet-frontend-utils/scripts/link-agent-skills.mjs"
+```
+
+Sovelluskohtaiset skillit voidaan lisätä `.agents/skills/`-kansioon linkitettyjen rinnalle.
+Linkit luodaan paikallisesti, joten `.agents/` kannattaa pitää sovelluksen `.gitignore`-tiedostossa.
+
 
 ## ePerusteet-projektit
 

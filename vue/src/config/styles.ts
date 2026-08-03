@@ -1,4 +1,4 @@
-import '@shared/styles/bootstrap.scss';
+import '@shared/styles/tailwind.css';
 import '@shared/styles/app.scss';
 import 'vue-multiselect/dist/vue-multiselect.min.css';
 import 'vue-loading-overlay/dist/css/index.css';
@@ -16,3 +16,4 @@ import '@fontsource/poppins/500.css';
 import '@fontsource/poppins/600.css';
 import '@fontsource/poppins/700.css';
 import '@fontsource/poppins/800.css';
+import '@shared/styles/accessibility.scss';

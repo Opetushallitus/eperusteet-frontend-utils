@@ -69,8 +69,8 @@
 }
 
 @mixin focus-parameters {
-  outline: 2px solid black !important;
-  outline-offset: 2px !important;
+  outline: $accessibility-main-width solid $accessibility-main-color !important;
+  outline-offset: $accessibility-main-width !important;
   box-shadow: none;
 }
 

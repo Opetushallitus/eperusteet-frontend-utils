@@ -24,7 +24,7 @@
       </div>
 
       <div>
-        <ep-button
+        <EpButton
           v-if="naytettavaTiedoteMaara < tiedotteetSize"
           variant="link"
           @click="naytettavaTiedoteMaara += 3"
@@ -32,7 +32,7 @@
           <slot name="lisaaBtnText">
             {{ $t('katso-lisaa-tiedotteita') }}
           </slot>
-        </ep-button>
+        </EpButton>
         <span v-if="tiedotteetSize === 0">{{ $t('ei-tiedotteita') }}</span>
       </div>
     </div>
@@ -121,7 +121,7 @@ const avaaTiedote = (tiedote: TiedoteDto) => {
           font-weight: bold;
         }
         .uusi {
-          background-color: $blue-lighten-3;
+          background-color: $lightBlue2;
           border-radius: 5px;
           padding: 2px 4px;
           font-size: 0.7rem;
@@ -129,7 +129,7 @@ const avaaTiedote = (tiedote: TiedoteDto) => {
         }
       }
       .muokkausaika {
-        color: $gray-lighten-1;
+        color: $grey400;
       }
     }
     :deep(.btn) {

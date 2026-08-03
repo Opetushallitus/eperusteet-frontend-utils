@@ -7,33 +7,32 @@
       >
       &nbsp;
       </div>
-      <div
+      <EpPopover
         v-for="(aikataulu, i) in aikatauluTavoitteet"
-        :id="'aikataulu-popover-'+i"
         :key="i"
-        class="aikataulu d-inline-block"
-        :style="'right:' + aikataulu.rightPosition +'%'"
-        :class="aikataulu.tapahtuma"
+        :triggers="['hover', 'click']"
+        :disabled="!showPopover"
+        :style="'position: absolute; right: calc(' + aikataulu.rightPosition +'%)'"
       >
-        <b-popover
-          v-if="showPopover"
-          :target="'aikataulu-popover-'+i"
-          triggers="hover click"
-          placement="topleft"
-        >
-          <template #title>
-            {{ $sd(aikataulu.tapahtumapaiva) }}
-          </template>
-
-          <div style="width: 15vw">
-            {{ $kaanna(aikataulu.tavoite) }}
-          </div>
-        </b-popover>
-      </div>
+        <template #trigger>
+          <div
+            :id="'aikataulu-popover-'+i"
+            class="aikataulu inline-block"
+            :style="'right:' + aikataulu.rightPosition +'%'"
+            :class="aikataulu.tapahtuma"
+          />
+        </template>
+        <template #header>
+          <h3>{{ $sd(aikataulu.tapahtumapaiva) }}</h3>
+        </template>
+        <div style="width: 15vw">
+          {{ $kaanna(aikataulu.tavoite) }}
+        </div>
+      </EpPopover>
     </div>
 
     <div class="alainfo">
-      <div class="d-inline-block">
+      <div class="inline-block">
         <div v-if="julkaisuAikaPosition < luomisaikaPalloPoint">
           <div class="luomispaiva">
             {{ $sd(luomisPaiva) }}
@@ -50,7 +49,7 @@
       </div>
 
       <div
-        class="d-inline-block text-right julkaisu"
+        class="inline-block text-right julkaisu"
         :style="'right:'+julkaisuAikaPosition +'%'"
       >
         <div class="julkaisupaiva">
@@ -71,6 +70,7 @@
 import { computed } from 'vue';
 import _ from 'lodash';
 import { aikataulutapahtuma, Tapahtuma } from '../../utils/aikataulu';
+import EpPopover from '../EpPopover/EpPopover.vue';
 
 const props = defineProps({
   aikataulut: { type: Array as () => Tapahtuma[], required: true },
@@ -160,13 +160,13 @@ function timelinePosition(time) {
 
   .pohja {
     margin: 10px 0px;
-    background-color: $gray-lighten-8;
+    background-color: $grey200;
     border-radius: 15px;
     height: 10px;
     position: relative;
 
     .kulunut-aika {
-      background-color: $green-lighten-3;
+      background-color: $green4;
       border-radius: 15px;
       height: 10px;
       position: absolute;
@@ -180,11 +180,11 @@ function timelinePosition(time) {
       top: -2px;
 
       &.tavoite, &.luominen, &.lausuntokierros, &.johtokunnankasittely, &.arvioitujulkaisupaiva {
-        background-color: $blue-lighten-5;
+        background-color: $blue3;
       }
 
       &.julkaisu {
-        background-color: $blue-lighten-2;
+        background-color: $lightBlue1;
       }
     }
 
@@ -200,17 +200,17 @@ function timelinePosition(time) {
   }
 
   .luomispaiva {
-    border-left: 1px solid $gray-lighten-3;
+    border-left: 1px solid $grey300;
     padding-left: 5px;
   }
 
   .julkaisupaiva {
-    border-right: 1px solid $gray-lighten-3;
+    border-right: 1px solid $grey300;
     padding-right: 5px;
   }
 
   .paiva-alatieto {
-    color: $gray-lighten-1;
+    color: $grey400;
   }
 
 </style>

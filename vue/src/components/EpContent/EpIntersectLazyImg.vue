@@ -35,7 +35,7 @@ const displaySrc = computed(() =>
 );
 
 function findListboxScrollRoot(el: HTMLElement): Element | null {
-  const menu = el.closest('.vs__dropdown-menu');
+  const menu = el.closest('.imageselector');
   if (menu) {
     return menu;
   }
@@ -68,7 +68,6 @@ onMounted(() => {
   }
 
   const root = findListboxScrollRoot(el);
-
   observer = new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {

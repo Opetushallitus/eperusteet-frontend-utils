@@ -1,14 +1,8 @@
 import { mount } from '@vue/test-utils';
 import EpExternalLink from './EpExternalLink.vue';
-import VueI18n from 'vue-i18n';
-import { Kielet } from '../../stores/kieli';
-import Vue from 'vue';
-import BootstrapVue from 'bootstrap-vue';
 import { globalStubs } from '@shared/utils/__tests__/stubs';
 
 describe('EpExternalLink component', () => {
-
-  const i18n = Kielet.i18n;
 
   function mountWrapper(props : any) {
     return mount({

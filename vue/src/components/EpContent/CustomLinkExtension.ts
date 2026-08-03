@@ -1,7 +1,7 @@
 import { Mark, mergeAttributes } from '@tiptap/core';
 import { createApp } from 'vue';
 import LinkModal from './LinkModal.vue';
-import { useGlobalProperties } from '@shared/utils/globals';
+import { useGlobalProperties, $confirmModal, $t } from '@shared/utils/globals';
 import _ from 'lodash';
 import { NavigationNodeDto } from '@shared/tyypit';
 import { Plugin, PluginKey } from 'prosemirror-state';
@@ -60,43 +60,16 @@ function openLinkModal(editor: any, selection: { from: number; to: number }, nav
 
 
 
-  // Create modal overlay
-  const overlay = document.createElement('div');
-  overlay.style.cssText = `
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1060;
-  `;
+  const mountContainer = document.createElement('div');
+  document.body.appendChild(mountContainer);
 
-  const modalContent = document.createElement('div');
-  modalContent.style.cssText = `
-    background: white;
-    border-radius: 8px;
-    max-width: 90vw;
-    max-height: 90vh;
-    overflow: auto;
-  `;
-
-  overlay.appendChild(modalContent);
-  document.body.appendChild(overlay);
-
-  // State for the modal
   let modalApp: any;
   let isClosed = false;
 
-  // Close modal function
   const closeModal = () => {
     if (isClosed) return;
     isClosed = true;
 
-    // Use setTimeout to delay cleanup slightly for Vue 3 compat mode
     setTimeout(() => {
       try {
         if (modalApp) {
@@ -109,25 +82,17 @@ function openLinkModal(editor: any, selection: { from: number; to: number }, nav
       }
 
       try {
-        if (overlay.parentNode) {
-          overlay.parentNode.removeChild(overlay);
+        if (mountContainer.parentNode) {
+          mountContainer.parentNode.removeChild(mountContainer);
         }
       }
       catch (error) {
-        console.warn('Error removing overlay:', error);
+        console.warn('Error removing mount container:', error);
       }
     }, 10);
   };
 
-  // Close on overlay click
-  overlay.addEventListener('click', (e) => {
-    if (e.target === overlay) {
-      closeModal();
-    }
-  });
-
   try {
-    // Create Vue app with the LinkModal component
     modalApp = createApp(LinkModal, {
       initialHref: currentHref,
       initialRoutenode: currentRoutenode,
@@ -154,7 +119,7 @@ function openLinkModal(editor: any, selection: { from: number; to: number }, nav
     // Provide navigation for injection
     modalApp.provide('navigation', navigation);
 
-    modalApp.mount(modalContent);
+    modalApp.mount(mountContainer);
   }
   catch (error) {
     console.error('Error mounting link modal:', error);
@@ -252,47 +217,80 @@ export function createCustomLinkExtension(navigation: NavigationNodeDto | null =
         return [];
       }
 
+      const linkkiHandler = this.options.linkkiHandler || null;
+
       return [
         new Plugin({
           key: new PluginKey('handleClickLink'),
-          props: {
-            handleClick: (view, pos, event) => {
-              // Handle clicks on links
-              const dom = event.target as HTMLElement;
-              const linkElement = dom.closest('a');
+          view(editorView) {
+            const handleLinkEvent = (event: MouseEvent) => {
+              if (!editorView.dom.contains(event.target as Node)) return;
 
-              if (linkElement) {
-                // In edit mode, never follow links
-                if (view.editable) {
-                  event.preventDefault();
-                  return true;
-                }
+              const linkElement = (event.target as HTMLElement).closest('a');
+              if (!linkElement) return;
 
-                // If routenode is present, use router navigation like <router-link>
-                const routeNodeAttr = linkElement.getAttribute('routenode');
-                const handler = this.options.linkkiHandler || null;
-                if (routeNodeAttr && handler) {
-                  try {
-                    const routeNode = JSON.parse(routeNodeAttr);
-                    const routeLocation = handler.nodeToRoute(routeNode);
-                    if (routeLocation) {
-                      const { $router } = useGlobalProperties() as any;
-                      if ($router) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                        $router.push(routeLocation);
-                        return true;
-                      }
-                    }
-                  }
-                  catch (err) {
-                    // If parsing fails or handler throws, fall through to default behavior
-                  }
-                }
+              event.preventDefault();
+              event.stopPropagation();
+              event.stopImmediatePropagation();
+
+              if (editorView.editable) {
+                return;
               }
 
-              return false;
-            },
+              const routeNodeAttr = linkElement.getAttribute('routenode');
+              const href = linkElement.getAttribute('href') || '';
+              const isExternalLink = !routeNodeAttr && href && href !== '#';
+
+              if (isExternalLink) {
+                $confirmModal?.msgBoxConfirm(
+                  $t('vahvista-toiminto') as any,
+                  {
+                    message: $t('ulkoinen-linkki-vahvistus-viesti', { url: href }) as any,
+                    okTitle: $t('siirry') as any,
+                    cancelTitle: $t('peruuta') as any,
+                  },
+                ).then((confirmed: boolean) => {
+                  if (confirmed) {
+                    window.open(href, '_blank');
+                  }
+                });
+              }
+              else if (routeNodeAttr && linkkiHandler) {
+                try {
+                  const routeNode = JSON.parse(routeNodeAttr);
+                  const routeLocation = linkkiHandler.nodeToRoute(routeNode);
+                  if (routeLocation) {
+                    const { $router } = useGlobalProperties() as any;
+                    if ($router) {
+                      $router.push(routeLocation);
+                    }
+                  }
+                }
+                catch {
+                  // Fall through
+                }
+              }
+            };
+
+            const mousedownHandler = (event: MouseEvent) => {
+              if (!editorView.dom.contains(event.target as Node)) return;
+              const linkElement = (event.target as HTMLElement).closest('a');
+              if (linkElement) {
+                event.preventDefault();
+                event.stopPropagation();
+                event.stopImmediatePropagation();
+              }
+            };
+
+            document.addEventListener('mousedown', mousedownHandler, true);
+            document.addEventListener('click', handleLinkEvent, true);
+
+            return {
+              destroy() {
+                document.removeEventListener('mousedown', mousedownHandler, true);
+                document.removeEventListener('click', handleLinkEvent, true);
+              },
+            };
           },
         }),
       ];

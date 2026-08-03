@@ -3,7 +3,7 @@ import EpInput from '../EpInput.vue';
 import { Kielet } from '../../../stores/kieli';
 import { Kieli } from '@shared/tyypit';
 import { Kaannos } from '@shared/plugins/kaannos';
-import Vue, { nextTick } from 'vue';
+import { nextTick } from 'vue';
 import { globalStubs } from '@shared/utils/__tests__/stubs';
 
 describe('EpInput component', () => {
@@ -83,12 +83,12 @@ describe('EpInput component', () => {
     expect(wrapper.html()).toContain('[arvo]');
 
     wrapper.setProps({ isEditing: true });
-    await Vue.nextTick();
+    await nextTick();
     expect(wrapper.html()).toContain('arvo');
     expect(wrapper.html()).not.toContain('[arvo]');
 
     wrapper.find('input').trigger('focus');
-    await Vue.nextTick();
+    await nextTick();
     expect(wrapper.html()).not.toContain('arvo');
   });
 });

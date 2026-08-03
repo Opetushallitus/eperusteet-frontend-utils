@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import { App } from 'vue';
 import Notifications, { useNotification } from '@kyvg/vue3-notification';
 import { $t } from '@shared/utils/globals';

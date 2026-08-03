@@ -1,52 +1,48 @@
 <template>
-  <span
-    :id="linkId"
-    class="esikatselu-link d-inline"
-  >
+  <span class="esikatselu-link inline">
     <EpExternalLink
       v-if="model.esikatseltavissa"
       :url="esikatseluUrl"
       :only-top-level="false"
       icon-right
-      class="d-inline"
+      class="inline"
     >
       <slot name="link-text">
         {{ $t(linkText) }}
       </slot>
     </EpExternalLink>
-    <a
+    <EpPopover
       v-else
-      href="#"
-      @click.prevent="popoverVisible = !popoverVisible"
-    >
-      <slot name="link-text">
-        {{ $t(linkText) }}
-      </slot>
-      <EpMaterialIcon
-        class="ml-1"
-        size="18px"
-        :alt="$t('avautuu-uuteen-valilehteen')"
-      >
-        launch
-      </EpMaterialIcon>
-    </a>
-    <b-popover
-      v-if="!model.esikatseltavissa"
       ref="popover"
-      v-model:show="popoverVisible"
-      :target="linkId"
-      placement="bottom"
+      :triggers="['click']"
     >
+      <template #trigger>
+        <a
+          href="#"
+          @click.prevent
+        >
+          <slot name="link-text">
+            {{ $t(linkText) }}
+          </slot>
+          <EpMaterialIcon
+            class="ml-1"
+            size="18px"
+            :alt="$t('avautuu-uuteen-valilehteen')"
+          >
+            launch
+          </EpMaterialIcon>
+        </a>
+      </template>
       <p class="mb-3">
         <slot name="popover-text">
           {{ $t(salliEsikatseluText) }}
         </slot>
       </p>
-      <div class="d-flex justify-content-end">
+      <div class="flex justify-end items-center">
         <EpButton
           variant="link"
           class="mr-2"
-          @click="popoverVisible = false"
+          @click="hidePopover"
         >
           {{ $t('peruuta') }}
         </EpButton>
@@ -57,12 +53,12 @@
           {{ $t('kylla') }}
         </EpButton>
       </div>
-    </b-popover>
+    </EpPopover>
   </span>
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, ref, useTemplateRef, watch } from 'vue';
+import { computed, ref, useTemplateRef } from 'vue';
 import { PerusteDto } from '@shared/api/eperusteet';
 import EpExternalLink from '@shared/components/EpExternalLink/EpExternalLink.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
@@ -75,7 +71,7 @@ import {
 } from '@shared/utils/esikatselu';
 import { koulutustyyppiTheme } from '@shared/utils/perusteet';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
-import _ from 'lodash';
+import EpPopover from '../EpPopover/EpPopover.vue';
 
 export type EsikatseluLinkkiTyyppi = 'peruste' | 'opetussuunnitelma' | 'toteutussuunnitelma' | 'opas';
 
@@ -93,16 +89,8 @@ const props = defineProps<{
   toteutus?: string;
 }>();
 
-const popoverVisible = ref(false);
 const saving = ref(false);
 const popoverRef = useTemplateRef('popover');
-
-watch(saving, async () => {
-  await nextTick();
-  (popoverRef.value as any)?.$forceUpdate();
-});
-
-const linkId = computed(() => _.uniqueId('esikatselu-link-'));
 
 const linkText = computed(() => `esikatsele-${props.tyyppi}`);
 
@@ -132,6 +120,10 @@ const esikatseluUrl = computed(() => {
   return '';
 });
 
+const hidePopover = () => {
+  popoverRef.value?.hide();
+};
+
 const avaaEsikatselu = () => {
   window.open(esikatseluUrl.value, '_blank', 'noopener,noreferrer');
 };
@@ -140,7 +132,7 @@ const salliEsikatseluJaAvaa = async () => {
   saving.value = true;
   try {
     await props.salliEsikatselu();
-    popoverVisible.value = false;
+    hidePopover();
     avaaEsikatselu();
   }
   catch {

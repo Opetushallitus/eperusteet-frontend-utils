@@ -113,8 +113,8 @@ const yhteenvetoTapahtumat = computed(() => {
 @import '@shared/styles/_variables';
 
 .muutostiedot {
-  background-color: $blue-lighten-8;
-  border: 1px solid $blue-lighten-4;
+  background-color: $lightBlue2;
+  border: 1px solid $lightBlue2;
   padding: 15px;
 }
 

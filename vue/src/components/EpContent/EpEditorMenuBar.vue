@@ -282,7 +282,7 @@
 
     <div
       v-if="isInvalidHtml"
-      class="d-flex align-items-center"
+      class="flex items-center"
     >
       <EpInfoPopover
         class="invalid-html-info-popover mr-2"

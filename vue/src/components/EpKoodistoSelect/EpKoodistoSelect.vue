@@ -1,52 +1,62 @@
 <template>
   <div v-if="isEditing">
     <slot
+      v-if="editable"
       name="default"
       :open="openDialog"
     >
-      <div class="bg-danger">
-        Painike puuttuu
-      </div>
+      <ep-input-group>
+        <ep-input
+          :model-value="modelValue ? ($kaanna(modelValue.nimi) + ' (' + modelValue.arvo + ')') : ''"
+          :is-editing="true"
+          disabled
+        />
+        <template #append>
+          <EpButton
+            variant="primary"
+            @click="openDialog"
+          >
+            <slot name="hae-koodistosta-text">
+              {{ $t('hae-koodistosta') }}
+            </slot>
+          </EpButton>
+        </template>
+      </ep-input-group>
     </slot>
-    <b-modal
-      id="koodistoModal"
+    <EpModal
       ref="editModal"
-      size="xl"
-      @ok="lisaaValitut"
-      @hidden="alusta"
+      size="md"
+      @cancel="alusta"
+      style="min-height: 860px;"
     >
-      <template #modal-header>
+      <template #modal-title>
         <slot name="header">
           <h2>{{ $t('hae-koodistosta') }} ({{ usedKoodisto }})</h2>
         </slot>
       </template>
 
-      <template #modal-footer="{ ok, cancel }">
-        <slot
-          name="modal-footer"
-          :ok="ok"
-          :cancel="cancel"
-        >
-          <b-button
+      <template #modal-footer>
+        <slot name="modal-footer" :ok="lisaaValitut" :cancel="closeDialog">
+          <EpButton
+            variant="link"
+            @click="closeDialog"
+          >
+            {{ multiselect ? $t('peruuta') : $t('sulje') }}
+          </EpButton>
+          <EpButton
             v-if="multiselect"
             variant="primary"
             :disabled="innerModel.length === 0"
-            @click="ok()"
+            @click="lisaaValitut"
           >
             {{ $t('lisaa-valitut') }}
-          </b-button>
-          <b-button
-            variant="secondary"
-            @click="cancel()"
-          >
-            {{ multiselect ? $t('peruuta') : $t('sulje') }}
-          </b-button>
+          </EpButton>
         </slot>
       </template>
 
       <template #default>
-        <div class="d-flex flex-row align-items-center">
-          <div class="flex-grow-1">
+        <div class="flex flex-row items-center">
+          <div class="grow">
             <ep-search v-model="query" />
             <ep-toggle
               v-model="vanhentuneet"
@@ -56,12 +66,9 @@
               {{ $t('nayta-myos-vanhentuneet') }}
             </ep-toggle>
           </div>
-          <div>
-            <ep-spinner v-if="isLoading" />
-          </div>
         </div>
         <div v-if="items">
-          <b-table
+          <EpTable
             ref="koodistoTable"
             responsive
             borderless
@@ -70,7 +77,6 @@
             hover
             :items="items"
             :fields="fields"
-            :selectable="true"
             select-mode="single"
             selected-variant=""
             @row-selected="onRowSelected"
@@ -88,13 +94,13 @@
                   size="20px"
                 >check_box_outline_blank</EpMaterialIcon>
               </span>
-              <span class="btn-link">
+              <span class="link-style clickable hover:underline">
                 {{ $kaanna(item.nimi) }}
               </span>
             </template>
 
             <template #cell(arvo)="{ item }">
-              <span class="font-weight-bold">
+              <span class="font-bold">
                 {{ item.koodiArvo }}
               </span>
             </template>
@@ -110,7 +116,7 @@
             <template #cell(paattyminen)="{ item }">
               <span v-if="item.voimassaLoppuPvm">{{ $ago(item.voimassaLoppuPvm) }}</span>
             </template>
-          </b-table>
+          </EpTable>
 
           <EpBPagination
             v-if="raw"
@@ -132,7 +138,7 @@
         </div>
         <ep-spinner v-else />
       </template>
-    </b-modal>
+    </EpModal>
   </div>
   <div v-else-if="modelValue && modelValue.arvo">
     {{ $kaanna(modelValue.nimi) }} <span v-if="naytaArvo">{{ modelValue.arvo }}</span>
@@ -150,6 +156,7 @@
 <script setup lang="ts">
 import { ref, computed, watch, useTemplateRef } from 'vue';
 import EpButton from '../EpButton/EpButton.vue';
+import EpModal from '../EpModal/EpModal.vue';
 import EpToggle from '../forms/EpToggle.vue';
 import EpSearch from '../forms/EpSearch.vue';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
@@ -157,10 +164,13 @@ import { getKoodistoSivutettuna, KoodistoSelectStore } from './KoodistoSelectSto
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import _ from 'lodash';
 import EpBPagination from '../EpBPagination/EpBPagination.vue';
+import EpTable from '@shared/components/EpTable/EpTable.vue';
 import { unref } from 'vue';
 import { $t } from '@shared/utils/globals';
 import { debounced } from '@shared/utils/delay';
 import { onMounted } from 'vue';
+import EpInputGroup from '@shared/components/EpInputGroup/EpInputGroup.vue';
+import EpInput from '@shared/components/forms/EpInput.vue';
 
 const props = defineProps({
   modelValue: {
@@ -194,6 +204,10 @@ const props = defineProps({
   additionalFields: {
     type: Array,
     required: false,
+  },
+  editable: {
+    type: Boolean,
+    default: true,
   },
 });
 
@@ -237,7 +251,7 @@ const raw = computed(() => {
   if (!koodistoStore.value) {
     return null;
   }
-  return unref(koodistoStore.value.data);
+  return koodistoStore.value.state.data;
 });
 
 const items = computed(() => {
@@ -297,27 +311,41 @@ const fields = computed(() => {
   ];
 });
 
-const initStoreQuery = debounced(async (queryVal: string, sivuVal: number, vanhentuneetVal: boolean) => {
+const fetchKoodisto = async (queryVal: string, sivuVal: number, vanhentuneetVal: boolean) => {
   isLoading.value = true;
-  await koodistoStore.value?.query(queryVal, _.max([sivuVal, 0]), !vanhentuneetVal);
-  isLoading.value = false;
+  try {
+    await koodistoStore.value?.query(queryVal, _.max([sivuVal, 0]), !vanhentuneetVal);
+  }
+  finally {
+    isLoading.value = false;
+  }
+};
+
+const initStoreQuery = debounced((queryVal: string, sivuVal: number, vanhentuneetVal: boolean) => {
+  void fetchKoodisto(queryVal, sivuVal, vanhentuneetVal);
 });
 
-watch(() => query.value, async (newValue) => {
+watch(() => query.value, (newValue) => {
   if (newValue.length > 2 || newValue.length === 0) {
-    await initStoreQuery(newValue, sivu.value - 1, vanhentuneet.value);
+    sivu.value = 1;
+    initStoreQuery(newValue, sivu.value - 1, vanhentuneet.value);
   }
 });
 
-watch(() => vanhentuneet.value, async (newValue) => {
-  await initStoreQuery(query.value, sivu.value - 1, newValue);
+watch(() => vanhentuneet.value, (newValue) => {
+  initStoreQuery(query.value, sivu.value - 1, newValue);
 });
 
 const openDialog = async () => {
-  await initStore();
-  query.value = '';
-  await initStoreQuery(query.value, sivu.value - 1, vanhentuneet.value);
   editModal.value?.show?.();
+  initStore();
+  initStoreQuery.cancel();
+  query.value = '';
+  await fetchKoodisto(query.value, 0, vanhentuneet.value);
+};
+
+const closeDialog = () => {
+  editModal.value?.hide?.();
 };
 
 const onRowSelected = (items: any[]) => {
@@ -334,7 +362,7 @@ const onRowSelected = (items: any[]) => {
     if (!multiselect.value) {
       emit('update:modelValue', row);
       emit('add', row, props.modelValue);
-      editModal.value.hide();
+      closeDialog();
     }
     else {
       if (_.includes(selectedUris.value, row.uri)) {
@@ -354,6 +382,7 @@ const lisaaValitut = () => {
   if (multiselect.value) {
     emit('update:modelValue', innerModel.value);
     emit('add', innerModel.value);
+    closeDialog();
   }
 };
 

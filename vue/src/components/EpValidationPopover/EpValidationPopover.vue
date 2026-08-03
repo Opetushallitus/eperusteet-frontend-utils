@@ -1,14 +1,12 @@
 <template>
   <slot v-if="validointiOk" />
-  <b-dropdown
+  <EpDropdown
     v-else
     class="validation-dropdown"
-    variant="link"
-    toggle-class="validation-toggle text-decoration-none p-0"
-    menu-class="validation-dropdown-menu"
-    no-caret
+    content-class="validation-dropdown-menu"
   >
     <template #button-content>
+      <span class="validation-toggle no-underline p-0">
         <slot />
         <EpMaterialIcon
           class="validation-icon"
@@ -17,64 +15,54 @@
         >
           expand_more
         </EpMaterialIcon>
+      </span>
     </template>
 
-    <div class="px-3 py-2">
+    <div class="px-3">
       <template v-if="validoinnit?.virheet">
         <div
           v-for="virhe in uniqueVirheet"
           :key="virhe"
-          class="pt-2 pb-1 row"
+          class="flex gap-2 pt-2 pb-1 items-center"
         >
-          <div class="col-1">
-            <EpMaterialIcon
-              class="text-danger"
-              size="18px"
-            >
-              info
-            </EpMaterialIcon>
-          </div>
-          <div class="col">
-            <span>{{ $t(virhe) }}</span>
-          </div>
-        </div>
-        <div
-          v-if="validoinnit.virheet.length > 5"
-          class="pt-2 pb-1 row"
-        >
-          <div class="col-1" />
-          <div class="col">
-            <EpButton
-              class="p-0"
-              variant="link"
-              @click="toJulkaisuRoute"
-              no-padding
-            >
-              {{ $t('yhteensa-kpl-virhetta', { kpl: validoinnit.virheet.length }) }}
-            </EpButton>
-          </div>
-        </div>
-      </template>
-      <div
-        v-if="validoinnit?.huomautukset && validoinnit.huomautukset.length > 0"
-        class="pt-2 pb-1 row"
-      >
-        <div class="col-1">
           <EpMaterialIcon
-            class="text-warning"
+            class="text-danger shrink-0 "
             size="18px"
           >
             info
           </EpMaterialIcon>
+          <span>{{ $t(virhe) }}</span>
         </div>
-        <div class="col">
-          <span>{{ $t(huomautuksia) }}</span>
+        <div
+          v-if="validoinnit.virheet.length > 5"
+          class="flex gap-2 pt-2 pb-1"
+        >
+          <span class="w-[18px] shrink-0" />
+          <EpButton
+            variant="link"
+            @click="toJulkaisuRoute"
+            no-padding
+          >
+            {{ $t('yhteensa-kpl-virhetta', { kpl: validoinnit.virheet.length }) }}
+          </EpButton>
         </div>
+      </template>
+      <div
+        v-if="validoinnit?.huomautukset && validoinnit.huomautukset.length > 0"
+        class="flex gap-2 pt-2 pb-1 items-center"
+      >
+        <EpMaterialIcon
+          class="text-warning shrink-0"
+          size="18px"
+        >
+          info
+        </EpMaterialIcon>
+        <span>{{ $t(huomautuksia) }}</span>
       </div>
 
-      <hr/>
+      <hr>
 
-      <div class="text-center mb-2 mr-5">
+      <div class="mr-12 mb-2 text-center">
         <EpButton
           variant="link"
           @click="validoi()"
@@ -85,7 +73,7 @@
         </EpButton>
       </div>
     </div>
-  </b-dropdown>
+  </EpDropdown>
 </template>
 
 <script setup lang="ts">
@@ -99,6 +87,7 @@ import {
   ValidoitavatTyypit,
 } from '@shared/components/EpValidStatus/EpValidStatusTypes';
 import EpButton from '../EpButton/EpButton.vue';
+import EpDropdown from '../EpDropdown/EpDropdown.vue';
 
 const props = defineProps({
   validoinnit: {

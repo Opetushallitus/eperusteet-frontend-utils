@@ -10,7 +10,7 @@
         :key="idx"
         class="balloon-wrapper"
       >
-        <div class="balloon d-flex">
+        <div class="balloon flex">
           <div
             v-if="isDraggable"
             class="order-handle mr-2"
@@ -74,15 +74,16 @@ const defaultDragOptions = computed(() => {
 </script>
 
 <style lang="scss" scoped>
+@import '@shared/styles/_variables.scss';
 
 .balloon-wrapper {
   margin-bottom: 6px;
 
   .balloon {
-    background: #e6f6ff;
+    background: $lightBlue2;
     border-radius: 60px;
     padding: 8px 8px 8px 18px;
-    border: 1px solid #cdeeff;
+    border: 1px solid $lightBlue2;
   }
 }
 

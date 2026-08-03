@@ -1,7 +1,6 @@
 <template>
   <div
-    class="ep-progress text-center"
-    placement="'bottom'"
+    class="ep-progress inline-block"
   >
     <div v-if="!slices">
       <svg
@@ -39,7 +38,7 @@
 
     <div
       v-else-if="done"
-      class="done-icon d-inline-block"
+      class="done-icon inline-block"
       :style="{ height: height + 'px', width: width + 'px' }"
     />
 

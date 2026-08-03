@@ -22,7 +22,6 @@
 </template>
 
 <script setup lang="ts">
-import { useVuelidate } from '@vuelidate/core';
 import EpInput from './EpInput.vue';
 
 const props = defineProps({

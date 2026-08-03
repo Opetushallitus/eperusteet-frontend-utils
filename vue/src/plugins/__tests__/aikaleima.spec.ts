@@ -4,7 +4,7 @@ import { Kieli } from '../../tyypit';
 import { Aikaleima } from '../aikaleima';
 import VueI18n from 'vue-i18n';
 import { vi } from 'vitest';
-import Vue from 'vue';
+import { nextTick } from 'vue';
 import { globalStubs } from '../../utils/__tests__/stubs';
 
 describe.skip('Plugin aikaleima', () => {
@@ -32,7 +32,7 @@ describe.skip('Plugin aikaleima', () => {
     expect(wrapper.text()).toEqual('7. tammikuuta 2019, klo 16.14');
 
     Kielet.setUiKieli(Kieli.sv);
-    await Vue.nextTick();
+    await nextTick();
     expect(wrapper.text()).toEqual('7 januari 2019 kl. 16:14');
   });
 
@@ -42,7 +42,7 @@ describe.skip('Plugin aikaleima', () => {
     expect(wrapper.text()).toEqual('7. tammikuuta 2019');
 
     Kielet.setUiKieli(Kieli.sv);
-    await Vue.nextTick();
+    await nextTick();
     expect(wrapper.text()).toEqual('7 januari 2019');
   });
 
@@ -52,7 +52,7 @@ describe.skip('Plugin aikaleima', () => {
     expect(wrapper.text()).toEqual('16:14:23');
 
     Kielet.setUiKieli(Kieli.sv);
-    await Vue.nextTick();
+    await nextTick();
     expect(wrapper.text()).toEqual('16:14:23');
   });
 
@@ -62,7 +62,7 @@ describe.skip('Plugin aikaleima', () => {
     expect(wrapper.text()).toEqual('7.1.2019 16:14');
 
     Kielet.setUiKieli(Kieli.sv);
-    await Vue.nextTick();
+    await nextTick();
     expect(wrapper.text()).toEqual('7.1.2019 16:14');
   });
 
@@ -72,7 +72,7 @@ describe.skip('Plugin aikaleima', () => {
     expect(wrapper.text()).toEqual('7.1.2019');
 
     Kielet.setUiKieli(Kieli.sv);
-    await Vue.nextTick();
+    await nextTick();
     expect(wrapper.text()).toEqual('7.1.2019');
   });
 
@@ -82,7 +82,7 @@ describe.skip('Plugin aikaleima', () => {
     expect(wrapper.text()).toEqual('16:14');
 
     Kielet.setUiKieli(Kieli.sv);
-    await Vue.nextTick();
+    await nextTick();
     expect(wrapper.text()).toEqual('16:14');
   });
 
@@ -92,7 +92,7 @@ describe.skip('Plugin aikaleima', () => {
     expect(wrapper.text()).toEqual('s sitten');
 
     Kielet.setUiKieli(Kieli.sv);
-    await Vue.nextTick();
+    await nextTick();
     expect(wrapper.text()).toEqual('för några sekunder sedan');
   });
 
@@ -103,7 +103,7 @@ describe.skip('Plugin aikaleima', () => {
     expect(wrapper.text()).toEqual('maanantai, 7. tammikuuta 2019, klo 16.14');
 
     Kielet.setUiKieli(Kieli.sv);
-    await Vue.nextTick();
+    await nextTick();
     expect(wrapper.text()).toEqual('måndag 7 januari 2019 kl. 16:14');
   });
 });

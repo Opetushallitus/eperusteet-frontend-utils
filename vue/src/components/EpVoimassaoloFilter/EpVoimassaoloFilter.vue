@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex align-self-center flex-wrap flex-lg-row flex-column toggles">
+  <div class="flex self-center flex-wrap lg:flex-row flex-col toggles">
     <EpToggle
       v-model="queryData.tuleva"
       class="haku-toggle"

@@ -2,7 +2,7 @@
   <div class="ep-steps">
     <div
       v-if="steps.length > 1"
-      class="steps d-flex justify-content-center mr-5 ml-5 mb-5"
+      class="steps flex justify-center mr-5 ml-5 mb-5"
     >
       <div
         v-for="(step, idx) in steps"
@@ -18,7 +18,7 @@
         />
         <div class="p-4">
           <div
-            class="d-inline-block"
+            class="inline-block"
             :class="{ ball: true, active: idx <= stepIdx }"
           >
             {{ idx + 1 }}
@@ -43,29 +43,29 @@
       <slot :name="currentStep.key" />
     </div>
 
-    <div class="clearfix">
-      <div class="float-right mt-5">
-        <ep-button
+    <div class="clear-both">
+      <div class="flex justify-end gap-4 mt-5 items-center">
+        <EpButton
           variant="link"
           @click="cancel"
         >
           {{ $t('peruuta') }}
-        </ep-button>
-        <ep-button
+        </EpButton>
+        <EpButton
           v-if="stepIdx > 0"
           variant="link"
           @click="previous"
         >
           {{ $t('edellinen') }}
-        </ep-button>
-        <ep-button
+        </EpButton>
+        <EpButton
           v-if="stepIdx < steps.length - 1"
           :disabled="!currentValid"
           @click="next"
         >
           {{ $t('seuraava') }}
-        </ep-button>
-        <ep-button
+        </EpButton>
+        <EpButton
           v-else
           :disabled="!currentValid"
           :show-spinner="saving"
@@ -74,7 +74,7 @@
           <slot name="luo">
             {{ $t('tallenna') }}
           </slot>
-        </ep-button>
+        </EpButton>
       </div>
     </div>
   </div>
@@ -183,15 +183,15 @@ function cancel() {
         border-radius: 100%;
         position: relative;
         z-index: 10;
-        border-color: $gray-lighten-3;
+        border-color: $grey300;
         border-style: solid;
         border-width: 2px;
         background-color: $white;
-        color: $gray-lighten-2;
+        color: $grey300;
 
         &.active {
-          background-color: $blue-lighten-5;
-          border-color: $blue-lighten-5;
+          background-color: $blue3;
+          border-color: $blue3;
           color: $white;
           border-width: 2px;
         }
@@ -203,7 +203,7 @@ function cancel() {
       }
 
       .connection {
-        border-top: 2px solid $gray-lighten-3;
+        border-top: 2px solid $grey300;
         position: relative;
         width: 100%;
         top: 40px;

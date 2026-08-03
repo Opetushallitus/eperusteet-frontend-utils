@@ -34,13 +34,13 @@
     </div>
     <div
       v-else-if="validationError && invalidMessage "
-      class="invalid-feedback"
+      class="block text-danger text-sm mt-1"
     >
       {{ $t(invalidMessage) }}
     </div>
     <div
       v-else-if="validationError && !invalidMessage"
-      class="invalid-feedback"
+      class="block text-danger text-sm mt-1"
     >
       {{ $t('validation-error-' + validationError, validation.$params[validationError]) }}
     </div>
@@ -150,14 +150,13 @@ function onListFocus() {
     position: absolute;
     left: 0;
     top: 0;
-    border: 1px solid black;
+    border: 1px solid $grey300;
     min-width: 120px;
     max-width: 576px;
     max-height: 356px;
     overflow-y: scroll;
-    background: #ffffffff;
+    background: $white;
     z-index: 1000;
-    border: 1px solid #ced4da;
     border-top: none;
   }
 }

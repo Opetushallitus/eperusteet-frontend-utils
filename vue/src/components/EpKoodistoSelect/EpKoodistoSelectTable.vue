@@ -2,7 +2,7 @@
   <div>
     <slot name="header" />
 
-    <b-table
+    <EpTable
       v-if="modelValue && modelValue.length > 0"
       responsive
       borderless
@@ -25,13 +25,13 @@
         v-if="isEditing"
         #cell(poisto)="{ item }"
       >
-        <ep-button
+        <EpButton
           variant="link"
           icon="delete"
           @click="remove(item)"
         />
       </template>
-    </b-table>
+    </EpTable>
 
     <ep-koodisto-select
       v-if="isEditing"
@@ -43,7 +43,7 @@
       :default-fields="koodistoSelectDefaultFields"
     >
       <template #default="{ open }">
-        <ep-button
+        <EpButton
           icon="add"
           variant="outline"
           @click="open"
@@ -51,7 +51,7 @@
           <slot name="button-text">
             lisaa-koodi
           </slot>
-        </ep-button>
+        </EpButton>
       </template>
 
       <template #empty>
@@ -67,6 +67,7 @@ import EpButton from '../EpButton/EpButton.vue';
 import { KoodistoSelectStore } from './KoodistoSelectStore';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
 import { $t, $kaanna } from '@shared/utils/globals';
+import EpTable from '@shared/components/EpTable/EpTable.vue';
 
 const props = defineProps({
   modelValue: {

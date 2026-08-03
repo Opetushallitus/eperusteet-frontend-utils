@@ -17,13 +17,13 @@
           :data="modelObject"
         />
       </template>
-      <div class="d-flex">
+      <div class="flex">
         <div class="order-handle mr-3">
           <EpMaterialIcon v-if="isEditing">
             drag_indicator
           </EpMaterialIcon>
         </div>
-        <div class="w-100">
+        <div class="w-full">
           <slot
             :data="modelObject"
             :index="index"

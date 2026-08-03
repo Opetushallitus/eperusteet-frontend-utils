@@ -8,7 +8,7 @@
     </template>
 
     <template v-if="huomautuksia">
-      <div class="font-weight-bold mt-3 mb-3">
+      <div class="font-bold mt-3 mb-3">
         {{ $t('huomautukset') }}
       </div>
       <VirheHuomautukset

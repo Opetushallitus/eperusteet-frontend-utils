@@ -21,9 +21,9 @@
       <slot>
         <div
           v-if="file"
-          class="justify-content-around align-items-center h-100"
+          class="justify-around items-center h-full"
         >
-          <div class="h-100 justify-content-around align-items-center text-muted">
+          <div class="h-full justify-around items-center text-muted">
             <figure>
               <img
                 v-if="previewUrl"
@@ -45,14 +45,14 @@
 
           <div
             v-if="!saved"
-            class="mb-3"
+            class="mb-2 mt-2"
           >
-            <div class="d-flex align-items-center">
+            <div class="flex items-center">
               <ep-form-content
                 name="kuvan-leveys"
                 class="mb-3"
               >
-                <div class="d-flex align-items-center">
+                <div class="flex items-center">
                   <ep-field
                     v-model="width"
                     :is-editing="true"
@@ -66,7 +66,7 @@
                 name="kuvan-korkeus"
                 class="mb-3"
               >
-                <div class="d-flex align-items-center">
+                <div class="flex items-center">
                   <ep-field
                     v-model="height"
                     :is-editing="true"
@@ -80,18 +80,18 @@
             <ep-toggle
               v-model="keepAspectRatio"
               :is-switch="false"
+              class="pb-1"
             >
               {{ $t('sailyta-mittasuhteet') }}
             </ep-toggle>
           </div>
 
-          <ep-button
+          <EpButton
             variant="link"
-            no-padding
             @click="cancel"
           >
             {{ $t('valitse-toinen-kuva') }}
-          </ep-button>
+          </EpButton>
         </div>
       </slot>
     </EpTiedostoInput>
