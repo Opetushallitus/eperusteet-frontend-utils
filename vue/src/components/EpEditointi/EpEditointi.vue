@@ -10,7 +10,7 @@
     >
       <div
         v-if="!hasFooterSlot"
-        v-sticky="isEditing ? { top: 56, zIndex: 600 } : undefined"
+        v-sticky="isEditing ? { top: 56, zIndex: 600 } : false"
       >
         <template v-if="hasCustomHeaderSlot">
           <slot
