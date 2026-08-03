@@ -202,7 +202,6 @@ const muokkaustiedotRouted = computed(() => {
   .container {
     margin-top: 40px;
     margin-bottom: 20px;
-    min-width: 350px;
     padding: 0;
 
     .muokkaustieto {

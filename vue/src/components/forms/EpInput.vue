@@ -380,7 +380,7 @@ input.is-warning {
   border-color: $yellow1;
 }
 
-input.is-invalid:focus {
+input.is-invalid {
   border-color: $alias-error;
 }
 
@@ -390,7 +390,7 @@ input {
   }
 
   &.is-valid:focus {
-    border-color: $valid;
+    border-color: $black;
   }
 }
 
