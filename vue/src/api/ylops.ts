@@ -164,4 +164,3 @@ export type TpoPerusteenTaiteenalaDto = YlopsApi.TpoPerusteenTaiteenalaDto;
 export type TpoSisaltoViiteDto = YlopsApi.TpoSisaltoViiteDto;
 export type PerusteTaiteenosaDto = YlopsApi.PerusteTaiteenosaDto;
 export type TPOOpetuksenSisaltoDto = YlopsApi.TPOOpetuksenSisaltoDto;
-export type UpdateWrapperDtoTaiteenalaDto = YlopsApi.UpdateWrapperDtoTaiteenalaDto;
