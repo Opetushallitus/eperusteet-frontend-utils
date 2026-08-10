@@ -11,7 +11,7 @@ export type NavigationType =
   | 'suorituspolku' | 'osasuorituspolku'
   | 'opintojaksot' | 'opintojakso'
   | 'perusopetusoppiaineet' | 'perusopetusoppiaine' | 'valinnaisetoppiaineet' | 'vuosiluokkakokonaisuus'
-  | 'taiteenala' | 'linkkisivu';
+  | 'taiteenala' | 'taiteenosa' | 'linkkisivu';
 
 export interface NavigationNode {
   key?: number; // Unique identifier
@@ -994,6 +994,22 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
     node.label = 'tavoitteet-sisallot-ja-arviointi';
     node.location = {
       name: 'tavoitteetSisallotArviointi',
+    };
+    break;
+  case 'taiteenala':
+    node.location = {
+      name: 'opetussuunnitelmaTaiteenala',
+      params: {
+        taiteenalaId: String(rawNode.id),
+      },
+    };
+    break;
+  case 'taiteenosa':
+    node.location = {
+      name: 'opetussuunnitelmaTaiteenosa',
+      params: {
+        taiteenosaId: String(rawNode.id),
+      },
     };
     break;
   default:
