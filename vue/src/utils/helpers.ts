@@ -33,10 +33,16 @@ export function deepFind(filterObject: object | string, searchObject: any) : any
     return _.get(searchObject, filterObject);
   }
 
+  const filterKey = _.keys(filterObject)[0];
+  const filterValue = _.values(filterObject)[0];
+  const isNestedPath = _.includes(filterKey, '.');
+
   return _.get(findDeep(searchObject, (value, key) => {
-    if (_.keys(filterObject)[0] === key && _.values(filterObject)[0] === value) return true;
-    return false;
-  }), 'parent');
+    if (isNestedPath) {
+      return _.isObject(value) && _.get(value, filterKey) === filterValue;
+    }
+    return filterKey === key && filterValue === value;
+  }, isNestedPath ? { leavesOnly: false } : undefined), isNestedPath ? 'value' : 'parent');
 }
 
 export function deepFilter(filterObject: object | string, searchObject: any) : any {
