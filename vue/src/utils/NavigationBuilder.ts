@@ -11,7 +11,7 @@ export type NavigationType =
   | 'suorituspolku' | 'osasuorituspolku'
   | 'opintojaksot' | 'opintojakso'
   | 'perusopetusoppiaineet' | 'perusopetusoppiaine' | 'valinnaisetoppiaineet' | 'vuosiluokkakokonaisuus'
-  | 'taiteenala' | 'taiteenosa' | 'linkkisivu';
+  | 'taiteenala' | 'taiteenosa' | 'taiteentekstiosa' | 'linkkisivu';
 
 export interface NavigationNode {
   key?: number; // Unique identifier

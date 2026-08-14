@@ -107,7 +107,7 @@ export type NavigationNodeType =
   | 'opetussuunnitelma'
   | 'tiedot'
   | 'kvliite'
-  | 'viite' | 'taiteenala' | 'taiteenosa' | 'tekstikappale'
+  | 'viite' | 'taiteenala' | 'taiteenosa' | 'taiteentekstiosa' | 'tekstikappale'
   | 'liitteet' | 'liite'
   | 'laajaalaiset' | 'laajaalainen'
   | 'oppiaineet' | 'oppimaarat' | 'oppiaine' | 'opintojakso' | 'paikallinenOppiaine' | 'poppiaine' | 'lukio_oppiaine' | 'lukio_oppiaineet' |'lukio_laajaAlaisetOsaamiset'
