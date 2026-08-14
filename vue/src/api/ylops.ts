@@ -1,5 +1,6 @@
 import { axiosHandler, successfulResponseHandler } from './common';
 import { Configuration,
+  AIPEApi,
   AikatauluApi,
   DokumentitApi,
   DokumentitApiAxiosParamCreator,
@@ -69,6 +70,7 @@ function initApi<T>(X: BaseAPIConstructor<T>): T {
 }
 
 export const Api = ax;
+export const AIPE = initApi(AIPEApi);
 export const Dokumentit = initApi(DokumentitApi);
 export const DokumentitParams = DokumentitApiAxiosParamCreator(configuration);
 export const Kayttajat = initApi(KayttajatApi);
@@ -96,6 +98,10 @@ export const Julkaisut = initApi(JulkaisutApi);
 export const ArkistoidutPerusteet = initApi(ArkistoidutPerusteetApi);
 export const DokumenttiDtoTilaEnum = YlopsApi.DokumenttiDtoTilaEnum;
 export type DokumenttiDto = YlopsApi.DokumenttiDto;
+export type AIPEVaiheDto = YlopsApi.AIPEVaiheDto;
+export type AIPEOppiaineDto = YlopsApi.AIPEOppiaineDto;
+export type AIPEKurssiDto = YlopsApi.AIPEKurssiDto;
+export type AIPEPerusteVaiheKevytDto = YlopsApi.AIPEPerusteVaiheKevytDto;
 export type EtusivuDto = YlopsApi.EtusivuDto;
 export type KayttajanTietoDto = YlopsApi.KayttajanTietoDto;
 export type KoodistoKoodiDto = YlopsApi.KoodistoKoodiDto;
