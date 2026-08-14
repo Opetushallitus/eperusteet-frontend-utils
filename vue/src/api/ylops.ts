@@ -19,6 +19,7 @@ import { Configuration,
   OppiaineenVuosiluokatApi,
   OppiaineenVuosiluokkakokonaisuudetApi,
   OppiaineetApi,
+  TaiteenperusopetusApi,
   TermistoApi,
   UlkopuolisetApi,
   VuosiluokkakokonaisuudetApi,
@@ -89,6 +90,7 @@ export const Muokkaustieto = initApi(MuokkaustietoApi);
 export const Aikataulu = initApi(AikatauluApi);
 export const Vuosiluokkakokonaisuudet = initApi(VuosiluokkakokonaisuudetApi);
 export const Oppiaineet = initApi(OppiaineetApi);
+export const Taiteenperusopetus = initApi(TaiteenperusopetusApi);
 export const OppiaineenVuosiluokkakokonaisuudet = initApi(OppiaineenVuosiluokkakokonaisuudetApi);
 export const OppiaineenVuosiluokat = initApi(OppiaineenVuosiluokatApi);
 export const LukioOpetussuunnitelmat = initApi(LukioOpetussuunnitelmatApi);
@@ -156,3 +158,9 @@ export type OpetussuunnitelmaExportDto = YlopsApi.OpetussuunnitelmaExportDto;
 export type Validointi = YlopsApi.Validointi;
 export type OpetussuunnitelmaBaseDto = YlopsApi.OpetussuunnitelmaBaseDto;
 export type KayttajanOrganisaatiotDto = YlopsApi.KayttajanOrganisaatiotDto;
+export type TaiteenalaDto = YlopsApi.TaiteenalaDto;
+export type TaiteenosaDto = YlopsApi.TaiteenosaDto;
+export type TpoPerusteenTaiteenalaDto = YlopsApi.TpoPerusteenTaiteenalaDto;
+export type TpoSisaltoViiteDto = YlopsApi.TpoSisaltoViiteDto;
+export type PerusteTaiteenosaDto = YlopsApi.PerusteTaiteenosaDto;
+export type TPOOpetuksenSisaltoDto = YlopsApi.TPOOpetuksenSisaltoDto;

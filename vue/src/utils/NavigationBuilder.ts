@@ -1,8 +1,8 @@
-import { NavigationNodeDto, LokalisoituTekstiDto } from '../tyypit';
-import _ from 'lodash';
-import { Kielet } from '../stores/kieli';
-import { Location } from 'vue-router';
 import { PerusteBaseDtoOpasTyyppiEnum, PerusteKaikkiDtoTyyppiEnum } from '@shared/api/eperusteet';
+import _ from 'lodash';
+import { Location } from 'vue-router';
+import { Kielet } from '../stores/kieli';
+import { LokalisoituTekstiDto, NavigationNodeDto } from '../tyypit';
 
 export type NavigationType =
   'root' | 'linkki' | 'viite' | 'tiedot' | 'laajaalaiset' | 'muutoshistoria' | 'tekstikappale'
@@ -11,7 +11,7 @@ export type NavigationType =
   | 'suorituspolku' | 'osasuorituspolku'
   | 'opintojaksot' | 'opintojakso'
   | 'perusopetusoppiaineet' | 'perusopetusoppiaine' | 'valinnaisetoppiaineet' | 'vuosiluokkakokonaisuus'
-  | 'taiteenala' | 'linkkisivu';
+  | 'taiteenala' | 'taiteenosa' | 'taiteentekstiosa' | 'linkkisivu';
 
 export interface NavigationNode {
   key?: number; // Unique identifier
@@ -117,7 +117,7 @@ interface OsanTyypillinen {
   },
   vaihe?: { id: number };
   taiteenalaId?: number;
-  taiteenOsa?: string;
+  taiteenTekstiOsa?: string;
 }
 
 export function osaToLocation(osa: OsanTyypillinen): Location {
@@ -236,17 +236,17 @@ export function osaToLocation(osa: OsanTyypillinen): Location {
     };
   case 'taiteenala':
     return {
-      name: 'perusteTekstikappale',
+      name: 'perusteTaiteenala',
       params: {
         viiteId: String(osa.id),
       },
     };
-  case 'taiteenala_taiteenosa':
+  case 'taiteenala_taiteentekstiosa':
     return {
-      name: 'tekstikappaleOsa',
+      name: 'taiteenalaOsa',
       params: {
         viiteId: String(osa.taiteenalaId),
-        osa: String(osa.taiteenOsa),
+        osa: String(osa.taiteenTekstiOsa),
       },
     };
   case 'tutkinnon_muodostuminen':
@@ -338,12 +338,19 @@ export function osaToLocation(osa: OsanTyypillinen): Location {
 export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto) {
   switch (rawNode.type as string) {
   case 'viite':
-  case 'taiteenala':
   case 'liite':
   case 'tekstikappale':
     // Route linkki
     node.location = {
       name: 'perusteTekstikappale',
+      params: {
+        viiteId: String(rawNode.id),
+      },
+    };
+    break;
+  case 'taiteenala':
+    node.location = {
+      name: 'perusteTaiteenala',
       params: {
         viiteId: String(rawNode.id),
       },
@@ -525,13 +532,13 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       name: 'aipeLaajaalainenOsaaminen',
     };
     break;
-  case 'taiteenosa':
+  case 'taiteentekstiosa':
     if (!rawNode.label) {
-      node.label = _.get(rawNode.meta, 'alaosa') as any;
+      node.label = _.get(rawNode.meta, 'tekstiosa') as any;
     }
     if (_.get(rawNode.meta, 'vapaateksti_id')) {
       node.location = {
-        name: 'tekstikappaleVapaaOsa',
+        name: 'taiteenalaVapaaOsa',
         params: {
           vapaatekstiId: String(_.get(rawNode.meta, 'vapaateksti_id')) as any,
           viiteId: String(_.get(rawNode.meta, 'viiteId')) as any,
@@ -539,15 +546,24 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       };
     }
 
-    if (_.get(rawNode.meta, 'alaosa')) {
+    if (_.get(rawNode.meta, 'tekstiosa')) {
       node.location = {
-        name: 'tekstikappaleOsa',
+        name: 'taiteenalaOsa',
         params: {
-          osa: _.get(rawNode.meta, 'alaosa') as any,
+          osa: _.get(rawNode.meta, 'tekstiosa') as any,
           viiteId: String(_.get(rawNode.meta, 'viiteId')) as any,
         },
       };
     }
+    break;
+  case 'taiteenosa':
+    node.location = {
+      name: 'taiteenosa',
+      params: {
+        viiteId: String(_.get(rawNode.meta, 'viiteId')),
+        taiteenosaId: String(rawNode.id),
+      },
+    };
     break;
   case 'opintokokonaisuus':
     node.location = {
@@ -978,6 +994,22 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
     node.label = 'tavoitteet-sisallot-ja-arviointi';
     node.location = {
       name: 'tavoitteetSisallotArviointi',
+    };
+    break;
+  case 'taiteenala':
+    node.location = {
+      name: 'opetussuunnitelmaTaiteenala',
+      params: {
+        taiteenalaId: String(rawNode.id),
+      },
+    };
+    break;
+  case 'taiteenosa':
+    node.location = {
+      name: 'opetussuunnitelmaTaiteenosa',
+      params: {
+        taiteenosaId: String(rawNode.id),
+      },
     };
     break;
   default:
