@@ -54,6 +54,7 @@ export enum KoulutustyyppiToteutus {
   vst = 'vapaasivistystyo',
   kielitutkinto = 'kielitutkinto',
   kaantajatutkinto = 'kaantajatutkinto',
+  aipe = 'aipe',
 }
 
 export type EditorLayout = 'minimal' | 'simplified' | 'simplified_w_links' | 'normal' | 'none';

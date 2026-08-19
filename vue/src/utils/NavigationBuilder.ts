@@ -882,6 +882,34 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
       name: 'opetussuunnitelmaperusopetusoppiaineet',
     };
     break;
+  case 'aipe_vaihe':
+    node.location = {
+      name: 'opetussuunnitelmaaipevaihe',
+      params: {
+        vaiheId: String(rawNode.id),
+      },
+    };
+    break;
+  case 'aipe_oppiaine':
+  case 'aipe_oppimaara':
+    node.location = {
+      name: 'opetussuunnitelmaaipeoppiaine',
+      params: {
+        oppiaineId: String(rawNode.id),
+        ...(_.get(rawNode, 'meta.vaiheId') && { vaiheId: String(rawNode.meta!.vaiheId) }) as any,
+      },
+    };
+    break;
+  case 'aipe_kurssi':
+    node.location = {
+      name: 'opetussuunnitelmaaipekurssi',
+      params: {
+        kurssiId: String(rawNode.id),
+        ...(_.get(rawNode, 'meta.vaiheId') && { vaiheId: String(rawNode.meta!.vaiheId) }) as any,
+        ...(_.get(rawNode, 'meta.oppiaineId') && { oppiaineId: String(rawNode.meta!.oppiaineId) }) as any,
+      },
+    };
+    break;
   case 'valinnaisetoppiaineet':
     node.label = 'valinnaiset-oppiaineet';
     node.location = {
