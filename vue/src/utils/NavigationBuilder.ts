@@ -306,14 +306,14 @@ export function osaToLocation(osa: OsanTyypillinen): Location {
     return {
       name: 'aipeLaajaalainenOsaaminen',
     };
-  case 'aipe_vaihe':
+  case 'aipevaihe':
     return {
       name: 'aipevaihe',
       params: {
         vaiheId: String(osa?.id),
       },
     };
-  case 'aipe_oppiaine':
+  case 'aipeoppiaine':
     return {
       name: 'aipeoppiaine',
       params: {
@@ -321,7 +321,7 @@ export function osaToLocation(osa: OsanTyypillinen): Location {
         oppiaineId: String(osa?.id),
       },
     };
-  case 'aipe_kurssi':
+  case 'aipekurssi':
     return {
       name: 'aipekurssi',
       params: {
@@ -882,7 +882,7 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
       name: 'opetussuunnitelmaperusopetusoppiaineet',
     };
     break;
-  case 'aipe_vaihe':
+  case 'aipevaihe':
     node.location = {
       name: 'opetussuunnitelmaaipevaihe',
       params: {
@@ -890,8 +890,8 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
       },
     };
     break;
-  case 'aipe_oppiaine':
-  case 'aipe_oppimaara':
+  case 'aipeoppiaine':
+  case 'aipeoppimaara':
     node.location = {
       name: 'opetussuunnitelmaaipeoppiaine',
       params: {
@@ -900,7 +900,7 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
       },
     };
     break;
-  case 'aipe_kurssi':
+  case 'aipekurssi':
     node.location = {
       name: 'opetussuunnitelmaaipekurssi',
       params: {

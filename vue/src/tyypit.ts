@@ -121,7 +121,7 @@ export type NavigationNodeType =
   | 'perusopetusLaajaAlaisetOsaamiset' | 'perusopetusVuosiluokkakokonaisuudet' | 'perusopetuslaajaalainenosaaminen' | 'perusopetusVuosiluokkakokonaisuus'
   | 'tutkinnonosat_tuodut'| 'tutkinnonosat_pakolliset' | 'tutkinnonosat_paikalliset'
   | 'osaamiskokonaisuus' | 'osaamiskokonaisuus_paa_alue'
-  | 'aipe_laajaalaisetosaamiset' | 'aipe_laajaalainenosaaminen' | 'aipe_oppiaine' | 'aipe_oppimaara' | 'aipe_vaihe' | 'aipe_kurssi' | 'osaamismerkkikappale'
+  | 'aipe_laajaalaisetosaamiset' | 'aipe_laajaalainenosaaminen' | 'aipeoppiaine' | 'aipeoppimaara' | 'aipevaihe' | 'aipekurssi' | 'osaamismerkkikappale'
   | 'kaantajataito' | 'kaantajataitotasoasteikko' | 'kaantajakielitaito' | 'kaantajataitotasokuvaus' | 'kaantajaaihealue' | 'kaantajatodistusmalli';
 
 export interface NavigationNodeDto {
