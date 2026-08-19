@@ -38,6 +38,7 @@ export class MaarayksetStore {
     if (query.maaraysId) {
       query = {
         maaraysId: query.maaraysId,
+        kieli: query.kieli,
       };
     }
 
