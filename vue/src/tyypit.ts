@@ -54,6 +54,7 @@ export enum KoulutustyyppiToteutus {
   vst = 'vapaasivistystyo',
   kielitutkinto = 'kielitutkinto',
   kaantajatutkinto = 'kaantajatutkinto',
+  aipe = 'aipe',
 }
 
 export type EditorLayout = 'minimal' | 'simplified' | 'simplified_w_links' | 'normal' | 'none';
@@ -120,7 +121,7 @@ export type NavigationNodeType =
   | 'perusopetusLaajaAlaisetOsaamiset' | 'perusopetusVuosiluokkakokonaisuudet' | 'perusopetuslaajaalainenosaaminen' | 'perusopetusVuosiluokkakokonaisuus'
   | 'tutkinnonosat_tuodut'| 'tutkinnonosat_pakolliset' | 'tutkinnonosat_paikalliset'
   | 'osaamiskokonaisuus' | 'osaamiskokonaisuus_paa_alue'
-  | 'aipe_laajaalaisetosaamiset' | 'aipe_laajaalainenosaaminen' | 'aipeoppiaine' | 'aipevaihe' | 'aipekurssi' | 'osaamismerkkikappale'
+  | 'aipe_laajaalaisetosaamiset' | 'aipe_laajaalainenosaaminen' | 'aipeoppiaine' | 'aipeoppimaara' | 'aipevaihe' | 'aipekurssi' | 'osaamismerkkikappale'
   | 'kaantajataito' | 'kaantajataitotasoasteikko' | 'kaantajakielitaito' | 'kaantajataitotasokuvaus' | 'kaantajaaihealue' | 'kaantajatodistusmalli';
 
 export interface NavigationNodeDto {

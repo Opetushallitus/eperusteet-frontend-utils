@@ -769,6 +769,11 @@ export function getTavoiteNumero(tavoiteNimi) {
   return tavoitenumero?.length > 1 ? _.toNumber(tavoitenumero[1]) : 0;
 }
 
+export function getSulussaNumero(teksti) {
+  const sulussaNumero = Kielet.kaanna(teksti).match(/\([A-Za-z](\d+)\)\s*$/) || [];
+  return sulussaNumero?.length > 1 ? _.toNumber(sulussaNumero[1]) : 0;
+}
+
 export const julkisivuPerusteKoosteJarjestys = {
   keys: [
     'julkisivuJarjestysNro',
