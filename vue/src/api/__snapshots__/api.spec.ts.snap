@@ -13,5 +13,6 @@ exports[`Api > Has caller id 1`] = `
   "patch": {},
   "post": {},
   "put": {},
+  "query": {},
 }
 `;
