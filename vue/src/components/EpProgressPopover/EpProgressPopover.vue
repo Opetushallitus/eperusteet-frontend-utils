@@ -51,30 +51,6 @@
         <slot name="header" />
       </div>
     </div>
-
-    <!-- <b-popover
-      v-if="slots.default"
-      ref="progresspopover"
-      v-model:show="tilaPopupVisible"
-      container="tila-popover"
-      target="tila-popover"
-      triggers="focus hover blur"
-      size="md"
-      placement="bottom"
-      custom-class="progress-popover"
-    >
-      <div class="slot-area row justify-content-center mr-1">
-        <slot />
-      </div>
-
-      <div class="popup-hr">
-        <hr>
-      </div>
-
-      <div class="popup-bottom row flex-column align-items-center mx-3 my-2">
-        <slot name="bottom" />
-      </div>
-    </b-popover> -->
   </div>
 </template>
 
