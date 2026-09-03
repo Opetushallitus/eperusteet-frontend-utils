@@ -25,15 +25,15 @@
     "@primeuix/themes": "^2.0.3",
     "@primevue/themes": "^4.5.4",
     "@tailwindcss/vite": "^4.1.18",
-    "@tiptap/core": "^3.20.4",
-    "@tiptap/extension-table": "^3.20.4",
-    "@tiptap/extension-table-cell": "^3.20.4",
-    "@tiptap/extension-table-header": "^3.20.4",
-    "@tiptap/extension-table-row": "^3.20.4",
-    "@tiptap/extension-text-style": "^3.20.4",
-    "@tiptap/pm": "^3.20.4",
-    "@tiptap/starter-kit": "^3.20.4",
-    "@tiptap/vue-3": "^3.20.4",
+    "@tiptap/core": "^3.30.4",
+    "@tiptap/extension-table": "^3.30.4",
+    "@tiptap/extension-table-cell": "^3.30.4",
+    "@tiptap/extension-table-header": "^3.30.4",
+    "@tiptap/extension-table-row": "^3.30.4",
+    "@tiptap/extension-text-style": "^3.30.4",
+    "@tiptap/pm": "^3.30.4",
+    "@tiptap/starter-kit": "^3.30.4",
+    "@tiptap/vue-3": "^3.30.4",
     "@types/lodash": "4.14.202",
     "@types/qs": "^6.9.1",
     "@unhead/vue": "^2.0.8",
@@ -91,7 +91,8 @@
     "node": "^24"
   },
   "resolutions": {
-    "uuid": "14.0.2"
+    "uuid": "14.0.2",
+    "qs": "^6.16.0"
   },
   "packageManager": "yarn@4.13.0",
   "devDependencies": {
