@@ -1,29 +1,23 @@
 <template>
   <div>
-    <div
-      :id="'infopopup-' + uniqueId"
-      class="d-inline-flex align-items-center clickable"
-    >
-      <slot name="trigger">
+    <EpPopover :triggers="['hover', 'click', 'focus']">
+      <template #trigger>
         <EpMaterialIcon
-          class="default-icon"
+          :id="'infopopup-' + uniqueId"
+          class="default-icon clickable"
           icon-shape="outlined"
         >
           info
         </EpMaterialIcon>
-      </slot>
-    </div>
-    <b-popover
-      :target="'infopopup-' + uniqueId"
-      triggers="hover click blur"
-    >
+      </template>
       <slot />
-    </b-popover>
+    </EpPopover>
   </div>
 </template>
 
 <script setup lang="ts">
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
+import EpPopover from '../EpPopover/EpPopover.vue';
 import _ from 'lodash';
 
 const props = defineProps({

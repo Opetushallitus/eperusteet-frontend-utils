@@ -103,5 +103,6 @@
     "voimaantulo-pvm": "Valid from",
     "voimassaolevat": "valid",
     "vuorovaikutus-ja-mediaatio": "Vuorovaikutus ja mediaatio",
-    "maarays-tyyppi-kaikki": "All"
+    "maarays-tyyppi-kaikki": "All",
+    "ulkoinen-linkki-vahvistus-viesti": "You are navigating to the address {{ url }}"
 }

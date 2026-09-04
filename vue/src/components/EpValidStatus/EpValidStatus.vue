@@ -1,5 +1,5 @@
 <template>
-  <div class="ep-valid-status d-flex flex-column align-items-center">
+  <div class="ep-valid-status flex flex-col items-center">
     <EpSpinner
       v-if="isValidating || julkaisemattomiaMuutoksia === undefined || julkaisemattomiaMuutoksia === null"
       color="#fff"
@@ -8,11 +8,11 @@
 
     <template v-else>
 
-      <div class="d-flex align-items-center">
+      <div class="flex items-center">
         <EpProgressArchived v-if="arkistoitu" />
         <EpProgressInProgress v-else-if="virheita" :slices="prosessi" />
         <EpProgressComplete v-else />
-        <div class="ml-2 d-flex flex-column">
+        <div class="ml-2 flex flex-col">
           <EpValidationPopover
             :validoinnit="validoinnit"
             :validoitava="validoitava"
@@ -27,25 +27,28 @@
 
       </div>
 
-      <div class="validation-text pb-2 text-center" v-if="julkaisemattomiaMuutoksia">
+      <div class="validation-text pb-1 text-center" v-if="julkaisemattomiaMuutoksia">
         {{ $t(julkaisemattomiaTeksti) }}
       </div>
 
       <div class="navigation-buttons" :class="{ 'mt-3': !julkaisemattomiaMuutoksia }">
         <EpButton
           v-if="arkistoitu"
+          size="sm"
           @click="palauta"
         >
           {{ $t('palauta') }}
         </EpButton>
         <EpButton
           v-else-if="luonnos && !julkaistava"
+          size="sm"
           @click="asetaValmiiksi"
         >
           {{ $t('aseta-valmiiksi') }}
         </EpButton>
         <EpButton
           v-else-if="julkaistava"
+          size="sm"
           @click="toJulkaisuRoute"
         >
           {{ $t('siirry-julkaisunakymaan') }}
@@ -183,6 +186,7 @@ watch(() => props.isValidating, async (newValue) => {
 
 .validation-text {
   font-size: 14px;
+  line-height: 1.2;
 }
 
 .julkaisemattomia-muutoksia {
@@ -199,7 +203,9 @@ watch(() => props.isValidating, async (newValue) => {
 }
 
 .navigation-buttons {
-  :deep(.btn) {
+  max-width: 100%;
+
+  :deep(.ep-button__btn) {
     padding: 0.2rem 0.5rem;
   }
 }

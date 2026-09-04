@@ -1,9 +1,9 @@
 <template>
-  <div class="moduuli d-flex justify-content-between p-2">
-    <div class="font-weight-bold">
+  <div class="moduuli flex justify-between p-2">
+    <div class="font-bold">
       {{ $kaanna(moduuli.nimi) }} <span v-if="moduuli.koodi">({{ moduuli.koodi.arvo }})</span>
     </div>
-    <div class="d-flex align-items-center">
+    <div class="flex items-center">
       <div
         v-if="moduuli.laajuus"
         class="pr-2 opintopiste"
@@ -42,7 +42,7 @@ const props = defineProps({
   .moduuli {
     background-color: #eaf6fe;
     border-radius: 5px;
-    color: $blue-darken-1;
+    color: $blue1;
 
     &:hover {
       background-color: #C3EAFF;

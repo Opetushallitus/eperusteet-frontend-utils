@@ -3,23 +3,23 @@
     <div
       v-for="(koodi, index) in innerModel"
       :key="'lao'+index"
-      class="mb-4"
+      class="mb-5"
     >
       <div
         v-if="kooditByUri[koodi.koodiUri]"
-        class="d-flex w-100 justify-content-between align-items-center"
+        class="flex w-full justify-between items-center mb-2"
       >
-        <div class="font-weight-bold">
+        <div class="font-bold">
           {{ $kaanna(kooditByUri[koodi.koodiUri].nimi) }}
         </div>
         <div v-if="isEditing">
-          <ep-button
+          <EpButton
             variant="link"
             icon="delete"
             @click="poistaKoodi(koodi)"
           >
             {{ $t('poista') }}
-          </ep-button>
+          </EpButton>
         </div>
       </div>
 
@@ -35,24 +35,23 @@
       />
     </div>
 
-    <b-dropdown
+    <EpDropdown
       v-if="isEditing"
-      variant="primary"
-      class="mb-4"
+      class="mb-4 lisaysBtn py-1 px-3 rounded-full"
     >
       <template #button-content>
         <slot name="default">
           Painike puuttuu
         </slot>
       </template>
-      <b-dropdown-item-button
+      <EpDropdownItem
         v-for="(koodi, index) in koodit"
         :key="index+'addKoodiTekstilla'"
         @click="addKoodi(koodi)"
       >
         {{ $kaanna(koodi.nimi) }}
-      </b-dropdown-item-button>
-    </b-dropdown>
+      </EpDropdownItem>
+    </EpDropdown>
   </div>
 </template>
 
@@ -63,6 +62,7 @@ import { KoodistoSelectStore } from './KoodistoSelectStore';
 import _ from 'lodash';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
+import { EpDropdown, EpDropdownItem } from '@shared/components/EpDropdown';
 
 const props = defineProps({
   modelValue: {
@@ -130,5 +130,11 @@ const kooditByUri = computed(() => {
 
 <style lang="scss" scoped>
 @import "@shared/styles/_variables.scss";
+
+.lisaysBtn {
+  background: $blue3;
+  border-color: transparent;
+  color: $white;
+}
 
 </style>

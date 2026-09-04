@@ -8,7 +8,7 @@ describe('EpInput component', () => {
   test('Renders field with content', async () => {
     const wrapper = mount(EpField, {
       props: {
-        value: 'arvo',
+        modelValue: 'arvo',
       },
       global: {
         ...globalStubs,

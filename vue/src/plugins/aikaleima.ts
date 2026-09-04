@@ -81,7 +81,7 @@ export class Aikaleima {
         throw new Error('vue-i18n is required');
       }
 
-      // TODO: Check date and use other types depending on the actual date
+      // TODO(EP-4926): Check date and use other types depending on the actual date
       return moment(value).fromNow();
     };
 

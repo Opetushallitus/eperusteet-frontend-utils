@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 import EpToggle from '../EpToggle.vue';
-import Vue from 'vue';
+import { nextTick } from 'vue';
 import { describe, test, expect } from 'vitest';
 import { globalStubs } from '@shared/utils/__tests__/stubs';
 
@@ -22,11 +22,11 @@ describe.skip('EpToggle component', () => {
     expect(wrapper.vm.arvo).toBe(false);
 
     wrapper.find('input[type=checkbox]').setChecked(true);
-    await Vue.nextTick();
+    await nextTick();
     expect(wrapper.vm.arvo).toBe(true);
 
     wrapper.find('input[type=checkbox]').setChecked(false);
-    await Vue.nextTick();
+    await nextTick();
     expect(wrapper.vm.arvo).toBe(false);
   });
 });

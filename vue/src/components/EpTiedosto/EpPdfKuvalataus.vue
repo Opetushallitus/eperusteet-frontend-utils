@@ -1,7 +1,7 @@
 <template>
   <ep-form-content>
     <slot name="header">
-      <div class="d-flex">
+      <div class="flex">
         <span class="kuvatyyppi mr-1">{{ $t(tyyppi) }}</span>
         <EpInfoPopover :unique-id="tyyppi">
           {{ kuvatyyppiInfo }}
@@ -17,11 +17,11 @@
       @input="onInput"
     >
       <slot>
-        <div class="justify-content-around align-items-center h-100 m-3">
+        <div class="justify-around items-center h-full m-3">
           <div v-if="kuvaUrl">
             <img :src="kuvaUrl">
-            <div class="vali-viiva justify-content-center">
-              <ep-button
+            <div class="vali-viiva justify-center">
+              <EpButton
                 variant="link"
                 icon="delete"
                 class="mt-2"
@@ -30,12 +30,12 @@
                 <slot name="poista">
                   {{ $t('poista') }}
                 </slot>
-              </ep-button>
+              </EpButton>
             </div>
           </div>
 
           <div v-else-if="file">
-            <div class="h-100 justify-content-around align-items-center">
+            <div class="h-full justify-around items-center">
               <figure>
                 <img
                   v-if="previewUrl"
@@ -44,8 +44,8 @@
                 <figcaption>{{ $t('fu-valittu-tiedosto') }}: {{ file ? file.name : '' }}</figcaption>
               </figure>
             </div>
-            <div class="justify-content-center">
-              <ep-button
+            <div class="justify-center">
+              <EpButton
                 v-if="fileValidi"
                 variant="link"
                 icon="save"
@@ -55,8 +55,8 @@
                 <slot name="tallenna">
                   {{ $t('tallenna') }}
                 </slot>
-              </ep-button>
-              <ep-button
+              </EpButton>
+              <EpButton
                 variant="link"
                 icon="keyboard_return"
                 @click="file = null"
@@ -64,7 +64,7 @@
                 <slot name="peruuta">
                   {{ $t('peruuta') }}
                 </slot>
-              </ep-button>
+              </EpButton>
             </div>
           </div>
         </div>
@@ -101,9 +101,7 @@ const fileMaxSize = 1 * 1024 * 1024;
 const fileTypes = ['image/jpeg', 'image/png'];
 const fileInput = useTemplateRef('fileInput');
 
-const kieli = computed(() => {
-  return Kielet.getSisaltoKieli;
-});
+const kieli = computed(() => Kielet.getSisaltoKieli.value);
 
 const fileOrUrl = computed(() => {
   return file.value || props.kuvaUrl;

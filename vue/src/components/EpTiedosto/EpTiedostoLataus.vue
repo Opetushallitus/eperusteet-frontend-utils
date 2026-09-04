@@ -9,18 +9,18 @@
       <slot>
         <div
           v-if="file"
-          class="pl-2 d-inline-block"
+          class="pl-2 inline-block"
         >
           <div>{{ $t('valittu-tiedosto') }}: {{ file ? file.name : '' }}</div>
           <div class="text-right pl-2 pt-4">
-            <ep-button
+            <EpButton
               class="pl-5"
               @click="cancel"
             >
               <slot name="peruuta">
                 {{ $t('peruuta') }}
               </slot>
-            </ep-button>
+            </EpButton>
           </div>
         </div>
       </slot>
@@ -96,8 +96,7 @@ async function onInput(file: File) {
             } as FileData);
           }
         }
-        catch (e) {
-          console.log(e);
+        catch {
           handleFail();
         }
       };
@@ -127,7 +126,7 @@ function cancel() {
 }
 
 function resetFile() {
-  fileInput.value?.resetFile();
+  (fileInput.value as { reset?: () => void })?.reset?.();
 }
 
 defineExpose({

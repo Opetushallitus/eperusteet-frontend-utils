@@ -4,12 +4,10 @@
       v-if="!fileSelected"
       class="tiedosto-lataus ei-tiedostoa"
     >
-      <b-form-file
+      <EpFileUpload
         ref="fileInput"
         :accept="accept"
-        :placeholder="placeholder"
-        :drop-placeholder="dropPlaceholder"
-        :browse-text="browseText"
+        :choose-label="browseText"
         @input="onInput"
       />
     </div>
@@ -20,7 +18,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, getCurrentInstance, useTemplateRef } from 'vue';
+import { computed, useTemplateRef } from 'vue';
+import EpFileUpload from '@shared/components/EpFileUpload/EpFileUpload.vue';
 import _ from 'lodash';
 import { $t } from '@shared/utils/globals';
 
@@ -62,74 +61,16 @@ const browseText = computed(() => {
   return $t('fu-browse-text');
 });
 
-const resetFile = () => {
-  if (!fileSelected.value) {
-    fileInput.value?.reset();
-  }
+const reset = () => {
+  (fileInput.value as { clear?: () => void })?.clear?.();
 };
 
-// Expose resetFile method for external components to use
 defineExpose({
-  resetFile,
+  reset,
 });
 </script>
 
 <style lang="scss" scoped>
 @import "@shared/styles/_variables.scss";
 
-.tiedosto-lataus {
-  margin: 0;
-  width:100%;
-  border-width: 1px;
-  border-color: $gray-lighten-2;
-  border-style: dashed;
-  border-radius: 10px;
-  position: relative;
-
-    &.tiedosto {
-      background-color: $white;
-      border-style: none;
-    }
-
-    &.ei-tiedostoa {
-      height: 100px;
-      background-color: $gray-lighten-7;
-    }
-
-  .custom-file:deep() {
-    height: 100%;
-    flex-direction: column;
-    justify-content: center;
-    display: flex;
-
-    input {
-      display: none;
-    }
-
-    .custom-file-label {
-      width: 100%;
-      background-image: url('@assets/img/icons/lataus_ikoni.svg');
-      background-repeat: no-repeat;
-      background-position: left;
-      border: 0;
-      margin-left: 30px;
-      margin-top: 10px;
-      height: 50px;
-      background-color: inherit;
-      padding-top: 0;
-      padding-left: 60px;
-      position: relative;
-      border-radius: 0;
-    }
-
-    .custom-file-label::after {
-      text-decoration: underline;
-      color: blue;
-      padding: 0 0 0 0.20rem;
-      display: inline;
-      position: relative;
-      background-color: $gray-lighten-7;
-    }
-  }
-}
 </style>

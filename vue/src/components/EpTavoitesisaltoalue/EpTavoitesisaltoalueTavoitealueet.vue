@@ -21,8 +21,8 @@
               <EpMaterialIcon>drag_indicator</EpMaterialIcon>
               <span class="otsikko"> {{ $t('tavoitealueen-otsikko') }}</span>
             </div>
-            <b-row>
-              <b-col cols="11">
+            <div class="flex flex-wrap">
+              <div class="w-11/12">
                 <ep-koodisto-select
                   v-model="tavoitealue.otsikko"
                   :store="tavoitealueetKoodisto"
@@ -30,24 +30,25 @@
                   :nayta-arvo="false"
                 >
                   <template #default="{ open }">
-                    <b-input-group>
-                      <b-form-input
-                        :value="tavoitealue.otsikko ? $kaanna(tavoitealue.otsikko.nimi) : ''"
+                    <EpInputGroup>
+                      <ep-input
+                        :model-value="tavoitealue.otsikko ? $kaanna(tavoitealue.otsikko.nimi) : ''"
+                        :is-editing="true"
                         disabled
                       />
-                      <b-input-group-append>
-                        <b-button
+                      <template #append>
+                        <EpButton
                           variant="primary"
                           @click="open"
                         >
                           {{ $t('hae-koodistosta') }}
-                        </b-button>
-                      </b-input-group-append>
-                    </b-input-group>
+                        </EpButton>
+                      </template>
+                    </EpInputGroup>
                   </template>
                 </ep-koodisto-select>
-              </b-col>
-              <b-col cols="1">
+              </div>
+              <div class="w-1/12">
                 <div
                   class="default-icon clickable mt-2"
                   @click="poistaTavoitealue(tavoitealue)"
@@ -59,8 +60,8 @@
                     delete
                   </EpMaterialIcon>
                 </div>
-              </b-col>
-            </b-row>
+              </div>
+            </div>
           </div>
 
           <div
@@ -83,33 +84,33 @@
               <EpTavoitealueKeskeisetSisaltoalueet v-model="tavoitealue.keskeisetSisaltoalueet" />
             </div>
             <div class="text-right">
-              <ep-button
+              <EpButton
                 variant="link"
                 icon="delete"
                 @click="poistaTavoitealue(tavoitealue)"
               >
                 {{ $t('poista-tavoitteet-ja-sisaltoalueet') }}
-              </ep-button>
+              </EpButton>
             </div>
           </div>
         </div>
       </VueDraggable>
 
-      <div class="d-flex flex-column">
-        <ep-button
+      <div class="flex flex-col">
+        <EpButton
           variant="outline"
           icon="add"
           @click="lisaaTavoitealue('OTSIKKO')"
         >
           {{ $t('lisaa-tavoitealueen-otsikko') }}
-        </ep-button>
-        <ep-button
+        </EpButton>
+        <EpButton
           variant="outline"
           icon="add"
           @click="lisaaTavoitealue('TAVOITESISALTOALUE')"
         >
           {{ $t('lisaa-tavoitteet-ja-sisaltoalueet') }}
-        </ep-button>
+        </EpButton>
       </div>
     </div>
 
@@ -173,6 +174,7 @@ import _ from 'lodash';
 import { KoodistoSelectStore, getKoodistoSivutettuna } from '../EpKoodistoSelect/KoodistoSelectStore';
 import { VueDraggable } from 'vue-draggable-plus';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
+import EpInputGroup from '@shared/components/EpInputGroup/EpInputGroup.vue';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
 import EpTavoitealueKeskeisetSisaltoalueet from './EpTavoitealueKeskeisetSisaltoalueet.vue';
 import EpTavoitealueTavoitteet from './EpTavoitealueTavoitteet.vue';
@@ -264,7 +266,7 @@ const keskeisetSisaltoalueetOptions = computed(() => {
   .tavoitealue {
     &.editing {
       .tavoitesisaltoalue {
-        border: 1px solid $gray-lighten-8;
+        border: 1px solid $grey200;
         border-radius: 3px;
 
         .otsikko {
