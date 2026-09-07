@@ -21,8 +21,12 @@
         v-else
         class="text-white"
         variant="secondary"
+        :aria-expanded="mobileNavOpen"
+        aria-controls="globalNavigation"
+        :aria-label="mobileNavOpen ? $t('sulje-navigaatio') : $t('avaa-navigaatio')"
+        @click="mobileNavOpen = !mobileNavOpen"
       >
-        <EpMaterialIcon>menu</EpMaterialIcon>
+        <EpMaterialIcon>{{ mobileNavOpen ? 'close' : 'menu' }}</EpMaterialIcon>
       </EpButton>
 
       <div
@@ -72,12 +76,18 @@
         />
       </div>
     </nav>
+    <div
+      v-if="!showNavigation"
+      v-show="mobileNavOpen"
+      id="globalNavigation"
+      class="mobile-navigation"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import _ from 'lodash';
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { Kieli } from '../../tyypit';
 import { Kielet, UiKielet } from '../../stores/kieli';
@@ -133,8 +143,20 @@ const props = defineProps({
 const browserStore = new BrowserStore();
 const route = useRoute();
 
+const mobileNavOpen = ref(false);
+
 const showNavigation = computed(() => {
   return browserStore.navigationVisible.value;
+});
+
+watch(showNavigation, (visible) => {
+  if (visible) {
+    mobileNavOpen.value = false;
+  }
+});
+
+watch(() => route?.fullPath, () => {
+  mobileNavOpen.value = false;
 });
 
 const murut = computed(() => {
@@ -232,6 +254,14 @@ $ep-navbar-height: 56px;
   .ep-navbar {
     top: 0;
     font-weight: 600;
+  }
+
+  .mobile-navigation {
+    background: $white;
+    max-height: calc(100vh - $ep-navbar-height);
+    overflow: auto;
+    padding: 1rem;
+    color: $black;
   }
 
   .kieli-valikko {

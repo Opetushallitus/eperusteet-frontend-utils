@@ -79,7 +79,7 @@ const isItemSelected = (item: any) => {
 
 const toggleItem = (item: any) => {
   const newValue = [...innerValue.value];
-  const index = newValue.indexOf(item);
+  const index = _.findIndex(newValue, (v: any) => _.isEqual(v, item));
 
   if (index > -1) {
     newValue.splice(index, 1);

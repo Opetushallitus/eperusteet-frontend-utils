@@ -2,14 +2,14 @@
 
 exports[`EpKayttaja component > Renders 1`] = `
 "<div data-v-9ad4d674="" class="kayttaja">
-  <div data-v-0a244ffe="" data-v-9ad4d674="" class="ep-dropdown inline-block">
-    <div data-v-0a244ffe="" class="ep-dropdown-trigger cursor-pointer">
+  <div data-v-0a244ffe="" data-v-9ad4d674="" class="ep-dropdown inline-block"><button data-v-0a244ffe="" type="button" class="ep-dropdown-trigger" aria-expanded="false" aria-haspopup="menu">
       <div data-v-9ad4d674="" class="flex flex-row">
         <div data-v-9ad4d674="" class="kayttaja-valikko flex flex-col"><span data-v-9ad4d674="" class="kielivalitsin text-right">etunimi sukunimi</span>
           <!--v-if-->
         </div><span data-v-07230345="" data-v-9ad4d674="" class="material-icons icon">expand_more</span>
       </div>
-    </div>
+      <!--v-if-->
+    </button>
     <!--teleport start-->
     <!--teleport end-->
   </div>

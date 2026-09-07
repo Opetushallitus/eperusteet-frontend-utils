@@ -2,7 +2,6 @@ import { mount, RouterLinkStub } from '@vue/test-utils';
 import EpNavbar from './EpNavbar.vue';
 import { globalStubs } from '@shared/utils/__tests__/stubs';
 import { createPinia, setActivePinia } from 'pinia';
-import { useRouter } from 'vue-router/types/composables';
 
 describe('EpNavbar component', () => {
   beforeEach(() => {

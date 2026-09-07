@@ -27,9 +27,11 @@ import Select from 'primevue/select';
 import { $t } from '@shared/utils/globals';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
-const props = defineProps<{
-  julkinen: boolean
-}>();
+withDefaults(defineProps<{
+  julkinen?: boolean
+}>(), {
+  julkinen: false,
+});
 
 const emit = defineEmits<{
   change: [kieli: Kieli]
