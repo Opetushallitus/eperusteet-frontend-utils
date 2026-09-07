@@ -100,6 +100,7 @@
                   v-if="isEditing && !disabled && (features.removable || features.hideable || codingMenuVisible) "
                   class="mx-4"
                   right
+                  no-caret
                 >
                   <template #button-content>
                     <EpMaterialIcon class="link-style">
@@ -212,6 +213,7 @@
                   v-oikeustarkastelu="{ oikeus: 'luku' }"
                   class="mx-4"
                   right
+                  no-caret
                 >
                   <template #button-content>
                     <EpMaterialIcon class="link-style">
