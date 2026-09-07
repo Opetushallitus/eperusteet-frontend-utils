@@ -4,6 +4,7 @@
     v-else
     class="validation-dropdown"
     content-class="validation-dropdown-menu"
+    no-caret
   >
     <template #button-content>
       <span class="validation-toggle no-underline p-0">
