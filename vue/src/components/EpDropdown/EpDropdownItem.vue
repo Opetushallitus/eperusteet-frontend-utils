@@ -27,14 +27,16 @@
   >
     <slot />
   </span>
-  <div
+  <button
     v-else
-    class="ep-dropdown-item ep-dropdown-item-button flex items-center px-3 py-1 cursor-pointer transition-colors"
+    type="button"
+    class="ep-dropdown-item ep-dropdown-item-button flex items-center px-3 py-1 w-full text-left cursor-pointer transition-colors"
     :class="{ 'opacity-50 cursor-not-allowed': disabled }"
+    :disabled="disabled"
     @click="handleClick"
   >
     <slot />
-  </div>
+  </button>
 </template>
 
 <script setup lang="ts">
@@ -76,8 +78,15 @@ a {
   color: $black;
 }
 
+.ep-dropdown-item-button {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font: inherit;
+}
+
 .ep-dropdown-item-link:hover,
-.ep-dropdown-item-button:hover {
+.ep-dropdown-item-button:hover:not(:disabled) {
   background-color: $grey50;
 }
 </style>

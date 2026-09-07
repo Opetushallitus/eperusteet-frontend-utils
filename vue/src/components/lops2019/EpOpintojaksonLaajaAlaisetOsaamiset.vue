@@ -73,11 +73,10 @@
     <EpDropdown
       v-if="isEditing"
       class="mb-4"
+      variant="primary"
     >
       <template #button-content>
-        <EpButton variant="primary">
-          {{ $t('lisaa-laaja-alainen-osaaminen') }}
-        </EpButton>
+        {{ $t('lisaa-laaja-alainen-osaaminen') }}
       </template>
       <EpDropdownItem
         v-for="(laaja, index) in laajaAlaistenKoodit"
