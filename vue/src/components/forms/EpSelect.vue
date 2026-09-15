@@ -9,6 +9,7 @@
         :disabled="disabled"
         :invalid="isInvalid"
         :show-clear="enableEmptyOption && !emptyOptionDisabled"
+        append-to="self"
         class="ep-select w-full"
         :class="{ 'is-invalid': isInvalid, 'is-valid': isValid }"
       >
@@ -44,6 +45,7 @@
         :disabled="disabled"
         :invalid="isInvalid"
         :show-clear="enableEmptyOption && !emptyOptionDisabled"
+        append-to="self"
         class="ep-select w-full"
         :class="{ 'is-invalid': isInvalid, 'is-valid': isValid }"
       >
@@ -279,6 +281,11 @@ const hasDefaultSlot = computed(() => typeof slots.default === 'function');
 @import "@shared/styles/_variables.scss";
 
 .ep-select {
+  &.p-select-open,
+  &.p-multiselect-open {
+    z-index: 2;
+  }
+
   :deep(.p-select-label),
   :deep(.p-multiselect-label) {
     font-size: 1rem;
@@ -302,5 +309,14 @@ const hasDefaultSlot = computed(() => typeof slots.default === 'function');
       box-shadow: none;
     }
   }
+}
+</style>
+
+<style lang="scss">
+.p-dialog-content:has(.ep-select.p-select-open),
+.p-dialog-content:has(.ep-select.p-multiselect-open) {
+  overflow: visible;
+  position: relative;
+  z-index: 2;
 }
 </style>
