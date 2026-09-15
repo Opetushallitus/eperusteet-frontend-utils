@@ -54,10 +54,10 @@
           <slot
             v-if="slotProps.data"
             :name="`cell(${field.key})`"
-            :item="slotProps.data"
+            :item="unwrapRow(slotProps.data)"
             :value="getCellValue(slotProps.data, field)"
             :index="slotProps.index"
-            :data="{ item: slotProps.data, value: getCellValue(slotProps.data, field), index: slotProps.index }"
+            :data="{ item: unwrapRow(slotProps.data), value: getCellValue(slotProps.data, field), index: slotProps.index }"
           >
             {{ formatCellValue(slotProps.data, field) }}
           </slot>
@@ -172,8 +172,20 @@ const props = defineProps({
 });
 
 const EP_TABLE_ROW_INDEX_KEY = '__epTableRowIndex';
+const EP_TABLE_PRIMITIVE_KEY = '__epTablePrimitive';
 
 const emit = defineEmits(['row-selected', 'row-clicked', 'update:currentPage', 'sort-changed']);
+
+function isPlainRow(row: any) {
+  return _.isPlainObject(row);
+}
+
+function unwrapRow(row: any) {
+  if (isPlainRow(row) && _.has(row, EP_TABLE_PRIMITIVE_KEY)) {
+    return row[EP_TABLE_PRIMITIVE_KEY];
+  }
+  return row;
+}
 
 const internalSelection = ref<any>(null);
 
@@ -187,7 +199,13 @@ const tableValue = computed(() => {
   }
 
   return _.map(props.items, (row: any, index: number) => {
-    return { ...row, [EP_TABLE_ROW_INDEX_KEY]: index };
+    if (isPlainRow(row)) {
+      return { ...row, [EP_TABLE_ROW_INDEX_KEY]: index };
+    }
+    return {
+      [EP_TABLE_ROW_INDEX_KEY]: index,
+      [EP_TABLE_PRIMITIVE_KEY]: row,
+    };
   });
 });
 
@@ -270,7 +288,11 @@ const normalizedFields = computed(() => {
 });
 
 function getCellValue(item: any, field: TableField) {
-  return _.get(item, field.key);
+  const unwrapped = unwrapRow(item);
+  if (!_.isPlainObject(unwrapped)) {
+    return unwrapped;
+  }
+  return _.get(unwrapped, field.key);
 }
 
 function formatCellValue(item: any, field: TableField) {
