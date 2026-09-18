@@ -162,7 +162,6 @@ import EpModal from '@shared/components/EpModal/EpModal.vue';
 import EpField from '@shared/components/forms/EpField.vue';
 import EpSelect from '@shared/components/forms/EpSelect.vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
-import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import { Kielet } from '@shared/stores/kieli';
 import EpRadio from '@shared/components/forms/EpRadio.vue';
 

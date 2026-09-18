@@ -1,13 +1,16 @@
 <template>
-  <div v-if="isEditing">
+  <div
+    v-if="isEditing"
+    class="min-w-0"
+  >
     <slot
       v-if="editable"
       name="default"
       :open="openDialog"
     >
-      <ep-input-group>
+      <ep-input-group class="w-full">
         <ep-input
-          :model-value="modelValue ? ($kaanna(modelValue.nimi) + ' (' + modelValue.arvo + ')') : ''"
+          :model-value="koodistoInputValue"
           :is-editing="true"
           disabled
         />
@@ -166,7 +169,7 @@ import _ from 'lodash';
 import EpBPagination from '../EpBPagination/EpBPagination.vue';
 import EpTable from '@shared/components/EpTable/EpTable.vue';
 import { unref } from 'vue';
-import { $t } from '@shared/utils/globals';
+import { $t, $kaanna } from '@shared/utils/globals';
 import { debounced } from '@shared/utils/delay';
 import { onMounted } from 'vue';
 import EpInputGroup from '@shared/components/EpInputGroup/EpInputGroup.vue';
@@ -212,6 +215,17 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:modelValue', 'add']);
+
+const koodistoInputValue = computed(() => {
+  if (!props.modelValue || Array.isArray(props.modelValue) || !props.modelValue.nimi) {
+    return '';
+  }
+  const nimi = $kaanna(props.modelValue.nimi);
+  if (props.naytaArvo && props.modelValue.arvo) {
+    return `${nimi} (${props.modelValue.arvo})`;
+  }
+  return nimi;
+});
 
 const isLoading = ref(false);
 const query = ref('');

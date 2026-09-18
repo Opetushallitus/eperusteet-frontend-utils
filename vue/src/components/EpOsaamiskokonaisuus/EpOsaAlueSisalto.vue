@@ -19,7 +19,7 @@
           >
             <template #left>
               <div
-                class="order-handle m-2"
+                class="order-handle m-1"
               >
                 <EpMaterialIcon>drag_indicator</EpMaterialIcon>
               </div>
