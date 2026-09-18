@@ -9,7 +9,7 @@
           <slot name="poisto" />
         </template>
         <ep-input
-          v-model="osaAlue"
+          v-model="osaAlue.nimi"
           :is-editing="isEditing"
         />
       </EpFormGroup>

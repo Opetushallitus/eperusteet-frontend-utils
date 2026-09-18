@@ -1,5 +1,6 @@
 <template>
   <ep-koodisto-select
+    class="w-full min-w-0"
     :model-value="modelValue"
     :store="store"
     :is-editing="isEditing"
@@ -7,27 +8,29 @@
     @update:model-value="$emit('update:modelValue', $event)"
   >
     <template #default="{ open }">
-      <EpInputGroup>
+      <div class="flex w-full min-w-0 items-center">
         <ep-material-icon
-          class="order-handle inner-drag-handle mr-2 shrink-0"
+          class="order-handle mr-2 shrink-0"
+          size="18px"
         >
           drag_indicator
         </ep-material-icon>
-        <ep-input
-          :class="inputClass"
-          :model-value="displayValue"
-          :is-editing="true"
-          disabled
-        />
-        <template #append>
-          <EpButton
-            variant="primary"
-            @click="open"
-          >
-            {{ buttonText || $t('hae-koodistosta') }}
-          </EpButton>
-        </template>
-      </EpInputGroup>
+        <EpInputGroup class="min-w-0 grow">
+          <ep-input
+            :model-value="displayValue"
+            :is-editing="true"
+            disabled
+          />
+          <template #append>
+            <EpButton
+              variant="primary"
+              @click="open"
+            >
+              {{ buttonText || $t('hae-koodistosta') }}
+            </EpButton>
+          </template>
+        </EpInputGroup>
+      </div>
     </template>
   </ep-koodisto-select>
 </template>
@@ -40,6 +43,7 @@ import EpMaterialIcon from '../EpMaterialIcon/EpMaterialIcon.vue';
 import EpButton from '../EpButton/EpButton.vue';
 import { KoodistoSelectStore } from './KoodistoSelectStore';
 import { $kaanna } from '@shared/utils/globals';
+import EpInput from '../forms/EpInput.vue';
 
 const props = defineProps({
   modelValue: {
@@ -58,10 +62,6 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  inputClass: {
-    type: String,
-    default: 'taitotaso-input',
-  },
   buttonText: {
     type: String,
     default: '',
@@ -77,17 +77,3 @@ const displayValue = computed(() => {
   return '';
 });
 </script>
-
-<style scoped lang="scss">
-.inner-drag-handle {
-  position: absolute;
-  padding: 8px 0 0 0;
-  left: 6px;
-  z-index: 100;
-}
-
-:deep(.taitotaso-input) {
-  padding-left: 2rem !important;
-}
-</style>
-

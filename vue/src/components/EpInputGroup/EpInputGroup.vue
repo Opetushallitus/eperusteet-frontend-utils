@@ -1,6 +1,6 @@
 <template>
   <InputGroup
-    class="ep-input-group"
+    class="ep-input-group flex flex-nowrap"
     :class="{ 'disabled': disabled }"
   >
     <InputGroupAddon
@@ -53,8 +53,12 @@ const props = defineProps({
 }
 
 .middle-input {
-
+  min-width: 0;
   border: 0;
+
+  :deep(input) {
+    width: 100%;
+  }
 
   &.with-prefix {
     border-left: 0 !important;
