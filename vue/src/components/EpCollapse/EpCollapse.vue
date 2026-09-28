@@ -267,6 +267,14 @@ defineExpose({
     .collapse-button {
       color: $paletti-blue-dark;
     }
+
+    :deep(table.table-bordered) {
+      border-color: $grey500;
+
+      th, td {
+        border-color: $grey500;
+      }
+    }
   }
 
   .collapse-button {
