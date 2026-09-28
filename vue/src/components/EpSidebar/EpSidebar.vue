@@ -14,9 +14,18 @@
         <slot name="bottom" />
       </div>
     </div>
+    <Teleport
+      v-else
+      defer
+      to="#globalNavigation"
+    >
+      <div class="mb-5 print-none">
+        <slot name="bar" />
+      </div>
+    </Teleport>
     <div
       :id="scrollAnchorId"
-      class="view"
+      class="view flex-1 min-w-0"
     >
       <slot name="view" />
     </div>
@@ -70,7 +79,7 @@ const scrollToView = () => {
 
 watch(route, () => {
   scroll();
-});
+}, { flush: 'post' });
 
 const scroll = () => {
   if (props.scrollEnabled) {
@@ -82,12 +91,12 @@ const scroll = () => {
 const updateScrollMargin = () => {
   const element = document.getElementById(scrollAnchorId.value);
   if (!element) return;
-  element.style.scrollMarginTop = `${offsetHeight.value}px`;
+  element.style.scrollMarginTop = `${offsetHeight()}px`;
 };
 
-const offsetHeight = computed(() => {
+const offsetHeight = () => {
   return getElementHeighById('navigation-bar') + getElementHeighById('notification-bar');
-});
+};
 
 const getElementHeighById = (id: string) => {
   const element = document.getElementById(id);
