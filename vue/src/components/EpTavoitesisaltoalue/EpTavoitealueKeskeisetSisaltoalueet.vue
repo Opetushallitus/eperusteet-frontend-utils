@@ -18,7 +18,7 @@
           >
             <template #left>
               <div
-                class="order-handle m-2"
+                class="order-handle m-1"
               >
                 <EpMaterialIcon>drag_indicator</EpMaterialIcon>
               </div>
@@ -27,7 +27,7 @@
         </div>
         <div class="w-1/12">
           <div
-            class="default-icon clickable mt-2"
+            class="default-icon clickable mt-1 ml-4"
             @click="poistaKeskeinenSisaltoalue(keskeinenSisaltoalue)"
           >
             <EpMaterialIcon
