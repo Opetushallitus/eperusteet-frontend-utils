@@ -15,10 +15,12 @@
             v-if="tavoitealue.tavoiteAlueTyyppi === 'OTSIKKO'"
             class="m-2"
           >
-            <div
-              class="order-handle m-2"
-            >
-              <EpMaterialIcon>drag_indicator</EpMaterialIcon>
+            <div class="flex items-center gap-2 mb-2">
+              <div
+                class="order-handle"
+              >
+                <EpMaterialIcon>drag_indicator</EpMaterialIcon>
+              </div>
               <span class="otsikko"> {{ $t('tavoitealueen-otsikko') }}</span>
             </div>
             <div class="flex flex-wrap">
@@ -50,7 +52,7 @@
               </div>
               <div class="w-1/12">
                 <div
-                  class="default-icon clickable mt-2"
+                  class="default-icon clickable m-1 ml-3"
                   @click="poistaTavoitealue(tavoitealue)"
                 >
                   <EpMaterialIcon
@@ -69,7 +71,7 @@
             class="m-2 tavoitesisaltoalue"
           >
             <div
-              class="order-handle m-2"
+              class="order-handle m-1"
             >
               <EpMaterialIcon>drag_indicator</EpMaterialIcon>
               <span class="otsikko pl-1"> {{ $t('tavoitteet') }}</span>
@@ -83,7 +85,7 @@
               </div>
               <EpTavoitealueKeskeisetSisaltoalueet v-model="tavoitealue.keskeisetSisaltoalueet" />
             </div>
-            <div class="text-right">
+            <div class="text-right p-2">
               <EpButton
                 variant="link"
                 icon="delete"
@@ -96,7 +98,7 @@
         </div>
       </VueDraggable>
 
-      <div class="flex flex-col">
+      <div class="flex flex-col gap-2">
         <EpButton
           variant="outline"
           icon="add"
@@ -180,6 +182,7 @@ import EpTavoitealueKeskeisetSisaltoalueet from './EpTavoitealueKeskeisetSisalto
 import EpTavoitealueTavoitteet from './EpTavoitealueTavoitteet.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import { $t, $kaanna } from '@shared/utils/globals';
+import EpInput from '@shared/components/forms/EpInput.vue';
 
 const props = defineProps({
   modelValue: {
