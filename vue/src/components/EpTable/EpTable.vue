@@ -56,6 +56,7 @@
             :name="`cell(${field.key})`"
             :item="unwrapRow(slotProps.data)"
             :value="getCellValue(slotProps.data, field)"
+            :formatted-value="formatCellValue(slotProps.data, field)"
             :index="slotProps.index"
             :data="{ item: unwrapRow(slotProps.data), value: getCellValue(slotProps.data, field), index: slotProps.index }"
           >
