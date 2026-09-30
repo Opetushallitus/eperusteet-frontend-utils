@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, getCurrentInstance } from 'vue';
+import { ref } from 'vue';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import { $t, $confirmModal } from '@shared/utils/globals';
 
@@ -34,7 +34,6 @@ const props = defineProps({
 const julkaistaan = ref(false);
 
 const suoritaJulkaisu = async () => {
-  // Access the modal through instance's appContext
   if (await $confirmModal.msgBoxConfirm($t('julkaisu-varmistus-modal-teksti') as any, {
     title: $t('vahvista-julkaisu'),
     okVariant: 'primary',
