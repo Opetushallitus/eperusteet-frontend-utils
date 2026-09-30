@@ -9,7 +9,7 @@
         :disabled="disabled"
         :invalid="isInvalid"
         :show-clear="enableEmptyOption && !emptyOptionDisabled"
-        append-to="self"
+        :append-to="appendTo"
         class="ep-select w-full"
         :class="{ 'is-invalid': isInvalid, 'is-valid': isValid }"
       >
@@ -45,7 +45,7 @@
         :disabled="disabled"
         :invalid="isInvalid"
         :show-clear="enableEmptyOption && !emptyOptionDisabled"
-        append-to="self"
+        :append-to="appendTo"
         class="ep-select w-full"
         :class="{ 'is-invalid': isInvalid, 'is-valid': isValid }"
       >
@@ -185,6 +185,10 @@ const props = defineProps({
   },
   invalidMessage: {
     default: '',
+    type: String,
+  },
+  appendTo: {
+    default: 'self',
     type: String,
   },
 });
