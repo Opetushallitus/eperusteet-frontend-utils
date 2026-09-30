@@ -29,8 +29,9 @@
     <EpModal
       ref="editModal"
       size="md"
+      position="top"
       @cancel="alusta"
-      style="min-height: 860px;"
+      style="min-height: 860px; margin-top: 3rem;"
     >
       <template #modal-title>
         <slot name="header">
@@ -295,7 +296,8 @@ const sivu = computed({
     return raw.value.sivu + 1;
   },
   set: (value: number) => {
-    koodistoStore.value?.query(query.value, _.max([value - 1, 0]));
+    initStoreQuery.cancel();
+    void fetchKoodisto(query.value, value - 1, vanhentuneet.value);
   },
 });
 
@@ -341,13 +343,12 @@ const initStoreQuery = debounced((queryVal: string, sivuVal: number, vanhentunee
 
 watch(() => query.value, (newValue) => {
   if (newValue.length > 2 || newValue.length === 0) {
-    sivu.value = 1;
-    initStoreQuery(newValue, sivu.value - 1, vanhentuneet.value);
+    initStoreQuery(newValue, 0, vanhentuneet.value);
   }
 });
 
 watch(() => vanhentuneet.value, (newValue) => {
-  initStoreQuery(query.value, sivu.value - 1, newValue);
+  initStoreQuery(query.value, 0, newValue);
 });
 
 const openDialog = async () => {

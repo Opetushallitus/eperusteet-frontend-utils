@@ -7,6 +7,7 @@
     :content-class="contentClass"
     :pt="dialogPt"
     :class="modalClass"
+    :position="position"
     @update:visible="onVisibleChange"
   >
     <template #header>
@@ -69,9 +70,11 @@ const props = withDefaults(
     medium?: boolean;
     large?: boolean;
     xlarge?: boolean;
+    position?: 'center' | 'top';
   }>(),
   {
     size: 'md',
+    position: 'center',
     okText: '',
     cancelText: '',
     hideFooter: false,
