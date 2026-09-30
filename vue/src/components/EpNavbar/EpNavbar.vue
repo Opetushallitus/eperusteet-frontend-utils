@@ -225,20 +225,24 @@ $ep-navbar-height: 56px;
 .topbar {
   &.dark,
   &.dark :deep(.ep-breadcrumb .p-breadcrumb-item-link),
+  &.dark :deep(.ep-breadcrumb .ep-breadcrumb-link),
   &.dark :deep(.ep-breadcrumb .ep-breadcrumb-current),
   &.dark :deep(.ep-breadcrumb .p-breadcrumb-separator),
   &.dark .ep-navbar .kielivalitsin,
   &.dark .ep-navbar .kieli-valikko,
+  &.dark .ep-navbar :deep(.kayttaja .kayttaja-valikko),
   &.dark .ep-navbar :deep(.kayttaja .kayttaja-valikko .kielivalitsin) {
     color: $white !important;
   }
 
   &.light,
   &.light :deep(.ep-breadcrumb .p-breadcrumb-item-link),
+  &.light :deep(.ep-breadcrumb .ep-breadcrumb-link),
   &.light :deep(.ep-breadcrumb .ep-breadcrumb-current),
   &.light :deep(.ep-breadcrumb .p-breadcrumb-separator),
   &.light .ep-navbar .kielivalitsin,
   &.light .ep-navbar .kieli-valikko,
+  &.light .ep-navbar :deep(.kayttaja .kayttaja-valikko),
   &.light .ep-navbar :deep(.kayttaja .kayttaja-valikko .kielivalitsin) {
     color: $color-ops-header-black-text !important;
   }
