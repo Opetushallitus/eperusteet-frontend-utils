@@ -336,6 +336,7 @@ export function koulutustyyppiRelaatiot() {
   return [
     ...yleissivastavatKoulutustyyppiRelaatiot(),
     ...vapaasivistystyoKoulutustyyppiRelaatiot(),
+    ...kotoutumiskoulutusKoulutustyyppiRelaatiot(),
   ];
 }
 
@@ -410,6 +411,16 @@ export function vapaasivistystyoKoulutustyyppiRelaatiot() {
     alityypit: [
       'koulutustyyppi_10',
       'koulutustyyppi_35',
+    ],
+  }];
+}
+
+export function kotoutumiskoulutusKoulutustyyppiRelaatiot() {
+  return [{
+    koulutustyyppi: 'koulutustyyppi_30',
+    alityypit: [
+      'koulutustyyppi_30',
+      'koulutustyyppi_31',
     ],
   }];
 }
