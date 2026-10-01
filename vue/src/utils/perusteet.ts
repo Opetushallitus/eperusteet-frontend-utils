@@ -19,6 +19,7 @@ export const EperusteetKoulutustyypit = Object.freeze([
   'koulutustyyppi_999907', // taiteen perusopetus,
   'koulutustyyppi_10', // vapaa sivistystyo
   'koulutustyyppi_30', // aikuisten maahanmuuttajien kotoutumiskoulutus
+  'koulutustyyppi_31', // lukutaitokoulutus
   'koulutustyyppi_35', // vapaa sivistystyo lukutaito
   'koulutustyyppi_40', // tutkintoon valmentava
 ]);
@@ -84,6 +85,7 @@ export const themes = {
   'koulutustyyppi_999907': 'taiteenperusopetus',
   'koulutustyyppi_10': 'vapaasivistystyo',
   'koulutustyyppi_30': 'kotoutumiskoulutus',
+  'koulutustyyppi_31': 'kotoutumiskoulutus',
   'koulutustyyppi_35': 'vapaasivistystyo',
   'koulutustyyppi_40': 'tutkintoonvalmentava',
   'koulutustyyppi_500': 'kielikaantajatutkinto',
@@ -131,6 +133,7 @@ export const EperusteetKoulutustyyppiRyhmat = {
   ],
   [Toteutus.KOTOUTUMISKOULUTUS]: [
     'koulutustyyppi_30',
+    'koulutustyyppi_31',
   ],
   [Toteutus.MUU]: [
     'koulutustyyppi_muu',
@@ -217,6 +220,7 @@ export const koulutustyyppiSort = {
   'koulutustyyppi_999907': 40,
   'koulutustyyppi_10': 70,
   'koulutustyyppi_30': 90,
+  'koulutustyyppi_31': 91,
   'koulutustyyppi_35': 71,
   'koulutustyyppi_40': 80,
   'koulutustyyppi_muu': 100,
@@ -262,6 +266,7 @@ export const ktToState = {
   'koulutustyyppi_999907': 'taiteenperusopetus',
   'koulutustyyppi_10': 'vapaasivistystyo',
   'koulutustyyppi_30': 'kotoutumiskoulutus',
+  'koulutustyyppi_31': 'lukutaitokoulutus',
   'koulutustyyppi_35': 'vapaasivistystyolukutaito',
   'koulutustyyppi_40': 'tutkintoonvalmentava',
   'koulutustyyppi_muu': 'muukoulutus',
@@ -293,7 +298,7 @@ export const koulutustyypitPdfTukiOpintopolku = [
   'koulutustyyppi_1', 'koulutustyyppi_5', 'koulutustyyppi_6', 'koulutustyyppi_11',
   'koulutustyyppi_12', 'koulutustyyppi_15', 'koulutustyyppi_18',
   'koulutustyyppi_20', 'koulutustyyppi_22', 'koulutustyyppi_999907', 'koulutustyyppi_10', 'koulutustyyppi_40',
-  'koulutustyyppi_35', 'koulutustyyppi_30',
+  'koulutustyyppi_35', 'koulutustyyppi_30', 'koulutustyyppi_31',
   'koulutustyyppi_17', 'koulutustyyppi_2', 'koulutustyyppi_16',
   'koulutustyyppi_500',
 ];
@@ -302,7 +307,7 @@ export const koulutustyypitPdfTuki = [
   'koulutustyyppi_1', 'koulutustyyppi_5', 'koulutustyyppi_6', 'koulutustyyppi_11',
   'koulutustyyppi_12', 'koulutustyyppi_15', 'koulutustyyppi_17', 'koulutustyyppi_18',
   'koulutustyyppi_20', 'koulutustyyppi_22', 'koulutustyyppi_999907', 'koulutustyyppi_10', 'koulutustyyppi_40',
-  'koulutustyyppi_35', 'koulutustyyppi_30',
+  'koulutustyyppi_35', 'koulutustyyppi_30', 'koulutustyyppi_31',
   'koulutustyyppi_2', 'koulutustyyppi_14', 'koulutustyyppi_16', 'koulutustyyppi_23',
 ];
 
