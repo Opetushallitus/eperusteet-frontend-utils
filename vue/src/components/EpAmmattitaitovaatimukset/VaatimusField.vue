@@ -18,6 +18,10 @@
                   <EpMaterialIcon class="handle order-handle">
                     drag_indicator
                   </EpMaterialIcon>
+                  <span
+                    v-if="props.modelValue.koodi && koodiArvo"
+                    class="koodi-arvo ml-2 whitespace-nowrap"
+                  >{{ koodiArvo }}</span>
                 </template>
                 <ep-input
                   v-if="!props.modelValue.koodi"
@@ -165,7 +169,7 @@ const koodiValue = computed({
 });
 
 const koodiDisplayValue = computed(() => {
-  return $kaanna(props.modelValue?.koodi?.nimi) + (koodiArvo.value ? ' (' + koodiArvo.value + ')' : '');
+  return $kaanna(props.modelValue?.koodi?.nimi) || $kaanna(props.modelValue?.[props.nimiKey]);
 });
 
 const isDatalistVisible = computed(() => {
