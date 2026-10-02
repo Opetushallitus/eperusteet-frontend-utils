@@ -146,6 +146,7 @@ export const EPERUSTEET_KOULUTUSTYYPPI_PAIKALLISET_SOVELLUKSET = {
   'koulutustyyppi_999907': 'APP_EPERUSTEET_YLOPS', // taiteen perusopetus,
   'koulutustyyppi_10': 'APP_EPERUSTEET_VST', // vapaa sivistystyo
   'koulutustyyppi_30': 'APP_EPERUSTEET_KOTO', // aikuisten maahanmuuttajien kotoutumiskoulutus
+  'koulutustyyppi_31': 'APP_EPERUSTEET_KOTO', // lukutaitokoulutus
   'koulutustyyppi_35': 'APP_EPERUSTEET_VST', // vapaa sivistystyo lukutaito
   'koulutustyyppi_40': 'APP_EPERUSTEET_TUVA', // tutkintoon valmentava
 };
