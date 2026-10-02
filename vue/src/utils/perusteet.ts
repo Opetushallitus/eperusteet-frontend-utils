@@ -289,6 +289,20 @@ const perusteToUrlShortParam = {
   'koulutustyyppi_23': 'lukiokoulutus',
 };
 
+const koulutustyyppiRyhmaToUrlParam = {
+  'kotoutumiskoulutus': 'kotoutuminen',
+};
+
+const urlParamToKoulutustyyppiRyhma = _.invert(koulutustyyppiRyhmaToUrlParam);
+
+export function koulutustyyppiRyhmaUrlParam(koulutustyyppiRyhma: string) {
+  return koulutustyyppiRyhmaToUrlParam[koulutustyyppiRyhma] || koulutustyyppiRyhma;
+}
+
+export function urlParamKoulutustyyppiRyhma(urlParam: string) {
+  return urlParamToKoulutustyyppiRyhma[urlParam] || urlParam;
+}
+
 const stateToKt = _.zipObject(
   _.values(ktToState),
   _.keys(ktToState),
@@ -603,7 +617,7 @@ export function kotoutumiskoulutus() {
     route: {
       name: 'kooste',
       params: {
-        koulutustyyppi: koulutustyyppiStateName('koulutustyyppi_30'),
+        koulutustyyppi: koulutustyyppiRyhmaUrlParam(koulutustyyppiStateName('koulutustyyppi_30')),
       },
     },
     alityypit: EperusteetKoulutustyyppiRyhmat.kotoutumiskoulutus,
