@@ -98,7 +98,7 @@ export const EPERUSTEET_SOVELLUKSET = [
   },
   {
     sovellus: 'APP_EPERUSTEET_KOTO',
-    url: '/eperusteet-amosaa-service/ui/#/kotoutumiskoulutus',
+    url: '/eperusteet-amosaa-service/ui/#/kotoutuminen',
   },
 ];
 
