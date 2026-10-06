@@ -99,15 +99,14 @@
                 <ep-search v-model="query" />
               </div>
             </div>
-            <div>
+            <div v-if="items">
               <EpTable
                 responsive
                 borderless
                 striped
                 fixed
                 hover
-                v-model:current-page="sivu"
-                :items="koulutuksenjarjestajatSorted"
+                :items="items"
                 :fields="fields"
                 :selectable="true"
                 select-mode="single"
@@ -161,7 +160,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import _ from 'lodash';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import { VueDraggable } from 'vue-draggable-plus';
@@ -241,8 +240,12 @@ const koulutuksenjarjestajatSorted = computed(() => {
     .value();
 });
 
-watch(query, () => {
-  sivu.value = 1;
+const items = computed(() => {
+  return _.slice(koulutuksenjarjestajatSorted.value, (sivu.value - 1) * 10, ((sivu.value - 1) * 10) + 10);
+});
+
+const kokonaismaara = computed(() => {
+  return _.size(koulutuksenjarjestajatSorted.value);
 });
 
 const fields = computed(() => {
