@@ -406,7 +406,6 @@
 
         <template
           v-else
-          class="flex justify-between w-full"
         >
           <template v-if="editable">
             <EpButton
