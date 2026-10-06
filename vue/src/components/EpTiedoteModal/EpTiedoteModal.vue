@@ -438,7 +438,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, getCurrentInstance, watch } from 'vue';
+import { h, ref, computed, getCurrentInstance, watch } from 'vue';
 import * as _ from 'lodash';
 import { TiedoteDto, Kayttajat, PerusteHakuDto, PerusteDto, PerusteKevytDto, TiedoteDtoJulkaisupaikatEnum } from '@shared/api/eperusteet';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
@@ -759,12 +759,12 @@ async function poista() {
 }
 
 async function vahvistaPoisto() {
-  const vahvistusSisalto = instance?.proxy?.$createElement('div', {},
+  const vahvistusSisalto = h('div', {},
     [
-      instance.proxy.$createElement('div', $t('poista-tiedote-vahvistus') as string),
-      instance.proxy.$createElement('div', '"' + $kaanna(muokattavaTiedote.value.otsikko) + '"'),
-      instance.proxy.$createElement('br', ''),
-      instance.proxy.$createElement('div', $t('poista-tiedote-varmistus') as string),
+      h('div', $t('poista-tiedote-vahvistus') as string),
+      h('div', '"' + $kaanna(muokattavaTiedote.value.otsikko) + '"'),
+      h('br', ''),
+      h('div', $t('poista-tiedote-varmistus') as string),
     ],
   ).children;
 
