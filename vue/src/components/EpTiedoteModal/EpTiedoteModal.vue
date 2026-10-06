@@ -388,7 +388,7 @@
       </div>
 
       <template #modal-footer>
-        <div v-if="editing && editable">
+        <template v-if="editing && editable">
           <EpButton
             variant="link"
             @click="suljeTiedote"
@@ -402,13 +402,13 @@
           >
             {{ muokattavaTiedote.id ? $t('tallenna') : $t('julkaise-tiedote') }}
           </EpButton>
-        </div>
+        </template>
 
-        <div
+        <template
           v-else
           class="flex justify-between w-full"
         >
-          <div v-if="editable">
+          <template v-if="editable">
             <EpButton
               v-oikeustarkastelu="oikeustarkastelu"
               icon="edit"
@@ -425,13 +425,13 @@
             >
               {{ $t('poista') }}
             </EpButton>
-          </div>
-          <div v-else />
+          </template>
+          <template v-else />
 
           <EpButton @click="suljeTiedote">
             {{ $t('sulje') }}
           </EpButton>
-        </div>
+        </template>
       </template>
     </EpModal>
   </div>
