@@ -42,7 +42,7 @@
             </div>
             <div class="w-[40px] text-center">
               <Kayttolistaus
-                v-if="inner.vaatimukset[vaatimusIdx].koodi"
+                v-if="haeKayttoLista && inner.vaatimukset[vaatimusIdx].koodi"
                 :koodi="inner.vaatimukset[vaatimusIdx].koodi"
               />
             </div>
@@ -128,7 +128,7 @@
                   </div>
                   <div class="w-[40px] text-center">
                     <Kayttolistaus
-                      v-if="koodisto && kohdealue.vaatimukset[vaatimusIdx].koodi"
+                      v-if="haeKayttoLista && koodisto && kohdealue.vaatimukset[vaatimusIdx].koodi"
                       :koodi="kohdealue.vaatimukset[vaatimusIdx].koodi"
                     />
                   </div>
@@ -276,6 +276,7 @@ import { KoodistoSelectStore, getKoodistoSivutettuna } from '@shared/components/
 import { $kaanna, $t, $vahvista } from '@shared/utils/globals';
 import { nextTick } from 'vue';
 import EpFormGroup from '@shared/components/forms/EpFormGroup.vue';
+import { useRoute } from 'vue-router';
 
 const props = defineProps({
   modelValue: {
@@ -321,6 +322,11 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue']);
 
 const koodistoSelect = ref<InstanceType<typeof VaatimusField>[]>([]);
+const route = useRoute();
+
+const haeKayttoLista = computed(() => {
+  return !!route.params.projektiId;
+});
 
 const inner = computed({
   get: () => props.modelValue || { kohde: null, vaatimukset: [], kohdealueet: [] },
