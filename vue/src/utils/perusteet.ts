@@ -19,6 +19,7 @@ export const EperusteetKoulutustyypit = Object.freeze([
   'koulutustyyppi_999907', // taiteen perusopetus,
   'koulutustyyppi_10', // vapaa sivistystyo
   'koulutustyyppi_30', // aikuisten maahanmuuttajien kotoutumiskoulutus
+  'koulutustyyppi_31', // lukutaitokoulutus
   'koulutustyyppi_35', // vapaa sivistystyo lukutaito
   'koulutustyyppi_40', // tutkintoon valmentava
 ]);
@@ -83,7 +84,8 @@ export const themes = {
   'koulutustyyppi_6': 'perusopetus',
   'koulutustyyppi_999907': 'taiteenperusopetus',
   'koulutustyyppi_10': 'vapaasivistystyo',
-  'koulutustyyppi_30': 'kotoutumiskoulutus',
+  'koulutustyyppi_30': 'kotoutuminen',
+  'koulutustyyppi_31': 'kotoutuminen',
   'koulutustyyppi_35': 'vapaasivistystyo',
   'koulutustyyppi_40': 'tutkintoonvalmentava',
   'koulutustyyppi_500': 'kielikaantajatutkinto',
@@ -104,7 +106,7 @@ export enum Toteutus {
   VAPAASIVISTYSTYO = 'vapaasivistystyo',
   AMMATILLINEN = 'ammatillinen',
   TUTKINTOONVALMENTAVA = 'tutkintoonvalmentava',
-  KOTOUTUMISKOULUTUS = 'kotoutumiskoulutus',
+  KOTOUTUMINEN = 'kotoutuminen',
   MUU = 'muukoulutus',
   KIELIKAANTAJATUTKINTO = 'kielikaantajatutkinto',
 }
@@ -129,8 +131,9 @@ export const EperusteetKoulutustyyppiRyhmat = {
   [Toteutus.TUTKINTOONVALMENTAVA]: [
     'koulutustyyppi_40',
   ],
-  [Toteutus.KOTOUTUMISKOULUTUS]: [
+  [Toteutus.KOTOUTUMINEN]: [
     'koulutustyyppi_30',
+    'koulutustyyppi_31',
   ],
   [Toteutus.MUU]: [
     'koulutustyyppi_muu',
@@ -150,7 +153,7 @@ export const EperusteetKoulutustyyppiRyhmaSort = {
   [Toteutus.LUKIOKOULUTUS]: 6,
   [Toteutus.VAPAASIVISTYSTYO]: 7,
   [Toteutus.TUTKINTOONVALMENTAVA]: 8,
-  [Toteutus.KOTOUTUMISKOULUTUS]: 9,
+  [Toteutus.KOTOUTUMINEN]: 9,
 };
 
 export interface KoulutustyyppiRyhma {
@@ -194,7 +197,7 @@ export const koulutustyyppiRyhmaSort = {
   'ammatillinen': 6,
   'vapaasivistystyo': 7,
   'tutkintoonvalmentava': 8,
-  'kotoutumiskoulutus': 9,
+  'kotoutuminen': 9,
   'muukoulutus': 10,
   'kielikaantajatutkinto': 11,
 };
@@ -217,6 +220,7 @@ export const koulutustyyppiSort = {
   'koulutustyyppi_999907': 40,
   'koulutustyyppi_10': 70,
   'koulutustyyppi_30': 90,
+  'koulutustyyppi_31': 91,
   'koulutustyyppi_35': 71,
   'koulutustyyppi_40': 80,
   'koulutustyyppi_muu': 100,
@@ -233,7 +237,7 @@ export const themeColors = {
   'taiteenperusopetus': [250, 204, 234],
   'vapaasivistystyo': [102, 0, 102],
   'tutkintoonvalmentava': [255, 80, 0],
-  'kotoutumiskoulutus': [122, 174, 122],
+  'kotoutuminen': [122, 174, 122],
   'muukoulutus': [230, 8, 149],
   'digiosaaminen': [217, 193, 242],
   'kielikaantajatutkinto': [0, 102, 153],
@@ -261,7 +265,8 @@ export const ktToState = {
   'koulutustyyppi_6': 'lisaopetus',
   'koulutustyyppi_999907': 'taiteenperusopetus',
   'koulutustyyppi_10': 'vapaasivistystyo',
-  'koulutustyyppi_30': 'kotoutumiskoulutus',
+  'koulutustyyppi_30': 'kotoutuminen',
+  'koulutustyyppi_31': 'lukutaitokoulutus',
   'koulutustyyppi_35': 'vapaasivistystyolukutaito',
   'koulutustyyppi_40': 'tutkintoonvalmentava',
   'koulutustyyppi_muu': 'muukoulutus',
@@ -293,7 +298,7 @@ export const koulutustyypitPdfTukiOpintopolku = [
   'koulutustyyppi_1', 'koulutustyyppi_5', 'koulutustyyppi_6', 'koulutustyyppi_11',
   'koulutustyyppi_12', 'koulutustyyppi_15', 'koulutustyyppi_18',
   'koulutustyyppi_20', 'koulutustyyppi_22', 'koulutustyyppi_999907', 'koulutustyyppi_10', 'koulutustyyppi_40',
-  'koulutustyyppi_35', 'koulutustyyppi_30',
+  'koulutustyyppi_35', 'koulutustyyppi_30', 'koulutustyyppi_31',
   'koulutustyyppi_17', 'koulutustyyppi_2', 'koulutustyyppi_16',
   'koulutustyyppi_500',
 ];
@@ -302,7 +307,7 @@ export const koulutustyypitPdfTuki = [
   'koulutustyyppi_1', 'koulutustyyppi_5', 'koulutustyyppi_6', 'koulutustyyppi_11',
   'koulutustyyppi_12', 'koulutustyyppi_15', 'koulutustyyppi_17', 'koulutustyyppi_18',
   'koulutustyyppi_20', 'koulutustyyppi_22', 'koulutustyyppi_999907', 'koulutustyyppi_10', 'koulutustyyppi_40',
-  'koulutustyyppi_35', 'koulutustyyppi_30',
+  'koulutustyyppi_35', 'koulutustyyppi_30', 'koulutustyyppi_31',
   'koulutustyyppi_2', 'koulutustyyppi_14', 'koulutustyyppi_16', 'koulutustyyppi_23',
 ];
 
@@ -331,6 +336,7 @@ export function koulutustyyppiRelaatiot() {
   return [
     ...yleissivastavatKoulutustyyppiRelaatiot(),
     ...vapaasivistystyoKoulutustyyppiRelaatiot(),
+    ...kotoutuminenKoulutustyyppiRelaatiot(),
   ];
 }
 
@@ -405,6 +411,16 @@ export function vapaasivistystyoKoulutustyyppiRelaatiot() {
     alityypit: [
       'koulutustyyppi_10',
       'koulutustyyppi_35',
+    ],
+  }];
+}
+
+export function kotoutuminenKoulutustyyppiRelaatiot() {
+  return [{
+    koulutustyyppi: 'koulutustyyppi_30',
+    alityypit: [
+      'koulutustyyppi_30',
+      'koulutustyyppi_31',
     ],
   }];
 }
@@ -581,16 +597,16 @@ export function tutkintoonvalmentava() {
   }];
 }
 
-export function kotoutumiskoulutus() {
+export function kotoutuminen() {
   return [{
-    name: koulutustyyppiStateName('koulutustyyppi_30'),
+    name: 'kotoutumiskoulutus',
     route: {
       name: 'kooste',
       params: {
         koulutustyyppi: koulutustyyppiStateName('koulutustyyppi_30'),
       },
     },
-    alityypit: EperusteetKoulutustyyppiRyhmat.kotoutumiskoulutus,
+    alityypit: EperusteetKoulutustyyppiRyhmat.kotoutuminen,
   }];
 }
 

@@ -54,7 +54,6 @@ const koulutustyyppiVaihtoehdot = computed(() => {
     ...EperusteetKoulutustyypit,
     'opistovuosi-oppivelvollisille',
     'muu-ammatillinen-koulutus',
-    'kotoutumiskoulutus',
   ];
 });
 
@@ -62,7 +61,6 @@ const koulutustyyppiColors = computed(() => {
   return {
     'opistovuosi-oppivelvollisille': 'vapaasivistystyo',
     'muu-ammatillinen-koulutus': 'ammatillinen',
-    'kotoutumiskoulutus': 'kotoutumiskoulutus',
   };
 });
 
@@ -76,10 +74,6 @@ const koulutustyyppiryhmat = computed(() => {
     [Toteutus.VAPAASIVISTYSTYO]: [
       ...EperusteetKoulutustyyppiRyhmat[Toteutus.VAPAASIVISTYSTYO],
       'opistovuosi-oppivelvollisille',
-    ],
-    [Toteutus.KOTOUTUMISKOULUTUS]: [
-      ...EperusteetKoulutustyyppiRyhmat[Toteutus.KOTOUTUMISKOULUTUS],
-      'kotoutumiskoulutus',
     ],
   };
 });
