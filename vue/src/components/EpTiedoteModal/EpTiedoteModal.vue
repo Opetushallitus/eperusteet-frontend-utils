@@ -388,7 +388,7 @@
       </div>
 
       <template #modal-footer>
-        <div v-if="editing && editable">
+        <template v-if="editing && editable">
           <EpButton
             variant="link"
             @click="suljeTiedote"
@@ -402,13 +402,12 @@
           >
             {{ muokattavaTiedote.id ? $t('tallenna') : $t('julkaise-tiedote') }}
           </EpButton>
-        </div>
+        </template>
 
-        <div
+        <template
           v-else
-          class="flex justify-between w-full"
         >
-          <div v-if="editable">
+          <template v-if="editable">
             <EpButton
               v-oikeustarkastelu="oikeustarkastelu"
               icon="edit"
@@ -425,20 +424,20 @@
             >
               {{ $t('poista') }}
             </EpButton>
-          </div>
-          <div v-else />
+          </template>
+          <template v-else />
 
           <EpButton @click="suljeTiedote">
             {{ $t('sulje') }}
           </EpButton>
-        </div>
+        </template>
       </template>
     </EpModal>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, getCurrentInstance, watch } from 'vue';
+import { h, ref, computed, getCurrentInstance, watch } from 'vue';
 import * as _ from 'lodash';
 import { TiedoteDto, Kayttajat, PerusteHakuDto, PerusteDto, PerusteKevytDto, TiedoteDtoJulkaisupaikatEnum } from '@shared/api/eperusteet';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
@@ -759,12 +758,12 @@ async function poista() {
 }
 
 async function vahvistaPoisto() {
-  const vahvistusSisalto = instance?.proxy?.$createElement('div', {},
+  const vahvistusSisalto = h('div', {},
     [
-      instance.proxy.$createElement('div', $t('poista-tiedote-vahvistus') as string),
-      instance.proxy.$createElement('div', '"' + $kaanna(muokattavaTiedote.value.otsikko) + '"'),
-      instance.proxy.$createElement('br', ''),
-      instance.proxy.$createElement('div', $t('poista-tiedote-varmistus') as string),
+      h('div', $t('poista-tiedote-vahvistus') as string),
+      h('div', '"' + $kaanna(muokattavaTiedote.value.otsikko) + '"'),
+      h('br', ''),
+      h('div', $t('poista-tiedote-varmistus') as string),
     ],
   ).children;
 

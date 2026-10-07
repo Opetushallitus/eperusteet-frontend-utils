@@ -1,7 +1,6 @@
 import { ConfirmServiceOptions } from '@shared/components/EpConfirmService/EpConfirmService.vue';
 import { LokalisoituTeksti } from '@shared/stores/kieli';
-import { computed } from 'vue';
-import { getCurrentInstance } from 'vue';
+import { computed, getCurrentInstance, VNode } from 'vue';
 
 // Store a reference to the app instance that can be set from main.ts
 let _app: any = null;
@@ -134,7 +133,7 @@ export const $warning = (title: string): any => {
 export const setConfirmModal = (confirmModal: any) => {
   $confirmModal = {
     ...confirmModal,
-    msgBoxConfirm: (message: string, options: ConfirmServiceOptions) => {
+    msgBoxConfirm: (message: string | VNode, options: ConfirmServiceOptions) => {
       return new Promise((resolve) => {
         if (!confirmModal) {
           resolve(false);
