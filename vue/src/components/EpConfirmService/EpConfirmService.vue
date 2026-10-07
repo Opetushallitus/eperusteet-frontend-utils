@@ -14,9 +14,9 @@
               :is="node"
             />
           </template>
-          <template v-else>
+          <p v-else>
             {{ message.message }}
-          </template>
+          </p>
         </div>
       </div>
       <div class="flex gap-4 justify-end items-center m-3">
