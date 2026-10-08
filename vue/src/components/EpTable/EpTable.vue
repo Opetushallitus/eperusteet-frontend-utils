@@ -16,8 +16,9 @@
       :paginator="usePagination"
       :rows="perPage"
       :first="firstRow"
+      :total-records="totalRecords"
       :show-headers="showHeaders"
-      :lazy="noLocalSorting"
+      :lazy="noLocalSorting || isRemotePagination"
       :sort-field="sortBy"
       :sort-order="sortOrderValue"
       :row-class="rowClassValue"
@@ -70,6 +71,18 @@
       >
         <slot name="empty" />
       </template>
+      <template #paginatorfirstpagelinkicon>
+        {{ $t('alkuun') }}
+      </template>
+      <template #paginatorprevpagelinkicon>
+        <EpMaterialIcon>keyboard_double_arrow_left</EpMaterialIcon>
+      </template>
+      <template #paginatornextpagelinkicon>
+        <EpMaterialIcon>keyboard_double_arrow_right</EpMaterialIcon>
+      </template>
+      <template #paginatorlastpagelinkicon>
+        {{ $t('loppuun') }}
+      </template>
     </DataTable>
   </div>
 </template>
@@ -79,6 +92,7 @@ import { computed, ref, watch } from 'vue';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import _ from 'lodash';
+import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 
 export interface TableField {
   key: string;
@@ -170,6 +184,10 @@ const props = defineProps({
     type: String,
     default: undefined,
   },
+  totalRows: {
+    type: Number,
+    default: undefined,
+  },
 });
 
 const EP_TABLE_ROW_INDEX_KEY = '__epTableRowIndex';
@@ -194,7 +212,7 @@ const resolvedDataKey = computed(() => {
   return props.dataKey || EP_TABLE_ROW_INDEX_KEY;
 });
 
-const tableValue = computed(() => {
+const rows = computed(() => {
   if (props.dataKey) {
     return props.items;
   }
@@ -210,17 +228,48 @@ const tableValue = computed(() => {
   });
 });
 
+const isRemotePagination = computed(() => props.totalRows !== undefined);
+
+const tableValue = computed(() => {
+  if (!isRemotePagination.value && props.noLocalSorting && usePagination.value && props.perPage) {
+    return _.slice(rows.value, firstRow.value, firstRow.value + props.perPage);
+  }
+  return rows.value;
+});
+
+const totalRecords = computed(() => {
+  if (isRemotePagination.value) {
+    return props.totalRows;
+  }
+  return props.items?.length ?? 0;
+});
+
 const selectionValue = computed(() => {
   return props.selection !== undefined ? props.selection : internalSelection.value;
 });
 
 const usePagination = computed(() => {
-  return props.items && props.items.length > 0 && props.perPage !== undefined && props.perPage > 0;
+  return !!props.items && props.items.length > 0 && props.perPage !== undefined && props.perPage > 0;
+});
+
+const internalCurrentPage = ref(props.currentPage);
+
+watch(() => props.currentPage, (page) => {
+  internalCurrentPage.value = page;
+});
+
+watch(() => props.items?.length, (length) => {
+  if (isRemotePagination.value || !props.perPage || length == null) return;
+  const lastPage = Math.max(1, Math.ceil(length / props.perPage));
+  if (internalCurrentPage.value > lastPage) {
+    internalCurrentPage.value = lastPage;
+    emit('update:currentPage', lastPage);
+  }
 });
 
 const firstRow = computed(() => {
   if (!usePagination.value || !props.perPage) return 0;
-  return (props.currentPage - 1) * props.perPage;
+  return (internalCurrentPage.value - 1) * props.perPage;
 });
 
 const sortOrderValue = computed(() => {
@@ -263,6 +312,7 @@ const onRowClick = (event: any) => {
 const onPageChange = (event: any) => {
   if (!props.perPage) return;
   const newPage = Math.floor(event.first / props.perPage) + 1;
+  internalCurrentPage.value = newPage;
   emit('update:currentPage', newPage);
 };
 
@@ -308,6 +358,8 @@ function formatCellValue(item: any, field: TableField) {
 </script>
 
 <style lang="scss" scoped>
+@import '@shared/styles/_variables.scss';
+
 .ep-table {
   :deep(.p-datatable) {
     border-radius: 0;
@@ -350,53 +402,27 @@ function formatCellValue(item: any, field: TableField) {
       background: transparent;
     }
 
-    // Style DataTable's built-in paginator
     .p-paginator {
+      justify-content: center;
       background: transparent;
       border: none;
-      padding: 1rem 0;
+      margin-top: 1rem;
 
       .p-paginator-current {
         display: none;
       }
 
-      .p-paginator-pages {
-        .p-paginator-page {
-          min-width: 2.5rem;
-          height: 2.5rem;
-          margin: 0 0.125rem;
-          border-radius: 3px;
-          color: #495057;
-
-          &.p-highlight {
-            background: #007bff;
-            color: white;
-            border-color: #007bff;
-          }
-
-          &:not(.p-highlight):hover {
-            background: #e9ecef;
-          }
-        }
+      .p-paginator-first,
+      .p-paginator-last,
+      .p-paginator-page,
+      .p-paginator-prev,
+      .p-paginator-next {
+        color: $link;
       }
 
-      .p-paginator-first,
-      .p-paginator-prev,
-      .p-paginator-next,
-      .p-paginator-last {
-        min-width: 2.5rem;
-        height: 2.5rem;
-        color: #495057;
-        border-radius: 3px;
-        margin: 0 0.125rem;
-
-        &:not(.p-disabled):hover {
-          background: #e9ecef;
-        }
-
-        &.p-disabled {
-          opacity: 0.5;
-        }
+      .p-disabled {
+        color: $disabled;
+        opacity: 0.5;
       }
     }
   }
