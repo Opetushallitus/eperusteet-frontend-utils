@@ -221,7 +221,7 @@ function setUpEditorEvents() {
 const editor = useEditor({
   content: localizedValue.value,
   extensions: [
-    StarterKit,
+    StarterKit.configure({ link: false }),
     CopyToClipboardExtension,
     OfficePaste,
     KommenttiTextStyle,  // Preserve custom attributes like 'kommentti'
