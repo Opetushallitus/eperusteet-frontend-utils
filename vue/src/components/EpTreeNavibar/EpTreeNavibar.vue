@@ -293,13 +293,13 @@ function onRouteUpdate() {
   const matching = props.store.routeToNode(route as any);
   if (matching?.type === 'root') {
     active.value = null;
-    return;
   }
-
-  const node = matching ? _.find(navigation.value, matching) as IndexedNode | undefined : undefined;
-  if (node) {
-    navigate(node);
-    VueScrollTo.scrollTo('#scroll-anchor');
+  else if (matching) {
+    const node = _.find(navigation.value, matching) as IndexedNode | null;
+    if (node) {
+      navigate(node);
+      VueScrollTo.scrollTo('#scroll-anchor');
+    }
   }
 }
 
