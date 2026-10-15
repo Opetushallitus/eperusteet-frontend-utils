@@ -532,6 +532,7 @@
       </template>
     </EpModal>
     <EpTiedoteSelect
+      v-if="haeTiedotteet"
       ref="tiedoteValinta"
       :hae="haeTiedotteet"
       :excluded-ids="poisRajatutTiedoteIdt"
@@ -541,16 +542,15 @@
 </template>
 
 <script setup lang="ts">
-import { h, ref, computed, watch } from 'vue';
+import { computed, h, ref, watch } from 'vue';
 import * as _ from 'lodash';
 import {
-  TiedoteDto,
   Kayttajat,
-  PerusteHakuDto,
   PerusteDto,
+  PerusteHakuDto,
   PerusteKevytDto,
+  TiedoteDto,
   TiedoteDtoJulkaisupaikatEnum,
-  Tiedotteet,
   TiedoteKevytDto,
 } from '@shared/api/eperusteet';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
@@ -570,18 +570,18 @@ import {
 import EpContent from '@shared/components/EpContent/EpContent.vue';
 import EpKielivalinta from '@shared/components/EpKielivalinta/EpKielivalinta.vue';
 import {
-  themes,
-  ktToState,
-  koulutustyyppiRyhmat,
+  isAmmatillinenKoulutustyyppi,
   KoulutustyyppiRyhma,
   koulutustyyppiRyhmaSort,
-  isAmmatillinenKoulutustyyppi,
+  koulutustyyppiRyhmat,
+  ktToState,
+  themes,
 } from '@shared/utils/perusteet';
 import EpColorIndicator from '@shared/components/EpColorIndicator/EpColorIndicator.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import {
-  KoodistoSelectStore,
   getKoodistoSivutettuna,
+  KoodistoSelectStore,
 } from '../EpKoodistoSelect/KoodistoSelectStore';
 import EpInputGroup from '@shared/components/EpInputGroup/EpInputGroup.vue';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
@@ -590,16 +590,14 @@ import EpModal from '@shared/components/EpModal/EpModal.vue';
 import { ITiedotteetProvider } from '@shared/stores/types';
 import { requiredOneLang } from '@shared/validators/required';
 import {
-  $t,
-  $kaanna,
-  $sdt,
-  $sd,
   $confirmModal,
-  $success,
   $fail,
+  $kaanna,
+  $sd,
+  $sdt,
+  $success,
+  $t,
 } from '@shared/utils/globals';
-import {Page} from '@/tyypit';
-
 
 const modalRef = ref<InstanceType<typeof EpModal> | null>(null);
 
@@ -1024,27 +1022,21 @@ const poisRajatutTiedoteIdt = computed((): number[] => {
   return ids;
 });
 
-async function haeTiedotteet(
-  query: string,
-  sivu: number,
-): Promise<Page<TiedoteDto>> {
-  const response = await Tiedotteet.findTiedotteetBy(
-    sivu,
-    10,
-    undefined,
-    query || undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    'muokattu',
-    false,
-  );
-  return response.data as Page<TiedoteDto>;
-}
+const haeTiedotteet = computed(() => {
+  const store = props.tiedotteetStore;
+  if (!store) {
+    return undefined;
+  }
+
+  return (query: string, sivu: number) =>
+    store.search({
+      sivu,
+      sivukoko: 10,
+      nimi: query || undefined,
+      jarjestys: 'muokattu',
+      jarjestysNouseva: false,
+    });
+});
 
 function lisaaTiedoteRivi() {
   muokattavaTiedote.value.tiedotteet = [
