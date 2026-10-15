@@ -21,7 +21,11 @@
               {{ $t('tiedote') }}
             </h2>
             <h2 v-else>
-              {{ muokattavaTiedote.id ? $t('muokkaa-tiedotetta') : $t('lisaa-tiedote') }}
+              {{
+                muokattavaTiedote.id
+                  ? $t('muokkaa-tiedotetta')
+                  : $t('lisaa-tiedote')
+              }}
             </h2>
           </div>
           <div class="text-right">
@@ -72,7 +76,11 @@
               :is-s-witch="false"
               :is-editing="editing"
             >
-              {{ $t('tiedote-julkaisupaikka-opintopolku-koulutus-ja-tutkintonakyma') }}
+              {{
+                $t(
+                  'tiedote-julkaisupaikka-opintopolku-koulutus-ja-tutkintonakyma',
+                )
+              }}
             </ep-toggle>
 
             <ep-multi-list-select
@@ -84,7 +92,7 @@
               :is-editing="editing"
               :required="true"
             >
-              <template #option="{option}">
+              <template #option="{ option }">
                 <ep-color-indicator
                   v-if="option.value && option.value.type"
                   :size="10"
@@ -94,7 +102,7 @@
                 {{ option.text }}
               </template>
 
-              <template #singleLabel="{option}">
+              <template #singleLabel="{ option }">
                 <ep-color-indicator
                   v-if="option.value && option.value.type"
                   :size="10"
@@ -167,21 +175,35 @@
               <template #option="{ option }">
                 {{ option.text }}
                 <span
-                  v-if="option.value.voimassaoloAlkaa || option.value.voimassaoloLoppuu"
+                  v-if="
+                    option.value.voimassaoloAlkaa ||
+                      option.value.voimassaoloLoppuu
+                  "
                   class="ml-3 voimassaolo"
                 >
-                  (<span v-if="option.value.voimassaoloAlkaa">{{ $sd(option.value.voimassaoloAlkaa) }}</span>-
-                  <span v-if="option.value.voimassaoloLoppuu">{{ $sd(option.value.voimassaoloLoppuu) }}</span>)
+                  (<span v-if="option.value.voimassaoloAlkaa">{{
+                    $sd(option.value.voimassaoloAlkaa)
+                  }}</span>-
+                  <span v-if="option.value.voimassaoloLoppuu">{{
+                    $sd(option.value.voimassaoloLoppuu)
+                  }}</span>)
                 </span>
               </template>
               <template #singleLabel="{ option }">
                 {{ option.text }}
                 <span
-                  v-if="option.value.voimassaoloAlkaa || option.value.voimassaoloLoppuu"
+                  v-if="
+                    option.value.voimassaoloAlkaa ||
+                      option.value.voimassaoloLoppuu
+                  "
                   class="ml-3 voimassaolo"
                 >
-                  (<span v-if="option.value.voimassaoloAlkaa">{{ $sd(option.value.voimassaoloAlkaa) }}</span>-
-                  <span v-if="option.value.voimassaoloLoppuu">{{ $sd(option.value.voimassaoloLoppuu) }}</span>)
+                  (<span v-if="option.value.voimassaoloAlkaa">{{
+                    $sd(option.value.voimassaoloAlkaa)
+                  }}</span>-
+                  <span v-if="option.value.voimassaoloLoppuu">{{
+                    $sd(option.value.voimassaoloLoppuu)
+                  }}</span>)
                 </span>
               </template>
             </EpMultiListSelect>
@@ -198,6 +220,7 @@
             class="mb-1 flex justify-center items-center"
           >
             <ep-koodisto-select
+              v-if="muokattavaTiedote.tutkinnonosat"
               v-model="muokattavaTiedote.tutkinnonosat[index]"
               :store="tutkinnonOsaKoodisto"
               class="w-full"
@@ -248,6 +271,7 @@
             class="mb-1 flex justify-center items-center"
           >
             <ep-koodisto-select
+              v-if="muokattavaTiedote.osaamisalat"
               v-model="muokattavaTiedote.osaamisalat[index]"
               :store="osaamisalaKoodisto"
               class="w-full"
@@ -287,10 +311,52 @@
             {{ $t('lisaa-osaamisala') }}
           </EpButton>
         </ep-form-content>
+
+        <ep-form-content name="liita-tiedote-tiedotteeseen">
+          <div
+            v-for="(tiedote, index) in muokattavaTiedote.tiedotteet"
+            :key="tiedote.id ?? index"
+            class="mb-1 flex justify-center items-center"
+          >
+            <EpInputGroup class="w-full flex">
+              <ep-input
+                :model-value="$kaanna(tiedote.otsikko)"
+                :is-editing="true"
+                disabled
+              />
+              <template #append>
+                <EpButton
+                  variant="primary"
+                  @click="avaaTiedoteValinta(index)"
+                >
+                  {{ $t('hae') }}
+                </EpButton>
+              </template>
+            </EpInputGroup>
+
+            <div class="shrink-0 pl-2">
+              <EpButton
+                variant="link"
+                icon="delete"
+                @click="poistaTiedoteValinta(index)"
+              />
+            </div>
+          </div>
+          <EpButton
+            button-class="pl-0"
+            variant="outline-primary"
+            icon="add"
+            @click="lisaaTiedoteRivi()"
+          >
+            {{ $t('lisaa-tiedote') }}
+          </EpButton>
+        </ep-form-content>
       </div>
 
       <div v-else>
-        <div><h3>{{ $kaanna(esittavaMuokkaustieto.otsikko) }}</h3></div>
+        <div>
+          <h3>{{ $kaanna(esittavaMuokkaustieto.otsikko) }}</h3>
+        </div>
         <div class="tiedote-muokkaustieto">
           {{ $sdt(esittavaMuokkaustieto.muokattu) }}
           <span class="pl-3">{{ muokkaavanKayttajanNimi }}</span>
@@ -303,12 +369,21 @@
         />
 
         <div v-if="naytaJulkaisupaikka">
-          <h6 v-if="opintopolkuJulkaisu || esittavaMuokkaustieto.filteredJulkaisupaikat.length > 0 || esittavaMuokkaustieto.filteredJulkaisusovellukset.length > 0">
+          <h6
+            v-if="
+              opintopolkuJulkaisu ||
+                esittavaMuokkaustieto.filteredJulkaisupaikat.length > 0 ||
+                esittavaMuokkaustieto.filteredJulkaisusovellukset.length > 0
+            "
+          >
             {{ $t('tiedote-julkaistu') }}:
           </h6>
 
           <div
-            v-if="esittavaMuokkaustieto.filteredJulkaisupaikat.length > 0 || opintopolkuJulkaisu"
+            v-if="
+              esittavaMuokkaustieto.filteredJulkaisupaikat.length > 0 ||
+                opintopolkuJulkaisu
+            "
             class="mb-3"
           >
             {{ $t('tiedote-julkaisupaikka-opintopolku') }}
@@ -322,12 +397,15 @@
                 :size="6"
                 :tooltip="false"
                 kind="etusivu"
-              /> {{ $t('etusivu') }}
+              />
+              {{ $t('etusivu') }}
             </div>
 
             <div
-              v-for="(julkaisupaikka, index) in esittavaMuokkaustieto.filteredJulkaisupaikat"
-              :key="index+'filteredjulkaisupaikka'"
+              v-for="(
+                julkaisupaikka, index
+              ) in esittavaMuokkaustieto.filteredJulkaisupaikat"
+              :key="index + 'filteredjulkaisupaikka'"
               class="ml-4"
             >
               <ep-color-indicator
@@ -335,13 +413,16 @@
                 :size="6"
                 :tooltip="false"
                 :kind="julkaisupaikka"
-              /> {{ $t(julkaisupaikka) }}
+              />
+              {{ $t(julkaisupaikka) }}
             </div>
           </div>
 
           <div
-            v-for="(julkaisusovellus, index) in esittavaMuokkaustieto.filteredJulkaisusovellukset"
-            :key="index+'julkaisusovellus'"
+            v-for="(
+              julkaisusovellus, index
+            ) in esittavaMuokkaustieto.filteredJulkaisusovellukset"
+            :key="index + 'julkaisusovellus'"
           >
             {{ julkaisusovellus }}
           </div>
@@ -354,35 +435,54 @@
           <h6>{{ $t('liitetyt-perusteet') }}:</h6>
           <div
             v-for="(peruste, index) in esittavaMuokkaustieto.filteredPerusteet"
-            :key="index+'filteredPerusteet'"
+            :key="index + 'filteredPerusteet'"
           >
             {{ peruste }}
           </div>
         </div>
 
         <div
-          v-if="esittavaMuokkaustieto.tutkinnonosat && esittavaMuokkaustieto.tutkinnonosat.length > 0"
+          v-if="
+            esittavaMuokkaustieto.tutkinnonosat &&
+              esittavaMuokkaustieto.tutkinnonosat.length > 0
+          "
           class="mt-4"
         >
           <h6>{{ $t('liitetyt-tutkinnonosat') }}:</h6>
           <div
             v-for="(tutkinnonosa, index) in esittavaMuokkaustieto.tutkinnonosat"
-            :key="index+'tutkinnonosa'"
+            :key="index + 'tutkinnonosa'"
           >
             {{ $kaanna(tutkinnonosa.nimi) }}
           </div>
         </div>
 
         <div
-          v-if="esittavaMuokkaustieto.osaamisalat && esittavaMuokkaustieto.osaamisalat.length > 0"
+          v-if="
+            esittavaMuokkaustieto.osaamisalat &&
+              esittavaMuokkaustieto.osaamisalat.length > 0
+          "
           class="mt-4"
         >
           <h6>{{ $t('liitetyt-osaamisalat') }}:</h6>
           <div
             v-for="(osaamisala, index) in esittavaMuokkaustieto.osaamisalat"
-            :key="index+'osaamisala'"
+            :key="index + 'osaamisala'"
           >
             {{ $kaanna(osaamisala.nimi) }}
+          </div>
+        </div>
+
+        <div
+          v-if="esittavaMuokkaustieto.tiedotteet?.length"
+          class="mt-4"
+        >
+          <h6>{{ $t('liitetyt-tiedotteet') }}:</h6>
+          <div
+            v-for="tiedote in esittavaMuokkaustieto.tiedotteet"
+            :key="tiedote.id"
+          >
+            {{ $kaanna(tiedote.otsikko) }}
           </div>
         </div>
       </div>
@@ -404,9 +504,7 @@
           </EpButton>
         </template>
 
-        <template
-          v-else
-        >
+        <template v-else>
           <template v-if="editable">
             <EpButton
               v-oikeustarkastelu="oikeustarkastelu"
@@ -433,34 +531,75 @@
         </template>
       </template>
     </EpModal>
+    <EpTiedoteSelect
+      ref="tiedoteValinta"
+      :hae="haeTiedotteet"
+      :excluded-ids="poisRajatutTiedoteIdt"
+      @select="valitseTiedote"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { h, ref, computed, getCurrentInstance, watch } from 'vue';
+import { h, ref, computed, watch } from 'vue';
 import * as _ from 'lodash';
-import { TiedoteDto, Kayttajat, PerusteHakuDto, PerusteDto, PerusteKevytDto, TiedoteDtoJulkaisupaikatEnum } from '@shared/api/eperusteet';
+import {
+  TiedoteDto,
+  Kayttajat,
+  PerusteHakuDto,
+  PerusteDto,
+  PerusteKevytDto,
+  TiedoteDtoJulkaisupaikatEnum,
+  Tiedotteet,
+  TiedoteKevytDto,
+} from '@shared/api/eperusteet';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpFormContent from '@shared/components/forms/EpFormContent.vue';
 import EpInput from '@shared/components/forms/EpInput.vue';
-import EpMultiListSelect, { MultiListSelectItem } from '@shared/components/forms/EpMultiListSelect.vue';
+import EpMultiListSelect, {
+  MultiListSelectItem,
+} from '@shared/components/forms/EpMultiListSelect.vue';
 import EpToggle from '@shared/components/forms/EpToggle.vue';
 import { required } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
-import { julkaisupaikka, KoulutustyyppiRyhmaValinta } from '@shared/utils/tiedote';
+import {
+  julkaisupaikka,
+  KoulutustyyppiRyhmaValinta,
+} from '@shared/utils/tiedote';
 import EpContent from '@shared/components/EpContent/EpContent.vue';
 import EpKielivalinta from '@shared/components/EpKielivalinta/EpKielivalinta.vue';
-import { themes, ktToState, koulutustyyppiRyhmat, KoulutustyyppiRyhma, koulutustyyppiRyhmaSort, isAmmatillinenKoulutustyyppi } from '@shared/utils/perusteet';
+import {
+  themes,
+  ktToState,
+  koulutustyyppiRyhmat,
+  KoulutustyyppiRyhma,
+  koulutustyyppiRyhmaSort,
+  isAmmatillinenKoulutustyyppi,
+} from '@shared/utils/perusteet';
 import EpColorIndicator from '@shared/components/EpColorIndicator/EpColorIndicator.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
-import { KoodistoSelectStore, getKoodistoSivutettuna } from '../EpKoodistoSelect/KoodistoSelectStore';
+import {
+  KoodistoSelectStore,
+  getKoodistoSivutettuna,
+} from '../EpKoodistoSelect/KoodistoSelectStore';
 import EpInputGroup from '@shared/components/EpInputGroup/EpInputGroup.vue';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
+import EpTiedoteSelect from '@shared/components/EpTiedoteModal/EpTiedoteSelect.vue';
 import EpModal from '@shared/components/EpModal/EpModal.vue';
 import { ITiedotteetProvider } from '@shared/stores/types';
 import { requiredOneLang } from '@shared/validators/required';
-import { $t, $kaanna, $sdt, $sd, $confirmModal, $success, $fail } from '@shared/utils/globals';
+import {
+  $t,
+  $kaanna,
+  $sdt,
+  $sd,
+  $confirmModal,
+  $success,
+  $fail,
+} from '@shared/utils/globals';
+import {Page} from '@/tyypit';
+
 
 const modalRef = ref<InstanceType<typeof EpModal> | null>(null);
 
@@ -508,9 +647,6 @@ const muokkaavanKayttajanNimi = ref('');
 const muokattavaTiedote = ref<TiedoteDto>({});
 const editing = ref(false);
 
-// Get instance for $t, $kaanna, etc.
-const instance = getCurrentInstance();
-
 // Validation rules
 const rules = {
   muokattavaTiedote: {
@@ -529,14 +665,14 @@ const v$ = useVuelidate(rules, { muokattavaTiedote });
 const tutkinnonOsaKoodisto = new KoodistoSelectStore({
   koodisto: 'tutkinnonosat',
   async query(query: string, sivu = 0, koodisto: string) {
-    return await getKoodistoSivutettuna(koodisto, query, sivu) as any;
+    return (await getKoodistoSivutettuna(koodisto, query, sivu)) as any;
   },
 });
 
 const osaamisalaKoodisto = new KoodistoSelectStore({
   koodisto: 'osaamisala',
   async query(query: string, sivu = 0, koodisto: string) {
-    return await getKoodistoSivutettuna(koodisto, query, sivu) as any;
+    return (await getKoodistoSivutettuna(koodisto, query, sivu)) as any;
   },
 });
 
@@ -550,20 +686,33 @@ const esittavaMuokkaustieto = computed(() => {
     ...muokattavaTiedote.value,
     filteredJulkaisupaikat: [
       ..._.chain(muokattavaTiedote.value.koulutustyypit)
-        .map(koulutustyyppi => themes[koulutustyyppi])
+        .map((koulutustyyppi) => themes[koulutustyyppi])
         .uniq()
         .value(),
     ],
     filteredJulkaisusovellukset: [
-      ..._.chain([julkaisupaikka.ops, julkaisupaikka.lops, julkaisupaikka.amosaa])
-        .filter(julkaisupaikka => _.includes(_.map(muokattavaTiedote.value.julkaisupaikat, _.toLower), _.toLower(julkaisupaikka)))
-        .map(julkaisupaikka => $t('tiedote-julkaisupaikka-' + julkaisupaikka))
+      ..._.chain([
+        julkaisupaikka.ops,
+        julkaisupaikka.lops,
+        julkaisupaikka.amosaa,
+      ])
+        .filter((julkaisupaikka) =>
+          _.includes(
+            _.map(muokattavaTiedote.value.julkaisupaikat, _.toLower),
+            _.toLower(julkaisupaikka),
+          ),
+        )
+        .map((julkaisupaikka) => $t('tiedote-julkaisupaikka-' + julkaisupaikka))
         .value(),
     ],
     filteredPerusteet: [
       ..._.chain(muokattavaTiedote.value.perusteet)
-        .filter(peruste => !_.isEmpty(perusteetById.value[(peruste as any).id]))
-        .map(peruste => $kaanna((perusteetById.value[(peruste as any).id] as any).nimi))
+        .filter(
+          (peruste) => !_.isEmpty(perusteetById.value[(peruste as any).id]),
+        )
+        .map((peruste) =>
+          $kaanna((perusteetById.value[(peruste as any).id] as any).nimi),
+        )
         .uniq()
         .value(),
     ],
@@ -589,7 +738,10 @@ const koulutustyyppiRyhmaItems = computed((): MultiListSelectItem[] => {
           },
         } as MultiListSelectItem;
       })
-      .sortBy(koulutustyyppiryhma => koulutustyyppiRyhmaSort[koulutustyyppiryhma.value.type])
+      .sortBy(
+        (koulutustyyppiryhma) =>
+          koulutustyyppiRyhmaSort[koulutustyyppiryhma.value.type],
+      )
       .value(),
   ];
 });
@@ -597,7 +749,12 @@ const koulutustyyppiRyhmaItems = computed((): MultiListSelectItem[] => {
 const perusteItems = computed((): MultiListSelectItem[] => {
   return [
     ..._.chain(_.keys(ktToState))
-      .filter(koulutustyyppi => !_.isEmpty(_.keyBy(props.perusteet, 'koulutustyyppi')[koulutustyyppi]))
+      .filter(
+        (koulutustyyppi) =>
+          !_.isEmpty(
+            _.keyBy(props.perusteet, 'koulutustyyppi')[koulutustyyppi],
+          ),
+      )
       .map((koulutustyyppi) => {
         return [
           {
@@ -610,7 +767,7 @@ const perusteItems = computed((): MultiListSelectItem[] => {
           } as MultiListSelectItem,
           ..._.chain(props.perusteet)
             .filter((peruste) => peruste.koulutustyyppi === koulutustyyppi)
-            .map(peruste => {
+            .map((peruste) => {
               return {
                 text: $kaanna(peruste.nimi),
                 value: perusteToKevytDto(peruste),
@@ -639,8 +796,16 @@ function lisaaTiedote() {
 }
 
 async function muokkaa(rivi: any) {
-  muokattavaTiedote.value = _.cloneDeep(rivi);
-  opintopolkuJulkaisu.value = _.includes(rivi.julkaisupaikat, julkaisupaikka.opintopolku_etusivu);
+  tiedoteValinta.value?.close();
+  tiedoteValintaIndex.value = null;
+  muokattavaTiedote.value = {
+    ..._.cloneDeep(rivi),
+    tiedotteet: _.cloneDeep(rivi.tiedotteet ?? []),
+  };
+  opintopolkuJulkaisu.value = _.includes(
+    rivi.julkaisupaikat,
+    julkaisupaikka.opintopolku_etusivu,
+  );
   opsJulkaisu.value = _.includes(rivi.julkaisupaikat, julkaisupaikka.ops);
   lopsJulkaisu.value = _.includes(rivi.julkaisupaikat, julkaisupaikka.lops);
   amosaaJulkaisu.value = _.includes(rivi.julkaisupaikat, julkaisupaikka.amosaa);
@@ -650,8 +815,12 @@ async function muokkaa(rivi: any) {
 
   koulutusryypiRyhmaValinnat.value = [
     ..._.chain(koulutustyyppiRyhmaItems.value)
-      .filter(item => _.some(item.value.object, koulutustyyppi => _.includes(rivi.koulutustyypit, koulutustyyppi)))
-      .map(item => {
+      .filter((item) =>
+        _.some(item.value.object, (koulutustyyppi) =>
+          _.includes(rivi.koulutustyypit, koulutustyyppi),
+        ),
+      )
+      .map((item) => {
         return {
           ...item.value,
         } as KoulutustyyppiRyhmaValinta;
@@ -659,17 +828,24 @@ async function muokkaa(rivi: any) {
       .value(),
   ];
 
-  opintopolkuJulkaisuKoulutustyyppiTutkinto.value = !_.isEmpty(koulutusryypiRyhmaValinnat.value);
+  opintopolkuJulkaisuKoulutustyyppiTutkinto.value = !_.isEmpty(
+    koulutusryypiRyhmaValinnat.value,
+  );
 
-  muokattavaTiedote.value.perusteet = _.map(muokattavaTiedote.value.perusteet, peruste => perusteToKevytDto(peruste));
+  muokattavaTiedote.value.perusteet = _.map(
+    muokattavaTiedote.value.perusteet,
+    (peruste) => perusteToKevytDto(peruste),
+  );
 
   if (muokattavaTiedote.value.luotu) {
-    const kayttaja = (await Kayttajat.getKayttaja((muokattavaTiedote.value.muokkaaja as any))).data;
+    const kayttaja = (
+      await Kayttajat.getKayttaja(muokattavaTiedote.value.muokkaaja as any)
+    ).data;
     if (kayttaja) {
       muokkaavanKayttajanNimi.value = parsiEsitysnimi(kayttaja);
     }
     else {
-      muokkaavanKayttajanNimi.value = (muokattavaTiedote.value.muokkaaja as any);
+      muokkaavanKayttajanNimi.value = muokattavaTiedote.value.muokkaaja as any;
     }
   }
 
@@ -685,32 +861,51 @@ function aloitaMuokkaus() {
 }
 
 function suljeTiedote() {
+  tiedoteValinta.value?.close();
   editing.value = false;
   modalRef.value?.hide();
 }
 
 async function tallennaTiedote() {
+  if (onTyhjiaTiedoteRiveja.value) {
+    $fail($t('valitse-tiedote-kaikille-riveille'));
+    return;
+  }
+
   muokattavaTiedote.value.julkaisupaikat = _.chain(_.values(julkaisupaikka))
-    .filter(value => value !== julkaisupaikka.opintopolku_etusivu || opintopolkuJulkaisu.value)
-    .filter(value => value !== julkaisupaikka.ops || opsJulkaisu.value)
-    .filter(value => value !== julkaisupaikka.lops || lopsJulkaisu.value)
-    .filter(value => value !== julkaisupaikka.amosaa || amosaaJulkaisu.value)
-    .filter(value => value !== julkaisupaikka.vst || vstJulkaisu.value)
-    .filter(value => value !== julkaisupaikka.tuva || tuvaJulkaisu.value)
-    .filter(value => value !== julkaisupaikka.koto || kotoJulkaisu.value)
+    .filter(
+      (value) =>
+        value !== julkaisupaikka.opintopolku_etusivu
+        || opintopolkuJulkaisu.value,
+    )
+    .filter((value) => value !== julkaisupaikka.ops || opsJulkaisu.value)
+    .filter((value) => value !== julkaisupaikka.lops || lopsJulkaisu.value)
+    .filter((value) => value !== julkaisupaikka.amosaa || amosaaJulkaisu.value)
+    .filter((value) => value !== julkaisupaikka.vst || vstJulkaisu.value)
+    .filter((value) => value !== julkaisupaikka.tuva || tuvaJulkaisu.value)
+    .filter((value) => value !== julkaisupaikka.koto || kotoJulkaisu.value)
     .value() as any;
 
-  muokattavaTiedote.value.koulutustyypit = (valitutKoulutustyypit.value as any);
+  muokattavaTiedote.value.koulutustyypit = valitutKoulutustyypit.value as any;
   if (muokattavaTiedote.value.koulutustyypit?.length || 0 > 0) {
-    muokattavaTiedote.value.julkaisupaikat?.push(TiedoteDtoJulkaisupaikatEnum.OPINTOPOLKU);
+    muokattavaTiedote.value.julkaisupaikat?.push(
+      TiedoteDtoJulkaisupaikatEnum.OPINTOPOLKU,
+    );
   }
   else {
-    muokattavaTiedote.value.julkaisupaikat?.filter(value => value !== TiedoteDtoJulkaisupaikatEnum.OPINTOPOLKU);
+    muokattavaTiedote.value.julkaisupaikat?.filter(
+      (value) => value !== TiedoteDtoJulkaisupaikatEnum.OPINTOPOLKU,
+    );
   }
 
   if (props.peruste) {
     if (liitaPeruste.value) {
-      if (!_.includes(_.map(muokattavaTiedote.value.perusteet, 'id'), props.peruste.id)) {
+      if (
+        !_.includes(
+          _.map(muokattavaTiedote.value.perusteet, 'id'),
+          props.peruste.id,
+        )
+      ) {
         muokattavaTiedote.value.perusteet = [
           ..._.map(muokattavaTiedote.value.perusteet),
           perusteToKevytDto(props.peruste),
@@ -718,7 +913,10 @@ async function tallennaTiedote() {
       }
     }
     else {
-      muokattavaTiedote.value.perusteet = _.filter(muokattavaTiedote.value.perusteet, peruste => peruste.id !== props.peruste.id);
+      muokattavaTiedote.value.perusteet = _.filter(
+        muokattavaTiedote.value.perusteet,
+        (peruste) => peruste.id !== props.peruste?.id,
+      );
     }
   }
 
@@ -751,64 +949,150 @@ function perusteToKevytDto(peruste: any): PerusteKevytDto {
 async function poista() {
   suljeTiedote();
 
-  if (await vahvistaPoisto() && props.tiedotteetStore?.delete) {
+  if ((await vahvistaPoisto()) && props.tiedotteetStore?.delete) {
     await props.tiedotteetStore.delete(muokattavaTiedote.value);
     $success($t('tiedote-poistettu'));
   }
 }
 
 async function vahvistaPoisto() {
-  const vahvistusSisalto = h('div', {},
-    [
-      h('div', $t('poista-tiedote-vahvistus') as string),
-      h('div', '"' + $kaanna(muokattavaTiedote.value.otsikko) + '"'),
-      h('br', ''),
-      h('div', $t('poista-tiedote-varmistus') as string),
-    ],
-  ).children;
+  const vahvistusSisalto = h('div', {}, [
+    h('div', $t('poista-tiedote-vahvistus') as string),
+    h('div', '"' + $kaanna(muokattavaTiedote.value.otsikko) + '"'),
+    h('br', ''),
+    h('div', $t('poista-tiedote-varmistus') as string),
+  ]).children;
 
-  return $confirmModal.msgBoxConfirm((vahvistusSisalto as any), {
+  return $confirmModal.msgBoxConfirm(vahvistusSisalto as any, {
     title: $t('poista-tiedote-kysymys'),
     okVariant: 'primary',
     okTitle: $t('poista') as any,
     cancelVariant: 'link',
     cancelTitle: $t('peruuta') as any,
     centered: true,
-    ...{} as any,
+    ...({} as any),
   });
 }
 
 function poistaTutkinnonosa(tutkinnonOsaIndex: number) {
-  muokattavaTiedote.value.tutkinnonosat = _.filter(muokattavaTiedote.value.tutkinnonosat, (tutkinnonOsa, index) => index !== tutkinnonOsaIndex);
+  muokattavaTiedote.value.tutkinnonosat = _.filter(
+    muokattavaTiedote.value.tutkinnonosat,
+    (tutkinnonOsa, index) => index !== tutkinnonOsaIndex,
+  );
 }
 
 function lisaaTutkinnonOsa() {
   muokattavaTiedote.value = {
     ...muokattavaTiedote.value,
-    tutkinnonosat: [
-      ...(muokattavaTiedote.value.tutkinnonosat || []),
-      {},
-    ],
+    tutkinnonosat: [...(muokattavaTiedote.value.tutkinnonosat || []), {}],
   };
 }
 
 function poistaOsaamisala(osaamisalaIndex: number) {
-  muokattavaTiedote.value.osaamisalat = _.filter(muokattavaTiedote.value.osaamisalat, (osaamisala, index) => index !== osaamisalaIndex);
+  muokattavaTiedote.value.osaamisalat = _.filter(
+    muokattavaTiedote.value.osaamisalat,
+    (osaamisala, index) => index !== osaamisalaIndex,
+  );
 }
 
 function lisaaOsaamisala() {
   muokattavaTiedote.value = {
     ...muokattavaTiedote.value,
-    osaamisalat: [
-      ...(muokattavaTiedote.value.osaamisalat || []),
-      {},
-    ],
+    osaamisalat: [...(muokattavaTiedote.value.osaamisalat || []), {}],
   };
 }
 
 const ammatillisetLisayksetSallittu = computed(() => {
-  return !props.peruste || isAmmatillinenKoulutustyyppi(props.peruste.koulutustyyppi);
+  return (
+    !props.peruste || isAmmatillinenKoulutustyyppi(props.peruste.koulutustyyppi)
+  );
 });
+
+const tiedoteValinta = ref<InstanceType<typeof EpTiedoteSelect> | null>(null);
+const tiedoteValintaIndex = ref<number | null>(null);
+
+const poisRajatutTiedoteIdt = computed((): number[] => {
+  const ids = (muokattavaTiedote.value.tiedotteet ?? [])
+    .filter((_, index) => index !== tiedoteValintaIndex.value)
+    .map((tiedote) => tiedote.id)
+    .filter((id): id is number => id != null);
+
+  if (muokattavaTiedote.value.id != null) {
+    ids.push(muokattavaTiedote.value.id);
+  }
+
+  return ids;
+});
+
+async function haeTiedotteet(
+  query: string,
+  sivu: number,
+): Promise<Page<TiedoteDto>> {
+  const response = await Tiedotteet.findTiedotteetBy(
+    sivu,
+    10,
+    undefined,
+    query || undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    'muokattu',
+    false,
+  );
+  return response.data as Page<TiedoteDto>;
+}
+
+function lisaaTiedoteRivi() {
+  muokattavaTiedote.value.tiedotteet = [
+    ...(muokattavaTiedote.value.tiedotteet ?? []),
+    {},
+  ];
+}
+
+function avaaTiedoteValinta(index: number) {
+  tiedoteValintaIndex.value = index;
+  tiedoteValinta.value?.openDialog();
+}
+
+function valitseTiedote(tiedote: TiedoteKevytDto) {
+  if (tiedote.id == null || poisRajatutTiedoteIdt.value.includes(tiedote.id)) {
+    return;
+  }
+
+  const tiedotteet = [...(muokattavaTiedote.value.tiedotteet ?? [])];
+  const valinta = { id: tiedote.id, otsikko: tiedote.otsikko };
+  const index = tiedoteValintaIndex.value;
+
+  if (index === null || index < 0 || index >= tiedotteet.length) {
+    return;
+  }
+
+  tiedotteet[index] = valinta;
+  muokattavaTiedote.value.tiedotteet = tiedotteet;
+  tiedoteValintaIndex.value = null;
+
+  muokattavaTiedote.value.tiedotteet = tiedotteet;
+  tiedoteValintaIndex.value = null;
+}
+
+function poistaTiedoteValinta(index: number) {
+  // Closing the picker prevents a pending selection targeting a shifted row.
+  tiedoteValinta.value?.close();
+  tiedoteValintaIndex.value = null;
+  muokattavaTiedote.value.tiedotteet = (
+    muokattavaTiedote.value.tiedotteet ?? []
+  ).filter((_, i) => i !== index);
+}
+
+const onTyhjiaTiedoteRiveja = computed(() =>
+  (muokattavaTiedote.value.tiedotteet ?? []).some(
+    (tiedote) => tiedote.id == null,
+  ),
+);
 
 defineExpose({
   muokkaa,
@@ -818,13 +1102,12 @@ defineExpose({
 <style lang="scss" scoped>
 @import '../../styles/_variables';
 
-  .peruste-linkitys-ohje {
-    font-size: 0.8rem;
-    color: $gray;
-  }
+.peruste-linkitys-ohje {
+  font-size: 0.8rem;
+  color: $gray;
+}
 
-  .voimassaolo {
-    font-size:0.9rem;
-  }
-
+.voimassaolo {
+  font-size: 0.9rem;
+}
 </style>
