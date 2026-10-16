@@ -12,7 +12,10 @@
       </slot>
     </template>
 
-    <EpSearch v-model="query" />
+    <EpSearch
+      v-model="query"
+      class="my-2"
+    />
 
     <EpSpinner v-if="isLoading" />
     <template v-else-if="page">

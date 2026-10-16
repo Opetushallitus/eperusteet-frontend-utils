@@ -24,7 +24,7 @@
       aria-describedby="hakuohje"
       :value="val"
       :maxlength="maxlength"
-      @input="onInput($event.target.value)"
+      @input="onInput"
     >
     <p
       id="hakuohje"
@@ -89,8 +89,12 @@ const placeholderText = computed(() => {
   return $t('etsi');
 });
 
-const onInput = (input: any) => {
-  emit('update:modelValue', input);
+const onInput = (event: Event) => {
+  const input = event.target;
+
+  if (input instanceof HTMLInputElement) {
+    emit('update:modelValue', input.value);
+  }
 };
 
 const val = computed(() => {
@@ -133,9 +137,7 @@ const labelSlot = computed(() => {
     font-size: 1rem;
     font-weight: 400;
     color: #495057;
-    background-color: #fff;
     background-clip: padding-box;
-    border: 1px solid $black;
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 
     &::placeholder {
