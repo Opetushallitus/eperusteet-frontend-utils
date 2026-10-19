@@ -291,6 +291,11 @@ function onRouteUpdate() {
   }
 
   const matching = props.store.routeToNode(route as any);
+  if (matching?.type === 'root') {
+    active.value = null;
+    return;
+  }
+
   if (matching) {
     const node = _.find(navigation.value, matching) as IndexedNode | null;
     if (node) {
