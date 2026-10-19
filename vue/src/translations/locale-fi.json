@@ -4729,5 +4729,8 @@
     "ei-oletustoteutuksia": "Ei oletustoteutuksia",
     "kaantajatutkinto": "Kääntäjätutkinto",
     "nimeton-tavoitteet-ja-sisaltoalueet": "Nimetön tavoite ja sisältöalue",
-    "opiskelija-osaa": "Opiskelija osaa"
+    "opiskelija-osaa": "Opiskelija osaa",
+    "peruste-validointi-lukutaitokoulutus-tavoitteet-ja-sisaltoalueet-nimi": "Tavoitteiden ja sisältöalueiden nimeä ei ole lokalisoitu",
+    "peruste-validointi-lukutaitokoulutus-tavoitealue-otsikko": "Tavoitealueen otsikkoa ei ole lokalisoitu",
+    "peruste-validointi-lukutaitokoulutus-tavoitealue-tavoitteet": "Tavoitealueen tavoitteita ei ole lokalisoitu"
 }
