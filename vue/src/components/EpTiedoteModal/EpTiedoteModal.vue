@@ -13,6 +13,7 @@
     <EpModal
       ref="modalRef"
       size="lg"
+      @cancel="peruutaLiittyvanTiedotteenAvaus"
     >
       <template #modal-title>
         <div class="flex w-full gap-4 justify-between items-center">
@@ -477,25 +478,24 @@
           v-if="esittavaMuokkaustieto.tiedotteet?.length"
           class="mt-4"
         >
-          <template
-            v-if="esittavaMuokkaustieto.tiedotteet.length === 1"
+          <h6>
+            {{ $t(esittavaMuokkaustieto.tiedotteet.length === 1
+              ? 'liitetty-tiedote'
+              : 'liitetyt-tiedotteet') }}:
+          </h6>
+          <div
+            v-for="tiedote in esittavaMuokkaustieto.tiedotteet"
+            :key="tiedote.id"
           >
-            <h6>{{ $t('liitetty-tiedote') }}:</h6>
-            <div>
-              {{ $kaanna(esittavaMuokkaustieto.tiedotteet[0].otsikko) }}
-            </div>
-          </template>
-          <template
-            v-else
-          >
-            <h6>{{ $t('liitetyt-tiedotteet') }}:</h6>
-            <div
-              v-for="tiedote in esittavaMuokkaustieto.tiedotteet"
-              :key="tiedote.id"
+            <EpButton
+              variant="link"
+              button-class="p-0"
+              :disabled="liittyvaTiedoteLatautuu"
+              @click="avaaLiittyvaTiedote(tiedote)"
             >
               {{ $kaanna(tiedote.otsikko) }}
-            </div>
-          </template>
+            </EpButton>
+          </div>
         </div>
       </div>
 
@@ -555,7 +555,7 @@
 
 <script setup lang="ts">
 import { computed, h, ref, watch } from 'vue';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import {
   Kayttajat,
   PerusteDto,
@@ -564,6 +564,7 @@ import {
   TiedoteDto,
   TiedoteDtoJulkaisupaikatEnum,
   TiedoteKevytDto,
+  Tiedotteet,
 } from '@shared/api/eperusteet';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
@@ -615,11 +616,7 @@ import {
 // PerusteKevytDto without requiring their incompatible tila enums to match.
 type PerusteValinta = Pick<
   PerusteHakuDto,
-  | 'id'
-  | 'nimi'
-  | 'koulutustyyppi'
-  | 'voimassaoloAlkaa'
-  | 'voimassaoloLoppuu'
+  'id' | 'nimi' | 'koulutustyyppi' | 'voimassaoloAlkaa' | 'voimassaoloLoppuu'
 >;
 
 const modalRef = ref<InstanceType<typeof EpModal> | null>(null);
@@ -666,6 +663,9 @@ const tuvaJulkaisu = ref(false);
 const kotoJulkaisu = ref(false);
 const muokkaavanKayttajanNimi = ref('');
 const muokattavaTiedote = ref<TiedoteDto>({});
+const liittyvaTiedoteLatautuu = ref(false);
+let liittyvaTiedoteVersio = 0;
+
 const editing = ref(false);
 
 // Validation rules
@@ -881,7 +881,48 @@ function aloitaMuokkaus() {
   editing.value = true;
 }
 
+async function avaaLiittyvaTiedote(tiedote: TiedoteKevytDto) {
+  if (tiedote.id == null || liittyvaTiedoteLatautuu.value) {
+    return;
+  }
+
+  const avaus = ++liittyvaTiedoteVersio;
+  liittyvaTiedoteLatautuu.value = true;
+
+  const tallennettuTiedote = props.tiedotteetStore?.tiedotteet.value?.find(
+    (item) => item.id === tiedote.id,
+  );
+
+  try {
+    const avattavaTiedote
+      = tallennettuTiedote ?? (await Tiedotteet.getTiedote(tiedote.id!)).data;
+
+    if (avaus !== liittyvaTiedoteVersio) {
+      return;
+    }
+
+    editing.value = false;
+    await muokkaa(avattavaTiedote);
+  }
+  catch {
+    if (avaus === liittyvaTiedoteVersio) {
+      $fail($t('tiedotteen-haku-epaonnistui'));
+    }
+  }
+  finally {
+    if (avaus === liittyvaTiedoteVersio) {
+      liittyvaTiedoteLatautuu.value = false;
+    }
+  }
+}
+
+function peruutaLiittyvanTiedotteenAvaus() {
+  liittyvaTiedoteVersio++;
+  liittyvaTiedoteLatautuu.value = false;
+}
+
 function suljeTiedote() {
+  peruutaLiittyvanTiedotteenAvaus();
   tiedoteValinta.value?.close();
   editing.value = false;
   modalRef.value?.hide();
@@ -998,7 +1039,7 @@ async function vahvistaPoisto() {
 function poistaTutkinnonosa(tutkinnonOsaIndex: number) {
   muokattavaTiedote.value.tutkinnonosat = _.filter(
     muokattavaTiedote.value.tutkinnonosat,
-    (tutkinnonOsa, index) => index !== tutkinnonOsaIndex,
+    (_tutkinnonOsa, index) => index !== tutkinnonOsaIndex,
   );
 }
 
@@ -1012,7 +1053,7 @@ function lisaaTutkinnonOsa() {
 function poistaOsaamisala(osaamisalaIndex: number) {
   muokattavaTiedote.value.osaamisalat = _.filter(
     muokattavaTiedote.value.osaamisalat,
-    (osaamisala, index) => index !== osaamisalaIndex,
+    (_osaamisala, index) => index !== osaamisalaIndex,
   );
 }
 
