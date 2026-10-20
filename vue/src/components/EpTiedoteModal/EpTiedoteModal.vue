@@ -477,13 +477,25 @@
           v-if="esittavaMuokkaustieto.tiedotteet?.length"
           class="mt-4"
         >
-          <h6>{{ $t('liitetyt-tiedotteet') }}:</h6>
-          <div
-            v-for="tiedote in esittavaMuokkaustieto.tiedotteet"
-            :key="tiedote.id"
+          <template
+            v-if="esittavaMuokkaustieto.tiedotteet.length === 1"
           >
-            {{ $kaanna(tiedote.otsikko) }}
-          </div>
+            <h6>{{ $t('liitetty-tiedote') }}:</h6>
+            <div>
+              {{ $kaanna(esittavaMuokkaustieto.tiedotteet[0].otsikko) }}
+            </div>
+          </template>
+          <template
+            v-else
+          >
+            <h6>{{ $t('liitetyt-tiedotteet') }}:</h6>
+            <div
+              v-for="tiedote in esittavaMuokkaustieto.tiedotteet"
+              :key="tiedote.id"
+            >
+              {{ $kaanna(tiedote.otsikko) }}
+            </div>
+          </template>
         </div>
       </div>
 
@@ -599,11 +611,22 @@ import {
   $t,
 } from '@shared/utils/globals';
 
+// Only the fields needed by the selector, allowing both PerusteHakuDto and
+// PerusteKevytDto without requiring their incompatible tila enums to match.
+type PerusteValinta = Pick<
+  PerusteHakuDto,
+  | 'id'
+  | 'nimi'
+  | 'koulutustyyppi'
+  | 'voimassaoloAlkaa'
+  | 'voimassaoloLoppuu'
+>;
+
 const modalRef = ref<InstanceType<typeof EpModal> | null>(null);
 
 const props = defineProps({
   perusteet: {
-    type: Array as () => PerusteHakuDto[],
+    type: Array as () => PerusteValinta[],
     required: false,
   },
   peruste: {

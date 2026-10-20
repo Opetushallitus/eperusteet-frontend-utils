@@ -3,7 +3,7 @@
     ref="modalRef"
     size="md"
     position="top"
-    style="min-height: 860px; margin-top: 3rem;"
+    style="min-height: 860px; margin-top: 3rem"
     @cancel="reset"
   >
     <template #modal-title>
@@ -32,9 +32,7 @@
         @row-selected="selectRow"
       >
         <template #cell(otsikko)="{ item }">
-          <span class="link-style clickable hover:underline">
-            {{ $kaanna(item.otsikko) }}
-          </span>
+          {{ $kaanna(item.otsikko) }}
         </template>
       </EpTable>
 
@@ -67,6 +65,7 @@ import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import EpTable from '@shared/components/EpTable/EpTable.vue';
 import EpBPagination from '@shared/components/EpBPagination/EpBPagination.vue';
 import { $t, $kaanna, $fail } from '@shared/utils/globals';
+import { createTiedoteTableFields } from '@shared/utils/tiedote';
 
 const props = defineProps<{
   hae: (query: string, sivu: number) => Promise<Page<TiedoteDto>>;
@@ -85,14 +84,15 @@ const isOpen = ref(false);
 let requestVersion = 0;
 let searchTimer: ReturnType<typeof setTimeout> | undefined;
 
-const fields = computed(() => [
-  { key: 'otsikko', label: $t('tiedotteen-otsikko') },
-]);
+const fields = computed(() =>
+  createTiedoteTableFields({ sortable: false, headerWidth: '30%' }),
+);
 
 const items = computed(() => {
   const excluded = new Set(props.excludedIds);
-  return (page.value?.data ?? []).filter(tiedote =>
-    tiedote.id != null && !excluded.has(tiedote.id));
+  return (page.value?.data ?? []).filter(
+    (tiedote) => tiedote.id != null && !excluded.has(tiedote.id),
+  );
 });
 
 // The API uses zero-based pages; EpBPagination uses one-based pages.
@@ -132,18 +132,22 @@ async function fetchPage(sivu: number) {
   }
 }
 
-watch(query, () => {
-  if (!isOpen.value) {
-    return;
-  }
+watch(
+  query,
+  () => {
+    if (!isOpen.value) {
+      return;
+    }
 
-  cancelSearch();
-  // Ignore responses and hide rows from the previous search immediately.
-  requestVersion++;
-  page.value = null;
-  isLoading.value = true;
-  searchTimer = setTimeout(() => void fetchPage(0), 300);
-}, { flush: 'sync' });
+    cancelSearch();
+    // Ignore responses and hide rows from the previous search immediately.
+    requestVersion++;
+    page.value = null;
+    isLoading.value = true;
+    searchTimer = setTimeout(() => void fetchPage(0), 300);
+  },
+  { flush: 'sync' },
+);
 
 function openDialog() {
   reset();
@@ -168,8 +172,12 @@ function close() {
 
 function selectRow(rows: TiedoteDto[]) {
   const tiedote = rows[0];
-  if (!isOpen.value || isLoading.value || tiedote?.id == null
-    || props.excludedIds.includes(tiedote.id)) {
+  if (
+    !isOpen.value
+    || isLoading.value
+    || tiedote?.id == null
+    || props.excludedIds.includes(tiedote.id)
+  ) {
     return;
   }
 
