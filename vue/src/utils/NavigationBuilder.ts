@@ -999,6 +999,14 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
       },
     };
     break;
+  case 'lukutaitokoulutus_tavoitteetjasisaltoalueet':
+    node.location = {
+      name: 'toteutussuunnitelmaSisalto',
+      params: {
+        sisaltoviiteId: String(rawNode.id),
+      },
+    };
+    break;
   case 'osaalue':
     node.location = {
       name: 'toteutussuunnitelmaOsaAlue',
