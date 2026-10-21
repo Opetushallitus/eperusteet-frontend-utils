@@ -216,13 +216,12 @@
           name="liita-tutkinnon-osa-tiedotteeseen"
         >
           <div
-            v-for="(tutkinnonOsa, index) in muokattavaTiedote.tutkinnonosat"
+            v-for="(tutkinnonOsa, index) in muokattavaTiedote.tutkinnonosat ?? []"
             :key="'tutkinnonOsa' + index"
             class="mb-1 flex justify-center items-center"
           >
             <ep-koodisto-select
-              v-if="muokattavaTiedote.tutkinnonosat"
-              v-model="muokattavaTiedote.tutkinnonosat[index]"
+              v-model="muokattavaTiedote.tutkinnonosat![index]"
               :store="tutkinnonOsaKoodisto"
               class="w-full"
             >
@@ -267,13 +266,12 @@
           name="liita-osaamisala-tiedotteeseen"
         >
           <div
-            v-for="(osaamisala, index) in muokattavaTiedote.osaamisalat"
+            v-for="(osaamisala, index) in muokattavaTiedote.osaamisalat ?? []"
             :key="'osaamisala' + index"
             class="mb-1 flex justify-center items-center"
           >
             <ep-koodisto-select
-              v-if="muokattavaTiedote.osaamisalat"
-              v-model="muokattavaTiedote.osaamisalat[index]"
+              v-model="muokattavaTiedote.osaamisalat![index]"
               :store="osaamisalaKoodisto"
               class="w-full"
             >
@@ -315,8 +313,8 @@
 
         <ep-form-content name="liita-tiedote-tiedotteeseen">
           <div
-            v-for="(tiedote, index) in muokattavaTiedote.tiedotteet"
-            :key="tiedote.id ?? index"
+            v-for="(tiedote, index) in muokattavaTiedote.tiedotteet ?? []"
+            :key="tiedote.id"
             class="mb-1 flex justify-center items-center"
           >
             <EpInputGroup class="w-full flex">
@@ -821,7 +819,6 @@ async function muokkaa(rivi: any) {
   tiedoteValintaIndex.value = null;
   muokattavaTiedote.value = {
     ..._.cloneDeep(rivi),
-    tiedotteet: _.cloneDeep(rivi.tiedotteet ?? []),
   };
   opintopolkuJulkaisu.value = _.includes(
     rivi.julkaisupaikat,
