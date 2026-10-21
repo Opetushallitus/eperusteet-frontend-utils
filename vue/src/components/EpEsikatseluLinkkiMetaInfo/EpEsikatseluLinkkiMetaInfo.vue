@@ -76,7 +76,7 @@ import EpPopover from '../EpPopover/EpPopover.vue';
 export type EsikatseluLinkkiTyyppi = 'peruste' | 'opetussuunnitelma' | 'toteutussuunnitelma' | 'opas';
 
 export interface EsikatseluLinkkiModel {
-  id: number;
+  id?: number;
   esikatseltavissa?: boolean;
   koulutustyyppi?: string;
   peruste?: PerusteDto;
