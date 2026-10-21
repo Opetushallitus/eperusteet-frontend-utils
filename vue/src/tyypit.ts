@@ -123,7 +123,8 @@ export type NavigationNodeType =
   | 'tutkinnonosat_tuodut'| 'tutkinnonosat_pakolliset' | 'tutkinnonosat_paikalliset'
   | 'osaamiskokonaisuus' | 'osaamiskokonaisuus_paa_alue'
   | 'aipe_laajaalaisetosaamiset' | 'aipe_laajaalainenosaaminen' | 'aipeoppiaine' | 'aipeoppimaara' | 'aipevaihe' | 'aipekurssi' | 'osaamismerkkikappale'
-  | 'kaantajataito' | 'kaantajataitotasoasteikko' | 'kaantajakielitaito' | 'kaantajataitotasokuvaus' | 'kaantajaaihealue' | 'kaantajatodistusmalli';
+  | 'kaantajataito' | 'kaantajataitotasoasteikko' | 'kaantajakielitaito' | 'kaantajataitotasokuvaus' | 'kaantajaaihealue' | 'kaantajatodistusmalli'
+  | 'lukutaitokoulutus_tavoitteetjasisaltoalueet';
 
 export interface NavigationNodeDto {
   id?: number;
