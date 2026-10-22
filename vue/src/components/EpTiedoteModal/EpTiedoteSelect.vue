@@ -20,6 +20,7 @@
     <EpSpinner v-if="isLoading" />
     <template v-else-if="page">
       <EpTable
+        v-model:current-page="sivu"
         responsive
         borderless
         striped
@@ -27,6 +28,8 @@
         hover
         :items="items"
         :fields="fields"
+        :per-page="page.sivukoko"
+        :total-rows="page.kokonaismäärä"
         select-mode="single"
         selected-variant=""
         @row-selected="selectRow"
@@ -35,12 +38,6 @@
           {{ $kaanna(item.otsikko) }}
         </template>
       </EpTable>
-
-      <EpBPagination
-        v-model="sivu"
-        :total="page.kokonaismäärä"
-        :items-per-page="page.sivukoko"
-      />
     </template>
 
     <template #modal-footer>
@@ -63,9 +60,9 @@ import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpSearch from '@shared/components/forms/EpSearch.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import EpTable from '@shared/components/EpTable/EpTable.vue';
-import EpBPagination from '@shared/components/EpBPagination/EpBPagination.vue';
-import { $t, $kaanna, $fail } from '@shared/utils/globals';
+import { $fail, $kaanna, $t } from '@shared/utils/globals';
 import { createTiedoteTableFields } from '@shared/utils/tiedote';
+import { debounced } from '@/utils/delay';
 
 const props = defineProps<{
   hae: (query: string, sivu: number) => Promise<Page<TiedoteDto>>;
@@ -95,40 +92,29 @@ const items = computed(() => {
   );
 });
 
-// The API uses zero-based pages; EpBPagination uses one-based pages.
+// The API uses zero-based pages; pagination uses one-based pages.
 const sivu = computed({
   get: () => (page.value?.sivu ?? 0) + 1,
   set: (value: number) => {
-    cancelSearch();
+    search.cancel();
     void fetchPage(Math.max(value - 1, 0));
   },
 });
 
-function cancelSearch() {
-  clearTimeout(searchTimer);
-  searchTimer = undefined;
-}
+const search = debounced(() => void fetchPage(0), 300);
 
 async function fetchPage(sivu: number) {
-  const version = ++requestVersion;
   isLoading.value = true;
   page.value = null;
 
   try {
-    const result = await props.hae(query.value, sivu);
-    if (version === requestVersion && isOpen.value) {
-      page.value = result;
-    }
+    page.value = await props.hae(query.value, sivu);
   }
   catch {
-    if (version === requestVersion && isOpen.value) {
-      $fail($t('tiedotteiden-haku-epaonnistui'));
-    }
+    $fail($t('tiedotteiden-haku-epaonnistui'));
   }
   finally {
-    if (version === requestVersion) {
-      isLoading.value = false;
-    }
+    isLoading.value = false;
   }
 }
 
@@ -139,12 +125,7 @@ watch(
       return;
     }
 
-    cancelSearch();
-    // Ignore responses and hide rows from the previous search immediately.
-    requestVersion++;
-    page.value = null;
-    isLoading.value = true;
-    searchTimer = setTimeout(() => void fetchPage(0), 300);
+    search();
   },
   { flush: 'sync' },
 );
@@ -159,8 +140,7 @@ function openDialog() {
 
 function reset() {
   isOpen.value = false;
-  cancelSearch();
-  requestVersion++;
+  search.cancel();
   isLoading.value = false;
   page.value = null;
 }

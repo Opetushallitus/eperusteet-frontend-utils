@@ -13,7 +13,6 @@
     <EpModal
       ref="modalRef"
       size="lg"
-      @cancel="peruutaLiittyvanTiedotteenAvaus"
     >
       <template #modal-title>
         <div class="flex w-full gap-4 justify-between items-center">
@@ -216,7 +215,8 @@
           name="liita-tutkinnon-osa-tiedotteeseen"
         >
           <div
-            v-for="(tutkinnonOsa, index) in muokattavaTiedote.tutkinnonosat ?? []"
+            v-for="(tutkinnonOsa, index) in muokattavaTiedote.tutkinnonosat ??
+              []"
             :key="'tutkinnonOsa' + index"
             class="mb-1 flex justify-center items-center"
           >
@@ -477,9 +477,13 @@
           class="mt-4"
         >
           <h6>
-            {{ $t(esittavaMuokkaustieto.tiedotteet.length === 1
-              ? 'liitetty-tiedote'
-              : 'liitetyt-tiedotteet') }}:
+            {{
+              $t(
+                esittavaMuokkaustieto.tiedotteet.length === 1
+                  ? 'liitetty-tiedote'
+                  : 'liitetyt-tiedotteet',
+              )
+            }}:
           </h6>
           <div
             v-for="tiedote in esittavaMuokkaustieto.tiedotteet"
@@ -488,7 +492,6 @@
             <EpButton
               variant="link"
               button-class="p-0"
-              :disabled="liittyvaTiedoteLatautuu"
               @click="avaaLiittyvaTiedote(tiedote)"
             >
               {{ $kaanna(tiedote.otsikko) }}
@@ -562,7 +565,6 @@ import {
   TiedoteDto,
   TiedoteDtoJulkaisupaikatEnum,
   TiedoteKevytDto,
-  Tiedotteet,
 } from '@shared/api/eperusteet';
 import { parsiEsitysnimi } from '@shared/utils/kayttaja';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
@@ -661,8 +663,6 @@ const tuvaJulkaisu = ref(false);
 const kotoJulkaisu = ref(false);
 const muokkaavanKayttajanNimi = ref('');
 const muokattavaTiedote = ref<TiedoteDto>({});
-const liittyvaTiedoteLatautuu = ref(false);
-let liittyvaTiedoteVersio = 0;
 
 const editing = ref(false);
 
@@ -879,47 +879,18 @@ function aloitaMuokkaus() {
 }
 
 async function avaaLiittyvaTiedote(tiedote: TiedoteKevytDto) {
-  if (tiedote.id == null || liittyvaTiedoteLatautuu.value) {
-    return;
-  }
-
-  const avaus = ++liittyvaTiedoteVersio;
-  liittyvaTiedoteLatautuu.value = true;
-
-  const tallennettuTiedote = props.tiedotteetStore?.tiedotteet.value?.find(
+  const avattavaTiedote = props.tiedotteetStore?.tiedotteet.value?.find(
     (item) => item.id === tiedote.id,
   );
-
-  try {
-    const avattavaTiedote
-      = tallennettuTiedote ?? (await Tiedotteet.getTiedote(tiedote.id!)).data;
-
-    if (avaus !== liittyvaTiedoteVersio) {
-      return;
-    }
-
-    editing.value = false;
+  if (!avattavaTiedote) {
+    $fail($t('tiedotteen-haku-epaonnistui'));
+  }
+  else {
     await muokkaa(avattavaTiedote);
   }
-  catch {
-    if (avaus === liittyvaTiedoteVersio) {
-      $fail($t('tiedotteen-haku-epaonnistui'));
-    }
-  }
-  finally {
-    if (avaus === liittyvaTiedoteVersio) {
-      liittyvaTiedoteLatautuu.value = false;
-    }
-  }
-}
-
-function peruutaLiittyvanTiedotteenAvaus() {
-  liittyvaTiedoteVersio++;
-  liittyvaTiedoteLatautuu.value = false;
 }
 
 function suljeTiedote() {
-  peruutaLiittyvanTiedotteenAvaus();
   tiedoteValinta.value?.close();
   editing.value = false;
   modalRef.value?.hide();
@@ -1094,7 +1065,7 @@ const haeTiedotteet = computed(() => {
       sivu,
       sivukoko: 10,
       nimi: query || undefined,
-      jarjestys: 'muokattu',
+      jarjestys: 'luotu',
       jarjestysNouseva: false,
     });
 });
