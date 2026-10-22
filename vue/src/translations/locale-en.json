@@ -104,5 +104,6 @@
     "voimassaolevat": "valid",
     "vuorovaikutus-ja-mediaatio": "Vuorovaikutus ja mediaatio",
     "maarays-tyyppi-kaikki": "All",
-    "ulkoinen-linkki-vahvistus-viesti": "You are navigating to the address {{ url }}"
+    "ulkoinen-linkki-vahvistus-viesti": "You are navigating to the address {{ url }}",
+    "tavoitesisaltoalueen-paikallinen-tarkennus": "Local specification of the objectives and content area"
 }
