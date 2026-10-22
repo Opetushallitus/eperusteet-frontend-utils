@@ -923,7 +923,6 @@
     "koto_kielitaitotaso": "Kielitaitotaso",
     "koto_laajaalainenosaaminen": "Laaja-alainen osaaminen",
     "koto_opinto": "Opinto",
-    "lukutaitokoulutus_tavoitteetjasisaltoalueet": "Tavoitteet ja sisältöalueet",
     "kotouttamiskoulutuksen-valtakunnalliset-perusteet": "Kotoutumiskoulutuksen valtakunnalliset perusteet sekä koulutuksen järjestäjien julkaisemat paikalliset opetussuunnitelmat.",
     "kotoutuminen": "Kotoutumiskoulutus",
     "kotoutumiskoulutus": "Kotoutumiskoulutus",
@@ -2990,7 +2989,6 @@
     "route-koto_kielitaitotaso": "koto",
     "route-koto_laajaalainenosaaminen": "koto",
     "route-koto_opinto": "koto",
-    "route-lukutaitokoulutus_tavoitteetjasisaltoalueet": "Lukutaitokoulutus",
     "route-koulutuksenosa": "Koulutuksen osa",
     "route-koulutuksenosat": "Koulutuksen osat",
     "route-laajaalainenosaaminen": "Laaja-alainen osaaminen",
@@ -4729,10 +4727,5 @@
     "viikko": "Viikko",
     "kpl-valittu": "{kpl} valittu",
     "ei-oletustoteutuksia": "Ei oletustoteutuksia",
-    "kaantajatutkinto": "Kääntäjätutkinto",
-    "nimeton-tavoitteet-ja-sisaltoalueet": "Nimetön tavoite ja sisältöalue",
-    "opiskelija-osaa": "Opiskelija osaa",
-    "peruste-validointi-lukutaitokoulutus-tavoitteet-ja-sisaltoalueet-nimi": "Tavoitteiden ja sisältöalueiden nimeä ei ole lokalisoitu",
-    "peruste-validointi-lukutaitokoulutus-tavoitealue-otsikko": "Tavoitealueen otsikkoa ei ole lokalisoitu",
-    "peruste-validointi-lukutaitokoulutus-tavoitealue-tavoitteet": "Tavoitealueen tavoitteita ei ole lokalisoitu"
+    "kaantajatutkinto": "Kääntäjätutkinto"
 }
