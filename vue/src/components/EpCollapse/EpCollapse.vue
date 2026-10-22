@@ -84,7 +84,6 @@
 <script setup lang="ts">
 import _ from 'lodash';
 import { ref, computed, onMounted, useSlots } from 'vue';
-import { setItem, getItem } from '../../utils/localstorage';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import { hasSlotContent } from '@shared/utils/vue-utils';
 
@@ -193,21 +192,6 @@ const classess = computed(() => {
   return result;
 });
 
-const isToggled = () => {
-  try {
-    if (props.tyyppi) {
-      const item = getItem('toggle-' + props.tyyppi);
-      if (_.isObject(item)) {
-        return (item as any).toggled;
-      }
-    }
-    return true;
-  }
-  catch (err) {
-    return true;
-  }
-};
-
 const toggle = (toggle: boolean | null = null) => {
   if (props.collapsable) {
     if (_.isNil(toggle)) {
@@ -216,20 +200,13 @@ const toggle = (toggle: boolean | null = null) => {
     else {
       toggled.value = toggle;
     }
-    if (props.tyyppi) {
-      setItem('toggle-' + props.tyyppi, {
-        toggled: toggled.value,
-      });
-    }
   }
 
   emit('toggle', toggled.value);
 };
 
 onMounted(() => {
-  toggled.value = props.tyyppi
-    ? isToggled()
-    : props.expandedByDefault;
+  toggled.value = props.expandedByDefault;
 });
 
 defineExpose({
