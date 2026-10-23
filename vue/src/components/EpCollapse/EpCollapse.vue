@@ -100,6 +100,7 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  /** @deprecated Poistetaan myöhemmin, kun käyttökohteet on korvattu. */
   tyyppi: {
     type: String,
     default: '',
