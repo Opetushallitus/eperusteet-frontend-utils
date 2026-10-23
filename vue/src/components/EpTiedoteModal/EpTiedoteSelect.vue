@@ -62,7 +62,7 @@ import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import EpTable from '@shared/components/EpTable/EpTable.vue';
 import { $fail, $kaanna, $t } from '@shared/utils/globals';
 import { createTiedoteTableFields } from '@shared/utils/tiedote';
-import { debounced } from '@/utils/delay';
+import { debounced } from '@shared/utils/delay';
 
 const props = defineProps<{
   hae: (query: string, sivu: number) => Promise<Page<TiedoteDto>>;
@@ -78,8 +78,6 @@ const query = ref('');
 const page = ref<Page<TiedoteDto> | null>(null);
 const isLoading = ref(false);
 const isOpen = ref(false);
-let requestVersion = 0;
-let searchTimer: ReturnType<typeof setTimeout> | undefined;
 
 const fields = computed(() =>
   createTiedoteTableFields({ sortable: false, headerWidth: '30%' }),

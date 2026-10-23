@@ -11,6 +11,7 @@ export interface ITiedotteetProvider {
   init: (options: TiedoteQuery) => Promise<void>;
   fetch: () => Promise<void>;
   search: (query: TiedoteQuery) => Promise<Page<TiedoteDto>>;
+  getTiedote: (id: number) => Promise<TiedoteDto>;
   save?: (tiedote: TiedoteDto) => Promise<void>;
   delete?: (tiedote: TiedoteDto) => Promise<void>;
 }

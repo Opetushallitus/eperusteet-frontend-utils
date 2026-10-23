@@ -85,7 +85,7 @@
 
             <ep-multi-list-select
               v-if="opintopolkuJulkaisuKoulutustyyppiTutkinto"
-              v-model="koulutusryypiRyhmaValinnat"
+              v-model="koulutustyyppiRyhmaValinnat"
               class="pl-5 pb-2"
               tyyppi="koulutuskohtainen-nakyma"
               :items="koulutustyyppiRyhmaItems"
@@ -313,7 +313,7 @@
 
         <ep-form-content name="liita-tiedote-tiedotteeseen">
           <div
-            v-for="(tiedote, index) in muokattavaTiedote.tiedotteet ?? []"
+            v-for="tiedote in muokattavaTiedote.tiedotteet ?? []"
             :key="tiedote.id"
             class="mb-1 flex justify-center items-center"
           >
@@ -323,21 +323,13 @@
                 :is-editing="true"
                 disabled
               />
-              <template #append>
-                <EpButton
-                  variant="primary"
-                  @click="avaaTiedoteValinta(index)"
-                >
-                  {{ $t('hae') }}
-                </EpButton>
-              </template>
             </EpInputGroup>
 
             <div class="shrink-0 pl-2">
               <EpButton
                 variant="link"
                 icon="delete"
-                @click="poistaTiedoteValinta(index)"
+                @click="poistaLiitettyTiedote(tiedote.id)"
               />
             </div>
           </div>
@@ -345,7 +337,7 @@
             button-class="pl-0"
             variant="outline-primary"
             icon="add"
-            @click="lisaaTiedoteRivi()"
+            @click="avaaTiedoteValinta()"
           >
             {{ $t('lisaa-tiedote') }}
           </EpButton>
@@ -545,7 +537,6 @@
       </template>
     </EpModal>
     <EpTiedoteSelect
-      v-if="haeTiedotteet"
       ref="tiedoteValinta"
       :hae="haeTiedotteet"
       :excluded-ids="poisRajatutTiedoteIdt"
@@ -651,7 +642,7 @@ const props = defineProps({
   },
 });
 
-const koulutusryypiRyhmaValinnat = ref<KoulutustyyppiRyhmaValinta[]>([]);
+const koulutustyyppiRyhmaValinnat = ref<KoulutustyyppiRyhmaValinta[]>([]);
 const liitaPeruste = ref(false);
 const opintopolkuJulkaisu = ref(false);
 const opintopolkuJulkaisuKoulutustyyppiTutkinto = ref(false);
@@ -739,7 +730,7 @@ const esittavaMuokkaustieto = computed(() => {
 });
 
 const valitutKoulutustyypit = computed((): string[] => {
-  return _.chain(koulutusryypiRyhmaValinnat.value)
+  return _.chain(koulutustyyppiRyhmaValinnat.value)
     .map('object')
     .flatMap()
     .value();
@@ -804,74 +795,101 @@ const perusteItems = computed((): MultiListSelectItem[] => {
 // Watch for changes
 watch(opintopolkuJulkaisuKoulutustyyppiTutkinto, (val) => {
   if (!val) {
-    koulutusryypiRyhmaValinnat.value = [];
+    koulutustyyppiRyhmaValinnat.value = [];
   }
 });
 
 // Methods
-function lisaaTiedote() {
-  muokkaa({});
-  aloitaMuokkaus();
+function resetForm() {
+  muokattavaTiedote.value = {};
+  opintopolkuJulkaisu.value = false;
+  opintopolkuJulkaisuKoulutustyyppiTutkinto.value = false;
+  opsJulkaisu.value = false;
+  lopsJulkaisu.value = false;
+  amosaaJulkaisu.value = false;
+  vstJulkaisu.value = false;
+  tuvaJulkaisu.value = false;
+  kotoJulkaisu.value = false;
+  koulutustyyppiRyhmaValinnat.value = [];
+  muokkaavanKayttajanNimi.value = '';
+  liitaPeruste.value = Boolean(props.peruste);
 }
 
-async function muokkaa(rivi: any) {
-  tiedoteValinta.value?.close();
-  tiedoteValintaIndex.value = null;
-  muokattavaTiedote.value = {
-    ..._.cloneDeep(rivi),
-  };
-  opintopolkuJulkaisu.value = _.includes(
-    rivi.julkaisupaikat,
-    julkaisupaikka.opintopolku_etusivu,
-  );
-  opsJulkaisu.value = _.includes(rivi.julkaisupaikat, julkaisupaikka.ops);
-  lopsJulkaisu.value = _.includes(rivi.julkaisupaikat, julkaisupaikka.lops);
-  amosaaJulkaisu.value = _.includes(rivi.julkaisupaikat, julkaisupaikka.amosaa);
-  vstJulkaisu.value = _.includes(rivi.julkaisupaikat, julkaisupaikka.vst);
-  tuvaJulkaisu.value = _.includes(rivi.julkaisupaikat, julkaisupaikka.tuva);
-  kotoJulkaisu.value = _.includes(rivi.julkaisupaikat, julkaisupaikka.koto);
-
-  koulutusryypiRyhmaValinnat.value = [
-    ..._.chain(koulutustyyppiRyhmaItems.value)
-      .filter((item) =>
-        _.some(item.value.object, (koulutustyyppi) =>
-          _.includes(rivi.koulutustyypit, koulutustyyppi),
-        ),
-      )
-      .map((item) => {
-        return {
-          ...item.value,
-        } as KoulutustyyppiRyhmaValinta;
-      })
-      .value(),
-  ];
-
-  opintopolkuJulkaisuKoulutustyyppiTutkinto.value = !_.isEmpty(
-    koulutusryypiRyhmaValinnat.value,
-  );
-
-  muokattavaTiedote.value.perusteet = _.map(
-    muokattavaTiedote.value.perusteet,
-    (peruste) => perusteToKevytDto(peruste),
-  );
-
-  if (muokattavaTiedote.value.luotu) {
-    const kayttaja = (
-      await Kayttajat.getKayttaja(muokattavaTiedote.value.muokkaaja as any)
-    ).data;
-    if (kayttaja) {
-      muokkaavanKayttajanNimi.value = parsiEsitysnimi(kayttaja);
-    }
-    else {
-      muokkaavanKayttajanNimi.value = muokattavaTiedote.value.muokkaaja as any;
-    }
-  }
-
-  if (props.peruste) {
-    liitaPeruste.value = true;
-  }
-
+function lisaaTiedote() {
+  resetForm();
+  aloitaMuokkaus();
   modalRef.value?.show();
+}
+
+async function muokkaa(id: number | undefined) {
+  if (id === undefined) {
+    $fail($t('tiedotteen-haku-epaonnistui'));
+    return;
+  }
+
+  try {
+    const tiedote = await props.tiedotteetStore!.getTiedote(id);
+    muokattavaTiedote.value = {
+      ..._.cloneDeep(tiedote),
+    };
+
+    const julkaisupaikat: string[] = tiedote.julkaisupaikat ?? [];
+    opintopolkuJulkaisu.value = julkaisupaikat.includes(
+      julkaisupaikka.opintopolku_etusivu,
+    );
+    opsJulkaisu.value = julkaisupaikat.includes(julkaisupaikka.ops);
+    lopsJulkaisu.value = julkaisupaikat.includes(julkaisupaikka.lops);
+    amosaaJulkaisu.value = julkaisupaikat.includes(julkaisupaikka.amosaa);
+    vstJulkaisu.value = julkaisupaikat.includes(julkaisupaikka.vst);
+    tuvaJulkaisu.value = julkaisupaikat.includes(julkaisupaikka.tuva);
+    kotoJulkaisu.value = julkaisupaikat.includes(julkaisupaikka.koto);
+
+    koulutustyyppiRyhmaValinnat.value = [
+      ..._.chain(koulutustyyppiRyhmaItems.value)
+        .filter((item) =>
+          _.some(item.value.object, (koulutustyyppi) =>
+            _.includes(tiedote.koulutustyypit, koulutustyyppi),
+          ),
+        )
+        .map((item) => {
+          return {
+            ...item.value,
+          } as KoulutustyyppiRyhmaValinta;
+        })
+        .value(),
+    ];
+
+    opintopolkuJulkaisuKoulutustyyppiTutkinto.value = !_.isEmpty(
+      koulutustyyppiRyhmaValinnat.value,
+    );
+
+    muokattavaTiedote.value.perusteet = _.map(
+      muokattavaTiedote.value.perusteet,
+      (peruste) => perusteToKevytDto(peruste),
+    );
+
+    if (muokattavaTiedote.value.luotu) {
+      const kayttaja = (
+        await Kayttajat.getKayttaja(muokattavaTiedote.value.muokkaaja as any)
+      ).data;
+      if (kayttaja) {
+        muokkaavanKayttajanNimi.value = parsiEsitysnimi(kayttaja);
+      }
+      else {
+        muokkaavanKayttajanNimi.value = muokattavaTiedote.value
+          .muokkaaja as any;
+      }
+    }
+
+    if (props.peruste) {
+      liitaPeruste.value = true;
+    }
+
+    modalRef.value?.show();
+  }
+  catch {
+    $fail($t('tiedotteen-haku-epaonnistui'));
+  }
 }
 
 function aloitaMuokkaus() {
@@ -879,15 +897,8 @@ function aloitaMuokkaus() {
 }
 
 async function avaaLiittyvaTiedote(tiedote: TiedoteKevytDto) {
-  const avattavaTiedote = props.tiedotteetStore?.tiedotteet.value?.find(
-    (item) => item.id === tiedote.id,
-  );
-  if (!avattavaTiedote) {
-    $fail($t('tiedotteen-haku-epaonnistui'));
-  }
-  else {
-    await muokkaa(avattavaTiedote);
-  }
+  tiedoteValinta.value?.close();
+  await muokkaa(tiedote.id);
 }
 
 function suljeTiedote() {
@@ -897,11 +908,6 @@ function suljeTiedote() {
 }
 
 async function tallennaTiedote() {
-  if (onTyhjiaTiedoteRiveja.value) {
-    $fail($t('valitse-tiedote-kaikille-riveille'));
-    return;
-  }
-
   muokattavaTiedote.value.julkaisupaikat = _.chain(_.values(julkaisupaikka))
     .filter(
       (value) =>
@@ -1039,11 +1045,9 @@ const ammatillisetLisayksetSallittu = computed(() => {
 });
 
 const tiedoteValinta = ref<InstanceType<typeof EpTiedoteSelect> | null>(null);
-const tiedoteValintaIndex = ref<number | null>(null);
 
 const poisRajatutTiedoteIdt = computed((): number[] => {
   const ids = (muokattavaTiedote.value.tiedotteet ?? [])
-    .filter((_, index) => index !== tiedoteValintaIndex.value)
     .map((tiedote) => tiedote.id)
     .filter((id): id is number => id != null);
 
@@ -1055,13 +1059,8 @@ const poisRajatutTiedoteIdt = computed((): number[] => {
 });
 
 const haeTiedotteet = computed(() => {
-  const store = props.tiedotteetStore;
-  if (!store) {
-    return undefined;
-  }
-
   return (query: string, sivu: number) =>
-    store.search({
+    props.tiedotteetStore!.search({
       sivu,
       sivukoko: 10,
       nimi: query || undefined,
@@ -1070,53 +1069,22 @@ const haeTiedotteet = computed(() => {
     });
 });
 
-function lisaaTiedoteRivi() {
-  muokattavaTiedote.value.tiedotteet = [
-    ...(muokattavaTiedote.value.tiedotteet ?? []),
-    {},
-  ];
-}
-
-function avaaTiedoteValinta(index: number) {
-  tiedoteValintaIndex.value = index;
+function avaaTiedoteValinta() {
   tiedoteValinta.value?.openDialog();
 }
 
 function valitseTiedote(tiedote: TiedoteKevytDto) {
-  if (tiedote.id == null || poisRajatutTiedoteIdt.value.includes(tiedote.id)) {
-    return;
-  }
-
-  const tiedotteet = [...(muokattavaTiedote.value.tiedotteet ?? [])];
-  const valinta = { id: tiedote.id, otsikko: tiedote.otsikko };
-  const index = tiedoteValintaIndex.value;
-
-  if (index === null || index < 0 || index >= tiedotteet.length) {
-    return;
-  }
-
-  tiedotteet[index] = valinta;
-  muokattavaTiedote.value.tiedotteet = tiedotteet;
-  tiedoteValintaIndex.value = null;
-
-  muokattavaTiedote.value.tiedotteet = tiedotteet;
-  tiedoteValintaIndex.value = null;
+  muokattavaTiedote.value.tiedotteet = [
+    ...(muokattavaTiedote.value.tiedotteet ?? []),
+    tiedote,
+  ];
 }
 
-function poistaTiedoteValinta(index: number) {
-  // Closing the picker prevents a pending selection targeting a shifted row.
-  tiedoteValinta.value?.close();
-  tiedoteValintaIndex.value = null;
+function poistaLiitettyTiedote(id: number | undefined) {
   muokattavaTiedote.value.tiedotteet = (
     muokattavaTiedote.value.tiedotteet ?? []
-  ).filter((_, i) => i !== index);
+  ).filter((t) => t.id !== id);
 }
-
-const onTyhjiaTiedoteRiveja = computed(() =>
-  (muokattavaTiedote.value.tiedotteet ?? []).some(
-    (tiedote) => tiedote.id == null,
-  ),
-);
 
 defineExpose({
   muokkaa,
