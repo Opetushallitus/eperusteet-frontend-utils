@@ -35,7 +35,9 @@
         @row-selected="selectRow"
       >
         <template #cell(otsikko)="{ item }">
-          {{ $kaanna(item.otsikko) }}
+          <span class="link-style clickable hover:underline">
+            {{ $kaanna(item.otsikko) }}
+          </span>
         </template>
       </EpTable>
     </template>
