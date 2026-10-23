@@ -60,9 +60,10 @@ import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpSearch from '@shared/components/forms/EpSearch.vue';
 import EpSpinner from '@shared/components/EpSpinner/EpSpinner.vue';
 import EpTable from '@shared/components/EpTable/EpTable.vue';
-import { $fail, $kaanna, $t } from '@shared/utils/globals';
-import { createTiedoteTableFields } from '@shared/utils/tiedote';
+import { $fail, $kaanna, $sdt, $t } from '@shared/utils/globals';
+import { julkaisupaikkaSort } from '@shared/utils/tiedote';
 import { debounced } from '@shared/utils/delay';
+import _ from 'lodash';
 
 const props = defineProps<{
   hae: (query: string, sivu: number) => Promise<Page<TiedoteDto>>;
@@ -79,9 +80,43 @@ const page = ref<Page<TiedoteDto> | null>(null);
 const isLoading = ref(false);
 const isOpen = ref(false);
 
-const fields = computed(() =>
-  createTiedoteTableFields({ sortable: false, headerWidth: '30%' }),
-);
+const fields = computed(() => {
+  return [
+    {
+      key: 'otsikko',
+      label: $t('tiedote'),
+      sortable: false,
+      thStyle: { width: '35%' },
+      formatter: (value: any) => $kaanna(value),
+    },
+    {
+      key: 'luotu',
+      label: $t('julkaistu'),
+      sortable: false,
+      formatter: (value: any) => $sdt(value),
+    },
+    {
+      key: 'julkaisupaikat',
+      label: $t('tiedote-julkaistu'),
+      sortable: false,
+      thStyle: { width: '40%' },
+      formatter: (value: any, _key: any, item: TiedoteDto) => {
+        return _.join(
+          [
+            ..._.chain(value)
+              .sortBy((julkaisupaikka) => julkaisupaikkaSort[julkaisupaikka])
+              .map((julkaisupaikka) =>
+                $t('tiedote-julkaisupaikka-' + julkaisupaikka),
+              )
+              .value(),
+            ..._.map(item.koulutustyypit, (kt) => $t(kt)),
+          ],
+          ', ',
+        );
+      },
+    },
+  ];
+});
 
 const items = computed(() => {
   const excluded = new Set(props.excludedIds);
