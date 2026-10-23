@@ -51,7 +51,8 @@ export type IndicatorKind = 'normaali'
   | 'vapaasivistystyo'
   | 'tutkintoonvalmentava'
   | 'kotoutuminen'
-  | 'kielikaantajatutkinto';
+  | 'kielikaantajatutkinto'
+  | 'etusivu';
 
 const props = defineProps({
   kind: {

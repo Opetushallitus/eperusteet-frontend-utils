@@ -124,6 +124,7 @@ export type RakenneModuuliDto = EperusteetApi.RakenneModuuliDto;
 export type RevisionDto = EperusteetApi.Revision;
 export type TermiDto = EperusteetApi.TermiDto;
 export type TiedoteDto = EperusteetApi.TiedoteDto;
+export type TiedoteKevytDto = EperusteetApi.TiedoteKevytDto;
 export type TilaUpdateStatus = EperusteetApi.TilaUpdateStatus;
 export type TutkinnonOsaViiteDto = EperusteetApi.TutkinnonOsaViiteDto;
 export type TutkinnonOsaViiteUpdateDto = EperusteetApi.TutkinnonOsaViiteUpdateDto;
