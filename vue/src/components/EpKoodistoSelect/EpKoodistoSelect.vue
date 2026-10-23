@@ -81,6 +81,9 @@
             hover
             :items="items"
             :fields="fields"
+            :per-page="raw?.sivukoko"
+            :total-rows="raw?.kokonaismäärä"
+            v-model:current-page="sivu"
             select-mode="single"
             selected-variant=""
             @row-selected="onRowSelected"
@@ -122,13 +125,6 @@
             </template>
           </EpTable>
 
-          <EpBPagination
-            v-if="raw"
-            v-model="sivu"
-            :total="raw.kokonaismäärä"
-            :items-per-page="raw.sivukoko"
-            aria-controls="koodistot"
-          />
 
           <div v-if="multiselect && innerModel.length > 0">
             <h4>{{ $t('valittu') }} {{ innerModel.length }} {{ $t('kpl') }}</h4>
@@ -167,7 +163,7 @@ import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import { getKoodistoSivutettuna, KoodistoSelectStore } from './KoodistoSelectStore';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import _ from 'lodash';
-import EpBPagination from '../EpBPagination/EpBPagination.vue';
+
 import EpTable from '@shared/components/EpTable/EpTable.vue';
 import { unref } from 'vue';
 import { $t, $kaanna } from '@shared/utils/globals';
