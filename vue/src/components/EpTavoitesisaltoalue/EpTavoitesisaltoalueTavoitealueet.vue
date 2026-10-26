@@ -27,7 +27,7 @@
               <div class="w-11/12">
                 <ep-koodisto-select
                   v-model="tavoitealue.otsikko"
-                  :store="tavoitealueetKoodisto"
+                  :koodisto="Koodistot.TAVOITEALUEET"
                   :is-editing="isEditing"
                   :nayta-arvo="false"
                 >
@@ -173,7 +173,6 @@
 <script setup lang="ts">
 import { computed, getCurrentInstance } from 'vue';
 import _ from 'lodash';
-import { KoodistoSelectStore, getKoodistoSivutettuna } from '../EpKoodistoSelect/KoodistoSelectStore';
 import { VueDraggable } from 'vue-draggable-plus';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpInputGroup from '@shared/components/EpInputGroup/EpInputGroup.vue';
@@ -182,6 +181,7 @@ import EpTavoitealueKeskeisetSisaltoalueet from './EpTavoitealueKeskeisetSisalto
 import EpTavoitealueTavoitteet from './EpTavoitealueTavoitteet.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import { $t, $kaanna } from '@shared/utils/globals';
+import { Koodistot } from '@shared/utils/koodi';
 import EpInput from '@shared/components/forms/EpInput.vue';
 
 const props = defineProps({
@@ -201,13 +201,6 @@ const emit = defineEmits(['update:modelValue']);
 const tavoitealueet = computed({
   get: () => props.modelValue,
   set: (value) => emit('update:modelValue', value),
-});
-
-const tavoitealueetKoodisto = new KoodistoSelectStore({
-  koodisto: 'tavoitealueet',
-  async query(query: string, sivu = 0, koodisto: string) {
-    return await getKoodistoSivutettuna(koodisto, query, sivu) as any;
-  },
 });
 
 const lisaaTavoitealue = (tyyppi: 'OTSIKKO' | 'TAVOITESISALTOALUE') => {
