@@ -2614,6 +2614,8 @@
     "peruste-nimi": "Perusteen nimi",
     "peruste-paivitetty": "Peruste päivitetty",
     "peruste-paivittynyt": "Peruste päivittynyt",
+    "siirtymaajan-paattyminen-arkistoi-toteutussuunnitelma": "Tutkinnon perusteen siirtymäaika on päättynyt",
+    "siirtymaajan-paattyminen-arkistoi-toteutussuunnitelma-huomioteksti": "Tämän toteutussuunnitelman tutkinnon perusteen siirtymäaika on päättynyt. Arkistoi päättynyt toteutussuunnitelma.",
     "peruste-pdfna": "Peruste pdf:nä",
     "peruste-rakenne-nimi-jokin-muu": "Jokin muu, kirjoita alle:",
     "peruste-rakenne-nimi-korkeakouluopinnot": "Korkeakouluopinnot",
@@ -4727,5 +4729,10 @@
     "viikko": "Viikko",
     "kpl-valittu": "{kpl} valittu",
     "ei-oletustoteutuksia": "Ei oletustoteutuksia",
-    "kaantajatutkinto": "Kääntäjätutkinto"
+    "kaantajatutkinto": "Kääntäjätutkinto",
+    "nimeton-tavoitteet-ja-sisaltoalueet": "Nimetön tavoite ja sisältöalue",
+    "opiskelija-osaa": "Opiskelija osaa",
+    "peruste-validointi-lukutaitokoulutus-tavoitteet-ja-sisaltoalueet-nimi": "Tavoitteiden ja sisältöalueiden nimeä ei ole lokalisoitu",
+    "peruste-validointi-lukutaitokoulutus-tavoitealue-otsikko": "Tavoitealueen otsikkoa ei ole lokalisoitu",
+    "peruste-validointi-lukutaitokoulutus-tavoitealue-tavoitteet": "Tavoitealueen tavoitteita ei ole lokalisoitu"
 }
