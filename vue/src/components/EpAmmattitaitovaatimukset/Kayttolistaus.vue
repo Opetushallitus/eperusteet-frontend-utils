@@ -28,24 +28,29 @@
         <div class="info">
           {{ $t('loytyi-tutkinnon-osaa', { amount: data.kokonaismäärä }) }}
         </div>
-        <div
-          v-for="(item, idx) in data.data"
-          :key="idx"
-          class="kaytetty"
+        <EpTable
+          :items="data.data"
+          :fields="[{ key: 'id' }]"
+          :show-headers="false"
+          borderless
+          :per-page="perPage"
+          :total-rows="data.kokonaismäärä"
+          :current-page="page"
+          @update:current-page="fetch"
         >
-          <div>
-            {{ $kaanna(item.peruste.nimi) }}:
-          </div>
-          <div>
-            {{ $kaanna(item.tutkinnonOsa.nimi) }}
-          </div>
-        </div>
-        <EpBPagination
-          :model-value="page"
-          :items-per-page="perPage"
-          :total="data.kokonaismäärä"
-          @update:model-value="fetch"
-        />
+          <template #cell(id)="{ item }">
+            <div
+              class="kaytetty"
+            >
+              <div>
+                {{ $kaanna(item.peruste.nimi) }}:
+              </div>
+              <div>
+                {{ $kaanna(item.tutkinnonOsa.nimi) }}
+              </div>
+            </div>
+          </template>
+        </EpTable>
       </div>
       <div
         v-else
@@ -61,7 +66,7 @@
 import { ref, computed } from 'vue';
 import _ from 'lodash';
 import EpButton from '../EpButton/EpButton.vue';
-import EpBPagination from '../EpBPagination/EpBPagination.vue';
+import EpTable from '../EpTable/EpTable.vue';
 import EpSpinner from '../EpSpinner/EpSpinner.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import EpPopover from '../EpPopover/EpPopover.vue';
