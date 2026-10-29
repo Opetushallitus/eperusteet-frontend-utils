@@ -175,12 +175,12 @@
       </EpFormGroup>
     </div>
     <div v-else>
-      <div
+      <EpKaanna
         v-if="inner.vaatimukset && inner.vaatimukset.length > 0 && showKohde"
         class="otsikko font-bold"
-      >
-        {{ $kaanna(innerKohde) }}
-      </div>
+        :value="innerKohde"
+        tag="div"
+      />
       <ul v-if="inner.vaatimukset && inner.vaatimukset.length > 0">
         <li
           v-for="(v, vidx) in inner.vaatimukset"
@@ -191,7 +191,7 @@
               name="koodi"
               :koodi="v.koodi"
             >
-              <span>{{ $kaanna(v.koodi.nimi) || $kaanna(v.vaatimus) }}</span>
+              <EpKaanna :value="vaatimusTeksti(v)" />
               <span class="ml-1">
                 (<a
                   :href="koodistoPalveluUrl(v.koodi.uri)"
@@ -202,7 +202,7 @@
             </slot>
           </span>
           <span v-else>
-            <span>{{ $kaanna(v.vaatimus) }}</span>
+            <EpKaanna :value="v.vaatimus" />
             <span class="ml-2" />
           </span>
         </li>
@@ -213,15 +213,17 @@
           :key="kaIdx"
           :class="{'mt-3' : showKohde || kohdealueettomat}"
         >
-          <div class="otsikko font-bold">
-            {{ $kaanna(kohdealue.kuvaus) }}
-          </div>
-          <div
+          <EpKaanna
+            class="otsikko font-bold"
+            :value="kohdealue.kuvaus"
+            tag="div"
+          />
+          <EpKaanna
             v-if="showKohde"
             class="otsikko"
-          >
-            {{ $kaanna(innerKohde) }}
-          </div>
+            :value="innerKohde"
+            tag="div"
+          />
           <div
             v-if="kaannosKohde"
             class="otsikko"
@@ -238,7 +240,7 @@
                   name="koodi"
                   :koodi="v.koodi"
                 >
-                  <span>{{ $kaanna(v.koodi.nimi) || $kaanna(v.vaatimus) }}</span>
+                  <EpKaanna :value="vaatimusTeksti(v)" />
                   <span
                     v-if="showKoodiArvo"
                     class="ml-1"
@@ -252,7 +254,7 @@
                 </slot>
               </span>
               <span v-else>
-                <span>{{ $kaanna(v.vaatimus) }}</span>
+                <EpKaanna :value="v.vaatimus" />
                 <span class="ml-2" />
               </span>
             </li>
@@ -277,6 +279,7 @@ import { $kaanna, $t, $vahvista } from '@shared/utils/globals';
 import { nextTick } from 'vue';
 import EpFormGroup from '@shared/components/forms/EpFormGroup.vue';
 import { useRoute } from 'vue-router';
+import EpKaanna from '@shared/components/EpKaanna/EpKaanna.vue';
 
 const props = defineProps({
   modelValue: {
@@ -402,6 +405,10 @@ const koodistoPalveluUrl = (uri) => `${window.location.origin}/koodisto-app/kood
 const innerKohde = computed(() => {
   return inner?.value?.kohde;
 });
+
+const vaatimusTeksti = (vaatimus) => {
+  return $kaanna(vaatimus.koodi?.nimi) ? vaatimus.koodi.nimi : vaatimus.vaatimus;
+};
 </script>
 
 <style scoped lang="scss">
@@ -415,5 +422,4 @@ const innerKohde = computed(() => {
 .dragged {
   background: $white;
 }
-
 </style>
