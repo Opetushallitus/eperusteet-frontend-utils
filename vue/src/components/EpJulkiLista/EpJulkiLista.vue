@@ -74,7 +74,6 @@
       </div>
       <div v-else-if="listausTyyppi === 'none'" />
       <div v-else>
-        <!-- Not changed: Same list serves both load-more and paged modes. EpTable paging would slice twice, so it was not changed. -->
         <ep-b-pagination
           v-model="sivu"
           :items-per-page="naytettavaTietoMaara"

@@ -39,39 +39,34 @@
     <ep-spinner v-if="!oppaat" />
 
     <template v-else>
-      <EpTable
-        :items="mappedOppaat"
-        :fields="[{ key: 'id' }]"
-        :show-headers="false"
-        borderless
-        class="mt-3"
-        :per-page="query.sivukoko"
-        :total-rows="kokonaismaara"
-        :current-page="sivu"
-        @update:current-page="sivu = $event"
+      <EpExternalLink
+        v-for="opas in mappedOppaat"
+        :key="opas.id"
+        :show-icon="false"
+        :url="opas.url"
+        class="opas mb-2"
       >
-        <template #cell(id)="{ item }">
-          <EpExternalLink
-            :show-icon="false"
-            :url="item.url"
-            class="opas mb-2"
-          >
-            <div class="flex">
-              <div class="icon mr-3">
-                <EpMaterialIcon>menu_book</EpMaterialIcon>
-              </div>
-              <div class="pt-1 text">
-                <div class="nimi">
-                  {{ $kaanna(item.nimi) }}
-                </div>
-                <div v-if="item.voimassaoloAlkaa">
-                  {{ $t('voimaantulo') }} {{ $sd(item.voimassaoloAlkaa) }}
-                </div>
-              </div>
+        <div class="flex">
+          <div class="icon mr-3">
+            <EpMaterialIcon>menu_book</EpMaterialIcon>
+          </div>
+          <div class="pt-1 text">
+            <div class="nimi">
+              {{ $kaanna(opas.nimi) }}
             </div>
-          </EpExternalLink>
-        </template>
-      </EpTable>
+            <div v-if="opas.voimassaoloAlkaa">
+              {{ $t('voimaantulo') }} {{ $sd(opas.voimassaoloAlkaa) }}
+            </div>
+          </div>
+        </div>
+      </EpExternalLink>
+
+      <ep-b-pagination
+        v-model="sivu"
+        class="mt-3"
+        :items-per-page="query.sivukoko"
+        :total="kokonaismaara"
+      />
     </template>
   </ep-main-view>
 </template>
@@ -85,7 +80,7 @@ import EpSearch from '@shared/components/forms/EpSearch.vue';
 import { OppaatStore } from '@shared/stores/OppaatStore';
 import KoulutustyyppiSelect from '@shared/components/forms/EpKoulutustyyppiSelect.vue';
 import { EperusteetKoulutustyypit } from '@shared/utils/perusteet';
-import EpTable from '@shared/components/EpTable/EpTable.vue';
+import EpBPagination from '@shared/components/EpBPagination/EpBPagination.vue';
 import { OppaatQuery } from '@shared/api/eperusteet';
 import { buildKatseluUrl } from '@shared/utils/esikatselu';
 import { Kielet } from '@shared/stores/kieli';

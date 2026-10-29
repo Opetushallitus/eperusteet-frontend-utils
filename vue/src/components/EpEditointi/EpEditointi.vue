@@ -321,7 +321,6 @@
             <span>{{ $t('muokkaushistoria') }}: {{ $t('versionumero') }} {{ versionumero }}</span>
           </div>
           <div class="flex-1">
-            <!-- Not changed: Version number stepper, not a list of records. Needs a decision on what it should become. -->
             <ep-b-pagination
               :model-value="versionumero"
               :total="versions"

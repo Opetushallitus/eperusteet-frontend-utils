@@ -119,7 +119,6 @@
                 </div>
               </button>
             </div>
-            <!-- Not changed: Four-column image grid. An EpTable would turn it into one column, so it was not changed. -->
             <EpBPagination
               v-if="totalKuvat > ITEMS_PER_PAGE"
               v-model="kuvaGridSivu"
