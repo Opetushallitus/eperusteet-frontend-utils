@@ -263,7 +263,7 @@ const placeholderValue = computed(() => {
       return props.placeholder;
     }
 
-    return $kaannaPlaceholder(props.modelValue as any, !props.isEditing);
+    return $kaannaPlaceholder(props.modelValue as any, true);
   }
   return '';
 });
@@ -395,7 +395,7 @@ input {
 }
 
 input::placeholder {
-  color: $grey400;
+  color: $grey500;
 }
 
 .is-warning {
