@@ -11,7 +11,7 @@ export type NavigationType =
   | 'suorituspolku' | 'osasuorituspolku'
   | 'opintojaksot' | 'opintojakso'
   | 'perusopetusoppiaineet' | 'perusopetusoppiaine' | 'valinnaisetoppiaineet' | 'vuosiluokkakokonaisuus'
-  | 'taiteenala' | 'linkkisivu';
+  | 'taiteenala' | 'taiteenalavaihe' | 'linkkisivu';
 
 export interface NavigationNode {
   key?: number; // Unique identifier
@@ -232,6 +232,13 @@ export function osaToLocation(osa: OsanTyypillinen): Location {
       name: 'perusteTavoitesisaltoalue',
       params: {
         tavoitesisaltoalueId: String(osa.id),
+      },
+    };
+  case 'taiteenalavaihe':
+    return {
+      name: 'perusteTaiteenalaVaihe',
+      params: {
+        taiteenalaVaiheId: String(osa.id),
       },
     };
   case 'taiteenala':
@@ -562,6 +569,14 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       name: 'perusteTavoitesisaltoalue',
       params: {
         tavoitesisaltoalueId: String(rawNode.id),
+      },
+    };
+    break;
+  case 'taiteenalavaihe':
+    node.location = {
+      name: 'perusteTaiteenalaVaihe',
+      params: {
+        taiteenalaVaiheId: String(rawNode.id),
       },
     };
     break;
