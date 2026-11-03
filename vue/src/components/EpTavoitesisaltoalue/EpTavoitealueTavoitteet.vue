@@ -17,7 +17,7 @@
           >
             <EpKoodistoSelect
               v-model="tavoitteet[tavoiteIndex]"
-              :koodisto="Koodistot.TAVOITTEETLUKUTAITO2027"
+              :koodisto="koodisto"
               :is-editing="true"
               :nayta-arvo="false"
             >
@@ -26,7 +26,7 @@
                   <EpInput
                     v-model="tavoite.nimi"
                     :is-editing="true"
-                    :disabled="!tavoite.uri.startsWith('temporary')"
+                    :disabled="!sallitaanOmaTavoite || !tavoite.uri?.startsWith('temporary')"
                     class="input-wrapper"
                     :validation="v$.tavoitteet.$each.$response.$data[tavoiteIndex]?.nimi"
                   >
@@ -103,6 +103,14 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  koodisto: {
+    type: String,
+    default: Koodistot.TAVOITTEETLUKUTAITO2027,
+  },
+  sallitaanOmaTavoite: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -118,6 +126,11 @@ const rules = computed(() => ({
   tavoitteet: {
     $each: helpers.forEach({
       ...koodistoKoodiValidator(),
+      ...(!props.sallitaanOmaTavoite && {
+        uri: {
+          koodistosta: (uri: string) => !!uri && !uri.startsWith('temporary'),
+        },
+      }),
     }),
   },
 }));
@@ -131,7 +144,7 @@ const lisaaTavoite = () => {
       ...(!hasSlotContent(slots.default)
         && {
           nimi: null,
-          uri: generateTemporaryKoodiUri(Koodistot.TAVOITTEETLUKUTAITO2027),
+          ...(props.sallitaanOmaTavoite && { uri: generateTemporaryKoodiUri(props.koodisto) }),
         }),
     },
   ];
