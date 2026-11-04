@@ -319,7 +319,7 @@
           >
             <EpInputGroup class="w-full flex">
               <ep-input
-                :model-value="$kaanna(tiedote.otsikko)"
+                :model-value="`${$sd(tiedote.luotu)} ${$kaanna(tiedote.otsikko)}`"
                 :is-editing="true"
                 disabled
               />
@@ -465,20 +465,20 @@
         </div>
 
         <div
-          v-if="esittavaMuokkaustieto.tiedotteet?.length"
+          v-if="liitetytTiedotteet.length"
           class="mt-4"
         >
           <h6>
             {{
               $t(
-                esittavaMuokkaustieto.tiedotteet.length === 1
+                liitetytTiedotteet.length === 1
                   ? 'liitetty-tiedote'
                   : 'liitetyt-tiedotteet',
               )
             }}:
           </h6>
           <div
-            v-for="tiedote in esittavaMuokkaustieto.tiedotteet"
+            v-for="tiedote in liitetytTiedotteet"
             :key="tiedote.id"
           >
             <EpButton
@@ -486,6 +486,7 @@
               button-class="p-0"
               @click="avaaLiittyvaTiedote(tiedote)"
             >
+              {{ $sd(tiedote.luotu) }}
               {{ $kaanna(tiedote.otsikko) }}
             </EpButton>
           </div>
@@ -728,6 +729,13 @@ const esittavaMuokkaustieto = computed(() => {
     ],
   };
 });
+
+const liitetytTiedotteet = computed(() =>
+  _.chain(esittavaMuokkaustieto.value.tiedotteet ?? [])
+    .sortBy('luotu')
+    .reverse()
+    .value(),
+);
 
 const valitutKoulutustyypit = computed((): string[] => {
   return _.chain(koulutustyyppiRyhmaValinnat.value)
