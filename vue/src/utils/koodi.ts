@@ -24,6 +24,7 @@ export enum Koodistot {
   TAVOITEALUEET = 'tavoitealueet',
   TAVOITESISALTOALUEENOTSIKKO = 'tavoitesisaltoalueenotsikko',
   TAVOITTEETLUKUTAIDOT = 'tavoitteetlukutaidot',
+  TAVOITTEETLUKUTAITO2027 = 'tavoitteetlukutaito2027',
   TUTKINNONOSAT = 'tutkinnonosat',
   TUTKINTO = 'tutkinto',
   TUTKINTOKOULUTUKSEEN_VALMENTAVAKOULUTUS_LAAJAALAINENOSAAMINEN = 'tutkintokoulutukseenvalmentavakoulutuslaajaalainenosaaminen',

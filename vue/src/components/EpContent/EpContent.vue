@@ -352,7 +352,7 @@ onBeforeUnmount(() => {
   }
 
   .placeholder {
-    opacity: 0.5;
+    color: $grey500;
   }
 
   .is-editable {

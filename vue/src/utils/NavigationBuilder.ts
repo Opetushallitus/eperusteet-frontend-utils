@@ -234,13 +234,6 @@ export function osaToLocation(osa: OsanTyypillinen): Location {
         tavoitesisaltoalueId: String(osa.id),
       },
     };
-  case 'lukutaitokoulutus_tavoitteetjasisaltoalueet':
-    return {
-      name: 'perusteLukutaitokoulutusTavoitteetJaSisaltoalueet',
-      params: {
-        tavoitteetJaSisaltoalueetId: String(osa.id),
-      },
-    };
   case 'taiteenala':
     return {
       name: 'perusteTekstikappale',
@@ -569,14 +562,6 @@ export function setPerusteData(node: NavigationNode, rawNode: NavigationNodeDto)
       name: 'perusteTavoitesisaltoalue',
       params: {
         tavoitesisaltoalueId: String(rawNode.id),
-      },
-    };
-    break;
-  case 'lukutaitokoulutus_tavoitteetjasisaltoalueet':
-    node.location = {
-      name: 'perusteLukutaitokoulutusTavoitteetJaSisaltoalueet',
-      params: {
-        tavoitteetJaSisaltoalueetId: String(rawNode.id),
       },
     };
     break;
@@ -999,7 +984,7 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
       },
     };
     break;
-  case 'lukutaitokoulutus_tavoitteetjasisaltoalueet':
+  case 'tavoitesisaltoalue':
     node.location = {
       name: 'toteutussuunnitelmaSisalto',
       params: {

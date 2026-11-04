@@ -17,7 +17,7 @@
           >
             <EpKoodistoSelect
               v-model="tavoitteet[tavoiteIndex]"
-              :store="tavoitteetlukutaidotKoodisto"
+              :koodisto="Koodistot.TAVOITTEETLUKUTAITO2027"
               :is-editing="true"
               :nayta-arvo="false"
             >
@@ -87,14 +87,13 @@
 import { computed, useSlots } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import _ from 'lodash';
-import { KoodistoSelectStore, getKoodistoSivutettuna } from '../EpKoodistoSelect/KoodistoSelectStore';
 import { VueDraggable } from 'vue-draggable-plus';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
 import EpInputGroup from '@shared/components/EpInputGroup/EpInputGroup.vue';
 import EpKoodistoSelect from '@shared/components/EpKoodistoSelect/EpKoodistoSelect.vue';
 import EpInput from '@shared/components/forms/EpInput.vue';
 import { koodistoKoodiValidator } from '@shared/validators/required';
-import { generateTemporaryKoodiUri } from '@shared/utils/koodi';
+import { generateTemporaryKoodiUri, Koodistot } from '@shared/utils/koodi';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import { hasSlotContent } from '@shared/utils/vue-utils';
 import { helpers } from '@vuelidate/validators';
@@ -125,13 +124,6 @@ const rules = computed(() => ({
 
 const v$ = useVuelidate(rules, { tavoitteet });
 
-const tavoitteetlukutaidotKoodisto = new KoodistoSelectStore({
-  koodisto: 'tavoitteetlukutaidot',
-  async query(query: string, sivu = 0, koodisto: string) {
-    return await getKoodistoSivutettuna(koodisto, query, sivu) as any;
-  },
-});
-
 const lisaaTavoite = () => {
   tavoitteet.value = [
     ...tavoitteet.value,
@@ -139,7 +131,7 @@ const lisaaTavoite = () => {
       ...(!hasSlotContent(slots.default)
         && {
           nimi: null,
-          uri: generateTemporaryKoodiUri('tavoitteetlukutaidot'),
+          uri: generateTemporaryKoodiUri(Koodistot.TAVOITTEETLUKUTAITO2027),
         }),
     },
   ];

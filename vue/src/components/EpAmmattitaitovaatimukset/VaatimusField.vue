@@ -23,7 +23,6 @@
                   v-if="!props.modelValue.koodi"
                   ref="input"
                   class="grow"
-                  :class="{ 'placeholder': placeholder }"
                   :model-value="vaatimus"
                   :placeholder="placeholder"
                   :is-editing="true"
@@ -156,7 +155,7 @@ const route = useRoute();
 
 const koodistoSelect = ref<InstanceType<typeof EpKoodistoSelect> | null>(null);
 const vaatimus = computed(() => {
-  return props.modelValue?.[props.nimiKey] ? _.unescape($kaanna(props.modelValue[props.nimiKey])) : '';
+  return props.modelValue?.[props.nimiKey] ? _.unescape($kaanna(props.modelValue[props.nimiKey], true)) : '';
 });
 
 const koodiValue = computed({
@@ -193,10 +192,7 @@ const koodiArvo = computed(() => {
 });
 
 const placeholder = computed(() => {
-  if (!focused.value && props.modelValue?.vaatimus) {
-    return $kaannaPlaceholder(props.modelValue.vaatimus as any);
-  }
-  return undefined;
+  return $kaannaPlaceholder(props.modelValue?.[props.nimiKey], true) || undefined;
 });
 
 async function fetchKoodisto(query: string) {
