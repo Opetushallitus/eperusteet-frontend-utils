@@ -2105,5 +2105,19 @@
     "maarays-tyyppi-kaikki": "Alla",
     "katselet-tulevaisuudessa-voimaantulevaa-perustetta": "Du granskar grunder som träder i kraft {voimaantulo}.",
     "siirry-talla-hetkella": "Gå till",
-    "paikallinen-tutkinnon-osa-koodi-selite": "Koden får endast innehålla siffror och sifferserien får vara minst fyra tecken lång."
+    "paikallinen-tutkinnon-osa-koodi-selite": "Koden får endast innehålla siffror och sifferserien får vara minst fyra tecken lång.",
+    "taiteenala": "Konstart",
+    "taiteenalat": "Konstarter",
+    "lisaa-taiteenala": "Lägg till konstart",
+    "nimeton-taiteenala": "Konstart utan namn",
+    "nimeton-vaihe": "Skede utan namn",
+    "nimeton-opintokokonaisuus": "Studiehelhet utan namn",
+    "opintokokonaisuudet": "Studiehelheter",
+    "valitse-tavoitealueet": "Välj målområden som hör till studiehelheten",
+    "kaikki-perusteen-taiteenalat-lisatty": "Alla konstarter i grunderna har lagts till i läroplanen",
+    "taiteenala-lisays-ohje": "Välj de konstarter i grunderna som ska läggas till i läroplanen",
+    "perusteelta-poistettu-tavoitealue": "Målområde som tagits bort från grunderna",
+    "opintokokonaisuudella-poistettuja-tavoitealueita": "Studiehelheten har målområden som tagits bort från grunderna",
+    "tavoitealueita-poistettu-perusteelta": "{lkm} målområden har tagits bort från grunderna",
+    "ei-valittuja-tavoitealueita": "Inga målområden har valts"
 }
