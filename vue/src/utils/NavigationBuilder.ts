@@ -925,6 +925,33 @@ export function setOpetussuunnitelmaData(node: NavigationNode, rawNode: Navigati
       },
     };
     break;
+  case 'taiteenala':
+    node.location = {
+      name: 'opetussuunnitelmataiteenala',
+      params: {
+        taiteenalaId: String(rawNode.id),
+      },
+    };
+    break;
+  case 'taiteenalanvaihe':
+    node.location = {
+      name: 'opetussuunnitelmataiteenalanvaihe',
+      params: {
+        taiteenalaId: String(_.get(rawNode, 'meta.taiteenalaId')),
+        vaiheId: String(rawNode.id),
+      },
+    };
+    break;
+  case 'taiteenopintokokonaisuus':
+    node.location = {
+      name: 'opetussuunnitelmataiteenopintokokonaisuus',
+      params: {
+        taiteenalaId: String(_.get(rawNode, 'meta.taiteenalaId')),
+        vaiheId: String(_.get(rawNode, 'meta.vaiheId')),
+        opintokokonaisuusId: String(rawNode.id),
+      },
+    };
+    break;
   case 'valinnaisetoppiaineet':
     node.label = 'valinnaiset-oppiaineet';
     node.location = {

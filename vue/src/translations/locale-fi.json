@@ -4740,5 +4740,8 @@
     "opintokokonaisuudella-poistettuja-tavoitealueita": "Opintokokonaisuudella on tavoitealueita, jotka on poistettu perusteelta",
     "tavoitealueita-poistettu-perusteelta": "Opintokokonaisuuden tavoitealueita on poistettu perusteelta",
     "ei-valittuja-tavoitealueita": "Tavoitealueita ei ole valittu",
-    "nimeton-vaihe": "Nimetön vaihe"
+    "nimeton-vaihe": "Nimetön vaihe",
+    "route-opetussuunnitelmataiteenala": "Taiteenala",
+    "route-opetussuunnitelmataiteenalanvaihe": "Vaihe",
+    "route-opetussuunnitelmataiteenopintokokonaisuus": "Opintokokonaisuus"
 }
