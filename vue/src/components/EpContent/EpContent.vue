@@ -201,19 +201,18 @@ function setUpEditorEvents() {
   if (editor.value) {
     const data = editor.value.getHTML();
     striptag.innerHTML = data;
-    const isValid = !_.isEmpty(striptag.innerText || striptag.textContent) || striptag.getElementsByTagName('img').length > 0;
+    const hasImage = striptag.getElementsByTagName('img').length > 0;
+    const isValid = !_.isEmpty(striptag.innerText || striptag.textContent) || hasImage;
     const stripped = isValid ? data : null;
 
-    if (!placeholder.value) {
-      if (props.isPlainString) {
-        emit('update:modelValue', stripped);
-      }
-      else {
-        emit('update:modelValue', {
-          ...props.modelValue,
-          [Kielet.getSisaltoKieli.value as unknown as string]: stripped,
-        });
-      }
+    if (props.isPlainString) {
+      emit('update:modelValue', stripped);
+    }
+    else if (!placeholder.value || hasImage) {
+      emit('update:modelValue', {
+        ...props.modelValue,
+        [Kielet.getSisaltoKieli.value as unknown as string]: stripped,
+      });
     }
   }
 }
