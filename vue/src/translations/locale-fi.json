@@ -1912,7 +1912,6 @@
     "nimeton-tekstikappale": "Nimetön tekstikappale",
     "nimeton-tutkinnon-osa": "Nimetön tutkinnon osa",
     "nimeton-tutkinnonosa": "Nimetön tutkinnonosa",
-    "nimeton-vaihe": "Nimetön vaihe",
     "nimeton-vierastutkinto": "Nimetön vieras tutkinnon osa",
     "nimetön": "Nimetön",
     "nimetön-moduuli": "Nimetön moduuli",
@@ -4735,9 +4734,8 @@
     "valitse-tavoitealueet": "Valitse opintokokonaisuuteen liittyvät tavoitealueet",
     "kaikki-perusteen-taiteenalat-lisatty": "Kaikki perusteen taiteenalat on lisätty opetussuunnitelmaan",
     "taiteenala-lisays-ohje": "Valitse opetussuunnitelmaan lisättävät perusteen taiteenalat",
-    "perusteelta-poistettu-tavoitealue": "Perusteelta poistettu tavoitealue",
     "opintokokonaisuudella-poistettuja-tavoitealueita": "Opintokokonaisuudella on tavoitealueita, jotka on poistettu perusteelta",
-    "tavoitealueita-poistettu-perusteelta": "{lkm} tavoitealuetta on poistettu perusteelta",
+    "tavoitealueita-poistettu-perusteelta": "Opintokokonaisuuden tavoitealueita on poistettu perusteelta",
     "ei-valittuja-tavoitealueita": "Tavoitealueita ei ole valittu",
     "nimeton-vaihe": "Nimetön vaihe"
 }
