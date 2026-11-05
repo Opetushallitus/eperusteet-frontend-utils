@@ -221,6 +221,7 @@
             class="mb-1 flex justify-center items-center"
           >
             <ep-koodisto-select
+              ref="tutkinnonOsaSelects"
               v-model="muokattavaTiedote.tutkinnonosat![index]"
               :store="tutkinnonOsaKoodisto"
               class="w-full"
@@ -271,6 +272,7 @@
             class="mb-1 flex justify-center items-center"
           >
             <ep-koodisto-select
+              ref="osaamisalaSelects"
               v-model="muokattavaTiedote.osaamisalat![index]"
               :store="osaamisalaKoodisto"
               class="w-full"
@@ -547,7 +549,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, h, ref, watch } from 'vue';
+import { computed, h, nextTick, ref, watch } from 'vue';
 import _ from 'lodash';
 import {
   Kayttajat,
@@ -612,6 +614,8 @@ type PerusteValinta = Pick<
 >;
 
 const modalRef = ref<InstanceType<typeof EpModal> | null>(null);
+const tutkinnonOsaSelects = ref<InstanceType<typeof EpKoodistoSelect>[]>([]);
+const osaamisalaSelects = ref<InstanceType<typeof EpKoodistoSelect>[]>([]);
 
 const props = defineProps({
   perusteet: {
@@ -1025,11 +1029,13 @@ function poistaTutkinnonosa(tutkinnonOsaIndex: number) {
   );
 }
 
-function lisaaTutkinnonOsa() {
+async function lisaaTutkinnonOsa() {
   muokattavaTiedote.value = {
     ...muokattavaTiedote.value,
     tutkinnonosat: [...(muokattavaTiedote.value.tutkinnonosat || []), {}],
   };
+  await nextTick();
+  await tutkinnonOsaSelects.value[tutkinnonOsaSelects.value.length - 1]?.openDialog();
 }
 
 function poistaOsaamisala(osaamisalaIndex: number) {
@@ -1039,11 +1045,13 @@ function poistaOsaamisala(osaamisalaIndex: number) {
   );
 }
 
-function lisaaOsaamisala() {
+async function lisaaOsaamisala() {
   muokattavaTiedote.value = {
     ...muokattavaTiedote.value,
     osaamisalat: [...(muokattavaTiedote.value.osaamisalat || []), {}],
   };
+  await nextTick();
+  await osaamisalaSelects.value[osaamisalaSelects.value.length - 1]?.openDialog();
 }
 
 const ammatillisetLisayksetSallittu = computed(() => {
