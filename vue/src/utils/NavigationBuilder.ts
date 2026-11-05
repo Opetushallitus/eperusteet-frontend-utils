@@ -306,14 +306,14 @@ export function osaToLocation(osa: OsanTyypillinen): Location {
     return {
       name: 'aipeLaajaalainenOsaaminen',
     };
-  case 'aipevaihe':
+  case 'aipe_vaihe':
     return {
       name: 'aipevaihe',
       params: {
         vaiheId: String(osa?.id),
       },
     };
-  case 'aipeoppiaine':
+  case 'aipe_oppiaine':
     return {
       name: 'aipeoppiaine',
       params: {
@@ -321,7 +321,7 @@ export function osaToLocation(osa: OsanTyypillinen): Location {
         oppiaineId: String(osa?.id),
       },
     };
-  case 'aipekurssi':
+  case 'aipe_kurssi':
     return {
       name: 'aipekurssi',
       params: {
