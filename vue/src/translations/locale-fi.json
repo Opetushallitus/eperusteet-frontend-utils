@@ -3446,6 +3446,7 @@
     "tavoitteen-paivamaara": "Tavoitteen päivämäärä",
     "tavoitteen-pvm": "Tavoitteen päivämäärä",
     "tavoitteen-selite": "Tavoitteen selite",
+    "tavoitteiden-johdanto": "Tavoitteiden johdanto",
     "tavoitteet": "Tavoitteet",
     "tavoitteet-ja-keskeiset-sisallot": "Tavoitteet ja keskeiset sisällöt",
     "tavoitteet-ja-keskeiset-sisaltoalueet": "Tavoitteet ja keskeiset sisältöalueet",
@@ -4740,5 +4741,8 @@
     "opintokokonaisuudella-poistettuja-tavoitealueita": "Opintokokonaisuudella on tavoitealueita, jotka on poistettu perusteelta",
     "tavoitealueita-poistettu-perusteelta": "Opintokokonaisuuden tavoitealueita on poistettu perusteelta",
     "ei-valittuja-tavoitealueita": "Tavoitealueita ei ole valittu",
-    "nimeton-vaihe": "Nimetön vaihe"
+    "nimeton-vaihe": "Nimetön vaihe",
+    "route-opetussuunnitelmataiteenala": "Taiteenala",
+    "route-opetussuunnitelmataiteenalanvaihe": "Vaihe",
+    "route-opetussuunnitelmataiteenopintokokonaisuus": "Opintokokonaisuus"
 }

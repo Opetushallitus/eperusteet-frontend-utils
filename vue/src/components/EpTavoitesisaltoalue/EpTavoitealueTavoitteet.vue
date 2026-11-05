@@ -8,9 +8,9 @@
       <div
         v-for="(tavoite, tavoiteIndex) in tavoitteet"
         :key="tavoite+tavoiteIndex"
-        class="flex pb-2 gap-4 items-center"
+        class="flex pb-2 items-center"
       >
-        <div class="w-14/15">
+        <div class="w-11/12 min-w-0">
           <slot
             :tavoite="tavoite"
             :tavoite-index="tavoiteIndex"
@@ -22,7 +22,7 @@
               :nayta-arvo="false"
             >
               <template #default="{ open }">
-                <EpInputGroup>
+                <EpInputGroup class="w-full min-w-0">
                   <EpInput
                     v-model="tavoite.nimi"
                     :is-editing="true"
@@ -51,7 +51,7 @@
             </EpKoodistoSelect>
           </slot>
         </div>
-        <div class="w-1/15">
+        <div class="w-1/12">
           <div
             class="default-icon clickable"
             @click="poistaTavoite(tavoite)"
