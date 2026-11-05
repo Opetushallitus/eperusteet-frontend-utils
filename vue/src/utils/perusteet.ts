@@ -470,6 +470,14 @@ export function isVstLukutaito(koulutustyyppi): boolean {
   return koulutustyyppi === 'koulutustyyppi_35';
 }
 
+export function laajuusYksikkoLyhenne(laajuusYksikko?: string) {
+  return _.toLower(laajuusYksikko || 'OPINTOPISTE') + '-lyhenne';
+}
+
+export function isTpo2026(peruste): boolean {
+  return _.toLower(peruste?.toteutus) === KoulutustyyppiToteutus.tpo2026;
+}
+
 export function koulutustyyppiTheme(koulutustyyppi: string) {
   return themes[koulutustyyppi] || koulutustyyppi || 'muu';
 }

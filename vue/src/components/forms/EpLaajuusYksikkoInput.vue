@@ -60,6 +60,10 @@ const props = defineProps({
   validationError: {
     type: Object,
   },
+  laajuusYksikot: {
+    type: Array as () => string[],
+    required: false,
+  },
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -79,6 +83,10 @@ const validation = computed(() => {
 });
 
 const laajuusYksikot = computed(() => {
+  if (props.laajuusYksikot) {
+    return props.laajuusYksikot;
+  }
+
   return [
     LaajuusYksikkoEnum.OPINTOPISTE,
     LaajuusYksikkoEnum.OPINTOVIIKKO,
