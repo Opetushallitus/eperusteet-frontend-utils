@@ -27,7 +27,7 @@
               <div class="w-11/12">
                 <ep-koodisto-select
                   v-model="tavoitealue.otsikko"
-                  :koodisto="Koodistot.TAVOITEALUEET"
+                  :koodisto="otsikkoKoodisto"
                   :is-editing="isEditing"
                   :nayta-arvo="false"
                 >
@@ -77,7 +77,11 @@
               <span class="otsikko pl-1"> {{ $t('tavoitteet') }}</span>
             </div>
             <div class="ml-4">
-              <EpTavoitealueTavoitteet v-model="tavoitealue.tavoitteet" />
+              <EpTavoitealueTavoitteet
+                v-model="tavoitealue.tavoitteet"
+                :koodisto="tavoiteKoodisto"
+                :sallitaan-oma-tavoite="sallitaanOmaTavoite"
+              />
             </div>
             <div class="mt-3 ml-4">
               <div class="otsikko mb-2">
@@ -193,6 +197,18 @@ const props = defineProps({
     type: Boolean,
     required: false,
     default: false,
+  },
+  otsikkoKoodisto: {
+    type: String,
+    default: Koodistot.TAVOITEALUEET,
+  },
+  tavoiteKoodisto: {
+    type: String,
+    default: Koodistot.TAVOITTEETLUKUTAITO2027,
+  },
+  sallitaanOmaTavoite: {
+    type: Boolean,
+    default: true,
   },
 });
 

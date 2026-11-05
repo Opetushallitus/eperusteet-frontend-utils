@@ -3392,6 +3392,9 @@
     "tapahtuma-luonti-perusopetusoppiaine": "Lisäsi oppiaineen",
     "tapahtuma-luonti-perusopetuspaikallinenoppiaine": "Lisäsi oppiaineen",
     "tapahtuma-luonti-poppiaine": "Lisäsi paikallisen oppiaineen",
+    "tapahtuma-luonti-taiteenopintokokonaisuus": "Lisäsi opintokokonaisuuden",
+    "tapahtuma-luonti-taiteenala": "Lisäsi taiteenalan",
+    "tapahtuma-luonti-taiteenalavaihe": "Lisäsi taiteenalan vaiheen",
     "tapahtuma-luonti-tekstikappale": "Lisäsi tekstikappaleen",
     "tapahtuma-luonti-termi": "Lisäsi termin",
     "tapahtuma-luonti-tutkinnonosa": "Lisäsi tutkinnon osan",
@@ -4735,5 +4738,16 @@
     "viikko": "Viikko",
     "kpl-valittu": "{kpl} valittu",
     "ei-oletustoteutuksia": "Ei oletustoteutuksia",
-    "kaantajatutkinto": "Kääntäjätutkinto"
+    "kaantajatutkinto": "Kääntäjätutkinto",
+    "taiteenalat": "Taiteenalat",
+    "valitse-tavoitealueet": "Valitse opintokokonaisuuteen liittyvät tavoitealueet",
+    "kaikki-perusteen-taiteenalat-lisatty": "Kaikki perusteen taiteenalat on lisätty opetussuunnitelmaan",
+    "taiteenala-lisays-ohje": "Valitse opetussuunnitelmaan lisättävät perusteen taiteenalat",
+    "opintokokonaisuudella-poistettuja-tavoitealueita": "Opintokokonaisuudella on tavoitealueita, jotka on poistettu perusteelta",
+    "tavoitealueita-poistettu-perusteelta": "Opintokokonaisuuden tavoitealueita on poistettu perusteelta",
+    "ei-valittuja-tavoitealueita": "Tavoitealueita ei ole valittu",
+    "nimeton-vaihe": "Nimetön vaihe",
+    "route-opetussuunnitelmataiteenala": "Taiteenala",
+    "route-opetussuunnitelmataiteenalanvaihe": "Vaihe",
+    "route-opetussuunnitelmataiteenopintokokonaisuus": "Opintokokonaisuus"
 }
