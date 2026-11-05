@@ -34,6 +34,15 @@
                   <template #default="{ open }">
                     <EpInputGroup>
                       <ep-input
+                        v-if="sallitaanOmaOtsikko && tavoitealue.otsikko"
+                        v-model="tavoitealue.otsikko.nimi"
+                        :is-editing="true"
+                        :disabled="!tavoitealue.otsikko.uri?.startsWith('temporary')"
+                        class="input-wrapper"
+                        :validation="v$.tavoitealueet.$each.$response.$data[tavoitealueIndex]?.otsikko"
+                      />
+                      <ep-input
+                        v-else
                         :model-value="tavoitealue.otsikko ? $kaanna(tavoitealue.otsikko.nimi) : ''"
                         :is-editing="true"
                         disabled
@@ -83,7 +92,10 @@
                 :sallitaan-oma-tavoite="sallitaanOmaTavoite"
               />
             </div>
-            <div class="mt-3 ml-4">
+            <div
+              v-if="naytaKeskeisetSisaltoalueet"
+              class="mt-3 ml-4"
+            >
               <div class="otsikko mb-2">
                 {{ $t('keskeiset-sisaltoalueet') }}
               </div>
@@ -176,6 +188,8 @@
 
 <script setup lang="ts">
 import { computed, getCurrentInstance } from 'vue';
+import { useVuelidate } from '@vuelidate/core';
+import { helpers } from '@vuelidate/validators';
 import _ from 'lodash';
 import { VueDraggable } from 'vue-draggable-plus';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
@@ -185,7 +199,8 @@ import EpTavoitealueKeskeisetSisaltoalueet from './EpTavoitealueKeskeisetSisalto
 import EpTavoitealueTavoitteet from './EpTavoitealueTavoitteet.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import { $t, $kaanna } from '@shared/utils/globals';
-import { Koodistot } from '@shared/utils/koodi';
+import { generateTemporaryKoodiUri, Koodistot } from '@shared/utils/koodi';
+import { koodistoKoodiValidator } from '@shared/validators/required';
 import EpInput from '@shared/components/forms/EpInput.vue';
 
 const props = defineProps({
@@ -210,6 +225,14 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  sallitaanOmaOtsikko: {
+    type: Boolean,
+    default: false,
+  },
+  naytaKeskeisetSisaltoalueet: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -219,11 +242,41 @@ const tavoitealueet = computed({
   set: (value) => emit('update:modelValue', value),
 });
 
+const rules = computed(() => {
+  const nimiRules = koodistoKoodiValidator().nimi;
+
+  return {
+    tavoitealueet: {
+      $each: helpers.forEach({
+        ...(props.sallitaanOmaOtsikko && {
+          otsikko: _.mapValues(nimiRules, (rule: (value: unknown) => boolean) => {
+            return (otsikko: { nimi?: unknown } | undefined, tavoitealue: { tavoiteAlueTyyppi?: string }) => {
+              if (tavoitealue?.tavoiteAlueTyyppi !== 'OTSIKKO') {
+                return true;
+              }
+
+              return rule(otsikko?.nimi);
+            };
+          }),
+        }),
+      }),
+    },
+  };
+});
+
+const v$ = useVuelidate(rules, { tavoitealueet });
+
 const lisaaTavoitealue = (tyyppi: 'OTSIKKO' | 'TAVOITESISALTOALUE') => {
   tavoitealueet.value = [
     ...tavoitealueet.value,
     {
       tavoiteAlueTyyppi: tyyppi,
+      ...(tyyppi === 'OTSIKKO' && props.sallitaanOmaOtsikko && {
+        otsikko: {
+          nimi: null,
+          uri: generateTemporaryKoodiUri(props.otsikkoKoodisto),
+        },
+      }),
       ...(tyyppi === 'TAVOITESISALTOALUE' && { tavoitteet: [] }),
       ...(tyyppi === 'TAVOITESISALTOALUE' && { keskeisetSisaltoalueet: [] }),
     },
