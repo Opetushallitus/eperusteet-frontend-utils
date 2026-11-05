@@ -1,7 +1,7 @@
 export interface KoulutustyyppiRyhmaValinta {
   type: string,
   object: string[],
-};
+}
 
 export const julkaisupaikkaSort = {
   'opintopolku_etusivu': 1,

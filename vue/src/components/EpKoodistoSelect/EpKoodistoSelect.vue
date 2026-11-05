@@ -30,8 +30,8 @@
       ref="editModal"
       size="md"
       position="top"
-      @cancel="alusta"
       style="min-height: 860px; margin-top: 3rem;"
+      @cancel="alusta"
     >
       <template #modal-title>
         <slot name="header">
@@ -40,7 +40,11 @@
       </template>
 
       <template #modal-footer>
-        <slot name="modal-footer" :ok="lisaaValitut" :cancel="closeDialog">
+        <slot
+          name="modal-footer"
+          :ok="lisaaValitut"
+          :cancel="closeDialog"
+        >
           <EpButton
             variant="link"
             @click="closeDialog"
@@ -61,7 +65,10 @@
       <template #default>
         <div class="flex flex-row items-center">
           <div class="grow">
-            <ep-search v-model="query" />
+            <ep-search
+              v-model="query"
+              class="my-2"
+            />
             <ep-toggle
               v-model="vanhentuneet"
               class="pt-3 pl-1"
