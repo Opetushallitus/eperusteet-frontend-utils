@@ -313,7 +313,7 @@
 
         <ep-form-content name="liita-tiedote-tiedotteeseen">
           <div
-            v-for="tiedote in muokattavaTiedote.tiedotteet ?? []"
+            v-for="tiedote in liitetytTiedotteet"
             :key="tiedote.id"
             class="mb-1 flex justify-center items-center"
           >
@@ -731,7 +731,7 @@ const esittavaMuokkaustieto = computed(() => {
 });
 
 const liitetytTiedotteet = computed(() =>
-  _.chain(esittavaMuokkaustieto.value.tiedotteet ?? [])
+  _.chain(muokattavaTiedote.value.tiedotteet ?? [])
     .sortBy('luotu')
     .reverse()
     .value(),

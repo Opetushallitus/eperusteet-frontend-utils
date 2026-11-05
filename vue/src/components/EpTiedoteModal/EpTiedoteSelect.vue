@@ -196,7 +196,11 @@ function selectRow(rows: TiedoteDto[]) {
     return;
   }
 
-  emit('select', { id: tiedote.id, otsikko: tiedote.otsikko });
+  emit('select', {
+    id: tiedote.id,
+    otsikko: tiedote.otsikko,
+    luotu: tiedote.luotu,
+  });
   close();
 }
 
