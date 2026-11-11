@@ -63,9 +63,9 @@
                 />
               </div>
               <div
-                v-if="latest"
+                v-if="naytettavaVersio"
                 class="truncate"
-              >{{ $t('muokattu') }}: {{ $sdt(latest.pvm) }}, {{ nimi }}</div>
+              >{{ $t('muokattu') }}: {{ $sdt(naytettavaVersio.pvm) }}, {{ nimi }}</div>
             </div>
             <div>
               <div
@@ -315,50 +315,48 @@
         </div>
         <div
           v-if="versiohistoriaVisible"
-          class="flex items-center versiohistoria"
+          class="versiohistoria"
         >
-          <div class="headerline">
-            <span>{{ $t('muokkaushistoria') }}: {{ $t('versionumero') }} {{ versionumero }}</span>
-          </div>
-          <div class="flex-1">
-            <ep-b-pagination
-              :model-value="versionumero"
-              :total="versions"
-              :items-per-page="1"
-              class="mb-0"
-              @update:model-value="updateVersionumero"
-            />
-          </div>
-          <div class="floating-editing-buttons">
-            <EpButton
-              variant="link"
-              icon="menu"
-            >
-              <ep-versio-modaali
-                :versions="historia"
-                :current="current"
-                :per-page="10"
-                @restore="restore($event)"
+          <div class="versiohistoria-rivi">
+            <div class="versiohistoria-otsikko">
+              <span>{{ $t('muokkaushistoria') }}: {{ $t('versionumero') }} {{ versionumero }}</span>
+            </div>
+            <div class="versiohistoria-sivutus">
+              <ep-b-pagination
+                :model-value="versionumero"
+                :total="versions"
+                :items-per-page="1"
+                @update:model-value="updateVersionumero"
+              />
+            </div>
+            <div class="versiohistoria-toiminnot">
+              <EpButton
+                variant="link"
+                icon="menu"
               >
-                {{ $t('palaa-listaan') }}
-              </ep-versio-modaali>
-            </EpButton>
-            <EpButton
-              variant="link"
-              icon="keyboard_return"
-              @click="restore({ numero: current.numero, routePushLatest: true })"
-            >
-              {{ $t('palauta-tama-versio') }}
-            </EpButton>
-            <div class="btn">
-              <router-link :to="{ query: {} }">
-                <EpMaterialIcon
-                  :background="'inherit'"
-                  :color="'inherit'"
+                <ep-versio-modaali
+                  :versions="historia"
+                  :current="current"
+                  :per-page="10"
+                  @restore="restore($event)"
                 >
-                  close
-                </EpMaterialIcon>
-              </router-link>
+                  {{ $t('palaa-listaan') }}
+                </ep-versio-modaali>
+              </EpButton>
+              <EpButton
+                variant="link"
+                icon="keyboard_return"
+                @click="restore({ numero: current.numero, routePushLatest: true })"
+              >
+                {{ $t('palauta-tama-versio') }}
+              </EpButton>
+              <EpButton
+                variant="link"
+                icon="close"
+                :to="{ query: {} }"
+              >
+                {{ $t('peruuta') }}
+              </EpButton>
             </div>
           </div>
         </div>
@@ -749,13 +747,6 @@ const versions = computed(() => historia.value.length - 1); // Ei näytetä nyky
 
 const hidden = computed(() => features.value.isHidden || false);
 
-const nimi = computed(() => {
-  if (latest.value) {
-    return parsiEsitysnimi(latest.value.kayttajanTieto) || parsiEsitysnimi(latest.value);
-  }
-  return '';
-});
-
 const poistoteksti = computed(() => {
   if (!props.type) {
     return $t(props.labelRemove);
@@ -801,6 +792,15 @@ const current = computed(() => {
 const versiohistoriaVisible = computed(() =>
   current.value && current.value !== latest.value,
 );
+
+const naytettavaVersio = computed(() => current.value || latest.value);
+
+const nimi = computed(() => {
+  if (naytettavaVersio.value) {
+    return parsiEsitysnimi(naytettavaVersio.value.kayttajanTieto) || parsiEsitysnimi(naytettavaVersio.value);
+  }
+  return '';
+});
 
 const hasKeskusteluSlot = computed(() => !!slots.keskustelu);
 const hasPerusteSlot = computed(() => !!slots.peruste);
@@ -995,34 +995,83 @@ watch(sidebarState, (newValue, oldValue) => {
   .versiohistoria {
     background-color: $lightBlue2;
     border-bottom: 1px solid $grey200;
-    padding: 2px 15px;
+    padding: 0.35rem 0.75rem;
     color: $grey800;
 
-    .headerline {
-      padding-right: 50px;
+    .versiohistoria-rivi {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      column-gap: 1.5rem;
+      row-gap: 0.25rem;
     }
 
-    :deep(.pagination .page-item) {
-      &.active {
-        .page-link {
-          font-weight: 600;
-          color: $grey600;
-        }
-      }
+    .versiohistoria-otsikko {
+      flex: 0 0 auto;
+      white-space: nowrap;
+    }
 
-      &.disabled {
-        .page-link {
-          color: $grey600;
-        }
-      }
+    .versiohistoria-sivutus {
+      flex: 1 1 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-      & .page-link {
-        background-color: transparent;
-        border: none;
-        color: $link;
-        font-weight: 400;
-        font-size: 1rem;
+      :deep(nav) {
+        margin-top: 0;
       }
+    }
+
+    .versiohistoria-toiminnot {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem 1.25rem;
+      margin-left: auto;
+    }
+
+    :deep(.p-paginator) {
+      margin-top: 0;
+      padding: 0;
+      background: transparent;
+      border-radius: 0;
+    }
+
+    :deep(.p-paginator-page),
+    :deep(.p-paginator-next),
+    :deep(.p-paginator-last),
+    :deep(.p-paginator-first),
+    :deep(.p-paginator-prev) {
+      background: transparent;
+      color: $link;
+      min-width: auto;
+      width: auto;
+      height: auto;
+      padding: 0.15rem 0.35rem;
+      border-radius: 0;
+      font-weight: 400;
+      font-size: 1rem;
+    }
+
+    :deep(.p-paginator-page.p-paginator-page-selected) {
+      background: transparent;
+      color: $grey800;
+      font-weight: 700;
+    }
+
+    :deep(.p-paginator-page:not(.p-disabled):not(.p-paginator-page-selected):hover),
+    :deep(.p-paginator-first:not(.p-disabled):hover),
+    :deep(.p-paginator-prev:not(.p-disabled):hover),
+    :deep(.p-paginator-next:not(.p-disabled):hover),
+    :deep(.p-paginator-last:not(.p-disabled):hover) {
+      background: transparent;
+      color: $link-hover-color;
+    }
+
+    :deep(.p-paginator .p-disabled) {
+      color: $grey600;
+      opacity: 1;
     }
   }
 
