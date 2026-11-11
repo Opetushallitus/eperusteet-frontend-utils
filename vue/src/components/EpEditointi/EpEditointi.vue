@@ -1055,9 +1055,14 @@ watch(sidebarState, (newValue, oldValue) => {
     }
 
     :deep(.p-paginator-page.p-paginator-page-selected) {
-      background: transparent;
-      color: $grey800;
+      background: $green6;
+      color: $link;
       font-weight: 700;
+      width: 1.75rem;
+      min-width: 1.75rem;
+      height: 1.75rem;
+      padding: 0;
+      border-radius: 50%;
     }
 
     :deep(.p-paginator-page:not(.p-disabled):not(.p-paginator-page-selected):hover),
