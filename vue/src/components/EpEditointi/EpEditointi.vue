@@ -317,19 +317,17 @@
           v-if="versiohistoriaVisible"
           class="versiohistoria"
         >
-          <div class="versiohistoria-rivi">
-            <div class="versiohistoria-otsikko">
+          <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
+            <div class="flex flex-1 items-center">
               <span>{{ $t('muokkaushistoria') }}: {{ $t('versionumero') }} {{ versionumero }}</span>
             </div>
-            <div class="versiohistoria-sivutus">
-              <ep-b-pagination
-                :model-value="versionumero"
-                :total="versions"
-                :items-per-page="1"
-                @update:model-value="updateVersionumero"
-              />
-            </div>
-            <div class="versiohistoria-toiminnot">
+            <ep-b-pagination
+              :model-value="versionumero"
+              :total="versions"
+              :items-per-page="1"
+              @update:model-value="updateVersionumero"
+            />
+            <div class="flex flex-1 items-center justify-end gap-x-5">
               <EpButton
                 variant="link"
                 icon="menu"
@@ -998,44 +996,20 @@ watch(sidebarState, (newValue, oldValue) => {
     padding: 0.35rem 0.75rem;
     color: $grey800;
 
-    .versiohistoria-rivi {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      column-gap: 1.5rem;
-      row-gap: 0.25rem;
-    }
-
-    .versiohistoria-otsikko {
-      flex: 0 0 auto;
-      white-space: nowrap;
-    }
-
-    .versiohistoria-sivutus {
-      flex: 1 1 auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      :deep(nav) {
-        margin-top: 0;
-      }
-    }
-
-    .versiohistoria-toiminnot {
-      flex: 0 0 auto;
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 0.75rem 1.25rem;
-      margin-left: auto;
+    :deep(nav) {
+      margin-top: 0;
     }
 
     :deep(.p-paginator) {
+      justify-content: center;
       margin-top: 0;
       padding: 0;
       background: transparent;
       border-radius: 0;
+    }
+
+    :deep(.p-paginator-content) {
+      justify-content: center;
     }
 
     :deep(.p-paginator-page),
