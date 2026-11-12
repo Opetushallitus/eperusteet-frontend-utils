@@ -23,7 +23,7 @@
         >
           <div
             v-for="(v, vaatimusIdx) in inner.vaatimukset"
-            :key="vaatimusIdx"
+            :key="v.tempKey"
             class="flex mt-1 items-center"
           >
             <div class="grow">
@@ -76,7 +76,7 @@
         >
           <div
             v-for="(kohdealue, kohdealueIdx) in inner.kohdealueet"
-            :key="kohdealueIdx"
+            :key="kohdealue.tempKey"
             class="kohdealue mt-2"
           >
             <EpFormGroup class="w-full">
@@ -109,7 +109,7 @@
               >
                 <div
                   v-for="(v, vaatimusIdx) in kohdealue.vaatimukset"
-                  :key="vaatimusIdx"
+                  :key="v.tempKey"
                   class="mt-1 flex items-center"
                 >
                   <div class="grow">
@@ -266,7 +266,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { VueDraggable } from 'vue-draggable-plus';
 import _ from 'lodash';
 import EpButton from '../EpButton/EpButton.vue';
@@ -368,6 +368,24 @@ const kohdealueOptions = computed(() => ({
   disabled: !props.isEditing,
   ghostClass: 'dragged',
 }));
+
+const varmistaTempKey = (item) => {
+  if (item && !item.tempKey) {
+    item.tempKey = crypto.randomUUID();
+  }
+};
+
+watch(() => props.modelValue, (value) => {
+  if (!value) {
+    return;
+  }
+
+  value.vaatimukset?.forEach(varmistaTempKey);
+  value.kohdealueet?.forEach((kohdealue) => {
+    varmistaTempKey(kohdealue);
+    kohdealue.vaatimukset?.forEach(varmistaTempKey);
+  });
+}, { immediate: true, deep: true });
 
 const poistaKohdealue = async (value, el) => {
   if (await $vahvista($t('poista-kohdealue'), $t('poista-kohdealue-kuvaus'))) {
