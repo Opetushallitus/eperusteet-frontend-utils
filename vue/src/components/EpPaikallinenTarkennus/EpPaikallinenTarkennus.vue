@@ -2,9 +2,9 @@
   <div class="paikallinen-tarkennus-alue">
     <ep-collapse
       v-if="avattava && !noheader"
-      tyyppi="paikallinen-teksti"
       :border-bottom="false"
       :use-padding="false"
+      blue
     >
       <template #header>
         <div class="otsikko">
@@ -74,16 +74,6 @@ const props = defineProps({
 @import '@shared/styles/_variables.scss';
 
 .paikallinen-tarkennus-alue {
-  border-radius: 1rem;
-  background-color: $ylops-paikallinen-color;
-  padding: 0.8rem;
-
-  .vain-teksti {
-    .otsikko {
-      margin-bottom: 8px;
-    }
-  }
-
   .otsikko {
     font-weight: 600;
   }
