@@ -26,6 +26,7 @@ import { Configuration,
   LukioOpetussuunnitelmatApi,
   JulkaisutApi,
   ArkistoidutPerusteetApi,
+  TaiteenperusopetusApi,
 } from '../generated/ylops';
 import axios, { AxiosInstance } from 'axios';
 import _ from 'lodash';
@@ -71,6 +72,7 @@ function initApi<T>(X: BaseAPIConstructor<T>): T {
 
 export const Api = ax;
 export const AIPE = initApi(AIPEApi);
+export const Taiteenperusopetus = initApi(TaiteenperusopetusApi);
 export const Dokumentit = initApi(DokumentitApi);
 export const DokumentitParams = DokumentitApiAxiosParamCreator(configuration);
 export const Kayttajat = initApi(KayttajatApi);

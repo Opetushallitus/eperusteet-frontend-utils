@@ -8,25 +8,25 @@
       <div
         v-for="(tavoite, tavoiteIndex) in tavoitteet"
         :key="tavoite+tavoiteIndex"
-        class="flex pb-2 gap-4 items-center"
+        class="flex pb-2 items-center"
       >
-        <div class="w-14/15">
+        <div class="w-11/12 min-w-0">
           <slot
             :tavoite="tavoite"
             :tavoite-index="tavoiteIndex"
           >
             <EpKoodistoSelect
               v-model="tavoitteet[tavoiteIndex]"
-              :koodisto="Koodistot.TAVOITTEETLUKUTAITO2027"
+              :koodisto="koodisto"
               :is-editing="true"
               :nayta-arvo="false"
             >
               <template #default="{ open }">
-                <EpInputGroup>
+                <EpInputGroup class="w-full min-w-0">
                   <EpInput
                     v-model="tavoite.nimi"
                     :is-editing="true"
-                    :disabled="!tavoite.uri.startsWith('temporary')"
+                    :disabled="!sallitaanOmaTavoite || !tavoite.uri?.startsWith('temporary')"
                     class="input-wrapper"
                     :validation="v$.tavoitteet.$each.$response.$data[tavoiteIndex]?.nimi"
                   >
@@ -51,7 +51,7 @@
             </EpKoodistoSelect>
           </slot>
         </div>
-        <div class="w-1/15">
+        <div class="w-1/12">
           <div
             class="default-icon clickable"
             @click="poistaTavoite(tavoite)"
@@ -103,6 +103,14 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  koodisto: {
+    type: String,
+    default: Koodistot.TAVOITTEETLUKUTAITO2027,
+  },
+  sallitaanOmaTavoite: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -118,6 +126,11 @@ const rules = computed(() => ({
   tavoitteet: {
     $each: helpers.forEach({
       ...koodistoKoodiValidator(),
+      ...(!props.sallitaanOmaTavoite && {
+        uri: {
+          koodistosta: (uri: string) => !!uri && !uri.startsWith('temporary'),
+        },
+      }),
     }),
   },
 }));
@@ -131,7 +144,7 @@ const lisaaTavoite = () => {
       ...(!hasSlotContent(slots.default)
         && {
           nimi: null,
-          uri: generateTemporaryKoodiUri(Koodistot.TAVOITTEETLUKUTAITO2027),
+          ...(props.sallitaanOmaTavoite && { uri: generateTemporaryKoodiUri(props.koodisto) }),
         }),
     },
   ];
