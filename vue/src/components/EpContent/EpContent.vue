@@ -9,6 +9,7 @@
       :is-invalid-html="isInvalidHtml"
       sticky-offset="{ top: 111 }"
       @fix-invalid-html="fixInvalidHtml"
+      @mousedown="onFocus"
     />
 
     <div class="flex justify-between items-start gap-2">
@@ -197,18 +198,26 @@ function fixInvalidHtml() {
   nextTick(() => checkHtmlValidity());
 }
 
+function onFocus() {
+  if (props.isEditable) {
+    focused.value = true;
+    if (!localizedValue.value) {
+      setEditorContent(localizedValue.value);
+    }
+  }
+}
+
 function setUpEditorEvents() {
   if (editor.value) {
     const data = editor.value.getHTML();
     striptag.innerHTML = data;
-    const hasImage = striptag.getElementsByTagName('img').length > 0;
-    const isValid = !_.isEmpty(striptag.innerText || striptag.textContent) || hasImage;
+    const isValid = !_.isEmpty(striptag.innerText || striptag.textContent) || !!striptag.querySelector('img, table');
     const stripped = isValid ? data : null;
 
     if (props.isPlainString) {
       emit('update:modelValue', stripped);
     }
-    else if (!placeholder.value || hasImage) {
+    else if (placeholder.value !== data) {
       emit('update:modelValue', {
         ...props.modelValue,
         [Kielet.getSisaltoKieli.value as unknown as string]: stripped,
@@ -271,14 +280,7 @@ const editor = useEditor({
     }
     nextTick(() => checkHtmlValidity());
   },
-  onFocus: () => {
-    if (props.isEditable) {
-      focused.value = true;
-      if (!localizedValue.value) {
-        setEditorContent(localizedValue.value);
-      }
-    }
-  },
+  onFocus,
   onBlur: () => {
     focused.value = false;
   },
