@@ -82,26 +82,10 @@ function handleToggle(event: Event) {
 
 async function onShow() {
   isOpen.value = true;
-  if (props.right) {
-    await nextTick();
-    alignRight();
-  }
 }
 
 function onHide() {
   isOpen.value = false;
-}
-
-function alignRight() {
-  const popoverEl = (popoverRef.value as any)?.$el as HTMLElement | undefined;
-  const trigger = triggerRef.value;
-  if (!popoverEl || !trigger) {
-    return;
-  }
-  const triggerRect = trigger.getBoundingClientRect();
-  const popoverRect = popoverEl.getBoundingClientRect();
-  const left = Math.max(8, triggerRect.right - popoverRect.width);
-  popoverEl.style.left = `${left}px`;
 }
 
 defineExpose({
