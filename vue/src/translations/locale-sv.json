@@ -2105,5 +2105,7 @@
     "maarays-tyyppi-kaikki": "Alla",
     "katselet-tulevaisuudessa-voimaantulevaa-perustetta": "Du granskar grunder som träder i kraft {voimaantulo}.",
     "siirry-talla-hetkella": "Gå till",
-    "paikallinen-tutkinnon-osa-koodi-selite": "Koden får endast innehålla siffror och sifferserien får vara minst fyra tecken lång."
+    "paikallinen-tutkinnon-osa-koodi-selite": "Koden får endast innehålla siffror och sifferserien får vara minst fyra tecken lång.",
+    "opintopiste-lyhenne": "sp",
+    "tunti-lyhenne": "h"
 }
