@@ -59,6 +59,17 @@ export enum KoulutustyyppiToteutus {
   aipe = 'aipe',
 }
 
+export enum LaajuusYksikko {
+  OPINTOVIIKKO = 'OPINTOVIIKKO',
+  OPINTOPISTE = 'OPINTOPISTE',
+  OSAAMISPISTE = 'OSAAMISPISTE',
+  KURSSI = 'KURSSI',
+  TUNTI = 'TUNTI',
+  VIIKKO = 'VIIKKO',
+  VUOSIVIIKKOTUNTI = 'VUOSIVIIKKOTUNTI',
+  VUOSI = 'VUOSI',
+}
+
 export type EditorLayout = 'minimal' | 'simplified' | 'simplified_w_links' | 'normal' | 'none';
 
 export interface LokalisoituTekstiDto {
