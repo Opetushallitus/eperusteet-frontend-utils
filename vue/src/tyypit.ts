@@ -52,10 +52,22 @@ export enum KoulutustyyppiToteutus {
   lops = 'lops',
   lops2019 = 'lops2019',
   tpo = 'taiteenperusopetus',
+  tpo2026 = 'taiteenperusopetus2026',
   vst = 'vapaasivistystyo',
   kielitutkinto = 'kielitutkinto',
   kaantajatutkinto = 'kaantajatutkinto',
   aipe = 'aipe',
+}
+
+export enum LaajuusYksikko {
+  OPINTOVIIKKO = 'OPINTOVIIKKO',
+  OPINTOPISTE = 'OPINTOPISTE',
+  OSAAMISPISTE = 'OSAAMISPISTE',
+  KURSSI = 'KURSSI',
+  TUNTI = 'TUNTI',
+  VIIKKO = 'VIIKKO',
+  VUOSIVIIKKOTUNTI = 'VUOSIVIIKKOTUNTI',
+  VUOSI = 'VUOSI',
 }
 
 export type EditorLayout = 'minimal' | 'simplified' | 'simplified_w_links' | 'normal' | 'none';
@@ -109,7 +121,7 @@ export type NavigationNodeType =
   | 'opetussuunnitelma'
   | 'tiedot'
   | 'kvliite'
-  | 'viite' | 'taiteenala' | 'tekstikappale'
+  | 'viite' | 'taiteenala' | 'taiteenalavaihe' | 'taiteenalanvaihe' | 'taiteenopintokokonaisuus' | 'tekstikappale'
   | 'liitteet' | 'liite'
   | 'laajaalaiset' | 'laajaalainen'
   | 'oppiaineet' | 'oppimaarat' | 'oppiaine' | 'opintojakso' | 'paikallinenOppiaine' | 'poppiaine' | 'lukio_oppiaine' | 'lukio_oppiaineet' |'lukio_laajaAlaisetOsaamiset'

@@ -1,5 +1,5 @@
 import { Kielet } from '@shared/stores/kieli';
-import { Koulutustyyppi, KoulutustyyppiToteutus } from '@shared/tyypit';
+import { Koulutustyyppi, KoulutustyyppiToteutus, LaajuusYksikko } from '@shared/tyypit';
 import _ from 'lodash';
 
 export const KoodistoLops2019LaajaAlaiset = 'laajaalainenosaaminenlops2021';
@@ -468,6 +468,14 @@ export function isPerusteVanhaLukio(peruste): boolean {
 
 export function isVstLukutaito(koulutustyyppi): boolean {
   return koulutustyyppi === 'koulutustyyppi_35';
+}
+
+export function laajuusYksikkoLyhenne(laajuusYksikko?: string) {
+  return _.toLower(laajuusYksikko || LaajuusYksikko.OPINTOPISTE) + '-lyhenne';
+}
+
+export function isTpo2026(peruste): boolean {
+  return _.toLower(peruste?.toteutus) === KoulutustyyppiToteutus.tpo2026;
 }
 
 export function koulutustyyppiTheme(koulutustyyppi: string) {

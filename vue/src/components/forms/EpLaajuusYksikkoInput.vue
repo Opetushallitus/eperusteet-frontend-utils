@@ -40,12 +40,12 @@ import { useVuelidate } from '@vuelidate/core';
 import EpErrorWrapper from '../forms/EpErrorWrapper.vue';
 import EpMultiSelect from '@shared/components/forms/EpMultiSelect.vue';
 import EpLaajuusInput from '@shared/components/forms/EpLaajuusInput.vue';
-import { LaajuusYksikkoEnum } from '@shared/api/amosaa';
+import { LaajuusYksikko } from '@shared/tyypit';
 import _ from 'lodash';
 
 export interface Laajuus {
   laajuus?: number;
-  laajuusYksikko?: LaajuusYksikkoEnum;
+  laajuusYksikko?: LaajuusYksikko;
 }
 
 const props = defineProps({
@@ -59,6 +59,10 @@ const props = defineProps({
   },
   validationError: {
     type: Object,
+  },
+  laajuusYksikot: {
+    type: Array as () => LaajuusYksikko[],
+    required: false,
   },
 });
 
@@ -79,14 +83,18 @@ const validation = computed(() => {
 });
 
 const laajuusYksikot = computed(() => {
+  if (props.laajuusYksikot) {
+    return props.laajuusYksikot;
+  }
+
   return [
-    LaajuusYksikkoEnum.OPINTOPISTE,
-    LaajuusYksikkoEnum.OPINTOVIIKKO,
-    LaajuusYksikkoEnum.TUNTI,
-    LaajuusYksikkoEnum.VIIKKO,
-    LaajuusYksikkoEnum.OSAAMISPISTE,
-    LaajuusYksikkoEnum.VUOSI,
-    LaajuusYksikkoEnum.VUOSIVIIKKOTUNTI,
+    LaajuusYksikko.OPINTOPISTE,
+    LaajuusYksikko.OPINTOVIIKKO,
+    LaajuusYksikko.TUNTI,
+    LaajuusYksikko.VIIKKO,
+    LaajuusYksikko.OSAAMISPISTE,
+    LaajuusYksikko.VUOSI,
+    LaajuusYksikko.VUOSIVIIKKOTUNTI,
   ];
 });
 

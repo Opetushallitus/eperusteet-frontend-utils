@@ -14,6 +14,7 @@
           <div
             v-if="tavoitealue.tavoiteAlueTyyppi === 'OTSIKKO'"
             class="m-2"
+            :class="{ 'tavoitesisaltoalue p-3': !naytaKeskeisetSisaltoalueet }"
           >
             <div class="flex items-center gap-2 mb-2">
               <div
@@ -23,17 +24,26 @@
               </div>
               <span class="otsikko"> {{ $t('tavoitealueen-otsikko') }}</span>
             </div>
-            <div class="flex flex-wrap">
-              <div class="w-11/12">
+            <div class="flex">
+              <div class="w-11/12 min-w-0">
                 <ep-koodisto-select
                   v-model="tavoitealue.otsikko"
-                  :koodisto="Koodistot.TAVOITEALUEET"
+                  :koodisto="otsikkoKoodisto"
                   :is-editing="isEditing"
                   :nayta-arvo="false"
                 >
                   <template #default="{ open }">
-                    <EpInputGroup>
+                    <EpInputGroup class="w-full min-w-0">
                       <ep-input
+                        v-if="sallitaanOmaOtsikko && tavoitealue.otsikko"
+                        v-model="tavoitealue.otsikko.nimi"
+                        :is-editing="true"
+                        :disabled="!tavoitealue.otsikko.uri?.startsWith('temporary')"
+                        class="input-wrapper"
+                        :validation="v$.tavoitealueet.$each.$response.$data[tavoitealueIndex]?.otsikko"
+                      />
+                      <ep-input
+                        v-else
                         :model-value="tavoitealue.otsikko ? $kaanna(tavoitealue.otsikko.nimi) : ''"
                         :is-editing="true"
                         disabled
@@ -64,6 +74,29 @@
                 </div>
               </div>
             </div>
+            <div
+              v-if="!naytaKeskeisetSisaltoalueet"
+              class="mt-3"
+            >
+              <div class="otsikko mb-2">
+                {{ $t('tavoitteiden-johdanto') }}
+              </div>
+              <div class="w-11/12 min-w-0">
+                <ep-input
+                  :model-value="tavoitealue.tavoitteidenJohdanto ?? null"
+                  :is-editing="true"
+                  @update:model-value="tavoitealue.tavoitteidenJohdanto = $event"
+                />
+              </div>
+              <div class="otsikko mb-2 mt-3">
+                {{ $t('tavoitteet') }}
+              </div>
+              <EpTavoitealueTavoitteet
+                v-model="tavoitealue.tavoitteet"
+                :koodisto="tavoiteKoodisto"
+                :sallitaan-oma-tavoite="sallitaanOmaTavoite"
+              />
+            </div>
           </div>
 
           <div
@@ -77,9 +110,28 @@
               <span class="otsikko pl-1"> {{ $t('tavoitteet') }}</span>
             </div>
             <div class="ml-4">
-              <EpTavoitealueTavoitteet v-model="tavoitealue.tavoitteet" />
+              <div class="otsikko mb-2">
+                {{ $t('tavoitteiden-johdanto') }}
+              </div>
+              <div class="w-11/12 min-w-0">
+                <ep-input
+                  :model-value="tavoitealue.tavoitteidenJohdanto ?? null"
+                  :is-editing="true"
+                  @update:model-value="tavoitealue.tavoitteidenJohdanto = $event"
+                />
+              </div>
+              <div class="mt-3">
+                <EpTavoitealueTavoitteet
+                  v-model="tavoitealue.tavoitteet"
+                  :koodisto="tavoiteKoodisto"
+                  :sallitaan-oma-tavoite="sallitaanOmaTavoite"
+                />
+              </div>
             </div>
-            <div class="mt-3 ml-4">
+            <div
+              v-if="naytaKeskeisetSisaltoalueet"
+              class="mt-3 ml-4"
+            >
               <div class="otsikko mb-2">
                 {{ $t('keskeiset-sisaltoalueet') }}
               </div>
@@ -104,9 +156,10 @@
           icon="add"
           @click="lisaaTavoitealue('OTSIKKO')"
         >
-          {{ $t('lisaa-tavoitealueen-otsikko') }}
+          {{ naytaKeskeisetSisaltoalueet ? $t('lisaa-tavoitealueen-otsikko') : $t('lisaa-tavoitealue') }}
         </EpButton>
         <EpButton
+          v-if="naytaKeskeisetSisaltoalueet"
           variant="outline"
           icon="add"
           @click="lisaaTavoitealue('TAVOITESISALTOALUE')"
@@ -130,6 +183,28 @@
           <div class="otsikko mb-3">
             {{ $kaanna(tavoitealue.otsikko.nimi) }}
           </div>
+          <div
+            v-if="$kaanna(tavoitealue.tavoitteidenJohdanto) || (tavoitealue.tavoitteet && tavoitealue.tavoitteet.length > 0)"
+            class="tavoitesisaltoalue mb-5"
+          >
+            <div
+              v-if="$kaanna(tavoitealue.tavoitteidenJohdanto)"
+              class="mb-2"
+            >
+              {{ $kaanna(tavoitealue.tavoitteidenJohdanto) }}
+            </div>
+            <ul
+              v-if="tavoitealue.tavoitteet && tavoitealue.tavoitteet.length > 0"
+              class="tavoitteet-lista"
+            >
+              <li
+                v-for="(tavoite, index) in tavoitealue.tavoitteet"
+                :key="tavoitealueIndex+'otsikko-tavoite'+index"
+              >
+                {{ $kaanna(tavoite.nimi) }}
+              </li>
+            </ul>
+          </div>
         </template>
 
         <div
@@ -137,19 +212,23 @@
           class="tavoitesisaltoalue mb-5"
         >
           <div
+            v-if="$kaanna(tavoitealue.tavoitteidenJohdanto)"
+            class="mb-2"
+          >
+            {{ $kaanna(tavoitealue.tavoitteidenJohdanto) }}
+          </div>
+          <div
             v-if="tavoitealue.tavoitteet && tavoitealue.tavoitteet.length > 0"
             class="mb-45"
           >
-            <div class="tavoitteet mb-2">
-              {{ $t('tavoitteet') }}
-            </div>
-            <div
-              v-for="(tavoite, index) in tavoitealue.tavoitteet"
-              :key="tavoitealueIndex+'tavoitealue'+index"
-              class="tavoite mb-3"
-            >
-              {{ $kaanna(tavoite.nimi) }}
-            </div>
+            <ul class="tavoitteet-lista">
+              <li
+                v-for="(tavoite, index) in tavoitealue.tavoitteet"
+                :key="tavoitealueIndex+'tavoitealue'+index"
+              >
+                {{ $kaanna(tavoite.nimi) }}
+              </li>
+            </ul>
           </div>
 
           <div v-if="tavoitealue.keskeisetSisaltoalueet && tavoitealue.keskeisetSisaltoalueet.length > 0">
@@ -171,7 +250,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, getCurrentInstance } from 'vue';
+import { computed, getCurrentInstance, watch } from 'vue';
+import { useVuelidate } from '@vuelidate/core';
+import { helpers } from '@vuelidate/validators';
 import _ from 'lodash';
 import { VueDraggable } from 'vue-draggable-plus';
 import EpButton from '@shared/components/EpButton/EpButton.vue';
@@ -181,7 +262,8 @@ import EpTavoitealueKeskeisetSisaltoalueet from './EpTavoitealueKeskeisetSisalto
 import EpTavoitealueTavoitteet from './EpTavoitealueTavoitteet.vue';
 import EpMaterialIcon from '@shared/components/EpMaterialIcon/EpMaterialIcon.vue';
 import { $t, $kaanna } from '@shared/utils/globals';
-import { Koodistot } from '@shared/utils/koodi';
+import { generateTemporaryKoodiUri, Koodistot } from '@shared/utils/koodi';
+import { koodistoKoodiValidator } from '@shared/validators/required';
 import EpInput from '@shared/components/forms/EpInput.vue';
 
 const props = defineProps({
@@ -194,6 +276,26 @@ const props = defineProps({
     required: false,
     default: false,
   },
+  otsikkoKoodisto: {
+    type: String,
+    default: Koodistot.TAVOITEALUEET,
+  },
+  tavoiteKoodisto: {
+    type: String,
+    default: Koodistot.TAVOITTEETLUKUTAITO2027,
+  },
+  sallitaanOmaTavoite: {
+    type: Boolean,
+    default: true,
+  },
+  sallitaanOmaOtsikko: {
+    type: Boolean,
+    default: false,
+  },
+  naytaKeskeisetSisaltoalueet: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -203,11 +305,54 @@ const tavoitealueet = computed({
   set: (value) => emit('update:modelValue', value),
 });
 
+watch(() => props.modelValue, (alueet) => {
+  if (props.naytaKeskeisetSisaltoalueet || !Array.isArray(alueet)) {
+    return;
+  }
+
+  alueet.forEach((tavoitealue: any) => {
+    if (tavoitealue?.tavoiteAlueTyyppi === 'OTSIKKO' && !Array.isArray(tavoitealue.tavoitteet)) {
+      tavoitealue.tavoitteet = [];
+    }
+  });
+}, { immediate: true });
+
+const rules = computed(() => {
+  const nimiRules = koodistoKoodiValidator().nimi;
+
+  return {
+    tavoitealueet: {
+      $each: helpers.forEach({
+        ...(props.sallitaanOmaOtsikko && {
+          otsikko: _.mapValues(nimiRules, (rule: (value: unknown) => boolean) => {
+            return (otsikko: { nimi?: unknown } | undefined, tavoitealue: { tavoiteAlueTyyppi?: string }) => {
+              if (tavoitealue?.tavoiteAlueTyyppi !== 'OTSIKKO') {
+                return true;
+              }
+
+              return rule(otsikko?.nimi);
+            };
+          }),
+        }),
+      }),
+    },
+  };
+});
+
+const v$ = useVuelidate(rules, { tavoitealueet });
+
 const lisaaTavoitealue = (tyyppi: 'OTSIKKO' | 'TAVOITESISALTOALUE') => {
   tavoitealueet.value = [
     ...tavoitealueet.value,
     {
       tavoiteAlueTyyppi: tyyppi,
+      ...(tyyppi === 'OTSIKKO' && props.sallitaanOmaOtsikko && {
+        otsikko: {
+          nimi: null,
+          uri: generateTemporaryKoodiUri(props.otsikkoKoodisto),
+        },
+      }),
+      ...(tyyppi === 'OTSIKKO' && !props.naytaKeskeisetSisaltoalueet && { tavoitteet: [] }),
       ...(tyyppi === 'TAVOITESISALTOALUE' && { tavoitteet: [] }),
       ...(tyyppi === 'TAVOITESISALTOALUE' && { keskeisetSisaltoalueet: [] }),
     },
@@ -296,6 +441,12 @@ const keskeisetSisaltoalueetOptions = computed(() => {
       .tavoitteet {
         font-size: 1rem;
         font-weight: 600;
+      }
+
+      .tavoitteet-lista {
+        list-style-type: disc;
+        margin-bottom: 1rem;
+        padding-left: 1.25rem;
       }
 
       .keskeinensisaltoalue {
