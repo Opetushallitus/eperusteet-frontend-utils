@@ -36,6 +36,7 @@ export enum Koulutustyyppi {
   lukutaitokoulutus = 'koulutustyyppi_31',
   vapaasivistystyolukutaito = 'koulutustyyppi_35',
   tutkintoonvalmentava = 'koulutustyyppi_40',
+  telmavalmentava = 'koulutustyyppi_32',
   kielikaantajatutkinto = 'koulutustyyppi_500',
 }
 
