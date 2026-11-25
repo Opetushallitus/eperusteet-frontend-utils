@@ -149,4 +149,5 @@ export const EPERUSTEET_KOULUTUSTYYPPI_PAIKALLISET_SOVELLUKSET = {
   'koulutustyyppi_31': 'APP_EPERUSTEET_KOTO', // lukutaitokoulutus
   'koulutustyyppi_35': 'APP_EPERUSTEET_VST', // vapaa sivistystyo lukutaito
   'koulutustyyppi_40': 'APP_EPERUSTEET_TUVA', // tutkintoon valmentava
+  'koulutustyyppi_32': 'APP_EPERUSTEET_TUVA', // telma valmentava
 };
