@@ -55,6 +55,9 @@
   "engines": {
     "node": "^24"
   },
+  "resolutions": {
+    "source-map-js": "1.2.2"
+  },
   "packageManager": "yarn@4.13.0",
   "devDependencies": {
     "@eslint/js": "^9.39.5",
