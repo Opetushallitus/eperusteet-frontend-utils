@@ -36,7 +36,7 @@
         v-for="field in normalizedFields"
         :key="field.key"
         :field="field.key"
-        :header="field.label"
+        :header="$slots[`head(${field.key})`] ? undefined : field.label"
         :header-style="field.thStyle"
         :header-class="field.thClass"
         :body-style="field.tdStyle"
