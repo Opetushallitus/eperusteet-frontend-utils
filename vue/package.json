@@ -55,8 +55,11 @@
   "engines": {
     "node": "^24"
   },
+  "//": {
+    "source-map-js": "CVE-2026-93749; Vue compiler, PostCSS/Vite, Sass, Tailwind, vue-i18n."
+  },
   "resolutions": {
-    "source-map-js": "1.2.2"
+    "source-map-js": "1.2.3"
   },
   "packageManager": "yarn@4.13.0",
   "devDependencies": {
