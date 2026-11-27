@@ -483,6 +483,14 @@ export function isVstLukutaito(koulutustyyppi): boolean {
   return koulutustyyppi === 'koulutustyyppi_35';
 }
 
+export function koulutuksenOsaLaajuusYksikko(koulutustyyppi?: string) {
+  return koulutustyyppi === Koulutustyyppi.telmavalmentava ? 'osaamispiste-partitiivi' : 'viikkoa';
+}
+
+export function koulutuksenOsaTavoitteetOtsikko(koulutustyyppi?: string) {
+  return koulutustyyppi === Koulutustyyppi.telmavalmentava ? 'osaamistavoitteet' : 'tavoitteet';
+}
+
 export function koulutustyyppiTheme(koulutustyyppi: string) {
   return themes[koulutustyyppi] || koulutustyyppi || 'muu';
 }

@@ -6,7 +6,7 @@
       </div>
       <div class="w-full text-right laajuus">
         <span class="pr-1">
-          {{ koulutuksenosa.laajuusMinimi }}-{{ koulutuksenosa.laajuusMaksimi }} {{ $t('viikkoa') }}
+          {{ koulutuksenosa.laajuusMinimi }}-{{ koulutuksenosa.laajuusMaksimi }} {{ $t(koulutuksenOsaLaajuusYksikko(koulutustyyppi)) }}
         </span>
 
         <EpColorCircle
@@ -23,6 +23,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import EpColorCircle from '@shared/components/EpColorIndicator/EpColorCircle.vue';
+import { koulutuksenOsaLaajuusYksikko } from '@shared/utils/perusteet';
 
 const props = defineProps({
   koulutuksenosa: {
@@ -32,6 +33,10 @@ const props = defineProps({
   route: {
     type: [Object, String],
     required: true,
+  },
+  koulutustyyppi: {
+    type: String,
+    required: false,
   },
 });
 
