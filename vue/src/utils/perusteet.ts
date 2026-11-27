@@ -22,6 +22,7 @@ export const EperusteetKoulutustyypit = Object.freeze([
   'koulutustyyppi_31', // lukutaitokoulutus
   'koulutustyyppi_35', // vapaa sivistystyo lukutaito
   'koulutustyyppi_40', // tutkintoon valmentava
+  'koulutustyyppi_32', // telma (valmentava)
 ]);
 
 export function isLukio(koulutustyyppi: string) {
@@ -88,6 +89,7 @@ export const themes = {
   'koulutustyyppi_31': 'kotoutuminen',
   'koulutustyyppi_35': 'vapaasivistystyo',
   'koulutustyyppi_40': 'tutkintoonvalmentava',
+  'koulutustyyppi_32': 'tutkintoonvalmentava',
   'koulutustyyppi_500': 'kielikaantajatutkinto',
   'koulutustyyppi_muu': 'muukoulutus',
 };
@@ -130,6 +132,7 @@ export const EperusteetKoulutustyyppiRyhmat = {
   ],
   [Toteutus.TUTKINTOONVALMENTAVA]: [
     'koulutustyyppi_40',
+    'koulutustyyppi_32',
   ],
   [Toteutus.KOTOUTUMINEN]: [
     'koulutustyyppi_30',
@@ -223,6 +226,7 @@ export const koulutustyyppiSort = {
   'koulutustyyppi_31': 91,
   'koulutustyyppi_35': 71,
   'koulutustyyppi_40': 80,
+  'koulutustyyppi_32': 81,
   'koulutustyyppi_muu': 100,
   'koulutustyyppi_500': 110,
 };
@@ -269,6 +273,7 @@ export const ktToState = {
   'koulutustyyppi_31': 'lukutaitokoulutus',
   'koulutustyyppi_35': 'vapaasivistystyolukutaito',
   'koulutustyyppi_40': 'tutkintoonvalmentava',
+  'koulutustyyppi_32': 'telmavalmentava',
   'koulutustyyppi_muu': 'muukoulutus',
   'koulutustyyppi_500': 'kielikaantajatutkinto',
 };
@@ -336,6 +341,7 @@ export function koulutustyyppiRelaatiot() {
   return [
     ...yleissivastavatKoulutustyyppiRelaatiot(),
     ...vapaasivistystyoKoulutustyyppiRelaatiot(),
+    ...tutkintoonvalmentavaKoulutustyyppiRelaatiot(),
     ...kotoutuminenKoulutustyyppiRelaatiot(),
   ];
 }
@@ -415,6 +421,13 @@ export function vapaasivistystyoKoulutustyyppiRelaatiot() {
   }];
 }
 
+export function tutkintoonvalmentavaKoulutustyyppiRelaatiot() {
+  return [{
+    koulutustyyppi: 'koulutustyyppi_40',
+    alityypit: EperusteetKoulutustyyppiRyhmat.tutkintoonvalmentava,
+  }];
+}
+
 export function kotoutuminenKoulutustyyppiRelaatiot() {
   return [{
     koulutustyyppi: 'koulutustyyppi_30',
@@ -468,6 +481,14 @@ export function isPerusteVanhaLukio(peruste): boolean {
 
 export function isVstLukutaito(koulutustyyppi): boolean {
   return koulutustyyppi === 'koulutustyyppi_35';
+}
+
+export function koulutuksenOsaLaajuusYksikko(koulutustyyppi?: string) {
+  return koulutustyyppi === Koulutustyyppi.telmavalmentava ? 'osaamispiste-partitiivi' : 'viikkoa';
+}
+
+export function koulutuksenOsaTavoitteetOtsikko(koulutustyyppi?: string) {
+  return koulutustyyppi === Koulutustyyppi.telmavalmentava ? 'osaamistavoitteet' : 'tavoitteet';
 }
 
 export function koulutustyyppiTheme(koulutustyyppi: string) {
